@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Spring]]></title><description><![CDATA[Level up your Java code and explore what Spring can do for you.]]></description><link>https://spring.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 12 Dec 2024 07:45:53 GMT</lastBuildDate><item><title><![CDATA[A Bootiful Podcast: the amazing K. Siva Prasad Reddy (SivaLabs)]]></title><link>https://spring.io/blog/2024/12/12/a-bootiful-podcast-sivalabs</link><guid isPermaLink="true">https://spring.io/blog/2024/12/12/a-bootiful-podcast-sivalabs</guid><dc:creator><![CDATA[joshlong]]></dc:creator><pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Hi, Spring fans! In today&apos;s installment I talk to industry legend K. Siva Prasad Reddy (@sivalabs). You&apos;ve probably read one of his blogs. I know I have!&lt;/p&gt;
+&lt;iframe title=&quot;the amazing K. Siva Prasad Reddy (SivaLabs)&quot; allowtransparency=&quot;true&quot; height=&quot;300&quot; width=&quot;100%&quot; style=&quot;border: none; min-width: min(100%, 430px);height:300px;&quot; scrolling=&quot;no&quot; data-name=&quot;pb-iframe-player&quot; src=&quot;https://www.podbean.com/player-v2/?from=embed&amp;i=nq8hs-176b208-pb&amp;square=1&amp;share=1&amp;download=1&amp;fonts=Arial&amp;skin=1&amp;font-color=auto&amp;rtl=0&amp;logo_link=episode_page&amp;btn-skin=7&amp;size=300&quot; loading=&quot;lazy&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content:encoded></item><item><title><![CDATA[Announcing Spring AI MCP: A Java SDK for the Model Context Protocol]]></title><link>https://spring.io/blog/2024/12/11/spring-ai-mcp-announcement</link><guid isPermaLink="true">https://spring.io/blog/2024/12/11/spring-ai-mcp-announcement</guid><dc:creator><![CDATA[tzolov]]></dc:creator><pubDate>Wed, 11 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;We&apos;re excited to introduce Spring AI MCP, a robust Java SDK implementation of the &lt;a href=&quot;https://modelcontextprotocol.io/introduction&quot;&gt;Model Context Protocol (MCP)&lt;/a&gt;.
+This new addition to the Spring AI ecosystem brings standardized AI model integration capabilities to the Java platform.&lt;/p&gt;
+&lt;h2 id=&quot;what-is-mcp&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-is-mcp&quot; aria-label=&quot;what is mcp permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What is MCP?&lt;/h2&gt;
+&lt;p&gt;The Model Context Protocol (MCP) is an open protocol that standardizes how applications provide context to Large Language Models (LLMs).
+MCP provides a standardized way to connect AI models to different data sources and tools, making integration seamless and consistent.
+It helps you build agents and complex workflows on top of LLMs. LLMs frequently need to integrate with data and tools, and MCP provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A growing list of pre-built integrations that your LLM can directly plug into&lt;/li&gt;
+&lt;li&gt;The flexibility to switch between LLM providers and vendors&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;general-architecture&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#general-architecture&quot; aria-label=&quot;general architecture permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;General architecture&lt;/h3&gt;
+&lt;p&gt;At its core, MCP follows a client-server architecture where a host application can connect to multiple servers.&lt;/p&gt;
+&lt;img src=&quot;https://static.spring.io/blog/tzolov/spring-ai-mcp-architecture.jpg&quot; width=&quot;700&quot;&gt;
+&lt;p&gt;The &lt;a href=&quot;https://github.com/spring-projects-experimental/spring-ai-mcp&quot;&gt;Spring AI MCP&lt;/a&gt; implements a modular architecture with the following components:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring AI Application: Uses Spring AI framework to build Generative AI applications that want to access data through MCP&lt;/li&gt;
+&lt;li&gt;Spring MCP Clients: Spring AI implementation of the MCP protocol that maintain 1:1 connections with servers&lt;/li&gt;
+&lt;li&gt;MCP Servers: Lightweight programs that each expose specific capabilities through the standardized Model Context Protocol&lt;/li&gt;
+&lt;li&gt;Local Data Sources: Your computer&apos;s files, databases, and services that MCP servers can securely access&lt;/li&gt;
+&lt;li&gt;Remote Services: External systems available over the internet (e.g., through APIs) that MCP servers can connect to&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The architecture supports a wide range of use cases, from simple file system access to complex multi-model AI interactions with database and internet connectivity.&lt;/p&gt;
+&lt;h2 id=&quot;getting-started&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#getting-started&quot; aria-label=&quot;getting started permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;Spring AI MCP GitHub: &lt;a href=&quot;https://github.com/spring-projects-experimental/spring-ai-mcp&quot;&gt;https://github.com/spring-projects-experimental/spring-ai-mcp&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;maven-dependencies&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#maven-dependencies&quot; aria-label=&quot;maven dependencies permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Maven Dependencies&lt;/h3&gt;
+&lt;p&gt;Add one of the following dependecies to your Maven project:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;#x3C;dependency&gt;
+    &amp;#x3C;groupId&gt;org.springframework.experimental&amp;#x3C;/groupId&gt;
+    &amp;#x3C;artifactId&gt;spring-ai-mcp-core&amp;#x3C;/artifactId&gt;
+    &amp;#x3C;version&gt;0.1.0&amp;#x3C;/version&gt;
+&amp;#x3C;/dependency&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;#x3C;dependency&gt;
+    &amp;#x3C;groupId&gt;org.springframework.experimental&amp;#x3C;/groupId&gt;
+    &amp;#x3C;artifactId&gt;spring-ai-mcp-spring&amp;#x3C;/artifactId&gt;
+    &amp;#x3C;version&gt;0.1.0&amp;#x3C;/version&gt;
+&amp;#x3C;/dependency&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Latter extends the &lt;code&gt;spring-ai-mcp-core&lt;/code&gt; with additional Spring AI abstractions, such as &lt;code&gt;McpFunctionCallback&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;maven-repository-configuration&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#maven-repository-configuration&quot; aria-label=&quot;maven repository configuration permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Maven Repository Configuration&lt;/h3&gt;
+&lt;p&gt;Add the Spring Milestones repository:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;#x3C;repositories&gt;
+    &amp;#x3C;repository&gt;
+        &amp;#x3C;id&gt;spring-milestones&amp;#x3C;/id&gt;
+        &amp;#x3C;name&gt;Spring Milestones&amp;#x3C;/name&gt;
+        &amp;#x3C;url&gt;https://repo.spring.io/libs-milestone-local&amp;#x3C;/url&gt;
+        &amp;#x3C;snapshots&gt;
+            &amp;#x3C;enabled&gt;false&amp;#x3C;/enabled&gt;
+        &amp;#x3C;/snapshots&gt;
+    &amp;#x3C;/repository&gt;
+&amp;#x3C;/repositories&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;example-demos&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#example-demos&quot; aria-label=&quot;example demos permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Example Demos&lt;/h3&gt;
+&lt;p&gt;Explore these MCP examples in the &lt;a href=&quot;https://github.com/spring-projects/spring-ai-examples/tree/main/model-context-protocol&quot;&gt;spring-ai-examples/model-context-protocol&lt;/a&gt; repository:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/spring-projects/spring-ai-examples/tree/main/model-context-protocol/sqlite/simple&quot;&gt;SQLite Simple&lt;/a&gt; - Demonstrates LLM integration with a database&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/spring-projects/spring-ai-examples/tree/main/model-context-protocol/sqlite/chatbot&quot;&gt;SQLite Chatbot&lt;/a&gt; - Interactive chatbot with SQLite database interaction&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/spring-projects/spring-ai-examples/tree/main/model-context-protocol/filesystem&quot;&gt;Filesystem&lt;/a&gt; - Enables LLM interaction with local filesystem folders and files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;looking-forward&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#looking-forward&quot; aria-label=&quot;looking forward permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Looking Forward&lt;/h2&gt;
+&lt;p&gt;Spring AI MCP represents a significant step forward in standardizing AI integration for Java applications. As the MCP ecosystem grows, this SDK will enable Java developers to easily connect with an expanding array of AI models and tools while maintaining consistent, reliable integration patterns.&lt;/p&gt;
+&lt;p&gt;The Spring AI MCP SDK is available now as an experimental module, licensed under Apache License 2.0. We invite the community to explore, contribute, and help shape the future of AI integration in the Java ecosystem.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Introducing Spring AI Amazon Bedrock Nova Integration via Converse API]]></title><link>https://spring.io/blog/2024/12/10/spring-ai-amazon-bedrock-nova</link><guid isPermaLink="true">https://spring.io/blog/2024/12/10/spring-ai-amazon-bedrock-nova</guid><dc:creator><![CDATA[tzolov]]></dc:creator><pubDate>Tue, 10 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;The &lt;a href=&quot;https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html&quot;&gt;Amazon Bedrock Nova&lt;/a&gt; models represent a new generation of foundation models supporting a broad range of use cases, from text and image understanding to video-to-text analysis.&lt;/p&gt;
+&lt;p&gt;With the &lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/chat/bedrock-converse.html&quot;&gt;Spring AI Bedrock Converse API&lt;/a&gt; integration, developers can seamlessly connect to these advanced Nova models and build sophisticated conversational applications with minimal effort.&lt;/p&gt;
+&lt;img src=&quot;https://static.spring.io/blog/tzolov/spring-ai-bedrock-nova.jpg&quot; width=&quot;700&quot; align=&quot;center&quot;&gt;
+&lt;p&gt;This blog post introduces the key features of Amazon Nova models, demonstrates their integration with Spring AI&apos;s Bedrock Converse API, and provides practical examples for text, image, video, document processing, and function calling.&lt;/p&gt;
+&lt;h2 id=&quot;what-are-amazon-nova-models&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#what-are-amazon-nova-models&quot; aria-label=&quot;what are amazon nova models permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;What are Amazon Nova Models?&lt;/h2&gt;
+&lt;p&gt;Amazon Nova offers three tiers of models?Nova Pro, Nova Lite, and Nova Micro?to address different performance and cost requirements:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Specification&lt;/th&gt;
+&lt;th&gt;Nova Pro&lt;/th&gt;
+&lt;th&gt;Nova Lite&lt;/th&gt;
+&lt;th&gt;Nova Micro&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Modalities&lt;/td&gt;
+&lt;td&gt;Text, Image, Video-to-text&lt;/td&gt;
+&lt;td&gt;Text, Image, Video-to-text&lt;/td&gt;
+&lt;td&gt;Text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Model ID&lt;/td&gt;
+&lt;td&gt;amazon.nova-pro-v1:0&lt;/td&gt;
+&lt;td&gt;amazon.nova-lite-v1:0&lt;/td&gt;
+&lt;td&gt;amazon.nova-micro-v1:0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Max tokens&lt;/td&gt;
+&lt;td&gt;300K&lt;/td&gt;
+&lt;td&gt;300K&lt;/td&gt;
+&lt;td&gt;128K&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Nova Pro and Lite support multimodal capabilities, including text, image, and video inputs, while Nova Micro is optimized for text-only interactions at a lower cost.&lt;/p&gt;
+&lt;h2 id=&quot;setting-up-the-integration&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#setting-up-the-integration&quot; aria-label=&quot;setting up the integration permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Setting Up the Integration&lt;/h2&gt;
+&lt;h3 id=&quot;prerequisites&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#prerequisites&quot; aria-label=&quot;prerequisites permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Prerequisites&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;AWS Configuration&lt;/strong&gt;: You need:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWS credentials with access to Amazon Bedrock&lt;/li&gt;
+&lt;li&gt;Necessary permissions to use Nova models&lt;/li&gt;
+&lt;li&gt;Models enabled in the &lt;a href=&quot;https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess&quot;&gt;Amazon Bedrock console&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Spring AI Dependency&lt;/strong&gt;:
+Add the Spring AI Bedrock Converse starter to your Spring Boot project:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Maven&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;#x3C;dependency&gt;
+    &amp;#x3C;groupId&gt;org.springframework.ai&amp;#x3C;/groupId&gt;
+    &amp;#x3C;artifactId&gt;spring-ai-bedrock-converse-spring-boot-starter&amp;#x3C;/artifactId&gt;
+&amp;#x3C;/dependency&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Gradle&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-groovy&quot;&gt;dependencies {
+    implementation &apos;org.springframework.ai:spring-ai-bedrock-converse-spring-boot-starter&apos;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Application Configuration&lt;/strong&gt;:
+Configure &lt;code&gt;application.properties&lt;/code&gt; for Amazon Bedrock:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-properties&quot;&gt;spring.ai.bedrock.aws.region=us-east-1
+spring.ai.bedrock.aws.access-key=${AWS_ACCESS_KEY_ID}
+spring.ai.bedrock.aws.secret-key=${AWS_SECRET_ACCESS_KEY}
+spring.ai.bedrock.aws.session-token=${AWS_SESSION_TOKEN}
+
+spring.ai.bedrock.converse.chat.options.model=amazon.nova-pro-v1:0
+
+spring.ai.bedrock.converse.chat.options.temperature=0.8
+spring.ai.bedrock.converse.chat.options.max-tokens=1000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For more details, refer to the &lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/chat/bedrock-converse.html#_chat_properties&quot;&gt;Chat Properties&lt;/a&gt; documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;key-features-of-the-bedrock-nova-integration&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#key-features-of-the-bedrock-nova-integration&quot; aria-label=&quot;key features of the bedrock nova integration permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Key Features of the Bedrock Nova Integration&lt;/h2&gt;
+&lt;h3 id=&quot;1-text-completion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1-text-completion&quot; aria-label=&quot;1 text completion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. Text Completion&lt;/h3&gt;
+&lt;p&gt;Text-based chat completion is straightforward:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;String response = ChatClient.create(chatModel)
+    .prompt(&quot;Tell me a joke about AI.&quot;)
+    .call()
+    .content();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;2-multimodal-input&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#2-multimodal-input&quot; aria-label=&quot;2 multimodal input permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. Multimodal Input&lt;/h3&gt;
+&lt;p&gt;Nova Pro and Lite support multimodal inputs, enabling text and visual data processing. Spring AI provides a portable &lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/multimodality.html&quot;&gt;Multimodal API&lt;/a&gt; that supports Bedrock Nova models.&lt;/p&gt;
+&lt;h4 id=&quot;text--image&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#text--image&quot; aria-label=&quot;text  image permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Text + Image&lt;/h4&gt;
+&lt;p&gt;Nova Pro and Lite support multiple &lt;a href=&quot;https://docs.aws.amazon.com/nova/latest/userguide/modalities-image.html&quot;&gt;image modalities&lt;/a&gt;. These models can analyze images, answer questions about them, classify them, and generate summaries based on provided instructions. They support base64-encoded images in &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;image/gif&lt;/code&gt;, and &lt;code&gt;image/webp&lt;/code&gt; formats.&lt;/p&gt;
+&lt;p&gt;Example combining user text with an image:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;String response = ChatClient.create(chatModel)
+    .prompt()
+    .user(u -&gt; u.text(&quot;Explain what do you see on this picture?&quot;)
+        .media(Media.Format.IMAGE_PNG, new ClassPathResource(&quot;/test.png&quot;)))
+    .call()
+    .content();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This code processes the &lt;code&gt;test.png&lt;/code&gt; image:
+&lt;img src=&quot;https://docs.spring.io/spring-ai/reference/_images/multimodal.test.png&quot; width=&quot;50&quot; align=&quot;center&quot;&gt; with the text message &lt;code&gt;&quot;Explain what do you see on this picture?&quot;&lt;/code&gt; and generates a response like:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The image shows a close-up view of a wire fruit basket containing several pieces of fruit...&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;text--video&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#text--video&quot; aria-label=&quot;text  video permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Text + Video&lt;/h4&gt;
+&lt;p&gt;Amazon Nova Pro/Lite models support a single &lt;a href=&quot;https://docs.aws.amazon.com/nova/latest/userguide/modalities-video.html&quot;&gt;video modality&lt;/a&gt; in the payload, provided either in base64 format or through an Amazon S3 URI.&lt;/p&gt;
+&lt;p&gt;Supported video formats include &lt;code&gt;video/x-matros&lt;/code&gt;, &lt;code&gt;video/quicktime&lt;/code&gt;, &lt;code&gt;video/mp4&lt;/code&gt;, &lt;code&gt;video/webm&lt;/code&gt;, &lt;code&gt;video/x-flv&lt;/code&gt;, &lt;code&gt;video/mpeg&lt;/code&gt;, &lt;code&gt;video/x-ms-wmv&lt;/code&gt;, and &lt;code&gt;image/3gpp&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Example combining user text with a video:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;String response = ChatClient.create(chatModel)
+    .prompt()
+    .user(u -&gt; u.text(&quot;Explain what do you see in this video?&quot;)
+        .media(Media.Format.VIDEO_MP4, new ClassPathResource(&quot;/test.video.mp4&quot;)))
+    .call()
+    .content();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This code processes the &lt;code&gt;test.video.mp4&lt;/code&gt; video &lt;img src=&quot;https://docs.spring.io/spring-ai/reference/_images/test.video.jpeg&quot; width=&quot;50&quot; align=&quot;center&quot;&gt; with the text message &lt;code&gt;&quot;Explain what do you see in this video?&quot;&lt;/code&gt; and generates a response like:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The video shows a group of baby chickens, also known as chicks, huddled together on a surface ...&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;text--document&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#text--document&quot; aria-label=&quot;text  document permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Text + Document&lt;/h4&gt;
+&lt;p&gt;Nova Pro/Lite supports &lt;a href=&quot;https://docs.aws.amazon.com/nova/latest/userguide/modalities-document.html&quot;&gt;document modalities&lt;/a&gt; in two variants:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Text document types (txt, csv, html, md, etc.) for text understanding and answering questions based on textual elements&lt;/li&gt;
+&lt;li&gt;Media document types (pdf, docx, xlsx) for vision-based understanding, such as analyzing charts and graphs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Example combining user text with a media document:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;String response = ChatClient.create(chatModel)
+    .prompt()
+    .user(u -&gt; u.text(
+            &quot;You are a very professional document summarization specialist. Please summarize the given document.&quot;)
+        .media(Media.Format.DOC_PDF, new ClassPathResource(&quot;/spring-ai-reference-overview.pdf&quot;)))
+    .call()
+    .content();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This code processes the &lt;code&gt;spring-ai-reference-overview.pdf&lt;/code&gt; document: &lt;img src=&quot;https://docs.spring.io/spring-ai/reference/_images/test.pdf.png&quot; width=&quot;50&quot; align=&quot;center&quot;&gt; with the text message and generates a response like:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Introduction:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring AI is designed to simplify the development of applications with artificial intelligence (AI) capabilities, aiming to avoid unnecessary complexity....&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;3-function-calling&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#3-function-calling&quot; aria-label=&quot;3 function calling permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;3. Function Calling&lt;/h3&gt;
+&lt;p&gt;Nova models support &lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/functions.html&quot;&gt;Tool/Function Calling&lt;/a&gt; for integration with external tools.&lt;/p&gt;
+&lt;img src=&quot;https://docs.spring.io/spring-ai/reference/_images/function-calling-basic-flow.jpg&quot; width=&quot;400&quot; align=&quot;center&quot;&gt;
+&lt;h4 id=&quot;define-a-function&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#define-a-function&quot; aria-label=&quot;define a function permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Define a Function&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;@Bean
+@Description(&quot;Get the weather in a location. Return temperature in Celsius or Fahrenheit.&quot;)
+public Function&amp;#x3C;WeatherRequest, WeatherResponse&gt; weatherFunction() {
+    return new MockWeatherService();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;use-the-function-in-a-chat-prompt&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#use-the-function-in-a-chat-prompt&quot; aria-label=&quot;use the function in a chat prompt permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Use the Function in a Chat Prompt&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;String response = ChatClient.create(this.chatModel)
+        .prompt(&quot;What&apos;s the weather like in Boston?&quot;)
+        .function(&quot;weatherFunction&quot;) // bean name
+        .inputType(WeatherRequest.class)
+        .call()
+        .content();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;resources&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#resources&quot; aria-label=&quot;resources permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Resources&lt;/h2&gt;
+&lt;h4 id=&quot;getting-started&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#getting-started&quot; aria-label=&quot;getting started permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Getting Started&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.spring.io/spring-ai/reference/index.html&quot;&gt;Spring AI Documentation&lt;/a&gt; - Comprehensive guide to Spring AI&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.spring.io/spring-ai/reference/api/chat/bedrock-converse.html&quot;&gt;Spring AI Bedrock Converse API Guide&lt;/a&gt; - Detailed API documentation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;amazon-bedrock-resources&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#amazon-bedrock-resources&quot; aria-label=&quot;amazon bedrock resources permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Amazon Bedrock Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html&quot;&gt;Amazon Bedrock Nova Documentation&lt;/a&gt; - Official Nova models documentation&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://us-east-1.console.aws.amazon.com/bedrock/home&quot;&gt;Amazon Bedrock Console&lt;/a&gt; - Manage and monitor your Bedrock resources&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html&quot;&gt;Nova Model Capabilities&lt;/a&gt; - Detailed information about Nova model parameters and capabilities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;code-examples&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-examples&quot; aria-label=&quot;code examples permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Code Examples&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/tzolov/spring-ai-bedrock-nova-demo&quot;&gt;Spring AI Bedrock Nova Demo&lt;/a&gt; - Complete example project showcasing integration features&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-bedrock-converse/src/test/java/org/springframework/ai/bedrock/converse/client/BedrockNovaChatClientIT.java&quot;&gt;BedrockNovaChatClientIT.java&lt;/a&gt; - Integration test examples&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/spring-projects/spring-ai/tree/main/spring-ai-samples&quot;&gt;Spring AI Samples Repository&lt;/a&gt; - Additional code samples and use cases&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;tanzu-ai-server&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#tanzu-ai-server&quot; aria-label=&quot;tanzu ai server permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Tanzu AI Server&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://blogs.vmware.com/tanzu/broadcom-announces-the-general-availability-of-vmware-tanzu-platform-10-making-it-easier-for-customers-to-build-and-launch-new-applications-in-the-private-cloud/&quot;&gt;VMware Tanzu Platform 10&lt;/a&gt; integrates Amazon Bedrock Nova models through the VMware Tanzu AI Server, powered by Spring AI.
+This integration provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Enterprise-Grade AI Deployment&lt;/strong&gt;: Production-ready solution for deploying AI applications within your VMware Tanzu environment&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Simplified Model Access&lt;/strong&gt;: Streamlined access to Amazon Bedrock Nova models through a unified interface&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Security and Governance&lt;/strong&gt;: Enterprise-level security controls and governance features&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scalable Infrastructure&lt;/strong&gt;: Built on Spring AI, the integration supports for scalable deployment of AI applications while maintaining high performance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information about deploying AI applications with Tanzu AI Server, visit the &lt;a href=&quot;https://www.vmware.com/solutions/app-platform/ai&quot;&gt;VMware Tanzu AI documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The integration of Spring AI with Amazon Bedrock Nova models via the Converse API enables powerful capabilities for building advanced conversational applications. Nova Pro and Lite provide comprehensive tools for developing multimodal experiences across text, images, videos, and documents. Function calling extends these capabilities further by enabling interaction with external tools and services.&lt;/p&gt;
+&lt;p&gt;Start building advanced AI applications with Nova models and Spring AI today!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Spring Support Updates]]></title><link>https://spring.io/blog/2024/12/10/spring-support-updates</link><guid isPermaLink="true">https://spring.io/blog/2024/12/10/spring-support-updates</guid><dc:creator><![CDATA[mminella]]></dc:creator><pubDate>Tue, 10 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Last month, the team delivered a release train that includes Spring Framework 6.2 (the final minor version for the Spring Framework 6.x line), Spring Boot 3.4, and a round of minor version updates across the portfolio, this is a time to celebrate the new capabilities that have been added, as well as clarify the long term support arrangement for the portfolio.&lt;/p&gt;
+&lt;h1 id=&quot;new-capabilities-abound&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#new-capabilities-abound&quot; aria-label=&quot;new capabilities abound permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;New Capabilities Abound&lt;/h1&gt;
+&lt;p&gt;Below is just a small sampling of the new and exciting capabilities included in the November releases of the Spring portfolio. We encourage you to check out the release notes for your favorite projects for further details!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring Boot
+&lt;ul&gt;
+&lt;li&gt;Structured Logging&lt;/li&gt;
+&lt;li&gt;Bean validation of configuration properties&lt;/li&gt;
+&lt;li&gt;Dynamic properties with Testcontainers&lt;/li&gt;
+&lt;li&gt;Improved access model for Actuators&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Spring Framework
+&lt;ul&gt;
+&lt;li&gt;Bean overriding in tests&lt;/li&gt;
+&lt;li&gt;Data binding from request headers via constructors&lt;/li&gt;
+&lt;li&gt;Asynchronous bean creation&lt;/li&gt;
+&lt;li&gt;Improves support for HTML/HTMX rendering (fragment rendering)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Spring Security
+&lt;ul&gt;
+&lt;li&gt;One-Time token login&lt;/li&gt;
+&lt;li&gt;Passkeys&lt;/li&gt;
+&lt;li&gt;Method security improvements&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Spring Data
+&lt;ul&gt;
+&lt;li&gt;MongoDB Drive 5 compatibility&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Spring Batch
+&lt;ul&gt;
+&lt;li&gt;MongoDB JobRepository implementation&lt;/li&gt;
+&lt;li&gt;Functional adapters for Supplier, Consumer, and Predicate&lt;/li&gt;
+&lt;li&gt;Support for sequential concurrent step execution&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The above are just some of the new capabilities within the portfolio. Numerous other enhancements and API improvements as well as deprecations and cleanup in preparation for the major versions next year were released this month.&lt;/p&gt;
+&lt;h1 id=&quot;support-arrangements-for-the-portfolio&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#support-arrangements-for-the-portfolio&quot; aria-label=&quot;support arrangements for the portfolio permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Support arrangements for the portfolio&lt;/h1&gt;
+&lt;p&gt;With the releases of the new versions, all of which enjoy a year of OSS support that includes releases to Maven Central with CVE patches for our community, we also want to take this opportunity to reiterate and clarify the support positions for the entire portfolio. It is important to note that the current support timelines for all of the Spring portfolio projects can be found on the support tab of each project page here on (&lt;a href=&quot;https://spring.io)%5Bhttps://spring.io%5D&quot;&gt;https://spring.io)[https://spring.io]&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;spring-framework-5x-and-60&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#spring-framework-5x-and-60&quot; aria-label=&quot;spring framework 5x and 60 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Spring Framework 5.x and 6.0&lt;/h2&gt;
+&lt;p&gt;As of the end of August of this year, Spring Framework 5.3 and 6.0 both have entered enterprise support periods. This means that no new patches will be released to Maven Central. Going forward all CVE updates and other fixes will be available via the Broadcom support portal. More information on acquiring enterprise support for your Spring applications can be found at (&lt;a href=&quot;https://spring.io/support)%5Bhttps://spring.io/support%5D&quot;&gt;https://spring.io/support)[https://spring.io/support]&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;spring-boot-27-and-3x&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#spring-boot-27-and-3x&quot; aria-label=&quot;spring boot 27 and 3x permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Spring Boot 2.7 and 3.x&lt;/h2&gt;
+&lt;p&gt;Spring Boot 2.7 went into enterprise support back in November of 2023 and has had 14 releases to the enterprise repository to continue its ongoing support and dependency updates. This long term support program includes hot patches eliminating any gap between a CVE being patched in a project within the Spring portfolio and a version of Spring Boot bringing that fix in. This eliminates the need to override versions of the Spring portfolio to obtain CVE fixes for Tanzu Platform Spring Essentials customers. You can read more about Tanzu Platform Spring Essentials on the support page here.&lt;/p&gt;
+&lt;h2 id=&quot;the-spring-portfolio&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-spring-portfolio&quot; aria-label=&quot;the spring portfolio permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The Spring Portfolio&lt;/h2&gt;
+&lt;p&gt;After the announcement of Spring Framework 5.3 going out of open source support in May of this year, there was some confusion. We want to clarify how the rest of the portfolio will manage releases under our enterprise support going forward. With that announcement, all Spring projects (plus Reactor and Micrometer) will make all releases for versions under enterprise support to the Broadcom customer portal and not to Maven Central. We feel this provides the most consistent experience for our enterprise customers on where to find enterprise artifacts, both the long term support binaries as well as enterprise extensions and OpenRewrite recipes to upgrade your Spring applications.&lt;/p&gt;
+&lt;h2 id=&quot;the-future&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-future&quot; aria-label=&quot;the future permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The Future&lt;/h2&gt;
+&lt;p&gt;As we look ahead to the future of the Spring portfolio, we strive to continue to provide the open source software, thought leadership, and leading edge capabilities our community has come to expect in a way that is sustainable for everyone.&lt;/p&gt;</content:encoded></item></channel></rss>
