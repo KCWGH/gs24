@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Mapper XML 설정 태그 -->
+
+<!-- namespace : 연결할 Mapper 인터페이스 경로 및 이름 -->
+<mapper namespace="com.gs24.website.persistence.MemberMapper">
+	<!-- <resultMap> : DB 쿼리 반환 데이터와 Entity(VO) 클래스의 멤버 변수 매핑을 정의하는 태그 - 속성 
+		: type : 연결할 클래스의 패키지와 이름 id : SQL 쿼리 정의 태그에서 인식되는 이름 -->
+	<resultMap type="com.gs24.website.domain.MemberVO"
+		id="memberResultMap">
+		<!-- <id> : key 칼럼 매핑 태그 <result> : 일반 칼럼 매핑 태그 - 속성 : -->
+		<id property="memberId" column="MEMBER_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="birthday" column="BIRTHDAY" />
+		<result property="memberRole" column="MEMBER_ROLE" />
+		<result property="isEnabled" column="IS_ENABLED" />
+	</resultMap>
+
+	<!-- <select>, <insert>, <update>, <delete> : SQL 쿼리 정의 태그 - 속성 : id : Mapper 
+		인터페이스 메서드 매핑 역할 resultMap : 쿼리 결과를 resultMap에 매핑. <resultMap> 태그에 id를 적용 
+		resultType : 쿼리 결과를 클래스에 매핑. -->
+	<insert id="insertUser">
+		INSERT INTO MEMBER(
+		MEMBER_ID,
+		PASSWORD,
+		EMAIL,
+		PHONE,
+		BIRTHDAY,
+		MEMBER_ROLE,
+		IS_ENABLED
+		) VALUES
+		(#{memberId},#{password}, #{email}, #{phone}, #{birthday},#{memberRole},#{isEnabled})
+	</insert>
+	<!-- #{변수명} : Mapper 인터페이스 메소드 매개변수와 매핑되어 전송된 데이터를 적용 -->
+
+	<select id="select" resultMap="memberResultMap">
+		<!-- 전체 게시글 조회 -->
+		SELECT * FROM MEMBER ORDER BY MEMBER_ID DESC
+	</select>
+</mapper>
