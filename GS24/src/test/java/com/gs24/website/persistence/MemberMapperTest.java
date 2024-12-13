@@ -1,7 +1,6 @@
 package com.gs24.website.persistence;
 
-import java.util.Date;
-
+import org.apache.ibatis.annotations.Param;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,25 +23,48 @@ public class MemberMapperTest {
 	@Test
 	public void test() {
 		// testInsertUser();
-		// testBoardList();
-		// testBoardDetailByBoardId();
-		// testBoardUpdate(3);
-		// testBoardDelete(7);
-		testselect();
+		// testselect();
+		// testlogin();
+		// testFindId();
+		testUpdate();
+	}
+
+	private void testUpdate() {
+		log.info("testUpdate()");
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId("test");
+		memberVO.setEmail("슈정");
+		memberVO.setPhone("수정");
+		int result = memberMapper.update(memberVO);
+		log.info(result);
+
+	}
+
+	private void testFindId() {
+		log.info("testFindId()");
+		String memberId = memberMapper.findId("test@naver.com");
+		log.info("아이디 찾음 : " + memberId);
+	}
+
+	private void testlogin() {
+		int result = memberMapper.login("test", "124");
+		if (result == 1) {
+			log.info("로그인 완료");
+		} else {
+			log.info("잘못된 id/pw");
+		}
+
 	}
 
 	private void testselect() {
-		MemberVO vo = memberMapper.select("test");
+		MemberVO vo = memberMapper.select("nmbgsp95");
 		log.info(vo);
 		log.info(vo.getPhone());
 	}
-	
 
 	private void testInsertUser() {
 		log.info("testInsertUser()");
-		MemberVO vo = new MemberVO("test","1234","test@naver.com","010-1234-5678", new Date(), 1, 1);
-		int result = memberMapper.insertUser(vo);
-		log.info(result + "행 삽입");
 	}
 
 }
