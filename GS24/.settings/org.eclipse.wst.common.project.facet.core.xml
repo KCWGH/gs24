@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <runtime name="apache-tomcat-9.0.46"/>
 =======
   <runtime name="Apache Tomcat v9.0"/>
 >>>>>>> 2c6813c6e3a87b4763d2501c53813529856eb768
+=======
+<<<<<<< Updated upstream
+  <runtime name="Apache Tomcat v9.0"/>
+=======
+  <runtime name="apache-tomcat-9.0.46"/>
+>>>>>>> Stashed changes
+>>>>>>> 59f9f27f80b510a06e797a303935d252c19865ba
   <fixed facet="jst.web"/>
   <fixed facet="jst.java"/>
   <installed facet="jst.java" version="11"/>
