@@ -1,6 +1,7 @@
 package com.gs24.website.persistence;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.MemberVO;
 
@@ -8,5 +9,11 @@ import com.gs24.website.domain.MemberVO;
 public interface MemberMapper {
 	int insertUser(MemberVO memberVO);
 
+	int login(@Param("memberId") String memberId, @Param("password") String password);
+
 	MemberVO select(String memberId);
+
+	String findId(String email);
+
+	int update(MemberVO memberVO);
 }

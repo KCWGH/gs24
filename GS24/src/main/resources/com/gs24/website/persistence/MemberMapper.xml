@@ -18,25 +18,41 @@
 		<result property="isEnabled" column="IS_ENABLED" />
 	</resultMap>
 
+
 	<!-- <select>, <insert>, <update>, <delete> : SQL 쿼리 정의 태그 - 속성 : id : Mapper 
 		인터페이스 메서드 매핑 역할 resultMap : 쿼리 결과를 resultMap에 매핑. <resultMap> 태그에 id를 적용 
 		resultType : 쿼리 결과를 클래스에 매핑. -->
 	<insert id="insertUser">
-		INSERT INTO MEMBER(
-		MEMBER_ID,
-		PASSWORD,
-		EMAIL,
-		PHONE,
-		BIRTHDAY,
-		MEMBER_ROLE,
-		IS_ENABLED
-		) VALUES
-		(#{memberId},#{password}, #{email}, #{phone}, #{birthday},#{memberRole},#{isEnabled})
+		INSERT INTO MEMBER
+		(MEMBER_ID, PASSWORD, EMAIL, PHONE,
+		BIRTHDAY, MEMBER_ROLE, IS_ENABLED) VALUES
+		(#{memberId},#{password},
+		#{email}, #{phone}, #{birthday}, #{memberRole}, 1)
 	</insert>
 	<!-- #{변수명} : Mapper 인터페이스 메소드 매개변수와 매핑되어 전송된 데이터를 적용 -->
 
+	<select id="login" resultType="Integer">
+		SELECT
+		COUNT(*) AS user_count
+		FROM
+		MEMBER WHERE MEMBER_ID = #{memberId} AND
+		PASSWORD = #{password}
+	</select>
+
 	<select id="select" resultMap="memberResultMap">
 		<!-- 전체 게시글 조회 -->
-		SELECT * FROM MEMBER ORDER BY MEMBER_ID DESC
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
 	</select>
+
+	<select id="findId" resultType="String">
+		<!-- 전체 게시글 조회 -->
+		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+
+	<update id="update">
+		UPDATE MEMBER
+		SET EMAIL = #{email},
+		PHONE = #{phone}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 </mapper>

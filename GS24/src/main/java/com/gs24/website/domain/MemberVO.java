@@ -1,6 +1,6 @@
 package com.gs24.website.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
