@@ -9,15 +9,11 @@ public interface AnswerService {
 	
 	int createAnswer(AnswerVO answerVO); 
 	
-	List<AnswerVO> getAllAnswer(int questionId); 
+	List<AnswerVO> getAllAnswer(int questionId); 	
 	
-	AnswerVO getNoticeById(int noticeId); 
+	int updateAnswer(int answerId, String answerContent); 
 	
-	int updateNotice(int answerId, String answerContent); 
-	
-	int deleteNotice(int answerId, int questionId); 
-	
-	
+	int deleteAnswer(int answerId, int questionId); 
 	
 	
 }

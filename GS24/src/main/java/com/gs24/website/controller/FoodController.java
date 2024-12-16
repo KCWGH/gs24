@@ -31,10 +31,6 @@ public class FoodController {
 			model.addAttribute("memberVO", memberVO);
 		}
 	}
-	@GetMapping("/register")
-	public void registerGET(HttpSession session, Model model) {
-		log.info("registerGET");
-	}
 
 
 } // end BoardController

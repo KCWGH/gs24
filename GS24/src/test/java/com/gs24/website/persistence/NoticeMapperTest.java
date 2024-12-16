@@ -1,5 +1,7 @@
 package com.gs24.website.persistence;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

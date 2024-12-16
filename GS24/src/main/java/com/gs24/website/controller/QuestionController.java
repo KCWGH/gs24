@@ -2,6 +2,8 @@ package com.gs24.website.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.service.QuestionService;
 import com.gs24.website.util.PageMaker;
@@ -25,10 +28,16 @@ public class QuestionController {
 
 	// 전체 게시글 데이터를 list.jsp 페이지로 전송
 	@GetMapping("/list")
-	public void list(Model model, Pagination pagination) {
+	public void list(Model model, Pagination pagination, HttpSession session) {
 		log.info("list()");
 		log.info("pagination = " + pagination);
 		List<QuestionVO> questionList = questionService.getPagingQuestions(pagination);
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+	    if (memberVO == null) {
+	        log.warn("세션에 memberVO가 존재하지 않습니다. 로그인 필요.");
+	    }
 
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
@@ -36,6 +45,9 @@ public class QuestionController {
 
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("questionList", questionList);
+		
+		// 세션에서 가져온 memberVO를 모델에 추가
+	    model.addAttribute("memberVO", memberVO); // memberVO를 JSP로 전달
 
 	}
 
@@ -58,10 +70,20 @@ public class QuestionController {
 	// list.jsp에서 선택된 게시글 번호를 바탕으로 게시글 상세 조회
 	// 조회된 게시글 데이터를 detail.jsp로 전송
 	@GetMapping("/detail")
-	public void detail(Model model, Integer questionId) {
+	public void detail(Model model, Integer questionId, HttpSession session) {
 		log.info("detail()");
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		
+		if (memberVO == null) {
+	        log.warn("세션에 memberVO가 존재하지 않습니다. 로그인 필요.");
+	    }
+		
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
 		model.addAttribute("questionVO", questionVO);
+		
+		// 세션에서 가져온 memberVO를 모델에 추가
+	    model.addAttribute("memberVO", memberVO); // memberVO를 JSP로 전달	
 	}
 
 	// 게시글 번호를 전송받아 상세 게시글 조회
