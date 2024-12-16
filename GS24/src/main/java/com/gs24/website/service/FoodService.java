@@ -12,6 +12,8 @@ public interface FoodService {
 	
 	FoodVO getFoodById(int foodId);
 	
+	FoodVO getFirstFoodId();
+	
 	int updateFood(FoodVO foodVO);
 	
 	int updateFoodStock(int foodId, int foodStock);

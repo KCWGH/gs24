@@ -27,6 +27,7 @@ public class ImgFoodServiceImple implements ImgFoodService{
 	public ImgFoodVO getImgFoodById(int foodId) {
 		log.info("getImgFoodById");
 		ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodId);
+		log.info(imgFoodVO);
 		return imgFoodVO;
 	}
 
@@ -34,6 +35,7 @@ public class ImgFoodServiceImple implements ImgFoodService{
 	public List<ImgFoodVO> getAllImgFood() {
 		log.info("getAllImgFood() ½ÇÇà");
 		List<ImgFoodVO> list = imgFoodMapper.selectAllImagFood();
+		log.info(list);
 		return list;
 	}
 

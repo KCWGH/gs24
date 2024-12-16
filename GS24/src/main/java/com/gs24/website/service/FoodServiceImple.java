@@ -37,7 +37,11 @@ public class FoodServiceImple implements FoodService{
 	public FoodVO getFoodById(int foodId) {
 		return foodMapper.selectFoodById(foodId);
 	}
-
+	
+	public FoodVO getFirstFoodId() {
+		return foodMapper.selectFirstFoodId();
+	}
+	
 	@Override
 	public int updateFood(FoodVO foodVO) {
 		int result = foodMapper.updateFood(foodVO);

@@ -20,5 +20,20 @@
 	<p>입고 날짜 : ${FoodVO.registeredDate }</p>
 	
 	<button onclick="location.href='list'">돌아가기</button>
+	
+	<div style="text-align: center">
+		<div id="reply"></div>	
+	</div>
+	
+	<script type="text/javascript">
+			$(document).reay(function(){
+				function getReplies(){
+					var foodId = ${FoodVO.foodId};
+					var url = '../food/detail/' + foodId;
+					
+					
+				}
+			});
+	</script>
 </body>
 </html>

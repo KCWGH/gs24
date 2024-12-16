@@ -29,4 +29,23 @@ public class ServletConfig implements WebMvcConfigurer {
 		// resources 디렉토리 설정
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
+<<<<<<< Updated upstream
+=======
+	
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		
+		resolver.setMaxUploadSize(1024 * 1024 * 30);
+		
+		resolver.setMaxUploadSizePerFile(1024 * 1024 * 10);
+		
+		return resolver;
+	}
+	
+	@Bean
+	public String uploadPath() {
+		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
+	}
+>>>>>>> Stashed changes
 }

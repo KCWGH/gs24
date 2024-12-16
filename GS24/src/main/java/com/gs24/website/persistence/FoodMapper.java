@@ -13,6 +13,8 @@ public interface FoodMapper {
 	
 	FoodVO selectFoodById(int foodId);
 	
+	FoodVO selectFirstFoodId();
+	
 	List<FoodVO> selectFoodList();
 	
 	int updateFood(FoodVO foodVO);
