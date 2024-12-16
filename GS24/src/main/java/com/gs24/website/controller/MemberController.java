@@ -4,28 +4,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.MemberVO;
-import com.gs24.website.persistence.MemberMapper;
+import com.gs24.website.service.MemberService;
 
 import lombok.extern.log4j.Log4j;
 
-@Controller // @Component
+@Controller
 @RequestMapping(value = "/member")
 @Log4j
 public class MemberController {
 
 	@Autowired
-	private MemberMapper memberMapper;
+	private MemberService memberService; // MemberService 사용
 
 	// register.jsp
 	@GetMapping("/register")
@@ -43,7 +40,7 @@ public class MemberController {
 	public String registerPOST(@ModelAttribute MemberVO memberVO) {
 		log.info("registerPOST()");
 		log.info(memberVO);
-		int result = memberMapper.insertUser(memberVO);
+		int result = memberService.register(memberVO); // 서비스 레이어 사용
 		log.info(result + "개 행 등록 완료");
 		if (result == 1) {
 			return "redirect:/member/registersuccess";
@@ -69,7 +66,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public String loginPOST(String memberId, String password, HttpServletRequest request) {
 		log.info("loginPOST()");
-		int result = memberMapper.login(memberId, password);
+		int result = memberService.login(memberId, password); // 서비스 레이어 사용
 		if (result == 1) {
 			log.info("로그인 성공");
 			HttpSession session = request.getSession();
@@ -97,16 +94,6 @@ public class MemberController {
 		return "/member/findid";
 	}
 
-	@PostMapping("/findid")
-	@ResponseBody
-	public ResponseEntity<String> findidPOST(@RequestParam String email) {
-		String memberId = memberMapper.findId(email);
-		if (memberId == null) {
-			return ResponseEntity.ok("");
-		}
-		return ResponseEntity.ok(memberId);
-	}
-
 	@GetMapping("/findpw")
 	public String findpwGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
@@ -122,22 +109,12 @@ public class MemberController {
 		log.info("mypageGET()");
 		String memberId = (String) session.getAttribute("memberId");
 		if (memberId != null) {
-			MemberVO memberVO = memberMapper.select(memberId);
+			MemberVO memberVO = memberService.getMember(memberId); // 서비스 레이어 사용
 			model.addAttribute("memberId", memberId);
 			model.addAttribute("memberVO", memberVO);
 		} else {
 			log.info("mypageGET() - 세션이 없습니다");
 		}
-	}
-
-	@PostMapping("/update")
-	@ResponseBody
-	public ResponseEntity<String> mypagePOST(MemberVO memberVO) {
-		int result = memberMapper.update(memberVO);
-		if (result == 0) {
-			return ResponseEntity.ok("");
-		}
-		return ResponseEntity.ok("수정 성공");
 	}
 
 	@GetMapping("/logout")
@@ -147,4 +124,4 @@ public class MemberController {
 		return "redirect:login";
 	}
 
-} // end BoardController
+}

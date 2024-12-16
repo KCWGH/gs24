@@ -14,21 +14,21 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class AnswerServiceImple implements AnswerService{
+public class AnswerServiceImple implements AnswerService {
 	@Autowired
 	private AnswerMapper answerMapper;
 
 	@Autowired
 	private QuestionMapper questionMapper;
-	
+
 	@Transactional(value = "transactionManager")
-	
+
 	@Override
 	public int createAnswer(AnswerVO answerVO) {
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
 		log.info(insertResult + "행 댓글 추가");
-		int updateResult = questionMapper.up
+		int updateResult = questionMapper.update(null);
 		return 0;
 	}
 

@@ -23,7 +23,7 @@ public class RootConfig {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("oracle.jdbc.OracleDriver");
 		config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
-		config.setUsername("SPRINGPROJECT");
+		config.setUsername("STUDY");
 		config.setPassword("1234");
 
 		config.setMaximumPoolSize(10);

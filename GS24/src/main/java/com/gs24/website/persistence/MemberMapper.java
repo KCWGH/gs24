@@ -7,6 +7,12 @@ import com.gs24.website.domain.MemberVO;
 
 @Mapper
 public interface MemberMapper {
+	int dupCheckId(String memberId);
+
+	int dupCheckEmail(String email);
+
+	int dupCheckPhone(String phone);
+
 	int insertUser(MemberVO memberVO);
 
 	int login(@Param("memberId") String memberId, @Param("password") String password);
@@ -16,4 +22,6 @@ public interface MemberMapper {
 	String findId(String email);
 
 	int update(MemberVO memberVO);
+	
+	int delete(String memberId);
 }
