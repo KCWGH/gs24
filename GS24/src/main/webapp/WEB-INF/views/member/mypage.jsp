@@ -13,6 +13,7 @@
 			$("#email, #phone, #password").prop("disabled", false);
 			$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", false);
 			$("#updateResultArea").hide();
+<<<<<<< HEAD
 		});
 		$("#btnUpdateConfirm").click(function(event) {
 		    event.preventDefault();
@@ -102,6 +103,50 @@
 			$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", true);
 			$("#updateResultArea").hide();
 		});
+=======
+		});
+		$("#btnUpdateConfirm").click(function(event) {
+			event.preventDefault();
+			let email = $("#email").val();
+			let phone = $("#phone").val();
+			let password = $("#password").val();
+			
+			if (email && phone && password) {
+				let data = {
+					email: email,
+					phone: phone,
+					password: password,
+					memberId: "${memberVO.memberId}"
+				};
+				
+				$.ajax({
+					url: "update",
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(data),
+					success: function(response) {
+						if (response === "Update Success") {
+							$("#updateResultArea").text("정보 수정 완료!").show();
+							$("#email, #phone, #password").prop("disabled", true);
+							$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", true);
+						} else {
+							$("#updateResultArea").text("정보 수정 실패..").show();
+						}
+					},
+					error: function(xhr, status, error) {
+						$("#updateResultArea").text("오류가 발생했습니다: " + error).show();
+					}
+				});
+			} else {
+				alert("수정할 정보를 입력하세요");
+			}
+		});
+		$("#btnUpdateCancel").click(function() {
+			$("#email, #phone, #password").prop("disabled", true);
+			$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", true);
+			$("#updateResultArea").hide();
+		});
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 		$("#btnDelete").click(function() {
 			$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", false);
 		});
@@ -134,9 +179,12 @@
 		$("#btnDeleteCancel").click(function() {
 			$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
 		});
+<<<<<<< HEAD
 		$("#couponList").click(function() {
 			  window.open("coupon", "_blank", "width=800,height=600");
 			});
+=======
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 	});
 </script>
 </head>
@@ -191,9 +239,12 @@
 		<p id=textDelete hidden="hidden">회원을 탈퇴하시면 더 이상 로그인할 수 없지만, 사용자의 활동(게시글, 댓글)은 그대로 남습니다. 정말 탈퇴할까요?</p>
 		<button type="button" id="btnDeleteConfirm" hidden="hidden">네</button>
 		<button type="button" id="btnDeleteCancel" hidden="hidden">아니오</button><br>
+<<<<<<< HEAD
 		<c:if test="${memberVO.memberRole == 1}">
 		<a href="#" id="couponList">쿠폰함</a><br>
 		</c:if>
+=======
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 		<p id="deleteResultArea" style="display:none;"></p>
 		<a href="../food/list">음식 리스트로 돌아가기</a>
 		<a href="logout">로그아웃</a>

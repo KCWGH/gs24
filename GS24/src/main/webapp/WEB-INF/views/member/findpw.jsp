@@ -10,6 +10,7 @@
 </head>
 <body>
     <h2>비밀번호 찾기</h2>
+<<<<<<< HEAD
     <form id="forgotPasswordForm">
         <label for="memberId">회원 ID:</label>
         <input type="text" id="memberId" name="memberId" required><br>
@@ -19,6 +20,12 @@
         
         <input type="submit" value="인증번호 전송"><br>
         <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+=======
+    <form action="findid" method="POST">
+    	아이디: <input type="text" id="memberId" name="memberId" required><br>
+        이메일: <input type="email" id="email" name="email" required>
+        <input type="submit" value="비밀번호 찾기">
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
     </form>
     <div id="message"></div>
 

@@ -26,7 +26,11 @@
                 type: 'POST',
                 data: { memberId: memberId },
                 success: function(response) {
+<<<<<<< HEAD
                     if (response == 1) {
+=======
+                    if (response === '1') {
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
                         alert("이미 사용 중인 아이디입니다.");
                         isIdChecked = false;
                     } else {
@@ -54,7 +58,11 @@
                 type: 'POST',
                 data: { email: email },
                 success: function(response) {
+<<<<<<< HEAD
                     if (response == 1) {
+=======
+                    if (response === '1') {
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
                         alert("이미 사용 중인 이메일입니다.");
                         isEmailChecked = false;
                     } else {
@@ -82,7 +90,11 @@
                 type: 'POST',
                 data: { phone: phone },
                 success: function(response) {
+<<<<<<< HEAD
                     if (response == 1) {
+=======
+                    if (response === '1') {
+>>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
                         alert("이미 사용 중인 전화번호입니다.");
                         isPhoneChecked = false;
                     } else {

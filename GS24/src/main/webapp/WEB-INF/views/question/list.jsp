@@ -61,6 +61,8 @@ li {
 
 </head>
 <body>
+		<a href="../food/list"><button>메인페이지</button></a>
+		<a href="../notice/list"><button>공지사항</button></a>
 	<h1>Q&A 게시판</h1>
 	<h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 
@@ -105,7 +107,7 @@ li {
 					<td>${questionDateCreated }</td>
 					<td><c:if test="${QuestionVO.isAnswered == 0}">
                             답변대기
-                        </c:if> <c:if test="${QuestionVO.isAnswered != 0}">
+                        </c:if> <c:if test="${QuestionVO.isAnswered == 1}">
                             답변완료
                         </c:if></td>
 				</tr>
