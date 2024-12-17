@@ -60,5 +60,10 @@ public int getTotalCount() {
 	 log.info("getTotalCount()");
      return noticeMapper.selectTotalCount();
 }
+@Override
+public List<NoticeVO> getNoticesByTitle(String noticeTitle) {
+    log.info("searchNoticesByTitle() with title = " + noticeTitle);
+    return noticeMapper.selectListByTitle(noticeTitle);
+}
 
 }

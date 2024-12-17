@@ -29,7 +29,13 @@ public class AnswerServiceImple implements AnswerService{
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+		int updateResult = questionMapper
+				.updateAnswer(answerVO.getQuestionId());
+>>>>>>> Stashed changes
 		log.info(insertResult + "행 댓글 추가");
+		log.info(updateResult + "답변 완료");	
 		return 1;
 =======
 		log.info(insertResult + "�뻾 �뙎湲� 異붽�");

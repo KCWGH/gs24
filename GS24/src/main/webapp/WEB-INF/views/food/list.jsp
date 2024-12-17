@@ -14,12 +14,12 @@
 	<a href="../member/mypage"><button>마이페이지</button></a>
 	<a href="../member/logout"><button>로그아웃</button></a>
 	<a href="../notice/list"><button>공지사항</button></a>
-	<a href="../question/list"><button>문의사항(QnA)</button></a>
+	<a href="../question/list"><button>Q&A게시판</button></a>
 	</c:if>
 	<c:if test="${empty memberVO}">
 	<a href="../member/login"><button>로그인</button></a>
 	<a href="../notice/list"><button>공지사항</button></a>
-	<a href="../question/list"><button>문의사항(QnA)</button></a>
+	<a href="../question/list"><button>Q&A게시판</button></a>
 	</c:if>
 	<hr>
 =======
