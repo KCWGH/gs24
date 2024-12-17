@@ -30,11 +30,19 @@ public class MemberMapperTest {
 		//testUpdate();
 		//testverify();
 		
+<<<<<<< Updated upstream
 		testfindemail();
 	}
 
 	private void testfindemail() {
 		String result = memberMapper.findEmailById("test");
+=======
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId("test");
+		memberVO.setEmail("슈21");
+		memberVO.setPhone("수123123123");
+		int result = memberMapper.update(memberVO);
+>>>>>>> Stashed changes
 		log.info(result);
 	}
 

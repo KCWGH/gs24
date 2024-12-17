@@ -4,6 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< Updated upstream
+=======
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -132,6 +137,20 @@ public class MemberController {
 		}
 	}
 
+<<<<<<< Updated upstream
+=======
+	@PostMapping("/update")
+	@ResponseBody
+	public ResponseEntity<Integer> mypagePOST(MemberVO memberVO) {
+		int result = memberMapper.update(memberVO);
+		if (result == 0) {
+		    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
+		}
+		return ResponseEntity.ok(result);
+
+	}
+
+>>>>>>> Stashed changes
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();

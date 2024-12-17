@@ -1775,3 +1775,243 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-17 18:04:24.642
 !MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:53:44.574
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:53:44.576
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:53:48.573
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:53:48.576
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:54:03.840
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:54:03.842
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:55:24.372
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:55:24.375
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:57:38.268
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:57:38.272
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:59:46.135
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 18:59:46.138
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:00:47.145
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:00:47.146
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+!SESSION 2024-12-13 19:03:14.474 -----------------------------------------------
+eclipse.buildId=3.9.18.202109140905-RELEASE-e421
+java.version=11.0.2
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  -product org.springsource.sts.ide
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springsource.sts.ide
+
+!ENTRY org.eclipse.jface 2 0 2024-12-13 19:03:39.342
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2024-12-13 19:03:39.342
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@65029fc,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@4865434e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-12-13 19:03:47.108
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sdedu'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.wst.jsdt.core 4 4 2024-12-13 19:04:46.426
+!MESSAGE Exception while initializing all containers
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/GS24)[368]: java.lang.Exception: Resource '/GS24' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:145)
+	at org.eclipse.core.internal.resources.Resource.checkAccessibleAndLocal(Resource.java:210)
+	at org.eclipse.core.internal.resources.Resource.touch(Resource.java:1754)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1323)
+	at org.eclipse.wst.jsdt.internal.core.SetContainerOperation.execute(SetContainerOperation.java:122)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.setJsGlobalScopeContainer(JavaScriptCore.java:3940)
+	at org.eclipse.wst.jsdt.launching.JREContainerInitializer.initialize(JREContainerInitializer.java:48)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.initializeContainer(JavaModelManager.java:2216)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager$6.run(JavaModelManager.java:2146)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.initializeAllContainers(JavaModelManager.java:2162)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.getJsGlobalScopeContainer(JavaModelManager.java:1536)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.getJsGlobalScopeContainer(JavaScriptCore.java:1358)
+	at org.eclipse.wst.jsdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2748)
+	at org.eclipse.wst.jsdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2027)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.initializeAfterLoad(JavaScriptCore.java:2694)
+	at org.eclipse.wst.jsdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:32)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2024-12-13 19:04:46.427
+!MESSAGE Resource '/GS24' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/GS24' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:145)
+	at org.eclipse.core.internal.resources.Resource.checkAccessibleAndLocal(Resource.java:210)
+	at org.eclipse.core.internal.resources.Resource.touch(Resource.java:1754)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1323)
+	at org.eclipse.wst.jsdt.internal.core.SetContainerOperation.execute(SetContainerOperation.java:122)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.setJsGlobalScopeContainer(JavaScriptCore.java:3940)
+	at org.eclipse.wst.jsdt.launching.JREContainerInitializer.initialize(JREContainerInitializer.java:48)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.initializeContainer(JavaModelManager.java:2216)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager$6.run(JavaModelManager.java:2146)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.initializeAllContainers(JavaModelManager.java:2162)
+	at org.eclipse.wst.jsdt.internal.core.JavaModelManager.getJsGlobalScopeContainer(JavaModelManager.java:1536)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.getJsGlobalScopeContainer(JavaScriptCore.java:1358)
+	at org.eclipse.wst.jsdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2748)
+	at org.eclipse.wst.jsdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2027)
+	at org.eclipse.wst.jsdt.core.JavaScriptCore.initializeAfterLoad(JavaScriptCore.java:2694)
+	at org.eclipse.wst.jsdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:32)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2024-12-13 19:04:47.208
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Launch configuration MemberMapperTest references non-existing project GS24.
+	at org.eclipse.jdt.launching.JavaRuntime.abort(JavaRuntime.java:1861)
+	at org.eclipse.jdt.launching.JavaRuntime.getJavaProject(JavaRuntime.java:1736)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.updateLaunchConfiguration(MavenLaunchConfigurationListener.java:59)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.launchConfigurationChanged(MavenLaunchConfigurationListener.java:46)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.setDirty(LaunchConfigurationWorkingCopy.java:523)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.setAttribute(LaunchConfigurationWorkingCopy.java:411)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:400)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:426)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.mavenProjectChanged(MavenLaunchConfigurationListener.java:130)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.notifyProjectChangeListeners(ProjectRegistryManager.java:824)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.applyMutableProjectRegistry(ProjectRegistryManager.java:991)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.lambda$0(ProjectRegistryRefreshJob.java:149)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.run(ProjectRegistryRefreshJob.java:84)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.jdt.launching 4 107 2024-12-13 19:04:47.213
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2024-12-13 19:04:47.214
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Launch configuration MemberMapperTest references non-existing project GS24.
+	at org.eclipse.jdt.launching.JavaRuntime.abort(JavaRuntime.java:1861)
+	at org.eclipse.jdt.launching.JavaRuntime.getJavaProject(JavaRuntime.java:1736)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.updateLaunchConfiguration(MavenLaunchConfigurationListener.java:59)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.launchConfigurationChanged(MavenLaunchConfigurationListener.java:46)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.setDirty(LaunchConfigurationWorkingCopy.java:523)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.setAttribute(LaunchConfigurationWorkingCopy.java:411)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:401)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:426)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.mavenProjectChanged(MavenLaunchConfigurationListener.java:130)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.notifyProjectChangeListeners(ProjectRegistryManager.java:824)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.applyMutableProjectRegistry(ProjectRegistryManager.java:991)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.lambda$0(ProjectRegistryRefreshJob.java:149)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.run(ProjectRegistryRefreshJob.java:84)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.jdt.launching 4 107 2024-12-13 19:04:47.214
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2024-12-13 19:04:47.218
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Launch configuration MemberMapperTest references non-existing project GS24.
+	at org.eclipse.jdt.launching.JavaRuntime.abort(JavaRuntime.java:1861)
+	at org.eclipse.jdt.launching.JavaRuntime.getJavaProject(JavaRuntime.java:1736)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.updateLaunchConfiguration(MavenLaunchConfigurationListener.java:59)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.launchConfigurationChanged(MavenLaunchConfigurationListener.java:46)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
+	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2128)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.writeNewFile(LaunchConfigurationWorkingCopy.java:376)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave0(LaunchConfigurationWorkingCopy.java:259)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:229)
+	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:187)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:402)
+	at org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider.disable(MavenRuntimeClasspathProvider.java:426)
+	at org.eclipse.m2e.jdt.internal.launch.MavenLaunchConfigurationListener.mavenProjectChanged(MavenLaunchConfigurationListener.java:130)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.notifyProjectChangeListeners(ProjectRegistryManager.java:824)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryManager.applyMutableProjectRegistry(ProjectRegistryManager.java:991)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.lambda$0(ProjectRegistryRefreshJob.java:149)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.core.internal.project.registry.ProjectRegistryRefreshJob.run(ProjectRegistryRefreshJob.java:84)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.jdt.launching 4 107 2024-12-13 19:04:47.218
+!MESSAGE Launch configuration MemberMapperTest references non-existing project GS24.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:01.512
+!MESSAGE The artifact org.slf4j:slf4j-log4j12:jar:1.7.36 has been relocated to org.slf4j:slf4j-reload4j:jar:1.7.36
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:01.773
+!MESSAGE The artifact org.slf4j:slf4j-log4j12:jar:1.7.36 has been relocated to org.slf4j:slf4j-reload4j:jar:1.7.36
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:02.885
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:02.902
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:05.206
+!MESSAGE The artifact org.slf4j:slf4j-log4j12:jar:1.7.36 has been relocated to org.slf4j:slf4j-reload4j:jar:1.7.36
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:05.222
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-12-13 19:05:05.246
+!MESSAGE Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!

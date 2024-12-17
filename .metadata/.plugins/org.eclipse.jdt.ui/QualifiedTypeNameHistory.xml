@@ -5,6 +5,7 @@
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
+<<<<<<< Updated upstream
     <fullyQualifiedTypeName name="org.springframework.validation.BindingResult"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="com.gs24.website.domain.MemberVO"/>
@@ -30,4 +31,8 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.gs24.website.persistence.CouponMapper"/>
     <fullyQualifiedTypeName name="com.gs24.website.domain.CouponVO"/>
+=======
+    <fullyQualifiedTypeName name="com.gs24.website.domain.MemberVO"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
+>>>>>>> Stashed changes
 </qualifiedTypeNameHistroy>
