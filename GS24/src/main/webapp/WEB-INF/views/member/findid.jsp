@@ -18,7 +18,6 @@
                     success: function(response) {
                         if (response) {
                             $("#memberIdArea").text("찾은 아이디: " + response).show();
-                            
                         } else {
                             $("#memberIdArea").text("해당 이메일로 등록된 아이디가 없습니다.").show();
                         }
@@ -34,7 +33,7 @@
 <body>
     <h2>아이디 찾기</h2>
     <form action="findid" method="POST">
-        <input type="email" id="email" name="email" required>
+        아이디: <input type="email" id="email" name="email" required>
         <input type="submit" value="아이디 찾기">
     </form>
     <p id="memberIdArea"></p> 

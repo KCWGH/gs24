@@ -1,24 +1,13 @@
 package com.gs24.website.controller;
 
-<<<<<<< Updated upstream
-=======
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< Updated upstream
-=======
 import com.gs24.website.domain.ImgFoodVO;
-import com.gs24.website.service.ImgFoodService;
->>>>>>> Stashed changes
 import com.gs24.website.util.uploadImgFoodUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -27,57 +16,50 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/imgfood")
 @Log4j
 public class ImgFoodController {
-	
+
 	@Autowired
 	private String uploadPath;
-	
+
 	@GetMapping("/register")
 	public void registerGET() {
 		log.info("registerGET");
 	}
-	
-	@PostMapping("/register")
-<<<<<<< Updated upstream
-	public void registerPOST(MultipartFile file) {
-		log.info("registerPOST() ï¿½ï¿½ï¿½ï¿½");
-		log.info(file.getOriginalFilename());
-		String realName = uploadImgFoodUtil.RealName(file.getOriginalFilename());
-		log.info(realName);
-=======
-	public void registerPOST(ImgFoodVO imgFoodVO) {
-		log.info("registerPOST() ½ÇÇà");
-		MultipartFile file = imgFoodVO.getFile();
-		log.info("ÆÄÀÏ ÀÌ¸§ : " + file.getOriginalFilename());
-		log.info("ÆÄÀÏ Å©±â : " + file.getSize());
->>>>>>> Stashed changes
-		
-		// ÀÌ°Ç DB¿¡ ÀúÁ¤µÇ´Â foodId ÀÌ°É·Î º¯°æÇÏ¸é¼­ ÇÏ¸é µÉµí
-	      String chgName = "7¹ø½ÄÇ°";
-	      // ÆÄÀÏ ÀúÀå
-	      boolean a = uploadImgFoodUtil.saveFile(uploadPath, file, chgName +"."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-	      // ÆÄÀÏ ½ÇÁ¦ ÀÌ¸§ ¼³Á¤
-	      imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-	      // ÆÄÀÏ º¯°æ ÀÌ¸§ ¼³Á¤
-	      imgFoodVO.setImgFoodChgName(chgName);
-	      // ÆÄÀÏ È®ÀåÀÚ ¼³Á¤
-	      imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-	      // ÆÄÀÏ °æ·Î ¼³Á¤
-	      imgFoodVO.setImgFoodPath(uploadPath + uploadImgFoodUtil.makeDir() + chgName +"."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-	      
-	      if(a) {
-	    	  // ÆÄÀÏÀÌ ¾øÀ¸¸é insert
-	    	  log.info("ÆÄÀÏÀÌ Á¸ÀçÇÏ¿© update");
-	      }
-	      else {
-	    	// ÆÄÀÏÀÌ ÀÖÀ¸¸é update
-	    	  log.info("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê¾Æ insert");
-	      }
-	      
-	      
-	      log.info(imgFoodVO);
-	      
-	     // uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+	@PostMapping("/register")
+	public void registerPOST(ImgFoodVO imgFoodVO) {
+		log.info("registerPOST() ï¿½ï¿½ï¿½ï¿½");
+		MultipartFile file = imgFoodVO.getFile();
+		log.info("ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : " + file.getOriginalFilename());
+		log.info("ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ : " + file.getSize());
+
+		// ï¿½Ì°ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ foodId ï¿½Ì°É·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½Ï¸ï¿½ ï¿½Éµï¿½
+		String chgName = "7ï¿½ï¿½ï¿½ï¿½Ç°";
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		boolean a = uploadImgFoodUtil.saveFile(uploadPath, file,
+				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		imgFoodVO.setImgFoodChgName(chgName);
+		// ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		imgFoodVO.setImgFoodPath(uploadPath + uploadImgFoodUtil.makeDir() + chgName + "."
+				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+
+		if (a) {
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ update");
+		} else {
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ update
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ insert");
+		}
+
+		log.info(imgFoodVO);
+
+		// uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+
+		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 	}
-	
+
 }

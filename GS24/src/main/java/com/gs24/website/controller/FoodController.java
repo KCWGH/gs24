@@ -1,49 +1,41 @@
 package com.gs24.website.controller;
 
-<<<<<<< Updated upstream
-import javax.servlet.http.HttpSession;
-=======
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-
 import java.io.File;
 import java.util.List;
->>>>>>> Stashed changes
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.gs24.website.domain.MemberVO;
-import com.gs24.website.persistence.MemberMapper;
-
-import lombok.extern.log4j.Log4j;
-
-<<<<<<< Updated upstream
-@Controller // @Component
-@RequestMapping(value = "/food")
-=======
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.ImgFoodService;
+import com.gs24.website.service.MemberService;
 import com.gs24.website.util.uploadImgFoodUtil;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @RequestMapping("/food")
->>>>>>> Stashed changes
 @Log4j
 public class FoodController {
 
 	@Autowired
-<<<<<<< Updated upstream
-	private MemberMapper memberMapper;
+	private MemberService memberMapper;
+	@Autowired
+	private FoodService foodService;
+	@Autowired
+	private ImgFoodService imgFoodService;
+	@Autowired
+	private String uploadPath;
 
 	// register.jsp
 	@GetMapping("/list")
@@ -51,72 +43,57 @@ public class FoodController {
 		log.info("listGET()");
 		String memberId = (String) session.getAttribute("memberId");
 		if (memberId != null) {
-			MemberVO memberVO = memberMapper.select(memberId);
+			MemberVO memberVO = memberMapper.getMember(memberId);
 			model.addAttribute("memberVO", memberVO);
 		}
-	}
-
-
-} // end BoardController
-=======
-	private FoodService foodService;
-	@Autowired
-	private ImgFoodService imgFoodService;
-	@Autowired
-	private String uploadPath;
-
-	@GetMapping("/list")
-	public void list(Model model) {
-		log.info("list() ½ÇÇà");
 		List<FoodVO> FoodList = foodService.getAllFood();
-		log.info(FoodList);
 		model.addAttribute("FoodList", FoodList);
 	}
 
 	@GetMapping("/register")
 	public void registerGET() {
-		log.info("registerGET() ½ÇÇà");
+		log.info("registerGET() ï¿½ï¿½ï¿½ï¿½");
 	}
 
 	@PostMapping("/register")
-	// ¿©±â¿¡ multipartfile fileÀÌ ¿Â´Ù°í ÇÏ¸é
+	// ï¿½ï¿½ï¿½â¿¡ multipartfile fileï¿½ï¿½ ï¿½Â´Ù°ï¿½ ï¿½Ï¸ï¿½
 	public String registerPOST(FoodVO foodVO, MultipartFile file) {
-		log.info("registerPOST() ½ÇÇà");
+		log.info("registerPOST() ï¿½ï¿½ï¿½ï¿½");
 		log.info(foodVO);
 		log.info(file.getOriginalFilename());
 		foodService.CreateFood(foodVO);
 
 		ImgFoodVO imgFoodVO = new ImgFoodVO();
 		imgFoodVO.setFile(file);
-		log.info("ÆÄÀÏ ÀÌ¸§ : " + file.getOriginalFilename());
-		log.info("ÆÄÀÏ Å©±â : " + file.getSize());
-		
+		log.info("ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : " + file.getOriginalFilename());
+		log.info("ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ : " + file.getSize());
+
 		FoodVO VO = foodService.getFirstFoodId();
-		
-		// ÀÌ°Ç DB¿¡ ÀúÁ¤µÇ´Â foodId ÀÌ°É·Î º¯°æÇÏ¸é¼­ ÇÏ¸é µÉµí
-		String chgName = "FoodNO"+ VO.getFoodId();
-		// ÆÄÀÏ ÀúÀå
+
+		// ï¿½Ì°ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ foodId ï¿½Ì°É·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½Ï¸ï¿½ ï¿½Éµï¿½
+		String chgName = "FoodNO" + VO.getFoodId();
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-		// ÆÄÀÏ ½ÇÁ¦ ÀÌ¸§ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		// ÆÄÀÏ º¯°æ ÀÌ¸§ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodChgName(chgName);
-		// ÆÄÀÏ È®ÀåÀÚ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// ÆÄÀÏ °æ·Î ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
 				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// foodId ¼³Á¤
+		// foodId ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setFoodId(VO.getFoodId());
 		if (hasFile) {
-			// ÆÄÀÏÀÌ ÀÖÀ¸¸é update
-			log.info("ÆÄÀÏÀÌ ÀÌ¹Ì Á¸ÀçÇÕ´Ï´Ù.");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ update
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 			imgFoodService.updateImgFood(imgFoodVO);
 		} else {
-			// ÆÄÀÏÀÌ ¾øÀ¸¸é insert
-			log.info("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			imgFoodService.createImgFood(imgFoodVO);
 		}
 
@@ -124,78 +101,79 @@ public class FoodController {
 
 		return "redirect:/food/list";
 	}
-	
-	
+
 	@GetMapping("/detail")
 	public void detailGET(Model model, Integer foodId) {
-		log.info("detailGET() ½ÇÇà");
+		log.info("detailGET() ï¿½ï¿½ï¿½ï¿½");
 		FoodVO foodVO = foodService.getFoodById(foodId);
 		model.addAttribute("FoodVO", foodVO);
 		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
-		// »çÁø °æ·Î°¡ http:// ÀÌ°Å¾ß ÇÑ´Ù´Â °ÅÁö? ±Ùµ¥ ÀÌ·¸°Ô GET¹æ½ÄÀ¸·Î ÇÏ¸é ¾Æ¿¹ ´Ù¸¥ÆäÀÌÁö·Î °¡¼­ Ãâ·ÂÇÏ´Â°Å ¾Æ´Ñ°¡? 
-		// TODO ºñµ¿±â ¹æ½ÄÀ¸·Î ÀÌ¹ÌÁö¸¦ ºÒ·¯¿Í¾ß ³»°¡ ¿øÇÏ´Â ¹æÇâ°ú ¸Â´Â °Ç°¡
-		// <img alt="" src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${f.atchFileName}&filePath=${f.atchPath}" width="50px" height="50px">
-		
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ http:// ï¿½Ì°Å¾ï¿½ ï¿½Ñ´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ùµï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ GETï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½Æ¿ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½Æ´Ñ°ï¿½?
+		// TODO ï¿½ñµ¿±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Í¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ç°ï¿½
+		// <img alt=""
+		// src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${f.atchFileName}&filePath=${f.atchPath}"
+		// width="50px" height="50px">
+
 	}
 
 	@GetMapping("/update")
 	public void updateGET(Model model, Integer foodId) {
-		log.info("updateGET() ½ÇÇà");
+		log.info("updateGET() ï¿½ï¿½ï¿½ï¿½");
 		FoodVO foodVO = foodService.getFoodById(foodId);
 		model.addAttribute("FoodVO", foodVO);
 	}
 
 	@PostMapping("/update")
 	public String updatePOST(FoodVO foodVO, MultipartFile file) {
-		log.info("updatePOST() ½ÇÇà");
+		log.info("updatePOST() ï¿½ï¿½ï¿½ï¿½");
 		int result = foodService.updateFood(foodVO);
-		
+
 		ImgFoodVO imgFoodVO = new ImgFoodVO();
 		imgFoodVO.setFile(file);
-		log.info("ÆÄÀÏ ÀÌ¸§ : " + file.getOriginalFilename());
-		log.info("ÆÄÀÏ Å©±â : " + file.getSize());
-		
-		// ÀÌ°Ç DB¿¡ ÀúÁ¤µÇ´Â foodId ÀÌ°É·Î º¯°æÇÏ¸é¼­ ÇÏ¸é µÉµí
-		String chgName = foodVO.getFoodId() + "¹ø ½ÄÇ°";
-		// ÆÄÀÏ ÀúÀå
+		log.info("ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : " + file.getOriginalFilename());
+		log.info("ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ : " + file.getSize());
+
+		// ï¿½Ì°ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ foodId ï¿½Ì°É·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½Ï¸ï¿½ ï¿½Éµï¿½
+		String chgName = foodVO.getFoodId() + "ï¿½ï¿½ ï¿½ï¿½Ç°";
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-		// ÆÄÀÏ ½ÇÁ¦ ÀÌ¸§ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		// ÆÄÀÏ º¯°æ ÀÌ¸§ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodChgName(chgName);
-		// ÆÄÀÏ È®ÀåÀÚ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// ÆÄÀÏ °æ·Î ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
 				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// foodId ¼³Á¤
+		// foodId ï¿½ï¿½ï¿½ï¿½
 		imgFoodVO.setFoodId(foodVO.getFoodId());
 		if (hasFile) {
-			// ÆÄÀÏÀÌ ÀÖÀ¸¸é update
-			log.info("ÆÄÀÏÀÌ Á¸ÀçÇÏ¿© update");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ update
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ update");
 			imgFoodService.updateImgFood(imgFoodVO);
 		} else {
-			// ÆÄÀÏÀÌ ¾øÀ¸¸é insert
-			log.info("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê¾Æ insert");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insert
+			log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ insert");
 			imgFoodService.createImgFood(imgFoodVO);
 		}
 
 		log.info(imgFoodVO);
-		
+
 		return "redirect:/food/list";
 	}
-	
+
 	@GetMapping("/delete")
 	public String delete(int foodId) {
-		
+
 		foodService.deleteFood(foodId);
 		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
 		imgFoodService.deleteImgFood(foodId);
 		uploadImgFoodUtil.deleteFile(uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
-		
+
 		return "redirect:/food/list";
 	}
 }
->>>>>>> Stashed changes

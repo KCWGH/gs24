@@ -6,21 +6,19 @@ import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gs24.website.domain.ImgFoodVO;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class uploadImgFoodUtil {
 	
 	/**
-     * ÆÄÀÏ ÀÌ¸§¿¡¼­ È®ÀåÀÚ¸¦ Á¦¿ÜÇÑ ½ÇÁ¦ ÆÄÀÏ ÀÌ¸§À» ÃßÃâ
+     * ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      * 
-     * @param fileName ÆÄÀÏ ÀÌ¸§
-     * @return ½ÇÁ¦ ÆÄÀÏ ÀÌ¸§
+     * @param fileName ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+     * @return ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
      */
     public static String subStrName(String fileName) {
-    	// FilenameUtils.normalize() : ÆÄÀÏ ÀÌ¸§ Á¤±ÔÈ­ ¸Þ¼­µå
+    	// FilenameUtils.normalize() : ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½Þ¼ï¿½ï¿½ï¿½
         String normalizeName = FilenameUtils.normalize(fileName);
         int dotIndex = normalizeName.lastIndexOf('.');
 
@@ -29,16 +27,16 @@ public class uploadImgFoodUtil {
     }
     
     /**
-     * ÆÄÀÏ ÀÌ¸§¿¡¼­ È®ÀåÀÚ¸¦ ÃßÃâ
+     * ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½
      * 
-     * @param fileName ÆÄÀÏ ÀÌ¸§
-     * @return È®ÀåÀÚ
+     * @param fileName ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+     * @return È®ï¿½ï¿½ï¿½ï¿½
      */
     public static String subStrExtension(String fileName) {
-        // ÆÄÀÏ ÀÌ¸§¿¡¼­ ¸¶Áö¸· '.'ÀÇ ÀÎµ¦½º¸¦ Ã£½À´Ï´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ '.'ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½Ï´ï¿½.
         int dotIndex = fileName.lastIndexOf('.');
 
-        // '.' ÀÌÈÄÀÇ ¹®ÀÚ¿­À» È®ÀåÀÚ·Î ÃßÃâÇÕ´Ï´Ù.
+        // '.' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         String extension = fileName.substring(dotIndex + 1);
 
         return extension;
@@ -49,10 +47,10 @@ public class uploadImgFoodUtil {
     }
     
     /**
-     * ÆÄÀÏÀ» ÀúÀå
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      * 
-     * @param uploadPath ÆÄÀÏ ¾÷·Îµå °æ·Î
-     * @param file ¾÷·ÎµåµÈ ÆÄÀÏ
+     * @param uploadPath ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½
+     * @param file ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      * @param uuid UUID
      */
     public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
@@ -69,9 +67,9 @@ public class uploadImgFoodUtil {
         
         File saveFile = new File(realUploadPath, chgName);
         if(!saveFile.exists()) {
-        	log.info("ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.");
+        	log.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         } else {
-        	log.info("±âÁ¸ ÆÄÀÏÀÌ Á¸ÀçÇÕ´Ï´Ù.");
+        	log.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         	hasFile = true;
         }
         
@@ -88,20 +86,20 @@ public class uploadImgFoodUtil {
     }
     
     /**
-     * ÆÄÀÏÀ» »èÁ¦
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      * 
-     * @param uploadPath ÆÄÀÏ ¾÷·Îµå °æ·Î
-     * @param path ÆÄÀÏÀÌ ÀúÀåµÈ ³¯Â¥ °æ·Î
-     * @param chgName ÀúÀåµÈ ÆÄÀÏ ÀÌ¸§
+     * @param uploadPath ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½
+     * @param path ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½
+     * @param chgName ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
      */
     public static void deleteFile(String uploadPath,String chgName) {
-        // »èÁ¦ÇÒ ÆÄÀÏÀÇ ÀüÃ¼ °æ·Î »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         String fullPath = uploadPath + File.separator + makeDir() + chgName;
         
-        // ÆÄÀÏ °´Ã¼ »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
         File file = new File(fullPath);
         
-        // ÆÄÀÏÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎÇÏ°í »èÁ¦
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
         if(file.exists()) {
             if(file.delete()) {
                 System.out.println(fullPath + " file delete success.");

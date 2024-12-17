@@ -13,7 +13,21 @@ public interface MemberMapper {
 
 	MemberVO select(String memberId);
 
+	int update(MemberVO memberVO);
+
+	int delete(String memberId);
+
+	int dupCheckId(String memberId);
+
+	int dupCheckEmail(String email);
+
+	int dupCheckPhone(String phone);
+
 	String findId(String email);
 
-	int update(MemberVO memberVO);
+	String findEmailById(String memberId);
+	
+	String findPwById(String memberId);
+
+	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 }

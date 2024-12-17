@@ -51,18 +51,18 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int dupCheckId(String memberId) {
 		// 회원 아이디 중복 체크
-		return memberMapper.dupCheckId(memberId); // MemberMapper의 dupCheckId 호출
+		return memberMapper.dupCheckId(memberId);
 	}
 
 	@Override
 	public int dupCheckEmail(String email) {
 		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email); // MemberMapper의 dupCheckEmail 호출
+		return memberMapper.dupCheckEmail(email); 
 	}
 
 	@Override
 	public int dupCheckPhone(String phone) {
 		// 전화번호 중복 체크
-		return memberMapper.dupCheckPhone(phone); // MemberMapper의 dupCheckPhone 호출
+		return memberMapper.dupCheckPhone(phone);
 	}
 }

@@ -10,7 +10,6 @@ import com.gs24.website.domain.AnswerVO;
 import com.gs24.website.persistence.AnswerMapper;
 import com.gs24.website.persistence.QuestionMapper;
 
-
 import lombok.extern.log4j.Log4j;
 
 @Service
@@ -28,14 +27,8 @@ public class AnswerServiceImple implements AnswerService{
 	public int createAnswer(AnswerVO answerVO) {
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
-<<<<<<< Updated upstream
 		log.info(insertResult + "행 댓글 추가");
 		return 1;
-=======
-		log.info(insertResult + "�뻾 �뙎湲� 異붽�");
-		//int updateResult = questionMapper.up
-		return 0;
->>>>>>> Stashed changes
 	}
 
 	@Override
