@@ -66,25 +66,30 @@ public class MemberController {
 
 	@PostMapping("/login")
 	public String loginPOST(String memberId, String password, HttpServletRequest request) {
-		log.info("loginPOST()");
+	    log.info("loginPOST()");
 
-		int result = memberService.login(memberId, password);
+	    int result = memberService.login(memberId, password);
 
-		if (result == 1) {
-			log.info("로그인 성공");
-			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberId);
+	    if (result == 1) {
+	        log.info("로그인 성공");
 
-			MemberVO memberVO = memberService.getMember(memberId);
-			session.setAttribute("memberVO", memberVO);
+	        // 세션 설정
+	        HttpSession session = request.getSession();
+	        session.setAttribute("memberId", memberId);
 
-			session.setMaxInactiveInterval(600);
-			return "redirect:/food/list";
-		} else {
-			log.info("로그인 실패");
-			return "redirect:/member/loginfail";
-		}
+	        MemberVO memberVO = memberService.getMember(memberId);
+	        session.setAttribute("memberVO", memberVO);
+
+	        session.setMaxInactiveInterval(600);  // 세션 만료 시간 설정
+
+	        // 로그인 성공 후, 부모 페이지로 리다이렉트하고 자식 페이지를 닫게 유도
+	        return "redirect:/food/list?loginSuccess=true";  // 로그인 성공 시 파라미터 추가
+	    } else {
+	        log.info("로그인 실패");
+	        return "redirect:/member/loginfail";
+	    }
 	}
+
 
 	@GetMapping("/loginfail")
 	public void loginfailGET() {

@@ -16,15 +16,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = { "com.gs24.website" })
 // component scan 설정
 public class ServletConfig implements WebMvcConfigurer {
-   // ViewResolver 설정 메소드
-   @Override
-   public void configureViewResolvers(ViewResolverRegistry registry) {
-      InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-      viewResolver.setPrefix("/WEB-INF/views/");
-      viewResolver.setSuffix(".jsp");
-      registry.viewResolver(viewResolver);
-   }
-
+	// ViewResolver 설정 메소드
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		registry.viewResolver(viewResolver);
+	}
 
 	// ResourceHandlers 설정 메소드
 	@Override
@@ -48,6 +47,4 @@ public class ServletConfig implements WebMvcConfigurer {
 	public String uploadPath() {
 		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
 	}
-
-
 }

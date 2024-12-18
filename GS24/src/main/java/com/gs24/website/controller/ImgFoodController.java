@@ -17,38 +17,49 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ImgFoodController {
 
-    @Autowired
-    private String uploadPath;
+	@Autowired
+	private String uploadPath;
 
-    @GetMapping("/register")
-    public void registerGET() {
-        log.info("registerGET");
-    }
+	@GetMapping("/register")
+	public void registerGET() {
+		log.info("registerGET");
+	}
 
-    @PostMapping("/register")
-    public void registerPOST(ImgFoodVO imgFoodVO) {
-        log.info("registerPOST() 실행");
+	@PostMapping("/register")
+	public void registerPOST(ImgFoodVO imgFoodVO) {
+		log.info("registerPOST() ����");
+		MultipartFile file = imgFoodVO.getFile();
+		log.info("���� �̸� : " + file.getOriginalFilename());
+		log.info("���� ũ�� : " + file.getSize());
 
-        MultipartFile file = imgFoodVO.getFile();
-        log.info("파일 이름 : " + file.getOriginalFilename());
-        log.info("파일 크기 : " + file.getSize());
+		// �̰� DB�� �����Ǵ� foodId �̰ɷ� �����ϸ鼭 �ϸ� �ɵ�
+		String chgName = "7����ǰ";
+		// ���� ����
+		boolean a = uploadImgFoodUtil.saveFile(uploadPath, file,
+				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-        String chgName = "7번음식";
-        boolean result = uploadImgFoodUtil.saveFile(uploadPath, file,
-                chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		// ���� ���� �̸� ����
+		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
+		// ���� ���� �̸� ����
+		imgFoodVO.setImgFoodChgName(chgName);
+		// ���� Ȯ���� ����
+		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		// ���� ��� ����
+		imgFoodVO.setImgFoodPath(uploadPath + uploadImgFoodUtil.makeDir() + chgName + "."
+				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-        imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-        imgFoodVO.setImgFoodChgName(chgName);
-        imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-        imgFoodVO.setImgFoodPath(uploadPath + uploadImgFoodUtil.makeDir() + chgName + "." 
-                + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		if (a) {
+			// ������ ������ insert
+			log.info("������ �����Ͽ� update");
+		} else {
+			// ������ ������ update
+			log.info("������ �������� �ʾ� insert");
+		}
 
-        if (result) {
-            log.info("이미지 저장 성공 후 update");
-        } else {
-            log.info("이미지 저장 실패 후 insert");
-        }
+		log.info(imgFoodVO);
 
-        log.info(imgFoodVO);
-    }
+		// uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+
+		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+	}
+
 }

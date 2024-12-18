@@ -12,18 +12,20 @@
 <title>${noticeVO.noticeTitle }</title>
 </head>
 <body>
-		<a href="../food/list"><button>메인페이지</button></a>
-		<a href="../question/list"><button>QnA게시판</button></a>
-		<h1>공지사항</h1>
-		<h2>GS24의 새로운 소식을 전해 드립니다.</h2>
+	<h2>글 보기</h2>
 	<div>
-		<p>제목 : ${noticeVO.noticeTitle }</p>
+		<p>글 번호 : ${noticeVO.noticeId }</p>
 	</div>
 	<div>
+		<p>제목 : </p>
+		<p>${noticeVO.noticeTitle }</p>
+	</div>
+	<div>
+		<p>작성자 : ${noticeVO.memberId }</p>
 		<!-- boardDateCreated 데이터 포멧 변경 -->
 		<fmt:formatDate value="${noticeVO.noticeDateCreated }"
-					pattern="yyyy-MM-dd " var="noticeDateCreated"/>
-		<p>등록일 : ${noticeDateCreated }</p>
+					pattern="yyyy-MM-dd HH:mm:ss" var="noticeDateCreated"/>
+		<p>작성일 : ${noticeDateCreated }</p>
 	</div>
 	<div>
 		<textarea rows="20" cols="120" readonly>${noticeVO.noticeContent }</textarea>

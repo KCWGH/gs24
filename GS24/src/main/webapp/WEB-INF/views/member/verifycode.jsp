@@ -17,7 +17,7 @@
         <label for="verificationCode">인증번호:</label>
         <input type="text" id="verificationCode" name="verificationCode" required><br><br>
         
-        <input type="submit" value="비밀번호 확인">
+        <input type="submit" value="비밀번호 재설정">
         <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
     </form>
     <div id="message"></div>
@@ -25,33 +25,19 @@
     <script>
         $(document).ready(function() {
             $("#verifyCodeForm").submit(function(e) {
-                e.preventDefault(); // 폼 제출을 막고 Ajax로 처리
+                e.preventDefault();
                 let memberId = $("#memberId").val();
                 let verificationCode = $("#verificationCode").val();
                 $("#message").html('인증번호가 이메일로 전송되었습니다. 이메일을 확인해주세요');
                 
                 $.ajax({
-                    url: 'findpw/verifycode', // 인증번호 검증 및 비밀번호 확인 URL
+                    url: 'findpw/verifycode', 
                     type: 'POST',
                     data: { memberId: memberId, verificationCode: verificationCode },
-                    dataType: 'json', // 서버에서 반환된 데이터를 JSON으로 파싱
+                    dataType: 'json',
                     success: function(response) {
-                        if (response.success === true) { // 성공 여부 확인
-                            let messageContent = '<p>당신의 비밀번호는 아래와 같습니다.</p>' +
-                                                 '<input type="password" id="passwordField" value="' + response.password + '" readonly>' +
-                                                 '<button id="togglePassword">비밀번호 보기</button>';
-                            $("#message").html(messageContent);
-
-                            $("#togglePassword").click(function() {
-                                let passwordField = $("#passwordField");
-                                if (passwordField.attr("type") === "password") {
-                                    passwordField.attr("type", "text");
-                                    $(this).text("비밀번호 숨기기");
-                                } else {
-                                    passwordField.attr("type", "password");
-                                    $(this).text("비밀번호 보기");
-                                }
-                            });
+                        if (response.success === true) {
+                            
                         } else {
                             $("#message").html('<p>인증번호가 잘못되었습니다.</p>');
                         }

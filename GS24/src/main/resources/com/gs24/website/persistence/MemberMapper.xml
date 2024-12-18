@@ -41,7 +41,8 @@
 	</select>
 
 	<select id="select" resultMap="memberResultMap">
-		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+		SELECT * FROM MEMBER WHERE
+		MEMBER_ID = #{memberId}
 	</select>
 
 	<select id="dupCheckId" resultType="Integer">
@@ -70,8 +71,8 @@
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 
-	<select id="findPwById" resultType="String">
-		SELECT PASSWORD
+	<select id="findPhoneById" resultType="String">
+		SELECT PHONE
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 	</select>
@@ -82,10 +83,30 @@
 		WHERE MEMBER_ID = #{memberId} AND EMAIL = #{email}
 	</select>
 
-	<update id="update">
+	<update id="updatePassword">
 		UPDATE MEMBER
-		SET EMAIL = #{email},
-		PHONE = #{phone}
+		SET PASSWORD = #{password}
+		WHERE
+		MEMBER_ID = #{memberId}
+	</update>
+
+	<update id="updateEmail">
+		UPDATE MEMBER
+		SET EMAIL = #{email}
+		WHERE MEMBER_ID =
+		#{memberId}
+	</update>
+
+	<update id="updatePhone">
+		UPDATE MEMBER
+		SET PHONE = #{phone}
+		WHERE MEMBER_ID =
+		#{memberId}
+	</update>
+
+	<update id="delete">
+		UPDATE MEMBER
+		SET IS_ENABLED = 0
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 </mapper>

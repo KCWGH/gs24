@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.EmailVerificationMapper">
+
+    <!-- 이메일에 해당하는 회원이 있는지 확인 -->
+    <select id="checkMemberByEmail" resultType="String">
+        SELECT MEMBER_ID
+        FROM MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+
+    <!-- 이메일 인증번호 저장 -->
+    <insert id="saveVerificationCode">
+        INSERT INTO EMAIL_VERIFICATION (EMAIL, VERIFICATION_CODE)
+        VALUES (#{email}, #{verificationCode})
+    </insert>
+
+    <!-- 인증번호 확인 후 회원 ID 찾기 -->
+    <select id="findMemberIdByVerificationCode" resultType="String">
+        SELECT MEMBER_ID
+        FROM EMAIL_VERIFICATION
+        WHERE EMAIL = #{email} AND VERIFICATION_CODE = #{verificationCode}
+    </select>
+
+    <!-- 인증번호 유효성 체크 -->
+    <select id="validateVerificationCode" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM EMAIL_VERIFICATION
+        WHERE EMAIL = #{email} AND VERIFICATION_CODE = #{verificationCode}
+    </select>
+
+</mapper>
+

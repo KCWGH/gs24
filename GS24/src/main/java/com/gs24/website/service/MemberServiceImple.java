@@ -37,9 +37,18 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public int updateMember(MemberVO memberVO) {
-		// 회원 정보 수정
-		return memberMapper.update(memberVO);
+	public int updateMemberPassword(MemberVO memberVO) {
+		return memberMapper.updatePassword(memberVO);
+	}
+
+	@Override
+	public int updateMemberEmail(MemberVO memberVO) {
+		return memberMapper.updateEmail(memberVO);
+	}
+
+	@Override
+	public int updateMemberPhone(MemberVO memberVO) {
+		return memberMapper.updatePhone(memberVO);
 	}
 
 	@Override
@@ -57,7 +66,7 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int dupCheckEmail(String email) {
 		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email); 
+		return memberMapper.dupCheckEmail(email);
 	}
 
 	@Override
@@ -65,4 +74,15 @@ public class MemberServiceImple implements MemberService {
 		// 전화번호 중복 체크
 		return memberMapper.dupCheckPhone(phone);
 	}
+
+	@Override
+	public String findEmailById(String memberId) {
+		return memberMapper.findEmailById(memberId);
+	}
+	
+	@Override
+	public String findPhoneById(String memberId) {
+		return memberMapper.findPhoneById(memberId);
+	}
+
 }

@@ -12,8 +12,12 @@ public interface MemberMapper {
 	int login(@Param("memberId") String memberId, @Param("password") String password);
 
 	MemberVO select(String memberId);
-
-	int update(MemberVO memberVO);
+	
+	int updatePassword(MemberVO memberVO);
+	
+	int updateEmail(MemberVO memberVO);
+	
+	int updatePhone(MemberVO memberVO);
 
 	int delete(String memberId);
 
@@ -26,6 +30,8 @@ public interface MemberMapper {
 	String findId(String email);
 
 	String findEmailById(String memberId);
+	
+	String findPhoneById(String memberId);
 	
 	String findPwById(String memberId);
 
