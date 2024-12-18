@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.NoticeVO;
 import com.gs24.website.service.NoticeService;
 import com.gs24.website.util.PageMaker;
@@ -30,25 +29,37 @@ public class NoticeController {
 	
 	// 전체 게시글 데이터를 list.jsp 페이지로 전송
 	@GetMapping("/list")
-	public void list(Model model, Pagination pagination, HttpSession session, @RequestParam(value = "noticeTitle", required = false) String noticeTitle) {
-	    log.info("search() with title = " + noticeTitle);
+	public void list(Model model, Pagination pagination, 
+	                 HttpSession session, 
+	                 @RequestParam(value = "noticeTitle", required = false) String noticeTitle,
+	                 @RequestParam(value = "noticeContent", required = false) String noticeContent) {
+	    log.info("list() with title = " + noticeTitle + "content" + noticeContent); // 12.18 여기까지 
+
 	    List<NoticeVO> noticeList;
+	    int totalCount;
+
 	    if (noticeTitle != null && !noticeTitle.isEmpty()) {
-	        noticeList = noticeService.getNoticesByTitle(noticeTitle);
+	        // 검색 조건이 있는 경우
+	        noticeList = noticeService.getNoticesByTitleWithPagination(noticeTitle, pagination);
+	        totalCount = noticeService.getTotalCountByTitle(noticeTitle);
 	    } else {
+	        // 검색 조건이 없는 경우
 	        noticeList = noticeService.getPagingNotices(pagination);
+	        totalCount = noticeService.getTotalCount();
 	    }
 
 	    // 페이지 메이커 생성
 	    PageMaker pageMaker = new PageMaker();
 	    pageMaker.setPagination(pagination);
-	    pageMaker.setTotalCount(noticeService.getTotalCount());
+	    pageMaker.setTotalCount(totalCount);
 
 	    // 모델에 데이터 추가
 	    model.addAttribute("noticeList", noticeList);
 	    model.addAttribute("pageMaker", pageMaker);
-	    model.addAttribute("title", noticeTitle);  // 검색어를 JSP로 전달
+	    model.addAttribute("noticeTitle", noticeTitle); // 검색어 전달
+	    
 	}
+
 	
 	// register.jsp 호출
 	@GetMapping("/register")

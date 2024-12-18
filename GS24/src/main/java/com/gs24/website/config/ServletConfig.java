@@ -25,7 +25,7 @@ public class ServletConfig implements WebMvcConfigurer {
       registry.viewResolver(viewResolver);
    }
 
-<<<<<<< Updated upstream
+
 	// ResourceHandlers 설정 메소드
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -48,32 +48,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	public String uploadPath() {
 		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
 	}
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-=======
-   // ResourceHandlers 설정 메소드
-   @Override
-   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-      // resources 디렉토리 설정
-      registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-   }
 
-   @Bean
-   public CommonsMultipartResolver multipartResolver() {
-      CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 
-      resolver.setMaxUploadSize(1024 * 1024 * 30);
-
-      resolver.setMaxUploadSizePerFile(1024 * 1024 * 10);
-
-      return resolver;
-   }
-
-   @Bean
-   public String uploadPath() {
-      return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
-   }
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 }

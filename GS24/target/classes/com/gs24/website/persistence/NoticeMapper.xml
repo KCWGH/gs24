@@ -17,53 +17,72 @@
 			column="NOTICE_DATE_CREATED" />
 	</resultMap>
 
-	
+
 	<insert id="insert">
-		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID, NOTICE_TITLE, NOTICE_CONTENT,NOTICE_DATE_CREATED)
-		VALUES (NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent}, SYSDATE)
+		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID,
+		NOTICE_TITLE, NOTICE_CONTENT,NOTICE_DATE_CREATED)
+		VALUES
+		(NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent},
+		SYSDATE)
 	</insert>
-	
+
 	<select id="selectList" resultMap="noticeResultMap">
-		SELECT * FROM NOTICE ORDER BY NOTICE_ID DESC
-	</select>
-	
-	<select id="selectOne" resultMap="noticeResultMap">
-		SELECT * FROM NOTICE WHERE NOTICE_ID = #{noticeId}
-	</select>
-	
-	<update id="update">	 	
-	   UPDATE NOTICE SET
-       NOTICE_TITLE = #{noticeTitle}, 
-       NOTICE_CONTENT = #{noticeContent}, 
-       NOTICE_DATE_CREATED = SYSDATE
-       WHERE NOTICE_ID = #{noticeId}	 	
-	 </update>
-	 
-	 <delete id="delete">	 
-	   DELETE NOTICE WHERE NOTICE_ID = #{noticeId}	 	
-	 </delete>
-	
-	<select id="selectListByPagination" resultMap="noticeResultMap">
-	 	SELECT * FROM
-	 	(
-	 		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC)
-	 		AS RN, NOTICE.* FROM NOTICE
-	 	) 
-	 	WHERE RN BETWEEN #{start} AND #{end}
-	 </select>
-	 
-	<select id="selectTotalCount" resultType="Integer">
-		SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
-	 </select>
-	 
-	 <!-- 제목으로 검색 (noticeTitle을 사용) -->
-    <select id="selectListByTitle" resultMap="noticeResultMap">
-    SELECT * FROM NOTICE
-    WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
-    ORDER BY NOTICE_DATE_CREATED DESC
+		SELECT * FROM NOTICE ORDER BY
+		NOTICE_ID DESC
 	</select>
 
-    
-    
+	<select id="selectOne" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE WHERE
+		NOTICE_ID = #{noticeId}
+	</select>
+
+	<update id="update">
+		UPDATE NOTICE SET
+		NOTICE_TITLE = #{noticeTitle},
+		NOTICE_CONTENT = #{noticeContent},
+		NOTICE_DATE_CREATED = SYSDATE
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+
+	<delete id="delete">
+		DELETE NOTICE WHERE NOTICE_ID = #{noticeId}
+	</delete>
+
+	<select id="selectListByPagination" resultMap="noticeResultMap">
+		SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC)
+		AS RN, NOTICE.* FROM NOTICE
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*)
+		TOTAL_COUNT FROM NOTICE
+	</select>
+
+	<!-- 제목으로 검색  -->
+	<select id="selectListByTitle" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+		ORDER BY NOTICE_DATE_CREATED DESC
+	</select>
+
+	<select id="selectListByTitleWithPagination"
+		resultMap="noticeResultMap">
+		SELECT * FROM (
+		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
+		FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectTotalCountByTitle" resultType="Integer">
+		SELECT COUNT(*) FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+	</select>
+
 
 </mapper>

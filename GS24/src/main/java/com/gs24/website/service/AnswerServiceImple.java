@@ -14,58 +14,55 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class AnswerServiceImple implements AnswerService{
-	@Autowired
-	private AnswerMapper answerMapper;
+public class AnswerServiceImple implements AnswerService {
 
-	@Autowired
-	private QuestionMapper questionMapper;
-	
-	@Transactional(value = "transactionManager")
-	
-	@Override
-	public int createAnswer(AnswerVO answerVO) {
-		log.info("createAnswer()");
-		int insertResult = answerMapper.insert(answerVO);
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-		int updateResult = questionMapper
-				.updateAnswer(answerVO.getQuestionId());
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
-		log.info(insertResult + "행 댓글 추가");
-		log.info(updateResult + "답변 완료");	
-		return 1;
-	}
+    @Autowired
+    private AnswerMapper answerMapper;
 
-	@Override
-	public List<AnswerVO> getAllAnswer(int questionId) {
-		log.info("getAllAnswer()");
-		return answerMapper.selectListByQuestionId(questionId);
-	}
+    @Autowired
+    private QuestionMapper questionMapper;
 
-	@Override
-	public int updateAnswer(int answerId, String answerContent) {
-		log.info("updateAnswer()");
-		AnswerVO answerVO = new AnswerVO();
-		answerVO.setAnswerId(answerId);
-		answerVO.setAnswerContent(answerContent);
-		return answerMapper.update(answerVO);
-	}
+    @Transactional(value = "transactionManager")
+    @Override
+    public int createAnswer(AnswerVO answerVO) {
+        log.info("createAnswer()");
 
-	@Transactional(value = "transactionManager")
-	@Override
-	public int deleteAnswer(int answerId, int questionId) {
-		log.info("deleteAnswer()");
-		int deleteResult = answerMapper.delete(answerId);
-		log.info(deleteResult + "행 댓글 삭제");
-		
-		return 1;
-	}
+        // 댓글 추가
+        int insertResult = answerMapper.insert(answerVO);
 
-	
+        // 해당 질문의 답변 상태를 업데이트
+        int updateResult = questionMapper.updateAnswer(answerVO.getQuestionId());
 
+        log.info(insertResult + "행 댓글 추가");
+        log.info(updateResult + "답변 완료");
+
+        return 1;
+    }
+
+    @Override
+    public List<AnswerVO> getAllAnswer(int questionId) {
+        log.info("getAllAnswer()");
+        return answerMapper.selectListByQuestionId(questionId);
+    }
+
+    @Override
+    public int updateAnswer(int answerId, String answerContent) {
+        log.info("updateAnswer()");
+        AnswerVO answerVO = new AnswerVO();
+        answerVO.setAnswerId(answerId);
+        answerVO.setAnswerContent(answerContent);
+        return answerMapper.update(answerVO);
+    }
+
+    @Transactional(value = "transactionManager")
+    @Override
+    public int deleteAnswer(int answerId, int questionId) {
+        log.info("deleteAnswer()");
+
+        // 댓글 삭제
+        int deleteResult = answerMapper.delete(answerId);
+        log.info(deleteResult + "행 댓글 삭제");
+
+        return 1;
+    }
 }

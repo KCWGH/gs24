@@ -45,7 +45,7 @@
 </head>
 <body>
     <a href="../food/list"><button>메인페이지</button></a>
-    <a href="../question/list"><button>Q&A게시판</button></a>
+    <a href="../question/list"><button>QnA게시판</button></a>
     <h1>공지사항</h1>
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
     
@@ -78,37 +78,48 @@
 
     <!-- 페이징 처리 -->
     <ul>
-		<!-- 이전 버튼 생성을 위한 조건문 -->
-		<c:if test="${pageMaker.isPrev() }">
-			<li><a href="list?pageNum=${pageMaker.startNum - 1}">이전</a></li>
-		</c:if>
+    <!-- 이전 버튼 -->
+    <c:if test="${pageMaker.isPrev()}">
+        <li><a href="list?pageNum=${pageMaker.startNum - 1}&noticeTitle=${param.noticeTitle}">이전</a></li>
+    </c:if>
 
-		<!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
-		<c:forEach begin="${pageMaker.startNum }" end="${pageMaker.endNum }"
-			var="num">
-			<li><a href="list?pageNum=${num }">${num }</a></li>
-		</c:forEach>
+    <!-- 페이지 번호 -->
+    <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+        <li>
+            <a href="list?pageNum=${num}&noticeTitle=${param.noticeTitle}">${num}</a>
+        </li>
+    </c:forEach>
 
-		<!-- 다음 버튼 생성을 위한 조건문 -->
-		<c:if test="${pageMaker.isNext() }">
-			<li><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
-		</c:if>
-	</ul>
+    <!-- 다음 버튼 -->
+    <c:if test="${pageMaker.isNext()}">
+        <li><a href="list?pageNum=${pageMaker.endNum + 1}&noticeTitle=${param.noticeTitle}">다음</a></li>
+    </c:if>
+</ul>
+
+
 
     <!-- 제목 검색 -->
     <div class="prgs">
         <label for="prgs" class="invisible"></label>
-        <div class="sel2_rt">
+        <div class="sel1_rt">
             <select name="prgs" id="prgs" title="제목" class="select1">
                 <option value="title">제목</option>
+                <option value="content">내용</option>
             </select>
         </div>
         
         <!-- 검색 버튼 클릭 시 제목으로 검색 -->
         <form action="list" method="get">
-            <input type="text" id="searchTitle" name="noticeTitle" value="${param.noticeTitle}" title="제목으로 검색" style="width: 200px;" placeholder="제목 검색">
-            <input type="submit" value="검색">
-        </form>
+    <input 
+        type="text" 
+        id="searchTitle" 
+        name="noticeTitle" 
+        value="${param.noticeTitle}" 
+        title="제목으로 검색" 
+        style="width: 200px;" 
+        placeholder="제목 검색">
+    <input type="submit" value="검색">
+</form>
     </div>
 
 </body>

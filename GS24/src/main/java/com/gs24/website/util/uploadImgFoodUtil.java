@@ -1,9 +1,5 @@
 package com.gs24.website.util;
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 import java.io.File;
 import java.io.IOException;
 
@@ -14,31 +10,15 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class uploadImgFoodUtil {
-<<<<<<< Updated upstream
-	
-	/**
-     * ���� �̸����� Ȯ���ڸ� ������ ���� ���� �̸��� ����
+
+    /**
+     * 파일 이름에서 확장자를 제외한 실제 파일 이름만 추출
      * 
-     * @param fileName ���� �̸�
-     * @return ���� ���� �̸�
+     * @param fileName 파일 이름
+     * @return 실제 파일 이름
      */
     public static String subStrName(String fileName) {
-<<<<<<< HEAD
-    	// FilenameUtils.normalize() : ���� �̸� ����ȭ �޼���
-=======
-    	// FilenameUtils.normalize() : ���� �̸� ����ȭ �޼���
-=======
-   
-   /**
-     *       ̸      Ȯ   ڸ                    ̸        
-     * 
-     * @param fileName       ̸ 
-     * @return            ̸ 
-     */
-    public static String subStrName(String fileName) {
-       // FilenameUtils.normalize() :       ̸      ȭ  ޼   
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
+        // FilenameUtils.normalize() : 파일 경로를 정리하여 안전한 경로로 만듦
         String normalizeName = FilenameUtils.normalize(fileName);
         int dotIndex = normalizeName.lastIndexOf('.');
 
@@ -47,75 +27,35 @@ public class uploadImgFoodUtil {
     }
     
     /**
-<<<<<<< HEAD
-     * ���� �̸����� Ȯ���ڸ� ����
-=======
-<<<<<<< Updated upstream
-     * ���� �̸����� Ȯ���ڸ� ����
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
+     * 파일 이름에서 확장자만 추출
      * 
-     * @param fileName ���� �̸�
-     * @return Ȯ����
+     * @param fileName 파일 이름
+     * @return 확장자
      */
     public static String subStrExtension(String fileName) {
-        // ���� �̸����� ������ '.'�� �ε����� ã���ϴ�.
+        // 파일 이름에서 마지막 '.'의 인덱스를 찾고, 그 이후의 문자열을 확장자로 추출
         int dotIndex = fileName.lastIndexOf('.');
 
-<<<<<<< HEAD
-        // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
-=======
-        // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
-=======
-     *       ̸      Ȯ   ڸ      
-     * 
-     * @param fileName       ̸ 
-     * @return Ȯ    
-     */
-    public static String subStrExtension(String fileName) {
-        //       ̸             '.'    ε      ã   ϴ .
-        int dotIndex = fileName.lastIndexOf('.');
-
-        // '.'           ڿ    Ȯ   ڷ       մϴ .
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
         String extension = fileName.substring(dotIndex + 1);
-
         return extension;
     }
     
     public static String makeDir() {
-<<<<<<< Updated upstream
-    	return "ImgFood\\";
+        return "ImgFood\\";
     }
     
     /**
-     * ������ ����
+     * 파일을 저장하는 메서드
      * 
-     * @param uploadPath ���� ���ε� ���
-     * @param file ���ε�� ����
-     * @param uuid UUID
+     * @param uploadPath 업로드할 경로
+     * @param file 업로드할 파일
+     * @param chgName 변경된 파일 이름
      */
     public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
-    	
-    	boolean hasFile = false;
-    	
-=======
-       return "ImgFood\\";
-    }
-    
-    /**
-     *            
-     * 
-     * @param uploadPath         ε     
-     * @param file    ε       
-     * @param uuid UUID
-     */
-    public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
-       
-       boolean hasFile = false;
-       
->>>>>>> Stashed changes
-        File realUploadPath = new File(uploadPath,makeDir());
+        boolean hasFile = false;
+        
+        // 업로드 경로의 실제 디렉토리 생성
+        File realUploadPath = new File(uploadPath, makeDir());
         if (!realUploadPath.exists()) {
             realUploadPath.mkdirs();
             log.info(realUploadPath.getPath() + " successfully created.");
@@ -123,28 +63,21 @@ public class uploadImgFoodUtil {
             log.info(realUploadPath.getPath() + " already exists.");
         }
         
+        // 저장할 파일 경로 설정
         File saveFile = new File(realUploadPath, chgName);
-        if(!saveFile.exists()) {
-<<<<<<< HEAD
-        	log.info("������ �����ϴ�.");
-=======
-<<<<<<< Updated upstream
-        	log.info("������ �����ϴ�.");
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
+        
+        // 파일이 이미 존재하는지 체크
+        if (!saveFile.exists()) {
+            log.info("파일을 업로드합니다.");
         } else {
-        	log.info("���� ������ �����մϴ�.");
-        	hasFile = true;
-=======
-           log.info("            ϴ .");
-        } else {
-           log.info("                 մϴ .");
-           hasFile = true;
->>>>>>> Stashed changes
+            log.info("파일이 이미 존재합니다.");
+            hasFile = true;
         }
         
+        // 파일을 실제로 업로드
         try {
             file.transferTo(saveFile);
-            log.info("file upload scuccess");
+            log.info("file upload success");
         } catch (IllegalStateException e) {
             log.error(e.getMessage());
         } catch (IOException e) {
@@ -155,53 +88,27 @@ public class uploadImgFoodUtil {
     }
     
     /**
-<<<<<<< HEAD
-     * ������ ����
-=======
-<<<<<<< Updated upstream
-     * ������ ����
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
+     * 파일을 삭제하는 메서드
      * 
-     * @param uploadPath ���� ���ε� ���
-     * @param path ������ ����� ��¥ ���
-     * @param chgName ����� ���� �̸�
+     * @param uploadPath 업로드 경로
+     * @param chgName 변경된 파일 이름
      */
-    public static void deleteFile(String uploadPath,String chgName) {
-        // ������ ������ ��ü ��� ����
+    public static void deleteFile(String uploadPath, String chgName) {
+        // 삭제할 파일 경로 생성
         String fullPath = uploadPath + File.separator + makeDir() + chgName;
         
-        // ���� ��ü ����
+        // 파일 객체 생성
         File file = new File(fullPath);
         
-<<<<<<< HEAD
-        // ������ �����ϴ��� Ȯ���ϰ� ����
-=======
-        // ������ �����ϴ��� Ȯ���ϰ� ����
-=======
-     *            
-     * 
-     * @param uploadPath         ε     
-     * @param path                ¥    
-     * @param chgName             ̸ 
-     */
-    public static void deleteFile(String uploadPath,String chgName) {
-        //                 ü         
-        String fullPath = uploadPath + File.separator + makeDir() + chgName;
-        
-        //        ü     
-        File file = new File(fullPath);
-        
-        //             ϴ    Ȯ   ϰ      
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
-        if(file.exists()) {
-            if(file.delete()) {
-                System.out.println(fullPath + " file delete success.");
+        // 파일 존재 여부 체크 후 삭제
+        if (file.exists()) {
+            if (file.delete()) {
+                log.info(fullPath + " file delete success.");
             } else {
-                System.out.println(fullPath + " file delete failed.");
+                log.info(fullPath + " file delete failed.");
             }
         } else {
-            System.out.println(fullPath + " file not found.");
+            log.info(fullPath + " file not found.");
         }
     }
 }

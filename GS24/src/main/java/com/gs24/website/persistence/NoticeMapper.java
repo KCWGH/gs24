@@ -26,4 +26,8 @@ public interface NoticeMapper {
 		int selectTotalCount(); // 전체 게시글 수
 		
 		List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle); // 제목으로 게시글 검색
+		
+		List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("start") int start, @Param("end") int end);
+
+		int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
 }
