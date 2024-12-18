@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM IMG_FOOD WHERE FOOD_ID = #{foodId}
 	</select>
 	
-	<select id="selectAllImagFood">
+	<select id="selectAllImagFood" resultMap="ImgFoodResultMape">
 		SELECT * FROM IMG_FOOD ORDER BY IMG_FOOD_ID DESC
 	</select>
 	

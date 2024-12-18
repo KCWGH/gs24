@@ -27,15 +27,9 @@ public class AnswerServiceImple implements AnswerService{
 	public int createAnswer(AnswerVO answerVO) {
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+
 		int updateResult = questionMapper
 				.updateAnswer(answerVO.getQuestionId());
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 		log.info(insertResult + "행 댓글 추가");
 		log.info(updateResult + "답변 완료");	
 		return 1;

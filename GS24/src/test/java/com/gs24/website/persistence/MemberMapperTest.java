@@ -7,11 +7,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
+import com.gs24.website.domain.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
-@RunWith(SpringJUnit4ClassRunner.class) // 스프링 JUnit test 연결
-@ContextConfiguration(classes = { RootConfig.class }) // 설정 파일 연결
+@RunWith(SpringJUnit4ClassRunner.class) // �뒪�봽留� JUnit test �뿰寃�
+@ContextConfiguration(classes = { RootConfig.class }) // �꽕�젙 �뙆�씪 �뿰寃�
 @Log4j
 public class MemberMapperTest {
 
@@ -30,19 +31,16 @@ public class MemberMapperTest {
 		//testUpdate();
 		//testverify();
 		
-<<<<<<< Updated upstream
 		testfindemail();
 	}
 
 	private void testfindemail() {
 		String result = memberMapper.findEmailById("test");
-=======
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
-		memberVO.setEmail("슈21");
-		memberVO.setPhone("수123123123");
-		int result = memberMapper.update(memberVO);
->>>>>>> Stashed changes
+		memberVO.setEmail("�뒋21");
+		memberVO.setPhone("�닔123123123");
+		int result1 = memberMapper.update(memberVO);
 		log.info(result);
 	}
 
@@ -57,16 +55,16 @@ public class MemberMapperTest {
 	 * private void testUpdate() { log.info("testUpdate()");
 	 * 
 	 * MemberVO memberVO = new MemberVO(); memberVO.setMemberId("test");
-	 * memberVO.setEmail("슈정"); memberVO.setPhone("수정"); int result =
+	 * memberVO.setEmail("�뒋�젙"); memberVO.setPhone("�닔�젙"); int result =
 	 * memberMapper.update(memberVO); log.info(result);
 	 * 
 	 * }
 	 * 
 	 * private void testFindId() { log.info("testFindId()"); String memberId =
-	 * memberMapper.findId("test@naver.com"); log.info("아이디 찾음 : " + memberId); }
+	 * memberMapper.findId("test@naver.com"); log.info("�븘�씠�뵒 李얠쓬 : " + memberId); }
 	 * 
 	 * private void testlogin() { int result = memberMapper.login("test", "124"); if
-	 * (result == 1) { log.info("로그인 완료"); } else { log.info("잘못된 id/pw"); }
+	 * (result == 1) { log.info("濡쒓렇�씤 �셿猷�"); } else { log.info("�옒紐삳맂 id/pw"); }
 	 * 
 	 * }
 	 * 

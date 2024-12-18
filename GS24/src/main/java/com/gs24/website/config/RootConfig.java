@@ -22,7 +22,7 @@ public class RootConfig {
 	public DataSource dataScource() { // DataSource 객체 리턴 메소드
 		HikariConfig config = new HikariConfig(); // HikariConfig : DBCP 라이브러리
 		config.setDriverClassName("oracle.jdbc.OracleDriver");
-		config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		config.setJdbcUrl("jdbc:oracle:thin:@192.168.0.136:1521:xe");
 		config.setUsername("STUDY");
 		config.setPassword("1234");
 

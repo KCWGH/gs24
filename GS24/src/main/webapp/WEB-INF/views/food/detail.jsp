@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.1.js">
+</script>
 <title>식품 상세 정보</title>
 </head>
 <body>
@@ -20,20 +22,149 @@
 	<p>입고 날짜 : ${FoodVO.registeredDate }</p>
 	
 	<button onclick="location.href='list'">돌아가기</button>
-	
+	<button onclick="locatioin.href='../preorder/register'">예약하기</button>
+	<hr>
+	<div style="text-align: center;">
+		<input type="text" id="memberId" >
+		<input type="text" id="reviewTitle">
+		<input type="text" id="reviewContent">
+		<input type="text" id="reviewRating">
+		<button id="btnAdd">작성</button>
+	</div>
+	<hr>
 	<div style="text-align: center">
-		<div id="reply"></div>	
+		<div id='review'></div>	
 	</div>
 	
 	<script type="text/javascript">
-			$(document).reay(function(){
-				function getReplies(){
-					var foodId = ${FoodVO.foodId};
-					var url = '../food/detail/' + foodId;
-					
-					
+	$(document).ready(function(){
+		getAllReply();	
+		
+		$('#btnAdd').click(function(){
+			let memberId = $('#memberId').val();
+			let reviewTitle = $('#reviewTitle').val();
+			let reviewContent = $('#reviewContent').val();
+			let reviewRating = $('#reviewRating').val();
+			let foodId = ${FoodVO.foodId};
+			
+			let obj = {
+					'memberId' : memberId,
+					'reviewTitle' : reviewTitle,
+					'reviewContent' : reviewContent,
+					'reviewRating' : reviewRating,
+					'foodId' : foodId
+			}
+			console.log(obj);
+			
+			// $.ajax로 송수신
+			$.ajax({
+				type : 'POST', // 메서드 타입
+				url : '../review', // url
+				headers : { // 헤더 정보
+					'Content-Type' : 'application/json'
+				}, 
+				data : JSON.stringify(obj),
+				success : function(result) {
+					console.log(result);
+					if(result == 1) {
+						alert('댓글 입력 성공');
+						getAllReply();		
+					}
 				}
 			});
+		}); // end btnAdd.click()
+		
+		function getAllReply() {
+			var foodId = ${FoodVO.foodId};
+			
+			var url = '../review/all/' + foodId;
+			$.getJSON(
+				url, 		
+				function(data) {
+					console.log(data);
+					
+					var list = '';
+					
+					$(data).each(function(){
+						console.log(this);
+					  
+						var reviewDateCreated = new Date(this.reviewDateCreated);
+
+						list += '<div class="reply_item">'
+							+ '<pre>'
+							+ '<input type="hidden" id="reviewId" value="'+ this.reviewId +'">'
+							+ this.memberId
+							+ '&nbsp;&nbsp;'
+							+ '<input type="text" id="reviewTitle" value="'+ this.reviewTitle +'">'
+							+ '&nbsp;&nbsp;'
+							+ '<input type="text" id="reviewContent" value="'+ this.reviewContent +'">'
+							+ '&nbsp;&nbsp;'
+							+ '<input type="text" id="reviewRating" value="'+ this.reviewRating +'">'
+							+ reviewDateCreated
+							+ '&nbsp;&nbsp;'
+							+ '<button class="btn_update" >수정</button>'
+							+ '<button class="btn_delete" >삭제</button>'
+							+ '</pre>'
+							+ '</div>';
+					}); // end each()
+						
+					$('#review').html(list);
+				} // end function()
+			); // end getJSON()
+		} // end getAllReply()
+		
+		
+		$('#review').on('click', '.reply_item .btn_update', function(){
+			console.log(this);
+			
+			let reviewId = $(this).prevAll('#reviewId').val();
+			let reviewTitle = $(this).prevAll('#reviewTitle').val();
+			let reviewContent = $(this).prevAll('#reviewContent').val();
+			let reviewRating = $(this).prevAll('#reviewRating').val();
+			
+			let obj = {'reviewId' : reviewId, 'reviewTitle' : reviewTitle, 'reviewContent' : reviewContent, 'reviewRating' : reviewRating};
+			
+			$.ajax({
+				type : 'PUT', 
+				url : '../review/' + reviewId,
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				data : JSON.stringify(obj), 
+				success : function(result) {
+					console.log(result);
+					if(result == 1) {
+						alert('댓글 수정 성공!');
+						getAllReply();
+					}
+				}
+			});
+			
+		}); // end replies.on()
+		
+		// 삭제 버튼을 클릭하면 선택된 댓글 삭제
+		$('#review').on('click', '.reply_item .btn_delete', function(){
+			console.log(this);
+			let reviewId = $(this).prevAll('#reviewId').val();
+			
+			// ajax 요청
+			$.ajax({
+				type : 'DELETE', 
+				url : '../review/' + reviewId,
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				success : function(result) {
+					console.log(result);
+					if(result == 1) {
+						alert('댓글 삭제 성공!');
+						getAllReply();
+					}
+				}
+			});
+		}); // end replies.on()		
+
+	}); // end document()
 	</script>
 </body>
 </html>

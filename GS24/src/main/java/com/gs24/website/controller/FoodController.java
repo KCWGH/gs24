@@ -47,53 +47,43 @@ public class FoodController {
 			model.addAttribute("memberVO", memberVO);
 		}
 		List<FoodVO> FoodList = foodService.getAllFood();
+		List<ImgFoodVO> ImgList = imgFoodService.getAllImgFood();
 		model.addAttribute("FoodList", FoodList);
+		model.addAttribute("ImgList", ImgList);
 	}
 
 	@GetMapping("/register")
 	public void registerGET() {
-		log.info("registerGET() ����");
+		log.info("registerGET()");
 	}
 
 	@PostMapping("/register")
-	// ���⿡ multipartfile file�� �´ٰ� �ϸ�
 	public String registerPOST(FoodVO foodVO, MultipartFile file) {
-		log.info("registerPOST() ����");
+		log.info("registerPOST()");
 		log.info(foodVO);
 		log.info(file.getOriginalFilename());
 		foodService.CreateFood(foodVO);
 
 		ImgFoodVO imgFoodVO = new ImgFoodVO();
 		imgFoodVO.setFile(file);
-		log.info("���� �̸� : " + file.getOriginalFilename());
-		log.info("���� ũ�� : " + file.getSize());
+		log.info("file name : " + file.getOriginalFilename());
+		log.info("file size : " + file.getSize());
 
 		FoodVO VO = foodService.getFirstFoodId();
 
-		// �̰� DB�� �����Ǵ� foodId �̰ɷ� �����ϸ鼭 �ϸ� �ɵ�
 		String chgName = "FoodNO" + VO.getFoodId();
-		// ���� ����
 		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-		// ���� ���� �̸� ����
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		// ���� ���� �̸� ����
 		imgFoodVO.setImgFoodChgName(chgName);
-		// ���� Ȯ���� ����
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// ���� ��� ����
 		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
 				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// foodId ����
 		imgFoodVO.setFoodId(VO.getFoodId());
 		if (hasFile) {
-			// ������ ������ update
-			log.info("������ �̹� �����մϴ�.");
-			imgFoodService.updateImgFood(imgFoodVO);
+			log.info("Failed insert image");
 		} else {
-			// ������ ������ insert
-			log.info("������ �������� �ʽ��ϴ�.");
 			imgFoodService.createImgFood(imgFoodVO);
 		}
 
@@ -104,61 +94,51 @@ public class FoodController {
 
 	@GetMapping("/detail")
 	public void detailGET(Model model, Integer foodId) {
-		log.info("detailGET() ����");
+		log.info("detailGET()");
 		FoodVO foodVO = foodService.getFoodById(foodId);
 		model.addAttribute("FoodVO", foodVO);
 		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
-		// ���� ��ΰ� http:// �̰ž� �Ѵٴ� ����? �ٵ� �̷��� GET������� �ϸ� �ƿ� �ٸ���������
-		// ���� ����ϴ°� �ƴѰ�?
-		// TODO �񵿱� ������� �̹����� �ҷ��;� ���� ���ϴ� ����� �´� �ǰ�
-		// <img alt=""
-		// src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${f.atchFileName}&filePath=${f.atchPath}"
-		// width="50px" height="50px">
 
 	}
 
 	@GetMapping("/update")
 	public void updateGET(Model model, Integer foodId) {
-		log.info("updateGET() ����");
+		log.info("updateGET()");
 		FoodVO foodVO = foodService.getFoodById(foodId);
 		model.addAttribute("FoodVO", foodVO);
 	}
 
 	@PostMapping("/update")
 	public String updatePOST(FoodVO foodVO, MultipartFile file) {
-		log.info("updatePOST() ����");
+		log.info("updatePOST()");
 		int result = foodService.updateFood(foodVO);
 
 		ImgFoodVO imgFoodVO = new ImgFoodVO();
 		imgFoodVO.setFile(file);
-		log.info("���� �̸� : " + file.getOriginalFilename());
-		log.info("���� ũ�� : " + file.getSize());
+		log.info("file name : " + file.getOriginalFilename());
+		log.info("file size : " + file.getSize());
 
-		// �̰� DB�� �����Ǵ� foodId �̰ɷ� �����ϸ鼭 �ϸ� �ɵ�
-		String chgName = foodVO.getFoodId() + "�� ��ǰ";
-		// ���� ����
+		String chgName = "FoodNO" + foodVO.getFoodId();
+
 		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-		// ���� ���� �̸� ����
+
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		// ���� ���� �̸� ����
+
 		imgFoodVO.setImgFoodChgName(chgName);
-		// ���� Ȯ���� ����
+
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// ���� ��� ����
+
 		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
 				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// foodId ����
+
 		imgFoodVO.setFoodId(foodVO.getFoodId());
 		if (hasFile) {
-			// ������ ������ update
-			log.info("������ �����Ͽ� update");
+			log.info("Successed update image");
 			imgFoodService.updateImgFood(imgFoodVO);
 		} else {
-			// ������ ������ insert
-			log.info("������ �������� �ʾ� insert");
-			imgFoodService.createImgFood(imgFoodVO);
+			log.info("Failed update image");
 		}
 
 		log.info(imgFoodVO);

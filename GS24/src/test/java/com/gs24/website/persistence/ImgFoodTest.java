@@ -1,5 +1,7 @@
 package com.gs24.website.persistence;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,13 @@ public class ImgFoodTest {
 	
 	public void insert() {
 		ImgFoodVO vo =  new ImgFoodVO();
-		vo.setFoodId(0);
-		vo.setFoodId(7);
-		vo.setImgFoodPath("C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\ImgFood식품 사진\\7번식품.png");
+		vo.setFoodId(1);
+		vo.setImgFoodPath("C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp\\ImgFood\\FoodNo1.png");
 		vo.setImgFoodRealName("이거 어디서 나온거냐");
-		vo.setImgFoodChgName("7번식품");
+		vo.setImgFoodChgName("FoodNo1.png");
 		vo.setImgFoodExtension("png");
-		vo.setImgFoodDateCreated(null);
+		Date date = new Date();
+		vo.setImgFoodDateCreated(date);
 		imgFoodMapper.insertImgFood(vo);
 	}
 	
@@ -51,7 +53,7 @@ public class ImgFoodTest {
 	}
 	
 	public void selectList() {
-		
+		log.info(imgFoodMapper.selectAllImagFood());
 	}
 	
 	public void delete() {

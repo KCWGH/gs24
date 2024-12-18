@@ -114,12 +114,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.3</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
@@ -188,36 +182,16 @@
 			<version>5.2.2.RELEASE</version>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.3</version>
 		</dependency>
 
 		<dependency>
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-databind</artifactId>
-         <version>2.12.5</version>
-      </dependency>
-<<<<<<< Updated upstream
-=======
-		
->>>>>>> Stashed changes
-=======
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.12.5</version>
 		</dependency>
-<<<<<<< HEAD
 
 		<dependency>
 			<groupId>com.sun.mail</groupId>
@@ -225,9 +199,6 @@
 			<version>1.6.2</version>
 		</dependency>
 
-=======
->>>>>>> Stashed changes
->>>>>>> c366c08dc1ff87280f5da0a1dbabf6a230862cb9
 	</dependencies>
 	<build>
 		<plugins>
