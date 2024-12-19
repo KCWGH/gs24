@@ -9,4 +9,6 @@ public interface CouponMapper {
 	int insertCoupon(CouponVO couponVO);
 	
 	List<CouponVO> selectList(String memberId);
+	
+	
 }

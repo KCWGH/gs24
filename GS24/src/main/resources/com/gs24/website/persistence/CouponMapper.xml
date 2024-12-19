@@ -9,6 +9,7 @@
 		<result property="memberId" column="MEMBER_ID" />
 		<result property="couponGrantDate" column="COUPON_GRANT_DATE" />
 		<result property="couponExpiredDate" column="COUPON_EXPIRED_DATE" />
+		<result property="discountRate" column="DISCOUNT_RATE"/>
 		<result property="isValid" column="IS_VALID" />
 		<result property="isUsed" column="IS_USED" />
 	</resultMap>
@@ -16,13 +17,13 @@
 	<insert id="insertCoupon">
 		INSERT INTO COUPON
 		(COUPON_ID, COUPON_NAME, MEMBER_ID, COUPON_GRANT_DATE,
-		COUPON_EXPIRED_DATE, IS_VALID, IS_USED) VALUES
+		COUPON_EXPIRED_DATE, DISCOUNT_RATE, IS_VALID, IS_USED) VALUES
 		(COUPON_SEQ.NEXTVAL, #{couponName},
-		#{memberId}, SYSDATE, SYSDATE, 1, 0)
+		#{memberId}, SYSDATE, SYSDATE, #{discountRate}, 1, 0)
 	</insert>
 	
 	<select id="selectList" resultMap="couponResultMap">
 		SELECT * FROM COUPON ORDER
-		BY MEMBER_ID DESC
+		BY COUPON_GRANT_DATE DESC
 	</select>
 </mapper>

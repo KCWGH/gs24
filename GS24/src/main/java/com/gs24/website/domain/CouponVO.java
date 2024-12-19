@@ -19,6 +19,7 @@ public class CouponVO {
 	String memberId;
 	Date couponGrantDate;
 	Date couponExpiredDate;
+	int discountRate;
 	int isValid;
 	int isUsed;
 }

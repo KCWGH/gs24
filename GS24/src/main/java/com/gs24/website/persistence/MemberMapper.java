@@ -12,11 +12,13 @@ public interface MemberMapper {
 	int login(@Param("memberId") String memberId, @Param("password") String password);
 
 	MemberVO select(String memberId);
-	
+
 	int updatePassword(MemberVO memberVO);
 	
+	int updatePassword(@Param("memberId") String memberId, @Param("password") String password);
+
 	int updateEmail(MemberVO memberVO);
-	
+
 	int updatePhone(MemberVO memberVO);
 
 	int delete(String memberId);
@@ -30,10 +32,10 @@ public interface MemberMapper {
 	String findId(String email);
 
 	String findEmailById(String memberId);
-	
+
 	String findPhoneById(String memberId);
-	
+
 	String findPwById(String memberId);
 
-	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 }

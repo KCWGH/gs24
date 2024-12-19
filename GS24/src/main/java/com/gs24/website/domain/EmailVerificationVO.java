@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class EmailVerificationVO {
-	private String email; // 이메일
-	private String verificationCode; // 인증번호
-	private String memberId;
+	private int EmailVerificationId;
+	private String email;
+	private String verificationCode;
 }

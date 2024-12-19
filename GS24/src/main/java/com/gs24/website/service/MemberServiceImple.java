@@ -14,8 +14,13 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public int register(MemberVO memberVO) {
-		// 회원 가입 처리
-		return memberMapper.insertUser(memberVO);
+		String memberId = memberVO.getMemberId();
+		String email = memberVO.getEmail();
+		String phone = memberVO.getPhone();
+		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
+			return memberMapper.insertUser(memberVO);
+		}
+		return 0;
 	}
 
 	@Override
@@ -39,6 +44,11 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int updateMemberPassword(MemberVO memberVO) {
 		return memberMapper.updatePassword(memberVO);
+	}
+
+	@Override
+	public int updateMemberPassword(String memberId, String password) {
+		return memberMapper.updatePassword(memberId, password);
 	}
 
 	@Override
@@ -79,10 +89,15 @@ public class MemberServiceImple implements MemberService {
 	public String findEmailById(String memberId) {
 		return memberMapper.findEmailById(memberId);
 	}
-	
+
 	@Override
 	public String findPhoneById(String memberId) {
 		return memberMapper.findPhoneById(memberId);
+	}
+
+	@Override
+	public int dupCheckIdAndEmail(String memberId, String email) {
+		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
 	}
 
 }

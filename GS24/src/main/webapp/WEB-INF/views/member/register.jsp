@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
         let isIdChecked = false;
         let isEmailChecked = false;
@@ -21,7 +21,7 @@
             }
 
             $.ajax({
-                url: 'dupcheckid',
+                url: 'dup-check-id',
                 type: 'POST',
                 data: { memberId: memberId },
                 success: function(response) {
@@ -48,7 +48,7 @@
             }
 
             $.ajax({
-                url: 'dupcheckemail',
+                url: 'dup-check-email',
                 type: 'POST',
                 data: { email: email },
                 success: function(response) {
@@ -75,7 +75,7 @@
             }
 
             $.ajax({
-                url: 'dupcheckphone',
+                url: 'dup-check-phone',
                 type: 'POST',
                 data: { phone: phone },
                 success: function(response) {
@@ -109,28 +109,32 @@
         }
 
         function updateSubmitButton() {
+            // 모든 조건이 만족되면 버튼을 활성화
             if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#registerBtn').prop('disabled', false);
+                $('#btnRegister').prop('disabled', false);
             } else {
-                $('#registerBtn').prop('disabled', true);
+                $('#btnRegister').prop('disabled', true);
             }
         }
 
-        $('#memberId').on('input', function() {
-            isIdChecked = false;
-            updateSubmitButton();
+        // 입력 필드에 값이 변경되면 회원가입 버튼 비활성화
+        $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
+            // 필드 값이 수정되면 해당 필드에 맞는 상태를 false로 초기화
+            if (this.id === 'memberId') {
+                isIdChecked = false;
+            } else if (this.id === 'email') {
+                isEmailChecked = false;
+            } else if (this.id === 'phone') {
+                isPhoneChecked = false;
+            } else if (this.id === 'password' || this.id === 'passwordConfirm') {
+                isPasswordMatched = false;
+            }
+
+            // 버튼을 비활성화
+            $('#btnRegister').prop('disabled', true);
         });
 
-        $('#email').on('input', function() {
-            isEmailChecked = false;
-            updateSubmitButton();
-        });
-
-        $('#phone').on('input', function() {
-            isPhoneChecked = false;
-            updateSubmitButton();
-        });
-
+        // 비밀번호 확인
         $('#password, #passwordConfirm').on('input', function() {
             checkPw();
         });
@@ -185,7 +189,7 @@
         </div>
 
         <div>
-            <button type="submit" id="registerBtn" disabled>회원가입</button>
+            <button type="submit" id="btnRegister" disabled>회원가입</button>
             <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
         </div>
     </form>
