@@ -7,13 +7,23 @@ import com.gs24.website.domain.MemberVO;
 
 @Mapper
 public interface MemberMapper {
-   int insertUser(MemberVO memberVO);
+	int insertUser(MemberVO memberVO);
 
-   int login(@Param("memberId") String memberId, @Param("password") String password);
+	int login(@Param("memberId") String memberId, @Param("password") String password);
 
-   MemberVO select(String memberId);
+	MemberVO select(String memberId);
 
+<<<<<<< HEAD
 	int update(MemberVO memberVO);
+=======
+	int updatePassword(MemberVO memberVO);
+	
+	int updatePassword(@Param("memberId") String memberId, @Param("password") String password);
+
+	int updateEmail(MemberVO memberVO);
+
+	int updatePhone(MemberVO memberVO);
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 
 	int delete(String memberId);
 
@@ -26,9 +36,15 @@ public interface MemberMapper {
 	String findId(String email);
 
 	String findEmailById(String memberId);
-	
+
+	String findPhoneById(String memberId);
+
 	String findPwById(String memberId);
 
+<<<<<<< HEAD
 	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 	
+=======
+	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 }

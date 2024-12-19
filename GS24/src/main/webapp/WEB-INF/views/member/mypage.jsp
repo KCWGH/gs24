@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -33,7 +33,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< HEAD
                 url: "updatePw",
+=======
+                url: "update-pw",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -77,7 +81,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< HEAD
                 url: "updateEmail",
+=======
+                url: "update-email",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -123,7 +131,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< HEAD
                 url: "updatePhone",
+=======
+                url: "update-phone",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),

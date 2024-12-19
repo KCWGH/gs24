@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.NoticeVO;
@@ -30,24 +29,32 @@ public class NoticeController {
 	
 	// 전체 게시글 데이터를 list.jsp 페이지로 전송
 	@GetMapping("/list")
-	public void list(Model model, Pagination pagination, HttpSession session, @RequestParam(value = "noticeTitle", required = false) String noticeTitle) {
-	    log.info("search() with title = " + noticeTitle);
-	    List<NoticeVO> noticeList;
-	    if (noticeTitle != null && !noticeTitle.isEmpty()) {
-	        noticeList = noticeService.getNoticesByTitle(noticeTitle);
-	    } else {
-	        noticeList = noticeService.getPagingNotices(pagination);
+	public void list(Model model, Pagination pagination, HttpSession session) {
+	    log.info("list()");
+	    log.info("pagination = " + pagination);
+	    
+	    // 세션에서 memberVO 가져오기
+	    MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	    
+	    // memberVO가 null이면 경고 로그 출력
+	    if (memberVO == null) {
+	        log.warn("세션에 memberVO가 존재하지 않습니다. 로그인 필요.");
 	    }
+	    
+	    // 공지사항 목록 가져오기
+	    List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);
 
 	    // 페이지 메이커 생성
 	    PageMaker pageMaker = new PageMaker();
 	    pageMaker.setPagination(pagination);
 	    pageMaker.setTotalCount(noticeService.getTotalCount());
 
-	    // 모델에 데이터 추가
-	    model.addAttribute("noticeList", noticeList);
+	    // 모델에 값 추가
 	    model.addAttribute("pageMaker", pageMaker);
-	    model.addAttribute("title", noticeTitle);  // 검색어를 JSP로 전달
+	    model.addAttribute("noticeList", noticeList);
+	    
+	    // 세션에서 가져온 memberVO를 모델에 추가
+	    model.addAttribute("memberVO", memberVO); // memberVO를 JSP로 전달
 	}
 	
 	// register.jsp 호출
@@ -101,25 +108,4 @@ public class NoticeController {
 	    log.info(result + "행 삭제");
 	    return "redirect:/notice/list";
 	}
-	
-	// 제목으로 게시글 검색
-    @GetMapping("/search")
-    public String search(Model model, @RequestParam String noticeTitle, Pagination pagination) {
-        log.info("search() with title = " + noticeTitle);
-        
-        // 제목으로 검색한 게시글 리스트 가져오기
-        List<NoticeVO> noticeList = noticeService.getNoticesByTitle(noticeTitle);
-
-        // 페이지 메이커 생성
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setPagination(pagination);
-        pageMaker.setTotalCount(noticeService.getTotalCount());
-
-        // 모델에 데이터 추가
-        model.addAttribute("noticeList", noticeList);
-        model.addAttribute("pageMaker", pageMaker);
-        model.addAttribute("title", noticeTitle);  // 검색어를 JSP로 전달
-
-        return "redirect:/notice/list"; // 목록 페이지로 리턴
-    }
 }

@@ -18,29 +18,60 @@ public class MemberMapperTest {
 
 	@Autowired
 	private MemberMapper memberMapper;
-	
-	@Autowired
-	private ForgotPasswordMapper forgotPasswordMapper;
 
+	@Autowired
+	private EmailVerificationMapper emailVerificationMapper;
+	
 	@Test
 	public void test() {
 		// testInsertUser();
 		// testselect();
 		// testlogin();
 		// testFindId();
+<<<<<<< HEAD
 		//testUpdate();
 		//testverify();
 		
 		testfindemail();
+=======
+		// testUpdate();
+		// testverify();
+
+		// testfindemail();
+
+		// testupdatepassword();
+		// testupdateEmail();
+	}
+
+	private void testupdateEmail() {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId("test");
+		memberVO.setEmail("new@naver.com");
+		int result = memberMapper.updateEmail(memberVO);
+		log.info(result + "개 이메일 수정 완료");
+
+	}
+
+	private void testupdatepassword() {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId("test");
+		memberVO.setPassword("1234");
+		int result = memberMapper.updatePassword(memberVO);
+
+		log.info(result + "개 비밀번호 수정 완료");
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	}
 
 	private void testfindemail() {
 		String result = memberMapper.findEmailById("test");
+<<<<<<< HEAD
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
 		memberVO.setEmail("�뒋21");
 		memberVO.setPhone("�닔123123123");
 		int result1 = memberMapper.update(memberVO);
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 		log.info(result);
 	}
 

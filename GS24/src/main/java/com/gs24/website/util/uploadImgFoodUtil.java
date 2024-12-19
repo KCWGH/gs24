@@ -10,9 +10,21 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class uploadImgFoodUtil {
+<<<<<<< HEAD
 
     public static String subStrName(String fileName) {
        // FilenameUtils.normalize() :       ̸      ȭ  ޼   
+=======
+	
+	/**
+     * ���� �̸����� Ȯ���ڸ� ������ ���� ���� �̸��� ����
+     * 
+     * @param fileName ���� �̸�
+     * @return ���� ���� �̸�
+     */
+    public static String subStrName(String fileName) {
+    	// FilenameUtils.normalize() : ���� �̸� ����ȭ �޼���
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         String normalizeName = FilenameUtils.normalize(fileName);
         int dotIndex = normalizeName.lastIndexOf('.');
 
@@ -20,17 +32,31 @@ public class uploadImgFoodUtil {
         return realName;
     }
     
+<<<<<<< HEAD
 
+=======
+    /**
+     * ���� �̸����� Ȯ���ڸ� ����
+     * 
+     * @param fileName ���� �̸�
+     * @return Ȯ����
+     */
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
     public static String subStrExtension(String fileName) {
 
         int dotIndex = fileName.lastIndexOf('.');
 
+<<<<<<< HEAD
+=======
+        // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         String extension = fileName.substring(dotIndex + 1);
 
         return extension;
     }
     
     public static String makeDir() {
+<<<<<<< HEAD
 
     	return "ImgFood\\";
     }
@@ -39,6 +65,22 @@ public class uploadImgFoodUtil {
        
        boolean hasFile = false;
        
+=======
+    	return "ImgFood\\";
+    }
+    
+    /**
+     * ������ ����
+     * 
+     * @param uploadPath ���� ���ε� ���
+     * @param file ���ε�� ����
+     * @param uuid UUID
+     */
+    public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
+    	
+    	boolean hasFile = false;
+    	
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         File realUploadPath = new File(uploadPath,makeDir());
         if (!realUploadPath.exists()) {
             realUploadPath.mkdirs();
@@ -49,8 +91,12 @@ public class uploadImgFoodUtil {
         
         File saveFile = new File(realUploadPath, chgName);
         if(!saveFile.exists()) {
+<<<<<<< HEAD
         	
         	log.info("������ �����ϴ�.");
+=======
+        	log.info("������ �����ϴ�.");
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         } else {
         	hasFile = true;
         }
@@ -66,13 +112,28 @@ public class uploadImgFoodUtil {
         
         return hasFile;
     }
+<<<<<<< HEAD
 
+=======
+    
+    /**
+     * ������ ����
+     * 
+     * @param uploadPath ���� ���ε� ���
+     * @param path ������ ����� ��¥ ���
+     * @param chgName ����� ���� �̸�
+     */
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
     public static void deleteFile(String uploadPath,String chgName) {
     	
         String fullPath = uploadPath + File.separator + makeDir() + chgName;
           
         File file = new File(fullPath);
         
+<<<<<<< HEAD
+=======
+        // ������ �����ϴ��� Ȯ���ϰ� ����
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         if(file.exists()) {
             if(file.delete()) {
                 System.out.println(fullPath + " file delete success.");

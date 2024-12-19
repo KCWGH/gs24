@@ -1,7 +1,5 @@
 package com.gs24.website.domain;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +11,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CouponVO {
-	int couponId;
-	String couponName;
-	String memberId;
-	Date couponGrantDate;
-	Date couponExpiredDate;
-	int discountRate;
-	int isValid;
-	int isUsed;
+public class EmailVerificationVO {
+	private int EmailVerificationId;
+	private String email;
+	private String verificationCode;
 }

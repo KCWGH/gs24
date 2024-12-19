@@ -55,15 +55,5 @@
 	<select id="selectTotalCount" resultType="Integer">
 		SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
 	 </select>
-	 
-	 <!-- 제목으로 검색 (noticeTitle을 사용) -->
-    <select id="selectListByTitle" resultMap="noticeResultMap">
-    SELECT * FROM NOTICE
-    WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
-    ORDER BY NOTICE_DATE_CREATED DESC
-	</select>
-
-    
-    
 
 </mapper>

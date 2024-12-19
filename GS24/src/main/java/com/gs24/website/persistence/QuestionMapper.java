@@ -19,6 +19,4 @@ public interface QuestionMapper {
 	List<QuestionVO> selectListByPagination(Pagination pagination); // 전체 게시글 페이징 처리
 	
 	int selectTotalCount();
-	
-	int updateAnswer(int questionId); //답변 상태 변경
 }
