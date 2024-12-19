@@ -25,5 +25,7 @@ public interface FoodMapper {
 	
 	int updateFoodProteinFatCarb(@Param("foodId") int foodId,@Param("foodProtein") int foodProtein,@Param("fat") int foodFat,@Param("foodCarb") int foodCarb);
 	
+	int updateFoodAmountByPreorderAmount(@Param("foodId") int foodId, @Param("preorderAmount") int preorderAmount);
+	
 	int deleteFood(int foodId);
 }

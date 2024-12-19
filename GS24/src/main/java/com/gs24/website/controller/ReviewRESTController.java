@@ -30,6 +30,7 @@ public class ReviewRESTController {
 	@PostMapping
 	public ResponseEntity<Integer> createReview(@RequestBody ReviewVO reviewVO){
 		log.info("createReview()");
+		log.info(reviewVO);
 		Integer result = reviewService.createReview(reviewVO);
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}

@@ -63,7 +63,7 @@ public class MemberController {
          return "redirect:/food/list";
       }
       log.info("loginGET()");
-      return "redirect:/member/login";
+      return "/member/login";
    }
    
    @PostMapping("/login")

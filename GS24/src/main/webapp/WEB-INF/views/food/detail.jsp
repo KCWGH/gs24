@@ -25,7 +25,7 @@
 	<button onclick="locatioin.href='../preorder/register'">예약하기</button>
 	<hr>
 	<div style="text-align: center;">
-		<input type="text" id="memberId" >
+		<input type="text" id="memberId" readonly="readonly" value="${memberId }" >
 		<input type="text" id="reviewTitle">
 		<input type="text" id="reviewContent">
 		<input type="text" id="reviewRating">
@@ -89,21 +89,27 @@
 						console.log(this);
 					  
 						var reviewDateCreated = new Date(this.reviewDateCreated);
-
+						
+						let memberId = "${memberId}";
+						let disabled ='';
+						if(memberId != this.memberId){
+							disabled = 'disabled';
+						}
+						
 						list += '<div class="reply_item">'
 							+ '<pre>'
 							+ '<input type="hidden" id="reviewId" value="'+ this.reviewId +'">'
 							+ this.memberId
 							+ '&nbsp;&nbsp;'
-							+ '<input type="text" id="reviewTitle" value="'+ this.reviewTitle +'">'
+							+ '<input type="text" id="reviewTitle"'+disabled+' value="'+ this.reviewTitle+'">'
 							+ '&nbsp;&nbsp;'
-							+ '<input type="text" id="reviewContent" value="'+ this.reviewContent +'">'
+							+ '<input type="text" id="reviewContent"'+disabled+' value="'+ this.reviewContent +'">'
 							+ '&nbsp;&nbsp;'
-							+ '<input type="text" id="reviewRating" value="'+ this.reviewRating +'">'
+							+ '<input type="text" id="reviewRating" '+disabled+' value="'+ this.reviewRating +'">'
 							+ reviewDateCreated
 							+ '&nbsp;&nbsp;'
-							+ '<button class="btn_update" >수정</button>'
-							+ '<button class="btn_delete" >삭제</button>'
+							+ '<button class="btn_update" '+disabled+'>수정</button>'
+							+ '<button class="btn_delete" '+disabled+'>삭제</button>'
 							+ '</pre>'
 							+ '</div>';
 					}); // end each()

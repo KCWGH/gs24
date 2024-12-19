@@ -8,6 +8,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -38,6 +40,11 @@ public class RootConfig {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataScource());
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
+	}
+	
+	@Bean
+	public TransactionManager transactionManager() {
+		return new DataSourceTransactionManager(dataScource());
 	}
 
 } // end RootConfig

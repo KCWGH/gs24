@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.PreorderMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -17,10 +19,15 @@ public class PreorderServiceImple implements PreorderService{
 	@Autowired
 	private PreorderMapper preorderMapper;
 	
+	@Autowired
+	private FoodMapper foodMapper;
+	
 	@Override
+	@Transactional(value="transactionManager")
 	public int createPreorder(PreorderVO preorderVO) {
 		log.info("createPreorder()");
 		int result = preorderMapper.insertPreorder(preorderVO);
+		int updateResult = foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderVO.getPreorderAmount());
 		return result;
 	}
 
@@ -48,6 +55,7 @@ public class PreorderServiceImple implements PreorderService{
 	}
 
 	@Override
+	@Transactional(value="transactionManager")
 	public int deletePreorder(int preorderId) {
 		log.info("deletePreorder()");
 		int result = preorderMapper.deletePreorderByPreorderId(preorderId);
