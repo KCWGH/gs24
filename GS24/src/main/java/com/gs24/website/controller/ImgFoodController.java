@@ -1,7 +1,10 @@
 package com.gs24.website.controller;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,10 @@ import lombok.extern.log4j.Log4j;
 public class ImgFoodController {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	@Autowired
 	private String uploadPath;
 
@@ -69,5 +75,8 @@ public class ImgFoodController {
 		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 	}
 
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 }

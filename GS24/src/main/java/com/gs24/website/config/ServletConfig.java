@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 public class ServletConfig implements WebMvcConfigurer {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
    @Override
    public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -56,6 +57,17 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.viewResolver(viewResolver);
 	}
 
+=======
+	// ViewResolver 설정 메소드
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		registry.viewResolver(viewResolver);
+	}
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	// ResourceHandlers 설정 메소드
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -78,5 +90,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public String uploadPath() {
 		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
 	}
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 }

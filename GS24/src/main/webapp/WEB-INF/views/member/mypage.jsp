@@ -34,7 +34,11 @@
 		        };
 			$.ajax({
 <<<<<<< HEAD
+<<<<<<< HEAD
                 url: "updatePw",
+=======
+                url: "update-pw",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
                 url: "update-pw",
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
@@ -82,7 +86,11 @@
 		        };
 			$.ajax({
 <<<<<<< HEAD
+<<<<<<< HEAD
                 url: "updateEmail",
+=======
+                url: "update-email",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
                 url: "update-email",
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
@@ -132,7 +140,11 @@
 		        };
 			$.ajax({
 <<<<<<< HEAD
+<<<<<<< HEAD
                 url: "updatePhone",
+=======
+                url: "update-phone",
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
                 url: "update-phone",
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd

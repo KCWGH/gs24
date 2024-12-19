@@ -13,6 +13,7 @@ public class MemberServiceImple implements MemberService {
 	private MemberMapper memberMapper;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    @Override
    public int register(MemberVO memberVO) {
       // �쉶�썝 媛��엯 泥섎━
@@ -101,6 +102,42 @@ public class MemberServiceImple implements MemberService {
 		return memberMapper.updatePassword(memberVO);
 	}
 
+=======
+	@Override
+	public int register(MemberVO memberVO) {
+		String memberId = memberVO.getMemberId();
+		String email = memberVO.getEmail();
+		String phone = memberVO.getPhone();
+		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
+			return memberMapper.insertUser(memberVO);
+		}
+		return 0;
+	}
+
+	@Override
+	public int login(String memberId, String password) {
+		// 로그인 처리
+		return memberMapper.login(memberId, password);
+	}
+
+	@Override
+	public MemberVO getMember(String memberId) {
+		// 회원 정보 조회
+		return memberMapper.select(memberId);
+	}
+
+	@Override
+	public String findId(String email) {
+		// 이메일을 이용해 아이디 찾기
+		return memberMapper.findId(email);
+	}
+
+	@Override
+	public int updateMemberPassword(MemberVO memberVO) {
+		return memberMapper.updatePassword(memberVO);
+	}
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	@Override
 	public int updateMemberPassword(String memberId, String password) {
 		return memberMapper.updatePassword(memberId, password);
@@ -144,6 +181,20 @@ public class MemberServiceImple implements MemberService {
 	public String findEmailById(String memberId) {
 		return memberMapper.findEmailById(memberId);
 	}
+<<<<<<< HEAD
+
+	@Override
+	public String findPhoneById(String memberId) {
+		return memberMapper.findPhoneById(memberId);
+	}
+
+	@Override
+	public int dupCheckIdAndEmail(String memberId, String email) {
+		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
+	}
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 
 	@Override
 	public String findPhoneById(String memberId) {

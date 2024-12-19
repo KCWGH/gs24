@@ -11,10 +11,13 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class uploadImgFoodUtil {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     public static String subStrName(String fileName) {
        // FilenameUtils.normalize() :       ̸      ȭ  ޼   
 =======
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	
 	/**
      * ���� �̸����� Ȯ���ڸ� ������ ���� ���� �̸��� ����
@@ -24,6 +27,9 @@ public class uploadImgFoodUtil {
      */
     public static String subStrName(String fileName) {
     	// FilenameUtils.normalize() : ���� �̸� ����ȭ �޼���
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         String normalizeName = FilenameUtils.normalize(fileName);
         int dotIndex = normalizeName.lastIndexOf('.');
@@ -33,8 +39,11 @@ public class uploadImgFoodUtil {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
     /**
      * ���� �̸����� Ȯ���ڸ� ����
      * 
@@ -47,6 +56,10 @@ public class uploadImgFoodUtil {
         int dotIndex = fileName.lastIndexOf('.');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
         // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
@@ -57,6 +70,7 @@ public class uploadImgFoodUtil {
     
     public static String makeDir() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     	return "ImgFood\\";
     }
@@ -66,6 +80,8 @@ public class uploadImgFoodUtil {
        boolean hasFile = false;
        
 =======
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
     	return "ImgFood\\";
     }
     
@@ -80,6 +96,9 @@ public class uploadImgFoodUtil {
     	
     	boolean hasFile = false;
     	
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         File realUploadPath = new File(uploadPath,makeDir());
         if (!realUploadPath.exists()) {
@@ -92,12 +111,18 @@ public class uploadImgFoodUtil {
         File saveFile = new File(realUploadPath, chgName);
         if(!saveFile.exists()) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         	
         	log.info("������ �����ϴ�.");
 =======
         	log.info("������ �����ϴ�.");
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         } else {
+=======
+        	log.info("������ �����ϴ�.");
+        } else {
+        	log.info("���� ������ �����մϴ�.");
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         	hasFile = true;
         }
         
@@ -131,6 +156,10 @@ public class uploadImgFoodUtil {
         File file = new File(fullPath);
         
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        // ������ �����ϴ��� Ȯ���ϰ� ����
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
         // ������ �����ϴ��� Ȯ���ϰ� ����
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd

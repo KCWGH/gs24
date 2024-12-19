@@ -110,6 +110,7 @@
 
         function updateSubmitButton() {
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
                 $('#registerBtn').prop('disabled', false);
             } else {
@@ -129,6 +130,16 @@
             }
         }
 
+=======
+            // 모든 조건이 만족되면 버튼을 활성화
+            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
+                $('#btnRegister').prop('disabled', false);
+            } else {
+                $('#btnRegister').prop('disabled', true);
+            }
+        }
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         // 입력 필드에 값이 변경되면 회원가입 버튼 비활성화
         $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
             // 필드 값이 수정되면 해당 필드에 맞는 상태를 false로 초기화
@@ -144,16 +155,22 @@
 
             // 버튼을 비활성화
             $('#btnRegister').prop('disabled', true);
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         });
 
         // 비밀번호 확인
         $('#password, #passwordConfirm').on('input', function() {
             checkPw();
+<<<<<<< HEAD
         });
 
         $('#password, #passwordConfirm').on('input', function() {
             checkPw();
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
         });
     </script>
 </head>
@@ -207,7 +224,11 @@
 
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <button type="submit" id="registerBtn" disabled>회원가입</button>
+=======
+            <button type="submit" id="btnRegister" disabled>회원가입</button>
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
             <button type="submit" id="btnRegister" disabled>회원가입</button>
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd

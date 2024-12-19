@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
 
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
@@ -18,6 +22,11 @@ ul {
 }
 =======
 </head>
+<<<<<<< HEAD
+=======
+
+<body>
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 
 <body>
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd

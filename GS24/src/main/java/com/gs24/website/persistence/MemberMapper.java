@@ -14,8 +14,11 @@ public interface MemberMapper {
 	MemberVO select(String memberId);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int update(MemberVO memberVO);
 =======
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	int updatePassword(MemberVO memberVO);
 	
 	int updatePassword(@Param("memberId") String memberId, @Param("password") String password);
@@ -23,6 +26,9 @@ public interface MemberMapper {
 	int updateEmail(MemberVO memberVO);
 
 	int updatePhone(MemberVO memberVO);
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 
 	int delete(String memberId);
@@ -42,8 +48,12 @@ public interface MemberMapper {
 	String findPwById(String memberId);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 	
+=======
+	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
 	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd

@@ -5,8 +5,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 =======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberController {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
    @Autowired
    private MemberService memberService;
@@ -102,6 +106,39 @@ public class MemberController {
    public String loginPOST(String memberId, String password, HttpServletRequest request) {
       log.info("loginPOST()");
 =======
+=======
+	@Autowired
+	private MemberService memberService;
+
+	// register.jsp
+	@GetMapping("/register")
+	public String registerGET(HttpSession session) {
+		log.info("registerGET()");
+		if (session.getAttribute("memberId") != null) {
+			log.info("이미 로그인 상태");
+			return "redirect:/food/list";
+		}
+		log.info("로그인 페이지로 이동");
+		return "/member/register";
+	}
+
+	@PostMapping("/register")
+	public String registerPOST(@ModelAttribute MemberVO memberVO) {
+		log.info("registerPOST()");
+		int result = memberService.register(memberVO);
+		log.info(result + "개 행 등록 완료");
+		if (result == 1) {
+			return "redirect:/member/register-success";
+		}
+		return "redirect:/member/register-fail";
+	}
+
+	@GetMapping("/register-success")
+	public void registerSuccessGET() {
+		log.info("registerSuccessGET()");
+	}
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	@GetMapping("/register-fail")
 	public void registerFailGET() {
 		log.info("registerFailGET()");
@@ -141,6 +178,9 @@ public class MemberController {
 			return "redirect:/member/loginfail";
 		}
 	}
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 
 	@GetMapping("/loginfail")
@@ -148,6 +188,7 @@ public class MemberController {
 		log.info("loginFailGET()");
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       if (result == 1) {
          log.info("濡쒓렇�씤 �꽦怨�");
@@ -250,12 +291,50 @@ public class MemberController {
 		}
 	}
 
+=======
+	@GetMapping("/find-id")
+	public String findIdGET(HttpSession session) {
+		if (session.getAttribute("memberId") != null) {
+			log.info("findIdGET() - 세션이 이미 존재합니다");
+			return "redirect:/food/list";
+		}
+		log.info("findIdGET()");
+		return "/member/find-id";
+	}
+
+	@GetMapping("/find-pw")
+	public String findPwGET(HttpSession session) {
+		if (session.getAttribute("memberId") != null) {
+			log.info("findPwGET - 세션이 이미 존재합니다");
+			return "redirect:/food/list";
+		}
+		log.info("findPwGET");
+		return "/member/find-pw";
+	}
+
+	@GetMapping("/mypage")
+	public void mypageGET(HttpSession session, Model model) {
+		log.info("mypageGET()");
+		String memberId = (String) session.getAttribute("memberId");
+		if (memberId != null) {
+			MemberVO memberVO = memberService.getMember(memberId);
+			model.addAttribute("memberId", memberId);
+			model.addAttribute("memberVO", memberVO);
+		} else {
+			log.info("mypageGET() - 세션이 없습니다");
+		}
+	}
+
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		log.info("session.invalidate()");
 		return "redirect:../food/list";
 	}
+<<<<<<< HEAD
+>>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+=======
 >>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
 
 } // end BoardController
