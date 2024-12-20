@@ -29,7 +29,7 @@ import lombok.extern.log4j.Log4j;
 public class FoodController {
 
 	@Autowired
-	private MemberService memberMapper;
+	private MemberService memberService;
 	@Autowired
 	private FoodService foodService;
 	@Autowired
@@ -37,13 +37,12 @@ public class FoodController {
 	@Autowired
 	private String uploadPath;
 
-	// register.jsp
 	@GetMapping("/list")
 	public void listGET(HttpSession session, Model model) {
 		log.info("listGET()");
 		String memberId = (String) session.getAttribute("memberId");
 		if (memberId != null) {
-			MemberVO memberVO = memberMapper.getMember(memberId);
+			MemberVO memberVO = memberService.getMember(memberId);
 			model.addAttribute("memberVO", memberVO);
 		}
 		List<FoodVO> FoodList = foodService.getAllFood();

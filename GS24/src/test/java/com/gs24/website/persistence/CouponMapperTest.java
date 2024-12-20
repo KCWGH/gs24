@@ -23,7 +23,7 @@ public class CouponMapperTest {
 
 	@Test
 	public void test() {
-		//insertCoupon();
+		// insertCoupon();
 		selectList();
 	}
 

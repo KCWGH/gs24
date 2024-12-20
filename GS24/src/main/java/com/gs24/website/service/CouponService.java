@@ -6,7 +6,9 @@ import com.gs24.website.domain.CouponVO;
 
 public interface CouponService {
 
-	int addCoupon(CouponVO couponVO);
+	int grantCoupon(CouponVO couponVO);
 
 	List<CouponVO> getCouponList(String memberId);
+
+	int dupCheckCouponName(String couponName);
 }

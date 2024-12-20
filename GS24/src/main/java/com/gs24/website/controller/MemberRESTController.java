@@ -1,5 +1,6 @@
 package com.gs24.website.controller;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gs24.website.domain.MemberVO;
-import com.gs24.website.service.EmailVerificationService;
+import com.gs24.website.service.EmailService;
 import com.gs24.website.service.MemberService;
 
 import lombok.extern.log4j.Log4j;
@@ -26,7 +27,7 @@ public class MemberRESTController {
 	private MemberService memberService; // MemberService 사용
 
 	@Autowired
-	private EmailVerificationService emailVerificationService;
+	private EmailService emailService;
 
 	@PostMapping("/dup-check-id")
 	public ResponseEntity<String> dupcheckidPOST(String memberId) {
@@ -139,49 +140,33 @@ public class MemberRESTController {
 		}
 	}
 
-	// 이메일 인증번호 발송
-	@PostMapping("/send-verification-code")
-	public ResponseEntity<String> sendVerificationCodePOST(@RequestParam String email) {
-		try {
-			emailVerificationService.sendVerificationCode(email);
-			log.info("sendVerificationCodePOST()");
-			return ResponseEntity.ok("Sending Success");
-		} catch (Exception e) { // 서버 에러나면
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
-		}
-	}
-
-	// 인증번호 확인 후 회원 ID 찾기
 	@PostMapping("/find-id")
-	public ResponseEntity<String> findIdPOST(@RequestParam String email, @RequestParam String verificationCode) {
+	public ResponseEntity<String> sendVerificationEmail(String email) {
+		int result = memberService.dupCheckEmail(email);
+		if (result == 0) {
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("do not exist");
+		}
 		try {
-			// 인증번호와 이메일이 맞으면 회원 ID를 찾음
-			String memberId = emailVerificationService.verifyCodeAndFindMemberId(email, verificationCode);
-			if (memberId != null) {
-				log.info("findIdPOST()");
-				return ResponseEntity.ok(memberId);
-			} else {
-				return ResponseEntity.ok(memberId);
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}"); // 서버 오류 응답
+			emailService.sendVerificationEmail(email);
+			log.info("여기입니다.");
+			return ResponseEntity.ok("Sending Code Success");
+		} catch (MessagingException e) {
+			log.info("아뇨 여기입니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sending Code Fail");
 		}
 	}
 
-	@PostMapping("/find-pw")
-	public ResponseEntity<String> findPwPOST(@RequestParam String memberId, @RequestParam String email,
-			@RequestParam String verificationCode) {
-		try {
-			// 인증번호와 이메일이 맞으면 회원 ID를 찾음
-			int result = emailVerificationService.verifyCodeAndFindPw(memberId, email, verificationCode);
-			if (result == 1) {
-				log.info("findPwPOST()");
-				return ResponseEntity.ok("1");
-			} else {
-				return ResponseEntity.ok("0");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}"); // 서버 오류 응답
+	// TODO : 비밀번호 찾기 구현
+
+	@PostMapping("/verifyCode")
+	public ResponseEntity<String> verifyCode(@RequestParam("email") String email, @RequestParam("code") String code) {
+		if (emailService.verifyCode(email, code)) {
+			// 인증이 완료되면 해당 이메일로 아이디를 찾기
+			String memberId = memberService.findId(email);
+			return ResponseEntity.ok("인증번호가 일치합니다. 아이디는 " + memberId + "입니다.");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호가 일치하지 않습니다.");
 		}
 	}
 
@@ -204,7 +189,7 @@ public class MemberRESTController {
 
 	@PostMapping("/delete")
 	public ResponseEntity<String> deletePOST(String memberId, HttpSession session) {
-		int result = memberService.deleteMember(memberId); // 서비스 레이어 사용
+		int result = memberService.deleteMember(memberId);
 		if (result == 0) { // 삭제가 안 되면
 			log.info("삭제 실패");
 			return ResponseEntity.ok("Delete Fail");

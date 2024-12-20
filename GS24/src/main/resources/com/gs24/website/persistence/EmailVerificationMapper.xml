@@ -4,15 +4,13 @@
 <mapper
 	namespace="com.gs24.website.persistence.EmailVerificationMapper">
 
-	<!-- 이메일 인증번호 저장 -->
 	<insert id="insertVerificationCode">
 		INSERT INTO EMAIL_VERIFICATION (EMAIL_VERIFICATION_ID, EMAIL,
 		VERIFICATION_CODE)
 		VALUES (EMAILVERIFICATION_SEQ.NEXTVAL, #{email}, #{verificationCode})
 	</insert>
 
-	<!-- 인증번호 확인 후 회원 ID 찾기 -->
-	<select id="selectMemberIdByVerificationCode" parameterType="map" resultType="String">
+	<select id="selectMemberIdByVerificationCode" resultType="String">
 		SELECT M.MEMBER_ID
 		FROM MEMBER M
 		JOIN EMAIL_VERIFICATION EV
@@ -21,7 +19,7 @@
 		AND EV.VERIFICATION_CODE = #{verificationCode}
 	</select>
 	
-	<select id="selectIsExistByMemberIdAndEmailAndCode" parameterType="map" resultType="Integer">
+	<select id="selectIsExistByMemberIdAndEmailAndCode" resultType="Integer">
 		SELECT COUNT(*)
 		FROM MEMBER M
 		JOIN EMAIL_VERIFICATION EV

@@ -88,7 +88,7 @@ public class MemberController {
 			return "redirect:/food/list?loginSuccess=true";
 		} else {
 			log.info("로그인 실패");
-			return "redirect:/member/loginfail";
+			return "redirect:/member/login-fail";
 		}
 	}
 

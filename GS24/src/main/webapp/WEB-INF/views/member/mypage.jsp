@@ -170,6 +170,10 @@
                 }
             });
 		});
+		$("#couponList").click(function(event){
+			window.open("../coupon/list", "_blank", "width=600,height=450");
+		});
+		
 	});
 </script>
 </head>
@@ -242,11 +246,10 @@
 				<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			</div>
 
-			<c:if test="${memberVO.memberRole == 1}">
+			
 				<div class="btn-container">
 					<a href="#" id="couponList">쿠폰함</a>
 				</div>
-			</c:if>
 
 			<p id="deleteResultArea"></p>
 
