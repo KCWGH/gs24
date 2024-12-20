@@ -10,17 +10,17 @@ import com.gs24.website.util.Pagination;
 @Mapper
 public interface NoticeMapper {
 	   
-		int insert(NoticeVO vo); // 게시글 등록
+		int insert(NoticeVO vo);
 		
-		List<NoticeVO> selectList(); // 전체 게시글 조회
+		List<NoticeVO> selectList();
 		
-		NoticeVO selectOne(int noticeId); // 특정 게시글 조회
+		NoticeVO selectOne(int noticeId);
 		
-		int update(NoticeVO vo); // 특정 게시글 수정
+		int update(NoticeVO vo);
 		
-		int delete(int noticeId); // 특정 게시글 삭제
+		int delete(int noticeId);
 		
-		List<NoticeVO> selectListByPagination(Pagination pagination); // 전체 게시글 페이징 처리
+		List<NoticeVO> selectListByPagination(Pagination pagination);
 		
 		int selectTotalCount();
 }

@@ -31,18 +31,18 @@ public class EmailVerificationServiceImple implements EmailVerificationService {
 	@Override
 	@Transactional
 	public void sendVerificationCode(String email) throws Exception {
-		// 인증번호 생성
+
 		String verificationCode = generateVerificationCode();
-		// 이메일 인증 정보를 저장
+
 		EmailVerificationVO verification = new EmailVerificationVO();
 		verification.setEmail(email);
 		verification.setVerificationCode(verificationCode);
 		emailVerificationMapper.insertVerificationCode(verification);
-		log.info("요귀임");
+		log.info("�슂洹��엫");
 		sendEmail(email, verificationCode);
 	}
 
-	// 인증번호 생성 (6자리 랜덤 숫자)
+
 	private String generateVerificationCode() {
 		Random random = new Random();
 		StringBuilder sb = new StringBuilder();
@@ -52,9 +52,9 @@ public class EmailVerificationServiceImple implements EmailVerificationService {
 		return sb.toString();
 	}
 
-	// 이메일 전송
+
 	private void sendEmail(String email, String verificationCode) throws MessagingException {
-		// 메일 서버 설정
+
 		String host = "smtp.naver.com";
 		String port = "587";
 		String from = "nmbgsp95@naver.com";
@@ -77,15 +77,15 @@ public class EmailVerificationServiceImple implements EmailVerificationService {
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-		message.setSubject("<GS24> 이메일 인증번호");
-		message.setText("요청하신 인증번호는 " + verificationCode + " 입니다.");
+		message.setSubject("<GS24> �씠硫붿씪 �씤利앸쾲�샇");
+		message.setText("�슂泥��븯�떊 �씤利앸쾲�샇�뒗 " + verificationCode + " �엯�땲�떎.");
 
 		Transport.send(message);
 	}
 
 	@Override
 	public String verifyCodeAndFindMemberId(String email, String verificationCode) {
-		// 인증번호가 맞는지 확인 후 회원 ID 찾기
+
 		String memberId = emailVerificationMapper.selectMemberIdByVerificationCode(email, verificationCode);
 		return memberId;
 	}

@@ -13,6 +13,7 @@ public interface MemberMapper {
 
 	MemberVO select(String memberId);
 
+<<<<<<< Updated upstream
 	int updatePassword(MemberVO memberVO);
 	
 	int updatePassword(@Param("memberId") String memberId, @Param("password") String password);
@@ -20,6 +21,9 @@ public interface MemberMapper {
 	int updateEmail(MemberVO memberVO);
 
 	int updatePhone(MemberVO memberVO);
+=======
+	int update(MemberVO memberVO);
+>>>>>>> Stashed changes
 
 	int delete(String memberId);
 
@@ -32,10 +36,12 @@ public interface MemberMapper {
 	String findId(String email);
 
 	String findEmailById(String memberId);
-
-	String findPhoneById(String memberId);
-
+	
 	String findPwById(String memberId);
 
+<<<<<<< Updated upstream
 	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+=======
+	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+>>>>>>> Stashed changes
 }

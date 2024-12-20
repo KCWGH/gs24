@@ -31,7 +31,9 @@ li {
 		<a href="../notice/list"><button>공지사항</button></a>
 		<a href="../question/list"><button>문의사항(QnA)</button></a>
 	</c:if>
-
+	
+	<button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
+	
 	<hr>
 
 	<h1>식품 리스트</h1>
@@ -43,7 +45,7 @@ li {
 		<c:forEach var="FoodVO" items="${FoodList}">
 			<li class="List">
 				<%
-					//<p>${ImgList.get(FoodList.indexOf(FoodVO)).getImgFoodPath()}</p>
+				//<p>${FoodVO.imgFoodVO.imgFoodPath}</p>
 				%>
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>

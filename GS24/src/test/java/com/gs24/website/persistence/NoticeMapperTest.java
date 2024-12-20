@@ -1,5 +1,9 @@
 package com.gs24.website.persistence;
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +15,8 @@ import com.gs24.website.domain.NoticeVO;
 
 import lombok.extern.log4j.Log4j;
 
-@RunWith(SpringJUnit4ClassRunner.class) // 스프링 JUnit test 연결
-@ContextConfiguration(classes = { RootConfig.class }) // 설정 파일 연결
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { RootConfig.class })
 @Log4j
 public class NoticeMapperTest {
 
@@ -28,7 +32,7 @@ public class NoticeMapperTest {
 		log.info("testInsertNotice()");
 		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
 		int result = noticeMapper.insert(vo);
-		log.info(result + "행 삽입");
+		log.info(result + "�� ����");
 	}
 
 }

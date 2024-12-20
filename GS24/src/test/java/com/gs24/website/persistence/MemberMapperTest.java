@@ -28,6 +28,13 @@ public class MemberMapperTest {
 		// testselect();
 		// testlogin();
 		// testFindId();
+<<<<<<< Updated upstream
+=======
+		//testUpdate();
+		//testverify();
+		
+		testfindemail();
+>>>>>>> Stashed changes
 		// testUpdate();
 		// testverify();
 
@@ -41,7 +48,7 @@ public class MemberMapperTest {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
 		memberVO.setEmail("new@naver.com");
-		int result = memberMapper.updateEmail(memberVO);
+		int result = memberMapper.update(memberVO);
 		log.info(result + "개 이메일 수정 완료");
 
 	}
@@ -50,13 +57,25 @@ public class MemberMapperTest {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
 		memberVO.setPassword("1234");
-		int result = memberMapper.updatePassword(memberVO);
+		//int result = memberMapper.updatePassword(memberVO);
 
+<<<<<<< Updated upstream
 		log.info(result + "개 비밀번호 수정 완료");
+=======
+		log.info("개 비밀번호 수정 완료");
+>>>>>>> Stashed changes
 	}
 
 	private void testfindemail() {
 		String result = memberMapper.findEmailById("test");
+<<<<<<< Updated upstream
+=======
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId("test");
+		memberVO.setEmail("�뒋21");
+		memberVO.setPhone("�닔123123123");
+		int result1 = memberMapper.update(memberVO);
+>>>>>>> Stashed changes
 		log.info(result);
 	}
 

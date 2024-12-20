@@ -14,13 +14,8 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public int register(MemberVO memberVO) {
-		String memberId = memberVO.getMemberId();
-		String email = memberVO.getEmail();
-		String phone = memberVO.getPhone();
-		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
-			return memberMapper.insertUser(memberVO);
-		}
-		return 0;
+		// 회원 가입 처리
+		return memberMapper.insertUser(memberVO);
 	}
 
 	@Override
@@ -42,6 +37,7 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public int updateMemberPassword(MemberVO memberVO) {
 		return memberMapper.updatePassword(memberVO);
 	}
@@ -59,6 +55,11 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int updateMemberPhone(MemberVO memberVO) {
 		return memberMapper.updatePhone(memberVO);
+=======
+	public int updateMember(MemberVO memberVO) {
+		// 회원 정보 수정
+		return memberMapper.update(memberVO);
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int dupCheckEmail(String email) {
 		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email);
+		return memberMapper.dupCheckEmail(email); 
 	}
 
 	@Override
@@ -87,17 +88,47 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public String findEmailById(String memberId) {
-		return memberMapper.findEmailById(memberId);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String findPhoneById(String memberId) {
-		return memberMapper.findPhoneById(memberId);
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int updateMemberPassword(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberPassword(String memberId, String password) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberEmail(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberPhone(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int dupCheckIdAndEmail(String memberId, String email) {
-		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
+		// TODO Auto-generated method stub
+		return 0;
 	}
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }

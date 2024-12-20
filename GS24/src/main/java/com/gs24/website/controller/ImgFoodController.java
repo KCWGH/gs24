@@ -1,14 +1,20 @@
 package com.gs24.website.controller;
 
+<<<<<<< Updated upstream
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+<<<<<<< Updated upstream
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.ImgFoodVO;
 import com.gs24.website.util.uploadImgFoodUtil;
+=======
+>>>>>>> Stashed changes
 
 import lombok.extern.log4j.Log4j;
 
@@ -17,6 +23,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ImgFoodController {
 
+<<<<<<< Updated upstream
 	@Autowired
 	private String uploadPath;
 
@@ -61,4 +68,6 @@ public class ImgFoodController {
 		// uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+
 		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 	}
+=======
+>>>>>>> Stashed changes
 }

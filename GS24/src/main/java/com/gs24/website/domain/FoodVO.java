@@ -22,4 +22,5 @@ public class FoodVO {
 	private int foodFat;
 	private int foodCarb;
 	private Date registeredDate;
+	private ImgFoodVO imgFoodVO;
 }

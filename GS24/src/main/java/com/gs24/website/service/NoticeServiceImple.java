@@ -11,7 +11,7 @@ import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
-@Service // @Component : Spring이 관리하는 객체
+@Service
 @Log4j
 public class NoticeServiceImple implements NoticeService{
    

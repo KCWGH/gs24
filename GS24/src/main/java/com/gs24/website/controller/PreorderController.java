@@ -1,5 +1,8 @@
 package com.gs24.website.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
-import com.gs24.website.service.FoodService;
-import com.gs24.website.service.ImgFoodService;
 import com.gs24.website.service.PreorderService;
 
 import lombok.extern.log4j.Log4j;
@@ -23,25 +24,14 @@ import lombok.extern.log4j.Log4j;
 public class PreorderController {
 	
 	@Autowired
-	private FoodService foodService;
-	
-	@Autowired
-	private ImgFoodService imgFoodService;
-	
-	@Autowired
 	private PreorderService preorderService;
 	
 	@GetMapping("/register")
 	public void registerGET(Model model, int foodId, HttpSession session) {
 		log.info("registerGET()");
 		
-		FoodVO foodVO = foodService.getFoodById(foodId);
-		String ImgPath = imgFoodService.getImgFoodById(foodId).getImgFoodPath();
-		String memberId = (String)session.getAttribute("memberId");
-		log.info(memberId);
-		model.addAttribute("ImgPath", ImgPath);
+		FoodVO foodVO = preorderService.getFoodInfo(foodId);
 		model.addAttribute("foodVO", foodVO);
-		model.addAttribute("memberId", memberId);
 	}
 	
 	@PostMapping("/register")
@@ -50,18 +40,24 @@ public class PreorderController {
 		log.info(preorderVO);
 		int result = preorderService.createPreorder(preorderVO);
 		log.info(result + "row insert and FOOD DB update");
-		return "/food/list";
+		return "redirect:/food/list";
 	}
 	
 	@GetMapping("/list")
-	public void listGET() {
+	public void listGET(HttpSession session) {
 		log.info("listGET");
-	}
-	
-	//멤버ID가 있어야 가능한데 조금만 생각하자
-	@PostMapping("/delete")
-	public void deletePOST(String[] IDs) {
-		log.info("deletePOST");
-		log.info(IDs.length);
+		
+		String memberId = (String)session.getAttribute("memberId");
+		Date nowDate = new Date();
+		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
+		for(PreorderVO i : list) {
+			if(nowDate.after(i.getPickupDate())) {
+				log.info("예정일을 지났습니다.");
+				// 0 : 아직 지나지 않음 | 1 : 예정일이 지났음
+				preorderService.updateIsExpiredOrder(i.getPreorderId(), 1, i);
+			} else {
+				log.info("예정일이 아직 안지났습니다.");
+			}
+		}
 	}
 }
