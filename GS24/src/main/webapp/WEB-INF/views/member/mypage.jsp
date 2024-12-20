@@ -33,7 +33,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< Updated upstream
                 url: "update-pw",
+=======
+                url: "updatePw",
+>>>>>>> Stashed changes
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -77,7 +81,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< Updated upstream
                 url: "update-email",
+=======
+                url: "updateEmail",
+>>>>>>> Stashed changes
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -123,7 +131,11 @@
 		            memberId: memberId
 		        };
 			$.ajax({
+<<<<<<< Updated upstream
                 url: "update-phone",
+=======
+                url: "updatePhone",
+>>>>>>> Stashed changes
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -170,10 +182,13 @@
                 }
             });
 		});
+<<<<<<< Updated upstream
 		$("#couponList").click(function(event){
 			window.open("../coupon/list", "_blank", "width=600,height=450");
 		});
 		
+=======
+>>>>>>> Stashed changes
 	});
 </script>
 </head>
@@ -246,10 +261,18 @@
 				<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			</div>
 
+<<<<<<< Updated upstream
 			
 				<div class="btn-container">
 					<a href="#" id="couponList">쿠폰함</a>
 				</div>
+=======
+			<c:if test="${memberVO.memberRole == 1}">
+				<div class="btn-container">
+					<a href="#" id="couponList">쿠폰함</a>
+				</div>
+			</c:if>
+>>>>>>> Stashed changes
 
 			<p id="deleteResultArea"></p>
 

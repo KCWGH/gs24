@@ -19,8 +19,6 @@ public class MemberMapperTest {
 	@Autowired
 	private MemberMapper memberMapper;
 
-	@Autowired
-	private EmailVerificationMapper emailVerificationMapper;
 	
 	@Test
 	public void test() {

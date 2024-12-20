@@ -69,20 +69,14 @@ public class MemberController {
 
 	@PostMapping("/login")
 	public String loginPOST(String memberId, String password, HttpServletRequest request) {
-		log.info("loginPOST()");
+	    log.info("loginPOST()");
 
-		int result = memberService.login(memberId, password);
-
-		if (result == 1) {
-			log.info("로그인 성공");
-
-			// 세션 설정
-			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberId);
-
-			MemberVO memberVO = memberService.getMember(memberId);
-			session.setAttribute("memberVO", memberVO);
-
+	    int result = memberService.login(memberId, password);
+	    if (result == 1) {
+	        log.info("로그인 성공");
+	        // 세션 설정
+	        HttpSession session = request.getSession();
+	        session.setAttribute("memberId", memberId);
 			session.setMaxInactiveInterval(600);
 
 			return "redirect:/food/list?loginSuccess=true";

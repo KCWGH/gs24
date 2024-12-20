@@ -58,6 +58,7 @@ public class ImgFoodController {
 
 		log.info(imgFoodVO);
 
+
 		// uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+
 		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 	}
