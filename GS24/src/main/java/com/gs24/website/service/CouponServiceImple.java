@@ -3,10 +3,12 @@ package com.gs24.website.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.persistence.CouponMapper;
 
+@Service
 public class CouponServiceImple implements CouponService {
 
 	@Autowired

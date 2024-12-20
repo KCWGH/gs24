@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gs24.website.domain.CouponVO;
-import com.gs24.website.persistence.CouponMapper;
+import com.gs24.website.service.CouponService;
 
 import lombok.extern.log4j.Log4j;
 
 @RestController // @Component
-@RequestMapping(value = "/member/coupon")
+@RequestMapping(value = "/coupon")
 @Log4j
 public class CouponController {
 
 	@Autowired
-	private CouponMapper couponMapper;
+	private CouponService couponService;
 
 	@PostMapping("/register")
 	public void registerPOST(@ModelAttribute CouponVO couponVO) {
 		log.info("registerPOST()");
 		log.info(couponVO);
-		int result = couponMapper.insertCoupon(null);
+		int result = couponService.addCoupon(couponVO);
 		log.info(result + "개 행 등록 완료");
 	}
 

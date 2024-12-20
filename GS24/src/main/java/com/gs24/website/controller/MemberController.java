@@ -92,7 +92,7 @@ public class MemberController {
 		}
 	}
 
-	@GetMapping("/loginfail")
+	@GetMapping("/login-fail")
 	public void loginfailGET() {
 		log.info("loginFailGET()");
 	}

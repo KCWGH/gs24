@@ -123,7 +123,6 @@ public class FoodController {
 		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
 
 		imgFoodVO.setImgFoodChgName(chgName);

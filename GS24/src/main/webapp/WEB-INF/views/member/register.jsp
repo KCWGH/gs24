@@ -8,170 +8,134 @@
     <title>회원가입</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
-        let isIdChecked = false;
-        let isEmailChecked = false;
-        let isPhoneChecked = false;
-        let isPasswordMatched = false;
+    let isIdChecked = false;
+    let isEmailChecked = false;
+    let isPhoneChecked = false;
+    let isPasswordMatched = false;
 
-        function checkId() {
-            let memberId = $('#memberId').val();
-            if (!memberId) {
-                alert("아이디를 입력해주세요.");
-                return;
-            }
+    function checkId() {
+        let memberId = $('#memberId').val();
+        if (!memberId) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
 
-            $.ajax({
-                url: 'dup-check-id',
-                type: 'POST',
-                data: { memberId: memberId },
-                success: function(response) {
-                    if (response == 1) {
-                        alert("이미 사용 중인 아이디입니다.");
-                        isIdChecked = false;
-                    } else {
-                        alert("사용 가능한 아이디입니다.");
-                        isIdChecked = true;
-                    }
-                    updateSubmitButton();
-                },
-                error: function() {
-                    alert("중복 확인 중 오류가 발생했습니다.");
+        $.ajax({
+            url: 'dup-check-id',
+            type: 'POST',
+            data: { memberId: memberId },
+            success: function(response) {
+                if (response == 1) {
+                    alert("이미 사용 중인 아이디입니다.");
+                    isIdChecked = false;
+                } else {
+                    alert("사용 가능한 아이디입니다.");
+                    isIdChecked = true;
                 }
-            });
+                updateSubmitButton();
+            },
+            error: function() {
+                alert("중복 확인 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    function checkEmail() {
+        let email = $('#email').val();
+        if (!email) {
+            alert("이메일을 입력해주세요.");
+            return;
         }
 
-        function checkEmail() {
-            let email = $('#email').val();
-            if (!email) {
-                alert("이메일을 입력해주세요.");
-                return;
-            }
-
-            $.ajax({
-                url: 'dup-check-email',
-                type: 'POST',
-                data: { email: email },
-                success: function(response) {
-                    if (response == 1) {
-                        alert("이미 사용 중인 이메일입니다.");
-                        isEmailChecked = false;
-                    } else {
-                        alert("사용 가능한 이메일입니다.");
-                        isEmailChecked = true;
-                    }
-                    updateSubmitButton();
-                },
-                error: function() {
-                    alert("중복 확인 중 오류가 발생했습니다.");
+        $.ajax({
+            url: 'dup-check-email',
+            type: 'POST',
+            data: { email: email },
+            success: function(response) {
+                if (response == 1) {
+                    alert("이미 사용 중인 이메일입니다.");
+                    isEmailChecked = false;
+                } else {
+                    alert("사용 가능한 이메일입니다.");
+                    isEmailChecked = true;
                 }
-            });
+                updateSubmitButton();
+            },
+            error: function() {
+                alert("중복 확인 중 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    function checkPhone() {
+        let phone = $('#phone').val();
+        if (!phone) {
+            alert("전화번호를 입력해주세요.");
+            return;
         }
 
-        function checkPhone() {
-            let phone = $('#phone').val();
-            if (!phone) {
-                alert("전화번호를 입력해주세요.");
-                return;
-            }
-
-            $.ajax({
-                url: 'dup-check-phone',
-                type: 'POST',
-                data: { phone: phone },
-                success: function(response) {
-                    if (response == 1) {
-                        alert("이미 사용 중인 전화번호입니다.");
-                        isPhoneChecked = false;
-                    } else {
-                        alert("사용 가능한 전화번호입니다.");
-                        isPhoneChecked = true;
-                    }
-                    updateSubmitButton();
-                },
-                error: function() {
-                    alert("중복 확인 중 오류가 발생했습니다.");
+        $.ajax({
+            url: 'dup-check-phone',
+            type: 'POST',
+            data: { phone: phone },
+            success: function(response) {
+                if (response == 1) {
+                    alert("이미 사용 중인 전화번호입니다.");
+                    isPhoneChecked = false;
+                } else {
+                    alert("사용 가능한 전화번호입니다.");
+                    isPhoneChecked = true;
                 }
-            });
-        }
-
-        function checkPw() {
-            let password = $('#password').val();
-            let passwordConfirm = $('#passwordConfirm').val();
-
-            if (password !== passwordConfirm) {
-                $('#passwordMatchMessage').text("비밀번호가 일치하지 않습니다.").css('color', 'red');
-                isPasswordMatched = false;
-            } else {
-                $('#passwordMatchMessage').text("비밀번호가 일치합니다.").css('color', 'green');
-                isPasswordMatched = true;
+                updateSubmitButton();
+            },
+            error: function() {
+                alert("중복 확인 중 오류가 발생했습니다.");
             }
-            updateSubmitButton();
+        });
+    }
+
+    function checkPw() {
+        let password = $('#password').val();
+        let passwordConfirm = $('#passwordConfirm').val();
+
+        if (password !== passwordConfirm) {
+            $('#passwordMatchMessage').text("비밀번호가 일치하지 않습니다.").css('color', 'red');
+            isPasswordMatched = false;
+        } else {
+            $('#passwordMatchMessage').text("비밀번호가 일치합니다.").css('color', 'green');
+            isPasswordMatched = true;
         }
+        updateSubmitButton();
+    }
 
-        function updateSubmitButton() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#registerBtn').prop('disabled', false);
-            } else {
-                $('#registerBtn').prop('disabled', true);
-            }
-        }
-
-        $('#memberId').on('input', function() {
-            isIdChecked = false;
-            updateSubmitButton();
-=======
-            // 모든 조건이 만족되면 버튼을 활성화
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#btnRegister').prop('disabled', false);
-            } else {
-                $('#btnRegister').prop('disabled', true);
-            }
-        }
-
-=======
-            // 모든 조건이 만족되면 버튼을 활성화
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#btnRegister').prop('disabled', false);
-            } else {
-                $('#btnRegister').prop('disabled', true);
-            }
-        }
-
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
-        // 입력 필드에 값이 변경되면 회원가입 버튼 비활성화
-        $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
-            // 필드 값이 수정되면 해당 필드에 맞는 상태를 false로 초기화
-            if (this.id === 'memberId') {
-                isIdChecked = false;
-            } else if (this.id === 'email') {
-                isEmailChecked = false;
-            } else if (this.id === 'phone') {
-                isPhoneChecked = false;
-            } else if (this.id === 'password' || this.id === 'passwordConfirm') {
-                isPasswordMatched = false;
-            }
-
-            // 버튼을 비활성화
+    function updateSubmitButton() {
+        if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
+            $('#btnRegister').prop('disabled', false);
+        } else {
             $('#btnRegister').prop('disabled', true);
-<<<<<<< HEAD
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
-=======
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
-        });
+        }
+    }
 
-        // 비밀번호 확인
-        $('#password, #passwordConfirm').on('input', function() {
-            checkPw();
-<<<<<<< HEAD
-        });
+    // 모든 필드에서 입력 값이 변경되면 상태를 갱신
+    $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
+        if (this.id === 'memberId') {
+            isIdChecked = false;
+        } else if (this.id === 'email') {
+            isEmailChecked = false;
+        } else if (this.id === 'phone') {
+            isPhoneChecked = false;
+        } else if (this.id === 'password' || this.id === 'passwordConfirm') {
+            isPasswordMatched = false;
+        }
 
-        $('#password, #passwordConfirm').on('input', function() {
-            checkPw();
-=======
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
-        });
+        updateSubmitButton();  // 버튼 갱신
+    });
+
+    // 비밀번호 확인
+    $('#password, #passwordConfirm').on('input', function() {
+        checkPw();
+    });
+
     </script>
 </head>
 <body>
@@ -223,15 +187,7 @@
         </div>
 
         <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <button type="submit" id="registerBtn" disabled>회원가입</button>
-=======
             <button type="submit" id="btnRegister" disabled>회원가입</button>
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
-=======
-            <button type="submit" id="btnRegister" disabled>회원가입</button>
->>>>>>> ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
             <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
         </div>
     </form>

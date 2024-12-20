@@ -12,13 +12,14 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class ImgFoodServiceImple implements ImgFoodService{
+public class ImgFoodServiceImple implements ImgFoodService {
 
 	@Autowired
 	private ImgFoodMapper imgFoodMapper;
+
 	@Override
 	public int createImgFood(ImgFoodVO imgFoodVO) {
-		log.info("createImgFood() ½ÇÇà");
+		log.info("createImgFood() ï¿½ï¿½ï¿½ï¿½");
 		int result = imgFoodMapper.insertImgFood(imgFoodVO);
 		return result;
 	}
@@ -33,7 +34,7 @@ public class ImgFoodServiceImple implements ImgFoodService{
 
 	@Override
 	public List<ImgFoodVO> getAllImgFood() {
-		log.info("getAllImgFood() ½ÇÇà");
+		log.info("getAllImgFood() ï¿½ï¿½ï¿½ï¿½");
 		List<ImgFoodVO> list = imgFoodMapper.selectAllImagFood();
 		log.info(list);
 		return list;
@@ -41,14 +42,14 @@ public class ImgFoodServiceImple implements ImgFoodService{
 
 	@Override
 	public int updateImgFood(ImgFoodVO imgFoodVO) {
-		log.info("updateImgFood() ½ÇÇà");
+		log.info("updateImgFood() ï¿½ï¿½ï¿½ï¿½");
 		int result = imgFoodMapper.updateImgFood(imgFoodVO);
 		return result;
 	}
 
 	@Override
 	public int deleteImgFood(int foodId) {
-		log.info("deleteImgFood() ½ÇÇà");
+		log.info("deleteImgFood() ï¿½ï¿½ï¿½ï¿½");
 		int result = imgFoodMapper.deleteImgFood(foodId);
 		return 0;
 	}
