@@ -24,7 +24,7 @@ li {
 </style>
 
 <meta charset="UTF-8">
-<title>GS24 Q&A 게시판</title>
+<title>GS24 QnA 게시판</title>
 <script type="text/javascript">
     // 작성자 확인 후 이동하는 함수
     function checkAuthorAndRedirect(questionId, authorId, memberRole) {
@@ -43,7 +43,9 @@ li {
 
 </head>
 <body>
-	<h1>Q&A 게시판</h1>
+		<a href="../food/list"><button>메인페이지</button></a>
+		<a href="../notice/list"><button>공지사항</button></a>
+	<h1>QnA 게시판</h1>
 	<h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 
 	<!-- 글 작성 페이지 이동 버튼 -->
@@ -54,7 +56,7 @@ li {
 
 	<c:if test="${not empty sessionScope.memberId}">
 		<a href="register"><input type="button" value="글 작성"></a>
-		<a href="myList"><input type="button" value="내가 작성한 글"></a>
+		<input type="button" value="내가 작성한 글">
 	</c:if>
 
 	<hr>
@@ -88,7 +90,7 @@ li {
 					<td>${questionDateCreated }</td>
 					<td><c:if test="${QuestionVO.isAnswered == 0}">
                             답변대기
-                        </c:if> <c:if test="${QuestionVO.isAnswered != 0}">
+                        </c:if> <c:if test="${QuestionVO.isAnswered == 1}">
                             답변완료
                         </c:if></td>
 				</tr>
