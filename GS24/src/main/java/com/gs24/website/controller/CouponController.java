@@ -23,13 +23,10 @@ public class CouponController {
 	public void registerPOST(@ModelAttribute CouponVO couponVO) {
 		log.info("registerPOST()");
 		log.info(couponVO);
-<<<<<<< Updated upstream
+
 		int result = couponService.addCoupon(couponVO);
-		log.info(result + "ê°œ í–‰ ë“±ë¡ ì™„ë£Œ");
-=======
-		int result = couponMapper.insertCoupon(null);
 		log.info(result + "Çà »ðÀÔ");
->>>>>>> Stashed changes
+
 	}
 
 } // end BoardController

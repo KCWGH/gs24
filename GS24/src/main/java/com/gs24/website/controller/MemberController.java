@@ -24,10 +24,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 	// register.jsp
 	@GetMapping("/register")
 	public String registerGET(HttpSession session) {
@@ -43,7 +39,6 @@ public class MemberController {
 	@PostMapping("/register")
 	public String registerPOST(@ModelAttribute MemberVO memberVO) {
 		log.info("registerPOST()");
-<<<<<<< Updated upstream
 		int result = memberService.register(memberVO);
 		log.info(result + "개 행 등록 완료");
 		if (result == 1) {
@@ -62,22 +57,6 @@ public class MemberController {
 		log.info("registerFailGET()");
 	}
 
-=======
-		log.info(memberVO);
-		int result = memberService.register(memberVO);
-		log.info(result + "개 행 등록 완료");
-		if (result == 1) {
-			return "redirect:/member/registersuccess";
-		}
-		return "redirect:/member/registerfail";
-	}
-
-	@GetMapping("/registersuccess")
-	public void registersuccessGET() {
-		log.info("registerSuccessGET()");
-	}
-
->>>>>>> Stashed changes
 	@GetMapping("/login")
 	public String loginGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
@@ -115,19 +94,8 @@ public class MemberController {
 		log.info("loginFailGET()");
 	}
 
-<<<<<<< Updated upstream
 	@GetMapping("/find-id")
 	public String findIdGET(HttpSession session) {
-=======
-	@GetMapping("/findid")
-	public String findidGET(HttpSession session) {
->>>>>>> Stashed changes
-		if (session.getAttribute("memberId") != null) {
-			log.info("findIdGET() - 세션이 이미 존재합니다");
-			return "redirect:/food/list";
-		}
-		log.info("findIdGET()");
-<<<<<<< Updated upstream
 		return "/member/find-id";
 	}
 
@@ -140,30 +108,12 @@ public class MemberController {
 		log.info("findPwGET");
 		return "/member/find-pw";
 	}
-
-=======
-		return "/member/findid";
-	}
-
-
-	@GetMapping("/findpw")
-	public String findpwGET(HttpSession session) {
-		if (session.getAttribute("memberId") != null) {
-			log.info("findpwGET - 세션이 이미 존재합니다");
-			return "redirect:/food/list";
-		}
-		log.info("findpwGET");
-		return "/member/findpw";
-	}
 	
 	@GetMapping("/verifycode")
 	public void verifycodeGET() {
 		log.info("verifyCodeGET()");
 	}
 
-	
-	
->>>>>>> Stashed changes
 	@GetMapping("/mypage")
 	public void mypageGET(HttpSession session, Model model) {
 		log.info("mypageGET()");

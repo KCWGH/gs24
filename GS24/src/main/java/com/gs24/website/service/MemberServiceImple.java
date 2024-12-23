@@ -37,7 +37,6 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-<<<<<<< Updated upstream
 	public int updateMemberPassword(MemberVO memberVO) {
 		return memberMapper.updatePassword(memberVO);
 	}
@@ -54,12 +53,13 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public int updateMemberPhone(MemberVO memberVO) {
-		return memberMapper.updatePhone(memberVO);
-=======
+		return memberMapper.updatePhone(memberVO);	
+	}
+
 	public int updateMember(MemberVO memberVO) {
 		// 회원 정보 수정
 		return memberMapper.update(memberVO);
->>>>>>> Stashed changes
+
 	}
 
 	@Override
@@ -99,36 +99,8 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public int updateMemberPassword(MemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateMemberPassword(String memberId, String password) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateMemberEmail(MemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateMemberPhone(MemberVO memberVO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int dupCheckIdAndEmail(String memberId, String email) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 }

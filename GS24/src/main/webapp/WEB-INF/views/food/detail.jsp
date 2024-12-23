@@ -127,9 +127,10 @@
 			let reviewId = $(this).prevAll('#reviewId').val();
 			let reviewTitle = $(this).prevAll('#reviewTitle').val();
 			let reviewContent = $(this).prevAll('#reviewContent').val();
+			let foodId = ${FoodVO.foodId};
 			let reviewRating = $(this).prevAll('#reviewRating').val();
 			
-			let obj = {'reviewId' : reviewId, 'reviewTitle' : reviewTitle, 'reviewContent' : reviewContent, 'reviewRating' : reviewRating};
+			let obj = {'reviewId' : reviewId, 'reviewTitle' : reviewTitle, 'reviewContent' : reviewContent,'foodId' : foodId,'reviewRating' : reviewRating};
 			
 			$.ajax({
 				type : 'PUT', 
@@ -153,11 +154,12 @@
 		$('#review').on('click', '.reply_item .btn_delete', function(){
 			console.log(this);
 			let reviewId = $(this).prevAll('#reviewId').val();
+			let foodId = ${FoodVO.foodId};
 			
 			// ajax 요청
 			$.ajax({
 				type : 'DELETE', 
-				url : '../review/' + reviewId,
+				url : '../review/' + reviewId + '/' + foodId,
 				headers : {
 					'Content-Type' : 'application/json'
 				},

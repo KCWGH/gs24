@@ -15,69 +15,12 @@ import com.gs24.website.service.MemberService;
 import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberRESTController {
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 	@Autowired
 	private MemberService memberService; // MemberService 사용
 	@Autowired
 	private EmailVerificationService emailVerificationService;
-	@PostMapping("/dupcheckid")
-	public ResponseEntity<String> dupcheckidPOST(String memberId) {
-		log.info("dupCheckIdPOST()");
-		int result = memberService.dupCheckId(memberId); // 서비스 레이어 사용
-		if (result == 1) { // 중복되면
-			return ResponseEntity.ok("1");
-		}
-		return ResponseEntity.ok("0");
-	}
-	@PostMapping("/dupcheckemail")
-	public ResponseEntity<String> dupcheckemailPOST(String email) {
-		log.info("dupCheckEmailPOST()");
-		int result = memberService.dupCheckEmail(email); // 서비스 레이어 사용
-		if (result == 1) { // 중복되면
-			return ResponseEntity.ok("1");
-		}
-		return ResponseEntity.ok("0");
-	}
-	@PostMapping("/dupcheckphone")
-	public ResponseEntity<String> dupcheckphonePOST(String phone) {
-		log.info("dupCheckPhonePOST()");
-		int result = memberService.dupCheckPhone(phone);
-		if (result == 1) { // 중복되면
-			return ResponseEntity.ok("1");
-		}
-		return ResponseEntity.ok("0");
-	}
-	@PostMapping("/findid")
-	public ResponseEntity<String> findidPOST(String email) {
-		log.info("findIdPOST()");
-		if (email.equals("")) {
-			return ResponseEntity.ok("");
-		}
-		int dupCheck = memberService.dupCheckEmail(email);
-		if (dupCheck == 0) { // 해당 이메일이 db에 없으면
-			return ResponseEntity.ok("do not exist");
-		}
-		return ResponseEntity.ok("exist");
-	}
-	@PostMapping("/updatePw")
-	public ResponseEntity<String> updatePwPOST(@RequestBody MemberVO memberVO) {
-		int result = memberService.updateMemberPassword(memberVO);
-		if (result == 0) { // 업데이트가 안 되면
-			log.info("비밀번호 수정 실패");
-			return ResponseEntity.ok("Update Fail");
-		}
-		log.info("updatePwPOST()");
-		return ResponseEntity.ok("Update Success");
-	}
-<<<<<<< Updated upstream
 
 	@PostMapping("/update-email")
-=======
-	@PostMapping("/updateEmail")
->>>>>>> Stashed changes
 	public ResponseEntity<String> updateEmailPOST(@RequestBody MemberVO memberVO) {
 		if (memberVO.getEmail().equals(memberService.findEmailById(memberVO.getMemberId()))) {
 			return ResponseEntity.ok("Update Fail - Same Email");
@@ -96,15 +39,10 @@ public class MemberRESTController {
 				return ResponseEntity.ok("Update Fail - Duplicated Email");
 			}
 		}
-<<<<<<< Updated upstream
 
 	}
 
 	@PostMapping("/update-phone")
-=======
-	}
-	@PostMapping("/updatePhone")
->>>>>>> Stashed changes
 	public ResponseEntity<String> updatePhonePOST(@RequestBody MemberVO memberVO) {
 		if (memberVO.getPhone().equals(memberService.findPhoneById(memberVO.getMemberId()))) {
 			return ResponseEntity.ok("Update Fail - Same Phone");
@@ -124,7 +62,6 @@ public class MemberRESTController {
 			}
 		}
 	}
-<<<<<<< Updated upstream
 
 	// 이메일 인증번호 발송
 	@PostMapping("/send-verification-code")
@@ -189,7 +126,6 @@ public class MemberRESTController {
 		return ResponseEntity.ok("Update Success");
 	}
 
-=======
 	// 이메일 인증번호 발송
     @PostMapping("/sendVerificationCode")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String email) {
@@ -218,7 +154,7 @@ public class MemberRESTController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");  // 서버 오류 응답
         }
     }
->>>>>>> Stashed changes
+    
 	@PostMapping("/delete")
 	public ResponseEntity<String> deletePOST(String memberId, HttpSession session) {
 		int result = memberService.deleteMember(memberId); // 서비스 레이어 사용
@@ -231,9 +167,4 @@ public class MemberRESTController {
 		log.info("deletePOST()");
 		return ResponseEntity.ok("Delete Success");
 	}
-
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
