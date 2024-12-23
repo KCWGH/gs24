@@ -27,8 +27,26 @@
 		ORDER BY COUPON_GRANT_DATE DESC
 	</select>
 	
+	<select id="selectDetailByCouponId" resultMap="couponResultMap">
+		SELECT * FROM COUPON
+		WHERE COUPON_ID = #{couponId}
+	</select>
+	
 	<select id="isExistByCouponName" resultType="Integer">
 		SELECT COUNT(*) FROM COUPON
 		WHERE COUPON_NAME = #{couponName}
 	</select>
+	
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
+	 </select>
+	 
+	 <select id="selectListByPagination" resultMap="couponResultMap">
+	 	SELECT * FROM
+	 	(
+	 		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC)
+	 		AS RN, COUPON.* FROM COUPON
+	 	) 
+	 	WHERE RN BETWEEN #{start} AND #{end}
+	 </select>
 </mapper>

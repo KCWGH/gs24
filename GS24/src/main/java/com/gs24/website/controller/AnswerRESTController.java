@@ -19,6 +19,11 @@ import com.gs24.website.service.AnswerService;
 
 import lombok.extern.log4j.Log4j;
 
+// * RESTful url과 의미
+// /reply (POST) : 댓글 추가(insert)
+// /reply/all/숫자 (GET) : 해당 글 번호(boardId)의 모든 댓글 검색(select)
+// /reply/숫자 (PUT) : 해당 댓글 번호(replyId)의 내용을 수정(update)
+// /reply/숫자 (DELETE) : 해당 댓글 번호(replyId)의 내용을 삭제(delete)
 
 @RestController
 @RequestMapping(value = "/answer")
@@ -27,7 +32,7 @@ public class AnswerRESTController {
 	@Autowired
 	private AnswerService answerService;
 	
-	@PostMapping
+	@PostMapping // POST : 댓글 입력
 	public ResponseEntity<Integer> createAnswer(@RequestBody AnswerVO answerVO) {
 		log.info("createAnswer()");
 		
@@ -35,19 +40,19 @@ public class AnswerRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
-	@GetMapping("/all/{questionId}")
+	@GetMapping("/all/{questionId}") // GET : 댓글 선택(all)
 	public ResponseEntity<List<AnswerVO>> readAllAnswer(
 			@PathVariable("questionId") int questionId) {
-
+		// @pathVariable("questionId") : {questionId} 값을 설정된 변수에 저장
 		log.info("readAllAnswer()");
 		log.info("questionId = " + questionId);
 		
 		List<AnswerVO> list = answerService.getAllAnswer(questionId);
-
+		// ResponseEntity<T> : T의 타입은 프론트 side로 전송될 데이터의 타입으로 선언
 		return new ResponseEntity<List<AnswerVO>>(list, HttpStatus.OK);
 	}
 	
-	 @PutMapping("/{answerId}")
+	 @PutMapping("/{answerId}") // PUT : 댓글 수정
 	   public ResponseEntity<Integer> updateAnswer(
 	         @PathVariable("answerId") int answerId,
 	         @RequestBody String answerContent
@@ -58,7 +63,7 @@ public class AnswerRESTController {
 	      return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	   }
 	   
-	   @DeleteMapping("/{answerId}/{questionId}")
+	   @DeleteMapping("/{answerId}/{questionId}") // DELETE : 댓글 삭제
 	   public ResponseEntity<Integer> deleteAnswer(
 	         @PathVariable("answerId") int answerId, 
 	         @PathVariable("questionId") int questionId) {

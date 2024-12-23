@@ -13,10 +13,6 @@
 		<result property="reviewDateCreated" column="REVIEW_DATE_CREATED"/>
 	</resultMap>
 	
-	<resultMap type="com.gs24.website.domain.ReviewVO" id="reviewRatingResultMap">
-		<result property="reviewRating" column="REVIEW_RATING"/>
-	</resultMap>
-	
 	<insert id="insertReview">
 		INSERT INTO REVIEW
 		(REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, FOOD_ID, REVIEW_RATING)

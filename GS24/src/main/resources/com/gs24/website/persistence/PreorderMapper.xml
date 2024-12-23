@@ -22,10 +22,6 @@
 		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId}
 	</select>
 	
-	<select id="selectPreorderOneById" resultMap="PreorderResultMap">
-		SELECT * FROM PREORDER WHERE PREORDER_ID = #{preorderId}
-	</select>
-	
 	<update id="updatePreorderInIsPickUp">
 		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId}
 	</update>

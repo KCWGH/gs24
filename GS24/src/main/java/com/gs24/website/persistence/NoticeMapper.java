@@ -10,35 +10,17 @@ import com.gs24.website.util.Pagination;
 @Mapper
 public interface NoticeMapper {
 	   
-		int insert(NoticeVO vo);
+		int insert(NoticeVO vo); // 게시글 등록
 		
-		List<NoticeVO> selectList();
+		List<NoticeVO> selectList(); // 전체 게시글 조회
 		
-		NoticeVO selectOne(int noticeId);
+		NoticeVO selectOne(int noticeId); // 특정 게시글 조회
 		
-		int update(NoticeVO vo);
+		int update(NoticeVO vo); // 특정 게시글 수정
 		
-		int delete(int noticeId);
+		int delete(int noticeId); // 특정 게시글 삭제
 		
-		List<NoticeVO> selectListByPagination(Pagination pagination);
+		List<NoticeVO> selectListByPagination(Pagination pagination); // 전체 게시글 페이징 처리
 		
-<<<<<<< Updated upstream
 		int selectTotalCount();
-=======
-		int selectTotalCount(); // 전체 게시글 수
-		
-		
-		List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle); // 제목으로 게시글 검색
-		
-		List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("start") int start, @Param("end") int end);
-
-		int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
-		
-		
-		List<NoticeVO> selectListByContent(@Param("noticeContent") String noticeContent); // 내용으로 게시글 검색
-
-		List<NoticeVO> selectListByContentWithPagination(@Param("noticeContent") String noticeContent, @Param("start") int start, @Param("end") int end);
-
-		int selectTotalCountByContent(@Param("noticeContent") String noticeContent);
->>>>>>> Stashed changes
 }
