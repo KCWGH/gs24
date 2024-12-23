@@ -13,6 +13,8 @@ public interface PreorderMapper {
 	
 	List<PreorderVO> selectPreoderByMemberId(String memberId);
 	
+	PreorderVO selectPreorderOneById(int preorderId);
+	
 	int updatePreorderInIsPickUp(@Param("preorderId") int preorderId,@Param("isPickUp") int isPickUp);
 	
 	int updatePreorderInIsExpiredOrder(@Param("preorderId") int preorderId,@Param("isExpiredOrder") int isExpiredOrder);

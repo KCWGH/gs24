@@ -3,27 +3,29 @@ package com.gs24.website.service;
 import com.gs24.website.domain.MemberVO;
 
 public interface MemberService {
-	int register(MemberVO memberVO); // 회원가입
+	int register(MemberVO memberVO);
 
-	int login(String memberId, String password); // 로그인
+	int login(String memberId, String password);
 
-	MemberVO getMember(String memberId); // 회원 정보 조회
+	MemberVO getMember(String memberId); 
 
-	String findId(String email); // 아이디 찾기
+	String findId(String email);
 
 	String findEmailById(String memberId);
 
 	String findPhoneById(String memberId);
+	
+	int updateMember(MemberVO memberVO);
 
-	int updateMemberPassword(MemberVO memberVO); // 회원 정보 수정
+	int updateMemberPassword(MemberVO memberVO);
 	
 	int updateMemberPassword(String memberId, String password);
 
-	int updateMemberEmail(MemberVO memberVO); // 회원 정보 수정
+	int updateMemberEmail(MemberVO memberVO); 
 
-	int updateMemberPhone(MemberVO memberVO); // 회원 정보 수정
+	int updateMemberPhone(MemberVO memberVO);
 
-	int deleteMember(String memberId); // 회원 탈퇴
+	int deleteMember(String memberId);
 
 	int dupCheckId(String memberId);
 

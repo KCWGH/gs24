@@ -51,10 +51,10 @@ public class ReviewRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{reviewId}")
-	public ResponseEntity<Integer> deleteReview(@PathVariable int reviewId){
+	@DeleteMapping("/{reviewId}/{foodId}")
+	public ResponseEntity<Integer> deleteReview(@PathVariable int reviewId, @PathVariable int foodId){
 		log.info("deleteReview()");
-		Integer result = reviewService.deleteReview(reviewId);
+		Integer result = reviewService.deleteReview(reviewId, foodId);
 		
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}

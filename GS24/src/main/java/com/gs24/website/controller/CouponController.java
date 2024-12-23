@@ -39,6 +39,7 @@ public class CouponController {
 	public void grantPOST(@ModelAttribute CouponVO couponVO) {
 		log.info("grantPOST()");
 		log.info(couponVO);
+<<<<<<< HEAD
 		int result = couponService.grantCoupon(couponVO);
 		log.info(result + "ê°œ ì¿ í° ì œê³µ ì™„ë£Œ");
 	}
@@ -53,6 +54,12 @@ public class CouponController {
 		}
 		List<CouponVO> couponList = couponService.getCouponList(memberId);
 		model.addAttribute("couponList", couponList);
+=======
+
+		int result = couponService.addCoupon(couponVO);
+		log.info(result + "Çà »ðÀÔ");
+
+>>>>>>> 20091d038ecd342f64f0e1bcb2640eb581d47778
 	}
 
 } // end BoardController

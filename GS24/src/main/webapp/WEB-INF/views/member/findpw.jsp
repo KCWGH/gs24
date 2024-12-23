@@ -18,8 +18,17 @@
         <input type="email" id="email" name="email" required>
         
         <input type="submit" value="인증번호 전송"><br>
+<<<<<<< HEAD
         <a href="findid"><button type="button">아이디 찾기</button></a>
         <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+=======
+        <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+
+    <form action="findid" method="POST">
+    	아이디: <input type="text" id="memberId" name="memberId" required><br>
+        이메일: <input type="email" id="email" name="email" required>
+        <input type="submit" value="비밀번호 찾기">
+>>>>>>> 20091d038ecd342f64f0e1bcb2640eb581d47778
     </form>
     <div id="message"></div>
 

@@ -43,6 +43,11 @@ public class RootConfig {
 	}
 	
 	@Bean
+	   public String uploadPath() {
+	      return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
+	}
+	
+	@Bean
 	public TransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataScource());
 	}

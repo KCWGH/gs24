@@ -13,8 +13,8 @@ import com.gs24.website.domain.CouponVO;
 
 import lombok.extern.log4j.Log4j;
 
-@RunWith(SpringJUnit4ClassRunner.class) // 스프링 JUnit test 연결
-@ContextConfiguration(classes = { RootConfig.class }) // 설정 파일 연결
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { RootConfig.class })
 @Log4j
 public class CouponMapperTest {
 
@@ -23,16 +23,20 @@ public class CouponMapperTest {
 
 	@Test
 	public void test() {
+<<<<<<< HEAD
 		// insertCoupon();
+=======
+		insertCoupon();
+>>>>>>> 20091d038ecd342f64f0e1bcb2640eb581d47778
 		selectList();
 	}
 
 	private void insertCoupon() {
 		CouponVO couponVO = new CouponVO();
-		couponVO.setCouponName("특별 할인 쿠폰");
+		couponVO.setCouponName("�����׽�Ʈ");
 		couponVO.setMemberId("test");
 		int result = couponMapper.insertCoupon(couponVO);
-		log.info(result + "개 쿠폰 등록 완료");
+		log.info(result + "�� ����");
 	}
 	
 	private void selectList() {

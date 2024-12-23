@@ -12,7 +12,7 @@
 	<h1>식품 정보 수정</h1>
 	<h2>${FoodVO.foodName }</h2>
 	<form action="update" method="post"enctype="multipart/form-data">
-		<div><input type="file" name="file"></div>
+		<div><input type="file" name="file" required="required"></div>
 		<input type="hidden" name="foodId" value="${FoodVO.foodId }"><br>
 		<p>재고량</p>
 		<input type="number" name="foodStock" value="${FoodVO.foodStock }" required="required"><br>

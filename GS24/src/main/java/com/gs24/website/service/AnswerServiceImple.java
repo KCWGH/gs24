@@ -27,9 +27,13 @@ public class AnswerServiceImple implements AnswerService {
 	public int createAnswer(AnswerVO answerVO) {
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
+<<<<<<< HEAD
 
 		// int updateResult = questionMapper.updateAnswer(answerVO.getQuestionId());
 
+=======
+		int updateResult = questionMapper.updateAnswer(answerVO.getQuestionId());
+>>>>>>> 20091d038ecd342f64f0e1bcb2640eb581d47778
 		log.info(insertResult + "행 댓글 추가");
 		return 1;
 	}
