@@ -16,8 +16,8 @@ import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.CouponService;
 import com.gs24.website.service.MemberService;
-import com.gs24.website.util.CouponPagination;
 import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -46,7 +46,7 @@ public class CouponController {
 	}
 
 	@GetMapping("/list")
-	public void listGET(HttpSession session, CouponPagination pagination, Model model) {
+	public void listGET(HttpSession session, Pagination pagination, Model model) {
 		log.info("listGET()");
 		String memberId = (String) session.getAttribute("memberId");
 		if (memberId != null) {
