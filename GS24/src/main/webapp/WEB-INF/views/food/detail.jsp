@@ -6,13 +6,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <title>식품 상세 정보</title>
+<style>
+	img {
+	width: 350px;
+	height: 200px;
+}
+</style>
+
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<p>식품 사진 : ${FoodVO.imgFoodVO.imgFoodPath }</p>
+	<img src="/website/ImgFood?foodId=${FoodVO.foodId }">
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>

@@ -1,50 +1,55 @@
 package com.gs24.website.controller;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.gs24.website.domain.ImgFoodVO;
 import com.gs24.website.service.ImgFoodService;
 
 import lombok.extern.log4j.Log4j;
 
-@RestController
-@RequestMapping(value = "/imgfood")
+@Controller
+@RequestMapping("/ImgFood")
 @Log4j
-public class ImgFoodController {
+public class ImgFoodController{
 	
 	@Autowired
 	private ImgFoodService imgFoodService;
 	
-	@GetMapping("/Get/{foodId}")
-	public ResponseEntity<byte[]> getImage(@PathVariable int foodId){
+	
+	@GetMapping
+	public ResponseEntity<byte[]> getImage(Integer foodId) throws Exception{
+		log.info("getImage()");
+		log.info(foodId);
+		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
+		log.info(imgFoodVO);
 		
-		String path = imgFoodService.getImgFoodById(foodId).getImgFoodPath();
+		File file = new File(imgFoodVO.getImgFoodPath());
 		
-		File file = new File(path);
+		InputStream in = null;
 		
-		ResponseEntity<byte[]> result = null;
+		in = new FileInputStream(file);
 		
-		try {
-			HttpHeaders header = new HttpHeaders();
-			header.add("Content-type", Files.probeContentType(file.toPath()));
-			result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
-			
-		} catch (IOException e) {
-			log.info(e.getMessage());
-		}
+		ResponseEntity<byte[]> entity = null;
 		
-		return result;
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Content-type", Files.probeContentType(file.toPath()));
+		
+		entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+		
+		return entity;
 	}
+	
 }

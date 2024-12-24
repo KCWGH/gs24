@@ -29,6 +29,11 @@ public class ServletConfig implements WebMvcConfigurer {
       registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
    }
 
+	@Bean
+	   public String uploadPath() {
+	      return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
+	}
+   
    @Bean
    public CommonsMultipartResolver multipartResolver() {
       CommonsMultipartResolver resolver = new CommonsMultipartResolver();

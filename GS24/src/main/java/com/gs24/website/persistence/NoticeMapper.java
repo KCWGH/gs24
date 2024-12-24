@@ -9,36 +9,17 @@ import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface NoticeMapper {
-	   
-		int insert(NoticeVO vo);
-		
-		List<NoticeVO> selectList();
-		
-		NoticeVO selectOne(int noticeId);
-		
-		int update(NoticeVO vo);
-		
-		int delete(int noticeId);
-		
-		List<NoticeVO> selectListByPagination(Pagination pagination);
-		
-<<<<<<< Updated upstream
-		int selectTotalCount();
-=======
-		int selectTotalCount(); // ì „ì²´ ê²Œì‹œê¸€ ìˆ˜
-		
-		
-		List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle); // ì œëª©ìœ¼ë¡œ ê²Œì‹œê¸€ ê²€ìƒ‰
-		
-		List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("start") int start, @Param("end") int end);
-
-		int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
-		
-		
-		List<NoticeVO> selectListByContent(@Param("noticeContent") String noticeContent); // ë‚´ìš©ìœ¼ë¡œ ê²Œì‹œê¸€ ê²€ìƒ‰
-
-		List<NoticeVO> selectListByContentWithPagination(@Param("noticeContent") String noticeContent, @Param("start") int start, @Param("end") int end);
-
-		int selectTotalCountByContent(@Param("noticeContent") String noticeContent);
->>>>>>> Stashed changes
+	int insert(NoticeVO vo); // °Ô½Ã±Û µî·Ï
+	
+	List<NoticeVO> selectList(); // ÀüÃ¼ °Ô½Ã±Û Á¶È¸
+	
+	NoticeVO selectOne(int noticeId); // Æ¯Á¤ °Ô½Ã±Û Á¶È¸
+	
+	int update(NoticeVO vo); // Æ¯Á¤ °Ô½Ã±Û ¼öÁ¤
+	
+	int delete(int noticeId); // Æ¯Á¤ °Ô½Ã±Û »èÁ¦
+	
+	List<NoticeVO> selectListByPagination(Pagination pagination); // ÀüÃ¼ °Ô½Ã±Û ÆäÀÌÂ¡ Ã³¸®
+	
+	int selectTotalCount();
 }

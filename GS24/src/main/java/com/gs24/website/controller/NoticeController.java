@@ -27,132 +27,83 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@GetMapping("/list")
-<<<<<<< Updated upstream
-	public void list(Model model, Pagination pagination, HttpSession session) {
-	    log.info("list()");
-	    log.info("pagination = " + pagination);
-	    
-	    MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-	    
-	    if (memberVO == null) {
-	    	
-=======
-	public void list(Model model, Pagination pagination, 
-	                 HttpSession session, 
-	                 @RequestParam(value = "noticeTitle", required = false) String noticeTitle,
-	                 @RequestParam(value = "noticeContent", required = false) String noticeContent,
-	                 @RequestParam(value = "searchType", required = false) String searchType) {
-	    log.info("list() with title = " + noticeTitle + ", content = " + noticeContent + ", searchType = " + searchType); 
+	// ÀüÃ¼ °Ô½Ã±Û µ¥ÀÌÅÍ¸¦ list.jsp ÆäÀÌÁö·Î Àü¼Û
+		@GetMapping("/list")
+		public void list(Model model, Pagination pagination, HttpSession session) {
+		    log.info("list()");
+		    log.info("pagination = " + pagination);
+		    
+		    // ¼¼¼Ç¿¡¼­ memberVO °¡Á®¿À±â
+		    MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 
-	    List<NoticeVO> noticeList;
-	    int totalCount;
-
-	    // ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
-	    if ("title".equals(searchType) && noticeTitle != null && !noticeTitle.isEmpty()) {
-	        noticeList = noticeService.getNoticesByTitleWithPagination(noticeTitle, pagination);
-	        totalCount = noticeService.getTotalCountByTitle(noticeTitle);
-	    } 
-	    // ë‚´ìš©ìœ¼ë¡œ ê²€ìƒ‰
-	    else if ("content".equals(searchType) && noticeContent != null && !noticeContent.isEmpty()) {
-	        noticeList = noticeService.getNoticesByContentWithPagination(noticeContent, pagination);
-	        totalCount = noticeService.getTotalCountByContent(noticeContent);
-	    } 
-	    // ì œëª©ê³¼ ë‚´ìš© ì—†ì´ ì „ì²´ ëª©ë¡ ì¡°íšŒ
-	    else {
-	        noticeList = noticeService.getPagingNotices(pagination);
-	        totalCount = noticeService.getTotalCount();
->>>>>>> Stashed changes
-	    }
-	    
-	    List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);
-
-	    PageMaker pageMaker = new PageMaker();
-	    pageMaker.setPagination(pagination);
-	    pageMaker.setTotalCount(noticeService.getTotalCount());
-
-	    model.addAttribute("pageMaker", pageMaker);
-<<<<<<< Updated upstream
-	    model.addAttribute("noticeList", noticeList);
-	    
-	    model.addAttribute("memberVO", memberVO);
-	}
-	
-=======
-	    model.addAttribute("noticeTitle", noticeTitle); // ê²€ìƒ‰ì–´ ì „ë‹¬
-	    model.addAttribute("noticeContent", noticeContent); // ê²€ìƒ‰ì–´ ì „ë‹¬
-	    model.addAttribute("searchType", searchType); // ê²€ìƒ‰ ìœ í˜• ì „ë‹¬
-	}
-	
-	// ë“±ë¡ íŽ˜ì´ì§€ í˜¸ì¶œ
->>>>>>> Stashed changes
-	@GetMapping("/register")
-	public void registerGET() {
-		log.info("registerGET()");
-	}
-<<<<<<< Updated upstream
-	
-=======
-
-	// ë“±ë¡ ì²˜ë¦¬
->>>>>>> Stashed changes
-	@PostMapping("/register")
-	public String registerPOST(NoticeVO noticeVO) {
-		log.info("registerPOST()");
-		log.info("noticeVO = " + noticeVO.toString());
-		int result = noticeService.createNotice(noticeVO);
-		log.info(result + "Çà »ðÀÔ");
-		return "redirect:/notice/list";
-	}
-<<<<<<< Updated upstream
-
-=======
-	
-	// ìƒì„¸ ì¡°íšŒ
->>>>>>> Stashed changes
-	@GetMapping("/detail")
-	public void detail(Model model, Integer noticeId) {
-		log.info("detail()");
-		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
-		model.addAttribute("noticeVO", noticeVO); 
-	}
-	
-<<<<<<< Updated upstream
-=======
-	// ìˆ˜ì • íŽ˜ì´ì§€ í˜¸ì¶œ
->>>>>>> Stashed changes
-	@GetMapping("/modify")
-	public void modifyGET(Model model, Integer noticeId) {
-		log.info("modifyGET()");
-		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
-		model.addAttribute("noticeVO", noticeVO);
-	}
-	
-<<<<<<< Updated upstream
-=======
-	// ìˆ˜ì • ì²˜ë¦¬
->>>>>>> Stashed changes
-	@PostMapping("/modify")
-	public String modifyPOST(NoticeVO noticeVO) {
-		log.info("modifyPOST()");
-		int result = noticeService.updateNotice(noticeVO);
-		log.info(result + "Çà ¼öÁ¤");
-		return "redirect:/notice/list";
-	}
-	
-<<<<<<< Updated upstream
-=======
-	// ì‚­ì œ ì²˜ë¦¬
->>>>>>> Stashed changes
-	@PostMapping("/delete")
-	public String delete(Integer noticeId) {
-	    log.info("delete()");
-	    int result = noticeService.deleteNotice(noticeId);
-	    log.info(result + "Çà »èÁ¦");
-	    return "redirect:/notice/list";
-	}
-<<<<<<< Updated upstream
+		    // memberVO°¡ nullÀÌ¸é °æ°í ·Î±× Ãâ·Â
+		    if (memberVO == null) {
+		    	log.warn("¼¼¼Ç¿¡ memberVO°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ·Î±×ÀÎ ÇÊ¿ä.");
+		    }
+		 // °øÁö»çÇ× ¸ñ·Ï °¡Á®¿À±â
+		    List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);	
+		    
+		    // ÆäÀÌÁö ¸ÞÀÌÄ¿ »ý¼º
+		    PageMaker pageMaker = new PageMaker();
+		    pageMaker.setPagination(pagination);
+		    pageMaker.setTotalCount(noticeService.getTotalCount());
+		    
+		    // ¸ðµ¨¿¡ °ª Ãß°¡
+		    model.addAttribute("pageMaker", pageMaker);
+		    model.addAttribute("noticeList", noticeList);
+		    // ¼¼¼Ç¿¡¼­ °¡Á®¿Â memberVO¸¦ ¸ðµ¨¿¡ Ãß°¡
+		    model.addAttribute("memberVO", memberVO); // memberVO¸¦ JSP·Î Àü´Þ
+		}
+		
+		// register.jsp È£Ãâ
+		@GetMapping("/register")
+		public void registerGET() {
+			log.info("registerGET()");
+		}
+		
+		// register.jsp¿¡¼­ Àü¼Û¹ÞÀº °Ô½Ã±Û µ¥ÀÌÅÍ¸¦ ÀúÀå
+		@PostMapping("/register")
+		public String registerPOST(NoticeVO noticeVO) {
+			log.info("registerPOST()");
+			log.info("noticeVO = " + noticeVO.toString());
+			int result = noticeService.createNotice(noticeVO);
+			return "redirect:/notice/list";
+		}
+		
+		// list.jsp¿¡¼­ ¼±ÅÃµÈ °Ô½Ã±Û ¹øÈ£¸¦ ¹ÙÅÁÀ¸·Î °Ô½Ã±Û »ó¼¼ Á¶È¸
+		// Á¶È¸µÈ °Ô½Ã±Û µ¥ÀÌÅÍ¸¦ detail.jsp·Î Àü¼Û
+		@GetMapping("/detail")
+		public void detail(Model model, Integer noticeId) {
+			log.info("detail()");
+			NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+			model.addAttribute("noticeVO", noticeVO); 
+		}
+		
+		// °Ô½Ã±Û ¹øÈ£¸¦ Àü¼Û¹Þ¾Æ »ó¼¼ °Ô½Ã±Û Á¶È¸
+		// Á¶È¸µÈ °Ô½Ã±Û µ¥ÀÌÅÍ¸¦ modify.jsp·Î Àü¼Û
+		@GetMapping("/modify")
+		public void modifyGET(Model model, Integer noticeId) {
+			log.info("modifyGET()");
+			NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+			model.addAttribute("noticeVO", noticeVO);
+		}
+		
+		// modify.jsp¿¡¼­ µ¥ÀÌÅÍ¸¦ Àü¼Û¹Þ¾Æ °Ô½Ã±Û ¼öÁ¤
+		@PostMapping("/modify")
+		public String modifyPOST(NoticeVO noticeVO) {
+			log.info("modifyPOST()");
+			int result = noticeService.updateNotice(noticeVO);
+			log.info(result + "Çà ¼öÁ¤");
+			return "redirect:/notice/list";
+		}
+		
+		// detail.jsp¿¡¼­ boardId¸¦ Àü¼Û¹Þ¾Æ °Ô½Ã±Û µ¥ÀÌÅÍ »èÁ¦
+		@PostMapping("/delete")
+		public String delete(Integer noticeId) {
+		    log.info("delete()");
+		    int result = noticeService.deleteNotice(noticeId);
+		    log.info(result + "Çà »èÁ¦");
+		    return "redirect:/notice/list";
+		}
 }
-=======
-}
->>>>>>> Stashed changes
+

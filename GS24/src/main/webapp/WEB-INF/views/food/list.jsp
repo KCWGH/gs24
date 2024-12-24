@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,10 @@ ul {
 
 li {
 	display: inline-block;
+}
+img {
+	width: 200px;
+	height: 150px;
 }
 </style>
 </head>
@@ -44,12 +49,11 @@ li {
 	<ul class="food_box">
 		<c:forEach var="FoodVO" items="${FoodList}">
 			<li class="List">
-				<%
-				//<p>${FoodVO.imgFoodVO.imgFoodPath}</p>
+				<% 
+				 //<img src="<spring:url value ='/resources/${ FoodVO.imgFoodVO.path }'/>"/>
 				%>
-				<p>${FoodVO.foodType}</p>
+				<img src="/website/ImgFood?foodId=${FoodVO.foodId }" alt="${FoodVO.foodName }">
 				<p>${FoodVO.foodName}</p>
-				<p>${FoodVO.foodStock}개</p>
 				<p>${FoodVO.foodPrice}원</p>
 				<p>${FoodVO.foodAvgRating }점</p>
 				<p>리뷰 ${FoodVO.foodReviewCnt }개</P>
@@ -62,5 +66,9 @@ li {
 			</li>
 		</c:forEach>
 	</ul>
+	
+	<script type="text/javascript">
+		
+	</script>
 </body>
 </html>

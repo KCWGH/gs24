@@ -26,4 +26,9 @@ public class ImgFoodVO {
 	private String ImgFoodExtension;
 	private Date ImgFoodDateCreated;
 	private MultipartFile file;
+	
+	public String getPath() {
+		String path = ImgFoodChgName + "." + ImgFoodExtension;
+		return path;
+	}
 }
