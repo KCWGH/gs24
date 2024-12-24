@@ -15,15 +15,31 @@ public class CouponServiceImple implements CouponService {
 	private CouponMapper couponMapper;
 
 	@Override
-	public int addCoupon(CouponVO couponVO) {
+	public int grantCoupon(CouponVO couponVO) {
 		int result = couponMapper.insertCoupon(couponVO);
 		return result;
 	}
 
 	@Override
 	public List<CouponVO> getCouponList(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		return couponMapper.selectList(memberId);
+	}
+
+	@Override
+	public int dupCheckCouponName(String couponName) {
+		int result = couponMapper.isExistByCouponName(couponName);
+		return result;
+	}
+
+	@Override
+	public CouponVO getCouponDetail(int couponId) {
+		CouponVO couponVO = couponMapper.selectDetailByCouponId(couponId);
+		return couponVO;
+	}
+
+	@Override
+	public int getTotalCount() {
+		 return couponMapper.selectTotalCount();
 	}
 
 }

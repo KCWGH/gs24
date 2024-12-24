@@ -66,9 +66,15 @@
 			$("#btnUpdateEmail").prop("hidden", false);
 			$("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
 		});
+<<<<<<< HEAD
 		// 이메일 수정 확정 버튼 클릭
 		$("#btnUpdateEmailConfirm").click(function(event){
 
+=======
+
+		// 이메일 수정 확정 버튼 클릭
+		$("#btnUpdateEmailConfirm").click(function(event){
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 			event.preventDefault();
 			let email = $("#email").val();
 			let memberId = "${memberVO.memberId}";
@@ -150,7 +156,10 @@
 			event.preventDefault();
 			$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
 		});
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 		$("#btnDeleteConfirm").click(function(event){
 			event.preventDefault();
 			let memberId = "${memberVO.memberId}";
@@ -171,19 +180,31 @@
                 }
             });
 		});
+<<<<<<< HEAD
 
 
 		$("#couponList").click(function() {
 			  window.open("coupon", "_blank", "width=800,height=600");
 			});
 
+=======
+		$("#couponList").click(function(event){
+			window.open("../coupon/list", "_blank", "width=600,height=500");
+		});
+		
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 	});
 </script>
 </head>
 <body>
 	<div class="container">
 		<h2>마이페이지</h2>
+<<<<<<< HEAD
 <c:if test="${empty memberVO}">
+=======
+
+		<c:if test="${empty memberVO}">
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 			<h3>로그인 필요</h3>
 			<a href="login">로그인</a>
 		</c:if>
@@ -246,15 +267,25 @@
 				<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			</div>
 
-			<c:if test="${memberVO.memberRole == 1}">
+			
 				<div class="btn-container">
 					<a href="#" id="couponList">쿠폰함</a>
 				</div>
+<<<<<<< HEAD
 			</c:if>
+=======
+
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 			<p id="deleteResultArea"></p>
 			<div class="btn-container">
 				<a href="../food/list">음식 리스트로</a>
 				<a href="logout">로그아웃</a>
 			</div>
 		</c:if>
+<<<<<<< HEAD
 	</div>
+=======
+	</div>
+</body>
+</html>
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7

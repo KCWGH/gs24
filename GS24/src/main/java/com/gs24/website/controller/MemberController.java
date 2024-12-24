@@ -75,6 +75,8 @@ public class MemberController {
 
 		if (result == 1) {
 			log.info("로그인 성공");
+
+			// 세션 설정
 			HttpSession session = request.getSession();
 			session.setAttribute("memberId", memberId);
 
@@ -82,10 +84,11 @@ public class MemberController {
 			session.setAttribute("memberVO", memberVO);
 
 			session.setMaxInactiveInterval(600);
-			return "redirect:/food/list";
+
+			return "redirect:/food/list?loginSuccess=true";
 		} else {
 			log.info("로그인 실패");
-			return "redirect:/member/loginfail";
+			return "redirect:/member/login-fail";
 		}
 	}
 
@@ -96,6 +99,11 @@ public class MemberController {
 
 	@GetMapping("/find-id")
 	public String findIdGET(HttpSession session) {
+		if (session.getAttribute("memberId") != null) {
+			log.info("findIdGET() - 세션이 이미 존재합니다");
+			return "redirect:/food/list";
+		}
+		log.info("findIdGET()");
 		return "/member/find-id";
 	}
 
@@ -107,11 +115,6 @@ public class MemberController {
 		}
 		log.info("findPwGET");
 		return "/member/find-pw";
-	}
-	
-	@GetMapping("/verifycode")
-	public void verifycodeGET() {
-		log.info("verifyCodeGET()");
 	}
 
 	@GetMapping("/mypage")

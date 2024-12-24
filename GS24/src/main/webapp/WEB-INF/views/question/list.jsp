@@ -21,6 +21,24 @@ li {
 	display: inline-block;
 }
 
+/* Flexbox를 사용하여 a태그와 prgs를 같은 가로줄에 배치 */
+.header {
+	display: flex; /* 플렉스 레이아웃 사용 */
+	justify-content: space-between; /* 좌우 정렬 */
+	align-items: center; /* 수직 중앙 정렬 */
+}
+
+.prgs {
+	display: flex; /* prgs 내부 요소들을 가로로 나열 */
+	justify-content: flex-end; /* prgs 내부 요소들을 오른쪽 정렬 */
+	align-items: center; /* 수직 중앙 정렬 */
+	margin-right: 20px; /* 오른쪽 여백 추가 */
+}
+
+/* prgs 내부 요소들 사이 여백 설정 */
+.prgs>* {
+	margin-left: 10px; /* 각 요소 사이에 여백 추가 */
+}
 </style>
 
 <meta charset="UTF-8">
@@ -54,7 +72,6 @@ li {
 
 	<c:if test="${not empty sessionScope.memberId}">
 		<a href="register"><input type="button" value="글 작성"></a>
-		<a href="myList"><input type="button" value="내가 작성한 글"></a>
 	</c:if>
 
 	<hr>
@@ -113,7 +130,5 @@ li {
 			<li><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
 		</c:if>
 	</ul>
-	
-	
 </body>
 </html>

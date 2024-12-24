@@ -14,8 +14,13 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public int register(MemberVO memberVO) {
-		// 회원 가입 처리
-		return memberMapper.insertUser(memberVO);
+		String memberId = memberVO.getMemberId();
+		String email = memberVO.getEmail();
+		String phone = memberVO.getPhone();
+		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
+			return memberMapper.insertUser(memberVO);
+		}
+		return 0;
 	}
 
 	@Override
@@ -53,13 +58,7 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public int updateMemberPhone(MemberVO memberVO) {
-		return memberMapper.updatePhone(memberVO);	
-	}
-
-	public int updateMember(MemberVO memberVO) {
-		// 회원 정보 수정
-		return memberMapper.update(memberVO);
-
+		return memberMapper.updatePhone(memberVO);
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int dupCheckEmail(String email) {
 		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email); 
+		return memberMapper.dupCheckEmail(email);
 	}
 
 	@Override
@@ -88,19 +87,17 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public String findEmailById(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.findEmailById(memberId);
 	}
 
 	@Override
 	public String findPhoneById(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.findPhoneById(memberId);
 	}
 
 	@Override
 	public int dupCheckIdAndEmail(String memberId, String email) {
-		// TODO Auto-generated method stub
-		return 0;
+		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
 	}
+
 }

@@ -16,6 +16,10 @@
 		<result property="noticeDateCreated"
 			column="NOTICE_DATE_CREATED" />
 	</resultMap>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 	
 	<insert id="insert">
 		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID, NOTICE_TITLE, NOTICE_CONTENT,NOTICE_DATE_CREATED)
@@ -54,5 +58,9 @@
 	<select id="selectTotalCount" resultType="Integer">
 		SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
 	 </select>
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 </mapper>

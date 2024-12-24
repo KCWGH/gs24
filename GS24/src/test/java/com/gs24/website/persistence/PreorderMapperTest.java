@@ -1,6 +1,7 @@
 package com.gs24.website.persistence;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ public class PreorderMapperTest {
 	
 	@Test
 	public void test() {
-		select();
+		delete();
 	}
 	
 	public void insert() {
@@ -39,12 +40,13 @@ public class PreorderMapperTest {
 	}
 	
 	public void update() {
+		//preorderMapper.updatePreorderInIsPickUp(1, 1);
 		preorderMapper.updatePreorderInIsExpiredOrder(1, 1);
 	}
 	
 	public void select() {
-		PreorderVO preorderVO = preorderMapper.selectPreorderOneById(4);
-		log.info(preorderVO);
+		List<PreorderVO> list =  preorderMapper.selectPreoderByMemberId("test");
+		log.info(list);
 	}
 	
 	public void delete() {

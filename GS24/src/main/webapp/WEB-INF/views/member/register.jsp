@@ -108,7 +108,6 @@
         updateSubmitButton();
     }
 
-<<<<<<< Updated upstream
     function updateSubmitButton() {
         if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
             $('#btnRegister').prop('disabled', false);
@@ -137,60 +136,6 @@
         checkPw();
     });
 
-=======
-        function updateSubmitButton() {
-
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#registerBtn').prop('disabled', false);
-            } else {
-                $('#registerBtn').prop('disabled', true);
-            }
-        }
-
-        $('#memberId').on('input', function() {
-            isIdChecked = false;
-            updateSubmitButton();
-            // 모든 조건이 만족되면 버튼을 활성화
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#btnRegister').prop('disabled', false);
-            } else {
-                $('#btnRegister').prop('disabled', true);
-            }
-        }
-            // 모든 조건이 만족되면 버튼을 활성화
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
-                $('#btnRegister').prop('disabled', false);
-            } else {
-                $('#btnRegister').prop('disabled', true);
-            }
-        }
-
-        // 입력 필드에 값이 변경되면 회원가입 버튼 비활성화
-        $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
-            // 필드 값이 수정되면 해당 필드에 맞는 상태를 false로 초기화
-            if (this.id === 'memberId') {
-                isIdChecked = false;
-            } else if (this.id === 'email') {
-                isEmailChecked = false;
-            } else if (this.id === 'phone') {
-                isPhoneChecked = false;
-            } else if (this.id === 'password' || this.id === 'passwordConfirm') {
-                isPasswordMatched = false;
-            }
-
-            // 버튼을 비활성화
-            $('#btnRegister').prop('disabled', true);
-        });
-
-        // 비밀번호 확인
-        $('#password, #passwordConfirm').on('input', function() {
-            checkPw();
-        });
-
-        $('#password, #passwordConfirm').on('input', function() {
-            checkPw();
-        });
->>>>>>> Stashed changes
     </script>
 </head>
 <body>
@@ -242,12 +187,7 @@
         </div>
 
         <div>
-<<<<<<< Updated upstream
             <button type="submit" id="btnRegister" disabled>회원가입</button>
-=======
-            <button type="submit" id="registerBtn" disabled>회원가입</button>
-
->>>>>>> Stashed changes
             <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
         </div>
     </form>

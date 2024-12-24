@@ -20,7 +20,10 @@
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
+<<<<<<< HEAD
 	<img src="/website/ImgFood?foodId=${FoodVO.foodId }">
+=======
+>>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>
@@ -135,10 +138,9 @@
 			let reviewId = $(this).prevAll('#reviewId').val();
 			let reviewTitle = $(this).prevAll('#reviewTitle').val();
 			let reviewContent = $(this).prevAll('#reviewContent').val();
-			let foodId = ${FoodVO.foodId};
 			let reviewRating = $(this).prevAll('#reviewRating').val();
 			
-			let obj = {'reviewId' : reviewId, 'reviewTitle' : reviewTitle, 'reviewContent' : reviewContent,'foodId' : foodId,'reviewRating' : reviewRating};
+			let obj = {'reviewId' : reviewId, 'reviewTitle' : reviewTitle, 'reviewContent' : reviewContent, 'reviewRating' : reviewRating};
 			
 			$.ajax({
 				type : 'PUT', 
@@ -162,12 +164,11 @@
 		$('#review').on('click', '.reply_item .btn_delete', function(){
 			console.log(this);
 			let reviewId = $(this).prevAll('#reviewId').val();
-			let foodId = ${FoodVO.foodId};
 			
 			// ajax 요청
 			$.ajax({
 				type : 'DELETE', 
-				url : '../review/' + reviewId + '/' + foodId,
+				url : '../review/' + reviewId,
 				headers : {
 					'Content-Type' : 'application/json'
 				},

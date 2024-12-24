@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gs24.website.persistence.CouponMapper">
 
-	<resultMap type="com.gs24.website.domain.CouponVO"
-		id="couponResultMap">
+	<resultMap type="com.gs24.website.domain.CouponVO" id="couponResultMap">
 		<id property="couponId" column="COUPON_ID" />
 		<result property="couponName" column="COUPON_NAME" />
 		<result property="memberId" column="MEMBER_ID" />
@@ -19,11 +18,35 @@
 		(COUPON_ID, COUPON_NAME, MEMBER_ID, COUPON_GRANT_DATE,
 		COUPON_EXPIRED_DATE, DISCOUNT_RATE, IS_VALID, IS_USED) VALUES
 		(COUPON_SEQ.NEXTVAL, #{couponName},
-		#{memberId}, SYSDATE, SYSDATE, #{discountRate}, 1, 0)
+		#{memberId}, SYSDATE, #{couponExpiredDate}, #{discountRate}, 1, 0)
 	</insert>
 	
 	<select id="selectList" resultMap="couponResultMap">
-		SELECT * FROM COUPON ORDER
-		BY COUPON_GRANT_DATE DESC
+		SELECT * FROM COUPON
+		WHERE MEMBER_ID = #{memberId}
+		ORDER BY COUPON_GRANT_DATE DESC
 	</select>
+	
+	<select id="selectDetailByCouponId" resultMap="couponResultMap">
+		SELECT * FROM COUPON
+		WHERE COUPON_ID = #{couponId}
+	</select>
+	
+	<select id="isExistByCouponName" resultType="Integer">
+		SELECT COUNT(*) FROM COUPON
+		WHERE COUPON_NAME = #{couponName}
+	</select>
+	
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
+	 </select>
+	 
+	 <select id="selectListByPagination" resultMap="couponResultMap">
+	 	SELECT * FROM
+	 	(
+	 		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC)
+	 		AS RN, COUPON.* FROM COUPON
+	 	) 
+	 	WHERE RN BETWEEN #{start} AND #{end}
+	 </select>
 </mapper>
