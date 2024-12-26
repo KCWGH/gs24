@@ -13,24 +13,24 @@
         <result property="noticeTitle" column="NOTICE_TITLE" />
         <result property="noticeContent" column="NOTICE_CONTENT" />
         <result property="noticeDateCreated" column="NOTICE_DATE_CREATED" />
+        <result property="noticeViews" column="NOTICE_VIEWS" />
     </resultMap>
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     <insert id="insert">
-        INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID,
-        NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE_CREATED)
-        VALUES
-        (NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent},
-        SYSDATE)
+        INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE_CREATED)
+        VALUES (NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent}, SYSDATE)
     </insert>
 
     <select id="selectList" resultMap="noticeResultMap">
-        SELECT * FROM NOTICE ORDER BY
-        NOTICE_ID DESC
+        SELECT * FROM NOTICE ORDER BY NOTICE_ID DESC
     </select>
 
     <select id="selectOne" resultMap="noticeResultMap">
-        SELECT * FROM NOTICE WHERE
-        NOTICE_ID = #{noticeId}
+        SELECT * FROM NOTICE WHERE NOTICE_ID = #{noticeId}
     </select>
 
     <update id="update">
@@ -99,4 +99,10 @@
         SELECT COUNT(*) FROM NOTICE
         WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
     </select>
+    
+    <update id="updateNoticeViews" parameterType="int">
+    	UPDATE NOTICE
+    	SET NOTICE_VIEWS = NOTICE_VIEWS + 1
+    	WHERE NOTICE_ID = #{noticeId}
+    </update>
 </mapper>

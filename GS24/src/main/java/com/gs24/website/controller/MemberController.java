@@ -21,9 +21,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberController {
 
-	@Autowired
-	private MemberService memberService;
+    @Autowired
+    private MemberService memberService;
 
+<<<<<<< Updated upstream
 	// register.jsp
 	@GetMapping("/register")
 	public String registerGET(HttpSession session) {
@@ -46,17 +47,55 @@ public class MemberController {
 		}
 		return "redirect:/member/register-fail";
 	}
+=======
+    // 회원 가입 페이지
+    @GetMapping("/register")
+    public String registerGET(HttpSession session) {
+        log.info("registerGET()");
+        if (session.getAttribute("memberId") != null) {
+            log.info("이미 로그인 상태");
+            return "redirect:/food/list";
+        }
+        return "/member/register";
+    }
 
-	@GetMapping("/register-success")
-	public void registerSuccessGET() {
-		log.info("registerSuccessGET()");
-	}
+    // 회원 가입 처리
+    @PostMapping("/register")
+    public String registerPOST(@ModelAttribute MemberVO memberVO) {
+        log.info("registerPOST()");
+        log.info(memberVO);
+        int result = memberService.register(memberVO);
+        log.info(result + "개 행 등록 완료");
+        if (result == 1) {
+            return "redirect:/member/registersuccess";
+        }
+        return "redirect:/member/registerfail";
+    }
 
-	@GetMapping("/register-fail")
-	public void registerFailGET() {
-		log.info("registerFailGET()");
-	}
+    // 회원 가입 성공 페이지
+    @GetMapping("/registersuccess")
+    public void registersuccessGET() {
+        log.info("registerSuccessGET()");
+    }
+>>>>>>> Stashed changes
 
+    // 회원 가입 실패 페이지
+    @GetMapping("/registerfail")
+    public void registerfailGET() {
+        log.info("registerFailGET()");
+    }
+
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String loginGET(HttpSession session) {
+        if (session.getAttribute("memberId") != null) {
+            log.info("loginGET() - 세션이 이미 존재합니다");
+            return "redirect:/food/list";
+        }
+        return "/member/login";
+    }
+
+<<<<<<< Updated upstream
 	@GetMapping("/login")
 	public String loginGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
@@ -66,29 +105,76 @@ public class MemberController {
 		log.info("loginGET()");
 		return "/member/login";
 	}
+=======
+    // 로그인 처리
+    @PostMapping("/login")
+    public String loginPOST(String memberId, String password, HttpServletRequest request) {
+        log.info("loginPOST()");
+        int result = memberService.login(memberId, password);
 
-	@PostMapping("/login")
-	public String loginPOST(String memberId, String password, HttpServletRequest request) {
-		log.info("loginPOST()");
+        if (result == 1) {
+            log.info("로그인 성공");
+            HttpSession session = request.getSession();
+            session.setAttribute("memberId", memberId);
 
-		int result = memberService.login(memberId, password);
+            MemberVO memberVO = memberService.getMember(memberId);
+            session.setAttribute("memberVO", memberVO);
+            session.setMaxInactiveInterval(600); // 세션 유지시간 설정
+            return "redirect:/food/list";
+        } else {
+            log.info("로그인 실패");
+            return "redirect:/member/loginfail";
+        }
+    }
+>>>>>>> Stashed changes
 
-		if (result == 1) {
-			log.info("로그인 성공");
-			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberId);
+    // 로그인 실패 페이지
+    @GetMapping("/loginfail")
+    public void loginfailGET() {
+        log.info("loginFailGET()");
+    }
 
-			MemberVO memberVO = memberService.getMember(memberId);
-			session.setAttribute("memberVO", memberVO);
+    // 아이디 찾기 페이지
+    @GetMapping("/findid")
+    public String findidGET(HttpSession session) {
+        if (session.getAttribute("memberId") != null) {
+            log.info("findIdGET() - 세션이 이미 존재합니다");
+            return "redirect:/food/list";
+        }
+        return "/member/findid";
+    }
 
-			session.setMaxInactiveInterval(600);
-			return "redirect:/food/list";
-		} else {
-			log.info("로그인 실패");
-			return "redirect:/member/loginfail";
-		}
-	}
+    // 비밀번호 찾기 페이지
+    @GetMapping("/findpw")
+    public String findpwGET(HttpSession session) {
+        if (session.getAttribute("memberId") != null) {
+            log.info("findpwGET - 세션이 이미 존재합니다");
+            return "redirect:/food/list";
+        }
+        return "/member/findpw";
+    }
 
+    // 인증 코드 확인 페이지
+    @GetMapping("/verifycode")
+    public void verifycodeGET() {
+        log.info("verifyCodeGET()");
+    }
+
+    // 마이페이지
+    @GetMapping("/mypage")
+    public void mypageGET(HttpSession session, Model model) {
+        log.info("mypageGET()");
+        String memberId = (String) session.getAttribute("memberId");
+        if (memberId != null) {
+            MemberVO memberVO = memberService.getMember(memberId);
+            model.addAttribute("memberId", memberId);
+            model.addAttribute("memberVO", memberVO);
+        } else {
+            log.info("mypageGET() - 세션이 없습니다");
+        }
+    }
+
+<<<<<<< Updated upstream
 	@GetMapping("/login-fail")
 	public void loginfailGET() {
 		log.info("loginFailGET()");
@@ -135,3 +221,13 @@ public class MemberController {
 	}
 
 } // end BoardController
+=======
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        log.info("session.invalidate()");
+        return "redirect:../food/list";
+    }
+}
+>>>>>>> Stashed changes

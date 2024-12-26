@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.NoticeVO;
@@ -23,6 +24,7 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/notice")
 @Log4j
 public class NoticeController {
+<<<<<<< Updated upstream
 
 	@Autowired
 	private NoticeService noticeService;
@@ -110,3 +112,86 @@ public class NoticeController {
 		return "redirect:/notice/list";
 	}
 }
+=======
+    
+    @Autowired
+    private NoticeService noticeService;
+
+    @GetMapping("/list")
+    public void list(Model model, Pagination pagination, 
+                     HttpSession session, 
+                     @RequestParam(value = "noticeTitle", required = false) String noticeTitle,
+                     @RequestParam(value = "noticeContent", required = false) String noticeContent,
+                     @RequestParam(value = "searchType", required = false) String searchType) {
+        log.info("list() with title = " + noticeTitle + ", content = " + noticeContent + ", searchType = " + searchType); 
+
+        List<NoticeVO> noticeList;
+        int totalCount;
+
+        if ("title".equals(searchType) && noticeTitle != null && !noticeTitle.isEmpty()) {
+            noticeList = noticeService.getNoticesByTitleWithPagination(noticeTitle, pagination);
+            totalCount = noticeService.getTotalCountByTitle(noticeTitle);
+        } else if ("content".equals(searchType) && noticeContent != null && !noticeContent.isEmpty()) {
+            noticeList = noticeService.getNoticesByContentWithPagination(noticeContent, pagination);
+            totalCount = noticeService.getTotalCountByContent(noticeContent);
+        } else {
+            noticeList = noticeService.getPagingNotices(pagination);
+            totalCount = noticeService.getTotalCount();
+        }
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setPagination(pagination);
+        pageMaker.setTotalCount(totalCount);
+
+        model.addAttribute("pageMaker", pageMaker);
+        model.addAttribute("noticeList", noticeList);
+        model.addAttribute("noticeTitle", noticeTitle);
+        model.addAttribute("noticeContent", noticeContent);
+        model.addAttribute("searchType", searchType);
+    }
+
+    @GetMapping("/register")
+    public void registerGET() {
+        log.info("registerGET()");
+    }
+
+    @PostMapping("/register")
+    public String registerPOST(NoticeVO noticeVO) {
+        log.info("registerPOST()");
+        log.info("noticeVO = " + noticeVO.toString());
+        int result = noticeService.createNotice(noticeVO);
+        log.info(result + "건 등록");
+        return "redirect:/notice/list";
+    }
+
+    @GetMapping("/detail")
+    public void detail(Model model, Integer noticeId) {
+        log.info("detail()");
+        NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+        model.addAttribute("noticeVO", noticeVO);
+    }
+
+    @GetMapping("/modify")
+    public void modifyGET(Model model, Integer noticeId) {
+        log.info("modifyGET()");
+        NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+        model.addAttribute("noticeVO", noticeVO);
+    }
+
+    @PostMapping("/modify")
+    public String modifyPOST(NoticeVO noticeVO) {
+        log.info("modifyPOST()");
+        int result = noticeService.updateNotice(noticeVO);
+        log.info(result + "건 수정");
+        return "redirect:/notice/list";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Integer noticeId) {
+        log.info("delete()");
+        int result = noticeService.deleteNotice(noticeId);
+        log.info(result + "건 삭제");
+        return "redirect:/notice/list";
+    }
+}
+>>>>>>> Stashed changes

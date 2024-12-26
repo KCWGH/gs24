@@ -16,9 +16,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberMapperTest {
 
-	@Autowired
-	private MemberMapper memberMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
+<<<<<<< Updated upstream
 	@Autowired
 	private EmailVerificationMapper emailVerificationMapper;
 	
@@ -30,22 +31,44 @@ public class MemberMapperTest {
 		// testFindId();
 		// testUpdate();
 		// testverify();
+=======
+    @Autowired
+    private EmailVerificationMapper emailVerificationMapper;
+>>>>>>> Stashed changes
 
-		// testfindemail();
+    @Test
+    public void test() {
+        testUpdateEmail();
+        testUpdatePassword();
+        testFindEmail();
+    }
 
-		// testupdatepassword();
-		// testupdateEmail();
-	}
+    // 이메일 수정 테스트
+    private void testUpdateEmail() {
+        MemberVO memberVO = new MemberVO();
+        memberVO.setMemberId("test");
+        memberVO.setEmail("new@naver.com");
 
+<<<<<<< Updated upstream
 	private void testupdateEmail() {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
 		memberVO.setEmail("new@naver.com");
 		int result = memberMapper.update(memberVO);
 		log.info(result + "媛� �씠硫붿씪 �닔�젙 �셿猷�");
+=======
+        int result = memberMapper.update(memberVO);
+        log.info(result + "개 이메일 수정 완료");
+    }
+>>>>>>> Stashed changes
 
-	}
+    // 비밀번호 수정 테스트
+    private void testUpdatePassword() {
+        MemberVO memberVO = new MemberVO();
+        memberVO.setMemberId("test");
+        memberVO.setPassword("1234");
 
+<<<<<<< Updated upstream
 	private void testupdatepassword() {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId("test");
@@ -98,5 +121,15 @@ public class MemberMapperTest {
 	 * 
 	 * private void testInsertUser() { log.info("testInsertUser()"); }
 	 */
+=======
+        int result = memberMapper.updatePassword(memberVO); // 비밀번호 수정 호출
+        log.info(result + "개 비밀번호 수정 완료");
+    }
+>>>>>>> Stashed changes
 
+    // 이메일 조회 테스트
+    private void testFindEmail() {
+        String result = memberMapper.findEmailById("test");
+        log.info("찾은 이메일: " + result);
+    }
 }

@@ -13,8 +13,10 @@ import com.gs24.website.service.EmailVerificationService;
 import com.gs24.website.service.MemberService;
 
 import lombok.extern.log4j.Log4j;
+
 @Log4j
 public class MemberRESTController {
+<<<<<<< Updated upstream
 	@Autowired
 	private MemberService memberService; // MemberService 사용
 	@Autowired
@@ -39,9 +41,31 @@ public class MemberRESTController {
 				return ResponseEntity.ok("Update Fail - Duplicated Email");
 			}
 		}
+=======
 
-	}
+    @Autowired
+    private MemberService memberService; // MemberService 사용
+    @Autowired
+    private EmailVerificationService emailVerificationService;
 
+    // 아이디 중복 체크
+    @PostMapping("/dupcheckid")
+    public ResponseEntity<String> dupcheckidPOST(@RequestParam String memberId) {
+        log.info("dupCheckIdPOST()");
+        int result = memberService.dupCheckId(memberId); // 서비스 레이어 사용
+        return result == 1 ? ResponseEntity.ok("1") : ResponseEntity.ok("0");
+    }
+>>>>>>> Stashed changes
+
+    // 이메일 중복 체크
+    @PostMapping("/dupcheckemail")
+    public ResponseEntity<String> dupcheckemailPOST(@RequestParam String email) {
+        log.info("dupCheckEmailPOST()");
+        int result = memberService.dupCheckEmail(email); // 서비스 레이어 사용
+        return result == 1 ? ResponseEntity.ok("1") : ResponseEntity.ok("0");
+    }
+
+<<<<<<< Updated upstream
 	@PostMapping("/update-phone")
 	public ResponseEntity<String> updatePhonePOST(@RequestBody MemberVO memberVO) {
 		if (memberVO.getPhone().equals(memberService.findPhoneById(memberVO.getMemberId()))) {
@@ -62,98 +86,96 @@ public class MemberRESTController {
 			}
 		}
 	}
+=======
+    // 전화번호 중복 체크
+    @PostMapping("/dupcheckphone")
+    public ResponseEntity<String> dupcheckphonePOST(@RequestParam String phone) {
+        log.info("dupCheckPhonePOST()");
+        int result = memberService.dupCheckPhone(phone);
+        return result == 1 ? ResponseEntity.ok("1") : ResponseEntity.ok("0");
+    }
+>>>>>>> Stashed changes
 
+    // 이메일로 아이디 찾기
+    @PostMapping("/findid")
+    public ResponseEntity<String> findidPOST(@RequestParam String email) {
+        log.info("findIdPOST()");
+        if (email.isEmpty()) {
+            return ResponseEntity.ok("");
+        }
+
+        int dupCheck = memberService.dupCheckEmail(email);
+        return dupCheck == 0 ? ResponseEntity.ok("do not exist") : ResponseEntity.ok("exist");
+    }
+
+    // 비밀번호 수정
+    @PostMapping("/updatePw")
+    public ResponseEntity<String> updatePwPOST(@RequestBody MemberVO memberVO) {
+        int result = memberService.updateMemberPassword(memberVO);
+        return result == 0 ? ResponseEntity.ok("Update Fail") : ResponseEntity.ok("Update Success");
+    }
+
+    // 이메일 수정
+    @PostMapping("/updateEmail")
+    public ResponseEntity<String> updateEmailPOST(@RequestBody MemberVO memberVO) {
+        if (memberVO.getEmail().equals(memberService.findEmailById(memberVO.getMemberId()))) {
+            return ResponseEntity.ok("Update Fail - Same Email");
+        }
+
+        int dupCheck = memberService.dupCheckEmail(memberVO.getEmail());
+        if (dupCheck == 0) {
+            int result = memberService.updateMemberEmail(memberVO);
+            return result == 0 ? ResponseEntity.ok("Update Fail") : ResponseEntity.ok("Update Success");
+        } else {
+            return ResponseEntity.ok("Update Fail - Duplicated Email");
+        }
+    }
+
+<<<<<<< Updated upstream
 	// 이메일 인증번호 발송
-	@PostMapping("/send-verification-code")
-	public ResponseEntity<String> sendVerificationCodePOST(@RequestParam String email) {
-		try {
-			emailVerificationService.sendVerificationCode(email);
-			log.info("sendVerificationCodePOST()");
-			return ResponseEntity.ok("Sending Success");
-		} catch (Exception e) { // 서버 에러나면
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
-		}
-	}
+=======
+    // 전화번호 수정
+    @PostMapping("/updatePhone")
+    public ResponseEntity<String> updatePhonePOST(@RequestBody MemberVO memberVO) {
+        if (memberVO.getPhone().equals(memberService.findPhoneById(memberVO.getMemberId()))) {
+            return ResponseEntity.ok("Update Fail - Same Phone");
+        }
 
-	// 인증번호 확인 후 회원 ID 찾기
-	@PostMapping("/find-id")
-	public ResponseEntity<String> findIdPOST(@RequestParam String email, @RequestParam String verificationCode) {
-		try {
-			// 인증번호와 이메일이 맞으면 회원 ID를 찾음
-			String memberId = emailVerificationService.verifyCodeAndFindMemberId(email, verificationCode);
-			if (memberId != null) {
-				log.info("findIdPOST()");
-				return ResponseEntity.ok(memberId);
-			} else {
-				return ResponseEntity.ok(memberId);
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}"); // 서버 오류 응답
-		}
-	}
+        int dupCheck = memberService.dupCheckPhone(memberVO.getPhone());
+        if (dupCheck == 0) {
+            int result = memberService.updateMemberPhone(memberVO);
+            return result == 0 ? ResponseEntity.ok("Update Fail") : ResponseEntity.ok("Update Success");
+        } else {
+            return ResponseEntity.ok("Update Fail - Duplicated Phone");
+        }
+    }
 
-	@PostMapping("/find-pw")
-	public ResponseEntity<String> findPwPOST(@RequestParam String memberId, @RequestParam String email,
-			@RequestParam String verificationCode) {
-		try {
-			// 인증번호와 이메일이 맞으면 회원 ID를 찾음
-			int result = emailVerificationService.verifyCodeAndFindPw(memberId, email, verificationCode);
-			if (result == 1) {
-				log.info("findPwPOST()");
-				return ResponseEntity.ok("1");
-			} else {
-				return ResponseEntity.ok("0");
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}"); // 서버 오류 응답
-		}
-	}
-
-	@PostMapping("/find-update-pw")
-	public ResponseEntity<String> findAndUpdatePwPOST(String memberId, String email, String password) {
-		String originalId = memberService.findId(email);
-		if (!originalId.equals(memberId)) {
-			log.info("다른 아이디 입력함");
-			return ResponseEntity.ok("Update Fail");
-		}
-		int result = memberService.updateMemberPassword(memberId, password);
-		if (result == 0) { // 업데이트가 안 되면
-			log.info("비밀번호 수정 실패");
-			return ResponseEntity.ok("Update Fail");
-		}
-
-		log.info("findAndUpdatePwPOST()");
-		return ResponseEntity.ok("Update Success");
-	}
-
-	// 이메일 인증번호 발송
+    // 이메일 인증번호 발송
+>>>>>>> Stashed changes
     @PostMapping("/sendVerificationCode")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String email) {
         try {
-            // 이미 회원 존재 확인 부분은 구현되었으므로 넘어갑니다
-            emailVerificationService.sendVerificationCode(email);  // 인증번호 발송
-            return ResponseEntity.status(HttpStatus.OK).body("{\"success\": true}");  // 성공 응답
+            emailVerificationService.sendVerificationCode(email);
+            log.info("sendVerificationCodePOST()");
+            return ResponseEntity.ok("{\"success\": true}");
         } catch (Exception e) {
-        	log.info("여기임1");// 인증 실패
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");  // 서버 오류 응답
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
+
     // 인증번호 확인 후 회원 ID 찾기
     @PostMapping("/verifyCode")
     public ResponseEntity<String> verifyCode(@RequestParam String email, @RequestParam String verificationCode) {
         try {
-            // 인증번호와 이메일이 맞으면 회원 ID를 찾음
             String memberId = emailVerificationService.verifyCodeAndFindMemberId(email, verificationCode);
-            if (memberId != null) {
-                return ResponseEntity.status(HttpStatus.OK).body("{\"success\": true}");  // 인증 성공
-            } else {
-            	log.info("여기임2");// 인증 실패
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"success\": false}"); 
-            }
+            return memberId != null
+                    ? ResponseEntity.ok("{\"success\": true}")
+                    : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"success\": false}");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");  // 서버 오류 응답
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
+<<<<<<< Updated upstream
     
 	@PostMapping("/delete")
 	public ResponseEntity<String> deletePOST(String memberId, HttpSession session) {
@@ -167,4 +189,19 @@ public class MemberRESTController {
 		log.info("deletePOST()");
 		return ResponseEntity.ok("Delete Success");
 	}
+=======
+
+    // 회원 탈퇴 처리
+    @PostMapping("/delete")
+    public ResponseEntity<String> deletePOST(@RequestParam String memberId, HttpSession session) {
+        int result = memberService.deleteMember(memberId); // 서비스 레이어 사용
+        if (result == 0) {
+            log.info("삭제 실패");
+            return ResponseEntity.ok("Delete Fail");
+        }
+        session.invalidate();
+        log.info("session.invalidate()");
+        return ResponseEntity.ok("Delete Success");
+    }
+>>>>>>> Stashed changes
 }

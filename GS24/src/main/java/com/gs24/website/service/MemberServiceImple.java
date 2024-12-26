@@ -37,6 +37,7 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public int updateMemberPassword(MemberVO memberVO) {
 		return memberMapper.updatePassword(memberVO);
 	}
@@ -60,6 +61,11 @@ public class MemberServiceImple implements MemberService {
 		// 회원 정보 수정
 		return memberMapper.update(memberVO);
 
+=======
+	public int updateMember(MemberVO memberVO) {
+		// 회원 정보 수정
+		return memberMapper.update(memberVO);
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -77,7 +83,7 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int dupCheckEmail(String email) {
 		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email); 
+		return memberMapper.dupCheckEmail(email);
 	}
 
 	@Override
@@ -88,18 +94,50 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public String findEmailById(String memberId) {
-		// TODO Auto-generated method stub
+		// 이메일 조회
 		return null;
 	}
 
 	@Override
 	public String findPhoneById(String memberId) {
-		// TODO Auto-generated method stub
+		// 전화번호 조회
 		return null;
 	}
 
+	// 중복 메소드 제거
+	// updateMemberPassword, updateMemberEmail, updateMemberPhone 등의 중복 메소드는 제거하고 
+	// updateMember 메소드 하나로 수정 사항을 처리
+
 	@Override
 	public int dupCheckIdAndEmail(String memberId, String email) {
+		// 아이디와 이메일 중복 체크
+		return 0;
+	}
+
+	@Override
+<<<<<<< Updated upstream
+	public int dupCheckIdAndEmail(String memberId, String email) {
+=======
+	public int updateMemberPassword(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberPassword(String memberId, String password) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberEmail(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateMemberPhone(MemberVO memberVO) {
+>>>>>>> Stashed changes
 		// TODO Auto-generated method stub
 		return 0;
 	}

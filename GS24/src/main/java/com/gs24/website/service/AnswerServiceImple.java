@@ -28,7 +28,11 @@ public class AnswerServiceImple implements AnswerService {
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
 		int updateResult = questionMapper.updateAnswer(answerVO.getQuestionId());
+<<<<<<< Updated upstream
 		log.info(insertResult + "행 댓글 추가");
+=======
+		log.info(insertResult + updateResult +"행 댓글 추가");
+>>>>>>> Stashed changes
 		return 1;
 	}
 
@@ -44,7 +48,7 @@ public class AnswerServiceImple implements AnswerService {
 		AnswerVO answerVO = new AnswerVO();
 		answerVO.setAnswerId(answerId);
 		answerVO.setAnswerContent(answerContent);
-		return answerMapper.update(answerVO);
+		return answerMapper.updateAnswer(answerVO);
 	}
 
 	@Transactional(value = "transactionManager")

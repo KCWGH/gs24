@@ -62,4 +62,10 @@ public class QuestionServiceImple implements QuestionService {
 	     return questionMapper.selectTotalCount();
 	}
 
+	@Override
+	public List<QuestionVO> getQuestionListByMemberId(String memberId) {
+		
+		 return questionMapper.selectQuestionListByMemberId(memberId);
+	}
+
 }

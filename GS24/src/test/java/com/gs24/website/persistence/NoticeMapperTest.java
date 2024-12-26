@@ -28,7 +28,7 @@ public class NoticeMapperTest {
 		log.info("testInsertNotice()");
 		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
 		int result = noticeMapper.insert(vo);
-		log.info(result + "Çà »ðÀÔ");
+		log.info(result + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 	}
 
 }

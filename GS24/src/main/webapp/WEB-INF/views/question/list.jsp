@@ -24,6 +24,9 @@ li {
 </style>
 
 <meta charset="UTF-8">
+
+<a href="../food/list"><button>메인페이지</button></a>
+<a href="../notice/list"><button>공지사항</button></a>
 <title>GS24 Q&A 게시판</title>
 <script type="text/javascript">
     // 작성자 확인 후 이동하는 함수
@@ -56,7 +59,7 @@ li {
 		<a href="register"><input type="button" value="글 작성"></a>
 		<a href="myList"><input type="button" value="내가 작성한 글"></a>
 	</c:if>
-
+	
 	<hr>
 	<table>
 		<thead>
@@ -88,7 +91,7 @@ li {
 					<td>${questionDateCreated }</td>
 					<td><c:if test="${QuestionVO.isAnswered == 0}">
                             답변대기
-                        </c:if> <c:if test="${QuestionVO.isAnswered != 0}">
+                        </c:if> <c:if test="${QuestionVO.isAnswered == 1}">
                             답변완료
                         </c:if></td>
 				</tr>

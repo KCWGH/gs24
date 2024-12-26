@@ -12,7 +12,7 @@ public interface AnswerMapper {
 	
 	List<AnswerVO> selectListByQuestionId(int questionId);
 	
-	int update(AnswerVO answerVO);
+	int updateAnswer(AnswerVO answerVO);
 	
 	int delete(int answerId);
 

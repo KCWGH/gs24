@@ -25,7 +25,14 @@ public class CouponController {
 		log.info(couponVO);
 
 		int result = couponService.addCoupon(couponVO);
+<<<<<<< Updated upstream
 		log.info(result + "Çà »ðÀÔ");
+=======
+		log.info(result + "ê°œ í–‰ ë“±ë¡ ì™„ë£Œ");
+
+		int result = couponMapper.insertCoupon(null);
+		log.info(result + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+>>>>>>> Stashed changes
 
 	}
 

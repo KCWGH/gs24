@@ -13,11 +13,19 @@ import lombok.extern.log4j.Log4j;
 
 @Service // @Component : SpringÀÌ °ü¸®ÇÏ´Â °´Ã¼
 @Log4j
+<<<<<<< Updated upstream
 public class NoticeServiceImple implements NoticeService{
 
    @Autowired
    private NoticeMapper noticeMapper;
    
+=======
+public class NoticeServiceImple implements NoticeService {
+   
+   @Autowired
+   private NoticeMapper noticeMapper;
+
+>>>>>>> Stashed changes
    @Override
    public int createNotice(NoticeVO vo) {
    	      log.info("createNotice()");
@@ -33,8 +41,19 @@ public class NoticeServiceImple implements NoticeService{
 
    @Override
    public NoticeVO getNoticeById(int noticeId) {
+<<<<<<< Updated upstream
    	log.info("getNoticeById()");
        return noticeMapper.selectOne(noticeId);
+=======
+      log.info("getNoticeById()");
+      int result = noticeMapper.updateNoticeViews(noticeId);
+      if (result == 1) {
+          log.info("ì¡°íšŒìˆ˜ ì¦ê°€ ì™„ë£Œ: noticeId = " + noticeId);
+      } else {
+    	  log.info("ì¡°íšŒìˆ˜ ì¦ê°€ ì‹¤íŒ¨ ");
+      }
+      return noticeMapper.selectOne(noticeId);
+>>>>>>> Stashed changes
    }
 
    @Override
@@ -60,4 +79,38 @@ public class NoticeServiceImple implements NoticeService{
    	 log.info("getTotalCount()");
         return noticeMapper.selectTotalCount();
    }
+<<<<<<< Updated upstream
 }
+=======
+
+   @Override
+   public List<NoticeVO> getNoticesByTitle(String noticeTitle) {
+      log.info("searchNoticesByTitle() with title = " + noticeTitle);
+      return noticeMapper.selectListByTitle(noticeTitle);
+   }
+
+   @Override
+   public List<NoticeVO> getNoticesByTitleWithPagination(String noticeTitle, Pagination pagination) {
+       int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
+       int end = start + pagination.getPageSize() - 1;
+       return noticeMapper.selectListByTitleWithPagination(noticeTitle, start, end);
+   }
+
+   @Override
+   public int getTotalCountByTitle(String noticeTitle) {
+       return noticeMapper.selectTotalCountByTitle(noticeTitle);
+   }
+
+   @Override
+   public List<NoticeVO> getNoticesByContentWithPagination(String noticeContent, Pagination pagination) {
+       int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
+       int end = start + pagination.getPageSize() - 1;
+       return noticeMapper.selectListByContentWithPagination(noticeContent, start, end);
+   }
+
+   @Override
+   public int getTotalCountByContent(String noticeContent) {
+       return noticeMapper.selectTotalCountByContent(noticeContent);
+   }
+}
+>>>>>>> Stashed changes

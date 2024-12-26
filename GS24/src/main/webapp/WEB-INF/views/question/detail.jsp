@@ -5,31 +5,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- jquery 라이브러리 import -->
-<script src="https://code.jquery.com/jquery-3.7.1.js">
-	
-</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <meta charset="UTF-8">
-<title>${questionVO.questionTitle }</title>
+<title>${questionVO.questionTitle}</title>
 </head>
 <body>
 	<h2>글 보기</h2>
 	<div>
-		<p>글 번호 : ${questionVO.questionId }</p>
+		<p>글 번호 : ${questionVO.questionId}</p>
 	</div>
 	<div>
-		<p>제목 :</p>
-		<p>${questionVO.questionTitle }</p>
+		<p>제목 : ${questionVO.questionTitle}</p>
 	</div>
 	<div>
-		<p>작성자 : ${questionVO.memberId }</p>
-		<!-- boardDateCreated 데이터 포멧 변경 -->
+		<p>작성자 : ${questionVO.memberId}</p>
 		<fmt:formatDate value="${questionVO.questionDateCreated }"
 			pattern="yyyy-MM-dd HH:mm:ss" var="questionDateCreated" />
-		<p>작성일 : ${questionDateCreated }</p>
+		<p>작성일 : ${questionDateCreated}</p>
 	</div>
 	<div>
-		<textarea rows="20" cols="120" readonly>${questionVO.questionContent }</textarea>
+		<textarea rows="20" cols="120" readonly>${questionVO.questionContent}</textarea>
 	</div>
 
 	<button onclick="location.href='list'">글 목록</button>
@@ -39,7 +34,7 @@
 	<button id="deletequestion">글 삭제</button>
 	<form id="deleteForm" action="delete" method="POST">
 		<input type="hidden" name="questionId"
-			value="${questionVO.questionId }">
+			value="${questionVO.questionId}">
 	</form>
 
 	<script type="text/javascript">
@@ -49,14 +44,14 @@
 					$('#deleteForm').submit(); // form 데이터 전송
 				}
 			});
-		}); // end document
+		});
 	</script>
 
 	<input type="hidden" id="questionId" value="${questionVO.questionId }">
 
 	<c:if test="${ memberVO.memberRole == 2}">
 		<div style="text-align: center;">
-			<input type="text" id="memberId" value="${memberVO.memberId }">
+			<input type="text" id="memberId" value="${memberVO.memberId}">
 			<input type="text" id="answerContent">
 			<button id="btnAdd">작성</button>
 		</div>
@@ -71,7 +66,7 @@
 		$(document)
 				.ready(
 						function() {
-							getAllAnswer(); // 함수 호출		
+							getAllAnswer(); // 함수 호출
 
 							// 댓글 작성 기능
 							$('#btnAdd').click(function() {
@@ -88,9 +83,9 @@
 
 								// $.ajax로 송수신
 								$.ajax({
-									type : 'POST', // 메서드 타입
+									type : 'POST',
 									url : '../answer', // url
-									headers : { // 헤더 정보
+									headers : {
 										'Content-Type' : 'application/json' // json content-type 설정
 									},
 									data : JSON.stringify(obj), // JSON으로 변환
@@ -98,7 +93,7 @@
 										console.log(result);
 										if (result == 1) {
 											alert('댓글 입력 성공');
-											getAllAnswer(); // 함수 호출		
+											getAllAnswer(); // 함수 호출
 										}
 									}
 								});
@@ -114,8 +109,6 @@
 												url,
 												function(data) {
 													// data : 서버에서 전송받은 list 데이터가 저장되어 있음.
-													// getJSON()에서 json 데이터는 
-													// javascript object로 자동 parsing됨.
 													console.log(data);
 
 													var list = ''; // 댓글 데이터를 HTML에 표현할 문자열 변수
@@ -124,14 +117,14 @@
 													$(data)
 															.each(
 																	function() {
-																		// this : 컬렉션의 각 인덱스 데이터를 의미
 																		console
 																				.log(this);
 
-																		// 전송된 replyDateCreated는 문자열 형태이므로 날짜 형태로 변환이 필요
+																		// 전송된 answerDateCreated는 문자열 형태이므로 날짜 형태로 변환이 필요
 																		var answerDateCreated = new Date(
 																				this.answerDateCreated);
 
+																		// 수정 및 삭제 버튼을 관리자가 아닐 경우 숨기기
 																		list += '<div class="answer_item">'
 																				+ '<pre>'
 																				+ '<input type="hidden" id="answerId" value="'+ this.answerId +'">'
@@ -141,15 +134,16 @@
 																				+ '&nbsp;&nbsp;'
 																				+ answerDateCreated
 																				+ '&nbsp;&nbsp;'
-																				+ '<button class="btn_update" >수정</button>'
-																				+ '<button class="btn_delete" >삭제</button>'
+																				+ '<c:if test="${memberVO.memberRole == 2}">'
+																				+ '<button class="btn_update">수정</button>'
+																				+ '<button class="btn_delete">삭제</button>'
+																				+ '</c:if>'
 																				+ '</pre>'
 																				+ '</div>';
 																	}); // end each()
 
-													$('#replies').html(list); // 저장된 데이터를 replies div 표현
-												} // end function()
-										); // end getJSON()
+													$('#replies').html(list); // 저장된 데이터를 replies div에 표현
+												}); // end getJSON()
 							} // end getAllAnswer()
 
 							// 수정 버튼을 클릭하면 선택된 댓글 수정
@@ -160,8 +154,7 @@
 											function() {
 												console.log(this);
 
-												// 선택된 댓글의 replyId, replyContent 값을 저장
-												// prevAll() : 선택된 노드 이전에 있는 모든 형제 노드를 접근
+												// 선택된 댓글의 answerId, answerContent 값을 저장
 												var answerId = $(this).prevAll(
 														'#answerId').val();
 												var answerContent = $(this)
@@ -193,7 +186,6 @@
 																}
 															}
 														});
-
 											}); // end replies.on()
 
 							// 삭제 버튼을 클릭하면 선택된 댓글 삭제
@@ -229,13 +221,8 @@
 																}
 															}
 														});
-											}); // end replies.on()		
-
+											}); // end replies.on()
 						}); // end document()
 	</script>
 </body>
 </html>
-
-
-
-

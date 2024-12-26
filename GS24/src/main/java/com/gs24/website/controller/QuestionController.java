@@ -43,7 +43,6 @@ public class QuestionController {
 
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("questionList", questionList);
-		
 	    model.addAttribute("memberVO", memberVO);
 
 	}
@@ -58,7 +57,7 @@ public class QuestionController {
 		log.info("registerPOST()");
 		log.info("questionVO = " + questionVO.toString());
 		int result = questionService.createQuestion(questionVO);
-		log.info(result + "�� ����");
+		log.info(result + "건 게시글 추가");
 		return "redirect:/question/list";
 	}
 
@@ -89,7 +88,7 @@ public class QuestionController {
 	public String modifyPOST(QuestionVO questionVO) {
 		log.info("modifyPOST()");
 		int result = questionService.updateQuestion(questionVO);
-		log.info(result + "�� ����");
+		log.info(result + "�� ����");
 		return "redirect:/question/list";
 	}
 
@@ -98,11 +97,10 @@ public class QuestionController {
 	public String delete(Integer questionId) {
 		log.info("delete()");
 		int result = questionService.deleteQuestion(questionId);
-		log.info(result + "�� ����");
+		log.info(result + "�� ����");
 		return "redirect:/question/list";
 	}
 	
-	// 내가 작성한 글
 	@GetMapping("/myList")
 	public void myListGET(Model model, Pagination pagination, HttpSession session) {
 	    log.info("myListGET()");
@@ -110,22 +108,23 @@ public class QuestionController {
 	    // 세션에서 현재 로그인한 사용자 정보 가져오기
 	    MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 
+	    // memberVO가 null일 경우 처리
 	    if (memberVO == null) {
-	        log.warn("세션에 memberVO가 존재하지 않습니다. 로그인 필요.");
-//	        return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
+	        log.info("세션에 memberVO가 존재하지 않습니다. 로그인 필요.");
+	        model.addAttribute("errorMessage", "로그인 후 이용할 수 있습니다.");
+	        return;
 	    }
 
 	    // 로그인한 사용자의 ID를 기준으로 질문 목록을 가져오기
-	//    List<QuestionVO> myQuestionList = questionService.getQuestionsByMemberId(pagination, memberVO.getMemberId());
+	    List<QuestionVO> myQuestionList = questionService.getQuestionListByMemberId(memberVO.getMemberId());
+	    log.info(myQuestionList);	    
 
-	    // 페이징 처리
-	    PageMaker pageMaker = new PageMaker();
-	    pageMaker.setPagination(pagination);
-//	    pageMaker.setTotalCount(questionService.getTotalCountByMemberId(memberVO.getMemberId())); // 사용자가 작성한 글 수
-
-	    model.addAttribute("pageMaker", pageMaker);
-//      model.addAttribute("myQuestionList", myQuestionList);
+	    
+	    model.addAttribute("myQuestionList", myQuestionList); // 사용자가 작성한 질문 목록
 	    model.addAttribute("memberVO", memberVO); // 세션에서 가져온 사용자 정보를 모델에 추가
 	}
+
+
+
 
 }

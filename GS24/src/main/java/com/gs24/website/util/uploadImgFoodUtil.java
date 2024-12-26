@@ -24,12 +24,15 @@ public class uploadImgFoodUtil {
 
     public static String subStrExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         String extension = fileName.substring(dotIndex + 1);
-
         return extension;
     }
     
+<<<<<<< Updated upstream
     public static String makeDir(Object obj) {
     	String dirPath = "";
     	if(obj instanceof FoodVO) {
@@ -46,32 +49,51 @@ public class uploadImgFoodUtil {
        boolean hasFile = false;
        
         File realUploadPath = new File(uploadPath,makeDir(obj));
+=======
+    public static String makeDir() {
+        return "ImgFood\\";
+    }
+
+    public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
+        boolean hasFile = false;
+
+        File realUploadPath = new File(uploadPath, makeDir());
+>>>>>>> Stashed changes
         if (!realUploadPath.exists()) {
             realUploadPath.mkdirs();
             log.info(realUploadPath.getPath() + " successfully created.");
         } else {
             log.info(realUploadPath.getPath() + " already exists.");
         }
-        
+
         File saveFile = new File(realUploadPath, chgName);
+<<<<<<< Updated upstream
         if(!saveFile.exists()) { 	
         	log.info("파일이 없습니다.");
         } else {
         	hasFile = true;
+=======
+        if (!saveFile.exists()) {
+            log.info("File will be uploaded.");
+        } else {
+            log.info("File already exists.");
+            hasFile = true;
+>>>>>>> Stashed changes
         }
-        
+
         try {
             file.transferTo(saveFile);
-            log.info("file upload scuccess");
+            log.info("File upload success");
         } catch (IllegalStateException e) {
             log.error(e.getMessage());
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        
+
         return hasFile;
     }
 
+<<<<<<< Updated upstream
     public static void deleteFile(Object obj, String uploadPath,String chgName) {
         String fullPath = uploadPath + File.separator + makeDir(obj) + chgName;
         
@@ -81,11 +103,21 @@ public class uploadImgFoodUtil {
         if(file.exists()) {
             if(file.delete()) {
                 System.out.println(fullPath + " file delete success.");
+=======
+    public static void deleteFile(String uploadPath, String chgName) {
+        String fullPath = uploadPath + File.separator + makeDir() + chgName;
+
+        File file = new File(fullPath);
+
+        if (file.exists()) {
+            if (file.delete()) {
+                log.info(fullPath + " file delete success.");
+>>>>>>> Stashed changes
             } else {
-                System.out.println(fullPath + " file delete failed.");
+                log.info(fullPath + " file delete failed.");
             }
         } else {
-            System.out.println(fullPath + " file not found.");
+            log.info(fullPath + " file not found.");
         }
     }
 }
