@@ -14,6 +14,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ImgFoodDateCreated" column="IMG_FOOD_DATE_CREATED"/>
 	</resultMap>
 	
+	<resultMap type="com.gs24.website.domain.ImgFoodVO" id="ImgPathResultMap">
+		<id property="ImgFoodId" column="IMG_FOOD_ID" />
+		<result property="ImgFoodPath" column="IMG_FOOD_PATH"/>
+	</resultMap>
+	
 	<insert id="insertImgFood">
 		INSERT INTO IMG_FOOD
 		(IMG_FOOD_ID, FOOD_ID, IMG_FOOD_PATH, IMG_FOOD_REAL_NAME, IMG_FOOD_CHG_NAME, IMG_FOOD_EXTENSION)
@@ -26,6 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectAllImagFood" resultMap="ImgFoodResultMape">
 		SELECT * FROM IMG_FOOD ORDER BY IMG_FOOD_ID DESC
+	</select>
+	
+	<select id="selectImgFoodPathByFoodId" resultMap="ImgPathResultMap">
+		SELECT IMG_FOOD_PATH FROM IMG_FOOD WHERE FOOD_ID = ${foodId}
 	</select>
 	
 	<update id="updateImgFood">

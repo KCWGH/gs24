@@ -1,73 +1,52 @@
 package com.gs24.website.controller;
 
-<<<<<<< Updated upstream
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-=======
->>>>>>> Stashed changes
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-<<<<<<< Updated upstream
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.ImgFoodVO;
-import com.gs24.website.util.uploadImgFoodUtil;
-=======
->>>>>>> Stashed changes
+import com.gs24.website.service.ImgFoodService;
+import com.gs24.website.util.GetImgUtil;
 
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping(value = "/imgfood")
+@RequestMapping("/ImgFood")
 @Log4j
-public class ImgFoodController {
+public class ImgFoodController{
 
-<<<<<<< Updated upstream
+	@Autowired
+	private ImgFoodService imgFoodService;
+	
 	@Autowired
 	private String uploadPath;
-
-	@GetMapping("/register")
-	public void registerGET() {
-		log.info("registerGET");
+	
+	@GetMapping
+	public ResponseEntity<byte[]> getFoodImage(Integer foodId) throws IOException{
+		log.info("getFoodImage()");
+		log.info(foodId);
+		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
+		
+		String path = uploadPath + File.separator + imgFoodVO.getImgFoodPath();
+		
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(path);
+		
+		return entity;	
 	}
-
-	@PostMapping("/register")
-	public void registerPOST(ImgFoodVO imgFoodVO) {
-		log.info("registerPOST() ����");
-		MultipartFile file = imgFoodVO.getFile();
-		log.info("���� �̸� : " + file.getOriginalFilename());
-		log.info("���� ũ�� : " + file.getSize());
-
-		// �̰� DB�� �����Ǵ� foodId �̰ɷ� �����ϸ鼭 �ϸ� �ɵ�
-		String chgName = "7����ǰ";
-		// ���� ����
-		boolean a = uploadImgFoodUtil.saveFile(uploadPath, file,
-				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		// ���� ���� �̸� ����
-		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		// ���� ���� �̸� ����
-		imgFoodVO.setImgFoodChgName(chgName);
-		// ���� Ȯ���� ����
-		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		// ���� ��� ����
-		imgFoodVO.setImgFoodPath(uploadPath + uploadImgFoodUtil.makeDir() + chgName + "."
-				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		if (a) {
-			// ������ ������ insert
-			log.info("������ �����Ͽ� update");
-		} else {
-			// ������ ������ update
-			log.info("������ �������� �ʾ� insert");
-		}
-
-		log.info(imgFoodVO);
-
-		// uploadImgFoodUtil.deleteFile(uploadPath, chgName +"."+
-		// uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+	
+	@GetMapping("/regist")
+	public ResponseEntity<byte[]>foodRegister(String filePath) throws IOException{
+		log.info("foodRegister()");
+		log.info("File Path : " + filePath);
+		
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(filePath);
+		
+		return entity;
+		
 	}
-=======
->>>>>>> Stashed changes
 }

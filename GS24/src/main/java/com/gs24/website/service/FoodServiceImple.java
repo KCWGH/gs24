@@ -43,14 +43,13 @@ public class FoodServiceImple implements FoodService{
 		FoodVO VO = foodMapper.selectFirstFoodId();
 
 		String chgName = "FoodNO" + VO.getFoodId();
-		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
+		boolean hasFile = uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
 		imgFoodVO.setImgFoodChgName(chgName);
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
-				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 		imgFoodVO.setFoodId(VO.getFoodId());
 		if (hasFile) {
 			log.info("Failed insert image");
@@ -100,9 +99,8 @@ public class FoodServiceImple implements FoodService{
 		log.info("file name : " + file.getOriginalFilename());
 		log.info("file size : " + file.getSize());
 
-		String chgName = "FoodNO" + foodVO.getFoodId();
-
-		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
+		String chgName = "FoodNO" + foodVO.getFoodId();	
+		boolean hasFile = uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 
@@ -112,8 +110,7 @@ public class FoodServiceImple implements FoodService{
 
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
-		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
-				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 		imgFoodVO.setFoodId(foodVO.getFoodId());
 		if (hasFile) {
@@ -163,7 +160,7 @@ public class FoodServiceImple implements FoodService{
 		
 		ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodId);
 		imgFoodMapper.deleteImgFood(foodId);
-		uploadImgFoodUtil.deleteFile(uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
+		uploadImgFoodUtil.deleteFile(new FoodVO(),uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
 		
 		return result;
 	}

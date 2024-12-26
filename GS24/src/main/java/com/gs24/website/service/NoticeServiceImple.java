@@ -11,129 +11,53 @@ import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
-@Service
+@Service // @Component : Spring¿Ã ∞¸∏Æ«œ¥¬ ∞¥√º
 @Log4j
 public class NoticeServiceImple implements NoticeService{
-   
+
    @Autowired
    private NoticeMapper noticeMapper;
-
-<<<<<<< Updated upstream
-@Override
-public int createNotice(NoticeVO vo) {
-	      log.info("createNotice()");
-	      int result = noticeMapper.insert(vo);
-	      return result;	
-}
-
-@Override
-public List<NoticeVO> getAllNotice() {
-	 log.info("getAllNotice()");
-     return noticeMapper.selectList();
-}
-
-@Override
-public NoticeVO getNoticeById(int noticeId) {
-	log.info("getNoticeById()");
-    return noticeMapper.selectOne(noticeId);
-}
-
-@Override
-public int updateNotice(NoticeVO vo) {
-	 log.info("updateNotice()");
-     return noticeMapper.update(vo);
-}
-
-@Override
-public int deleteNotice(int noticeId) {
-	 log.info("deleteNotice()");
-     return noticeMapper.delete(noticeId);
-}
-
-@Override
-public List<NoticeVO> getPagingNotices(Pagination pagination) {
-	 log.info("getPagingNotices()");
-     return noticeMapper.selectListByPagination(pagination);
-}
-
-@Override
-public int getTotalCount() {
-	 log.info("getTotalCount()");
-     return noticeMapper.selectTotalCount();
-}
-
-=======
+   
    @Override
    public int createNotice(NoticeVO vo) {
-      log.info("createNotice()");
-      int result = noticeMapper.insert(vo);
-      return result;  
+   	      log.info("createNotice()");
+   	      int result = noticeMapper.insert(vo);
+   	      return result;	
    }
 
    @Override
    public List<NoticeVO> getAllNotice() {
-      log.info("getAllNotice()");
-      return noticeMapper.selectList();
+   	 log.info("getAllNotice()");
+        return noticeMapper.selectList();
    }
 
    @Override
    public NoticeVO getNoticeById(int noticeId) {
-      log.info("getNoticeById()");
-      return noticeMapper.selectOne(noticeId);
+   	log.info("getNoticeById()");
+       return noticeMapper.selectOne(noticeId);
    }
 
    @Override
    public int updateNotice(NoticeVO vo) {
-      log.info("updateNotice()");
-      return noticeMapper.update(vo);
+   	 log.info("updateNotice()");
+        return noticeMapper.update(vo);
    }
 
    @Override
    public int deleteNotice(int noticeId) {
-      log.info("deleteNotice()");
-      return noticeMapper.delete(noticeId);
+   	 log.info("deleteNotice()");
+        return noticeMapper.delete(noticeId);
    }
 
    @Override
    public List<NoticeVO> getPagingNotices(Pagination pagination) {
-      log.info("getPagingNotices()");
-      return noticeMapper.selectListByPagination(pagination);  // pagination Í∞ùÏ≤¥ Í∑∏ÎåÄÎ°ú Ï†ÑÎã¨
+   	 log.info("getPagingNotices()");
+        return noticeMapper.selectListByPagination(pagination);
    }
 
    @Override
    public int getTotalCount() {
-      log.info("getTotalCount()");
-      return noticeMapper.selectTotalCount();
+   	 log.info("getTotalCount()");
+        return noticeMapper.selectTotalCount();
    }
-
-   @Override
-   public List<NoticeVO> getNoticesByTitle(String noticeTitle) {
-      log.info("searchNoticesByTitle() with title = " + noticeTitle);
-      return noticeMapper.selectListByTitle(noticeTitle);
-   }
-
-   @Override
-   public List<NoticeVO> getNoticesByTitleWithPagination(String noticeTitle, Pagination pagination) {
-       int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
-       int end = start + pagination.getPageSize() - 1;
-       return noticeMapper.selectListByTitleWithPagination(noticeTitle, start, end);
-   }
-
-   @Override
-   public int getTotalCountByTitle(String noticeTitle) {
-       return noticeMapper.selectTotalCountByTitle(noticeTitle);
-   }
-
-@Override
-public List<NoticeVO> getNoticesByContentWithPagination(String noticeContent, Pagination pagination) {
-	int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
-    int end = start + pagination.getPageSize() - 1;
-    return noticeMapper.selectListByContentWithPagination(noticeContent, start, end);
-}
-
-@Override
-public int getTotalCountByContent(String noticeContent) {
-	return noticeMapper.selectTotalCountByContent(noticeContent);
-}
->>>>>>> Stashed changes
 }

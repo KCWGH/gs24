@@ -19,7 +19,7 @@
         
         <input type="submit" value="인증번호 전송"><br>
         <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
-
+	</form>
     <form action="findid" method="POST">
     	아이디: <input type="text" id="memberId" name="memberId" required><br>
         이메일: <input type="email" id="email" name="email" required>

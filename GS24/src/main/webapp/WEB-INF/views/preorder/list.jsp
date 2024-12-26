@@ -38,6 +38,10 @@
 	            $(data).each(function(){
 	                let pickUpDate = new Date(this.pickupDate);
 	                
+	                let StringDate = formatDate(pickUpDate);
+					
+	                let foodId = this.foodId;
+	                
 	                let isPickUp = '미수령';
 	                if(this.isPickUp == 1){
 	                    isPickUp = '수령 완';
@@ -50,10 +54,9 @@
 	                
 	                list += '<div class="preorderList">'
 	                        + '<input type="checkbox" class="check-box">'
-	                        + '<div class="preorderNO">'+this.preorderId+'</div>'
-	                        + '<div>FoodName : '+this.foodId+'</div>'
-	                        + '<div>Amount :'+this.preorderAmount+'</div>'
-	                        + '<div>Pickup :'+ pickUpDate+'</div>'
+	                        + '<div><img src="../ImgFood?foodId='+foodId+'"></div>'
+	                        + '<div>수량 : '+this.preorderAmount+'</div>'
+	                        + '<div>수령일 : '+ StringDate+'</div>'
 	                        + '<div>'+isPickUp+'</div>'
 	                        + '<div class="isExpriedOrder">'+isExpiredOrder+'</div>'
 	                        + '</div>';
@@ -121,8 +124,21 @@
 	             });
 	    	});
 	    }
+	    
+	    function formatDate(date){
+	    	let yyyy = date.getFullYear();
+			let mm = date.getMonth() + 1;
+			let dd = date.getDate();
+            
+			if (mm < 10) mm = '0' + mm;
+			if (dd < 10) dd = '0' + dd;
+			
+			let toStringDate = yyyy + "년" + mm + "월" + dd + "일";
+			
+			return toStringDate;
+	    }
+	    
 	});
-
 	
 	</script>
 </body>

@@ -67,10 +67,10 @@
 			
 			function isNowDate(){
 				
-				var today = new Date();
-				var yyyy = today.getFullYear();
-				var mm = today.getMonth() + 1;
-				var dd = today.getDate();
+				let today = new Date();
+				let yyyy = today.getFullYear();
+				let mm = today.getMonth() + 1;
+				let dd = today.getDate();
 
 				if (mm < 10) mm = '0' + mm;
 				if (dd < 10) dd = '0' + dd;

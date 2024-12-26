@@ -76,40 +76,8 @@ public class FoodController {
 	@PostMapping("/update")
 	public String updatePOST(FoodVO foodVO, MultipartFile file) {
 		log.info("updatePOST()");
-<<<<<<< Updated upstream
-		int result = foodService.updateFood(foodVO);
-
-		ImgFoodVO imgFoodVO = new ImgFoodVO();
-		imgFoodVO.setFile(file);
-		log.info("file name : " + file.getOriginalFilename());
-		log.info("file size : " + file.getSize());
-
-		String chgName = "FoodNO" + foodVO.getFoodId();
-
-		boolean hasFile = uploadImgFoodUtil.saveFile(uploadPath, file,
-				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodChgName(chgName);
-
-		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodPath(uploadPath + File.separator + uploadImgFoodUtil.makeDir() + chgName + "."
-				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setFoodId(foodVO.getFoodId());
-		if (hasFile) {
-			log.info("Successed update image");
-			imgFoodService.updateImgFood(imgFoodVO);
-		} else {
-			log.info("Failed update image");
-		}
-
-		log.info(imgFoodVO);
-=======
 		int result = foodService.updateFood(foodVO, file);
->>>>>>> Stashed changes
+
 
 		return "redirect:/food/list";
 	}
