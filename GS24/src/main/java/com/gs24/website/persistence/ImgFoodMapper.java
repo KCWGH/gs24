@@ -12,6 +12,8 @@ public interface ImgFoodMapper {
 	
 	ImgFoodVO selectImgFoodById(int foodId);
 	
+	String selectImgFoodPathByFoodId(int foodId);
+	
 	List<ImgFoodVO> selectAllImagFood();
 	
 	int updateImgFood(ImgFoodVO imgFoodVO);

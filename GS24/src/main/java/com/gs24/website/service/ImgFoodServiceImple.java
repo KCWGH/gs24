@@ -19,7 +19,7 @@ public class ImgFoodServiceImple implements ImgFoodService {
 
 	@Override
 	public int createImgFood(ImgFoodVO imgFoodVO) {
-		log.info("createImgFood() ����");
+		log.info("createImgFood()");
 		int result = imgFoodMapper.insertImgFood(imgFoodVO);
 		return result;
 	}
@@ -34,7 +34,7 @@ public class ImgFoodServiceImple implements ImgFoodService {
 
 	@Override
 	public List<ImgFoodVO> getAllImgFood() {
-		log.info("getAllImgFood() ����");
+		log.info("getAllImgFood()");
 		List<ImgFoodVO> list = imgFoodMapper.selectAllImagFood();
 		log.info(list);
 		return list;
@@ -42,14 +42,14 @@ public class ImgFoodServiceImple implements ImgFoodService {
 
 	@Override
 	public int updateImgFood(ImgFoodVO imgFoodVO) {
-		log.info("updateImgFood() ����");
+		log.info("updateImgFood()");
 		int result = imgFoodMapper.updateImgFood(imgFoodVO);
 		return result;
 	}
 
 	@Override
 	public int deleteImgFood(int foodId) {
-		log.info("deleteImgFood() ����");
+		log.info("deleteImgFood()");
 		int result = imgFoodMapper.deleteImgFood(foodId);
 		return 0;
 	}

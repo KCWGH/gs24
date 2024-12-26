@@ -9,12 +9,20 @@
 
 <script>
 	$(document).ready(function() {
+<<<<<<< Updated upstream
 		$("#btnUpdatePassword").click(function(event){
 			event.preventDefault();
 			$("#password").prop("disabled", false);
 			$("#btnUpdatePassword").prop("hidden", true);
 			$("#btnUpdatePasswordConfirm, #btnUpdatePasswordCancel").prop("hidden", false);
 			$("#updatePasswordResult").hide();
+=======
+		$("#btnUpdate").click(function() {
+			$("#email, #phone, #password").prop("disabled", false);
+			$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", false);
+			$("#updateResultArea").hide();
+
+>>>>>>> Stashed changes
 		});
 
 		$("#btnUpdatePasswordCancel").click(function(event){
@@ -66,15 +74,14 @@
 			$("#btnUpdateEmail").prop("hidden", false);
 			$("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
 		});
-<<<<<<< HEAD
+
+<<<<<<< Updated upstream
 		// 이메일 수정 확정 버튼 클릭
 		$("#btnUpdateEmailConfirm").click(function(event){
-
 =======
-
-		// 이메일 수정 확정 버튼 클릭
-		$("#btnUpdateEmailConfirm").click(function(event){
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
+		});
+		$("#btnUpdateConfirm").click(function(event) {
+>>>>>>> Stashed changes
 			event.preventDefault();
 			let email = $("#email").val();
 			let memberId = "${memberVO.memberId}";
@@ -147,19 +154,26 @@
                 }
             });
 		});
+<<<<<<< Updated upstream
 		
 		$("#btnDelete").click(function(event){
 			event.preventDefault();
+=======
+		$("#btnUpdateCancel").click(function() {
+			$("#email, #phone, #password").prop("disabled", true);
+			$("#btnUpdateConfirm, #btnUpdateCancel").prop("hidden", true);
+			$("#updateResultArea").hide();
+		});
+
+		$("#btnDelete").click(function() {
+>>>>>>> Stashed changes
 			$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", false);
 		});
 		$("#btnDeleteCancel").click(function(event){
 			event.preventDefault();
 			$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
 		});
-<<<<<<< HEAD
-
-=======
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
+<<<<<<< Updated upstream
 		$("#btnDeleteConfirm").click(function(event){
 			event.preventDefault();
 			let memberId = "${memberVO.memberId}";
@@ -180,34 +194,25 @@
                 }
             });
 		});
-<<<<<<< HEAD
-
+=======
 
 		$("#couponList").click(function() {
 			  window.open("coupon", "_blank", "width=800,height=600");
 			});
-
-=======
-		$("#couponList").click(function(event){
-			window.open("../coupon/list", "_blank", "width=600,height=500");
-		});
-		
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
+>>>>>>> Stashed changes
 	});
 </script>
 </head>
 <body>
 	<div class="container">
 		<h2>마이페이지</h2>
-<<<<<<< HEAD
-<c:if test="${empty memberVO}">
-=======
 
+<<<<<<< Updated upstream
 		<c:if test="${empty memberVO}">
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 			<h3>로그인 필요</h3>
 			<a href="login">로그인</a>
 		</c:if>
+
 		<c:if test="${not empty memberVO}">
 			<form>
 				<table>
@@ -260,6 +265,7 @@
 					</tr>
 				</table>
 			</form>
+
 			<div class="btn-container">
 				<button id="btnDelete">회원 탈퇴</button>
 				<p id="textDelete" hidden="hidden">탈퇴 시 사용자의 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p>
@@ -267,25 +273,77 @@
 				<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			</div>
 
-			
+			<c:if test="${memberVO.memberRole == 1}">
 				<div class="btn-container">
 					<a href="#" id="couponList">쿠폰함</a>
 				</div>
-<<<<<<< HEAD
 			</c:if>
-=======
 
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7
 			<p id="deleteResultArea"></p>
+
 			<div class="btn-container">
 				<a href="../food/list">음식 리스트로</a>
 				<a href="logout">로그아웃</a>
 			</div>
 		</c:if>
-<<<<<<< HEAD
 	</div>
 =======
-	</div>
+	<c:if test="${empty memberVO}">
+		<h3>마이페이지 조회를 위해서 먼저 로그인하세요</h3>
+		<a href="login">로그인</a>
+	</c:if>
+
+	<!-- 로그인된 사용자 정보 표시 -->
+	<c:if test="${not empty memberVO}">
+		<form>
+			<table>
+				<tr>
+					<th>아이디</th>
+					<td><span>${memberVO.memberId}</span></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input id="password" type="password" name="password" value="${memberVO.password}" disabled></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input id="email" type="email" name="email" value="${memberVO.email}" disabled></td>
+				</tr>
+				<tr>
+					<th>휴대폰</th>
+					<td><input id="phone" type="text" name="phone" value="${memberVO.phone}" disabled></td>
+				</tr>
+				<tr>
+					<th>생일</th>
+					<td><span>${memberVO.birthday}</span></td>
+				</tr>
+				<tr>
+					<th>계정 유형</th>
+					<td><c:choose>
+							<c:when test="${memberVO.memberRole == 1}">일반회원</c:when>
+							<c:when test="${memberVO.memberRole == 2}">점주</c:when>
+						</c:choose></td>
+				</tr>
+			</table>
+			</form>
+			<br>
+			<a href="#" id="btnUpdate">회원정보 수정</a>
+			<button type="button" id="btnUpdateConfirm" hidden="hidden">저장</button>
+			<button type="button" id="btnUpdateCancel" hidden="hidden">취소</button>
+		
+		<p id="updateResultArea" style="display:none;"></p>
+		<a href="#" id="btnDelete">회원 탈퇴</a>
+		<p id=textDelete hidden="hidden">회원을 탈퇴하시면 더 이상 로그인할 수 없지만, 사용자의 활동(게시글, 댓글)은 그대로 남습니다. 정말 탈퇴할까요?</p>
+		<button type="button" id="btnDeleteConfirm" hidden="hidden">네</button>
+		<button type="button" id="btnDeleteCancel" hidden="hidden">아니오</button><br>
+
+		<c:if test="${memberVO.memberRole == 1}">
+		<a href="#" id="couponList">쿠폰함</a><br>
+		</c:if>
+		<p id="deleteResultArea" style="display:none;"></p>
+		<a href="../food/list">음식 리스트로 돌아가기</a>
+		<a href="logout">로그아웃</a>
+	</c:if>
+>>>>>>> Stashed changes
 </body>
 </html>
->>>>>>> 5f0e7c57d0a4abf29e5d76e4b4e2974567c8a0d7

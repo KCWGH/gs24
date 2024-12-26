@@ -6,58 +6,46 @@ import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gs24.website.domain.FoodVO;
+import com.gs24.website.domain.ReviewVO;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class uploadImgFoodUtil {
-	
-	/**
-     * ���� �̸����� Ȯ���ڸ� ������ ���� ���� �̸��� ����
-     * 
-     * @param fileName ���� �̸�
-     * @return ���� ���� �̸�
-     */
+
     public static String subStrName(String fileName) {
-    	// FilenameUtils.normalize() : ���� �̸� ����ȭ �޼���
         String normalizeName = FilenameUtils.normalize(fileName);
         int dotIndex = normalizeName.lastIndexOf('.');
 
         String realName = normalizeName.substring(0, dotIndex);
         return realName;
     }
-    
-    /**
-     * ���� �̸����� Ȯ���ڸ� ����
-     * 
-     * @param fileName ���� �̸�
-     * @return Ȯ����
-     */
+
     public static String subStrExtension(String fileName) {
-        // ���� �̸����� ������ '.'�� �ε����� ã���ϴ�.
         int dotIndex = fileName.lastIndexOf('.');
 
-        // '.' ������ ���ڿ��� Ȯ���ڷ� �����մϴ�.
         String extension = fileName.substring(dotIndex + 1);
 
         return extension;
     }
     
-    public static String makeDir() {
-    	return "ImgFood\\";
+    public static String makeDir(Object obj) {
+    	String dirPath = "";
+    	if(obj instanceof FoodVO) {
+    		log.info("FoodVO����");
+    		dirPath = "ImgFood\\";
+    	} else if (obj instanceof ReviewVO) {
+    		dirPath = "ImgReview\\";
+    	}
+    	return dirPath;
     }
     
-    /**
-     * ������ ����
-     * 
-     * @param uploadPath ���� ���ε� ���
-     * @param file ���ε�� ����
-     * @param uuid UUID
-     */
-    public static boolean saveFile(String uploadPath, MultipartFile file, String chgName) {
-    	
-    	boolean hasFile = false;
-    	
-        File realUploadPath = new File(uploadPath,makeDir());
+    public static boolean saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
+       
+       boolean hasFile = false;
+       
+        File realUploadPath = new File(uploadPath,makeDir(obj));
         if (!realUploadPath.exists()) {
             realUploadPath.mkdirs();
             log.info(realUploadPath.getPath() + " successfully created.");
@@ -66,10 +54,9 @@ public class uploadImgFoodUtil {
         }
         
         File saveFile = new File(realUploadPath, chgName);
-        if(!saveFile.exists()) {
-        	log.info("������ �����ϴ�.");
+        if(!saveFile.exists()) { 	
+        	log.info("������ �����ϴ�.");
         } else {
-        	log.info("���� ������ �����մϴ�.");
         	hasFile = true;
         }
         
@@ -84,22 +71,13 @@ public class uploadImgFoodUtil {
         
         return hasFile;
     }
-    
-    /**
-     * ������ ����
-     * 
-     * @param uploadPath ���� ���ε� ���
-     * @param path ������ ����� ��¥ ���
-     * @param chgName ����� ���� �̸�
-     */
-    public static void deleteFile(String uploadPath,String chgName) {
-        // ������ ������ ��ü ��� ����
-        String fullPath = uploadPath + File.separator + makeDir() + chgName;
+
+    public static void deleteFile(Object obj, String uploadPath,String chgName) {
+        String fullPath = uploadPath + File.separator + makeDir(obj) + chgName;
         
-        // ���� ��ü ����
+
         File file = new File(fullPath);
         
-        // ������ �����ϴ��� Ȯ���ϰ� ����
         if(file.exists()) {
             if(file.delete()) {
                 System.out.println(fullPath + " file delete success.");

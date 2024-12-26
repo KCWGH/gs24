@@ -20,6 +20,7 @@ public interface MemberMapper {
 	int updateEmail(MemberVO memberVO);
 
 	int updatePhone(MemberVO memberVO);
+	int update(MemberVO memberVO);
 
 	int delete(String memberId);
 
@@ -32,10 +33,10 @@ public interface MemberMapper {
 	String findId(String email);
 
 	String findEmailById(String memberId);
-
-	String findPhoneById(String memberId);
-
+	
 	String findPwById(String memberId);
 
 	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
+	
+	int verifyMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 }

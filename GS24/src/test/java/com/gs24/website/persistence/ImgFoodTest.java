@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgFoodVO;
 
 import lombok.extern.log4j.Log4j;
@@ -24,19 +23,11 @@ public class ImgFoodTest {
 	
 	@Test
 	public void mapperTest() {
-		insert();
+		selectImgFoodPath();
 	}
 	
 	public void insert() {
-		ImgFoodVO vo =  new ImgFoodVO();
-		vo.setFoodId(1);
-		vo.setImgFoodPath("C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp\\ImgFood\\FoodNo1.png");
-		vo.setImgFoodRealName("이거 어디서 나온거냐");
-		vo.setImgFoodChgName("FoodNo1.png");
-		vo.setImgFoodExtension("png");
-		Date date = new Date();
-		vo.setImgFoodDateCreated(date);
-		imgFoodMapper.insertImgFood(vo);
+		
 	}
 	
 	public void update() {
@@ -54,6 +45,10 @@ public class ImgFoodTest {
 	
 	public void selectList() {
 		log.info(imgFoodMapper.selectAllImagFood());
+	}
+	
+	public void selectImgFoodPath() {
+		log.info(imgFoodMapper.selectImgFoodPathByFoodId(13));
 	}
 	
 	public void delete() {

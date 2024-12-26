@@ -27,5 +27,9 @@ public interface FoodMapper {
 	
 	int updateFoodAmountByPreorderAmount(@Param("foodId") int foodId, @Param("preorderAmount") int preorderAmount);
 	
+	int updateFoodAvgRatingByFoodId(@Param("foodId") int foodId, @Param("foodAvgRating") int foodAvgRating);
+	
+	int updateFoodReviewCntByFoodId(@Param("foodId") int foodId, @Param("foodReviewCnt") int foodReviewCnt);
+	
 	int deleteFood(int foodId);
 }

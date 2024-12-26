@@ -27,30 +27,30 @@
                 let memberId = $("#memberId").val();
                 let email = $("#email").val();
                 let verificationCode = $("#verificationCode").val();
-            	if (email === "" || memberId === "") {
-                    alert("아이디와 이메일을 모두 기입해주세요.");
-                    return;
-                }
                 
                 $.ajax({
-                    url: "find-pw",
+                    url: "account-exist",
                     type: "POST",
                     data: { memberId: memberId, email: email },
                     success: function(response) {
-                    	$("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
-                        $("#sendResult,#verificationText,#verificationCode,#btnVerifyCode").show();
-                    },
-                    error: function(xhr, status, error) {
-                        // 이메일 전송 실패 시
-                        let responseText = xhr.responseText;
-                        
-                        // 이메일이 존재하지 않는 경우 처리
-                        if (responseText === "do not exist") {
-                        	$("#sendResult").html("등록된 이메일이 존재하지 않습니다. 다시 확인해주세요.");
-                        	$("#sendResult").show();
+                        if (response === "do not exist") {
+                            $("#sendResult").text("해당 회원정보가 없습니다.").show();
+                        } else if (response === "exist") {
+                            $.ajax({
+                                url: "send-verification-code",
+                                type: "POST",
+                                data: { email: email },
+                                success: function(response) {
+                                    if (response === "Sending Success") {
+                                        $("#sendResult").text("해당 이메일로 인증번호를 전송했습니다. 인증번호를 입력해주세요.").show();
+                                        $("#verificationText, #verificationCode, #btnVerifyCode").prop("hidden", false);
+                                    } else {
+                                        $("#sendResult").text("네트워크 오류로 이메일이 전송되지 않았습니다.").show();
+                                    }
+                                }
+                            });
                         } else {
-                        	$("#sendResult").html("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
-                        	$("#sendResult").show();
+                            $("#sendResult").text("이메일을 입력해주세요.").show();
                         }
                     }
                 });
@@ -61,25 +61,24 @@
             	event.preventDefault();
             	let memberId = $("#memberId").val();
     			let email = $("#email").val();
-    			let code = $("#verificationCode").val();
+    			let verificationCode = $("#verificationCode").val();
     			$.ajax({
-                    url: 'verifyCode-PW',
-                    type: 'POST',
-                    data: { email: email, code: code },
-                    success: function (response) {
-                        $("#findResult").html("인증번호가 일치합니다.");
-                        $("#findResult").show();
-                        $("#divPassword").show();
-                    },
-                    error: function (xhr, status, error) {
-                        if (xhr.status === 400) {
-                        	$("#findResult").html("인증번호가 일치하지 않습니다.");
-                        	$("#findResult").show();
+        			url: "find-pw",
+    	            type: "POST",
+    	            data: {
+    	            	memberId: memberId,
+    	            	email: email,
+    	            	verificationCode : verificationCode
+    	            },
+    	            success: function (response) {
+    	            	$('#findResult').prop("hidden", false);
+                        if (response === null || response === "0") {
+                        	$('#findResult').text('인증번호가 잘못되었습니다.');
                         } else {
-                            alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
+                        	$('#divPassword').prop('hidden', false);
                         }
-                    }
-                });  	
+                    },
+        		});   	
             });
             $("#btnUpdatePw").click(function(event){
             	event.preventDefault();

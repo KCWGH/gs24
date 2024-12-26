@@ -6,17 +6,19 @@ import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.util.Pagination;
 
 public interface QuestionMapper {
-	int insert(QuestionVO questionVO); // ê²Œì‹œê¸€ ë“±ë¡
+	int insert(QuestionVO questionVO); // °Ô½Ã±Û µî·Ï
 	
-	List<QuestionVO> selectList(); // ì „ì²´ ê²Œì‹œê¸€ ì¡°íšŒ
+	List<QuestionVO> selectList(); // ÀüÃ¼ °Ô½Ã±Û Á¶È¸
 	
-	QuestionVO selectOne(int noticeId); // íŠ¹ì • ê²Œì‹œê¸€ ì¡°íšŒ
+	QuestionVO selectOne(int noticeId); // Æ¯Á¤ °Ô½Ã±Û Á¶È¸
 	
-	int update(QuestionVO questionVO); // íŠ¹ì • ê²Œì‹œê¸€ ìˆ˜ì •
+	int update(QuestionVO questionVO); // Æ¯Á¤ °Ô½Ã±Û ¼öÁ¤
 	
-	int delete(int noticeId); // íŠ¹ì • ê²Œì‹œê¸€ ì‚­ì œ
+	int delete(int noticeId); // Æ¯Á¤ °Ô½Ã±Û »èÁ¦
 	
-	List<QuestionVO> selectListByPagination(Pagination pagination); // ì „ì²´ ê²Œì‹œê¸€ í˜ì´ì§• ì²˜ë¦¬
+	List<QuestionVO> selectListByPagination(Pagination pagination); // ÀüÃ¼ °Ô½Ã±Û ÆäÀÌÂ¡ Ã³¸®
 	
 	int selectTotalCount();
+	
+	int updateAnswer(int questionId); //´äº¯ »óÅÂ º¯°æ
 }
