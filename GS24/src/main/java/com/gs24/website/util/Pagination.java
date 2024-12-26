@@ -1,5 +1,7 @@
 package com.gs24.website.util;
 
+import com.gs24.website.domain.MemberVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,11 +14,16 @@ public class Pagination {
 	private int pageNum; // 현재 페이지 번호
 	private int pageSize; // 현재 페이지 사이즈
 	private String type; // 검색 항목
-	private String keyword; // 검색 키워드 
+	private String keyword; // 검색 키워드
+	private MemberVO memberVO;
 
 	public Pagination() {
 		this.pageNum = 1; // 기본 페이지 번호 설정
 		this.pageSize = 5; // 기본 페이지 사이즈 설정
+	}
+
+	public String getMemberId() {
+		return memberVO.getMemberId(); // memberVO의 getter를 통해 memberId에 접근
 	}
 
 	public Pagination(int page, int pageSize) {

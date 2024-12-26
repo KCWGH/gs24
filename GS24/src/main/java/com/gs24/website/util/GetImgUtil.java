@@ -16,30 +16,21 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class GetImgUtil {
 	
-	
-	
-	/*
-	 * @Param ¸Å°³º¯¼ö·Î ÀÌ¹ÌÁö °æ·Î¸¦ ³Ö¾îÁÖ¸é µÈ´Ù. ex)
-	 * C:\Users\sdedu\Desktop\gsproject\GS24\src\main\webapp\ImgFood\FoodNO8.png
-	 * ÄÁÆ®·Ñ·¯¿¡¼­ ¹Ø¿¡¿Í °°ÀÌ »ç¿ëÇÏ¸é µÈ´Ù. 
-	 * public ResponseEntity<byte[]> ¸Ş¼ÒµåÀÌ¸§() throws IOException{ 
-	 * Ãß°¡·Î ÇÊ¿äÇÑ ³»¿ë
-	 * ResponseEntity<byte[]> entity = GetImgUtil.getImage(ÆÄÀÏ°æ·Î); return entity; }
-	 * jsp¿¡¼­ <img>ÅÂ±×¿¡ src="../Controller Mapping URL/Method Mapping URL" ·Î »ç¿ëÇÏ¸é ½±°Ô
-	 * Àû¿ë °¡´ÉÇÕ´Ï´Ù. Ãß°¡·Î QueryStringÀ» »ç¿ëÇØ¼­ ÁÖ¼Ò ÀÚÃ¼¸¦ URL·Î º¸³»´Â È°¿ëµµ °¡´ÉÇÕ´Ï´Ù.
-	 */
-	/**
-     * use easly to print local image file
-     * 
-     * @param filePath : absolute file path | ex) C:\Users\sdedu\Desktop\test.png
-     * @return image file data
-     */
+	// ë§¤ê°œë³€ìˆ˜ ì˜ˆ)C:\Users\sdedu\Desktop\gsproject\GS24\src\main\webapp\ImgFood\FoodNO8.png
+	// ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ë°‘ì— ë©”ì†Œë“œ ì¶”ê°€í•˜ë©´ ëœë‹¤.
+	// Getmapping("")
+	//  public ResponseEntity<byte[]> ë©”ì†Œë“œ ì´ë¦„(){ 
+	//	ì¶”ê°€ë¡œ í•„ìš”í•œ ë‚´ìš©
+	//	ResponseEntity<byte[]> entity = GetImgUtil.getImage(íŒŒì¼ ê²½ë¡œ);
+	//	return entity;
+	//	}
+	// jsp <img> src=../ì»¨íŠ¸ë¡¤ëŸ¬ ë§¤í•‘ URL/ë©”ì†Œë“œíŒ¨í•‘ URL?file
 	public static ResponseEntity<byte[]> getImage(String filePath) throws IOException{
 		log.info("getImage()");
 		
 		File file = new File(filePath);
 		if(!file.isFile()) {
-			log.info("ÇØ´ç °æ·Î¿¡ ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			log.info("ï¿½Ø´ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return null;
 		}
 		
