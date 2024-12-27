@@ -12,6 +12,10 @@ public interface ReviewMapper {
 	
 	List<ReviewVO> selectReviewByFoodId(int foodId);
 	
+	ReviewVO selectReviewByReviewId(int reviewId);
+	
+	ReviewVO selectFirstReview();
+	
 	int updateReview(ReviewVO reviewVO);
 	
 	int deleteReview(int reviewId);

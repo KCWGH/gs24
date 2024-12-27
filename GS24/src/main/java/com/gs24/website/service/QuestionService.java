@@ -19,9 +19,6 @@ public interface QuestionService {
 	List<QuestionVO> getPagingQuestions(Pagination pagination); // 전체 게시글 페이징 처리
 	
 	int getTotalCount();
-<<<<<<< Updated upstream
-=======
 	
 	List<QuestionVO> getQuestionListByMemberId(String memberId); // 개인이 작성한 게시글
->>>>>>> Stashed changes
 }

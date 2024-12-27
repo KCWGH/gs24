@@ -28,16 +28,12 @@ public class AnswerServiceImple implements AnswerService{
 		log.info("createAnswer()");
 		int insertResult = answerMapper.insert(answerVO);
 		log.info(insertResult + "행 댓글 추가");
-<<<<<<< Updated upstream
-		return 1;
-=======
 		 if (insertResult > 0) {
 	            // 게시글의 isAnswered 값을 1로 업데이트
 	            int updateResult = questionMapper.updateAnswer(answerVO.getQuestionId());
 	            log.info("게시글의 답변 상태 변경 결과: " + updateResult);
 	        }
 		return insertResult;
->>>>>>> Stashed changes
 	}
 
 	@Override

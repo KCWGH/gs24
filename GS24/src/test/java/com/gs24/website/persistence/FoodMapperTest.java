@@ -21,7 +21,7 @@ public class FoodMapperTest {
 	
 	@Test
 	public void mapperTest() {
-		insert();
+		selectById(1);
 	}
 	
 	public void insert() {

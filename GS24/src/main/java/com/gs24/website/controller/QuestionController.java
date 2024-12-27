@@ -112,8 +112,6 @@ public class QuestionController {
 		log.info(result + "행 삭제");
 		return "redirect:/question/list";
 	}
-<<<<<<< Updated upstream
-=======
 		
 		@GetMapping("/myList")
 		public void myListGET(Model model, Pagination pagination, HttpSession session) {
@@ -135,6 +133,5 @@ public class QuestionController {
 		model.addAttribute("myQuestionList", myQuestionList); // 사용자가 작성한 질문 목록
 	    model.addAttribute("memberVO", memberVO); // 세션에서 가져온 사용자 정보를 모델에 추가
 	}
->>>>>>> Stashed changes
 
 }

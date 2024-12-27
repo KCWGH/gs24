@@ -19,11 +19,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class PreorderMapperTest {
 	@Autowired
-	private PreorderMapper preorderMapper;
+	private ReviewMapper reviewMapper;
 	
 	@Test
 	public void test() {
-		delete();
+		select();
 	}
 	
 	public void insert() {
@@ -36,20 +36,17 @@ public class PreorderMapperTest {
 		Date date = new Date();
 		preorderVO.setPickupDate(date);
 		
-		preorderMapper.insertPreorder(preorderVO);
 	}
 	
 	public void update() {
-		//preorderMapper.updatePreorderInIsPickUp(1, 1);
-		preorderMapper.updatePreorderInIsExpiredOrder(1, 1);
+		
 	}
 	
 	public void select() {
-		List<PreorderVO> list =  preorderMapper.selectPreoderByMemberId("test");
-		log.info(list);
+		log.info(reviewMapper.selectFirstReview());
 	}
 	
 	public void delete() {
-		preorderMapper.deletePreorderByPreorderId(2);
+		
 	}
 }

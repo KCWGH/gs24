@@ -14,8 +14,8 @@
 	<h1>에약된 식품 목록</h1>
 	<div id="list"></div>
 	<br>
-	<button id="cancell">예약 취소</button>
 	<button onclick="location.href='../food/list'">돌아가기</button>
+	<button id="cancell">예약 취소</button>
 	<button id="delete">예약 취소 목록 삭제</button>
 	<script type="text/javascript">
 	

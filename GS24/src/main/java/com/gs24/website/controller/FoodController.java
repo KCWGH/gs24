@@ -16,6 +16,7 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.MemberService;
+import com.gs24.website.util.uploadImgFoodUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -26,6 +27,7 @@ public class FoodController {
 
     @Autowired
     private MemberService memberService;
+    
     @Autowired
     private FoodService foodService;
 
@@ -61,10 +63,13 @@ public class FoodController {
 
     // 음식 상세 페이지
     @GetMapping("/detail")
-    public void detailGET(Model model, Integer foodId) {
+    public void detailGET(Model model, Integer foodId, HttpSession httpSession) {
         log.info("detailGET()");
         FoodVO foodVO = foodService.getFoodById(foodId);
+        String memberId = (String)httpSession.getAttribute("memberId");
+        log.info(memberId);
         model.addAttribute("FoodVO", foodVO);
+        model.addAttribute("memberId", memberId);
     }
 
     // 음식 수정 페이지

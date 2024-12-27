@@ -37,9 +37,8 @@ public class uploadImgFoodUtil {
 	    	return dirPath;
 	    }
 	  
-	  public static boolean saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
+	  public static void saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
 	       
-	       boolean hasFile = false;
 	       
 	        File realUploadPath = new File(uploadPath,makeDir(obj));
 	        if (!realUploadPath.exists()) {
@@ -51,12 +50,6 @@ public class uploadImgFoodUtil {
 
 	        File saveFile = new File(realUploadPath, chgName);
 	        
-	        if(!saveFile.exists()) { 	
-	        	log.info("íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
-	        } else {
-	        	hasFile = true;
-	        }
-	        
 	        try {
 	            file.transferTo(saveFile);
 	            log.info("file upload scuccess");
@@ -66,7 +59,6 @@ public class uploadImgFoodUtil {
 	            log.error(e.getMessage());
 	        }
 
-	        return hasFile;
 	    }
 	  public static void deleteFile(Object obj, String uploadPath,String chgName) {
 	        String fullPath = uploadPath + File.separator + makeDir(obj) + chgName;
@@ -81,4 +73,11 @@ public class uploadImgFoodUtil {
 	            System.out.println(fullPath + " file not found.");
 	        }
 	    }
+	 // ¹®Á¦ ¹ß»ı ÆÄÀÏ ¾÷µ¥ÀÌÆ®¸¦ ÇÏ´Âµ¥ È®ÀåÀÚ°¡ ´Ş¶ó¼­ »çÁøÀÌ ¼öÁ¤µÇ´Â°Ô ¾Æ´Ï¶ó ´Ù½Ã »ı¼ºµÇ´Â °á°ú°¡ ÃÊ·¡µÇ¾ú´Ù. ÀÌ ºÎºĞÀ» ¼öÁ¤ÇØ¾ß ÇÑ´Ù.
+	  // ÀÌ¸§Àº °°À¸´Ï±î ¼öÁ¤µÇ¾ßÇÒ ÇØ´ç ÆÄÀÏ µ¥ÀÌÅÍ ¹× ÀÌÀü°ú ÀÌÈÄ È®ÀåÀÚµéÀ» ¹Ş¾Æ¿Í¼­ ÀÌÀü È®ÀåÀÚ ²¬ »èÁ¦ÇÏ°í ÀÌÈÄ È®ÀåÀÚ·Î ÀúÀåÇÏ´Â ¹æ½ÄÀ¸·Î °¡ÀÚ
+	  public static void updateFile(Object obj, String uploadPath,MultipartFile file ,String chgName, String prevExtension, String nextExtention) {
+		  deleteFile(obj, uploadPath, chgName + "." + prevExtension);
+		  
+		  saveFile(obj, uploadPath, file, chgName + "." + nextExtention);
+	  }
 	}

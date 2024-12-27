@@ -61,12 +61,9 @@ public class QuestionServiceImple implements QuestionService {
 		return questionMapper.selectTotalCount();
 	}
 
-<<<<<<< Updated upstream
-=======
 	@Override
 	public List<QuestionVO> getQuestionListByMemberId(String memberId) {
 
 		return questionMapper.selectQuestionListByMemberId(memberId);
 	}
->>>>>>> Stashed changes
 }
