@@ -21,14 +21,23 @@ public class NoticeMapperTest {
 
 	@Test
 	public void test() {
-		 testInsertNotice();		
+//		 testInsertNotice();		
 	}	
 
+<<<<<<< Updated upstream
 	private void testInsertNotice() {
 		log.info("testInsertNotice()");
 		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
 		int result = noticeMapper.insert(vo);
 		log.info(result + "행 삽입");
 	}
+=======
+//	private void testInsertNotice() {
+//		log.info("testInsertNotice()");
+//		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
+//		int result = noticeMapper.insert(vo);
+//		log.info(result + "행 삽입");
+//	}
+>>>>>>> Stashed changes
 
 }

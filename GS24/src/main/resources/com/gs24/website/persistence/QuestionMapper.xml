@@ -11,8 +11,13 @@
 		<result property="foodName" column="FOOD_NAME" />
 		<result property="questionTitle" column="QUESTION_TITLE" />
 		<result property="questionContent" column="QUESTION_CONTENT" />
+<<<<<<< Updated upstream
 		<result property="questionDateCreated"
 			column="QUESTION_DATE_CREATED" />
+=======
+		<result property="questionDateCreated" column="QUESTION_DATE_CREATED" />
+		<result property="isAnswered" column="IS_ANSWERED" />
+>>>>>>> Stashed changes
 	</resultMap>
 	
 	<insert id="insert">
@@ -24,6 +29,44 @@
 	<select id="selectList" resultMap="questionResultMap">
 		SELECT * FROM QUESTION ORDER BY QUESTION_ID DESC
 	</select>
+<<<<<<< Updated upstream
+=======
+	
+	<select id="selectOne" resultMap="questionResultMap">
+		SELECT * FROM QUESTION WHERE QUESTION_ID = #{questionId}
+	</select>
+	
+	<update id="update">	 	
+	   UPDATE QUESTION SET
+       QUESTION_TITLE = #{questionTitle}, 
+       QUESTION_CONTENT = #{questionContent}, 
+       QUESTION_DATE_CREATED = SYSDATE
+       WHERE QUESTION_ID = #{questionId}	 	
+	 </update>
+	 
+	 <delete id="delete">	 
+	   DELETE QUESTION WHERE QUESTION_ID = #{questionId}	 	
+	 </delete>
+	 
+	 <select id="selectListByPagination" resultMap="questionResultMap">
+	 	SELECT * FROM
+	 	(
+	 		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
+	 		AS RN, QUESTION.* FROM QUESTION
+	 	) 
+	 	WHERE RN BETWEEN #{start} AND #{end}
+	 </select>
+	 
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION
+	 </select>
+	 
+	 <update id="updateAnswer" parameterType="int">
+		UPDATE QUESTION
+		SET IS_ANSWERED = 1
+		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 0
+	</update>
+>>>>>>> Stashed changes
 	
 	<select id="selectOne" resultMap="questionResultMap">
 		SELECT * FROM QUESTION WHERE QUESTION_ID = #{questionId}

@@ -17,7 +17,7 @@
       </div>
       <div>
          <p>작성자 : </p>
-         <input type="text" name="memberId" maxlength="10" required>
+         <input type="text" name="memberId" value="관리자" maxlength="10" readonly required>
       </div>
       <div>
          <p>내용 : </p>

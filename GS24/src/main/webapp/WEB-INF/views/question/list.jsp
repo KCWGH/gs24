@@ -6,11 +6,36 @@
 <html>
 <head>
 <style type="text/css">
+<<<<<<< Updated upstream
     table, th, td {
         border-style: solid;
         border-width: 1px;
         text-align: center;
     }
+=======
+table, th, td {
+	border-style: solid;
+	border-width: 1px;
+	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+	text-align: center;
+}
+
+li {
+	display: inline-block;
+}
+
+</style>
+
+<meta charset="UTF-8">
+
+<a href="../food/list"><button>메인페이지</button></a>
+<a href="../notice/list"><button>공지사항</button></a>
+<title>GS24 Q&A 게시판</title>
+>>>>>>> Stashed changes
 
     ul {
         list-style-type: none;
@@ -48,6 +73,7 @@
 	<h1>Q&A 게시판</h1>
 	<h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 	<!-- 글 작성 페이지 이동 버튼 -->
+<<<<<<< Updated upstream
 	<a href="register"><input type="button" value="글 작성"></a>
 	
 	
@@ -66,6 +92,18 @@
       <input type="button" value="검색" id="searchBtn">
       </div>	
       </div> 
+=======
+	<c:if test="${empty sessionScope.memberId}">
+        * 글작성은 로그인이 필요한 서비스입니다.
+        <a href="../member/login">로그인하기</a>
+	</c:if>
+
+	<c:if test="${not empty sessionScope.memberId}">
+		<a href="register"><input type="button" value="글 작성"></a>
+		<a href="myList"><input type="button" value="내가 작성한 글"></a>
+	</c:if>
+
+>>>>>>> Stashed changes
 	<hr>
 	<table>
 		<thead>
@@ -116,4 +154,23 @@
 		</c:if>
 	</ul>
 </body>
+<<<<<<< Updated upstream
 </html>
+=======
+<script type="text/javascript">
+    // 작성자 확인 후 이동하는 함수
+    function checkAuthorAndRedirect(questionId, authorId, memberRole) {
+        var currentUser = "${sessionScope.memberId}"; // 현재 로그인된 사용자 ID
+        var currentUserRole = "${sessionScope.memberVO.memberRole}"; // 현재 로그인된 사용자 권한
+
+        if (currentUser === authorId || currentUserRole == 2) {
+            // 작성자이거나 관리자일 경우 게시판 상세로 이동
+            window.location.href = "detail?questionId=" + questionId;
+        } else {
+            // 작성자가 아니고 관리자가 아닐 경우 경고
+            alert("게시판 작성자 또는 관리자만 해당 게시판에 접근할 수 있습니다.");
+        }
+    }
+</script>
+</html>
+>>>>>>> Stashed changes
