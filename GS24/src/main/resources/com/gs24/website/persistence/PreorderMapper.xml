@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.PreorderMapper">
+	<resultMap type="com.gs24.website.domain.PreorderVO" id="PreorderResultMap">
+		<id property="preorderId" column="PREORDER_ID"/>
+		<result property="foodId" column="FOOD_ID"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="preorderAmount" column="PREORDER_AMOUNT"/>
+		<result property="pickupDate" column="PICKUP_DATE"/>
+		<result property="isPickUp" column="IS_PICK_UP"/>
+		<result property="isExpiredOrder" column="IS_EXPIRED_ORDER"/>
+	</resultMap>
+	
+	<insert id="insertPreorder">
+		INSERT INTO PREORDER
+		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER)
+		VALUES(PREORDER_SEQ.NEXTVAL, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder})
+	</insert>
+	
+	<select id="selectPreoderByMemberId" resultMap="PreorderResultMap">
+		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<update id="updatePreorderInIsPickUp">
+		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId}
+	</update>
+	
+	<update id="updatePreorderInIsExpiredOrder">
+		UPDATE PREORDER SET IS_EXPIRED_ORDER = #{isExpiredOrder} WHERE PREORDER_ID = #{preorderId}
+	</update>
+	
+	<delete id="deletePreorderByPreorderId">
+		DELETE FROM PREORDER WHERE PREORDER_ID = #{preorderId}
+	</delete>
+</mapper>

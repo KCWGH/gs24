@@ -1,0 +1,8 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=ccdce2e7a9f17201e6bb89e46d18852272cf8bfd
+eclipse.preferences.version=1
+encoding//src/main/java/com/gs24/website/config/RootConfig.java=UTF-8
+encoding//src/main/java/com/gs24/website/controller/FoodController.java=UTF-8
+encoding//src/main/java/com/gs24/website/service/AnswerServiceImple.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/food/list.jsp=UTF-8

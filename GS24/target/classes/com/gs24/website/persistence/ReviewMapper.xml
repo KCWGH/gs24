@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.ReviewMapper">
+	
+	<resultMap type="com.gs24.website.domain.ReviewVO" id="reviewResultMap">
+		<id property="reviewId" column="REVIEW_ID"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="reviewTitle" column="REVIEW_TITLE"/>
+		<result property="reviewContent" column="REVIEW_CONTENT"/>
+		<result property="foodId" column="FOOD_ID"/>
+		<result property="reviewRating" column="REVIEW_RATING"/>
+		<result property="reviewDateCreated" column="REVIEW_DATE_CREATED"/>
+	</resultMap>
+	
+	<insert id="insertReview">
+		INSERT INTO REVIEW
+		(REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, FOOD_ID, REVIEW_RATING)
+		VALUES(REVIEW_SEQ.NEXTVAL, #{memberId},#{reviewTitle},#{reviewContent},#{foodId},#{reviewRating} )
+	</insert>
+	
+	<select id="selectReviewByFoodId" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW WHERE FOOD_ID = #{foodId} ORDER BY REVIEW_ID DESC
+	</select>
+	
+	<update id="updateReview">
+		UPDATE REVIEW SET
+		REVIEW_TITLE = #{reviewTitle}, REVIEW_CONTENT = #{reviewContent}, REVIEW_RATING = #{reviewRating}
+		WHERE REVIEW_ID = #{reviewId}
+	</update>
+	
+	<delete id="deleteReview">
+		DELETE FROM REVIEW WHERE  REVIEW_ID = #{reviewId}
+	</delete>
+	
+</mapper>
