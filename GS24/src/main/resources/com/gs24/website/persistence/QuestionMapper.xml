@@ -54,7 +54,7 @@
 		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION
 	 </select>
 	 
-	 <update id="updateAnswer" parameterType="int">
+	 <update id="updateIsAnswered" parameterType="int">
 		UPDATE QUESTION
 		SET IS_ANSWERED = 1
 		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 0

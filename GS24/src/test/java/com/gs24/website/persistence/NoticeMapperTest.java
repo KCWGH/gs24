@@ -24,11 +24,14 @@ public class NoticeMapperTest {
 //		 testInsertNotice();		
 	}	
 
+<<<<<<< Updated upstream
 	private void testInsertNotice() {
 		log.info("testInsertNotice()");
 
 	}
 
+=======
+>>>>>>> Stashed changes
 //	private void testInsertNotice() {
 //		log.info("testInsertNotice()");
 //		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
@@ -36,5 +39,15 @@ public class NoticeMapperTest {
 //		log.info(result + "�뻾 �궫�엯");
 //	}
 
+<<<<<<< Updated upstream
+=======
+//	private void testInsertNotice() {
+//		log.info("testInsertNotice()");
+//		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
+//		int result = noticeMapper.insert(vo);
+//		log.info(result + "행 삽입");
+//	}
+
+>>>>>>> Stashed changes
 
 }

@@ -4,6 +4,7 @@
 
 <!-- namespace : 연결할 Mapper 인터페이스 경로 및 이름 -->
 <mapper namespace="com.gs24.website.persistence.NoticeMapper">
+<<<<<<< Updated upstream
     <!-- <resultMap> : DB 쿼리 반환 데이터와 Entity(VO) 클래스의 멤버 변수 매핑을 정의하는 태그 -->
     <resultMap type="com.gs24.website.domain.NoticeVO"
                id="noticeResultMap">
@@ -101,4 +102,120 @@
     	SET NOTICE_VIEWS = NOTICE_VIEWS + 1
     	WHERE NOTICE_ID = #{noticeId}
     </update>
+=======
+	<!-- <resultMap> : DB 쿼리 반환 데이터와 Entity(VO) 클래스의 멤버 변수 매핑을 정의하는 태그 -->
+	<resultMap type="com.gs24.website.domain.NoticeVO"
+		id="noticeResultMap">
+		<!-- <id> : key 칼럼 매핑 태그 <result> : 일반 칼럼 매핑 태그 - 속성 : -->
+		<id property="noticeId" column="NOTICE_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="noticeTitle" column="NOTICE_TITLE" />
+		<result property="noticeContent" column="NOTICE_CONTENT" />
+		<result property="noticeDateCreated"
+			column="NOTICE_DATE_CREATED" />
+		<result property="noticeViews" column="NOTICE_VIEWS" />
+	</resultMap>
+
+	<insert id="insertNotice">
+		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID,
+		NOTICE_TITLE, NOTICE_CONTENT,
+		NOTICE_DATE_CREATED)
+		VALUES
+		(NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent},
+		SYSDATE)
+	</insert>
+
+	<select id="selectListByNotice" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE
+		ORDER BY NOTICE_ID DESC
+	</select>
+
+	<select id="selectOneByNotice" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE
+		WHERE NOTICE_ID = #{noticeId}
+	</select>
+
+	<update id="updateNotice">
+		UPDATE NOTICE SET
+		NOTICE_TITLE = #{noticeTitle},
+		NOTICE_CONTENT = #{noticeContent},
+		NOTICE_DATE_CREATED = SYSDATE
+		WHERE
+		NOTICE_ID = #{noticeId}
+	</update>
+
+	<delete id="deleteNotice">
+		DELETE NOTICE WHERE NOTICE_ID = #{noticeId}
+	</delete>
+
+	<select id="selectListByPagination" resultMap="noticeResultMap">
+		SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC) AS RN, NOTICE.*
+		FROM NOTICE
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*)
+		TOTAL_COUNT FROM NOTICE
+	</select>
+
+	<!-- 제목으로 검색 -->
+	<select id="selectListByTitle" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+		ORDER BY
+		NOTICE_DATE_CREATED DESC
+	</select>
+
+	<select id="selectListByTitleWithPagination" resultMap="noticeResultMap">
+		SELECT * FROM (
+		SELECT ROW_NUMBER() OVER (ORDER BY
+		NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
+		FROM NOTICE
+		WHERE NOTICE_TITLE
+		LIKE '%' || #{noticeTitle} || '%'
+		)
+		WHERE RN BETWEEN #{pagination.start} AND #{pagination.end}
+	</select>
+
+	<select id="selectTotalCountByTitle" resultType="Integer">
+		SELECT COUNT(*)
+		FROM NOTICE
+		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+	</select>
+
+	<!-- 내용으로 검색 -->
+	<select id="selectListByContent" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE
+		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
+		ORDER BY
+		NOTICE_DATE_CREATED DESC
+	</select>
+
+	<select id="selectListByContentWithPagination" resultMap="noticeResultMap">
+		SELECT * FROM (
+		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
+		FROM NOTICE
+		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
+		)
+		WHERE RN BETWEEN #{pagination.start} AND #{pagination.end}
+	</select>
+
+	<select id="selectTotalCountByContent" resultType="Integer">
+		SELECT
+		COUNT(*) FROM NOTICE
+		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent}
+		|| '%'
+	</select>
+
+	<update id="updateNoticeViews" parameterType="int">
+		UPDATE NOTICE
+		SET
+		NOTICE_VIEWS = NOTICE_VIEWS + 1
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+>>>>>>> Stashed changes
 </mapper>

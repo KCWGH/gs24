@@ -2,8 +2,6 @@ package com.gs24.website.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +25,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 
+<<<<<<< Updated upstream
 	@GetMapping("/list")
 	public void list(Model model, Pagination pagination, HttpSession session,
 			@RequestParam(value = "noticeTitle", required = false) String noticeTitle,
@@ -54,6 +53,47 @@ public class NoticeController {
 		model.addAttribute("noticeContent", noticeContent);
 		model.addAttribute("searchType", searchType);
 	}
+=======
+	 @GetMapping("/list")
+	    public void list(Model model, Pagination pagination,
+	                     @RequestParam(value = "noticeTitle", required = false) String noticeTitle,
+	                     @RequestParam(value = "noticeContent", required = false) String noticeContent,
+	                     @RequestParam(value = "searchType", required = false) String searchType) {
+
+	        log.info("title = " + noticeTitle + ", content = " + noticeContent + ", searchType = " + searchType);
+
+	        List<NoticeVO> noticeList;
+	        int totalCount;
+
+	        // 제목으로 검색
+	        if ("title".equals(searchType) && noticeTitle != null && !noticeTitle.isEmpty()) {
+	            noticeList = noticeService.getNoticesByTitleWithPagination(noticeTitle, pagination);
+	            totalCount = noticeService.getTotalCountByTitle(noticeTitle);
+	        }
+	        // 내용으로 검색
+	        else if ("content".equals(searchType) && noticeContent != null && !noticeContent.isEmpty()) {
+	            noticeList = noticeService.getNoticesByContentWithPagination(noticeContent, pagination);
+	            totalCount = noticeService.getTotalCountByContent(noticeContent);
+	        }
+	        // 기본: 모든 공지사항 페이징
+	        else {
+	            noticeList = noticeService.getPagingNotices(pagination);
+	            totalCount = noticeService.getTotalCount();
+	        }
+
+	        // 페이지네이션 처리
+	        PageMaker pageMaker = new PageMaker();
+	        pageMaker.setPagination(pagination);
+	        pageMaker.setTotalCount(totalCount);
+
+	        // 모델에 데이터 추가
+	        model.addAttribute("pageMaker", pageMaker);
+	        model.addAttribute("noticeList", noticeList);
+	        model.addAttribute("noticeTitle", noticeTitle);
+	        model.addAttribute("noticeContent", noticeContent);
+	        model.addAttribute("searchType", searchType);
+	    }
+>>>>>>> Stashed changes
 
 	@GetMapping("/register")
 	public void registerGET() {

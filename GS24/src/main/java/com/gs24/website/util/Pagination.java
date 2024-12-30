@@ -40,5 +40,7 @@ public class Pagination {
 	public int getEnd() {
 		return this.pageNum * this.pageSize;
 	}
+	
+	
 
 } // end Pagination

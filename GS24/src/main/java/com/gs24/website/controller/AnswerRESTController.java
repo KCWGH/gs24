@@ -19,12 +19,6 @@ import com.gs24.website.service.AnswerService;
 
 import lombok.extern.log4j.Log4j;
 
-// * RESTful url과 의미
-// /reply (POST) : 댓글 추가(insert)
-// /reply/all/숫자 (GET) : 해당 글 번호(boardId)의 모든 댓글 검색(select)
-// /reply/숫자 (PUT) : 해당 댓글 번호(replyId)의 내용을 수정(update)
-// /reply/숫자 (DELETE) : 해당 댓글 번호(replyId)의 내용을 삭제(delete)
-
 @RestController
 @RequestMapping(value = "/answer")
 @Log4j

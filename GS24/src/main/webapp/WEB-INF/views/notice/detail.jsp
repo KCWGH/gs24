@@ -32,19 +32,16 @@
 	</div>
 
 	<button onclick="location.href='list'">글 목록</button>
-<<<<<<< Updated upstream
 	<button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글 수정</button>
 	<button id="deletenotice">글 삭제</button>
-=======
+
 	<c:if test="${ memberVO.memberRole == 2}">
 		<button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글
 			수정</button>
 		<button id="deletenotice">글 삭제</button>
 	</c:if>
 	<c:if test="${ memberVO.memberRole != 2}">
-
 	</c:if>
->>>>>>> Stashed changes
 	<form id="deleteForm" action="delete" method="POST">
 		<input type="hidden" name="noticeId" value="${noticeVO.noticeId }">
 	</form>
