@@ -38,10 +38,10 @@ public class MemberController {
 	public String registerGET(HttpSession session) {
 		log.info("registerGET()");
 		if (session.getAttribute("memberId") != null) {
-			log.info("이미 로그인 상태");
+			log.info("�씠誘� 濡쒓렇�씤 �긽�깭");
 			return "redirect:/food/list";
 		}
-		log.info("로그인 페이지로 이동");
+		log.info("濡쒓렇�씤 �럹�씠吏�濡� �씠�룞");
 		return "/member/register";
 	}
 
@@ -49,7 +49,7 @@ public class MemberController {
 	public String registerPOST(@ModelAttribute MemberVO memberVO) {
 		log.info("registerPOST()");
 		int result = memberService.register(memberVO);
-		log.info(result + "개 행 등록 완료");
+		log.info(result + "媛� �뻾 �벑濡� �셿猷�");
 		if (result == 1) {
 			return "redirect:/member/register-success";
 		}
@@ -69,7 +69,7 @@ public class MemberController {
 	@GetMapping("/login")
 	public String loginGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
-			log.info("loginGET() - 세션이 이미 존재합니다");
+			log.info("loginGET() - �꽭�뀡�씠 �씠誘� 議댁옱�빀�땲�떎");
 			return "redirect:/food/list";
 		}
 		log.info("loginGET()");
@@ -83,7 +83,7 @@ public class MemberController {
 		int result = memberService.login(memberId, password);
 
 		if (result == 1) {
-			log.info("로그인 성공");
+			log.info("濡쒓렇�씤 �꽦怨�");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date currentDate = new Date();
 			Date birthday = memberService.getMember(memberId).getBirthday();
@@ -91,7 +91,7 @@ public class MemberController {
 			String formattedCurrentDate = sdf.format(currentDate);
 			String formattedBirthday = sdf.format(birthday);
 
-			int isExisting = couponService.birthdayCouponDupCheck(memberId);
+			int isExisting = 0; //= couponService.birthdayCouponDupCheck(memberId);
 
 			if (formattedCurrentDate.equals(formattedBirthday) && isExisting != 1) {
 				CouponVO couponVO = new CouponVO();
@@ -108,7 +108,7 @@ public class MemberController {
 				couponService.grantCoupon(couponVO);
 			}
 
-			// 세션 설정
+			// �꽭�뀡 �꽕�젙
 			HttpSession session = request.getSession();
 			session.setAttribute("memberId", memberId);
 
@@ -119,7 +119,7 @@ public class MemberController {
 
 			return "redirect:/food/list";
 		} else {
-			log.info("로그인 실패");
+			log.info("濡쒓렇�씤 �떎�뙣");
 			return "redirect:/member/login-fail";
 		}
 	}
@@ -132,7 +132,7 @@ public class MemberController {
 	@GetMapping("/find-id")
 	public String findIdGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
-			log.info("findIdGET() - 세션이 이미 존재합니다");
+			log.info("findIdGET() - �꽭�뀡�씠 �씠誘� 議댁옱�빀�땲�떎");
 			return "redirect:/food/list";
 		}
 		log.info("findIdGET()");
@@ -142,7 +142,7 @@ public class MemberController {
 	@GetMapping("/find-pw")
 	public String findPwGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {
-			log.info("findPwGET - 세션이 이미 존재합니다");
+			log.info("findPwGET - �꽭�뀡�씠 �씠誘� 議댁옱�빀�땲�떎");
 			return "redirect:/food/list";
 		}
 		log.info("findPwGET");
@@ -158,7 +158,7 @@ public class MemberController {
 			model.addAttribute("memberId", memberId);
 			model.addAttribute("memberVO", memberVO);
 		} else {
-			log.info("mypageGET() - 세션이 없습니다");
+			log.info("mypageGET() - �꽭�뀡�씠 �뾾�뒿�땲�떎");
 		}
 	}
 

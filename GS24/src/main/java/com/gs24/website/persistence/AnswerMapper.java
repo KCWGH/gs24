@@ -8,12 +8,12 @@ import com.gs24.website.domain.AnswerVO;
 @Mapper
 public interface AnswerMapper {
 	
-	int insert(AnswerVO answerVO); // 답변 등록
+	int insertAnswer(AnswerVO answerVO); // �떟蹂� �벑濡�
 	
-	List<AnswerVO> selectListByQuestionId(int questionId); // 답변 리스트
+	List<AnswerVO> selectAnswerListByQuestionId(int questionId); // �떟蹂� 由ъ뒪�듃
 	
-	int update(AnswerVO answerVO); // 답변 수정
+	int updateAnswer(AnswerVO answerVO); // �떟蹂� �닔�젙
 	
-	int delete(int answerId); // 답변 삭제
+	int deleteAnswer(int answerId); // �떟蹂� �궘�젣
 
 }

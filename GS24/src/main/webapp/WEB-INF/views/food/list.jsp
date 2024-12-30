@@ -48,7 +48,7 @@ img {
 	<ul class="food_box">
 		<c:forEach var="FoodVO" items="${FoodList}">
 			<li class="List">
-				<img src="../ImgFood?foodId=${FoodVO.foodId }">
+				<img src="../Img/Food?foodId=${FoodVO.foodId }">
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>
 				<p>${FoodVO.foodStock}개</p>

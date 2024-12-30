@@ -15,21 +15,21 @@
 		<result property="isAnswered" column="IS_ANSWERED" />
 	</resultMap>
 	
-	<insert id="insert">
+	<insert id="insertQuestion">
 		INSERT INTO QUESTION (QUESTION_ID, MEMBER_ID, FOOD_NAME,
 		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_DATE_CREATED)
 		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodName}, #{questionTitle},
 		 #{questionContent}, SYSDATE)
 	</insert>
-	<select id="selectList" resultMap="questionResultMap">
+	<select id="selectQuestionList" resultMap="questionResultMap">
 		SELECT * FROM QUESTION ORDER BY QUESTION_ID DESC
 	</select>
 	
-	<select id="selectOne" resultMap="questionResultMap">
+	<select id="selecQuestiontOne" resultMap="questionResultMap">
 		SELECT * FROM QUESTION WHERE QUESTION_ID = #{questionId}
 	</select>
 	
-	<update id="update">	 	
+	<update id="updateQuestion">	 	
 	   UPDATE QUESTION SET
        QUESTION_TITLE = #{questionTitle}, 
        QUESTION_CONTENT = #{questionContent}, 
@@ -37,11 +37,11 @@
        WHERE QUESTION_ID = #{questionId}	 	
 	 </update>
 	 
-	 <delete id="delete">	 
+	 <delete id="deleteQuestion">	 
 	   DELETE QUESTION WHERE QUESTION_ID = #{questionId}	 	
 	 </delete>
 	 
-	 <select id="selectListByPagination" resultMap="questionResultMap">
+	 <select id="selectQuestionListByPagination" resultMap="questionResultMap">
 	 	SELECT * FROM
 	 	(
 	 		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
@@ -50,7 +50,7 @@
 	 	WHERE RN BETWEEN #{start} AND #{end}
 	 </select>
 	 
-	<select id="selectTotalCount" resultType="Integer">
+	<select id="selectQuestionTotalCount" resultType="Integer">
 		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION
 	 </select>
 	 

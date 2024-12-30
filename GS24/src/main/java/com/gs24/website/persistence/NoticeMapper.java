@@ -11,31 +11,31 @@ import com.gs24.website.util.Pagination;
 @Mapper
 public interface NoticeMapper {
    
-    int insert(NoticeVO vo);
+    int insertNotice(NoticeVO vo);
     
-    List<NoticeVO> selectList();
+    List<NoticeVO> selectNoticeList();
     
-    NoticeVO selectOne(int noticeId);
+    NoticeVO selectNoticeOne(int noticeId);
     
-    int update(NoticeVO vo);
+    int updateNotice(NoticeVO vo);
     
-    int delete(int noticeId);
+    int deleteNotice(int noticeId);
     
-    List<NoticeVO> selectListByPagination(Pagination pagination);
+    List<NoticeVO> selectNoticeListByPagination(Pagination pagination);
     
-    int selectTotalCount();
+    int selectNoticeTotalCount();
     
-    List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle);
+    List<NoticeVO> selectNoticeListByTitle(@Param("noticeTitle") String noticeTitle);
     
-    List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("start") int start, @Param("end") int end);
+    List<NoticeVO> selectNoticeListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("start") int start, @Param("end") int end);
 
-    int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
+    int selectNoticeTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
     
-    List<NoticeVO> selectListByContent(@Param("noticeContent") String noticeContent);
+    List<NoticeVO> selectNoticeListByContent(@Param("noticeContent") String noticeContent);
     
-    List<NoticeVO> selectListByContentWithPagination(@Param("noticeContent") String noticeContent, @Param("start") int start, @Param("end") int end);
+    List<NoticeVO> selectNoticeListByContentWithPagination(@Param("noticeContent") String noticeContent, @Param("start") int start, @Param("end") int end);
 
-    int selectTotalCountByContent(@Param("noticeContent") String noticeContent);
+    int selectNoticeTotalCountByContent(@Param("noticeContent") String noticeContent);
     
     int updateNoticeViews(int noticeId);
 }

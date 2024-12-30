@@ -13,7 +13,7 @@ public interface ReviewService {
 	
 	ReviewVO getReviewByReviewId(int reviewId);
 	
-	int updateReview(ReviewVO reviewVO);
+	int updateReview(ReviewVO reviewVO, MultipartFile file);
 	
 	int deleteReview(int reviewId, int foodId);
 }

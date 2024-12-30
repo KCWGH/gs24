@@ -16,20 +16,20 @@
         <result property="noticeViews" column="NOTICE_VIEWS" />
     </resultMap>
 
-    <insert id="insert">
+    <insert id="insertNotice">
         INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE_CREATED)
         VALUES (NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent}, SYSDATE)
     </insert>
 
-    <select id="selectList" resultMap="noticeResultMap">
+    <select id="selectNoticeList" resultMap="noticeResultMap">
         SELECT * FROM NOTICE ORDER BY NOTICE_ID DESC
     </select>
 
-    <select id="selectOne" resultMap="noticeResultMap">
+    <select id="selectNoticeOne" resultMap="noticeResultMap">
         SELECT * FROM NOTICE WHERE NOTICE_ID = #{noticeId}
     </select>
 
-    <update id="update">
+    <update id="updateNotice">
         UPDATE NOTICE SET
         NOTICE_TITLE = #{noticeTitle},
         NOTICE_CONTENT = #{noticeContent},
@@ -37,11 +37,11 @@
         WHERE NOTICE_ID = #{noticeId}
     </update>
 
-    <delete id="delete">
+    <delete id="deleteNotice">
         DELETE NOTICE WHERE NOTICE_ID = #{noticeId}
     </delete>
 
-    <select id="selectListByPagination" resultMap="noticeResultMap">
+    <select id="selectNoticeListByPagination" resultMap="noticeResultMap">
         SELECT * FROM
         (
             SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC) AS RN, NOTICE.*
@@ -50,18 +50,18 @@
         WHERE RN BETWEEN #{start} AND #{end}
     </select>
 
-    <select id="selectTotalCount" resultType="Integer">
+    <select id="selectNoticeTotalCount" resultType="Integer">
         SELECT COUNT(*) TOTAL_COUNT FROM NOTICE
     </select>
 
     <!-- 제목으로 검색 -->
-    <select id="selectListByTitle" resultMap="noticeResultMap">
+    <select id="selectNoticeListByTitle" resultMap="noticeResultMap">
         SELECT * FROM NOTICE
         WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
         ORDER BY NOTICE_DATE_CREATED DESC
     </select>
 
-    <select id="selectListByTitleWithPagination" resultMap="noticeResultMap">
+    <select id="selectNoticeListByTitleWithPagination" resultMap="noticeResultMap">
         SELECT * FROM (
             SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
             FROM NOTICE
@@ -70,19 +70,19 @@
         WHERE RN BETWEEN #{start} AND #{end}
     </select>
 
-    <select id="selectTotalCountByTitle" resultType="Integer">
+    <select id="selectNoticeTotalCountByTitle" resultType="Integer">
         SELECT COUNT(*) FROM NOTICE
         WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
     </select>
 
     <!-- 내용으로 검색 -->
-    <select id="selectListByContent" resultMap="noticeResultMap">
+    <select id="selectNoticeListByContent" resultMap="noticeResultMap">
         SELECT * FROM NOTICE
         WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
         ORDER BY NOTICE_DATE_CREATED DESC
     </select>
 
-    <select id="selectListByContentWithPagination" resultMap="noticeResultMap">
+    <select id="selectNoticeListByContentWithPagination" resultMap="noticeResultMap">
         SELECT * FROM (
             SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
             FROM NOTICE
@@ -91,7 +91,7 @@
         WHERE RN BETWEEN #{start} AND #{end}
     </select>
 
-    <select id="selectTotalCountByContent" resultType="Integer">
+    <select id="selectNoticeTotalCountByContent" resultType="Integer">
         SELECT COUNT(*) FROM NOTICE
         WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
     </select>

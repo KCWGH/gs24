@@ -23,7 +23,7 @@ public class PreorderMapperTest {
 	
 	@Test
 	public void test() {
-		select();
+		update();
 	}
 	
 	public void insert() {
@@ -39,11 +39,11 @@ public class PreorderMapperTest {
 	}
 	
 	public void update() {
-		
+		reviewMapper.updateReviewImgPath("ImgReview\\ReviewNO56.jpg", 56);
 	}
 	
 	public void select() {
-		log.info(reviewMapper.selectFirstReview());
+		log.info(reviewMapper.selectNextReviewId());
 	}
 	
 	public void delete() {

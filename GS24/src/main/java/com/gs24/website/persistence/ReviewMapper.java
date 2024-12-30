@@ -3,6 +3,7 @@ package com.gs24.website.persistence;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.ReviewVO;
 
@@ -16,7 +17,17 @@ public interface ReviewMapper {
 	
 	ReviewVO selectFirstReview();
 	
+	long selectNextReviewId();
+	
 	int updateReview(ReviewVO reviewVO);
+	
+	int updateReviewTitle(@Param("reviewTitle") String reviewTitle, @Param("reviewId") int reviewId);
+	
+	int updateReviewContent(@Param("reviewContent")String reviewContent, @Param("reviewId")int reviewId);
+	
+	int updateReviewRating(@Param("reviewRating")int reviewRating, @Param("reviewId")int reviewId);
+	
+	int updateReviewImgPath(@Param("reviewImgPath")String reviewImgPath, @Param("reviewId")int reviewId);
 	
 	int deleteReview(int reviewId);
 }

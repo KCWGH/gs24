@@ -18,6 +18,10 @@
 		VALUES(PREORDER_SEQ.NEXTVAL, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder})
 	</insert>
 	
+	<select id="selectPreorderOneById" resultMap="PreorderResultMap">
+		SELECT * FROM PREORDER WHERE PREORDER_ID = #{preorderId}
+	</select>
+	
 	<select id="selectPreoderByMemberId" resultMap="PreorderResultMap">
 		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId}
 	</select>

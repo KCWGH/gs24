@@ -14,6 +14,8 @@
 		<result property="reviewImgPath" column="REVIEW_IMG_PATH"/>
 	</resultMap>
 	
+
+	
 	<insert id="insertReview">
 		INSERT INTO REVIEW
 		(REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, FOOD_ID, REVIEW_RATING, REVIEW_IMG_PATH)
@@ -34,9 +36,37 @@
 		WHERE ROWNUM = 1
 	</select>
 	
+	<select id="selectNextReviewId" resultType="long">
+		SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'REVIEW_SEQ'
+	</select>
+	
 	<update id="updateReview">
 		UPDATE REVIEW SET
-		REVIEW_TITLE = #{reviewTitle}, REVIEW_CONTENT = #{reviewContent}, REVIEW_RATING = #{reviewRating}, REVIEW_IMG_PATH = ${reviewImgPath}
+		REVIEW_TITLE = #{reviewTitle}, REVIEW_CONTENT = #{reviewContent}, REVIEW_RATING = #{reviewRating}
+		WHERE REVIEW_ID = #{reviewId}
+	</update>
+	
+	<update id="updateReviewTitle">
+		UPDATE REVIEW SET
+		REVIEW_TITLE = #{reviewTitle}
+		WHERE REVIEW_ID = #{reviewId}
+	</update>
+	
+	<update id="updateReviewContent">
+		UPDATE REVIEW SET
+		REVIEW_CONTENT = #{reviewContent}
+		WHERE REVIEW_ID = #{reviewId}
+	</update>
+	
+	<update id="updateReviewRating">
+		UPDATE REVIEW SET
+		REVIEW_RATING = #{reviewRating}
+		WHERE REVIEW_ID = #{reviewId}
+	</update>
+	
+	<update id="updateReviewImgPath">
+		UPDATE REVIEW SET
+		REVIEW_IMG_PATH = #{reviewImgPath}
 		WHERE REVIEW_ID = #{reviewId}
 	</update>
 	

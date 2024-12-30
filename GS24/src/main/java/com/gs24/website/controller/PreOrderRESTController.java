@@ -21,10 +21,10 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/preorder")
 @Log4j
 public class PreOrderRESTController {
-	
+
 	@Autowired
 	private PreorderService preorderService;
-	
+
 	@GetMapping("/all/{memberId}")
 	public ResponseEntity<List<PreorderVO>> getAllPreOrder(@PathVariable String memberId) {
 		log.info("getAllPreOrder()");
@@ -36,6 +36,7 @@ public class PreOrderRESTController {
 	@PostMapping("/cancell")
 	public ResponseEntity<Integer> cancellPreOrder(@RequestBody int[] selectedPreordersId){
 		log.info("cancellPreOrder()");
+		log.info(selectedPreordersId.length);
 		Integer result = 0;
 		for(int i : selectedPreordersId) {
 			log.info(i);

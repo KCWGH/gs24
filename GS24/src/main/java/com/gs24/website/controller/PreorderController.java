@@ -48,6 +48,7 @@ public class PreorderController {
 		log.info("listGET");
 		
 		String memberId = (String)session.getAttribute("memberId");
+		log.info(memberId);
 		Date nowDate = new Date();
 		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
 		for(PreorderVO i : list) {

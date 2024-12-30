@@ -26,7 +26,7 @@ public class AnswerServiceImple implements AnswerService{
 	@Override
 	public int createAnswer(AnswerVO answerVO) {
 		log.info("createAnswer()");
-		int insertResult = answerMapper.insert(answerVO);
+		int insertResult = answerMapper.insertAnswer(answerVO);
 		log.info(insertResult + "행 댓글 추가");
 		 if (insertResult > 0) {
 	            // 게시글의 isAnswered 값을 1로 업데이트
@@ -39,7 +39,7 @@ public class AnswerServiceImple implements AnswerService{
 	@Override
 	public List<AnswerVO> getAllAnswer(int questionId) {
 		log.info("getAllAnswer()");
-		return answerMapper.selectListByQuestionId(questionId);
+		return answerMapper.selectAnswerListByQuestionId(questionId);
 	}
 
 	@Override
@@ -48,14 +48,14 @@ public class AnswerServiceImple implements AnswerService{
 		AnswerVO answerVO = new AnswerVO();
 		answerVO.setAnswerId(answerId);
 		answerVO.setAnswerContent(answerContent);
-		return answerMapper.update(answerVO);
+		return answerMapper.updateAnswer(answerVO);
 	}
 
 	@Transactional(value = "transactionManager")
 	@Override
 	public int deleteAnswer(int answerId, int questionId) {
 		log.info("deleteAnswer()");
-		int deleteResult = answerMapper.delete(answerId);
+		int deleteResult = answerMapper.deleteAnswer(answerId);
 		log.info(deleteResult + "행 댓글 삭제");
 		
 		return 1;

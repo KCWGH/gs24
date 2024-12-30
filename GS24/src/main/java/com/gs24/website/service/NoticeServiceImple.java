@@ -21,14 +21,14 @@ public class NoticeServiceImple implements NoticeService {
    @Override
    public int createNotice(NoticeVO vo) {
       log.info("createNotice()");
-      int result = noticeMapper.insert(vo);
+      int result = noticeMapper.insertNotice(vo);
       return result;  
    }
 
    @Override
    public List<NoticeVO> getAllNotice() {
       log.info("getAllNotice()");
-      return noticeMapper.selectList();
+      return noticeMapper.selectNoticeList();
    }
 
    @Override
@@ -40,60 +40,60 @@ public class NoticeServiceImple implements NoticeService {
       } else {
     	  log.info("views up fail");
       }
-      return noticeMapper.selectOne(noticeId);
+      return noticeMapper.selectNoticeOne(noticeId);
    }
 
    @Override
    public int updateNotice(NoticeVO vo) {
       log.info("updateNotice()");
-      return noticeMapper.update(vo);
+      return noticeMapper.updateNotice(vo);
    }
 
    @Override
    public int deleteNotice(int noticeId) {
       log.info("deleteNotice()");
-      return noticeMapper.delete(noticeId);
+      return noticeMapper.deleteNotice(noticeId);
    }
 
    @Override
    public List<NoticeVO> getPagingNotices(Pagination pagination) {
       log.info("getPagingNotices()");
-      return noticeMapper.selectListByPagination(pagination);  // pagination 媛앹껜 洹몃�濡� �쟾�떖
+      return noticeMapper.selectNoticeListByPagination(pagination);  // pagination 揶쏆빘猿� 域밸챶占썸에占� 占쎌읈占쎈뼎
    }
 
    @Override
    public int getTotalCount() {
       log.info("getTotalCount()");
-      return noticeMapper.selectTotalCount();
+      return noticeMapper.selectNoticeTotalCount();
    }
 
    @Override
    public List<NoticeVO> getNoticesByTitle(String noticeTitle) {
       log.info("searchNoticesByTitle() with title = " + noticeTitle);
-      return noticeMapper.selectListByTitle(noticeTitle);
+      return noticeMapper.selectNoticeListByTitle(noticeTitle);
    }
 
    @Override
    public List<NoticeVO> getNoticesByTitleWithPagination(String noticeTitle, Pagination pagination) {
        int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
        int end = start + pagination.getPageSize() - 1;
-       return noticeMapper.selectListByTitleWithPagination(noticeTitle, start, end);
+       return noticeMapper.selectNoticeListByTitleWithPagination(noticeTitle, start, end);
    }
 
    @Override
    public int getTotalCountByTitle(String noticeTitle) {
-       return noticeMapper.selectTotalCountByTitle(noticeTitle);
+       return noticeMapper.selectNoticeTotalCountByTitle(noticeTitle);
    }
 
    @Override
    public List<NoticeVO> getNoticesByContentWithPagination(String noticeContent, Pagination pagination) {
        int start = (pagination.getPageNum() - 1) * pagination.getPageSize() + 1;
        int end = start + pagination.getPageSize() - 1;
-       return noticeMapper.selectListByContentWithPagination(noticeContent, start, end);
+       return noticeMapper.selectNoticeListByContentWithPagination(noticeContent, start, end);
    }
 
    @Override
    public int getTotalCountByContent(String noticeContent) {
-       return noticeMapper.selectTotalCountByContent(noticeContent);
+       return noticeMapper.selectNoticeTotalCountByContent(noticeContent);
    }
 }

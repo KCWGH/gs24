@@ -21,44 +21,44 @@ public class QuestionServiceImple implements QuestionService {
 	@Override
 	public int createQuestion(QuestionVO questionVO) {
 		log.info("createQuestion()");
-		int result = questionMapper.insert(questionVO);
+		int result = questionMapper.insertQuestion(questionVO);
 		return result;
 	}
 
 	@Override
 	public List<QuestionVO> getAllQuestion() {
 		log.info("getAllQuestion()");
-		return questionMapper.selectList();
+		return questionMapper.selectQuestionList();
 	}
 
 	@Override
 	public QuestionVO getQuestionById(int questionId) {
 		log.info("getQuestionById()");
-		return questionMapper.selectOne(questionId);
+		return questionMapper.selecQuestiontOne(questionId);
 	}
 
 	@Override
 	public int updateQuestion(QuestionVO questionVO) {
 		log.info("updateQuestion()");
-		return questionMapper.update(questionVO);
+		return questionMapper.updateQuestion(questionVO);
 	}
 
 	@Override
 	public int deleteQuestion(int questionId) {
 		log.info("getNoticeById()");
-		return questionMapper.delete(questionId);
+		return questionMapper.deleteQuestion(questionId);
 	}
 
 	@Override
 	public List<QuestionVO> getPagingQuestions(Pagination pagination) {
 		log.info("getPagingQuestion()");
-		return questionMapper.selectListByPagination(pagination);
+		return questionMapper.selectQuestionListByPagination(pagination);
 	}
 
 	@Override
 	public int getTotalCount() {
 		log.info("getTotalCount()");
-		return questionMapper.selectTotalCount();
+		return questionMapper.selectQuestionTotalCount();
 	}
 
 	@Override

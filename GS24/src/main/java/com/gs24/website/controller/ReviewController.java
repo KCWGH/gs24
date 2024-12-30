@@ -70,4 +70,15 @@ public class ReviewController {
 		
 		return "redirect:list?foodId=" + foodId;
 	}
+	
+	@PostMapping("update")
+	public String updatePOST(ReviewVO reviewVO, MultipartFile file) {
+		log.info("updatePOST()");
+		log.info(reviewVO);
+		log.info(file.getOriginalFilename());
+		
+		reviewService.updateReview(reviewVO, file);
+		
+		return "redirect:list?foodId=" + reviewVO.getFoodId();
+	}
 }
