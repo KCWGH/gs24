@@ -33,11 +33,10 @@ public class CouponRESTController {
 	@Autowired
 	private CouponService couponService;
 
-	@PostMapping("/dup-check-couponName")
-	public ResponseEntity<String> dupcheckCouponNamePOST(String couponName) {
+	@PostMapping("/dup-check-id")
+	public ResponseEntity<String> dupcheckCouponNamePOST(String memberId) {
 		log.info("dupCheckCouponNamePOST()");
-		int result = couponService.dupCheckCouponName(couponName);
-		if (result == 1) { // 중복되면
+		if (memberService.dupCheckId(memberId) == 1) {
 			return ResponseEntity.ok("1");
 		}
 		return ResponseEntity.ok("0");
@@ -75,7 +74,7 @@ public class CouponRESTController {
 			memberVO.setEmail(null);
 			memberVO.setBirthday(null);
 			pagination.setMemberVO(memberVO);
-			pagination.setPageSize(4);
+			pagination.setPageSize(3);
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setPagination(pagination);
 			List<CouponVO> couponList = null;

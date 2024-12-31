@@ -10,7 +10,9 @@
 		<result property="couponGrantDate" column="COUPON_GRANT_DATE" />
 		<result property="couponExpiredDate"
 			column="COUPON_EXPIRED_DATE" />
-		<result property="discountRate" column="DISCOUNT_RATE" />
+		<result property="discountType" column="DISCOUNT_TYPE" />
+		<result property="discountValue" column="DISCOUNT_VALUE" />
+		<result property="foodType" column="FOOD_TYPE" />
 		<result property="isUsed" column="IS_USED" />
 	</resultMap>
 
@@ -18,11 +20,15 @@
 		INSERT INTO COUPON
 		(COUPON_ID, COUPON_NAME, MEMBER_ID,
 		COUPON_GRANT_DATE,
-		COUPON_EXPIRED_DATE, DISCOUNT_RATE, IS_USED) VALUES
+		COUPON_EXPIRED_DATE, DISCOUNT_TYPE, DISCOUNT_VALUE,
+		FOOD_TYPE, IS_USED)
+		VALUES
 		(COUPON_SEQ.NEXTVAL, #{couponName},
 		#{memberId}, SYSDATE,
-		#{couponExpiredDate}, #{discountRate}, 0)
+		#{couponExpiredDate}, #{discountType},
+		#{discountValue}, #{foodType}, 0)
 	</insert>
+
 
 	<select id="selectList" resultMap="couponResultMap">
 		SELECT * FROM COUPON
@@ -37,14 +43,17 @@
 		WHERE COUPON_ID = #{couponId}
 	</select>
 
-	<select id="isExistByCouponName" resultType="Integer">
-		SELECT COUNT(*) FROM
+	<select id="countByCouponNameAndMemberId" resultType="Integer">
+		SELECT
+		COUNT(*) FROM
 		COUPON
-		WHERE COUPON_NAME = #{couponName}
+		WHERE COUPON_NAME = #{couponName} AND MEMBER_ID =
+		#{memberId}
 	</select>
-	
+
 	<select id="birthdayCouponDupCheck" resultType="Integer">
-		SELECT COUNT(*) FROM
+		SELECT COUNT(*)
+		FROM
 		COUPON
 		WHERE COUPON_NAME = '생일 축하 쿠폰' AND MEMBER_ID = #{memberId}
 	</select>
@@ -53,19 +62,21 @@
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM COUPON WHERE MEMBER_ID = #{memberId}
 	</select>
-	
+
 	<select id="selectAvailableCount" resultType="Integer">
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM COUPON WHERE
-		COUPON_GRANT_DATE &lt; COUPON_EXPIRED_DATE AND IS_USED = 0 AND MEMBER_ID = #{memberId}
+		SYSDATE &lt; COUPON_EXPIRED_DATE AND
+		IS_USED = 0 AND MEMBER_ID = #{memberId}
 	</select>
-	
+
 	<select id="selectExpiredCount" resultType="Integer">
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM COUPON WHERE
-		COUPON_GRANT_DATE &gt;= COUPON_EXPIRED_DATE AND MEMBER_ID = #{memberId}
+		SYSDATE &gt;= COUPON_EXPIRED_DATE AND
+		MEMBER_ID = #{memberId}
 	</select>
-	
+
 	<select id="selectUsedCount" resultType="Integer">
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM COUPON WHERE IS_USED = 1 AND MEMBER_ID = #{memberId}
@@ -75,39 +86,49 @@
 		SELECT * FROM
 		(
 		SELECT ROW_NUMBER() OVER (ORDER BY COUPON_GRANT_DATE DESC)
-		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID = #{memberId}
+		AS RN,
+		COUPON.* FROM COUPON WHERE MEMBER_ID = #{memberId}
 		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		WHERE RN BETWEEN
+		#{start} AND #{end}
 	</select>
 
 	<select id="selectAvailableListByPagination"
 		resultMap="couponResultMap">
 		SELECT * FROM
 		(
-		SELECT ROW_NUMBER() OVER (ORDER BY COUPON_GRANT_DATE DESC)
-		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID = #{memberId} AND
-		COUPON_GRANT_DATE &lt; COUPON_EXPIRED_DATE AND IS_USED = 0
+		SELECT ROW_NUMBER() OVER (ORDER BY
+		COUPON_GRANT_DATE DESC)
+		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID =
+		#{memberId} AND
+		SYSDATE &lt; COUPON_EXPIRED_DATE AND IS_USED = 0
 		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		WHERE
+		RN BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="selectExpiredListByPagination"
 		resultMap="couponResultMap">
 		SELECT * FROM
 		(
-		SELECT ROW_NUMBER() OVER (ORDER BY COUPON_GRANT_DATE DESC)
-		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID = #{memberId} AND
-		COUPON_GRANT_DATE &gt;= COUPON_EXPIRED_DATE
+		SELECT ROW_NUMBER() OVER (ORDER BY
+		COUPON_GRANT_DATE DESC)
+		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID =
+		#{memberId} AND
+		SYSDATE &gt;= COUPON_EXPIRED_DATE
 		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		WHERE RN BETWEEN
+		#{start} AND #{end}
 	</select>
 
 	<select id="selectUsedListByPagination"
 		resultMap="couponResultMap">
 		SELECT * FROM
 		(
-		SELECT ROW_NUMBER() OVER (ORDER BY COUPON_GRANT_DATE DESC)
-		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID = #{memberId} AND IS_USED =
+		SELECT ROW_NUMBER() OVER (ORDER BY
+		COUPON_GRANT_DATE DESC)
+		AS RN, COUPON.* FROM COUPON WHERE MEMBER_ID =
+		#{memberId} AND IS_USED =
 		1
 		)
 		WHERE RN BETWEEN #{start} AND #{end}

@@ -1,5 +1,7 @@
 package com.gs24.website.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.CouponService;
+import com.gs24.website.service.FoodService;
 import com.gs24.website.service.MemberService;
-import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -29,21 +32,54 @@ public class CouponController {
 	@Autowired
 	private CouponService couponService;
 
+	@Autowired
+	private FoodService foodService;
+
 	@GetMapping("/grant")
-	public void grantGET() {
+	public void grantGET(Model model) {
 		log.info("grantGET()");
+		String[] foodType = foodService.getFoodTypeList();
+		model.addAttribute("foodTypeList", foodType);
+	}
+	
+	@GetMapping("/grant-fail")
+	public void grantFailGET() {
+		log.info("grantFailGET()");
 	}
 
 	@PostMapping("/grant")
-	public void grantPOST(@ModelAttribute CouponVO couponVO) {
+	public String grantPOST(@ModelAttribute CouponVO couponVO, Model model, RedirectAttributes attributes) {
 		log.info("grantPOST()");
 		log.info(couponVO);
-		int result = couponService.grantCoupon(couponVO);
-		log.info(result + "개 쿠폰 제공 완료");
+		if (couponVO.getCouponName().equals("")) { // 이름을 따로 입력하지 않았으면
+			String foodType = couponVO.getFoodType();
+
+			String value = "";
+			switch (couponVO.getDiscountType()) {
+			case 'A':
+				value = couponVO.getDiscountValue() + "원";
+				break;
+			case 'P':
+				value = couponVO.getDiscountValue() + "%";
+				break;
+			}
+			couponVO.setCouponName(foodType + " " + value + " 할인권");
+		}
+		if (memberService.dupCheckId(couponVO.getMemberId())==1) {
+			int result = couponService.grantCoupon(couponVO);
+			log.info(result + "개 쿠폰 제공 완료");
+		} else {
+			return "redirect:/coupon/grant-fail";
+		}
+
+		String[] foodType = foodService.getFoodTypeList();
+		attributes.addFlashAttribute("message", "쿠폰 제공 완료 :)");
+		model.addAttribute("foodTypeList", foodType);
+		return "redirect:/coupon/grant";
 	}
 
 	@GetMapping("/list")
-	public String list(Model model, Pagination pagination, HttpSession session) {
+	public String list(Model model, HttpSession session) {
 		log.info("list()");
 		String memberId = (String) session.getAttribute("memberId");
 		if (memberId != null) {
@@ -67,7 +103,9 @@ public class CouponController {
 			model.addAttribute("memberVO", memberVO);
 		}
 		CouponVO couponVO = couponService.getCouponDetail(couponId);
+		Date sysDate = new Date();
 		model.addAttribute("couponVO", couponVO);
+		model.addAttribute("sysDate", sysDate);
 	}
 
 } // end BoardController
