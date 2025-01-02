@@ -21,4 +21,8 @@ public interface QuestionService {
 	int getTotalCount();
 	
 	List<QuestionVO> getQuestionListByMemberId(String memberId); // 개인이 작성한 게시글
+	
+	List<QuestionVO> getPagingQuestionsByMemberId(String memberId, Pagination pagination);
+	
+	int countQuestionByMemberId(String memberId);
 }

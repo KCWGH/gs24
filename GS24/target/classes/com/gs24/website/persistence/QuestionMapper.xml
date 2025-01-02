@@ -13,19 +13,20 @@
 		<result property="questionContent" column="QUESTION_CONTENT" />
 		<result property="questionDateCreated" column="QUESTION_DATE_CREATED" />
 		<result property="isAnswered" column="IS_ANSWERED" />
+		<result property="questionSecret" column="QUESTION_SECRET"/>
 	</resultMap>
 	
 	<insert id="insertQuestion">
 		INSERT INTO QUESTION (QUESTION_ID, MEMBER_ID, FOOD_NAME,
-		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_DATE_CREATED)
+		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_SECRET, QUESTION_DATE_CREATED)
 		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodName}, #{questionTitle},
-		 #{questionContent}, SYSDATE)
+		 #{questionContent}, #{questionSecret}, SYSDATE)
 	</insert>
 	<select id="selectQuestionList" resultMap="questionResultMap">
 		SELECT * FROM QUESTION ORDER BY QUESTION_ID DESC
 	</select>
 	
-	<select id="selecQuestiontOne" resultMap="questionResultMap">
+	<select id="selectQuestionOne" resultMap="questionResultMap">
 		SELECT * FROM QUESTION WHERE QUESTION_ID = #{questionId}
 	</select>
 	
@@ -49,6 +50,19 @@
 	 	) 
 	 	WHERE RN BETWEEN #{start} AND #{end}
 	 </select>
+	 
+	 <select id="selectQuestionListByPaginationBymemberId" resultMap="questionResultMap">
+		SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
+		AS RN, QUESTION.* FROM QUESTION WHERE MEMBER_ID = #{memberId}
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countQuestionListByMemberId" resultType="Integer">
+		SELECT COUNT(*) FROM QUESTION WHERE MEMBER_ID = #{memberId} ORDER BY QUESTION_ID DESC
+	</select>
 	 
 	<select id="selectQuestionTotalCount" resultType="Integer">
 		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION

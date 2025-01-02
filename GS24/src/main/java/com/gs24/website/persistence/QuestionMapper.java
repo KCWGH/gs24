@@ -7,11 +7,10 @@ import com.gs24.website.util.Pagination;
 
 public interface QuestionMapper {
 	int insertQuestion(QuestionVO questionVO); // 게시글 등록
-<<<<<<< Updated upstream
 
 	List<QuestionVO> selectQuestionList(); // 전체 게시글 조회
 
-	QuestionVO selecQuestiontOne(int noticeId); // 특정 게시글 조회
+	QuestionVO selectQuestionOne(int noticeId); // 특정 게시글 조회
 
 	int updateQuestion(QuestionVO questionVO); // 특정 게시글 수정
 
@@ -21,27 +20,11 @@ public interface QuestionMapper {
 
 	int selectQuestionTotalCount();
 
-	int updateAnswer(int questionId); //답변 상태 변경
-	
+	int updateIsAnswered(int questionId); // 답변 상태 변경
+
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
 
+	List<QuestionVO> selectQuestionListByPaginationBymemberId(Pagination pagination);
+
+	int countQuestionListByMemberId(String memeberId);
 }
-=======
-	
-	List<QuestionVO> selectList(); // 전체 게시글 조회
-	
-	QuestionVO selectOne(int noticeId); // 특정 게시글 조회
-	
-	int updateQuestion(QuestionVO questionVO); // 특정 게시글 수정
-	
-	int deleteQuestion(int noticeId); // 특정 게시글 삭제
-	
-	List<QuestionVO> selectListByPagination(Pagination pagination); // 전체 게시글 페이징 처리
-	
-	int selectTotalCount();
-	
-	int updateIsAnswered(int questionId); //답변 상태 변경
-	
-	List<QuestionVO> selectQuestionListByMemberId(String memberId);
-}
->>>>>>> Stashed changes

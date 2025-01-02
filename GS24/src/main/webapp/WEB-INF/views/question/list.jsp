@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -10,7 +9,7 @@
 
     <!-- jQuery 라이브러리 로드 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <style type="text/css">
         table, th, td {
             border-style: solid;
@@ -35,30 +34,25 @@
             margin-bottom: 10px;
         }
 
-        
         .answer_item {
             padding: 10px;
             margin: 10px 0;
-           
         }
 
         .answer_item .answer-content {
             font-size: 1em;
             color: #333;
         }
-        
+
         .answer_item .answer-meta {
             font-size: 0.9em;
             color: #777;
             margin-bottom: 5px;
         }
-
-
     </style>
 </head>
 <body>
     <!-- 페이지 내용 -->
-
     <a href="../food/list"><button>메인페이지</button></a>
     <a href="../notice/list"><button>공지사항</button></a>
 
@@ -94,14 +88,30 @@
                     <td>${QuestionVO.questionId}</td>
                     <td>${QuestionVO.foodName}</td>
                     <td>
-                        <a href="javascript:void(0);" 
-                           onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
-                           ${QuestionVO.questionTitle}
-                        </a>
-                    </td>
-                    <td>${QuestionVO.memberId}</td>
-                    <fmt:formatDate value="${QuestionVO.questionDateCreated}" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
-                    <td>${questionDateCreated}</td>
+                        <c:choose>
+    <c:when test="${QuestionVO.questionSecret == true}"> <!-- Boolean true로 비교 -->
+        <c:if test="${sessionScope.memberId == QuestionVO.memberId || sessionScope.memberVO.memberRole == 2}">
+            <!-- 관리자 또는 작성자일 경우 비밀글 표시 -->
+            <a href="javascript:void(0);" onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
+                ${QuestionVO.questionTitle}
+            </a>
+        </c:if>
+        <c:if test="${sessionScope.memberId != QuestionVO.memberId && sessionScope.memberVO.memberRole != 2}">
+            <!-- 일반 사용자(관리자, 작성자 외)는 비밀글 제목만 보임 -->
+            ${QuestionVO.questionTitle} 🔒
+        </c:if>
+    </c:when>
+    <c:otherwise>
+        <!-- 비밀글이 아닌 경우 제목을 클릭 가능 -->
+        <a href="javascript:void(0);" onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
+            ${QuestionVO.questionTitle}
+        </a>
+    </c:otherwise>
+</c:choose>
+        </td>
+            <td>${QuestionVO.memberId}</td>
+               <fmt:formatDate value="${QuestionVO.questionDateCreated}" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
+                  <td>${questionDateCreated}</td>
                     <td>
                         <c:if test="${QuestionVO.isAnswered == 0}">
                             답변대기

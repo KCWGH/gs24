@@ -60,13 +60,18 @@ public class QuestionController {
 	// register.jsp에서 전송받은 게시글 데이터를 저장
 	@PostMapping("/register")
 	public String registerPOST(QuestionVO questionVO) {
-		log.info("registerPOST()");
-		log.info("questionVO = " + questionVO.toString());
-		int result = questionService.createQuestion(questionVO);
-		log.info(result + "행 등록 ");
-		return "redirect:/question/list";
-	}
+	    log.info("registerPOST()");
 
+	    // questionVO.toString()을 사용해 questionVO 객체의 값을 출력해 볼 수 있습니다.
+	    log.info("questionVO = " + questionVO.toString());
+
+	    // questionService.createQuestion()을 통해 게시글 저장
+	    int result = questionService.createQuestion(questionVO);
+	    log.info(result + "행 등록 ");
+
+	    // 저장 후 리스트 페이지로 리다이렉트
+	    return "redirect:/question/list";
+	}
 	// list.jsp에서 선택된 게시글 번호를 바탕으로 게시글 상세 조회
 	// 조회된 게시글 데이터를 detail.jsp로 전송
 	@GetMapping("/detail")

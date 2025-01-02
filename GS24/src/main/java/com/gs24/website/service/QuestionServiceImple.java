@@ -34,7 +34,7 @@ public class QuestionServiceImple implements QuestionService {
 	@Override
 	public QuestionVO getQuestionById(int questionId) {
 		log.info("getQuestionById()");
-		return questionMapper.selecQuestiontOne(questionId);
+		return questionMapper.selectQuestionOne(questionId);
 	}
 
 	@Override
@@ -65,5 +65,15 @@ public class QuestionServiceImple implements QuestionService {
 	public List<QuestionVO> getQuestionListByMemberId(String memberId) {
 
 		return questionMapper.selectQuestionListByMemberId(memberId);
+	}
+	
+	@Override
+	public List<QuestionVO> getPagingQuestionsByMemberId(String memberId, Pagination pagination) {
+		return questionMapper.selectQuestionListByPaginationBymemberId(pagination);
+	}
+
+	@Override
+	public int countQuestionByMemberId(String memberId) {
+		return questionMapper.countQuestionListByMemberId(memberId);
 	}
 }

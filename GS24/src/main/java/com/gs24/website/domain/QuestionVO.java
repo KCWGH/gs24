@@ -21,5 +21,6 @@ public class QuestionVO {
 	String questionContent; // QUESTION_CONTNET
 	Date questionDateCreated; // QUESTION_DATE_CREATED
 	int isAnswered; // IS_ANSWERED
+	boolean questionSecret; // QUESTION_SECRET
 	
 }
