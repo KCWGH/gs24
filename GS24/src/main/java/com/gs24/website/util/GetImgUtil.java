@@ -15,22 +15,11 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class GetImgUtil {
-	
-	// 매개변수 예)C:\Users\sdedu\Desktop\gsproject\GS24\src\main\webapp\ImgFood\FoodNO8.png
-	// 컨트롤러에서 밑에 메소드 추가하면 된다.
-	// Getmapping("")
-	//  public ResponseEntity<byte[]> 메소드 이름(){ 
-	//	추가로 필요한 내용
-	//	ResponseEntity<byte[]> entity = GetImgUtil.getImage(파일 경로);
-	//	return entity;
-	//	}
-	// jsp <img> src=../컨트롤러 매핑 URL/메소드패핑 URL?file
 	public static ResponseEntity<byte[]> getImage(String filePath) throws IOException{
 		log.info("getImage()");
 		
 		File file = new File(filePath);
 		if(!file.isFile()) {
-			log.info("�ش� ��ο� ������ �������� �ʽ��ϴ�.");
 			return null;
 		}
 		

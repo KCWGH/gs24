@@ -37,11 +37,9 @@ public class uploadImgFoodUtil {
 	    	return dirPath;
 	    }
 	  
-	  public static boolean saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
+	  public static void saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
 	       
-	       boolean hasFile = false;
-	       
-	        File realUploadPath = new File(uploadPath,makeDir(obj));
+	       File realUploadPath = new File(uploadPath,makeDir(obj));
 	        if (!realUploadPath.exists()) {
 	            realUploadPath.mkdirs();
 	            log.info(realUploadPath.getPath() + " successfully created.");
@@ -51,12 +49,6 @@ public class uploadImgFoodUtil {
 
 	        File saveFile = new File(realUploadPath, chgName);
 	        
-	        if(!saveFile.exists()) { 	
-	        	log.info("파일이 존재하지 않습니다.");
-	        } else {
-	        	hasFile = true;
-	        }
-	        
 	        try {
 	            file.transferTo(saveFile);
 	            log.info("file upload scuccess");
@@ -65,9 +57,8 @@ public class uploadImgFoodUtil {
 	        } catch (IOException e) {
 	            log.error(e.getMessage());
 	        }
-
-	        return hasFile;
-	    }
+	  }
+	  
 	  public static void deleteFile(Object obj, String uploadPath,String chgName) {
 	        String fullPath = uploadPath + File.separator + makeDir(obj) + chgName;
 	        File file = new File(fullPath);
@@ -81,4 +72,10 @@ public class uploadImgFoodUtil {
 	            System.out.println(fullPath + " file not found.");
 	        }
 	    }
+
+	  public static void updateFile(Object obj, String uploadPath,MultipartFile file ,String chgName, String prevExtension, String nextExtention) {
+		  deleteFile(obj, uploadPath, chgName + "." + prevExtension);
+		  
+		  saveFile(obj, uploadPath, file, chgName + "." + nextExtention);
+	  }
 	}

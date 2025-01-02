@@ -28,46 +28,46 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/review")
 @Log4j
 public class ReviewController {
-	
+
 	@Autowired
 	private ReviewService reviewService;
-	
+
 	@Autowired
 	private String uploadPath;
-	
+
 	@GetMapping("/list")
 	public void listGET(Model model,int foodId) {
 		log.info("listGET()");
 		log.info("foodId : " + foodId);
-		
+
 		List<ReviewVO> list = reviewService.getAllReviewByFoodId(foodId);
-		
+
 		//리뷰 이미지 전체 경로로 바꾼 다음에 보내줘야 함
 		model.addAttribute("reviewList", list);
 		model.addAttribute("foodId", foodId);
 	}
-	
+
 	@PostMapping("/register")
 	public String registerPOST(ReviewVO reviewVO, MultipartFile file) {
 		log.info("registerPOST()");
 		log.info(file.getOriginalFilename());
 		int result = reviewService.createReview(reviewVO, file);
-		
+
 		return "redirect:list?foodId=" + reviewVO.getFoodId();
 	}
-	
+
 	@GetMapping("delete")
 	public String deleteGET(int reviewId, int foodId) {
 		log.info(reviewId);
 		log.info("deleteGET()");
 		int result = reviewService.deleteReview(reviewId, foodId);
-		
+
 		if(result == 0) {
 			log.info(result + "행 삭제되었습니다.");
 		} else {
 			log.info("삭제에 실패했습니다.");	
 		}
-		
+
 		return "redirect:list?foodId=" + foodId;
 	}
 	

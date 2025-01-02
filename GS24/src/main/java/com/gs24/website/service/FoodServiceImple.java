@@ -42,7 +42,7 @@ public class FoodServiceImple implements FoodService{
 		FoodVO VO = foodMapper.selectFirstFoodId();
 
 		String chgName = "FoodNO" + VO.getFoodId();
-		boolean hasFile = uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
+		uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
@@ -50,11 +50,6 @@ public class FoodServiceImple implements FoodService{
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 		imgFoodVO.setFoodId(VO.getFoodId());
-		if (hasFile) {
-			log.info("Failed insert image");
-		} else {
-			imgFoodMapper.insertImgFood(imgFoodVO);
-		}
 
 		log.info(imgFoodVO); 
 		
@@ -99,7 +94,7 @@ public class FoodServiceImple implements FoodService{
 		log.info("file size : " + file.getSize());
 
 		String chgName = "FoodNO" + foodVO.getFoodId();	
-		boolean hasFile = uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
+		uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
 				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 
@@ -112,12 +107,6 @@ public class FoodServiceImple implements FoodService{
 		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 		imgFoodVO.setFoodId(foodVO.getFoodId());
-		if (hasFile) {
-			log.info("Successed update image");
-			imgFoodMapper.updateImgFood(imgFoodVO);
-		} else {
-			log.info("Failed update image");
-		}
 
 		log.info(imgFoodVO);
 		
