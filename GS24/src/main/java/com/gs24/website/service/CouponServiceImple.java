@@ -27,9 +27,8 @@ public class CouponServiceImple implements CouponService {
 	}
 
 	@Override
-	public int dupCheckCouponName(String couponName) {
-		int result = couponMapper.isExistByCouponName(couponName);
-		return result;
+	public int dupCheckCouponNameAndMemberId(String couponName, String memberId) {
+		return couponMapper.countByCouponNameAndMemberId(couponName, memberId);
 	}
 
 	@Override

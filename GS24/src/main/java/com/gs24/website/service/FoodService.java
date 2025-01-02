@@ -26,4 +26,6 @@ public interface FoodService {
 	int updateFoodAmountByPreorderAmount(int foodId, int preorderAmount);
 	
 	int deleteFood(int foodId);
+	
+	String[] getFoodTypeList();
 }

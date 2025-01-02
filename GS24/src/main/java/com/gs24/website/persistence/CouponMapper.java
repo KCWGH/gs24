@@ -2,12 +2,11 @@ package com.gs24.website.persistence;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.util.Pagination;
 
-@Mapper
 public interface CouponMapper {
 
 	int insertCoupon(CouponVO couponVO);
@@ -15,10 +14,10 @@ public interface CouponMapper {
 	List<CouponVO> selectList(String memberId);
 
 	CouponVO selectDetailByCouponId(int couponId);
-	
+
 	int birthdayCouponDupCheck(String memberId);
 
-	int isExistByCouponName(String couponName);
+	int countByCouponNameAndMemberId(@Param("couponName") String couponName, @Param("memberId") String memberId);
 
 	int selectTotalCount(String memberId);
 

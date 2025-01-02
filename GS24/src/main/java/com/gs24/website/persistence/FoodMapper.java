@@ -32,4 +32,6 @@ public interface FoodMapper {
 	int updateFoodReviewCntByFoodId(@Param("foodId") int foodId, @Param("foodReviewCnt") int foodReviewCnt);
 	
 	int deleteFood(int foodId);
+
+	String[] selectFoodType();
 }

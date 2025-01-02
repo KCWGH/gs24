@@ -8,20 +8,14 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
-<style>
-	img{
-		width: 300px;
-		height: 200px;
-	}
-</style>
 <title>예약 식품 목록</title>
 </head>
 <body>
 	<h1>에약된 식품 목록</h1>
 	<div id="list"></div>
 	<br>
-	<button onclick="location.href='../food/list'">돌아가기</button>
 	<button id="cancell">예약 취소</button>
+	<button onclick="location.href='../food/list'">돌아가기</button>
 	<button id="delete">예약 취소 목록 삭제</button>
 	<script type="text/javascript">
 	
@@ -60,8 +54,7 @@
 	                
 	                list += '<div class="preorderList">'
 	                        + '<input type="checkbox" class="check-box">'
-	                        + '<div><img src="../Img/Food?foodId='+foodId+'"></div>'
-	                        + '<div class="preorderNO">'+ this.preorderId +'</div>'
+	                        + '<div><img src="../ImgFood?foodId='+foodId+'"></div>'
 	                        + '<div>수량 : '+this.preorderAmount+'</div>'
 	                        + '<div>수령일 : '+ StringDate+'</div>'
 	                        + '<div>'+isPickUp+'</div>'
@@ -75,7 +68,6 @@
 	    //각 예약 식품 항목 중 아무거나 누르면 체크박스에 활성화/비활성화 하는 코드
 	    function checkToCheckBox(){
 	        $('#list').on('click', '.preorderList', function(){
-	        	console.log(this);
 	            let isChecked = $(this).find("input[type='checkbox']").prop('checked');
 	            $(this).find("input[type='checkbox']").prop('checked', !isChecked);
 	        });
@@ -89,7 +81,6 @@
 	                if ($(this).find("input[type='checkbox']").prop('checked')) {
 	                    let preorderNO = $(this).find(".preorderNO").text();
 	                    selectedPreordersId.push(preorderNO);
-	                    console.log(selectedPreordersId);
 	                }
 	            });
 	           

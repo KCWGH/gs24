@@ -77,12 +77,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE FOOD_ID =
 		#{foodId}
 	</update>
-	
+
 	<!-- 상품을 예약하면 그에 맞춰 재고량을 줄이는 쿼리 -->
 	<update id="updateFoodAmountByPreorderAmount">
 		UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK - #{preorderAmount} WHERE FOOD_ID = #{foodId}
 	</update>
-	
+
 	<update id="updateFoodAvgRatingByFoodId">
 		UPDATE FOOD SET FOOD_AVG_RATING = #{foodAvgRating} WHERE FOOD_ID = #{foodId}
 	</update>
@@ -94,4 +94,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteFood">
 		DELETE FROM FOOD WHERE FOOD_ID = #{foodId}
 	</delete>
+	
+	<select id="selectFoodType" resultType="String">
+      SELECT DISTINCT FOOD_TYPE
+      FROM FOOD
+   </select>
+	
 </mapper>

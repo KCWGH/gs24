@@ -15,7 +15,7 @@ public interface CouponService {
 	
 	int birthdayCouponDupCheck(String memberId);
 
-	int dupCheckCouponName(String couponName);
+	int dupCheckCouponNameAndMemberId(String couponName, String memberId);
 
 	List<CouponVO> getPagedAllCoupons(String memberId, Pagination pagination);
 

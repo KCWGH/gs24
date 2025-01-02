@@ -39,8 +39,7 @@ public class uploadImgFoodUtil {
 	  
 	  public static void saveFile(Object obj, String uploadPath, MultipartFile file, String chgName) {
 	       
-	       
-	        File realUploadPath = new File(uploadPath,makeDir(obj));
+	       File realUploadPath = new File(uploadPath,makeDir(obj));
 	        if (!realUploadPath.exists()) {
 	            realUploadPath.mkdirs();
 	            log.info(realUploadPath.getPath() + " successfully created.");
@@ -58,8 +57,8 @@ public class uploadImgFoodUtil {
 	        } catch (IOException e) {
 	            log.error(e.getMessage());
 	        }
-
-	    }
+	  }
+	  
 	  public static void deleteFile(Object obj, String uploadPath,String chgName) {
 	        String fullPath = uploadPath + File.separator + makeDir(obj) + chgName;
 	        File file = new File(fullPath);
@@ -73,8 +72,7 @@ public class uploadImgFoodUtil {
 	            System.out.println(fullPath + " file not found.");
 	        }
 	    }
-	 // 문제 발생 파일 업데이트를 하는데 확장자가 달라서 사진이 수정되는게 아니라 다시 생성되는 결과가 초래되었다. 이 부분을 수정해야 한다.
-	  // 이름은 같으니까 수정되야할 해당 파일 데이터 및 이전과 이후 확장자들을 받아와서 이전 확장자 껄 삭제하고 이후 확장자로 저장하는 방식으로 가자
+
 	  public static void updateFile(Object obj, String uploadPath,MultipartFile file ,String chgName, String prevExtension, String nextExtention) {
 		  deleteFile(obj, uploadPath, chgName + "." + prevExtension);
 		  

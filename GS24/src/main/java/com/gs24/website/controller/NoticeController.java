@@ -2,6 +2,8 @@ package com.gs24.website.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 
+<<<<<<< HEAD
 	 @GetMapping("/list")
 	    public void list(Model model, Pagination pagination,
 	                     @RequestParam(value = "noticeTitle", required = false) String noticeTitle,
@@ -64,6 +67,35 @@ public class NoticeController {
 	        model.addAttribute("noticeContent", noticeContent);
 	        model.addAttribute("searchType", searchType);
 	    }
+=======
+	@GetMapping("/list")
+	public void list(Model model, Pagination pagination, HttpSession session,
+			@RequestParam(value = "noticeTitle", required = false) String noticeTitle,
+			@RequestParam(value = "noticeContent", required = false) String noticeContent,
+			@RequestParam(value = "searchType", required = false) String searchType) {
+		log.info(" title = " + noticeTitle + ", content = " + noticeContent + ", searchType = " + searchType);
+		List<NoticeVO> noticeList;
+		int totalCount;
+		if ("title".equals(searchType) && noticeTitle != null && !noticeTitle.isEmpty()) {
+			noticeList = noticeService.getNoticesByTitleWithPagination(noticeTitle, pagination);
+			totalCount = noticeService.getTotalCountByTitle(noticeTitle);
+		} else if ("content".equals(searchType) && noticeContent != null && !noticeContent.isEmpty()) {
+			noticeList = noticeService.getNoticesByContentWithPagination(noticeContent, pagination);
+			totalCount = noticeService.getTotalCountByContent(noticeContent);
+		} else {
+			noticeList = noticeService.getPagingNotices(pagination);
+			totalCount = noticeService.getTotalCount();
+		}
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("noticeTitle", noticeTitle);
+		model.addAttribute("noticeContent", noticeContent);
+		model.addAttribute("searchType", searchType);
+	}
+>>>>>>> c10c874fbe2a4197563ffb7d351cdee7e02242a6
 
 	@GetMapping("/register")
 	public void registerGET() {

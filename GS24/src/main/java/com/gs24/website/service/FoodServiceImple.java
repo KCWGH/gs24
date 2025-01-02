@@ -1,6 +1,5 @@
 package com.gs24.website.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,6 @@ public class FoodServiceImple implements FoodService{
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 		imgFoodVO.setFoodId(VO.getFoodId());
-		
-		imgFoodMapper.insertImgFood(imgFoodVO);
 
 		log.info(imgFoodVO); 
 		
@@ -91,19 +88,27 @@ public class FoodServiceImple implements FoodService{
 		log.info("updateFood()");
 		int result = foodMapper.updateFood(foodVO);
 		
-		ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodVO.getFoodId());
+		ImgFoodVO imgFoodVO = new ImgFoodVO();
+		imgFoodVO.setFile(file);
 		log.info("file name : " + file.getOriginalFilename());
 		log.info("file size : " + file.getSize());
-		
+
 		String chgName = "FoodNO" + foodVO.getFoodId();	
-		
-		uploadImgFoodUtil.updateFile(foodVO, uploadPath, file, chgName, imgFoodVO.getImgFoodExtension(), uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		
+		uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
+				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+
+
 		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		
+
+		imgFoodVO.setImgFoodChgName(chgName);
+
 		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		
-		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "."+ imgFoodVO.getImgFoodExtension());
+
+		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+
+		imgFoodVO.setFoodId(foodVO.getFoodId());
+
+		log.info(imgFoodVO);
 		
 		return result;
 	}
@@ -146,6 +151,11 @@ public class FoodServiceImple implements FoodService{
 		uploadImgFoodUtil.deleteFile(new FoodVO(),uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
 		
 		return result;
+	}
+
+	@Override
+	public String[] getFoodTypeList() {
+		return foodMapper.selectFoodType();
 	}
 
 }

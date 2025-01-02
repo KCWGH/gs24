@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgFoodVO;
 
 import lombok.extern.log4j.Log4j;
@@ -31,7 +30,7 @@ public class ImgFoodTest {
 		ImgFoodVO vo =  new ImgFoodVO();
 		vo.setFoodId(1);
 		vo.setImgFoodPath("C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp\\ImgFood\\FoodNo1.png");
-		vo.setImgFoodRealName("ÀÌ°Å ¾îµð¼­ ³ª¿Â°Å³Ä");
+		vo.setImgFoodRealName("ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°Å³ï¿½");
 		vo.setImgFoodChgName("FoodNo1.png");
 		vo.setImgFoodExtension("png");
 		Date date = new Date();

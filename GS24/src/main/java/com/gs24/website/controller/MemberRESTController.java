@@ -1,11 +1,16 @@
 package com.gs24.website.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.EmailService;
 import com.gs24.website.service.MemberService;
+import com.gs24.website.service.PreorderService;
+import com.gs24.website.service.QuestionService;
+import com.gs24.website.service.ReviewService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -28,6 +38,15 @@ public class MemberRESTController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private ReviewService reviewService;
+	
+	@Autowired
+	private QuestionService questionService;
+	
+	@Autowired
+	private PreorderService preorderService;
 
 	@PostMapping("/dup-check-id")
 	public ResponseEntity<String> dupcheckidPOST(String memberId) {
@@ -181,7 +200,7 @@ public class MemberRESTController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호가 일치하지 않습니다.");
 		}
 	}
-	
+
 	@PostMapping("/verifyCode-PW")
 	public ResponseEntity<String> verifyCodePW(@RequestParam("email") String email, @RequestParam("code") String code) {
 		if (emailService.verifyCode(email, code)) {
@@ -219,6 +238,68 @@ public class MemberRESTController {
 		log.info("session.invalidate()");
 		log.info("deletePOST()");
 		return ResponseEntity.ok("Delete Success");
+	}
+
+	@GetMapping("/myReviews")
+	public ResponseEntity<Map<String, Object>> reviewList(Pagination pagination, HttpSession session) {
+		return postListGET("myReviews", pagination, session);
+	}
+
+	@GetMapping("/myQuestions")
+	public ResponseEntity<Map<String, Object>> questionList(Pagination pagination, HttpSession session) {
+		return postListGET("myQuestions", pagination, session);
+	}
+
+	@GetMapping("/myPreorders")
+	public ResponseEntity<Map<String, Object>> preorderList(Pagination pagination, HttpSession session) {
+		return postListGET("myPreorders", pagination, session);
+	}
+
+	@GetMapping("/myNotifications")
+	public ResponseEntity<Map<String, Object>> notificationList(Pagination pagination, HttpSession session) {
+		return postListGET("myNotifications", pagination, session);
+	}
+
+	public ResponseEntity<Map<String, Object>> postListGET(String type, Pagination pagination, HttpSession session) {
+		log.info("postListGET()");
+		String memberId = (String) session.getAttribute("memberId");
+		Map<String, Object> response = new HashMap<>();
+		if (memberId != null) {
+			MemberVO memberVO = memberService.getMember(memberId);
+			memberVO.setPassword(null);
+			memberVO.setPhone(null);
+			memberVO.setEmail(null);
+			memberVO.setBirthday(null);
+			pagination.setMemberVO(memberVO);
+			pagination.setPageSize(5);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setPagination(pagination);
+			List<?> postList = null;
+
+			switch (type) {
+			case "myReviews":
+				postList = reviewService.getAllReviewByMemberId(memberId, pagination);
+				pageMaker.setTotalCount(reviewService.countReviewByMemberId(memberId));
+				break;
+			case "myQuestions":
+				postList = questionService.getPagingQuestionsByMemberId(memberId, pagination);
+				pageMaker.setTotalCount(questionService.countQuestionByMemberId(memberId));
+				break;
+			case "myPreorders":
+				postList = preorderService.getPreorderBymemberId(memberId);
+				pageMaker.setTotalCount(preorderService.countPreorderByMemberId(memberId));
+				break;
+//			case "myNotifications": TODO : 알림 기능 만들면 구현
+//				postList = reviewService.getPagedAllCoupons(memberId, pagination);
+//				pageMaker.setTotalCount(reviewService.getAllCount(memberId));
+//				break;
+			}
+			response.put("pageMaker", pageMaker);
+			response.put("postList", postList);
+		} else {
+			response.put("message", "Member not found");
+		}
+		return ResponseEntity.ok(response);
 	}
 
 }
