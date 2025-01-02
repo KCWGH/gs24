@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gs24.website.domain.ImgFoodVO;
 import com.gs24.website.service.ImgFoodService;
-import com.gs24.website.service.ReviewService;
 import com.gs24.website.util.GetImgUtil;
 
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/Img")
+@RequestMapping("/ImgFood")
 @Log4j
 public class ImgFoodController{
 
@@ -26,12 +25,9 @@ public class ImgFoodController{
 	private ImgFoodService imgFoodService;
 	
 	@Autowired
-	private ReviewService reviewService;
-	
-	@Autowired
 	private String uploadPath;
 	
-	@GetMapping("/Food")
+	@GetMapping
 	public ResponseEntity<byte[]> getFoodImage(Integer foodId) throws IOException{
 		log.info("getFoodImage()");
 		log.info(foodId);
@@ -44,27 +40,12 @@ public class ImgFoodController{
 		return entity;	
 	}
 	
-	@GetMapping("/Review")
-	public ResponseEntity<byte[]> getReviewImage(Integer reviewId) throws IOException{
-		log.info("getReviewImage()");
-		
-		String filePath = reviewService.getReviewByReviewId(reviewId).getReviewImgPath();
-		
-		String path = uploadPath + File.separator + filePath;
-		
-		ResponseEntity<byte[]> entity = GetImgUtil.getImage(path);
-		
-		return entity;
-	}
-	
 	@GetMapping("/regist")
 	public ResponseEntity<byte[]>foodRegister(String filePath) throws IOException{
 		log.info("foodRegister()");
 		log.info("File Path : " + filePath);
 		
-		String path = uploadPath + File.separator + filePath;
-		
-		ResponseEntity<byte[]> entity = GetImgUtil.getImage(path);
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(filePath);
 		
 		return entity;
 		

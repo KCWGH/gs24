@@ -4,7 +4,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gs24.website.persistence.FoodMapper">
-
 	<resultMap type="com.gs24.website.domain.FoodVO"
 		id="foodResultMap">
 		<id property="foodId" column="FOOD_ID" />
@@ -17,76 +16,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodFat" column="FOOD_FAT" />
 		<result property="foodCarb" column="FOOD_CARB" />
 		<result property="registeredDate" column="REGISTERED_DATE" />
+		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT" />
 	</resultMap>
-
-	<insert id="insertFood">
-		INSERT INTO FOOD
-		(FOOD_ID, FOOD_TYPE, FOOD_NAME
+	
+	<insert id="insertFood"> INSERT INTO FOOD (FOOD_ID, FOOD_TYPE, FOOD_NAME
 		,FOOD_STOCK, FOOD_PRICE, FOOD_AVG_RATING, FOOD_PROTEIN, FOOD_FAT,
-		FOOD_CARB)
-		VALUES(FOOD_SEQ.NEXTVAL, #{foodType},#{foodName},
-		#{foodStock}, #{foodPrice}, #{foodAvgRating},
-		#{foodProtein},
+		FOOD_CARB) VALUES(FOOD_SEQ.NEXTVAL, #{foodType},#{foodName},
+		#{foodStock}, #{foodPrice}, #{foodAvgRating}, #{foodProtein},
 		#{foodFat}, #{foodCarb})
 	</insert>
-
-	<select id="selectFoodById" resultMap="foodResultMap">
-		SELECT * FROM FOOD
-		WHERE
+	
+	<select id="selectFoodById" resultMap="foodResultMap"> SELECT * FROM FOOD WHERE
 		FOOD_ID = #{foodId}
 	</select>
-
-	<select id="selectFoodList" resultMap="foodResultMap">
-		SELECT * FROM FOOD ORDER
+	
+	<select id="selectFoodList" resultMap="foodResultMap"> SELECT * FROM FOOD ORDER
 		BY FOOD_ID DESC
 	</select>
-
-	<select id="selectFirstFoodId" resultMap="foodResultMap">
-		SELECT *
-		FROM (SELECT * FROM FOOD ORDER BY FOOD_ID DESC)
-		WHERE ROWNUM = 1
+	
+	<select id="selectFirstFoodId" resultMap="foodResultMap"> SELECT * FROM (SELECT
+		* FROM FOOD ORDER BY FOOD_ID DESC) WHERE ROWNUM = 1
 	</select>
-
+	
 	<!-- 점주(관리자)가 식품의 수량, 가격, 영양소를 수정할 수 있도록 한다. -->
-	<update id="updateFood">
-		UPDATE FOOD SET FOOD_STOCK = #{foodStock}, FOOD_PRICE
-		= #{foodPrice}, FOOD_PROTEIN = #{foodProtein}, FOOD_FAT = #{foodFat},
-		FOOD_CARB = #{foodCarb}
-		WHERE FOOD_ID = #{foodId}
+	<update id="updateFood"> UPDATE FOOD SET FOOD_STOCK = #{foodStock},
+		FOOD_PRICE = #{foodPrice}, FOOD_PROTEIN = #{foodProtein}, FOOD_FAT =
+		#{foodFat}, FOOD_CARB = #{foodCarb} WHERE FOOD_ID = #{foodId}
 	</update>
-
+	
 	<!-- * 점주(관리자)가 식품의 수량을 수정할 수 있도록 한다. -->
-	<update id="updateFoodStock">
-		UPDATE FOOD SET FOOD_STOCK = #{foodStock}
-		WHERE
+	<update id="updateFoodStock"> UPDATE FOOD SET FOOD_STOCK = #{foodStock} WHERE
 		FOOD_ID = #{foodId}
 	</update>
-
+	
 	<!-- * 점주(관리자)가 식품의 가격을 수정할 수 있도록 한다. -->
-	<update id="updateFoodPrice">
-		UPDATE FOOD SET FOOD_PRICE = ${foodPrice}
-		WHERE
+	<update id="updateFoodPrice"> UPDATE FOOD SET FOOD_PRICE = ${foodPrice} WHERE
 		FOOD_ID = #{foodId}
 	</update>
-
+	
 	<!-- * 점주(관리자)가 식품의 영양 정보(탄수화물, 단백질, 지방)를 수정할 수 있도록 한다. -->
-	<update id="updateFoodProteinFatCarb">
-		UPDATE FOOD SET FOOD_PROTEIN = #{foodProtein},
-		FOOD_FAT = #{foodFat}, FOOD_CARB = #{foodCarb}
-		WHERE FOOD_ID =
+	<update id="updateFoodProteinFatCarb"> UPDATE FOOD SET FOOD_PROTEIN = #{foodProtein},
+		FOOD_FAT = #{foodFat}, FOOD_CARB = #{foodCarb} WHERE FOOD_ID =
 		#{foodId}
 	</update>
 	
 	<!-- 상품을 예약하면 그에 맞춰 재고량을 줄이는 쿼리 -->
-	<update id="updateFoodAmountByPreorderAmount">
-		UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK - #{preorderAmount} WHERE FOOD_ID = #{foodId}
+	<update id="updateFoodAmountByPreorderAmount"> UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK -
+		#{preorderAmount} WHERE FOOD_ID = #{foodId}
 	</update>
 	
-	<delete id="deleteFood">
-		DELETE FROM FOOD WHERE FOOD_ID = #{foodId}
-	</delete>
+	<update id="updateFoodAvgRatingByFoodId"> UPDATE FOOD SET FOOD_AVG_RATING = #{foodAvgRating}
+		WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<update id="updateFoodReviewCntByFoodId"> UPDATE FOOD SET FOOD_REVIEW_CNT = #{foodReviewCnt}
+		WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<delete id="deleteFood"> DELETE FROM FOOD WHERE FOOD_ID = #{foodId} </delete>
 	
 	<select id="selectFoodType" resultType="String">
-		SELECT DISTINCT FOOD_TYPE FROM FOOD
+		SELECT DISTINCT FOOD_TYPE
+		FROM FOOD
 	</select>
 </mapper>
