@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodFat" column="FOOD_FAT" />
 		<result property="foodCarb" column="FOOD_CARB" />
 		<result property="registeredDate" column="REGISTERED_DATE" />
+		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT"/>
 	</resultMap>
 
 	<insert id="insertFood">
@@ -82,11 +83,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK - #{preorderAmount} WHERE FOOD_ID = #{foodId}
 	</update>
 	
+	<update id="updateFoodAvgRatingByFoodId">
+		UPDATE FOOD SET FOOD_AVG_RATING = #{foodAvgRating} WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<update id="updateFoodReviewCntByFoodId">
+		UPDATE FOOD SET FOOD_REVIEW_CNT = #{foodReviewCnt} WHERE FOOD_ID = #{foodId}
+	</update>
+	
 	<delete id="deleteFood">
 		DELETE FROM FOOD WHERE FOOD_ID = #{foodId}
 	</delete>
-	
-	<select id="selectFoodType" resultType="String">
-		SELECT DISTINCT FOOD_TYPE FROM FOOD
-	</select>
 </mapper>

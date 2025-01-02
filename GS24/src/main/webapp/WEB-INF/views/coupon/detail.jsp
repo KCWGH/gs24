@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -7,16 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>쿠폰 상세 보기</title>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(couponVO.discountType);
+	});
+</script>
 <style>
     .bold {
         font-weight: bold;
-        text-align: center; /* 가운데 정렬 */
+        text-align: center;
     }
     table {
-        width: 100%; /* 테이블 전체 폭 */
+        width: 100%;
     }
     td {
-        padding: 8px; /* 여백 추가 */
+        padding: 8px;
     }
 </style>
 </head>
@@ -24,7 +29,6 @@
 
     <h2>쿠폰 상세 정보</h2>
     <div>
-        <!-- 사진 포함 -->
         <table>
             <tr>
                 <td colspan="2" style="text-align: center;">
@@ -34,12 +38,12 @@
                                 src="${pageContext.request.contextPath}/resources/images/coupon/usedCoupon.png"
                                 alt="Used Coupon" width="200" height="200" />
                         </c:when>
-                        <c:when test="${couponVO.couponGrantDate < couponVO.couponExpiredDate and couponVO.isUsed == 0}">
+                        <c:when test="${sysDate < couponVO.couponExpiredDate and couponVO.isUsed == 0}">
                             <img
                                 src="${pageContext.request.contextPath}/resources/images/coupon/coupon.png"
                                 alt="Coupon" width="200" height="200" />
                         </c:when>
-                        <c:when test="${couponVO.couponGrantDate > couponVO.couponExpiredDate}">
+                        <c:when test="${sysDate >= couponVO.couponExpiredDate}">
                             <img
                                 src="${pageContext.request.contextPath}/resources/images/coupon/expiredCoupon.png"
                                 alt="Expired Coupon" width="200" height="200" />
@@ -64,18 +68,17 @@
                 </td>
             </tr>
             <tr>
-                <td class="bold">할인율</td>
-                <td>${couponVO.discountRate}%</td>
+            
             </tr>
             <tr>
                 <td class="bold">유효 여부</td>
                 <td>
                     <c:choose>
-                        <c:when test="${couponVO.couponGrantDate < couponVO.couponExpiredDate}">
-                            기간 내의 쿠폰
+                        <c:when test="${sysDate >= couponVO.couponExpiredDate}">
+                            만료됨
                         </c:when>
                         <c:otherwise>
-                            만료됨
+                            기간 내의 쿠폰
                         </c:otherwise>
                     </c:choose>
                 </td>

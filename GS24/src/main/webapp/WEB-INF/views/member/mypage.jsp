@@ -235,7 +235,6 @@ $(document).ready(function() {
 		<div class="btn-container">
 			<a href="#" id="couponList">쿠폰함</a>
 			<a href="myhistory">내 활동</a>
-			<a href="../food/list">음식 리스트로</a>
 			<a href="#" id="logout">로그아웃</a>
 		</div>
 	</c:if>
