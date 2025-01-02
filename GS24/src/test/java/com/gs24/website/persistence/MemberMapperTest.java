@@ -2,12 +2,10 @@ package com.gs24.website.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.domain.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -16,8 +14,6 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MemberMapperTest {
 
-	@Autowired
-	private MemberMapper memberMapper;
 	
 	@Test
 	public void test() {
@@ -34,28 +30,7 @@ public class MemberMapperTest {
 		// testupdateEmail();
 	}
 
-	private void testupdateEmail() {
-		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberId("test");
-		memberVO.setEmail("new@naver.com");
-		int result = memberMapper.updateEmail(memberVO);
-		log.info(result + "개 이메일 수정 완료");
-
-	}
-
-	private void testupdatepassword() {
-		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberId("test");
-		memberVO.setPassword("1234");
-		int result = memberMapper.updatePassword(memberVO);
-
-		log.info(result + "개 비밀번호 수정 완료");
-	}
-
-	private void testfindemail() {
-		String result = memberMapper.findEmailById("test");
-		log.info(result);
-	}
+	
 
 	/*
 	 * private void testverify() { int result =

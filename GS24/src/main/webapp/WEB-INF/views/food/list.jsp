@@ -20,24 +20,22 @@ img {
 	height: 150px;
 }
 </style>
+
 </head>
 <body>
 	<c:if test="${not empty memberVO}">
 		<span>환영합니다, ${memberId}님</span>
-		<a href="../member/mypage" id="mypage"><button>마이페이지</button></a>
+		<button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
 		<a href="../member/logout"><button>로그아웃</button></a>
-		<a href="../notice/list"><button>공지사항</button></a>
-		<a href="../question/list"><button>문의사항(QnA)</button></a>
+		<button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
+		<button onclick="window.open('../coupon/list', '_blank', 'width=500,height=700')">쿠폰 목록</button>
 	</c:if>
 
 	<c:if test="${empty memberVO}">
-		<a href="../member/login" id="login"><button>로그인</button></a>
+		<button onclick="window.open('../member/login', '_blank', 'width=550,height=400')">로그인</button>
+	</c:if>
 		<a href="../notice/list"><button>공지사항</button></a>
 		<a href="../question/list"><button>문의사항(QnA)</button></a>
-	</c:if>
-	
-	<button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-	
 	<hr>
 
 	<h1>식품 리스트</h1>
@@ -48,7 +46,7 @@ img {
 	<ul class="food_box">
 		<c:forEach var="FoodVO" items="${FoodList}">
 			<li class="List">
-				<img src="../Img/Food?foodId=${FoodVO.foodId }">
+				<img src="../ImgFood?foodId=${FoodVO.foodId }">
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>
 				<p>${FoodVO.foodStock}개</p>

@@ -7,12 +7,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.domain.NoticeVO;
 
 import lombok.extern.log4j.Log4j;
 
-@RunWith(SpringJUnit4ClassRunner.class) // �뒪�봽留� JUnit test �뿰寃�
-@ContextConfiguration(classes = { RootConfig.class }) // �꽕�젙 �뙆�씪 �뿰寃�
+@RunWith(SpringJUnit4ClassRunner.class) // 스프링 JUnit test 연결
+@ContextConfiguration(classes = { RootConfig.class }) // 설정 파일 연결
 @Log4j
 public class NoticeMapperTest {
 
@@ -20,34 +19,8 @@ public class NoticeMapperTest {
 	private NoticeMapper noticeMapper;
 
 	@Test
-	public void test() {
-//		 testInsertNotice();		
+	public void test() {		
 	}	
 
-<<<<<<< Updated upstream
-	private void testInsertNotice() {
-		log.info("testInsertNotice()");
-
-	}
-
-=======
->>>>>>> Stashed changes
-//	private void testInsertNotice() {
-//		log.info("testInsertNotice()");
-//		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
-//		int result = noticeMapper.insert(vo);
-//		log.info(result + "�뻾 �궫�엯");
-//	}
-
-<<<<<<< Updated upstream
-=======
-//	private void testInsertNotice() {
-//		log.info("testInsertNotice()");
-//		NoticeVO vo = new NoticeVO(0, "guest","testTitle","testContent", null);
-//		int result = noticeMapper.insert(vo);
-//		log.info(result + "행 삽입");
-//	}
-
->>>>>>> Stashed changes
 
 }

@@ -8,17 +8,13 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
-<style>
-	img{
-		width: 250px;
-		height: 150px;
-	}
-</style>
 <title>편의점 식품 예약</title>
 </head>
 <body>
 	<h1>식품 예약 페이지</h1>
-	<img src="../Img/Food?foodId=${foodVO.foodId }">
+	<%	
+	 //<p>${foodVO.imgFoodVO.imgFoodPath }</p>
+	%>
 	<p>식품 이름 : ${foodVO.foodName }</p>
 	<p>식품 가격 : ${foodVO.foodPrice }원</p>
 	<p>총 재고량 : ${foodVO.foodStock }개</p>
@@ -51,7 +47,7 @@
 			
 				$('#buyPrice').html("예상 금액 : " + foodPrice * buyAmount.val() + "원");
 				
-				$('#preorderAmount').on('change',function() {
+				$('#preorderAmount').change(function() {
 					let currentAmount = parseInt(buyAmount.val());	
 					
 					if (currentAmount < minStock) {

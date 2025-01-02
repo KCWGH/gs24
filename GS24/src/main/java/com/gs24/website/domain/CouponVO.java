@@ -15,7 +15,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-
 public class CouponVO {
 	int couponId;
 	String couponName;
@@ -24,8 +23,9 @@ public class CouponVO {
 	Date couponGrantDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	Date couponExpiredDate;
-	int discountRate;
+	char discountType;
+	int discountValue;
+	String foodType;
 	int isUsed;
-	private String couponImageUrl;
 
 }

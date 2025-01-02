@@ -4,10 +4,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/gs24/website/config/RootConfig.java=UTF-8
 encoding//src/main/java/com/gs24/website/controller/FoodController.java=UTF-8
-encoding//src/main/java/com/gs24/website/controller/MemberController.java=UTF-8
-encoding//src/main/java/com/gs24/website/persistence/AnswerMapper.java=UTF-8
-encoding//src/main/java/com/gs24/website/persistence/QuestionMapper.java=UTF-8
 encoding//src/main/java/com/gs24/website/service/AnswerServiceImple.java=UTF-8
-encoding//src/main/java/com/gs24/website/service/NoticeServiceImple.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/food/list.jsp=UTF-8
-encoding//src/test/java/com/gs24/website/persistence/NoticeMapperTest.java=UTF-8
