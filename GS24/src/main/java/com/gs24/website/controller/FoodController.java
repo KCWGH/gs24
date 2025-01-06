@@ -16,6 +16,8 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.MemberService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -31,14 +33,20 @@ public class FoodController {
 
     // 음식 목록 페이지
     @GetMapping("/list")
-    public void listGET(HttpSession session, Model model) {
+    public void listGET(HttpSession session, Model model, Pagination pagination) {
         log.info("listGET()");
         String memberId = (String) session.getAttribute("memberId");
         if (memberId != null) {
             MemberVO memberVO = memberService.getMember(memberId);
             model.addAttribute("memberVO", memberVO);
         }
-        List<FoodVO> foodList = foodService.getAllFood();
+        List<FoodVO> foodList = foodService.getPaginationFood(pagination);
+        
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setPagination(pagination);
+        pageMaker.setTotalCount(foodService.getFoodTotalCount(pagination));
+        
+        model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("FoodList", foodList);
     }
 

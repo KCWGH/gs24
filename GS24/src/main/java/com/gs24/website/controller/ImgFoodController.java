@@ -32,7 +32,7 @@ public class ImgFoodController {
 	private String uploadPath;
 
 	@GetMapping("/Food")
-	public ResponseEntity<byte[]> getFoodImage(Integer foodId) throws IOException {
+	public ResponseEntity<byte[]> getFoodImage(Integer foodId){
 		log.info("getFoodImage()");
 		log.info(foodId);
 		ImgFoodVO imgFoodVO = imgFoodService.getImgFoodById(foodId);
@@ -45,7 +45,7 @@ public class ImgFoodController {
 	}
 
 	@GetMapping("/Review")
-	public ResponseEntity<byte[]> getReviewImage(Integer reviewId) throws IOException {
+	public ResponseEntity<byte[]> getReviewImage(Integer reviewId){
 		log.info("getReviewImage()");
 
 		String filePath = reviewService.getReviewByReviewId(reviewId).getReviewImgPath();
@@ -58,7 +58,7 @@ public class ImgFoodController {
 	}
 
 	@GetMapping("/regist")
-	public ResponseEntity<byte[]> foodRegister(String filePath) throws IOException {
+	public ResponseEntity<byte[]> foodRegister(String filePath){
 		log.info("foodRegister()");
 		log.info("File Path : " + filePath);
 		String path = uploadPath + File.separator + filePath;

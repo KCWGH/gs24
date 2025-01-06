@@ -11,6 +11,7 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgFoodVO;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
+import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -158,4 +159,19 @@ public class FoodServiceImple implements FoodService{
 		return foodMapper.selectFoodType();
 	}
 
+	@Override
+	public List<FoodVO> getPaginationFood(Pagination pagination) {
+		log.info("getPaginationFood()");
+		List<FoodVO> list = foodMapper.selectFoodPagination(pagination);
+		return list;
+	}
+	
+	@Override
+	public int getFoodTotalCount(Pagination pagination) {
+		log.info("getFoodTotalCount()");
+		int result = foodMapper.selectFoodTotalCount(pagination);
+		log.info("FoodTotalCount : " + result);
+		return result;
+	}
+	
 }

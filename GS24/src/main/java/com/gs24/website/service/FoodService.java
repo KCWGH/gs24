@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.FoodVO;
+import com.gs24.website.util.Pagination;
 
 public interface FoodService {
 	int createFood(FoodVO foodVO, MultipartFile file);
@@ -28,4 +29,8 @@ public interface FoodService {
 	int deleteFood(int foodId);
 	
 	String[] getFoodTypeList();
+	
+	List<FoodVO> getPaginationFood(Pagination pagination);
+	
+	int getFoodTotalCount(Pagination pagination);
 }

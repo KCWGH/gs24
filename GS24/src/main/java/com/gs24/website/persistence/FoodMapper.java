@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.FoodVO;
+import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface FoodMapper {
@@ -34,4 +35,8 @@ public interface FoodMapper {
 	int deleteFood(int foodId);
 
 	String[] selectFoodType();
+	
+	List<FoodVO> selectFoodPagination(Pagination pagination);
+	
+	int selectFoodTotalCount(Pagination pagination);
 }

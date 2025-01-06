@@ -96,6 +96,15 @@
    <select id="countReviewByMemberId" resultType="Integer">
       SELECT COUNT(*) FROM REVIEW WHERE MEMBER_ID = #{memberId} ORDER BY REVIEW_ID DESC
    </select>
-
+	
+	<select id="selectReviewPagination" resultMap="reviewResultMap">
+		SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY REVIEW_ID DESC) AS RN, REVIEW.* FROM REVIEW WHERE FOOD_ID = 9)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="selectTotalCountByFoodId" resultType="int">
+		SELECT COUNT(*) FROM REVIEW WHERE FOOD_ID = #{foodId}
+	</select>
+	
 </mapper>
 		

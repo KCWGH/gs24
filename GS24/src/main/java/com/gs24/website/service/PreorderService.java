@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.util.Pagination;
 
 public interface PreorderService {
 	int createPreorder(PreorderVO preorderVO);
@@ -21,4 +22,8 @@ public interface PreorderService {
 	int deletePreorder(int preorderId, int foodId, int preorderAmount);
 	
 	int deleteOnlyPreoder(int preorderId);
+	
+	List<PreorderVO> getPagingPreordersByMemberId(String memberId, Pagination pagination);
+	
+	int countPreorderByMemberId(String memberId);
 }

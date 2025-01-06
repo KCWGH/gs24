@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.domain.FoodVO;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,7 +22,7 @@ public class FoodMapperTest {
 	
 	@Test
 	public void mapperTest() {
-		insert();
+		selectPagination();
 	}
 	
 	public void insert() {
@@ -71,6 +72,17 @@ public class FoodMapperTest {
 	
 	public void selectList() {
 		log.info(foodMapper.selectFoodList());
+	}
+	
+	public void selectPagination() {
+		Pagination pagination = new Pagination();
+		pagination.setType("이름");
+		pagination.setKeyword("라면");
+		log.info(foodMapper.selectFoodPagination(pagination));
+	}
+	
+	public void selectFoodTotalCount() {
+		
 	}
 	
 	public void delete() {

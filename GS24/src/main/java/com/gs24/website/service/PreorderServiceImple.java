@@ -10,6 +10,7 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.PreorderMapper;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -86,5 +87,15 @@ public class PreorderServiceImple implements PreorderService{
 		log.info("onlyDeletePreorder()");
 		int result = preorderMapper.deletePreorderByPreorderId(preorderId);
 		return result;
+	}
+	
+	@Override
+	public List<PreorderVO> getPagingPreordersByMemberId(String memberId, Pagination pagination) {
+	   return preorderMapper.selectPreorderBymemberIdPagination(pagination);
+	}
+
+	@Override
+	public int countPreorderByMemberId(String memberId) {
+	   return preorderMapper.countPreorderByMemberId(memberId);
 	}
 }

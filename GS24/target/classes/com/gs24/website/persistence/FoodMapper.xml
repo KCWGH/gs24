@@ -96,8 +96,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="selectFoodType" resultType="String">
-      SELECT DISTINCT FOOD_TYPE
-      FROM FOOD
+      	SELECT DISTINCT FOOD_TYPE
+      	FROM FOOD
+   </select>
+   
+   <select id="selectFoodPagination" resultMap="foodResultMap">
+   		SELECT * FROM ( SELECT ROW_NUMBER() OVER (ORDER BY FOOD_ID DESC) AS RN, FOOD.* FROM FOOD
+   		<choose>
+   			<when test="type == 'type'.toString()">WHERE FOOD_TYPE LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'rating'.toString()">WHERE FOOD_AVG_RATING = #{keyword}</when>
+   			<when test="type == 'reviewCnt'.toString()">WHERE FOOD_REVIEW_CNT = #{keyword}</when>
+   			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN 0 AND #{keyword} </when>
+   		</choose>
+   		) WHERE RN BETWEEN #{start} AND #{end}
    </select>
 	
+	<select id="selectFoodTotalCount" resultType="int">
+		SELECT COUNT(*) TOTAL_COUNT FROM FOOD
+		<choose>
+   			<when test="type == 'type'.toString()">WHERE FOOD_TYPE LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'rating'.toString()">WHERE FOOD_AVG_RATING = #{keyword}</when>
+   			<when test="type == 'reviewCnt'.toString()">WHERE FOOD_REVIEW_CNT = #{keyword}</when>
+   			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN 0 AND #{keyword} </when>
+   		</choose>
+	</select>
 </mapper>
