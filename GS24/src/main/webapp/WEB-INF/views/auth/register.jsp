@@ -13,6 +13,19 @@
     let isPhoneChecked = false;
     let isPasswordMatched = false;
 
+    $(document).ready(function() {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = today.getMonth() + 1;
+        let dd = today.getDate();
+
+        if (mm < 10) mm = '0' + mm;
+        if (dd < 10) dd = '0' + dd;
+
+        let currentDate = yyyy + '-' + mm + '-' + dd;
+        $('#birthday').attr('max', currentDate);
+    });
+
     function checkId() {
         let memberId = $('#memberId').val();
         if (!memberId) {
@@ -116,7 +129,6 @@
         }
     }
 
-    // 모든 필드에서 입력 값이 변경되면 상태를 갱신
     $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function() {
         if (this.id === 'memberId') {
             isIdChecked = false;
@@ -128,21 +140,15 @@
             isPasswordMatched = false;
         }
 
-        updateSubmitButton();  // 버튼 갱신
+        updateSubmitButton();
     });
-
-    // 비밀번호 확인
-    $('#password, #passwordConfirm').on('input', function() {
-        checkPw();
-    });
-
     </script>
 </head>
 <body>
     <h2>회원가입</h2>
 
     <form action="register" method="POST">
-    	아이디와 생일은 변경할 수 없으니, 신중하게 선택해주세요.
+        아이디와 생일은 변경할 수 없으니, 신중하게 선택해주세요.
         <div>
             <label for="memberId">아이디</label>
             <input type="text" id="memberId" name="memberId" required>

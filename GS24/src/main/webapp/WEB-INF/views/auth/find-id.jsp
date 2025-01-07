@@ -50,6 +50,8 @@
                 success: function (response) {
                     $("#findResult").html("인증번호가 일치합니다. 아이디는 " + response + "입니다.");
                     $("#findResult").show();
+                    let findPwUrl = 'find-pw?memberId=' + encodeURIComponent(response);
+                    $("#btnFindPw").attr("onclick", "location.href='" + findPwUrl + "'");
                 },
                 error: function (xhr, status, error) {
                     if (xhr.status === 400) {
@@ -79,7 +81,7 @@
     
     <div id="findResult" hidden="hidden"><br><br></div>
     
-    <a href="find-pw"><button type="button">비밀번호 찾기</button></a>
+    <button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button>
     <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
 </body>
 </html>

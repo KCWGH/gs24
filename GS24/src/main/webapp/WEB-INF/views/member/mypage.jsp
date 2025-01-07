@@ -154,9 +154,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$("#couponList").click(function(event){
-		window.location.href = '../coupon/list';
-	});
 	$("#logout").click(function(event){
 		window.location.href = 'logout';
 	});
@@ -233,9 +230,9 @@ $(document).ready(function() {
 		</div>
 		<p id="deleteResultArea"></p>
 		<div class="btn-container">
-			<a href="#" id="couponList">쿠폰함</a>
-			<a href="myhistory">내 활동</a>
-			<a href="#" id="logout">로그아웃</a>
+			<button onclick='location.href="../coupon/list"'>쿠폰함</button>
+			<button onclick='location.href="myhistory"'>내 활동</button>
+			<button onclick='location.href="../auth/logout"'>로그아웃</button>
 		</div>
 	</c:if>
 </div>

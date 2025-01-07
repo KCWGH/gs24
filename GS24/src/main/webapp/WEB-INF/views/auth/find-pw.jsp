@@ -9,6 +9,14 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+        	
+        	const urlParams = new URLSearchParams(window.location.search);
+            const memberId = urlParams.get('memberId');
+            
+            if (memberId) {
+                $("#memberId").val(memberId);
+            }
+        	
             function checkPw() {
                 let password = $('#password').val();
                 let passwordConfirm = $('#passwordConfirm').val();
