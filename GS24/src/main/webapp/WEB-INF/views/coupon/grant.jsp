@@ -101,8 +101,13 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
 <h2>개별 쿠폰 제공</h2>
-<form id="specificGrant" action="grant" method="POST">
+<form action="grant" method="POST">
   <div>
     <label for="couponName">쿠폰 이름: </label>
     <input type="text" id="couponName" name="couponName"><br>
@@ -117,6 +122,7 @@ $(document).ready(function() {
   <div>
     <label for="foodType">음식 종류: </label>
     <select id="foodType" name="foodType">
+    <option value="" selected disabled>선택하세요</option>
       <c:forEach var="food" items="${foodTypeList}">
         <option value="${food}">${food}</option>
       </c:forEach>
@@ -144,8 +150,6 @@ $(document).ready(function() {
     <a href="list"><button type="button">쿠폰 리스트로 돌아가기</button></a>
   </div>
 </form>
-<c:if test="${not empty message}">
-            ${message}
-        </c:if>
+
 </body>
 </html>

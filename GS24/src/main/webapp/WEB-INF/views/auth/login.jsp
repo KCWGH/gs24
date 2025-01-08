@@ -9,6 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
+
 <style>
     body {
         filter: grayscale(100%);
@@ -91,10 +93,33 @@
     }
 </style>
 </head>
+<script>
+$(document).ready(function() {
+    // 로그인 폼 제출 시 처리
+    $('#loginForm').on('submit', function(event) {
+        event.preventDefault();  // 폼의 기본 제출 동작을 막음
+
+        // reCAPTCHA 토큰을 가져와서 hidden input에 설정
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR', { action: 'login' }).then(function(token) {
+                // 토큰을 hidden input에 설정
+                $('#recaptchaToken').val(token);
+                // 폼 제출
+                $('#loginForm')[0].submit();
+            });
+        });
+    });
+});
+</script>
 <body>
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
     <div class="container">
         <h2>로그인</h2>
-        <form action="login" method="POST">
+        <form action="login" method="POST" id="loginForm">
             <div>
                 <label for="memberId">아이디</label> <input type="text" id="memberId"
                     name="memberId" required>
@@ -112,6 +137,8 @@
                 <a href="find-pw">비밀번호 찾기</a>
                 <a href="register">회원가입</a>
             </div>
+            <input type="hidden" name="recaptchaToken" id="recaptchaToken">
+            
         </form>
     </div>
 </body>

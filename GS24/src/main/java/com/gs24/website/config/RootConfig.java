@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.TransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -16,7 +17,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 // root-context.xml과 동일
 @Configuration
-@ComponentScan(basePackages = { "com.gs24.website.service" }) // 패키지 경로로 Component 스캐닝
+@EnableScheduling
+@ComponentScan(basePackages = "com.gs24.website")
 @MapperScan(basePackages = { "com.gs24.website.persistence" }) // 패키지 경로로 Mapper 스캐닝
 public class RootConfig {
 

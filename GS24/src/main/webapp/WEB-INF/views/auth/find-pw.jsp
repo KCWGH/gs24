@@ -16,6 +16,9 @@
             if (memberId) {
                 $("#memberId").val(memberId);
             }
+            
+            let timerInterval; // 타이머 인터벌 변수
+            let remainingTime = 2 * 60; // 2분(120초)
         	
             function checkPw() {
                 let password = $('#password').val();
@@ -43,7 +46,7 @@
                     alert("아이디와 이메일을 모두 기입해주세요.");
                     return;
                 }
-                
+            	$("#btnSendVerificationCode").prop("disabled", true);
                 $.ajax({
                     url: "find-pw",
                     type: "POST",
@@ -51,6 +54,8 @@
                     success: function(response) {
                     	$("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
                         $("#sendResult,#verificationText,#verificationCode,#btnVerifyCode").show();
+                        startTimer();
+                        $("#timer").show();
                     },
                     error: function(xhr, status, error) {
                         let responseText = xhr.responseText;
@@ -61,6 +66,9 @@
                         	$("#sendResult").html("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
                         	$("#sendResult").show();
                         }
+                    },
+                    complete: function() {
+                        $("#btnSendVerificationCode").prop("disabled", false);
                     }
                 });
             });
@@ -75,23 +83,30 @@
     			let email = $("#email").val();
     			let code = $("#verificationCode").val();
     			$.ajax({
-                    url: 'verifyCode-PW',
-                    type: 'POST',
-                    data: { email: email, code: code },
-                    success: function (response) {
-                        $("#findResult").html("인증번호가 일치합니다.");
-                        $("#findResult").show();
-                        $("#divPassword").show();
-                    },
-                    error: function (xhr, status, error) {
-                        if (xhr.status === 400) {
-                        	$("#findResult").html("인증번호가 일치하지 않습니다.");
-                        	$("#findResult").show();
-                        } else {
-                            alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
-                        }
-                    }
-                });
+    			    url: 'verifyCode-PW',
+    			    type: 'POST',
+    			    contentType: 'application/json',  // 데이터를 JSON 형식으로 전송
+    			    data: JSON.stringify({
+    			        email: email,
+    			        code: code
+    			    }),
+    			    success: function (response) {
+    			        // 인증 성공 시 메시지 출력 및 비밀번호 입력 섹션 표시
+    			        $("#findResult").html("인증번호가 일치합니다.");
+    			        $("#findResult").show();
+    			        $("#divPassword").show();
+    			        $("#timer").hide();
+    			    },
+    			    error: function (xhr, status, error) {
+    			    	if (xhr.status === 400) {
+    			        $("#findResult").html("인증번호가 일치하지 않습니다.");
+    			        $("#findResult").show();
+    			        } else {
+    			            alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
+    			        }
+    			    }
+    			});
+
             });
 
             $("#btnUpdatePw").click(function(event){
@@ -115,6 +130,23 @@
                     },
         		}); 
             });
+            
+         // 타이머 시작 함수
+            function startTimer() {
+                // 2분 타이머를 1초마다 갱신
+                timerInterval = setInterval(function() {
+                    let minutes = Math.floor(remainingTime / 60);
+                    let seconds = remainingTime % 60;
+                    $("#timer").text("남은 시간: " + minutes + "분 " + seconds + "초");
+                    remainingTime--;
+
+                    if (remainingTime < 0) {
+                        clearInterval(timerInterval);  // 타이머 멈추기
+                        $("#timer").text("인증번호가 만료되었습니다.");
+                        $("#verificationCode").prop("disabled", true);  // 인증번호 입력 불가
+                    }
+                }, 1000);
+            }
         });
     </script>
 </head>
@@ -133,6 +165,7 @@
     <span id="verificationText" hidden="hidden">인증번호: </span>
     <input type="text" id="verificationCode" name="verificationCode" required hidden="hidden">
     <button id="btnVerifyCode" hidden="hidden">인증번호 확인</button><br>
+    <div id="timer" hidden="hidden"></div>
     <div id="findResult" hidden="hidden"></div>
 
     <div id="divPassword" hidden="hidden">

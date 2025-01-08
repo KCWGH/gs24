@@ -35,4 +35,6 @@ public interface CouponMapper {
 
 	List<CouponVO> selectUsedListByPagination(Pagination pagination);
 
+	int deleteExpiredCoupons();
+
 }

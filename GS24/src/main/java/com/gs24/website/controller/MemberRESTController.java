@@ -48,18 +48,6 @@ public class MemberRESTController {
 	@Autowired
 	private FoodService foodService;
 
-	@PostMapping("/update-pw")
-	public ResponseEntity<String> updatePwPOST(@RequestBody MemberVO memberVO) {
-		int result = memberService.updateMemberPassword(memberVO);
-		if (result == 0) { // 업데이트가 안 되면
-			log.info("비밀번호 수정 실패");
-			return ResponseEntity.ok("Update Fail");
-		}
-
-		log.info("updatePwPOST()");
-		return ResponseEntity.ok("Update Success");
-	}
-
 	@PostMapping("/update-email")
 	public ResponseEntity<String> updateEmailPOST(@RequestBody MemberVO memberVO) {
 		if (memberVO.getEmail().equals(memberService.findEmailById(memberVO.getMemberId()))) {

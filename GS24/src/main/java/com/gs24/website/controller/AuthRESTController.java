@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gs24.website.service.EmailService;
 import com.gs24.website.service.MemberService;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @RestController
@@ -115,21 +119,27 @@ public class AuthRESTController {
 	}
 
 	@PostMapping("/verifyCode-ID")
-	public ResponseEntity<String> verifyCodeID(@RequestParam("email") String email, @RequestParam("code") String code) {
+	public ResponseEntity<String> verifyCodeID(@RequestBody VerifyCodeRequest verifyCodeRequest) {
+		String email = verifyCodeRequest.getEmail();
+		String code = verifyCodeRequest.getCode();
+
 		if (emailService.verifyCode(email, code)) {
 			String memberId = memberService.findId(email);
 			return ResponseEntity.ok(memberId);
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호가 일치하지 않습니다.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Inaccurate or expired code.");
 		}
 	}
 
 	@PostMapping("/verifyCode-PW")
-	public ResponseEntity<String> verifyCodePW(@RequestParam("email") String email, @RequestParam("code") String code) {
+	public ResponseEntity<String> verifyCodePW(@RequestBody VerifyCodeRequest verifyCodeRequest) {
+		String email = verifyCodeRequest.getEmail();
+		String code = verifyCodeRequest.getCode();
+
 		if (emailService.verifyCode(email, code)) {
-			return ResponseEntity.ok("");
+			return ResponseEntity.ok("인증 성공");
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호가 일치하지 않습니다.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Inaccurate or expired code.");
 		}
 	}
 
@@ -148,5 +158,14 @@ public class AuthRESTController {
 
 		log.info("findAndUpdatePwPOST()");
 		return ResponseEntity.ok("Update Success");
+	}
+
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class VerifyCodeRequest {
+		private String email;
+		private String code;
 	}
 }

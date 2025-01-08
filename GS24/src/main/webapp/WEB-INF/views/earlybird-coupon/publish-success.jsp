@@ -4,13 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>선착순 쿠폰 발행 성공</title>
 </head>
 <script type="text/javascript">
-	alert('존재하지 않는 회원 아이디입니다. 쿠폰 제공에 실패했습니다.');
-	window.location.href = 'grant';
+	alert('선착순 쿠폰 발행에 성공했습니다.');
+	window.location.href = 'publish';
 </script>
-<body>
-
-</body>
 </html>

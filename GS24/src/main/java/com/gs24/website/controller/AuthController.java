@@ -18,6 +18,7 @@ import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.CouponService;
 import com.gs24.website.service.MemberService;
+import com.gs24.website.service.RecaptchaService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -31,6 +32,9 @@ public class AuthController {
 
 	@Autowired
 	private CouponService couponService;
+	
+	@Autowired
+	private RecaptchaService recaptchaService;
 
 	@GetMapping("/register")
 	public String registerGET(HttpSession session) {
@@ -44,14 +48,24 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(@ModelAttribute MemberVO memberVO) {
+	public String registerPOST(@ModelAttribute MemberVO memberVO, String recaptchaToken, RedirectAttributes redirectAttributes) {
 		log.info("registerPOST()");
+		
+		boolean isRecaptchaValid = recaptchaService.verifyRecaptcha(recaptchaToken);
+	    if (!isRecaptchaValid) {
+	        log.info("reCAPTCHA 검증 실패");
+	        redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
+	        return "redirect:/auth/register";
+	    }
+		
 		int result = memberService.register(memberVO);
 		log.info(result + "개 행 등록 완료");
 		if (result == 1) {
-			return "redirect:/auth/register-success";
+			redirectAttributes.addFlashAttribute("message", "회원등록 완료.\\n\\n가입한 아이디와 비밀번호로 로그인하세요.");
+			return "redirect:/auth/login";
 		}
-		return "redirect:/auth/register-fail";
+		redirectAttributes.addFlashAttribute("message", "회원등록을 실패했습니다.\\n\\n유효하지 않은 회원정보(중복된 아이디, 패스워드, 전화번호)입니다.");
+		return "redirect:/auth/register";
 	}
 
 	@GetMapping("/register-success")
@@ -75,9 +89,16 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public String loginPOST(String memberId, String password, HttpServletRequest request,
+	public String loginPOST(String memberId, String password, String recaptchaToken, HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
 		log.info("loginPOST()");
+		
+		boolean isRecaptchaValid = recaptchaService.verifyRecaptcha(recaptchaToken);
+	    if (!isRecaptchaValid) {
+	        log.info("reCAPTCHA 검증 실패");
+	        redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
+	        return "redirect:/auth/login";
+	    }
 
 		int result = memberService.login(memberId, password);
 
@@ -85,6 +106,7 @@ public class AuthController {
 			log.info("로그인 성공");
 			int isIssued = birthdayCoupon(memberId);
 			if (isIssued == 1) {
+				log.info("생일축하 쿠폰 발급 완료");
 				redirectAttributes.addFlashAttribute("message", "생일을 축하합니다! 생일 축하 쿠폰이 발급되었습니다.");
 			}
 			// 세션 설정
@@ -99,6 +121,7 @@ public class AuthController {
 			return "redirect:/food/list";
 		} else {
 			log.info("로그인 실패");
+			redirectAttributes.addFlashAttribute("message", "아이디와 비밀번호를 다시 확인해주세요");
 			return "redirect:/auth/login-fail";
 		}
 	}

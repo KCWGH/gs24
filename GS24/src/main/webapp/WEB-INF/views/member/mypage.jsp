@@ -8,160 +8,157 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $(document).ready(function() {
-	$("#btnUpdate").click(function(event){
-		$("#btnUpdatePassword, #btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel").prop("hidden", false);
-		$("#btnUpdate").prop("hidden", true);
-	});
-	$("#btnUpdateCancel").click(function(event){
-		$("#btnUpdatePassword, #btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel").prop("hidden", true);
-		$("#btnUpdate").prop("hidden", false);
-	});
-	$("#btnUpdatePassword").click(function(event){
-		event.preventDefault();
-		$("#password").prop("disabled", false);
-		$("#btnUpdatePassword").prop("hidden", true);
-		$("#btnUpdatePasswordConfirm, #btnUpdatePasswordCancel").prop("hidden", false);
-		$("#updatePasswordResult").hide();
-	});
-	$("#btnUpdatePasswordCancel").click(function(event){
-		event.preventDefault();
-		$("#password").prop("disabled", true);
-		$("#btnUpdatePassword").prop("hidden", false);
-		$("#btnUpdatePasswordConfirm, #btnUpdatePasswordCancel").prop("hidden", true);
-	});
-	$("#btnUpdatePasswordConfirm").click(function(event){
-		event.preventDefault();
-		let password = $("#password").val();
-		let memberId = "${memberVO.memberId}";
-		let data = { password: password, memberId: memberId };
-		$.ajax({
-			url: "update-pw",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			success: function(response) {
-				if (response === "Update Success") {
-					$("#updatePasswordResult").text("비밀번호 수정 완료 :)").show();
-					$("#password").prop("disabled", true);
-					$("#btnUpdatePassword").prop("hidden", false);
-					$("#btnUpdatePasswordConfirm, #btnUpdatePasswordCancel").prop("hidden", true);
-				} else {
-					$("#updatePasswordResult").text("비밀번호 수정 실패 :(").show();
-				}
-			}
-		});
-	});
-	$("#btnUpdateEmail").click(function(event){
-		event.preventDefault();
-		$("#email").prop("disabled", false);
-		$("#btnUpdateEmail").prop("hidden", true);
-		$("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", false);
-		$("#updateEmailResult").hide();
-	});
-	$("#btnUpdateEmailCancel").click(function(event){
-		event.preventDefault();
-		$("#email").prop("disabled", true);
-		$("#btnUpdateEmail").prop("hidden", false);
-		$("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
-	});
-	$("#btnUpdateEmailConfirm").click(function(event){
-		event.preventDefault();
-		let email = $("#email").val();
-		let memberId = "${memberVO.memberId}";
-		let data = { email: email, memberId: memberId };
-		$.ajax({
-			url: "update-email",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			success: function(response) {
-				if (response === "Update Success") {
-					$("#updateEmailResult").text("이메일 수정 완료 :)").show();
-					$("#email").prop("disabled", true);
-					$("#btnUpdateEmail").prop("hidden", false);
-					$("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
-				} else if(response === "Update Fail - Same Email"){
-					$("#updateEmailResult").text("동일한 이메일입니다.").show();
-				} else if(response === "Update Fail - Duplicated Email"){
-					$("#updateEmailResult").text("중복된 이메일입니다.").show();
-				}
-			}
-		});
-	});
-	$("#btnUpdatePhone").click(function(event){
-		event.preventDefault();
-		$("#phone").prop("disabled", false);
-		$("#btnUpdatePhone").prop("hidden", true);
-		$("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", false);
-		$("#updatePhoneResult").hide();
-	});
-	$("#btnUpdatePhoneCancel").click(function(event){
-		event.preventDefault();
-		$("#phone").prop("disabled", true);
-		$("#btnUpdatePhone").prop("hidden", false);
-		$("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", true);
-	});
-	$("#btnUpdatePhoneConfirm").click(function(event){
-		event.preventDefault();
-		let phone = $("#phone").val();
-		let memberId = "${memberVO.memberId}";
-		let data = { phone: phone, memberId: memberId };
-		$.ajax({
-			url: "update-phone",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			success: function(response) {
-				if (response === "Update Success") {
-					$("#updatePhoneResult").text("휴대폰 번호 수정 완료 :)").show();
-					$("#phone").prop("disabled", true);
-					$("#btnUpdatePhone").prop("hidden", false);
-					$("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", true);
-				} else if(response === "Update Fail - Same Phone"){
-					$("#updatePhoneResult").text("동일한 휴대폰 번호입니다.").show();
-				} else if(response === "Update Fail - Duplicated Phone"){
-					$("#updatePhoneResult").text("중복된 휴대폰 번호입니다.").show();
-				}
-			}
-		});
-	});
-	$("#btnDelete").click(function(event){
-		event.preventDefault();
-		$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", false);
-	});
-	$("#btnDeleteCancel").click(function(event){
-		event.preventDefault();
-		$("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
-	});
-	$("#btnDeleteConfirm").click(function(event){
-		event.preventDefault();
-		let memberId = "${memberVO.memberId}";
-		let data = { memberId: memberId };
-		$.ajax({
-			url: "delete",
-			type: "POST",
-			data: data,
-			success: function(response) {
-				if (response === "Delete Success") {
-					alert('아이디 삭제 완료');
-					if (window.opener) {
-						window.opener.location.reload();
-					}
-					window.close();
-				} else {
-					$("#updatePhoneResult").text("아이디 삭제 실패").show();
-				}
-			}
-		});
-	});
-	$("#logout").click(function(event){
-		window.location.href = 'logout';
-	});
-	
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^01[016789]-\d{4}-\d{4}$/;
+    
+    $("#btnUpdate").click(function(event) {
+        $("#btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel").prop("hidden", false);
+        $("#btnUpdate").prop("hidden", true);
+    });
+    
+    $("#btnUpdateCancel").click(function(event) {
+        $("#btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel, #updateEmailResult, #updatePhoneResult").prop("hidden", true);
+        $("#btnUpdate").prop("hidden", false);
+    });
+
+    $("#btnUpdateEmail").click(function(event) {
+        event.preventDefault();
+        $("#email").prop("disabled", false);
+        $("#btnUpdateEmail").prop("hidden", true);
+        $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", false);
+        $("#updateEmailResult").hide();
+    });
+
+    $("#btnUpdateEmailCancel").click(function(event) {
+        event.preventDefault();
+        $("#email").prop("disabled", true);
+        $("#btnUpdateEmail").prop("hidden", false);
+        $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
+        $("#updateEmailResult").hide();
+    });
+
+    $("#btnUpdateEmailConfirm").click(function(event) {
+        event.preventDefault();
+        let email = $("#email").val();
+        
+        if (!emailRegex.test(email)) {
+            $("#updateEmailResult").text("유효하지 않은 이메일 형식입니다.").show();
+            return;
+        }
+        
+        let memberId = "${memberVO.memberId}";
+        let data = { email: email, memberId: memberId };
+        $.ajax({
+            url: "update-email",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                if (response === "Update Success") {
+                    $("#updateEmailResult").text("이메일 수정 완료 :)").css('color', 'green').show();
+                    $("#email").prop("disabled", true);
+                    $("#btnUpdateEmail").prop("hidden", false);
+                    $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
+                } else if (response === "Update Fail - Same Email") {
+                    $("#updateEmailResult").text("동일한 이메일입니다.").css('color', 'red').show();
+                } else if (response === "Update Fail - Duplicated Email") {
+                    $("#updateEmailResult").text("중복된 이메일입니다.").css('color', 'red').show();
+                }
+            }
+        });
+    });
+
+    $("#btnUpdatePhone").click(function(event) {
+        event.preventDefault();
+        $("#phone").prop("disabled", false);
+        $("#btnUpdatePhone").prop("hidden", true);
+        $("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", false);
+        $("#updatePhoneResult").hide();
+    });
+
+    $("#btnUpdatePhoneCancel").click(function(event) {
+        event.preventDefault();
+        $("#phone").prop("disabled", true);
+        $("#btnUpdatePhone").prop("hidden", false);
+        $("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", true);
+        $("#updatePhoneResult").hide();
+    });
+
+    $("#btnUpdatePhoneConfirm").click(function(event) {
+        event.preventDefault();
+        let phone = $("#phone").val();
+        
+        if (!phoneRegex.test(phone)) {
+            $("#updatePhoneResult").text("휴대폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)").css('color', 'red').show();
+            return;
+        }
+        
+        let memberId = "${memberVO.memberId}";
+        let data = { phone: phone, memberId: memberId };
+        $.ajax({
+            url: "update-phone",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                if (response === "Update Success") {
+                    $("#updatePhoneResult").text("휴대폰 번호 수정 완료 :)").css('color', 'green').show();
+                    $("#phone").prop("disabled", true);
+                    $("#btnUpdatePhone").prop("hidden", false);
+                    $("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", true);
+                } else if (response === "Update Fail - Same Phone") {
+                    $("#updatePhoneResult").text("동일한 휴대폰 번호입니다.").css('color', 'red').show();
+                } else if (response === "Update Fail - Duplicated Phone") {
+                    $("#updatePhoneResult").text("중복된 휴대폰 번호입니다.").css('color', 'red').show();
+                }
+            }
+        });
+    });
+
+    $("#btnDelete").click(function(event) {
+        event.preventDefault();
+        $("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", false);
+    });
+
+    $("#btnDeleteCancel").click(function(event) {
+        event.preventDefault();
+        $("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
+    });
+
+    $("#btnDeleteConfirm").click(function(event) {
+        event.preventDefault();
+        let memberId = "${memberVO.memberId}";
+        let data = { memberId: memberId };
+        $.ajax({
+            url: "delete",
+            type: "POST",
+            data: data,
+            success: function(response) {
+                if (response === "Delete Success") {
+                    alert('아이디 삭제 완료');
+                    if (window.opener) {
+                        window.opener.location.reload();
+                    }
+                    window.close();
+                } else {
+                    $("#updatePhoneResult").text("아이디 삭제 실패").show();
+                }
+            }
+        });
+    });
+
+    $("#logout").click(function(event) {
+        window.location.href = 'logout';
+    });
 });
 </script>
 </head>
 <body>
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
 <div class="container">
 	<h2>마이페이지</h2>
 	<c:if test="${empty memberVO}">
@@ -177,9 +174,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th>비밀번호</th>
-					<td><input id="password" type="password" value="${memberVO.password}" disabled></td>
-					<td><button id="btnUpdatePassword" hidden="hidden">수정</button><button id="btnUpdatePasswordConfirm" hidden="hidden">저장</button></td>
-					<td><button id="btnUpdatePasswordCancel" hidden="hidden">취소</button></td>
+					<td><button type="button" onclick='location.href="../member/verify"'>비밀번호 변경</button></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td></td>

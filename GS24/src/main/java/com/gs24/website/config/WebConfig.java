@@ -2,12 +2,16 @@ package com.gs24.website.config;
 
 import javax.servlet.Filter;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 // web.xml과 동일
 // AbstractAnnotationConfigDispatcherServletInitializer : 
 // 이 클래스를 상속받는 클래스는 DispatcherServlet 및 ContextLoader 정보를 관리
+@Configuration
+@PropertySource("classpath:recaptcha.properties")
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	// root application context(Root WebApplicationContext)

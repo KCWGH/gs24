@@ -133,6 +133,10 @@
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-
+	
+	<delete id="deleteExpiredCoupons">
+        DELETE FROM COUPON
+		WHERE COUPON_EXPIRED_DATE &lt; SYSDATE - INTERVAL '7' DAY
+    </delete>
 
 </mapper>

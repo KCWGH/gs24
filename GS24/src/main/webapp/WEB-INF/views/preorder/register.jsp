@@ -65,7 +65,7 @@
         <span style="color:gray">예약일로부터 2일 후부터 2주 후 이내로 예약이 가능합니다.</span><br>
         <div id="pickupDateContainer"></div>
         <input type="hidden" name="pickupDate" id="pickupDate" required><br>
-
+        <input type="hidden" name="earlyBirdCouponId" id="earlyBirdCouponId"><br>
 		<span id=selectedEarlyBirdCoupon>적용된 선착순 쿠폰 : 없음 </span>
         <button type="button" id="openModal">선착순 쿠폰 변경</button><br>
 
@@ -128,15 +128,17 @@
         		inline: true, // 달력을 항상 화면에 표시
         		onSelect: function(dateText) {
             $('#pickupDate').val(dateText);
-            console.log(dateText);
         }
-    });
+    }).datepicker("setDate", +2);
+            
+            $('#pickupDate').val($("#pickupDateContainer").datepicker("getDate").toISOString().split('T')[0]);
 
             // 쿠폰 적용 버튼 클릭 이벤트
             $(".applyEarlyBirdCoupon").click(function(event) {
                 event.preventDefault();
                 let discountType = $(this).data("discount-type");
                 let discountValue = $(this).data("discount-value");
+                let couponId = $(this).data("coupon-id");
                 let couponName = $(this).data("coupon-name");
                 let buyPrice = parseInt($('#buyPrice').text().replace(/[^0-9]/g, ''), 10);
                 let discountedPrice;
@@ -146,7 +148,8 @@
                 } else if (discountType === 'P') {
                     discountedPrice = buyPrice - (buyPrice * discountValue / 100);
                 }
-                
+                $('#earlyBirdCouponId').val(couponId);
+                console.log('couponId: '+couponId);
                 $('#selectedEarlyBirdCoupon').html("적용된 선착순 쿠폰 : " + couponName + " ");
                 $('#buyPrice').html("결제 금액 : " + discountedPrice + "원");
                 $("#couponModal").fadeOut();
