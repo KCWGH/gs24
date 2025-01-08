@@ -36,7 +36,26 @@
 	<c:if test="${not empty sessionScope.memberId}">
 		<a href="../review/list?foodId=${FoodVO.foodId}"><button>리뷰 작성</button></a>
 	</c:if>
-
+	
+	<div id="reviewList">
+	<c:forEach var="reviewVO" items="${reviewList }">
+		<div class="reviewItems">
+		<hr>
+		<input type="hidden" value="${reviewVO.reviewId }"/>
+		<p>회원 아이디 : ${reviewVO.memberId }</p>
+		<img src='../Img/Review?reviewId=${reviewVO.reviewId }'>
+		<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
+		<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
+		<p>리뷰 별점 : ${reviewVO.reviewRating }</p>
+		<c:if test="${ sessionScope.memberId eq reviewVO.memberId }">
+			<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}'">수정</button>
+			<button onclick="location.href='../review/delete?reviewId=${reviewVO.reviewId}&foodId=${reviewVO.foodId }'" id="reviewDelete">삭제</button>
+		</c:if>
+		</div>
+	</c:forEach>
+	<hr>
+	</div>
+	
 	<script type="text/javascript">
 	window.onload = function () {
 	    pieChartDraw();

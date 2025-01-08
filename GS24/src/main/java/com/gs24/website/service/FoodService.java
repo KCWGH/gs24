@@ -33,4 +33,6 @@ public interface FoodService {
 	List<FoodVO> getPaginationFood(Pagination pagination);
 	
 	int getFoodTotalCount(Pagination pagination);
+	
+	Object[] getDetailData(int foodId);
 }

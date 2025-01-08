@@ -50,4 +50,8 @@
    <select id="countPreorderByMemberId" resultType="Integer">
       SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} ORDER BY PREORDER_ID DESC
    </select>
+   
+   <select id="selectAlreadyPreorderByFoodId" resultMap="PreorderResultMap">
+   		SELECT * FROM PREORDER WHERE FOOD_ID = #{foodId} AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   </select>
 </mapper>

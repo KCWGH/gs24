@@ -177,4 +177,11 @@ public class ReviewServiceImple implements ReviewService {
 		return result;
 	}
 
+	@Override
+	public int deleteReviewByFoodId(int foodId) {
+		log.info("deleteReviewByFoodId()");
+		int result = reviewMapper.deleteReviewByFoodId(foodId);
+		return result;
+	}
+
 }

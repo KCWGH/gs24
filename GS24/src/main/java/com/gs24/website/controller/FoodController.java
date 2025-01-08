@@ -35,6 +35,7 @@ public class FoodController {
     @GetMapping("/list")
     public void listGET(HttpSession session, Model model, Pagination pagination) {
         log.info("listGET()");
+        log.info("pagination" + pagination);
         String memberId = (String) session.getAttribute("memberId");
         if (memberId != null) {
             MemberVO memberVO = memberService.getMember(memberId);
@@ -71,8 +72,9 @@ public class FoodController {
     @GetMapping("/detail")
     public void detailGET(Model model, Integer foodId) {
         log.info("detailGET()");
-        FoodVO foodVO = foodService.getFoodById(foodId);
-        model.addAttribute("FoodVO", foodVO);
+        Object[] detailData = foodService.getDetailData(foodId);
+        model.addAttribute("FoodVO", detailData[0]);
+        model.addAttribute("reviewList", detailData[1]);
     }
 
     // 음식 수정 페이지

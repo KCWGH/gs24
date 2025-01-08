@@ -98,4 +98,11 @@ public class PreorderServiceImple implements PreorderService{
 	public int countPreorderByMemberId(String memberId) {
 	   return preorderMapper.countPreorderByMemberId(memberId);
 	}
+
+	@Override
+	public List<PreorderVO> getAlreadyPreorder(int foodId) {
+		log.info("getAlreadyPreorder()");
+		List<PreorderVO> list = preorderMapper.selectAlreadyPreorderByFoodId(foodId);
+		return list;
+	}
 }

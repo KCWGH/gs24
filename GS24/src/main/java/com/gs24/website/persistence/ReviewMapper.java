@@ -32,6 +32,8 @@ public interface ReviewMapper {
 	
 	int deleteReview(int reviewId);
 	
+	int deleteReviewByFoodId(int foodId);
+	
 	List<ReviewVO> selectReviewByMemberIdPagination(Pagination pagination);
 	   
 	int countReviewByMemberId(String memberId);

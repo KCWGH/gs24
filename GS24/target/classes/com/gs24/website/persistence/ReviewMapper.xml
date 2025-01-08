@@ -84,6 +84,10 @@
 		DELETE FROM REVIEW WHERE REVIEW_ID = #{reviewId}
 	</delete>
 	
+	<delete id="deleteReviewByFoodId">
+		DELETE FROM REVIEW WHERE FOOD_ID = #{foodId}
+	</delete>
+	
 	<select id="selectReviewByMemberIdPagination" resultMap="reviewResultMap">
       SELECT * FROM
       (
@@ -98,7 +102,7 @@
    </select>
 	
 	<select id="selectReviewPagination" resultMap="reviewResultMap">
-		SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY REVIEW_ID DESC) AS RN, REVIEW.* FROM REVIEW WHERE FOOD_ID = 9)
+		SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY REVIEW_ID DESC) AS RN, REVIEW.* FROM REVIEW WHERE FOOD_ID = #{foodId})
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	

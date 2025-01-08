@@ -22,9 +22,11 @@ public class PreorderMapperTest {
 	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	@Autowired PreorderMapper preorderMapper;
+	
 	@Test
 	public void test() {
-		selectTotalCountByFoodId();
+		select();
 	}
 	
 	public void insert() {
@@ -44,7 +46,7 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		log.info(reviewMapper.selectNextReviewId());
+		log.info(preorderMapper.selectAlreadyPreorderByFoodId(23));
 	}
 	
 	public void selectPagination() {

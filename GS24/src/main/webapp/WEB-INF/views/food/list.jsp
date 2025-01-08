@@ -26,81 +26,61 @@ img {
 .pagination_button {	
 	display: inline-block;
 }
-#customSelect{
-	width: 100px;
+.searchList{
+	list-style-type: none;
+	text-align: center;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
 }
-#customSelect #selectType{
-	border: 2px solid;
-	display: flex;
-	justify-content: space-between;
-}
-#selectOption{
-	border: 2px solid;
-	background-color: silver;
-}
-#customSelect ul{
-	display: initial;
-	padding-left: 0px;
-}
-#customSelect li{
+.searchList li{
 	display: inline-block;
-	width: 90px;
-	padding: 8px 5px;
+	width: 150px;
+	margin-left: 20px;
+	border-left: 1px solid;
+	border-right:1px solid;
 }
-#customSelect li:hover{
-	background-color: gray;
-}
-#optionName{
-	position:absolute;
-	width:200px;
-	height:100px;
+.searchList li:hover {
 	background-color: silver;
 }
-#optionPrice{
-	position:absolute;
-	width:200px;
-	height:100px;
-	background-color: silver;
-}
-#optionRating{
-	position:absolute;
-	width:200px;
-	height:100px;
-	background-color: silver;
-}
-#optionReviewCnt{
-	position:absolute;
-	width:200px;
-	height:100px;
-	background-color: silver;
-}
+
 </style>
 
 </head>
 <body>
 	<c:if test="${not empty memberVO}">
-		<span>환영합니다, ${memberId}님</span>
-		<button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
-		<a href="../member/logout"><button>로그아웃</button></a>
-		<button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-		<button onclick="window.open('../coupon/list', '_blank', 'width=500,height=700')">쿠폰 목록</button>
-	</c:if>
+      <span>환영합니다, ${memberId}님</span>
+      <button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
+      <button onclick='location.href="../auth/logout"'>로그아웃</button>
+      <button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
+      <button onclick="window.open('../coupon/list', '_blank', 'width=500,height=700')">쿠폰 목록</button>
+   </c:if>
 
-	<c:if test="${empty memberVO}">
-		<button onclick="window.open('../member/login', '_blank', 'width=550,height=400')">로그인</button>
-	</c:if>
-		<a href="../notice/list"><button>공지사항</button></a>
-		<a href="../question/list"><button>문의사항(QnA)</button></a>
-	<hr>
+   <c:if test="${empty memberVO}">
+      <button onclick='location.href="../auth/login"'>로그인</button>
+   </c:if>
+      <a href="../notice/list"><button>공지사항</button></a>
+      <a href="../question/list"><button>문의사항(QnA)</button></a>
+   <hr>
 
    <h1>식품 리스트</h1>
    <c:if test="${memberVO.memberRole == 2 }">
-      <button onclick='location.href="register"'>식품등록</button>
+      <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
+      <button onclick='location.href="register"'>식품등록</button><br>
    </c:if>
+   	<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
+	<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
+	<button class="search">검색</button>
+	<ul class="searchList">
+		<li>전체</li>
+		<li>최신등록순</li>
+		<li>낮은가격순</li>
+		<li>높은가격순</li>
+	</ul>
 
 	<ul class="food_box">
 		<c:forEach var="FoodVO" items="${FoodList}">
 			<li class="List">
+				<input type="hidden" value="${FoodVO.foodId }">
 				<img src="../Img/Food?foodId=${FoodVO.foodId }">
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>
@@ -124,44 +104,21 @@ img {
 		<input type="hidden" name="pageSize">
 		<input type="hidden" name="type">
 		<input type="hidden" name="keyword">
-		<button>검색</button>
+		<input type="hidden" name="sortType">
+		<input type="hidden" name="bottomPrice">
+		<input type="hidden" name="topPrice">
 	</form>
 	
-	<!-- 검색 조건 유형들 -->
-	<div id="customSelect">
-	<div id="selectType">All</div>
-	<div id="selectOption" style="display: none;">
-		<ul>
-			<li>All</li>
-			<li value="type">type</li>
-			<li value="name">name</li>
-			<li value="price">price</li>
-			<li value="rating">rating</li>
-			<li value="review_cnt">reviewCnt</li>
-		</ul>
-	</div>
-	</div>
+	<form id="listForm" action="list" method="GET">
+		<input type="hidden" name="pageNum">
+		<input type="hidden" name="pageSize">
+		<input type="hidden" name="type">
+		<input type="hidden" name="keyword">
+		<input type="hidden" name="sortType">
+		<input type="hidden" name="bottomPrice">
+		<input type="hidden" name="topPrice">
+	</form>
 	
-	<!-- 각 유형들 클릭 했을 때 검색 keyword를 저장하는 div들 -->
-	<div id="optionName" style="display: none">
-	<p>검색할 이름을 작성하세요</p>
-	<input type="text" name="searchName">
-	</div>
-	
-	<div id="optionPrice" style="display: none">
-	<p>검색할 가격을 작성하세요</p>
-	<input type="number" name="searchPrice" min="0">
-	</div>
-	
-	<div id="optionRating" style="display: none">
-	<p>검색할 평균 별점을 작성하세요</p>
-	<input type="text" name="searchRating">
-	</div>
-	
-	<div id="optionReviewCnt" style="display: none">
-	<p>검색할 리뷰 개수을 작성하세요</p>
-	<input type="text" name="searchRating">
-	</div>
 	
 	<ul id="paginationList">
 			<!-- 이전 버튼 생성을 위한 조건문 -->
@@ -171,7 +128,7 @@ img {
 			<!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
 			<c:forEach begin="${pageMaker.startNum }"
 				end="${pageMaker.endNum }" var="num">
-				<li class="pagination_button"><a href="${num }">${num }</a></li>
+				<li class="pagination_button"><a href="${num }">●</a></li>
 			</c:forEach>
 			<!-- 다음 버튼 생성을 위한 조건문 -->
 			<c:if test="${pageMaker.isNext() }">
@@ -182,8 +139,6 @@ img {
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
-		select();
 		
 		$("#searchForm button").on("click", function(e){
 			var searchForm = $("#searchForm");
@@ -216,6 +171,9 @@ img {
 			var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
 			var type = "<c:out value='${pageMaker.pagination.type }' />";
 			var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
+			var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
+			var bottomPrice = "<c:out value='${pageMaker.pagination.bottomPrice}' />";
+			var topPrice = "<c:out value='${pageMaker.pagination.topPrice}' />";
 			 
 			// 페이지 번호를 input name='pageNum' 값으로 적용
 			listForm.find("input[name='pageNum']").val(pageNum);
@@ -225,88 +183,122 @@ img {
 			listForm.find("input[name='type']").val(type);
 			// keyword 값을 적용
 			listForm.find("input[name='keyword']").val(keyword);
+			listForm.find("input[name='bottomPrice']").val(bottomPrice);
+			listForm.find("input[name='topPrice']").val(topPrice);
 			listForm.submit(); // form 전송
 		}); // end on()
 		
-		function select(){
-			$("#selectType").click(function(){
-				if($("#selectOption").css('display') == "none")
-					$("#selectOption").show();
-				else
-					$("#selectOption").hide();
-			});
+		$(".searchList").on("click", "li", function(e){
+			let optionType = $(this).text();
+			console.log("optionType : " + optionType);
+			let searchForm = $("#searchForm");
+			if(optionType=="전체"){
+				searchForm.find("input[name='sortType']").val("All");
+				var pageNum = 1; // 검색 후 1페이지로 고정
+				// 현재 페이지 사이즈값 저장
+				var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+				// 페이지 번호를 input name='pageNum' 값으로 적용
+				searchForm.find("input[name='pageNum']").val(pageNum);
+				// 선택된 옵션 값을 input name='pageSize' 값으로 적용
+				searchForm.find("input[name='pageSize']").val(pageSize);
+				searchForm.find("input[name='type']").val("");
+				searchForm.find("input[name='keyword']").val("");
+				searchForm.submit(); // form 전송
+				return;
+			} else if(optionType == "최신등록순"){
+				searchForm.find("input[name='sortType']").val("recentRegist");
+			} else if(optionType == "낮은가격순"){
+				searchForm.find("input[name='sortType']").val("rowPrice");
+			} else if(optionType == "높은가격순"){
+				searchForm.find("input[name='sortType']").val("topPrice");
+			}
 			
-			// select내 option들 클릭했을 때
-			$("#selectOption li").click(function(){
-				var option = $(this);
-				var optionVal = $(this).val();
-				var optionText = $(this).text();
-				var optionX = option.offset().left;
-				var optionY = option.offset().top;
-				//console.log("optionVal : " + optionVal + " optionText : " + optionText);
-				//console.log("optionX : " + optionX + " optionY : " + optionY);
-				if(optionText == "name"){
-					$("#selectType").text(optionText);
-					$("#optionName").show();
-					$("#optionName").css({'top': optionY, 'left': 110});
-					$("input[name='type']").val(optionText);
-					console.log("type : " + $("input[name='type']").val());
-				}
-				else if(optionText == "price"){
-					$("#selectType").text(optionText);
-					$("#optionPrice").show();
-					$("#optionPrice").css({'top': optionY, 'left': 110});
-					$("input[name='type']").val(optionText);
-					console.log("type : " + $("input[name='type']").val());
-				}
-				else if(optionText == "rating"){
-					$("#selectType").text(optionText);
-					$("#optionRating").show();
-					$("#optionRating").css({'top': optionY, 'left': 110});
-					$("input[name='type']").val(optionText);
-					console.log("type : " + $("input[name='type']").val());
-				}
-				else if(optionText == "reviewCnt"){
-					$("#selectType").text(optionText);
-					$("#optionRating").show();
-					$("#optionRating").css({'top': optionY, 'left': 110});
-					$("input[name='type']").val(optionText);
-					console.log("type : " + $("input[name='type']").val());
-				}
-				else{
-					$("input[name='type']").val("All");
-					$("input[name='keyword']").val("All");
-					console.log("keyword : " + $("input[name='keyword']").val());
-					console.log("type : " + $("input[name='type']").val() + " keyword" + $("input[name='keyword']").val());
-				}
-			});
-			// select내 option들 위에 마우스 올렸을 때
-			// 이거만 수정하면 완성함
-			$("#selectOption li").mouseover(function(){
-				if($(this).text()!="name"){
-					$("#optionForm").hide();
-					$("input[name='searchName']").val("");
-				}	
-			});
+			console.log(searchForm.find("input[name='sortType']").val());
 			
-			// select 내 option 검색 조건 입력 했을 때
-			$("input[name='searchName']").change(function(){
-				$("input[name='keyword']").val($(this).val());
-				console.log("keyword : " + $("input[name='keyword']").val());
-			});
-			$("input[name='searchPrice']").change(function(){
-				$("input[name='keyword']").val($(this).val());
-				console.log("keyword : " + $("input[name='keyword']").val());
-			});
-			$("input[name='searchRating']").change(function(){
-				$("input[name='keyword']").val($(this).val());
-				console.log("keyword : " + $("input[name='keyword']").val());
-			});
-			$("input[name='searchReviewCnt']").change(function(){
-				$("input[name='keyword']").val($(this).val());
-				console.log("keyword : " + $("input[name='keyword']").val());
-			});
-		}
+			var pageNum = 1; // 검색 후 1페이지로 고정
+			// 현재 페이지 사이즈값 저장
+			var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+			var type = "<c:out value='${pageMaker.pagination.type }' />";
+			var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
+			var bottomPrice = "<c:out value='${pageMaker.pagination.bottomPrice }' />";
+			var topPrice = "<c:out value='${pageMaker.pagination.topPrice }' />";
+			 
+			// 페이지 번호를 input name='pageNum' 값으로 적용
+			searchForm.find("input[name='pageNum']").val(pageNum);
+			// 선택된 옵션 값을 input name='pageSize' 값으로 적용
+			searchForm.find("input[name='pageSize']").val(pageSize);
+			searchForm.find("input[name='type']").val(type);
+			searchForm.find("input[name='keyword']").val(keyword);
+			searchForm.find("input[name='bottomPrice']").val(bottomPrice);
+			searchForm.find("input[name='topPrice']").val(topPrice);
+			searchForm.submit(); // form 전송
+		});
+		
+		$(".search").click(function(e){
+			let searchFoodName = $(".searchFoodName").val();
+			let searchForm = $("#searchForm");
+			console.log("검색어 : " + searchFoodName);
+			
+			if(searchFoodName == ""){
+				alert("검색할 단어를 입력해 주십시오.");
+				return;
+			}
+			
+			searchForm.find("input[name='type']").val("name");
+			searchForm.find("input[name='keyword']").val(searchFoodName);
+			
+			e.preventDefault(); // a 태그 이벤트 방지
+			
+			var keywordVal = searchForm.find("input[name='keyword']").val();
+			console.log(keywordVal);
+			if(keywordVal == '') {
+				alert('검색 내용을 입력하세요.');
+				return;
+			}
+			
+			var pageNum = 1; // 검색 후 1페이지로 고정
+			// 현재 페이지 사이즈값 저장
+			var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+			var sortType = "<c:out value='${pageMaker.pagination.sortType }' />";
+			 
+			// 페이지 번호를 input name='pageNum' 값으로 적용
+			searchForm.find("input[name='pageNum']").val(pageNum);
+			// 선택된 옵션 값을 input name='pageSize' 값으로 적용
+			searchForm.find("input[name='pageSize']").val(pageSize);
+			searchForm.find("input[name='sortType']").val(sortType);
+			searchForm.submit(); // form 전송
+		});
+		
+		$("#priceSearch").click(function(e){
+			let searchForm = $("#searchForm");
+			
+			searchForm.find("input[name='type']").val("price");
+			
+			e.preventDefault(); // a 태그 이벤트 방지
+			
+			var bottomPrice = $("#bottomPrice").val();
+			var topPrice = $("#topPrice").val();
+			searchForm.find("input[name='bottomPrice']").val(bottomPrice);
+			searchForm.find("input[name='topPrice']").val(topPrice);
+			
+			var pageNum = 1; // 검색 후 1페이지로 고정
+			// 현재 페이지 사이즈값 저장
+			var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+			var sortType = "<c:out value='${pageMaker.pagination.sortType }' />";
+			 
+			// 페이지 번호를 input name='pageNum' 값으로 적용
+			searchForm.find("input[name='pageNum']").val(pageNum);
+			// 선택된 옵션 값을 input name='pageSize' 값으로 적용
+			searchForm.find("input[name='pageSize']").val(pageSize);
+			searchForm.find("input[name='sortType']").val(sortType);
+			searchForm.submit(); // form 전송
+		});
+		
+		$(".food_box").on('click','.List', function(){
+			var foodId = $(this).find("input[type='hidden']").val();
+			console.log(foodId);
+			$(location).attr("href", "../preorder/update?foodId="+foodId);
+		});
 	});
 </script>
 

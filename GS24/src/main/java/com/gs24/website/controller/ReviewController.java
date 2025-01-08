@@ -63,7 +63,7 @@ public class ReviewController {
 		return "redirect:list?foodId=" + reviewVO.getFoodId();
 	}
 
-	@GetMapping("delete")
+	@GetMapping("/delete")
 	public String deleteGET(int reviewId, int foodId) {
 		log.info(reviewId);
 		log.info("deleteGET()");
@@ -75,10 +75,16 @@ public class ReviewController {
 			log.info("삭제에 실패했습니다.");	
 		}
 
-		return "redirect:list?foodId=" + foodId;
+		return "redirect:../food/list";
 	}
 	
-	@PostMapping("update")
+	@GetMapping("/update")
+	public void updateGET(Model model, int reviewId) {
+		log.info("updateGET()");
+		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
+		model.addAttribute("reviewVO", reviewVO);
+	}
+	@PostMapping("/update")
 	public String updatePOST(ReviewVO reviewVO, MultipartFile file) {
 		log.info("updatePOST()");
 		log.info(reviewVO);

@@ -76,8 +76,7 @@ public class FoodMapperTest {
 	
 	public void selectPagination() {
 		Pagination pagination = new Pagination();
-		pagination.setType("이름");
-		pagination.setKeyword("라면");
+		pagination.setSortType("rowPrice");
 		log.info(foodMapper.selectFoodPagination(pagination));
 	}
 	

@@ -54,7 +54,7 @@
 	                
 	                list += '<div class="preorderList">'
 	                        + '<input type="checkbox" class="check-box">'
-	                        + '<div><img src="../ImgFood?foodId='+foodId+'"></div>'
+	                        + '<div><img src="../Img/Food?foodId='+foodId+'"></div>'
 	                        + '<div>수량 : '+this.preorderAmount+'</div>'
 	                        + '<div>수령일 : '+ StringDate+'</div>'
 	                        + '<div>'+isPickUp+'</div>'
