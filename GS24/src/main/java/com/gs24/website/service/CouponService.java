@@ -12,7 +12,7 @@ public interface CouponService {
 	List<CouponVO> getCouponList(String memberId);
 
 	CouponVO getCouponDetail(int couponId);
-	
+
 	int birthdayCouponDupCheck(String memberId);
 
 	int dupCheckCouponNameAndMemberId(String couponName, String memberId);
@@ -32,5 +32,7 @@ public interface CouponService {
 	int getExpiredCount(String memberId);
 
 	int getUsedCount(String memberId);
+
+	void deleteExpiredCoupons();
 
 }

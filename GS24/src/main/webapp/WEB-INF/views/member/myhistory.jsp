@@ -19,18 +19,30 @@
                 const selectedChoice = $("input[name='choice']:checked").val();
                 fetchPostList(selectedChoice, pageNum);
             });
-
-            function formatDate(timestamp) {
+            $(document).on('click', '.link-in-child', function(event) {
+                event.preventDefault();
+                let url = $(this).attr('href');
+                if (window.opener) {
+                    window.opener.location.href = url;
+                }
+            });
+            function formatDate(timestamp, simpleFormat = false) {
                 const date = new Date(timestamp);
-                const year = date.getFullYear().toString().slice(-2);
+                const year = date.getFullYear().toString();
                 const month = ('0' + (date.getMonth() + 1)).slice(-2);
                 const day = ('0' + date.getDate()).slice(-2);
+
+                if (simpleFormat) {
+                    return year + '/' + month + '/' + day;
+                }
+
                 let hours = date.getHours();
                 const minutes = ('0' + date.getMinutes()).slice(-2);
                 const period = hours >= 12 ? '오후' : '오전';
                 hours = hours % 12 || 12;
-                return year + '/' + month + '/' + day + ' ' + period + ' ' + hours + '시 ' + minutes + '분';
+                return year + '/' + month + '/' + day + ' ' + period + ' ' + hours + ':' + minutes;
             }
+
 
             function fetchPostList(choice, pageNum) {
                 $.ajax({
@@ -43,87 +55,124 @@
                         let postList = response.postList;
                         let pageMaker = response.pageMaker;
                         let postHTML = '';
+                        let completedRequests;
+                        let foodNames;
 
                         postHTML += '<div class="post-item">';
                         switch (choice) {
-                            case 'myReviews':
-                                if (postList.length == 0){
-                                    postHTML += '내가 작성한 리뷰가 없습니다.';
-                                    break;
-                                }
-                                postHTML += '<table><thead><tr><th>작성일시</th><th>리뷰 제목</th><th>별점</th></tr></thead><tbody>';
-                                postList.forEach(function(reviewVO) {
-                                    postHTML += '<tr><td>';
-                                    postHTML += formatDate(reviewVO.reviewDateCreated);
-                                    postHTML += '</td><td>';
-                                    postHTML += '<a href="../food/detail?foodId=' + reviewVO.foodId + '">';
-                                    postHTML += reviewVO.reviewTitle;
-                                    postHTML += '</a>';
-                                    postHTML += '</td><td>';
-                                    postHTML += reviewVO.reviewRating;
-                                    postHTML += '점';
-                                    postHTML += '</td></tr>';
-                                });
-                                postHTML += '</tbody></table></div>';
+                        case 'myReviews':
+                            if (postList.length == 0){
+                                postHTML += '내가 작성한 리뷰가 없습니다.';
                                 break;
-                            case 'myQuestions':
-                                if (postList.length == 0) {
-                                    postHTML += '내가 작성한 질문이 없습니다.';
-                                    break;
-                                }
-                                postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>질문 제목</th><th>답변여부</th></tr></thead><tbody>';
-                                postList.forEach(function(questionVO) {
-                                    postHTML += '<tr><td>';
-                                    postHTML += formatDate(questionVO.questionDateCreated);
-                                    postHTML += '</td><td>';
-                                    postHTML += questionVO.foodName;
-                                    postHTML += '</td><td>';
-                                    postHTML += '<a href="../question/detail?questionId=' + questionVO.questionId + '">';
-                                    postHTML += questionVO.questionTitle;
-                                    postHTML += '</a>';
-                                    postHTML += '</td><td>';
-                                    if (questionVO.isAnswered == 1) {
-                                        postHTML += '답변됨';
-                                    } else {
-                                        postHTML += '미답변';
+                            }
+                            postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>리뷰 제목</th><th>별점</th></tr></thead><tbody>';
+                            completedRequests = 0;
+                            foodNames = {};
+
+                            postList.forEach(function(reviewVO) {
+                                $.ajax({
+                                    url: 'get-food-name',
+                                    type: 'GET',
+                                    data: { foodId: reviewVO.foodId },
+                                    dataType: 'text',
+                                    contentType: 'text/plain; charset=UTF-8',
+                                    success: function(foodName) {
+                                        foodNames[reviewVO.foodId] = foodName;
+                                        completedRequests++;
+
+                                        if (completedRequests === postList.length) {
+                                            postList.forEach(function(reviewVO) {
+                                                postHTML += '<tr><td>';
+                                                postHTML += formatDate(reviewVO.reviewDateCreated);
+                                                postHTML += '</td><td>';
+                                                postHTML += foodNames[reviewVO.foodId];
+                                                postHTML += '</td><td>';
+                                                postHTML += '<a href="../food/detail?foodId=' + reviewVO.foodId + '&reviewId=' + reviewVO.reviewId + '" class="link-in-child">';
+                                                postHTML += reviewVO.reviewTitle;
+                                                postHTML += '</a>';
+                                                postHTML += '</td><td>';
+                                                postHTML += reviewVO.reviewRating;
+                                                postHTML += '점';
+                                                postHTML += '</td></tr>';
+                                            });
+                                            postHTML += '</tbody></table>';
+                                            $(".post-list").html(postHTML);
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error('Failed to fetch food name: ' + error);
                                     }
-                                    postHTML += '</td></tr>';
                                 });
-                                postHTML += '</tbody></table>';
+                            });
+                            break;
+
+                        case 'myQuestions':
+                            if (postList.length == 0) {
+                                postHTML += '내가 작성한 질문이 없습니다.';
                                 break;
-                            case 'myPreorders':
-                                if (postList.length == 0) {
-                                    postHTML += '내 예약 내역이 없습니다.';
-                                    break;
+                            }
+                            postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>질문 제목</th><th>답변여부</th></tr></thead><tbody>';
+                            postList.forEach(function(questionVO) {
+                                postHTML += '<tr><td>';
+                                postHTML += formatDate(questionVO.questionDateCreated);
+                                postHTML += '</td><td>';
+                                postHTML += questionVO.foodName;
+                                postHTML += '</td><td>';
+                                postHTML += '<a href="../question/detail?questionId=' + questionVO.questionId + '" class="link-in-child">';
+                                postHTML += questionVO.questionTitle;
+                                postHTML += '</a>';
+                                postHTML += '</td><td>';
+                                if (questionVO.isAnswered == 1) {
+                                    postHTML += '답변됨';
+                                } else {
+                                    postHTML += '미답변';
                                 }
-                                postHTML += '<table><thead><tr><th>수령예정일</th><th>품목명</th><th>수량</th><th>수령여부</th><th>유효여부</th></tr></thead><tbody>';
-                                postList.forEach(function(preorderVO) {
-                                    postHTML += '<tr><td>';
-                                    postHTML += formatDate(preorderVO.pickupDate);
-                                    postHTML += '</td><td>';
-                                    postHTML += '<a href="../preorder/list">';
-                                    postHTML += preorderVO.foodId;
-                                    postHTML += '</a>';
-                                    postHTML += '</td><td>';
-                                    postHTML += preorderVO.preorderAmount;
-                                    postHTML += '</td><td>';
-                                    if (preorderVO.isPickUp == 1) {
-                                        postHTML += '수령';
-                                    } else {
-                                        postHTML += '미수령';
+                                postHTML += '</td></tr>';
+                            });
+                            postHTML += '</tbody></table>';
+                            break;
+                        case 'myPreorders':
+                            if (postList.length == 0) {
+                                postHTML += '내 예약 내역이 없습니다.';
+                                break;
+                            }
+                            postHTML += '<table><thead><tr><th>수령예정일</th><th>품목명</th><th>수량</th><th>수령여부</th><th>유효여부</th></tr></thead><tbody>';
+                            completedRequests = 0;
+                            foodNames = {};
+                            postList.forEach(function(preorderVO) {
+                                $.ajax({
+                                    url: 'get-food-name',
+                                    type: 'GET',
+                                    data: { foodId: preorderVO.foodId },
+                                    dataType: 'text',
+                                    contentType: 'text/plain; charset=UTF-8',
+                                    success: function(foodName) {
+                                        foodNames[preorderVO.foodId] = foodName;
+                                        completedRequests++;
+
+                                        if (completedRequests === postList.length) {
+                                            postList.forEach(function(preorderVO) {
+                                                postHTML += '<tr>';
+                                                postHTML += '<td>' + formatDate(preorderVO.pickupDate, true) + '</td>';
+                                                postHTML += '<td><a href="../preorder/list?preorderId=' + preorderVO.preorderId + '" class="link-in-child">' + foodNames[preorderVO.foodId] + '</a></td>';
+                                                postHTML += '<td>' + preorderVO.preorderAmount + '</td>';
+                                                postHTML += '<td>' + (preorderVO.isPickUp === 1 ? '수령' : '미수령') + '</td>';
+                                                postHTML += '<td>' + (preorderVO.isExpiredOrder === 1 ? '만료됨' : '유효함') + '</td>';
+                                                postHTML += '</tr>';
+                                            });
+                                            postHTML += '</tbody></table>';
+                                            $(".post-list").html(postHTML);
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error('Failed to fetch food name: ' + error);
                                     }
-                                    postHTML += '</td><td>';
-                                    if (preorderVO.isExpiredOrder == 1) {
-                                        postHTML += '만료됨';
-                                    } else {
-                                        postHTML += '유효함';
-                                    }
-                                    postHTML += '</td></tr>';
                                 });
-                                postHTML += '</tbody></table>';
-                                break;
-                            case 'myNotifications':
-                                break;
+                            });
+                            break;
+
+                        case 'myNotifications':
+                            break;
                         }
                         $(".post-list").html(postHTML);
                         updatePagination(pageMaker, choice, pageNum);
@@ -195,7 +244,7 @@
     </c:if>
     <c:if test="${not empty memberId}">
         <h2>${memberId}님의 활동</h2>
-        
+        <p>각 링크를 클릭하면 메인 페이지에서 해당 페이지가 열립니다.</p>
         <div>
             <label><input type="radio" name="choice" value="myReviews" checked>내가 쓴 리뷰</label>
             <label><input type="radio" name="choice" value="myQuestions">내 질문</label>

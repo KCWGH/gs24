@@ -197,7 +197,7 @@
 <body>
 
     <h2>${memberVO.memberId}님의 쿠폰함</h2>
-    <p>선착순 쿠폰은 표시되지 않습니다.</p>
+    <p>만료일 이후 일주일이 경과한 쿠폰은 자동 삭제됩니다.</p>
 
     <label><input type="radio" name="choice" value="available" checked>사용 가능 쿠폰</label>
     <label><input type="radio" name="choice" value="all">전체</label>

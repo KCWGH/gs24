@@ -41,7 +41,7 @@ public class CouponController {
 		String[] foodType = foodService.getFoodTypeList();
 		model.addAttribute("foodTypeList", foodType);
 	}
-	
+
 	@GetMapping("/grant-fail")
 	public void grantFailGET() {
 		log.info("grantFailGET()");
@@ -65,16 +65,14 @@ public class CouponController {
 			}
 			couponVO.setCouponName(foodType + " " + value + " 할인권");
 		}
-		if (memberService.dupCheckId(couponVO.getMemberId())==1) {
+		if (memberService.dupCheckId(couponVO.getMemberId()) == 1) {
 			int result = couponService.grantCoupon(couponVO);
 			log.info(result + "개 쿠폰 제공 완료");
 		} else {
-			return "redirect:/coupon/grant-fail";
+			attributes.addFlashAttribute("message", "존재하지 않는 회원 아이디입니다. 쿠폰 제공에 실패했습니다.");
+			return "redirect:/coupon/grant";
 		}
-
-		String[] foodType = foodService.getFoodTypeList();
 		attributes.addFlashAttribute("message", "쿠폰 제공 완료 :)");
-		model.addAttribute("foodTypeList", foodType);
 		return "redirect:/coupon/grant";
 	}
 

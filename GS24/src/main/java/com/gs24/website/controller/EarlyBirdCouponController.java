@@ -1,5 +1,8 @@
 package com.gs24.website.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.EarlyBirdCouponVO;
+import com.gs24.website.service.EarlyBirdCouponService;
 import com.gs24.website.service.FoodService;
 
 import lombok.extern.log4j.Log4j;
@@ -22,6 +26,9 @@ public class EarlyBirdCouponController {
 	@Autowired
 	private FoodService foodService;
 
+	@Autowired
+	private EarlyBirdCouponService earlyBirdCouponService;
+
 	@GetMapping("/publish")
 	public void publishGET(Model model) {
 		log.info("publishGET()");
@@ -30,9 +37,9 @@ public class EarlyBirdCouponController {
 	}
 
 	@PostMapping("/publish")
-	public void publishPOST(@ModelAttribute EarlyBirdCouponVO earlyBirdCouponVO, Model model, RedirectAttributes attributes) {
-		log.info("publishPOST()");
-		log.info(earlyBirdCouponVO);
+	public String publishPOST(@ModelAttribute EarlyBirdCouponVO earlyBirdCouponVO, Model model,
+			RedirectAttributes attributes) {
+
 		if (earlyBirdCouponVO.getEarlyBirdCouponName().equals("")) { // 이름을 따로 입력하지 않았으면
 			String foodType = earlyBirdCouponVO.getFoodType();
 
@@ -47,7 +54,25 @@ public class EarlyBirdCouponController {
 			}
 			earlyBirdCouponVO.setEarlyBirdCouponName(foodType + " " + value + " 할인권");
 		}
-		//int result = EarlyBirdCouponService.publishCoupon(earlyBirdCouponVO);
-		//log.info(result + "개 쿠폰 제공 완료");
+		if (earlyBirdCouponVO.getEarlyBirdCouponExpiredDate() == null) {
+			Date currentDate = new Date();
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(currentDate);
+			calendar.add(Calendar.YEAR, 100);
+
+			Date futureDate = calendar.getTime();
+			System.out.println(futureDate);
+			earlyBirdCouponVO.setEarlyBirdCouponExpiredDate(futureDate);
+		}
+		earlyBirdCouponService.publishCoupon(earlyBirdCouponVO);
+		log.info("publishPOST()");
+		return "redirect:/earlybird-coupon/publish-success";
 	}
+
+	@GetMapping("/publish-success")
+	public void publishSuccessGET() {
+		log.info("publishSuccessGET()");
+	}
+
 }

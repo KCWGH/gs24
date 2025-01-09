@@ -1,5 +1,7 @@
 package com.gs24.website.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -14,21 +16,26 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.config.EmailConfig;
+import com.gs24.website.util.EmailVerificationCodeCheck;
 
 @Service
 public class EmailServiceImple implements EmailService {
 
-	private static final Map<String, String> verificationCodes = new HashMap<>();
+	private static final Map<String, EmailVerificationCodeCheck> verificationCodes = new HashMap<>();
+	private static final int CODE_EXPIRATION_MINUTES = 2;
 
 	@Override
 	public void sendVerificationEmail(String toEmail) throws MessagingException {
 		String verificationCode = generateVerificationCode();
-		verificationCodes.put(toEmail, verificationCode);
+		EmailVerificationCodeCheck codeWithTimestamp = new EmailVerificationCodeCheck(verificationCode,
+				LocalDateTime.now());
+		verificationCodes.put(toEmail, codeWithTimestamp);
 
 		Session session = EmailConfig.getMailSession();
 		MimeMessage message = new MimeMessage(session);
 
-		message.setFrom(new InternetAddress("nmbgsp95@naver.com"));
+		String fromAddress = EmailConfig.getUsername();
+		message.setFrom(new InternetAddress(fromAddress));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 		message.setSubject("<GS24> 이메일 인증번호");
 		message.setText("당신의 인증번호는 " + verificationCode + " 입니다.");
@@ -38,10 +45,23 @@ public class EmailServiceImple implements EmailService {
 
 	@Override
 	public boolean verifyCode(String email, String code) {
-		String storedCode = verificationCodes.get(email);
-		System.out.println("Code : "+code);
-		System.out.println("StoredCode : "+storedCode);
-		return storedCode != null && storedCode.equals(code);
+		EmailVerificationCodeCheck codeWithTimestamp = verificationCodes.get(email);
+
+		if (codeWithTimestamp == null) {
+			return false; // 인증번호가 없으면 실패
+		}
+
+		String storedCode = codeWithTimestamp.getCode();
+		LocalDateTime timestamp = codeWithTimestamp.getTimestamp();
+
+		// 인증번호가 2분 이상 지난 경우
+		if (ChronoUnit.MINUTES.between(timestamp, LocalDateTime.now()) > CODE_EXPIRATION_MINUTES) {
+			verificationCodes.remove(email); // 만료된 인증번호는 삭제
+			return false; // 인증번호가 만료됨
+		}
+
+		// 인증번호 비교
+		return storedCode.equals(code);
 	}
 
 	private String generateVerificationCode() {

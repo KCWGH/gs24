@@ -3,13 +3,17 @@ package com.gs24.website.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.util.Pagination;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class CouponServiceImple implements CouponService {
 
 	@Autowired
@@ -81,6 +85,15 @@ public class CouponServiceImple implements CouponService {
 	@Override
 	public int birthdayCouponDupCheck(String memberId) {
 		return couponMapper.birthdayCouponDupCheck(memberId);
+	}
+
+	@Override
+	@Scheduled(cron = "0 0 0 * * *")
+	public void deleteExpiredCoupons() {
+		int result = couponMapper.deleteExpiredCoupons();
+		if (result == 1) {
+			log.info("deleteExpiredCoupons()");
+		}
 	}
 
 }

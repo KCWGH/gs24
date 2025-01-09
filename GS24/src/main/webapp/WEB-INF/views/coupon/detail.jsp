@@ -8,9 +8,9 @@
 <title>쿠폰 상세 보기</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		console.log(couponVO.discountType);
-	});
+    $(document).ready(function() {
+        console.log(couponVO.discountType);
+    });
 </script>
 <style>
     .bold {
@@ -22,6 +22,13 @@
     }
     td {
         padding: 8px;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 300px;
+        width: auto;
+        height: auto;
     }
 </style>
 </head>
@@ -36,17 +43,17 @@
                         <c:when test="${couponVO.isUsed == 1}">
                             <img
                                 src="${pageContext.request.contextPath}/resources/images/coupon/usedCoupon.png"
-                                alt="Used Coupon" width="200" height="200" />
+                                alt="Used Coupon" />
                         </c:when>
                         <c:when test="${sysDate < couponVO.couponExpiredDate and couponVO.isUsed == 0}">
                             <img
                                 src="${pageContext.request.contextPath}/resources/images/coupon/coupon.png"
-                                alt="Coupon" width="200" height="200" />
+                                alt="Coupon" />
                         </c:when>
                         <c:when test="${sysDate >= couponVO.couponExpiredDate}">
                             <img
                                 src="${pageContext.request.contextPath}/resources/images/coupon/expiredCoupon.png"
-                                alt="Expired Coupon" width="200" height="200" />
+                                alt="Expired Coupon" />
                         </c:when>
                     </c:choose>
                 </td>
@@ -66,9 +73,6 @@
                 <td>
                     <fmt:formatDate value="${couponVO.couponExpiredDate}" pattern="yyyy-MM-dd HH:mm" />
                 </td>
-            </tr>
-            <tr>
-            
             </tr>
             <tr>
                 <td class="bold">유효 여부</td>

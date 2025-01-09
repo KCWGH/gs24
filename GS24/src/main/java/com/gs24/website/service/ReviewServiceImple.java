@@ -163,4 +163,25 @@ public class ReviewServiceImple implements ReviewService {
 		return reviewMapper.selectReviewByMemberIdPagination(pagination);
 	}
 
+	@Override
+	public List<ReviewVO> getReviewPaginationByFoodId(int foodId, Pagination pagination) {
+		log.info("getReviewPaginationByFoodId()");
+		List<ReviewVO> list = reviewMapper.selectReviewPagination(foodId, pagination.getStart(), pagination.getEnd());
+		return list;
+	}
+
+	@Override
+	public int getReviewCountByFoodId(int foodId) {
+		log.info("getReviewCountBufoodId()");
+		int result = reviewMapper.selectTotalCountByFoodId(foodId);
+		return result;
+	}
+
+	@Override
+	public int deleteReviewByFoodId(int foodId) {
+		log.info("deleteReviewByFoodId()");
+		int result = reviewMapper.deleteReviewByFoodId(foodId);
+		return result;
+	}
+
 }

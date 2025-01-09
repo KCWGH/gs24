@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,9 +22,11 @@ public class PreorderMapperTest {
 	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	@Autowired PreorderMapper preorderMapper;
+	
 	@Test
 	public void test() {
-		update();
+		select();
 	}
 	
 	public void insert() {
@@ -43,9 +46,17 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		log.info(reviewMapper.selectNextReviewId());
+		log.info(preorderMapper.selectAlreadyPreorderByFoodId(23));
 	}
 	
+	public void selectPagination() {
+		Pagination pagination = new Pagination();
+		log.info(reviewMapper.selectReviewPagination(9,pagination.getStart(),pagination.getEnd()));
+	}
+	
+	public void selectTotalCountByFoodId() {
+		log.info(reviewMapper.selectTotalCountByFoodId(9));
+	}
 	public void delete() {
 		
 	}

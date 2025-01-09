@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -36,13 +38,18 @@ public class ReviewController {
 	private String uploadPath;
 
 	@GetMapping("/list")
-	public void listGET(Model model,int foodId) {
+	public void listGET(Model model,int foodId, Pagination pagination) {
 		log.info("listGET()");
 		log.info("foodId : " + foodId);
-
-		List<ReviewVO> list = reviewService.getAllReviewByFoodId(foodId);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(reviewService.getReviewCountByFoodId(foodId));
+		
+		List<ReviewVO> list = reviewService.getReviewPaginationByFoodId(foodId, pagination);
 
 		//리뷰 이미지 전체 경로로 바꾼 다음에 보내줘야 함
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("reviewList", list);
 		model.addAttribute("foodId", foodId);
 	}
@@ -56,7 +63,7 @@ public class ReviewController {
 		return "redirect:list?foodId=" + reviewVO.getFoodId();
 	}
 
-	@GetMapping("delete")
+	@GetMapping("/delete")
 	public String deleteGET(int reviewId, int foodId) {
 		log.info(reviewId);
 		log.info("deleteGET()");
@@ -68,10 +75,16 @@ public class ReviewController {
 			log.info("삭제에 실패했습니다.");	
 		}
 
-		return "redirect:list?foodId=" + foodId;
+		return "redirect:../food/list";
 	}
 	
-	@PostMapping("update")
+	@GetMapping("/update")
+	public void updateGET(Model model, int reviewId) {
+		log.info("updateGET()");
+		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
+		model.addAttribute("reviewVO", reviewVO);
+	}
+	@PostMapping("/update")
 	public String updatePOST(ReviewVO reviewVO, MultipartFile file) {
 		log.info("updatePOST()");
 		log.info(reviewVO);

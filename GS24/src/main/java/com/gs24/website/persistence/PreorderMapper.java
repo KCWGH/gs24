@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface PreorderMapper {
@@ -20,4 +21,10 @@ public interface PreorderMapper {
 	int updatePreorderInIsExpiredOrder(@Param("preorderId") int preorderId,@Param("isExpiredOrder") int isExpiredOrder);
 	
 	int deletePreorderByPreorderId(int preorderId);
+	
+	List<PreorderVO> selectPreorderBymemberIdPagination(Pagination pagination);
+	
+	int countPreorderByMemberId(String memberId);
+	
+	List<PreorderVO> selectAlreadyPreorderByFoodId(int foodId);
 }

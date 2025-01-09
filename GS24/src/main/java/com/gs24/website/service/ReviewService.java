@@ -18,7 +18,13 @@ public interface ReviewService {
 	
 	int deleteReview(int reviewId, int foodId);
 	
+	int deleteReviewByFoodId(int foodId);
+	
 	List<ReviewVO> getAllReviewByMemberId(String memberId, Pagination pagination);
 	   
 	int countReviewByMemberId(String memberId);
+	
+	List<ReviewVO> getReviewPaginationByFoodId(int foodId, Pagination pagination);
+	
+	int getReviewCountByFoodId(int foodId);
 }
