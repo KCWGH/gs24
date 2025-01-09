@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gs24.website.domain.CouponVO;
+import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
-import com.gs24.website.service.CouponService;
+import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.RecaptchaService;
 
@@ -31,8 +31,8 @@ public class AuthController {
 	private MemberService memberService;
 
 	@Autowired
-	private CouponService couponService;
-	
+	private GiftCardService giftCardService;
+
 	@Autowired
 	private RecaptchaService recaptchaService;
 
@@ -48,16 +48,17 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(@ModelAttribute MemberVO memberVO, String recaptchaToken, RedirectAttributes redirectAttributes) {
+	public String registerPOST(@ModelAttribute MemberVO memberVO, String recaptchaToken,
+			RedirectAttributes redirectAttributes) {
 		log.info("registerPOST()");
-		
+
 		boolean isRecaptchaValid = recaptchaService.verifyRecaptcha(recaptchaToken);
-	    if (!isRecaptchaValid) {
-	        log.info("reCAPTCHA 검증 실패");
-	        redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
-	        return "redirect:/auth/register";
-	    }
-		
+		if (!isRecaptchaValid) {
+			log.info("reCAPTCHA 검증 실패");
+			redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
+			return "redirect:/auth/register";
+		}
+
 		int result = memberService.register(memberVO);
 		log.info(result + "개 행 등록 완료");
 		if (result == 1) {
@@ -66,16 +67,6 @@ public class AuthController {
 		}
 		redirectAttributes.addFlashAttribute("message", "회원등록을 실패했습니다.\\n\\n유효하지 않은 회원정보(중복된 아이디, 패스워드, 전화번호)입니다.");
 		return "redirect:/auth/register";
-	}
-
-	@GetMapping("/register-success")
-	public void registerSuccessGET() {
-		log.info("registerSuccessGET()");
-	}
-
-	@GetMapping("/register-fail")
-	public void registerFailGET() {
-		log.info("registerFailGET()");
 	}
 
 	@GetMapping("/login")
@@ -92,13 +83,13 @@ public class AuthController {
 	public String loginPOST(String memberId, String password, String recaptchaToken, HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
 		log.info("loginPOST()");
-		
+
 		boolean isRecaptchaValid = recaptchaService.verifyRecaptcha(recaptchaToken);
-	    if (!isRecaptchaValid) {
-	        log.info("reCAPTCHA 검증 실패");
-	        redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
-	        return "redirect:/auth/login";
-	    }
+		if (!isRecaptchaValid) {
+			log.info("reCAPTCHA 검증 실패");
+			redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
+			return "redirect:/auth/login";
+		}
 
 		int result = memberService.login(memberId, password);
 
@@ -122,7 +113,7 @@ public class AuthController {
 		} else {
 			log.info("로그인 실패");
 			redirectAttributes.addFlashAttribute("message", "아이디와 비밀번호를 다시 확인해주세요");
-			return "redirect:/auth/login-fail";
+			return "redirect:/auth/login";
 		}
 	}
 
@@ -141,27 +132,26 @@ public class AuthController {
 		int birthdayMonth = birthdayCalendar.get(Calendar.MONTH);
 		int birthdayDay = birthdayCalendar.get(Calendar.DAY_OF_MONTH);
 
-		int isExisting = couponService.birthdayCouponDupCheck(memberId);
+		int isExisting = giftCardService.birthdayGiftCardDupCheck(memberId);
 
 		// 월과 일만 비교
 		if (currentMonth == birthdayMonth && currentDay == birthdayDay && isExisting != 1) {
-			CouponVO couponVO = new CouponVO();
-			couponVO.setCouponName("생일 축하 쿠폰");
-			couponVO.setDiscountType('A');
-			couponVO.setDiscountValue(10000);
-			couponVO.setFoodType("전체");
-			couponVO.setMemberId(memberId);
+			GiftCardVO giftCardVO = new GiftCardVO();
+			giftCardVO.setGiftCardName("생일 축하 쿠폰");
+			giftCardVO.setDiscountValue(10000);
+			giftCardVO.setFoodType("전체");
+			giftCardVO.setMemberId(memberId);
 
-			log.info(couponVO.toString());
+			log.info(giftCardVO.toString());
 
 			// 쿠폰 유효기간 설정 (현재 날짜로부터 한 달 후)
 			Calendar expirationCalendar = Calendar.getInstance();
 			expirationCalendar.setTime(currentDate);
 			expirationCalendar.add(Calendar.MONTH, 1);
 			Date oneMonthLater = expirationCalendar.getTime();
-			couponVO.setCouponExpiredDate(oneMonthLater);
+			giftCardVO.setGiftCardExpiredDate(oneMonthLater);
 
-			return couponService.grantCoupon(couponVO);
+			return giftCardService.grantGiftCard(giftCardVO);
 		}
 		return 0;
 	}

@@ -62,7 +62,7 @@
                         switch (choice) {
                         case 'myReviews':
                             if (postList.length == 0){
-                                postHTML += '내가 작성한 리뷰가 없습니다.';
+                                postHTML += '<br>내가 작성한 리뷰가 없습니다.';
                                 break;
                             }
                             postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>리뷰 제목</th><th>별점</th></tr></thead><tbody>';
@@ -108,7 +108,7 @@
 
                         case 'myQuestions':
                             if (postList.length == 0) {
-                                postHTML += '내가 작성한 질문이 없습니다.';
+                                postHTML += '<br>내가 작성한 질문이 없습니다.';
                                 break;
                             }
                             postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>질문 제목</th><th>답변여부</th></tr></thead><tbody>';
@@ -133,7 +133,7 @@
                             break;
                         case 'myPreorders':
                             if (postList.length == 0) {
-                                postHTML += '내 예약 내역이 없습니다.';
+                                postHTML += '<br>내 예약 내역이 없습니다.';
                                 break;
                             }
                             postHTML += '<table><thead><tr><th>수령예정일</th><th>품목명</th><th>수량</th><th>수령여부</th><th>유효여부</th></tr></thead><tbody>';

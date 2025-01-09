@@ -8,6 +8,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.TransactionManager;
@@ -38,17 +39,22 @@ public class RootConfig {
 	}
 
 	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataScource()); // 기존의 DataSource를 사용
+	}
+
+	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataScource());
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
 	}
-	
+
 	@Bean
-	   public String uploadPath() {
-	      return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
+	public String uploadPath() {
+		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp";
 	}
-	
+
 	@Bean
 	public TransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataScource());

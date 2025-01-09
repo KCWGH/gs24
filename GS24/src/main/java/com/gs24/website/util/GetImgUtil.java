@@ -40,7 +40,7 @@ public class GetImgUtil {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
-		
+			
 		return entity;
 	}
 }

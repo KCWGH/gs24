@@ -11,6 +11,8 @@ public interface EarlyBirdCouponService {
 	List<EarlyBirdCouponVO> getEarlyBirdCouponList();
 	
 	List<EarlyBirdCouponVO> getEarlyBirdCouponListByFoodType(String foodType);
+	
+	EarlyBirdCouponVO getEarlyBirdCouponByCouponId(int earlyBirdCouponId);
 
 	int useCoupon(int earlyBirdCouponId);
 

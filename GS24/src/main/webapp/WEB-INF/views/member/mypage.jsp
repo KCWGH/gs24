@@ -227,7 +227,7 @@ $(document).ready(function() {
 		</div>
 		<p id="deleteResultArea"></p>
 		<div class="btn-container">
-			<button onclick='location.href="../coupon/list"'>쿠폰함</button>
+			<button onclick='location.href="../giftcard/list"'>기프트카드함</button>
 			<button onclick='location.href="myhistory"'>내 활동</button>
 			<button onclick='location.href="../auth/logout"'>로그아웃</button>
 		</div>

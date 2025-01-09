@@ -9,10 +9,12 @@ import com.gs24.website.domain.EarlyBirdCouponVO;
 @Mapper
 public interface EarlyBirdCouponMapper {
 	int insertEarlyBirdCoupon(EarlyBirdCouponVO earlyBirdCouponVO);
-	
+
 	int useEarlyBirdCoupon(int earlyBirdCouponId);
-	
+
 	List<EarlyBirdCouponVO> selectList();
-	
+
+	EarlyBirdCouponVO selectEarlyBirdCouponByCouponId(int earlyBirdCouponId);
+
 	List<EarlyBirdCouponVO> selectListByFoodType(String foodType);
 }

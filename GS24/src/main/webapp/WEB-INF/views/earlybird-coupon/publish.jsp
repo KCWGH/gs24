@@ -55,7 +55,12 @@
 </script>
 </head>
 <body>
-
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
+	<h2>선착순 쿠폰 발행</h2>
 	<form action="publish" method="POST">
 	<div>
     <label for="couponName">쿠폰 이름: </label>

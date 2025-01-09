@@ -15,6 +15,7 @@ public class Pagination {
 	private int pageSize; // 현재 페이지 사이즈
 	private String type; // 검색 항목
 	private String keyword; // 검색 키워드
+	private String sortType;
 	private MemberVO memberVO;
 
 	public Pagination() {

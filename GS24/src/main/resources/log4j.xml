@@ -11,9 +11,21 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="com.gs24.website.service.ImgFoodServiceImple">
+		<level value="warn" />
+	</logger>
+	
 	<logger name="com.gs24.website">
 		<level value="info" />
 	</logger>
+	
+	<logger name="com.gs24.website.util.GetImgUtil">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="com.gs24.website.controller.ImgFoodController">
+        <level value="warn" />
+    </logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

@@ -26,16 +26,22 @@
 		<result property="isExpiredOrder" column="IS_EXPIRED_ORDER"/>
 	</resultMap>
 
-	<insert id="insertEarlyBirdCoupon">
-		INSERT INTO EARLY_BIRD_COUPON
-		(EARLY_BIRD_COUPON_ID, FOOD_TYPE, EARLY_BIRD_COUPON_AMOUNT,
-		EARLY_BIRD_COUPON_EXPIRED_DATE, DISCOUNT_TYPE, DISCOUNT_VALUE,
-		 EARLY_BIRD_COUPON_NAME, IS_DUPLICATE_ALLOWED, IS_AVAILABLE)
-		VALUES
-		(EARLY_BIRD_COUPON_SEQ.NEXTVAL, #{foodType}, #{earlyBirdCouponAmount},
-		#{earlyBirdCouponExpiredDate}, #{discountType},
-		#{discountValue}, #{earlyBirdCouponName}, #{isDuplicateAllowed}, 1)
+	<insert id="insertEarlyBirdCoupon" useGeneratedKeys="true" keyProperty="earlyBirdCouponId">
+    <!-- selectKey를 사용하여 시퀀스로 생성된 값을 earlyBirdCouponId에 매핑 -->
+    <selectKey keyProperty="earlyBirdCouponId" resultType="Integer" order="BEFORE">
+        SELECT EARLY_BIRD_COUPON_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+    
+    INSERT INTO EARLY_BIRD_COUPON
+    (EARLY_BIRD_COUPON_ID, FOOD_TYPE, EARLY_BIRD_COUPON_AMOUNT,
+    EARLY_BIRD_COUPON_EXPIRED_DATE, DISCOUNT_TYPE, DISCOUNT_VALUE,
+    EARLY_BIRD_COUPON_NAME, IS_DUPLICATE_ALLOWED, IS_AVAILABLE)
+    VALUES
+    (#{earlyBirdCouponId}, #{foodType}, #{earlyBirdCouponAmount},
+    #{earlyBirdCouponExpiredDate}, #{discountType},
+    #{discountValue}, #{earlyBirdCouponName}, #{isDuplicateAllowed}, 1)
 	</insert>
+
 	
 	<update id="useEarlyBirdCoupon">
 		UPDATE EARLY_BIRD_COUPON
@@ -46,6 +52,11 @@
 	<select id="selectList" resultMap="earlyBirdCouponResultMap">
 		SELECT * FROM EARLY_BIRD_COUPON
 		ORDER BY EARLY_BIRD_COUPON_ID DESC
+	</select>
+	
+	<select id="selectEarlyBirdCouponByCouponId" resultMap="earlyBirdCouponResultMap">
+		SELECT * FROM EARLY_BIRD_COUPON
+		WHERE EARLY_BIRD_COUPON_ID = #{earlyBirdCouponId}
 	</select>
 
 	<select id="selectListByFoodType" resultMap="earlyBirdCouponResultMap">

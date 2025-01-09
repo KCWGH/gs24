@@ -15,16 +15,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EarlyBirdCouponVO {
-
-	int earlyBirdCouponId;
-	String foodType;
-	int earlyBirdCouponAmount;
-	char discountType;
-	int discountValue;
+public class GiftCardVO {
+	int giftCardId;
+	String giftCardName;
+	String memberId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	Date earlyBirdCouponExpiredDate;
-	String earlyBirdCouponName;
-	int isDuplicateAllowed;
-	int isAvailable;
+	Date giftCardGrantDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	Date giftCardExpiredDate;
+	int discountValue;
+	String foodType;
+	int isUsed;
+
 }

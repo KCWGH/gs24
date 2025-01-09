@@ -33,4 +33,9 @@ public class EarlyBirdCouponServiceImple implements EarlyBirdCouponService {
 	public int useCoupon(int earlyBirdCouponId) {
 		return earlyBirdCouponMapper.useEarlyBirdCoupon(earlyBirdCouponId);
 	}
+
+	@Override
+	public EarlyBirdCouponVO getEarlyBirdCouponByCouponId(int earlyBirdCouponId) {
+		return earlyBirdCouponMapper.selectEarlyBirdCouponByCouponId(earlyBirdCouponId);
+	}
 }
