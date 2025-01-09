@@ -34,6 +34,7 @@
 	   UPDATE QUESTION SET
        QUESTION_TITLE = #{questionTitle}, 
        QUESTION_CONTENT = #{questionContent}, 
+       FOOD_NAME = #{foodName},
        QUESTION_DATE_CREATED = SYSDATE
        WHERE QUESTION_ID = #{questionId}	 	
 	 </update>
@@ -75,6 +76,7 @@
 	</update>
 	
 	<select id="selectQuestionListByMemberId" resultMap="questionResultMap">
-		SELECT * FROM QUESTION WHERE MEMBER_ID = #{memberId}
+    SELECT * FROM QUESTION WHERE MEMBER_ID = #{memberId}
 	</select>
+
 </mapper>

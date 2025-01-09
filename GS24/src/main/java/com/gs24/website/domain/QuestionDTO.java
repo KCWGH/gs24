@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
+@Getter 
 @Setter
-@ToString
-public class QuestionVO {
+@ToString 
+public class QuestionDTO {
 	int questionId; // QUESTION_ID
 	String memberId; // MEMBER_ID
 	String foodName; // FOOD_NAME

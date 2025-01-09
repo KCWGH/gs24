@@ -2,9 +2,12 @@ package com.gs24.website.persistence;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.gs24.website.domain.QuestionDTO;
 import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.util.Pagination;
-
+@Mapper
 public interface QuestionMapper {
 	int insertQuestion(QuestionVO questionVO); // 게시글 등록
 
@@ -24,7 +27,7 @@ public interface QuestionMapper {
 
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
 
-	List<QuestionVO> selectQuestionListByPaginationBymemberId(Pagination pagination);
+	List<QuestionDTO> selectQuestionListByPaginationBymemberId(Pagination pagination);
 
 	int countQuestionListByMemberId(String memeberId);
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.QuestionAttachMapper">
+
+	<resultMap type="com.gs24.website.domain.QuestionAttach"
+		id="questionAttachResultMap">
+		
+		<id property="questionAttachId" column="QUESTION_ATTACH_ID" /> 
+		<result property="questionId" column="QUESTION_ID" />
+		<result property="questionAttachPath" column="QUESTION_ATTACH_PATH" />
+		<result property="questionAttachRealName" column="QUESTION_ATTACH_REAL_NAME" />
+		<result property="questionAttachChgName" column="QUESTION_ATTACH_CHG_NAME" />
+		<result property="questionAttachExtension" column="QUESTION_ATTACH_EXTENSION"/>
+		<result property="questionAttachDateCreated" column="QUESTION_ATTACH_DATE_CREATED"/>
+	</resultMap>
+
+	<insert id="insertQuestionAttach">
+		INSERT INTO QUESTION_ATTACH 
+		(QUESTION_ATTACH_ID, QUESTION_ID, QUESTION_ATTACH_PATH, QUESTION_ATTACH_REAL_NAME, QUESTION_ATTACH_CHG_NAME, QUESTION_ATTACH_EXTENSION, QUESTION_ATTACH_DATE_CREATED)
+		VALUES (QUESTION_ATTACH_SEQ.NEXTVAL, QUESTION_SEQ.CURRVAL, #{questionAttachPath}, #{questionAttachRealName}, #{questionAttachChgName}, #{questionAttachExtension}, SYSDATE)
+	</insert>
+
+	
+	<select id="selectByQuestionId" resultMap="questionAttachResultMap">
+		SELECT * FROM QUESTION_ATTACH
+		WHERE QUESTION_ID = #{questionId}
+	</select>
+	
+	<select id="selectByQuestionAttachId" resultMap="questionAttachResultMap">
+		SELECT * FROM QUESTION_ATTACH 
+		WHERE QUESTION_ATTACH_ID = #{questionAttachId}
+	</select>
+	
+	<insert id="insertQuestionAttachModify">
+		INSERT INTO QUESTION_ATTACH 
+		(QUESTION_ATTACH_ID, QUESTION_ID, QUESTION_ATTACH_PATH, QUESTION_ATTACH_REAL_NAME, QUESTION_ATTACH_CHG_NAME, QUESTION_ATTACH_EXTENSION, QUESTION_ATTACH_DATE_CREATED)
+		VALUES (QUESTION_ATTACH_SEQ.NEXTVAL, #{questionId}, #{questionAttachPath}, #{questionAttachRealName}, #{questionAttachChgName}, #{questionAttachExtension}, SYSDATE)
+	</insert>
+
+	<delete id="deleteQuestionAttach">
+		DELETE FROM QUESTION_ATTACH
+		WHERE QUESTION_ID = #{questionId}
+	</delete>
+	
+	<select id="selectOldList" resultMap="questionAttachResultMap">
+		SELECT * FROM QUESTION_ATTACH
+		WHERE QUESTION_ATTACH_PATH = TO_CHAR(SYSDATE -1, 'yyyy\mm\dd')
+	</select>
+	
+
+</mapper>
+
+
+
