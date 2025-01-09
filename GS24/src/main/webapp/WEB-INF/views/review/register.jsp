@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
-<title>리뷰 수정</title>
+<title>이미지 생성</title>
 <style>
 	/* 사용자가 이미지를 드롭할 수 있는 영역에 대한 스타일 */
 .image-drop {
@@ -40,25 +40,20 @@
     display: inline-block; /* 인라인 블록으로 표시 */
     margin: 4px; /* 여백 */
 }
-
-/* 업로드된 이미지와 연결된 삭제 버튼에 대한 스타일 */
-.image_delete {
-    position: absolute; /* 절대적 위치 지정 */
-    right: 5px; /* 오른쪽으로부터의 오프셋(offset) */
+.image_item:hover {
+	border-color: blue;
+	border-style: solid;
 }
 </style>
 </head>
 <body>
-	<p>회원 아이디<p>
-	<input type="text" value="${reviewVO.memberId }" readonly="readonly"><br>
-	<div class="img">
-		<img src='../Img/Review?reviewId=${reviewVO.reviewId }'>
-	</div>
-	<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
-	<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
-	<p>리뷰 별점 : ${reviewVO.reviewRating }</p>
+	<input type="hidden" class="path">
+	<p>이미지 생성</p>
 	<div class="image-drop"></div>
-	
+	<div class="image-list">
+	<p>테스트</p>
+	</div><button class="cancel">취소</button>
+	<br><br><button>등록</button>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		// 파일 객체를 배열로 전달받아 검증하는 함수
@@ -93,6 +88,7 @@
 
 			return true; // 모든 조건을 만족하면 true 리턴
 		} // end validateImage()
+
 		
 		// 파일을 끌어다 놓을 때(drag&drop)
 		// 브라우저가 파일을 자동으로 열어주는 기능을 막음
@@ -105,8 +101,7 @@
 			event.preventDefault();
 			console.log('drop 테스트');
 			
-			$('.img').empty(); // 기존 이미지 dto 초기화
-			var reviewId = ${reviewVO.reviewId};
+			$('.image-list').empty(); // 기존 이미지 dto 초기화
 							
 			// 드래그한 파일 정보를 갖고 있는 객체
 			var files = event.originalEvent.dataTransfer.files;
@@ -121,9 +116,10 @@
 			var formData = new FormData();
 
 			for(var i = 0; i < files.length; i++) {
-				formData.append("files", files[i]);
+				formData.append("files", files[i]); 
 			}
-					
+			formData.append("type", "food");
+			
 			$.ajax({
 				type : 'post', 
 				url : '../Image', 
@@ -131,11 +127,48 @@
 				processData : false,
 				contentType : false,
 				success : function(data) {
-					console.log(data);
+					var list = "";
+					$(data).each(function(){
+						console.log(this);
+						var path = encodeURIComponent(this);
+						list += '<div class="image_item">'
+								+ '<input type="hidden" class="path" name="path" value='+path+'>'
+								+ "<img width='100px' height='100px' src='../Image?path="+path+"&type=food'>"
+								+ '</div>';
+						});
+					$(".image-list").append(list);
 				} // end success
 			}); // end $.ajax()
 			
 		}); // end image-drop()
+		
+		$(".image-list").on('click','.image_item',function(){
+			console.log(this);
+			var ondelete = confirm("삭제하시겠습니까?");
+			if(ondelete){
+				$(this).detach();
+				
+				var inputpath = $(this).find('.path').val();
+				
+				var path = encodeURIComponent(inputpath);
+				console.log("path : " + path);
+				var formData = new FormData();
+				
+				formData.append("path", path);
+				formData.append("type", "food");
+				
+				$.ajax({
+					type : 'post',
+					url : '../Image/delete',
+					data : formData,
+					processData : false,
+					contentType : false,
+					success : function(data){
+						
+					}
+				});
+			}
+		});
 		
 	}); // end document
 	</script>
