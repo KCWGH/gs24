@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
-<title>이미지 생성</title>
+<title>리뷰 작성</title>
 <style>
 	/* 사용자가 이미지를 드롭할 수 있는 영역에 대한 스타일 */
 .image-drop {
@@ -48,10 +48,9 @@
 </head>
 <body>
 	<input type="hidden" class="path">
-	<p>이미지 생성</p>
+	<p>리뷰 작성</p>
 	<div class="image-drop"></div>
 	<div class="image-list">
-	<p>테스트</p>
 	</div><button class="cancel">취소</button>
 	<br><br><button>등록</button>
 	<script type="text/javascript">
@@ -118,7 +117,7 @@
 			for(var i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); 
 			}
-			formData.append("type", "food");
+			formData.append("type", "review");
 			
 			$.ajax({
 				type : 'post', 
@@ -133,7 +132,7 @@
 						var path = encodeURIComponent(this);
 						list += '<div class="image_item">'
 								+ '<input type="hidden" class="path" name="path" value='+path+'>'
-								+ "<img width='100px' height='100px' src='../Image?path="+path+"&type=food'>"
+								+ "<img width='100px' height='100px' src='../Image?path="+path+"&type=review'>"
 								+ '</div>';
 						});
 					$(".image-list").append(list);
@@ -155,7 +154,7 @@
 				var formData = new FormData();
 				
 				formData.append("path", path);
-				formData.append("type", "food");
+				formData.append("type", "review");
 				
 				$.ajax({
 					type : 'post',

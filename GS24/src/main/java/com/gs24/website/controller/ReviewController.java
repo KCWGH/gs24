@@ -39,12 +39,17 @@ public class ReviewController {
 		
 		List<ReviewVO> list = reviewService.getReviewPaginationByFoodId(foodId, pagination);
 
-		//���� �̹��� ��ü ��η� �ٲ� ������ ������� ��
+		//占쏙옙占쏙옙 占싱뱄옙占쏙옙 占쏙옙체 占쏙옙管占� 占쌕뀐옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占쏙옙
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("reviewList", list);
 		model.addAttribute("foodId", foodId);
 	}
-
+	
+	@GetMapping("/register")
+	public void registerGET() {
+		log.info("registerGET()");
+	}
+	
 	@PostMapping("/register")
 	public String registerPOST(ReviewVO reviewVO, MultipartFile file) {
 		log.info("registerPOST()");
@@ -61,9 +66,9 @@ public class ReviewController {
 		int result = reviewService.deleteReview(reviewId, foodId);
 
 		if(result == 0) {
-			log.info(result + "�� �����Ǿ����ϴ�.");
+			log.info(result + "占쏙옙 占쏙옙占쏙옙占실억옙占쏙옙占싹댐옙.");
 		} else {
-			log.info("������ �����߽��ϴ�.");	
+			log.info("占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌩쏙옙占싹댐옙.");	
 		}
 
 		return "redirect:../food/list";

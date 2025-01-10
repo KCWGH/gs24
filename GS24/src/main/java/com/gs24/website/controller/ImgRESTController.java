@@ -40,9 +40,9 @@ public class ImgRESTController {
 			log.info(i + "th file : " + files[i].getOriginalFilename());
 			String chgName = UUID.randomUUID().toString();
 			String dir = "";
-			if(type.equals("food")) {
+			if(type.toLowerCase().equals("food")) {
 				dir = "FoodNO" + imgService.getNextFoodId();
-			} else if(type.equals("review")) {
+			} else if(type.toLowerCase().equals("review")) {
 				dir = "ReviewNO" + imgService.getNextReviewId();
 			}
 			
@@ -63,9 +63,9 @@ public class ImgRESTController {
 		log.info("getImage");
 		
 		String dir = "";
-		if(type.equals("food")) {
+		if(type.toLowerCase().equals("food")) {
 			dir = "FoodNO" + imgService.getNextFoodId();
-		} else if(type.equals("review")) {
+		} else if(type.toLowerCase().equals("review")) {
 			dir = "ReviewNO" + imgService.getNextReviewId();
 		}
 		
@@ -81,9 +81,9 @@ public class ImgRESTController {
 		log.info("delete()");
 		log.info(path);
 		String dir = "";
-		if(type.equals("food")) {
+		if(type.toLowerCase().equals("food")) {
 			dir = "FoodNO" + imgService.getNextFoodId();
-		} else if(type.equals("review")) {
+		} else if(type.toLowerCase().equals("review")) {
 			dir = "ReviewNO" + imgService.getNextReviewId();
 		}
 		

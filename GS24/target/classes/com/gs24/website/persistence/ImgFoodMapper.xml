@@ -37,4 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteImgFood">
 		DELETE FROM IMG_FOOD WHERE  FOOD_ID = #{foodId}
 	</delete>
+	
+	<select id="selectOldFood" resultMap="ImgFoodResultMape">
+		SELECT * FROM IMG_FOOD WHERE IMG_FOOD_DATE_CREATED = TO_CHAR(SYSDATE -1, 'yyyy\mm\dd')
+	</select>
 </mapper>

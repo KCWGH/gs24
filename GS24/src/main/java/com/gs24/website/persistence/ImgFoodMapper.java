@@ -20,4 +20,5 @@ public interface ImgFoodMapper {
 	
 	int deleteImgFood(int foodId);
 	
+	List<ImgFoodVO> selectOldFood();
 }

@@ -43,7 +43,8 @@ public class ReviewServiceImple implements ReviewService {
 				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
 
 		int result = reviewMapper.insertReview(reviewVO);
-
+		
+		//TODO : 효율 때문에 수정이 필요함
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 
 		int totalReviewRating = 0;

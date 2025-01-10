@@ -41,6 +41,7 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("createPreorder()");
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
+		// TODO : 이걸 여기서 하지 말고 프론트에서 처리하는 걸로
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
 			int result = preorderMapper.insertPreorder(preorderVO);
