@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.ImgFoodMapper">
+	<resultMap type="com.gs24.website.domain.ImgFoodVO" id="ImgFoodResultMape">
+		<id property="ImgFoodId" column="IMG_FOOD_ID"/>
+		<result property="foodId" column="FOOD_ID"/>
+		<result property="ImgFoodPath" column="IMG_FOOD_PATH"/>
+		<result property="ImgFoodRealName" column="IMG_FOOD_REAL_NAME"/>
+		<result property="ImgFoodChgName" column="IMG_FOOD_CHG_NAME"/>
+		<result property="ImgFoodExtension" column="IMG_FOOD_EXTENSION"/>
+		<result property="ImgFoodDateCreated" column="IMG_FOOD_DATE_CREATED"/>
+	</resultMap>
+	
+	<insert id="insertImgFood">
+		INSERT INTO IMG_FOOD
+		(IMG_FOOD_ID, FOOD_ID, IMG_FOOD_PATH, IMG_FOOD_REAL_NAME, IMG_FOOD_CHG_NAME, IMG_FOOD_EXTENSION)
+		VALUES(IMG_FOOD_SEQ.NEXTVAL, #{foodId}, #{ImgFoodPath}, #{ImgFoodRealName}, #{ImgFoodChgName}, #{ImgFoodExtension} )
+	</insert>
+	
+	<select id="selectImgFoodById" resultMap="ImgFoodResultMape">
+		SELECT * FROM IMG_FOOD WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	<select id="selectAllImagFood" resultMap="ImgFoodResultMape">
+		SELECT * FROM IMG_FOOD ORDER BY IMG_FOOD_ID DESC
+	</select>
+	
+	<update id="updateImgFood">
+		UPDATE IMG_FOOD SET
+		IMG_FOOD_PATH = #{ImgFoodPath}, IMG_FOOD_REAL_NAME =  #{ImgFoodRealName}, IMG_FOOD_CHG_NAME = #{ImgFoodChgName}, IMG_FOOD_EXTENSION = #{ImgFoodExtension}
+		WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<delete id="deleteImgFood">
+		DELETE FROM IMG_FOOD WHERE  FOOD_ID = #{foodId}
+	</delete>
+</mapper>
