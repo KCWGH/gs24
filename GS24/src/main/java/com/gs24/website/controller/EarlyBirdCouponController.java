@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.EarlyBirdCouponVO;
-import com.gs24.website.service.EarlyBirdCouponQueueService;
 import com.gs24.website.service.EarlyBirdCouponService;
 import com.gs24.website.service.FoodService;
 
@@ -29,9 +28,6 @@ public class EarlyBirdCouponController {
 
 	@Autowired
 	private EarlyBirdCouponService earlyBirdCouponService;
-
-	@Autowired
-	private EarlyBirdCouponQueueService earlyBirdCouponQueueService;
 
 	@GetMapping("/publish")
 	public void publishGET(Model model) {
@@ -71,9 +67,6 @@ public class EarlyBirdCouponController {
 		int result = earlyBirdCouponService.publishCoupon(earlyBirdCouponVO);
 		if (result == 1) {
 			log.info("publishPOST()");
-			log.info("쿠폰아이디 : " + earlyBirdCouponVO.getEarlyBirdCouponId());
-			earlyBirdCouponQueueService.setAmount(earlyBirdCouponVO.getEarlyBirdCouponId(),
-					earlyBirdCouponVO.getEarlyBirdCouponAmount());
 			redirectAttributes.addFlashAttribute("message", "선착순 쿠폰 발행에 성공했습니다 :)");
 		} else {
 			redirectAttributes.addFlashAttribute("message", "선착순 쿠폰 발행에 실패했습니다.");

@@ -47,6 +47,11 @@ img {
 
 </head>
 <body>
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
 	<c:if test="${not empty memberVO}">
       <span>환영합니다, ${memberId}님</span>
       <button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
@@ -65,7 +70,8 @@ img {
    <h1>식품 리스트</h1>
    <c:if test="${memberVO.memberRole == 2 }">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
-      <button onclick='location.href="register"'>식품등록</button><br>
+      <button onclick='location.href="register"'>식품등록</button>
+      <button onclick="window.open('../earlybird-coupon/publish', '_blank', 'width=500,height=700')">선착순 쿠폰 발행</button><br>
    </c:if>
    	<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
 	<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
@@ -85,7 +91,7 @@ img {
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>
 				<p>${FoodVO.foodStock}개</p>
-				<p>${FoodVO.foodPrice}</p>
+				<p>${FoodVO.foodPrice}원</p>
 				<p>${FoodVO.foodAvgRating }점</p>
 				<p>리뷰 ${FoodVO.foodReviewCnt }개</P>
 				<button onclick="location.href='detail?foodId=${FoodVO.foodId}'">상세 보기</button><br>
@@ -278,8 +284,12 @@ img {
 			
 			var bottomPrice = $("#bottomPrice").val();
 			var topPrice = $("#topPrice").val();
+			var type = "<c:out value='${pageMaker.pagination.type }' />";
+			var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
 			searchForm.find("input[name='bottomPrice']").val(bottomPrice);
 			searchForm.find("input[name='topPrice']").val(topPrice);
+			searchForm.find("input[name='type']").val(type);
+			searchForm.find("input[name='keyword']").val(keyword);
 			
 			var pageNum = 1; // 검색 후 1페이지로 고정
 			// 현재 페이지 사이즈값 저장

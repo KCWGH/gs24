@@ -89,11 +89,11 @@ table th {
         <input type="hidden" name="memberId" value="${sessionScope.memberId}">
         <span style="color:gray">* 예약일로부터 2일 후부터 2주 후 이내로 예약이 가능합니다.</span><br><br>
         <div id="pickupDateContainer"></div>
-        <input type="hidden" name="pickupDate" id="pickupDate" required><br>
-        <input type="hidden" name="earlyBirdCouponId" id="earlyBirdCouponId"><br>
+        <input type="hidden" name="pickupDate" id="pickupDate" required>
+        <input type="text" name="earlyBirdCouponId" id="earlyBirdCouponId"><br>
         <span>예약 개수 : </span><input type="number" name="preorderAmount" id="preorderAmount" value="1" required>개<br>
-		<span id=selectedEarlyBirdCoupon>적용된 선착순 쿠폰 : 없음 </span>
-        <button type="button" id="openModal">선착순 쿠폰 변경</button><br>
+		<span id=selectedEarlyBirdCoupon>적용된 쿠폰 : 없음 </span>
+        <button type="button" id="openModal">쿠폰 변경</button><br>
         <div id=selectedGiftCard hidden="hidden">
         <span>적용된 기프트카드 : 없음 </span>
         <button type="button" id="sel">기프트카드 변경</button>

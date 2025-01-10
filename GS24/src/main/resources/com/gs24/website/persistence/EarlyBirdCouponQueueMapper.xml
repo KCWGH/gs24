@@ -25,7 +25,7 @@
 		(QUEUE_ID, COUPON_ID, MEMBER_ID,
 		QUEUE_DATE_CREATED)
 		VALUES
-		(EARLY_BIRD_COUPON_QUEUE_SEQ.NEXTVAL, #{couponId}, #{memberId},
+		(EARLY_BIRD_COUPON_QUEUE_SEQ.NEXTVAL, #{earlyBirdCouponId}, #{memberId},
 		SYSDATE)
 	</insert>
 </mapper>

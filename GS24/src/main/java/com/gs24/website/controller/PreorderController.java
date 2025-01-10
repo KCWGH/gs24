@@ -35,16 +35,19 @@ public class PreorderController {
 	private EarlyBirdCouponService earlyBirdCouponService;
 
 	@GetMapping("/create")
-	public void createGET(Model model, int foodId, HttpSession session) {
+	public String createGET(Model model, int foodId, HttpSession session, RedirectAttributes redirectAttributes) {
 		log.info("createGET()");
-
 		FoodVO foodVO = preorderService.getFoodInfo(foodId);
+		if (foodVO.getFoodStock() <= 0) {
+			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
+			return "redirect:/food/list";
+		}
 		model.addAttribute("foodVO", foodVO);
-
-		log.info("getEarlyBirdCouponList()");
 		List<EarlyBirdCouponVO> couponList = earlyBirdCouponService
 				.getEarlyBirdCouponListByFoodType(foodVO.getFoodType());
 		model.addAttribute("couponList", couponList);
+		log.info("getEarlyBirdCouponList()");
+		return "/preorder/create";
 	}
 
 	@PostMapping("/create")

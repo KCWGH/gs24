@@ -9,7 +9,7 @@
 		<result property="memberId" column="MEMBER_ID" />
 		<result property="giftCardGrantDate" column="GIFT_CARD_GRANT_DATE" />
 		<result property="giftCardExpiredDate" column="GIFT_CARD_EXPIRED_DATE" />
-		<result property="discountValue" column="DISCOUNT_VALUE" />
+		<result property="balance" column="BALANCE" />
 		<result property="foodType" column="FOOD_TYPE" />
 		<result property="isUsed" column="IS_USED" />
 	</resultMap>
@@ -18,10 +18,10 @@
 		INSERT INTO GIFT_CARD
 		(GIFT_CARD_ID, GIFT_CARD_NAME, MEMBER_ID,
 		GIFT_CARD_GRANT_DATE,
-		GIFT_CARD_EXPIRED_DATE, DISCOUNT_VALUE,
+		GIFT_CARD_EXPIRED_DATE, BALANCE,
 		FOOD_TYPE, IS_USED)
 		VALUES
-		(GIFT_CARD_SEQ.NEXTVAL, #{giftCardName}, #{memberId}, SYSDATE, #{giftCardExpiredDate}, #{discountValue}, #{foodType}, 0)
+		(GIFT_CARD_SEQ.NEXTVAL, #{giftCardName}, #{memberId}, SYSDATE, #{giftCardExpiredDate}, #{balance}, #{foodType}, 0)
 	</insert>
 
 

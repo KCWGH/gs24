@@ -138,7 +138,7 @@ public class AuthController {
 		if (currentMonth == birthdayMonth && currentDay == birthdayDay && isExisting != 1) {
 			GiftCardVO giftCardVO = new GiftCardVO();
 			giftCardVO.setGiftCardName("생일 축하 쿠폰");
-			giftCardVO.setDiscountValue(10000);
+			giftCardVO.setBalance(10000);
 			giftCardVO.setFoodType("전체");
 			giftCardVO.setMemberId(memberId);
 

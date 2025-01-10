@@ -54,7 +54,7 @@ public class GiftCardController {
 		if (giftCardVO.getGiftCardName().equals("")) { // 이름을 따로 입력하지 않았으면
 			String foodType = giftCardVO.getFoodType();
 
-			String value = giftCardVO.getDiscountValue() + "원";
+			String value = giftCardVO.getBalance() + "원";
 
 			giftCardVO.setGiftCardName(foodType + " " + value + " 금액권");
 		}
