@@ -99,8 +99,8 @@ $(document).ready(function() {
   <div>
     <label for="giftCardName">기프트카드 이름: </label>
     <input type="text" id="giftCardName" name="giftCardName"><br>
-    기프트카드 이름을 적지 않으면 기본 기프트카드 이름으로 제공됩니다.<br>
-    <span style="color:gray">예) 음료 1000원 할인권</span>
+    ※ 기입하지 않으면 기본 기프트카드 이름으로 제공됩니다.<br>
+    <span style="color:gray">예) 음료 10000원 금액권</span>
   </div><br>
   <div>
     <label for="memberId">아이디: </label>

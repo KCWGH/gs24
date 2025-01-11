@@ -57,7 +57,7 @@ img {
       <button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
       <button onclick='location.href="../auth/logout"'>로그아웃</button>
       <button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-      <button onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">쿠폰 목록</button>
+      <button onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드 목록</button>
    </c:if>
 
    <c:if test="${empty memberVO}">
@@ -71,7 +71,7 @@ img {
    <c:if test="${memberVO.memberRole == 2 }">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
       <button onclick='location.href="register"'>식품등록</button>
-      <button onclick="window.open('../earlybird-coupon/publish', '_blank', 'width=500,height=700')">선착순 쿠폰 발행</button><br>
+      <button onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button><br>
    </c:if>
    	<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
 	<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">

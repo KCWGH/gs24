@@ -75,7 +75,7 @@
                     });
                     
                     if (giftCardList.length == 0){
-                    	giftCardHtml += '<br>쿠폰이 없습니다.';
+                    	giftCardHtml += '보유한 기프트카드가 없습니다.<br><br>';
                     }
 
                     $(".giftCard-list").html(giftCardHtml);
@@ -149,11 +149,11 @@
     }
 
     ul {
-    	position: fixed; /* 화면 하단에 고정 */
-    	bottom: 10px; /* 하단에서의 거리 설정 */
-    	left: 50%; /* 화면 가로 중앙 정렬 */
-    	transform: translateX(-50%); /* 중앙 정렬 보정 */
-    	z-index: 100; /* 다른 요소보다 위에 표시 */
+    	position: fixed;
+    	bottom: 10px;
+    	left: 50%;
+    	transform: translateX(-50%);
+    	z-index: 100;
         list-style-type: none;
         padding: 0;
         display: flex;

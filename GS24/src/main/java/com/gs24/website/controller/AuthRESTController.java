@@ -94,10 +94,8 @@ public class AuthRESTController {
 		}
 		try {
 			emailService.sendVerificationEmail(email);
-			log.info("여기입니다.");
 			return ResponseEntity.ok("Sending Code Success");
 		} catch (MessagingException e) {
-			log.info("아뇨 여기입니다.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sending Code Fail");
 		}
 	}

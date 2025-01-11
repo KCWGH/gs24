@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gs24.website.domain.EarlyBirdCouponQueueVO;
-import com.gs24.website.domain.EarlyBirdCouponVO;
+import com.gs24.website.domain.CouponQueueVO;
+import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
-import com.gs24.website.persistence.EarlyBirdCouponMapper;
-import com.gs24.website.persistence.EarlyBirdCouponQueueMapper;
+import com.gs24.website.persistence.CouponMapper;
+import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.util.Pagination;
@@ -30,10 +30,10 @@ public class PreorderServiceImple implements PreorderService {
 	private FoodMapper foodMapper;
 
 	@Autowired
-	private EarlyBirdCouponMapper earlyBirdCouponMapper;
+	private CouponMapper couponMapper;
 
 	@Autowired
-	private EarlyBirdCouponQueueMapper earlyBirdCouponQueueMapper;
+	private CouponQueueMapper couponQueueMapper;
 
 	@Override
 	@Transactional(value = "transactionManager")
@@ -41,7 +41,7 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("createPreorder()");
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		// TODO : ÀÌ°É ¿©±â¼­ ÇÏÁö ¸»°í ÇÁ·ÐÆ®¿¡¼­ Ã³¸®ÇÏ´Â °É·Î
+		// TODO : ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½É·ï¿½
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
 			int result = preorderMapper.insertPreorder(preorderVO);
@@ -55,20 +55,20 @@ public class PreorderServiceImple implements PreorderService {
 	public int createPreorder(PreorderVO preorderVO, int earlyBirdCouponId) {
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		EarlyBirdCouponVO earlyBirdCouponVO = earlyBirdCouponMapper.selectEarlyBirdCouponByCouponId(earlyBirdCouponId);
-		Date earlyBirdCouponExpiredDate = earlyBirdCouponVO.getEarlyBirdCouponExpiredDate();
+		CouponVO earlyBirdCouponVO = couponMapper.selectCouponByCouponId(earlyBirdCouponId);
+		Date earlyBirdCouponExpiredDate = earlyBirdCouponVO.getCouponExpiredDate();
 		Date currentDate = new Date();
 
-		if (foodAmount > 0 && foodAmount >= preorderAmount && earlyBirdCouponVO.getEarlyBirdCouponAmount() > 0
+		if (foodAmount > 0 && foodAmount >= preorderAmount && earlyBirdCouponVO.getCouponAmount() > 0
 				&& earlyBirdCouponExpiredDate.after(currentDate)) {
 			preorderMapper.insertPreorder(preorderVO);
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
-			earlyBirdCouponMapper.useEarlyBirdCoupon(earlyBirdCouponId);
-			EarlyBirdCouponQueueVO earlyBirdCouponQueueVO = new EarlyBirdCouponQueueVO();
+			couponMapper.useCoupon(earlyBirdCouponId);
+			CouponQueueVO earlyBirdCouponQueueVO = new CouponQueueVO();
 			earlyBirdCouponQueueVO.setCouponId(earlyBirdCouponId);
 			earlyBirdCouponQueueVO.setMemberId(preorderVO.getMemberId());
-			earlyBirdCouponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
-			log.info("createPreorderWithEarlyBirdCoupon()");
+			couponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
+			log.info("createPreorderWithCoupon()");
 			return 1;
 		}
 		return 0;

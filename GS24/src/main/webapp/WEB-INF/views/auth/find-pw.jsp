@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-        	
+        	const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         	const urlParams = new URLSearchParams(window.location.search);
             const memberId = urlParams.get('memberId');
             
@@ -23,6 +23,13 @@
             function checkPw() {
                 let password = $('#password').val();
                 let passwordConfirm = $('#passwordConfirm').val();
+                
+                if (!pwRegex.test(password)) {
+                    $('#passwordMatchMessage').text("비밀번호는 최소 8자, 대문자, 소문자, 숫자, 특수문자를 각각 하나 이상 포함해야 합니다.").css('color', 'red');
+                    isPasswordMatched = false;
+                    return;
+                }
+                
                 if (password === "" || passwordConfirm === "") {
                     $('#passwordMatchMessage').text("비밀번호를 입력해주세요.").css('color', 'red');
                     $('#btnUpdatePw').prop('disabled', true);
