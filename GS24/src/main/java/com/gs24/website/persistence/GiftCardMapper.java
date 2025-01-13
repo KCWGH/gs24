@@ -21,7 +21,7 @@ public interface GiftCardMapper {
 
 	int selectTotalCount(String memberId);
 
-	int selectAvailableCount(String memberId);
+	int selectUnusedCount(String memberId);
 
 	int selectExpiredCount(String memberId);
 
@@ -29,11 +29,13 @@ public interface GiftCardMapper {
 
 	List<GiftCardVO> selectListByPagination(Pagination pagination);
 
-	List<GiftCardVO> selectAvailableListByPagination(Pagination pagination);
+	List<GiftCardVO> selectUnusedListByPagination(Pagination pagination);
 
 	List<GiftCardVO> selectExpiredListByPagination(Pagination pagination);
 
 	List<GiftCardVO> selectUsedListByPagination(Pagination pagination);
+
+	int useGiftCard(@Param("giftCardId") int giftCardId, @Param("preorderId") int preorderId);
 
 	int deleteExpiredGiftCards();
 

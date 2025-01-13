@@ -14,6 +14,7 @@ import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FoodMapper;
+import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.util.Pagination;
 
@@ -30,6 +31,9 @@ public class PreorderServiceImple implements PreorderService {
 	private FoodMapper foodMapper;
 
 	@Autowired
+	private GiftCardMapper giftCardMapper;
+
+	@Autowired
 	private CouponMapper couponMapper;
 
 	@Autowired
@@ -41,13 +45,24 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("createPreorder()");
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		// TODO : �̰� ���⼭ ���� ���� ����Ʈ���� ó���ϴ� �ɷ�
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
 			int result = preorderMapper.insertPreorder(preorderVO);
 			return result;
 		}
 		return 0;
+	}
+
+	@Override
+	@Transactional(value = "transactionManager")
+	public int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId) {
+		int createResult = createPreorder(preorderVO);
+		log.info("깊카아이디 : " + giftCardId + ", 프리오더아이디 : " + preorderVO.getPreorderId());
+		int result = 0;
+		if (createResult == 1) {
+			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
+		}
+		return result;
 	}
 
 	@Override
@@ -67,11 +82,22 @@ public class PreorderServiceImple implements PreorderService {
 			CouponQueueVO earlyBirdCouponQueueVO = new CouponQueueVO();
 			earlyBirdCouponQueueVO.setCouponId(earlyBirdCouponId);
 			earlyBirdCouponQueueVO.setMemberId(preorderVO.getMemberId());
-			couponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
+			int result = couponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
 			log.info("createPreorderWithCoupon()");
-			return 1;
+			return result;
 		}
 		return 0;
+	}
+
+	@Override
+	@Transactional(value = "transactionManager")
+	public int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId) {
+		int createResult = createPreorder(preorderVO, couponId);
+		int result = 0;
+		if (createResult == 1) {
+			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
+		}
+		return result;
 	}
 
 	@Override
@@ -146,4 +172,5 @@ public class PreorderServiceImple implements PreorderService {
 		List<PreorderVO> list = preorderMapper.selectAlreadyPreorderByFoodId(foodId);
 		return list;
 	}
+
 }

@@ -156,16 +156,6 @@ public class AuthController {
 		return 0;
 	}
 
-	@GetMapping("/login-success")
-	public void loginSuccessGET() {
-		log.info("loginSuccessGET");
-	}
-
-	@GetMapping("/login-fail")
-	public void loginfailGET() {
-		log.info("loginFailGET()");
-	}
-
 	@GetMapping("/find-id")
 	public String findIdGET(HttpSession session) {
 		if (session.getAttribute("memberId") != null) {

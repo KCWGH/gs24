@@ -15,5 +15,7 @@ public interface CouponService {
 	CouponVO getCouponByCouponId(int couponId);
 
 	int useCoupon(int couponId);
+	
+	void deleteExpiredCoupons();
 
 }

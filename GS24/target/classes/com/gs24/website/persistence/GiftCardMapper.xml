@@ -13,6 +13,17 @@
 		<result property="foodType" column="FOOD_TYPE" />
 		<result property="isUsed" column="IS_USED" />
 	</resultMap>
+	
+	<resultMap type="com.gs24.website.domain.PreorderVO" id="PreorderResultMap">
+		<id property="preorderId" column="PREORDER_ID"/>
+		<result property="foodId" column="FOOD_ID"/>
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="preorderAmount" column="PREORDER_AMOUNT"/>
+		<result property="pickupDate" column="PICKUP_DATE"/>
+		<result property="isPickUp" column="IS_PICK_UP"/>
+		<result property="isExpiredOrder" column="IS_EXPIRED_ORDER"/>
+		<result property="totalPrice" column="TOTAL_PRICE"/>
+	</resultMap>
 
 	<insert id="insertGiftCard">
 		INSERT INTO GIFT_CARD
@@ -51,7 +62,7 @@
 		TOTAL_COUNT FROM GIFT_CARD WHERE MEMBER_ID = #{memberId}
 	</select>
 
-	<select id="selectAvailableCount" resultType="Integer">
+	<select id="selectUnusedCount" resultType="Integer">
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM GIFT_CARD WHERE
 		SYSDATE &lt; GIFT_CARD_EXPIRED_DATE AND
@@ -59,15 +70,19 @@
 	</select>
 
 	<select id="selectExpiredCount" resultType="Integer">
-		SELECT COUNT(*)
-		TOTAL_COUNT FROM GIFT_CARD
-		WHERE SYSDATE &gt;= GIFT_CARD_EXPIRED_DATE AND MEMBER_ID = #{memberId}
+    	SELECT COUNT(*)
+    	TOTAL_COUNT FROM GIFT_CARD
+    	WHERE (SYSDATE >= GIFT_CARD_EXPIRED_DATE OR BALANCE = 0) 
+      	AND MEMBER_ID = #{memberId}
 	</select>
 
 	<select id="selectUsedCount" resultType="Integer">
-		SELECT COUNT(*)
-		TOTAL_COUNT FROM GIFT_CARD
-		WHERE IS_USED = 1 AND MEMBER_ID = #{memberId}
+    	SELECT COUNT(*)
+    	TOTAL_COUNT 
+    	FROM GIFT_CARD
+    	WHERE IS_USED = 1 AND SYSDATE &lt; GIFT_CARD_EXPIRED_DATE
+      	AND BALANCE != 0
+      	AND MEMBER_ID = #{memberId}
 	</select>
 
 	<select id="selectListByPagination" resultMap="GiftCardResultMap">
@@ -81,7 +96,7 @@
 		#{start} AND #{end}
 	</select>
 
-	<select id="selectAvailableListByPagination"
+	<select id="selectUnusedListByPagination"
 		resultMap="GiftCardResultMap">
 		SELECT * FROM
 		(
@@ -95,36 +110,54 @@
 		RN BETWEEN #{start} AND #{end}
 	</select>
 
-	<select id="selectExpiredListByPagination"
-		resultMap="GiftCardResultMap">
-		SELECT * FROM
-		(
-		SELECT ROW_NUMBER() OVER (ORDER BY
-		GIFT_CARD_GRANT_DATE DESC)
-		AS RN, GIFT_CARD.* FROM GIFT_CARD WHERE MEMBER_ID =
-		#{memberId} AND
-		SYSDATE &gt;= GIFT_CARD_EXPIRED_DATE
-		)
-		WHERE RN BETWEEN
-		#{start} AND #{end}
+	<select id="selectExpiredListByPagination" resultMap="GiftCardResultMap">
+		SELECT * 
+    	FROM (
+        	SELECT ROW_NUMBER() OVER (ORDER BY GIFT_CARD_GRANT_DATE DESC) AS RN, 
+               GIFT_CARD.* 
+        	FROM GIFT_CARD 
+        	WHERE MEMBER_ID = #{memberId} 
+          AND (SYSDATE >= GIFT_CARD_EXPIRED_DATE OR BALANCE = 0)
+    	)
+    	WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="selectUsedListByPagination"
-		resultMap="GiftCardResultMap">
-		SELECT * FROM
-		(
-		SELECT ROW_NUMBER() OVER (ORDER BY
-		GIFT_CARD_GRANT_DATE DESC)
-		AS RN, GIFT_CARD.* FROM GIFT_CARD WHERE MEMBER_ID =
-		#{memberId} AND IS_USED =
-		1
-		)
-		WHERE RN BETWEEN #{start} AND #{end}
+        resultMap="GiftCardResultMap">
+    	SELECT * 
+    	FROM (
+        	SELECT ROW_NUMBER() OVER (ORDER BY GIFT_CARD_GRANT_DATE DESC) AS RN, 
+               GIFT_CARD.* 
+        FROM GIFT_CARD 
+        WHERE MEMBER_ID = #{memberId} 
+          AND IS_USED = 1 
+          AND BALANCE != 0
+    	)
+    	WHERE RN BETWEEN #{start} AND #{end}
 	</select>
+
+	
+	<update id="useGiftCard">
+		 UPDATE GIFT_CARD GC
+    	SET GC.BALANCE = GC.BALANCE - (
+        SELECT P.TOTAL_PRICE
+        FROM PREORDER P
+        WHERE P.PREORDER_ID = #{preorderId}
+        AND P.MEMBER_ID = GC.MEMBER_ID
+   	 	),
+    	GC.IS_USED = '1' 
+    	WHERE GC.GIFT_CARD_ID = #{giftCardId}
+    	AND EXISTS (
+        SELECT 1
+        FROM PREORDER P
+        WHERE P.PREORDER_ID = #{preorderId}
+        AND P.MEMBER_ID = GC.MEMBER_ID
+        AND GC.BALANCE >= P.TOTAL_PRICE)
+	</update>
 	
 	<delete id="deleteExpiredGiftCards">
         DELETE FROM GIFT_CARD
-		WHERE GIFT_CARD_EXPIRED_DATE &lt; SYSDATE - INTERVAL '7' DAY
+		WHERE GIFT_CARD_EXPIRED_DATE &lt; SYSDATE - INTERVAL '30' DAY
     </delete>
 
 </mapper>

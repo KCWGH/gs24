@@ -19,7 +19,7 @@ public interface GiftCardService {
 
 	List<GiftCardVO> getPagedAllGiftCards(String memberId, Pagination pagination);
 
-	List<GiftCardVO> getPagedAvailableGiftCards(String memberId, Pagination pagination);
+	List<GiftCardVO> getPagedUnusedGiftCards(String memberId, Pagination pagination);
 
 	List<GiftCardVO> getPagedExpiredGiftCards(String memberId, Pagination pagination);
 
@@ -32,6 +32,8 @@ public interface GiftCardService {
 	int getExpiredCount(String memberId);
 
 	int getUsedCount(String memberId);
+
+	int useGiftCard(int giftCardId, int preorderId);
 
 	void deleteExpiredGiftCards();
 

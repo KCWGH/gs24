@@ -52,6 +52,10 @@
 		SELECT * FROM COUPON 
 		WHERE FOOD_TYPE = #{foodType} AND IS_AVAILABLE = 1
 	</select>
-
+	
+	<delete id="deleteExpiredCoupons">
+        DELETE FROM COUPON 
+		WHERE COUPON_EXPIRED_DATE &lt; SYSDATE - INTERVAL '30' DAY
+    </delete>
 
 </mapper>

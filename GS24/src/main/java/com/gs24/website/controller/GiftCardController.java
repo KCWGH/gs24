@@ -42,11 +42,6 @@ public class GiftCardController {
 		model.addAttribute("foodTypeList", foodType);
 	}
 
-	@GetMapping("/grant-fail")
-	public void grantFailGET() {
-		log.info("grantFailGET()");
-	}
-
 	@PostMapping("/grant")
 	public String grantPOST(@ModelAttribute GiftCardVO giftCardVO, Model model, RedirectAttributes attributes) {
 		log.info("grantPOST()");

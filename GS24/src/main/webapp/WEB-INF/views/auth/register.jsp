@@ -34,6 +34,7 @@
                 changeMonth: true,
                 inline: true,
                 changeYear: true,
+                showMonthAfterYear: true,
                 yearRange: "1900:2025",
                 maxDate: sevenYearsAgo,
                 onSelect: function (dateText) {

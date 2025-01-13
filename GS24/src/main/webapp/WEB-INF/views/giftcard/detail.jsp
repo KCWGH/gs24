@@ -36,15 +36,15 @@
             <tr>
                 <td colspan="2" style="text-align: center;">
                     <c:choose>
-                        <c:when test="${giftCardVO.isUsed == 1}">
+                        <c:when test="${giftCardVO.isUsed == 1 && giftCardVO.balance != 0 && sysDate < giftCardVO.giftCardExpiredDate}">
                             <img src="${pageContext.request.contextPath}/resources/images/giftCard/usedGiftCard.png"
                                 alt="Used GiftCard" />
                         </c:when>
-                        <c:when test="${sysDate < giftCardVO.giftCardExpiredDate and giftCardVO.isUsed == 0}">
+                        <c:when test="${sysDate < giftCardVO.giftCardExpiredDate && giftCardVO.isUsed == 0}">
                             <img src="${pageContext.request.contextPath}/resources/images/giftCard/giftCard.png"
                                 alt="GiftCard" />
                         </c:when>
-                        <c:when test="${sysDate >= giftCardVO.giftCardExpiredDate}">
+                        <c:when test="${sysDate >= giftCardVO.giftCardExpiredDate || giftCardVO.balance == 0}">
                             <img src="${pageContext.request.contextPath}/resources/images/giftCard/expiredGiftCard.png"
                                 alt="Expired GiftCard" />
                         </c:when>
@@ -54,6 +54,10 @@
             <tr>
                 <td class="bold">기프트카드 이름</td>
                 <td>${giftCardVO.giftCardName}</td>
+            </tr>
+            <tr>
+                <td class="bold">기프트카드 잔액</td>
+                <td>${giftCardVO.balance}원</td>
             </tr>
             <tr>
                 <td class="bold">발급 날짜</td>
@@ -75,7 +79,7 @@
                             만료됨
                         </c:when>
                         <c:otherwise>
-                            기간 내의 기프트카드
+                            사용기간 내의 기프트카드
                         </c:otherwise>
                     </c:choose>
                 </td>
