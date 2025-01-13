@@ -4,10 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-
-    <!-- jQuery 라이브러리 로드 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery 라이브러리 로드 -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style type="text/css">
 table, th, td {
@@ -53,7 +51,7 @@ li {
     <!-- 글 작성 페이지 이동 버튼 -->
 	<c:if test="${empty sessionScope.memberId}">
         * 글작성은 로그인이 필요한 서비스입니다.
-        <a href="../member/login">로그인하기</a>
+        <a href="../auth/login">로그인하기</a>
 	</c:if>
     <c:if test="${not empty sessionScope.memberId}">
 		<a href="register"><input type="button" value="글 작성"></a>
@@ -73,7 +71,7 @@ li {
             </tr>
         </thead>
         <tbody>
-			<c:forEach var="QuestionVO" items="${questionList}">
+			<c:forEach var="QuestionVO" items="${questionVOList}">
 				<tr>
 					<td>${QuestionVO.questionId}</td>
 					<td>${QuestionVO.foodName}</td>
@@ -83,6 +81,7 @@ li {
                                 <!-- 비밀글일 경우 처리 -->
                                 <c:if test="${sessionScope.memberId == QuestionVO.memberId || sessionScope.memberVO.memberRole == 2}">
                                     <!-- 관리자나 작성자가 볼 수 있는 비밀글 -->
+                                    <!-- href="javascript:void(0);" 은 페이지를 이동 시키지 않고 자바 스크립트 기능만 실행 -->
                                     <a href="javascript:void(0);" onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
                                         ${QuestionVO.questionTitle} 🔒
                                     </a>
@@ -108,7 +107,7 @@ li {
 						<c:if test="${QuestionVO.isAnswered == 0}">
                             답변대기
                         </c:if> 
-                        <c:if test="${QuestionVO.isAnswered != 0}">
+                        <c:if test="${QuestionVO.isAnswered == 1}">
                             답변완료
                         </c:if>
                 	</td>
@@ -147,20 +146,65 @@ li {
 			<li><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
 		</c:if>
 	</ul>
-</body>
-<script type="text/javascript">
-    // 작성자 확인 후 이동하는 함수
-    function checkAuthorAndRedirect(questionId, authorId, memberRole) {
-        var currentUser = "${sessionScope.memberId}"; // 현재 로그인된 사용자 ID
-        var currentUserRole = "${sessionScope.memberVO.memberRole}"; // 현재 로그인된 사용자 권한
+	
+	<!-- jQuery 스크립트 -->
+	<script type="text/javascript">
+        // 현재 로그인한 사용자 정보
+        var currentUser = "${sessionScope.memberId}";
+        var currentUserRole = "${sessionScope.memberVO.memberRole}"; // 2: 관리자, 1: 일반 사용자
 
-        if (currentUser === authorId || currentUserRole == 2) {
-            // 작성자이거나 관리자일 경우 게시판 상세로 이동
-            window.location.href = "detail?questionId=" + questionId;
-        } else {
-            // 작성자가 아니고 관리자가 아닐 경우 경고
-            alert("게시판 작성자 또는 관리자만 해당 게시판에 접근할 수 있습니다.");
+        // 게시글 제목 클릭 시 처리하는 함수
+        function handleClick(questionId, authorId) {
+            // 작성자이거나 관리자일 경우 상세 페이지로 이동
+            if (currentUser === authorId || currentUserRole == 2) {
+                window.location.href = "detail?questionId=" + questionId;
+            } else {
+                // 권한이 없으면 질문 내용을 토글로 펼침
+                toggleQuestionContent(questionId);
+                loadComments(questionId); // 댓글 로딩
+            }
         }
-    }
-</script>
+
+        // 질문 내용 토글 함수
+        function toggleQuestionContent(questionId) {
+            var contentElement = document.getElementById("content-" + questionId);
+            var answersElement = document.getElementById("answers-" + questionId);
+            
+            // 질문 내용 및 댓글을 펼치거나 숨기기
+            if (contentElement.style.display === "none" || contentElement.style.display === "") {
+                contentElement.style.display = "table-row";  // 내용 보이게
+                answersElement.style.display = "table-row";  // 댓글 영역 보이게
+            } else {
+                contentElement.style.display = "none";  // 내용 숨기기
+                answersElement.style.display = "none";  // 댓글 영역 숨기기
+            }
+        }
+
+        // 댓글을 불러오는 함수
+        function loadComments(questionId) {
+            var repliesElement = document.getElementById("replies-" + questionId);
+
+            // 이미 댓글이 로딩되었으면 다시 요청하지 않음
+            if (repliesElement.innerHTML !== "") {
+                return;
+            }
+
+            // 댓글을 서버에서 불러오기 위한 Ajax 요청
+            $.getJSON('../answer/all/' + questionId, function(data) {
+                var list = '';
+                $(data).each(function() {
+                    var answerDateCreated = new Date(this.answerDateCreated);
+                    list += '<div class="answer_item">'
+                        + '<div class="answer-content">' + this.answerContent + '</div>'
+                        + '<div class="answer-meta">' + this.memberId + ' | ' + answerDateCreated.toLocaleString() + '</div>'
+                        + '</div>';
+                });
+                repliesElement.innerHTML = list;
+
+                // 댓글 영역을 보이게 처리
+                repliesElement.style.display = 'block';
+            });
+        }
+    </script>
+</body>
 </html>

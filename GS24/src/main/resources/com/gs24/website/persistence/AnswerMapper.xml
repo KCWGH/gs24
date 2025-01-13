@@ -11,24 +11,24 @@
       <result property="answerDateCreated" column="ANSWER_DATE_CREATED" />
    </resultMap>
    
-   <insert id="insert">
+   <insert id="insertAnswer">
       INSERT INTO ANSWER (ANSWER_ID, QUESTION_ID, MEMBER_ID, ANSWER_CONTENT, ANSWER_DATE_CREATED)
       VALUES (ANSWER_SEQ.NEXTVAL, #{questionId}, #{memberId}, #{answerContent}, SYSDATE)
    </insert>
    
-   <select id="selectListByQuestionId" resultMap="answerResultMap">
+   <select id="selectAnswerListByQuestionId" resultMap="answerResultMap">
       SELECT * FROM ANSWER
       WHERE QUESTION_ID = #{questionId}
       ORDER BY ANSWER_ID
    </select>
    
-   <update id="update">
+   <update id="updateAnswer">
       UPDATE ANSWER
       SET ANSWER_CONTENT = #{answerContent}
       WHERE ANSWER_ID = #{answerId}
    </update>
    
-   <delete id="delete">
+   <delete id="deleteAnswer">
       DELETE FROM ANSWER
       WHERE ANSWER_ID = #{answerId}
    </delete>

@@ -1,8 +1,6 @@
 package com.gs24.website.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,12 +23,4 @@ public class QuestionVO {
 	int isAnswered; // IS_ANSWERED
 	boolean questionSecret; // QUESTION_SECRET
 	
-	private List<QuestionAttachDTO> questionAttachList;
-	
-	public List<QuestionAttachDTO> getQuestionAttachList() {
-		if(questionAttachList == null) {
-			questionAttachList = new ArrayList<QuestionAttachDTO>();
-		}
-		return questionAttachList;
-	}
 }

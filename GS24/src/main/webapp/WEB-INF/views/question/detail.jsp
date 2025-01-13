@@ -5,6 +5,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- css 파일 불러오기 -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
+	
+	<style type="text/css">
+li {
+	display: inline-block;
+}
+</style>
 <!-- jquery 라이브러리 import -->
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
@@ -12,18 +22,17 @@
 <title>${questionVO.questionTitle }</title>
 </head>
 <body>
+	
 	<h2>글 보기</h2>
 	<div>
 		<p>글 번호 : ${questionVO.questionId }</p>
 	</div>
 	<div>
-<<<<<<< Updated upstream
-		<p>제목 : </p>
-		<p>${questionVO.questionTitle }</p>
-=======
 		<p>제목 : ${questionVO.questionTitle }</p>
->>>>>>> Stashed changes
 	</div>
+	<div>
+        <p>식품 : ${questionVO.foodName }</p>
+    </div>
 	<div>
 		<p>작성자 : ${questionVO.memberId }</p>
 		<!-- boardDateCreated 데이터 포멧 변경 -->
@@ -42,18 +51,6 @@
 		<input type="hidden" name="questionId" value="${questionVO.questionId }">
 	</form>
 	
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#deletequestion').click(function(){
-				if(confirm('삭제하시겠습니까?')){
-					$('#deleteForm').submit(); // form 데이터 전송
-				}
-			});
-		}); // end document
-	</script>
-<<<<<<< Updated upstream
-
-=======
 <input type="hidden" id="questionId" value="${questionVO.questionId }">
 
 	<c:if test="${ memberVO.memberRole == 2}">
@@ -63,6 +60,26 @@
 			<button id="btnAdd">작성</button>
 		</div>
 	</c:if>
+
+	<!-- 첨부 파일 영역 -->
+<div class="questionAttach-upload">
+    <div class="questionAttach-view">
+        <h2>첨부 파일 리스트</h2>
+        <div class="questionAttach-list">
+            <c:forEach var="questionAttachVO" items="${questionAttachList}">
+                <c:if test="${not (questionAttachVO.questionAttachExtension eq 'jpg' or 
+                                   questionAttachVO.questionAttachExtension eq 'jpeg' or 
+                                   questionAttachVO.questionAttachExtension eq 'png' or 
+                                   questionAttachVO.questionAttachExtension eq 'gif')}">
+                    <div class="questionAttach_item">
+                        <p><a href="../questionAttach/download?questionAttachId=${questionAttachVO.questionAttachId}">
+                            ${questionAttachVO.questionAttachRealName }.${questionAttachVO.questionAttachExtension}</a></p>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+    </div>
+</div>
 
 	<hr>
 	<div style="text-align: center;">
@@ -237,7 +254,6 @@
 
 						}); // end document()
 						</script>
->>>>>>> Stashed changes
 </body>
 </html>
 

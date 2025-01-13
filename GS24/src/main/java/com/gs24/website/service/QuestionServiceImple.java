@@ -60,11 +60,11 @@ public class QuestionServiceImple implements QuestionService {
 		QuestionVO questionVO = questionMapper.selectQuestionOne(questionId);
 		List<QuestionAttach> list = questionAttachMapper.selectByQuestionId(questionId);
 		QuestionDTO questionDTO = toDTO(questionVO);
-		log.info("Fetched QuestionVO from DB: " + questionVO);
 		
-		List<QuestionAttachDTO> questionAttachList = list.stream().map(this::toDTO).collect(Collectors.toList());
 		
+		List<QuestionAttachDTO> questionAttachList = list.stream().map(this::toDTO).collect(Collectors.toList());	
 		questionDTO.setQuestionAttachList(questionAttachList);
+		log.info(questionAttachList);
 		return questionDTO;
 	} // end getQuestionById()
 	

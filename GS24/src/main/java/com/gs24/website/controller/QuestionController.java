@@ -1,4 +1,4 @@
-package com.gs24.website.controller;
+	package com.gs24.website.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public class QuestionController {
 	    for (QuestionDTO questionDTO : questionDTOList) {
 	        QuestionVO questionVO = toEntity(questionDTO);  // DTO를 VO로 변환
 	        questionVOList.add(questionVO);
-	        log.info("questionVO : " + questionVO);
+	        log.info("QuestionVO : " + questionVO);
 	    }
-	    log.info("questionVOList = " + questionVOList);
+	    log.info("QuestionVOList = " + questionVOList);
 	    
 	    // 세션에서 memberVO를 가져옵니다.
 	    MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
@@ -74,6 +74,7 @@ public class QuestionController {
 	    questionVO.setFoodName(questionDTO.getFoodName());
 	    questionVO.setQuestionTitle(questionDTO.getQuestionTitle());
 	    questionVO.setQuestionContent(questionDTO.getQuestionContent());
+	    questionVO.setIsAnswered(questionDTO.getIsAnswered());
 	    questionVO.setQuestionSecret(questionDTO.isQuestionSecret());
 	    questionVO.setQuestionDateCreated(questionDTO.getQuestionDateCreated());
 	    return questionVO;
@@ -114,8 +115,9 @@ public class QuestionController {
 	    // 게시글 정보 조회
 	    QuestionDTO questionDTO = questionService.getQuestionById(questionId);
 	    QuestionVO questionVO = toEntity(questionDTO); // DTO를 VO로 변환
+	    
 	    model.addAttribute("questionVO", questionVO);
-	    log.info("첨부파일 리스트: " + questionDTO.getQuestionAttachList());
+	    model.addAttribute("questionAttachList", questionDTO.getQuestionAttachList());
 	    model.addAttribute("memberVO", memberVO); // memberVO를 JSP로 전달
 	}
 
