@@ -50,19 +50,6 @@ public class ImgFoodController {
 		return entity;
 	}
 
-	@GetMapping("/Review")
-	public ResponseEntity<byte[]> getReviewImage(Integer reviewId){
-		log.info("getReviewImage()");
-
-		String filePath = reviewService.getReviewByReviewId(reviewId).getReviewImgPath();
-
-		String path = uploadPath + File.separator + filePath;
-
-		ResponseEntity<byte[]> entity = GetImgUtil.getImage(path);
-
-		return entity;
-	}
-
 	@GetMapping("/regist")
 	public ResponseEntity<byte[]> foodRegister(String filePath){
 		log.info("foodRegister()");
@@ -73,18 +60,5 @@ public class ImgFoodController {
 
 		return entity;
 
-	}
-	
-	@PostMapping("/{reviewId}")
-	public int dragImage(MultipartFile[] files,@PathVariable int reviewId){
-		log.info("dragImage()");
-		log.info(reviewId);
-		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
-		for (MultipartFile file : files) {
-			log.info(file.getOriginalFilename());
-			uploadImgFoodUtil.updateFile(new ReviewVO(), uploadPath, file, "ReviewNO"+reviewId, uploadImgFoodUtil.subStrExtension(reviewVO.getReviewImgPath()), uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-			reviewService.updateReview(reviewVO, file);
-		}
-		return reviewId;
 	}
 }

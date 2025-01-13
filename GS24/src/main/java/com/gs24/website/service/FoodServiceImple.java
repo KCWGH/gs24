@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgReviewVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
+import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
@@ -30,6 +32,9 @@ public class FoodServiceImple implements FoodService{
 	
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+	@Autowired
+	private ImgReviewMapper imgReviewMapper;
 	
 	@Autowired
 	private String uploadPath;
@@ -150,7 +155,7 @@ public class FoodServiceImple implements FoodService{
 	}
 	
 	@Override
-	public int deleteFood(int foodId) {
+	public int deleteFood(int foodId, int reviewId) {
 		log.info("deleteFood()");
 		int result = foodMapper.deleteFood(foodId);
 		
@@ -158,6 +163,7 @@ public class FoodServiceImple implements FoodService{
 		imgFoodMapper.deleteImgFood(foodId);
 		uploadImgFoodUtil.deleteFile(new FoodVO(),uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
 		reviewMapper.deleteReviewByFoodId(foodId);
+		
 		
 		return result;
 	}
@@ -189,6 +195,10 @@ public class FoodServiceImple implements FoodService{
 		Object[] detailData = new Object[2];
 		FoodVO foodVO = foodMapper.selectFoodById(foodId);
 		List<ReviewVO> reviewList = reviewMapper.selectReviewByFoodId(foodId);
+		for(ReviewVO vo: reviewList) {
+			List<ImgReviewVO> list = imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId());
+			vo.setImgReviewList(list);
+		}
 		detailData[0] = foodVO;
 		detailData[1] = reviewList;
 		return detailData;

@@ -42,9 +42,9 @@ public class GiftCardRESTController {
 		return ResponseEntity.ok("0");
 	}
 
-	@GetMapping("/list-unused")
+	@GetMapping("/list-available")
 	public ResponseEntity<Map<String, Object>> availableList(Pagination pagination, HttpSession session) {
-		return getCouponList("unused", pagination, session);
+		return getCouponList("available", pagination, session);
 	}
 
 	@GetMapping("/list-expired")
@@ -80,8 +80,8 @@ public class GiftCardRESTController {
 			List<GiftCardVO> giftCardList = null;
 
 			switch (type) {
-			case "unused":
-				giftCardList = giftCardService.getPagedUnusedGiftCards(memberId, pagination);
+			case "available":
+				giftCardList = giftCardService.getPagedAvailableGiftCards(memberId, pagination);
 				pageMaker.setTotalCount(giftCardService.getAvailableCount(memberId));
 				break;
 			case "expired":

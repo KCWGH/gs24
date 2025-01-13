@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gs24.website.domain.ImgReviewVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodMapper;
+import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
@@ -21,26 +23,23 @@ public class ReviewServiceImple implements ReviewService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+	@Autowired
+	private ImgReviewMapper imgReviewMapper;
 
 	@Autowired
 	private FoodMapper foodMapper;
 
-	@Autowired
-	private String uploadPath;
-
 	@Override
 	@Transactional("transactionManager()")
-	public int createReview(ReviewVO reviewVO, MultipartFile file) {
+	public int createReview(ReviewVO reviewVO) {
 		log.info("createReview()");
 
-		ReviewVO vo = reviewMapper.selectFirstReview();
-		log.info(vo);
-		String chgName = "ReviewNO" + reviewMapper.selectNextReviewId();
-		uploadImgFoodUtil.saveFile(reviewVO, uploadPath, file,
-				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		reviewVO.setReviewImgPath(uploadImgFoodUtil.makeDir(reviewVO) + chgName + "."
-				+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
+		List<ImgReviewVO> imgReviewList = reviewVO.getImgReviewList();
+		
+		for(ImgReviewVO vo : imgReviewList) {
+			imgReviewMapper.insertImgReview(vo);
+		}
 
 		int result = reviewMapper.insertReview(reviewVO);
 		
@@ -77,27 +76,9 @@ public class ReviewServiceImple implements ReviewService {
 
 	@Override
 	@Transactional("transactionManager()")
-	public int updateReview(ReviewVO reviewVO, MultipartFile file) {
+	public int updateReview(ReviewVO reviewVO) {
 		log.info("updateReview");
 		int result = reviewMapper.updateReview(reviewVO);
-
-		if (file != null) {
-			String path = reviewMapper.selectReviewByReviewId(reviewVO.getReviewId()).getReviewImgPath();
-			int dotIndex = path.lastIndexOf('\\');
-
-			String chgName = path.substring(dotIndex + 1);
-
-			log.info(chgName);
-
-			uploadImgFoodUtil.updateFile(reviewVO, uploadPath, file, uploadImgFoodUtil.subStrName(chgName),
-					uploadImgFoodUtil.subStrExtension(chgName),
-					uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-			String imgPath = uploadImgFoodUtil.makeDir(reviewVO) + uploadImgFoodUtil.subStrName(chgName) + "."
-					+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename());
-			log.info(imgPath);
-
-			reviewMapper.updateReviewImgPath(imgPath, reviewVO.getReviewId());
-		}
 
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 		int size = list.size();
@@ -119,18 +100,9 @@ public class ReviewServiceImple implements ReviewService {
 	public int deleteReview(int reviewId, int foodId) {
 		log.info("deleteReview");
 
-		ReviewVO reviewVO = reviewMapper.selectReviewByReviewId(reviewId);
-
-		int dotIndex = reviewVO.getReviewImgPath().lastIndexOf('\\');
-
-		String chgName = reviewVO.getReviewImgPath().substring(dotIndex + 1);
-
-		log.info(chgName);
-
-		uploadImgFoodUtil.deleteFile(reviewVO, uploadPath, chgName);
-
 		int result = reviewMapper.deleteReview(reviewId);
-
+		imgReviewMapper.deleteImgReviewByReviewId(reviewId);
+		
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(foodId);
 
 		int totalReviewRating = 0;
@@ -149,6 +121,9 @@ public class ReviewServiceImple implements ReviewService {
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		}
+		
+		
+		
 		return result;
 	}
 

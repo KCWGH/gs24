@@ -12,12 +12,13 @@ $(document).ready(function() {
     const phoneRegex = /^01[016789]-\d{4}-\d{4}$/;
     
     $("#btnUpdate").click(function(event) {
-        $("#btnUpdateEmail, #btnUpdatePhone, #btnUpdateEnd").prop("hidden", false);
+        $("#btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel").prop("hidden", false);
         $("#btnUpdate").prop("hidden", true);
     });
     
-    $("#btnUpdateEnd").click(function(event) {
-    	location.reload();
+    $("#btnUpdateCancel").click(function(event) {
+        $("#btnUpdateEmail, #btnUpdatePhone, #btnUpdateCancel, #updateEmailResult, #updatePhoneResult").prop("hidden", true);
+        $("#btnUpdate").prop("hidden", false);
     });
 
     $("#btnUpdateEmail").click(function(event) {
@@ -88,9 +89,7 @@ $(document).ready(function() {
         let phone = $("#phone").val();
         
         if (!phoneRegex.test(phone)) {
-        	$("#updatePhoneResult").html('휴대폰 번호 형식이 올바르지 않습니다. <br> <span style="color: gray;">(예: 010-1234-5678)</span>')
-            .css('color', 'red')
-            .show();
+            $("#updatePhoneResult").text("휴대폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)").css('color', 'red').show();
             return;
         }
         
@@ -176,6 +175,8 @@ $(document).ready(function() {
 				<tr>
 					<th>비밀번호</th>
 					<td><button type="button" onclick='location.href="../member/verify"'>비밀번호 변경</button></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -183,9 +184,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th>이메일</th>
-					<td><input id="email" type="email" value="${memberVO.email}" disabled>
-					<button id="btnUpdateEmail" hidden="hidden">수정</button><button id="btnUpdateEmailConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdateEmailCancel" hidden="hidden">취소</button></td>
+					<td><input id="email" type="email" value="${memberVO.email}" disabled></td>
+					<td><button id="btnUpdateEmail" hidden="hidden">수정</button><button id="btnUpdateEmailConfirm" hidden="hidden">저장</button></td>
+					<td><button id="btnUpdateEmailCancel" hidden="hidden">취소</button></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -193,9 +194,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<th>휴대폰</th>
-					<td><input id="phone" type="text" value="${memberVO.phone}" disabled>
-					<button id="btnUpdatePhone" hidden="hidden">수정</button><button id="btnUpdatePhoneConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdatePhoneCancel" hidden="hidden">취소</button></td>
+					<td><input id="phone" type="text" value="${memberVO.phone}" disabled></td>
+					<td><button id="btnUpdatePhone" hidden="hidden">수정</button><button id="btnUpdatePhoneConfirm" hidden="hidden">저장</button></td>
+					<td><button id="btnUpdatePhoneCancel" hidden="hidden">취소</button></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -218,7 +219,7 @@ $(document).ready(function() {
 		</form>
 		<div class="btn-container">
 			<button id="btnUpdate">회원정보 수정</button>
-			<button id="btnUpdateEnd" hidden="hidden">수정 마치기</button>
+			<button id="btnUpdateCancel" hidden="hidden">수정 마치기</button>
 			<button id="btnDelete">회원 탈퇴</button>
 			<p id="textDelete" hidden="hidden">탈퇴 시 사용자의 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p>
 			<button id="btnDeleteConfirm" hidden="hidden">네</button>

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgReviewVO;
 import com.gs24.website.service.ImgService;
 import com.gs24.website.util.GetImgUtil;
 import com.gs24.website.util.uploadImgUtil;
@@ -21,7 +23,7 @@ import com.gs24.website.util.uploadImgUtil;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping("/Image")
+@RequestMapping("/image")
 @Log4j
 public class ImgRESTController {
 	
@@ -31,67 +33,154 @@ public class ImgRESTController {
 	@Autowired
 	private ImgService imgService;
 	
-	@PostMapping
-	public ResponseEntity<List<String>> createImage(MultipartFile[] files, String type) {
-		log.info("createImage()");
-		log.info(type);
-		List<String> entity = new ArrayList<>();
+	@PostMapping("/review")
+	public ResponseEntity<List<ImgReviewVO>> createReviewImage(MultipartFile[] files) {
+		log.info("createReviewImage()");
+		List<ImgReviewVO> entity = new ArrayList<ImgReviewVO>();
+		
+		long reviewId = imgService.getNextReviewId();
+		
+		String dir = "ReviewNO" + reviewId;
+		
 		for(int i=0; i<files.length; i++) {
 			log.info(i + "th file : " + files[i].getOriginalFilename());
+			String realName = uploadImgUtil.subStrName(files[i].getOriginalFilename());
+			
 			String chgName = UUID.randomUUID().toString();
-			String dir = "";
-			if(type.toLowerCase().equals("food")) {
-				dir = "FoodNO" + imgService.getNextFoodId();
-			} else if(type.toLowerCase().equals("review")) {
-				dir = "ReviewNO" + imgService.getNextReviewId();
-			}
 			
-			String extention = uploadImgUtil.subStrExtension(files[i].getOriginalFilename());
+			String extension = uploadImgUtil.subStrExtension(files[i].getOriginalFilename());
 			
-			uploadImgUtil.saveFile(uploadPath, files[i], dir, chgName, extention);
+			uploadImgUtil.saveFile(uploadPath, files[i], dir, chgName, extension);
+		
+			ImgReviewVO imgReviewVO = new ImgReviewVO();
 			
-			entity.add(chgName + "." + extention);
+			imgReviewVO.setImgReviewRealName(realName);
+			imgReviewVO.setImgReviewChgName(chgName);
+			imgReviewVO.setImgReviewExtension(extension);
+			imgReviewVO.setImgReviewPath(uploadImgUtil.makeDir(dir));
+			imgReviewVO.setReviewId((int)reviewId);
+			
+			entity.add(imgReviewVO);
 		}
 		
 		log.info(entity);
 		
-		return new ResponseEntity<List<String>>(entity, HttpStatus.OK);
+		return new ResponseEntity<List<ImgReviewVO>>(entity, HttpStatus.OK);
 	}
 	
-	@GetMapping
-	public ResponseEntity<byte[]> getImage(String path, String type){
-		log.info("getImage");
+	@PostMapping("/food")
+	public ResponseEntity<List<ImgFoodVO>> createFoodImage(MultipartFile[] files) {
+		log.info("createFoodImage()");
+		List<ImgFoodVO> list = new ArrayList<>();
 		
-		String dir = "";
-		if(type.toLowerCase().equals("food")) {
-			dir = "FoodNO" + imgService.getNextFoodId();
-		} else if(type.toLowerCase().equals("review")) {
-			dir = "ReviewNO" + imgService.getNextReviewId();
+		long foodId = imgService.getNextFoodId();
+		
+		String dir = "FoodNO" + foodId;
+		
+		for(int i=0; i<files.length; i++) {
+			log.info(i + "th file : " + files[i].getOriginalFilename());
+			
+			String chgName = UUID.randomUUID().toString();
+			
+			String realName = uploadImgUtil.subStrName(files[i].getOriginalFilename());
+					
+			String extention = uploadImgUtil.subStrExtension(files[i].getOriginalFilename());
+			
+			uploadImgUtil.saveFile(uploadPath, files[i], dir, chgName, extention);
+			
+			ImgFoodVO imgFoodVO = new ImgFoodVO();
+			
+			imgFoodVO.setImgFoodChgName(chgName);
+			imgFoodVO.setImgFoodRealName(realName);
+			imgFoodVO.setImgFoodExtension(extention);
+			imgFoodVO.setImgFoodPath(uploadImgUtil.makeDir(dir));
+			imgFoodVO.setFoodId((int)foodId);
+			
+			list.add(imgFoodVO);
 		}
 		
-		String realPath = uploadPath + File.separator + uploadImgUtil.makeDir(dir) + File.separator +  path;
+		return new ResponseEntity<List<ImgFoodVO>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/display")
+	public ResponseEntity<byte[]> getReviewImage(String path, String chgName , String extension){
+		log.info("getReviewImage");
 		
-		ResponseEntity<byte[]> entity = GetImgUtil.getImage(realPath);
+		String fullPath = uploadPath + File.separator + path + chgName + "." + extension;
+		
+		log.info("fullPath = " + fullPath);
+		
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		
 		return entity;
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<Integer> delete(String path, String type){
+	public ResponseEntity<Integer> delete(String path, String chgName, String extension){
 		log.info("delete()");
-		log.info(path);
-		String dir = "";
-		if(type.toLowerCase().equals("food")) {
-			dir = "FoodNO" + imgService.getNextFoodId();
-		} else if(type.toLowerCase().equals("review")) {
-			dir = "ReviewNO" + imgService.getNextReviewId();
+		
+		String fullPath = uploadPath + File.separator + path + chgName + "." + extension;
+		
+		uploadImgUtil.deleteFile(fullPath);
+		
+		return new ResponseEntity<Integer>(1, HttpStatus.OK);
+	}
+	
+	@PostMapping("/cancel")
+	public ResponseEntity<Integer> cancel(String path){
+		log.info("cancel()");
+		
+		if(path == null) {
+			return new ResponseEntity<Integer>(1, HttpStatus.OK);
 		}
 		
-		String chgName = uploadImgUtil.subStrName(path);
-		String extention = uploadImgUtil.subStrExtension(path);
+		log.info("path : " + path);
 		
-		uploadImgUtil.deleteFile(uploadPath, dir, chgName, extention);
+		String fullPath = uploadPath + File.separator + path;
 		
-		return null;
+		File forder = new File(fullPath);
+		
+		log.info("isDirectory : " + forder.isDirectory());
+		
+		File[] fileList = forder.listFiles();
+		
+		System.gc();
+		for(int i=0; i < fileList.length; i++) {
+			fileList[i].delete();
+		}
+		
+		forder.delete();
+		
+		return new ResponseEntity<Integer>(1, HttpStatus.OK);
+	}
+	
+	@GetMapping("/reviewImage")
+	public ResponseEntity<byte[]> getReviewImage(int imgReviewId){
+		log.info("getReviewImage()");
+		
+		ImgReviewVO vo = imgService.getImgReviewById(imgReviewId);
+		
+		log.info(vo);
+		
+		String fullPath = uploadPath + File.separator + vo.getImgReviewPath() + vo.getImgReviewChgName() + "." + vo.getImgReviewExtension();
+		
+		log.info(fullPath);
+		
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
+		
+		return entity;
+	}
+	
+	@GetMapping("/food")
+	public ResponseEntity<byte[]> getFoodImage(int imgFoodId){
+		log.info("getFoodImage()");
+		
+		ImgFoodVO vo = imgService.getImgFoodById(imgFoodId);
+		
+		String fullPath = uploadPath + File.separator + vo.getImgFoodPath() + vo.getImgFoodChgName() + "." + vo.getImgFoodExtension();
+		
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
+		
+		return entity;
 	}
 }

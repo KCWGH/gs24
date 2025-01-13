@@ -35,16 +35,20 @@ public class ImageCheckTask {
 		
 		List<String> savedList = imgFoodList.stream().filter(this::isImage).map(this::toChgName).collect(Collectors.toList());
 		
+		//imgFoodList.stream().filter(this::isImage).map(null)
+		
 		log.warn(savedList);
 		
 		File targetDir = Paths.get(uploadPath, imgFoodList.get(0).getImgFoodPath()).toFile();
-		
-		
 		
 		//TODO : 지금은 DB에 ImgFoodPath가 .png 등의 파일 형태로 저장되어 있지만 나중에 폴더 명으로 한다면 바뀌어야 한다.
 		log.info("isDirectory : " + targetDir.isDirectory());
 		
 		log.info("isFile : " + targetDir.isFile());
+		
+		File[] removeFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
+		
+		log.info(removeFiles);
 	}
 	
 	public String toChgName(ImgFoodVO imgFoodVO) {

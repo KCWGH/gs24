@@ -43,7 +43,11 @@
 		<hr>
 		<input type="hidden" value="${reviewVO.reviewId }"/>
 		<p>회원 아이디 : ${reviewVO.memberId }</p>
-		<img src='../Img/Review?reviewId=${reviewVO.reviewId }'>
+		<div class='imagReviewList'>
+			<c:forEach var="ImgReviewVO" items="${reviewVO.imgReviewList }">
+				<img src="../image/reviewImage?imgReviewId=${ImgReviewVO.imgReviewId }">
+			</c:forEach>
+		</div>
 		<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
 		<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
 		<p>리뷰 별점 : ${reviewVO.reviewRating }</p>

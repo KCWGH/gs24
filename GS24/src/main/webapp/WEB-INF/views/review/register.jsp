@@ -49,10 +49,26 @@
 <body>
 	<input type="hidden" class="path">
 	<p>리뷰 작성</p>
+	
+	<form action="../review/register" method="post" id="registForm">
+		<input type="hidden" name="foodId" value="${foodId }">
+		<input type="hidden" name="memberId" value="test">
+		<p>제목 : <p>
+		<input type="text" name="reviewTitle"><br>
+		<p>내용 : <p>
+		<textarea rows="10" cols="40" name="reviewContent"></textarea><br>
+		<p>별점 : <p>
+		<input type="number" name="reviewRating">
+	</form>
+	
+	<p>사진등록<p>
 	<div class="image-drop"></div>
 	<div class="image-list">
 	</div><button class="cancel">취소</button>
-	<br><br><button>등록</button>
+	<br><br><button class="submit">등록</button>
+	
+	<div class="ImgReviewVOList"></div>
+	
 	<script type="text/javascript">
 	$(document).ready(function(){
 		// 파일 객체를 배열로 전달받아 검증하는 함수
@@ -99,8 +115,10 @@
 		$('.image-drop').on('drop', function(event){
 			event.preventDefault();
 			console.log('drop 테스트');
-			
-			$('.image-list').empty(); // 기존 이미지 dto 초기화
+			console.log($(".image_item").length);
+			if($(".image_item").length > 2){
+				$('.image-list').empty(); // 기존 이미지 dto 초기화
+			}
 							
 			// 드래그한 파일 정보를 갖고 있는 객체
 			var files = event.originalEvent.dataTransfer.files;
@@ -117,25 +135,39 @@
 			for(var i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); 
 			}
-			formData.append("type", "review");
 			
 			$.ajax({
 				type : 'post', 
-				url : '../Image', 
+				url : '../image/review', 
 				data : formData,
 				processData : false,
 				contentType : false,
 				success : function(data) {
-					var list = "";
+					var list =""
 					$(data).each(function(){
 						console.log(this);
-						var path = encodeURIComponent(this);
-						list += '<div class="image_item">'
-								+ '<input type="hidden" class="path" name="path" value='+path+'>'
-								+ "<img width='100px' height='100px' src='../Image?path="+path+"&type=review'>"
-								+ '</div>';
-						});
-					$(".image-list").append(list);
+						var ImgReviewVO = this;
+						var ImgReviewPath = encodeURIComponent(ImgReviewVO.imgReviewPath);
+						console.log(ImgReviewPath);
+						var input = $('<input>').attr('type', 'hidden').attr('name', 'ImgReviewVO').attr('data-chgName', ImgReviewVO.imgReviewChgName);
+						
+						input.val(JSON.stringify(ImgReviewVO));
+						
+						$('.ImgReviewVOList').append(input);
+						
+						list += '<div class="image_item" data-chgName="'+ this.imgReviewChgName +'"'
+							 +	'<pre>'
+							 +	'<input type="hidden" id="ImgReviewPath" value="'+ ImgReviewVO.imgReviewPath +'">'
+							 +	'<input type="hidden" id="ImgReviewChgName" value="'+ ImgReviewVO.imgReviewChgName +'">'
+							 +	'<input type="hidden" id="ImgReviewExtension" value="'+ ImgReviewVO.imgReviewExtension +'">'
+							 +	'<img src="../image/display?path='+ ImgReviewPath + "&chgName=" + ImgReviewVO.imgReviewChgName +"&extension=" + ImgReviewVO.imgReviewExtension + '" target="_blank" width="100px" height="100px" />'
+							 +	'</pre>'
+							 +	'</div>';
+					});// end each 
+					
+					var htmlList = $(".image-list").html();
+					htmlList = htmlList + list;
+					$(".image-list").html(htmlList);
 				} // end success
 			}); // end $.ajax()
 			
@@ -143,32 +175,76 @@
 		
 		$(".image-list").on('click','.image_item',function(){
 			console.log(this);
-			var ondelete = confirm("삭제하시겠습니까?");
-			if(ondelete){
-				$(this).detach();
+			var clickedItem = this;
+			var isDelete = confirm("삭제하시겠습니까?");
+			if(isDelete){
 				
-				var inputpath = $(this).find('.path').val();
-				
-				var path = encodeURIComponent(inputpath);
-				console.log("path : " + path);
-				var formData = new FormData();
-				
-				formData.append("path", path);
-				formData.append("type", "review");
+				var path = $(this).find('#ImgReviewPath').val();
+				var chgName = $(this).find('#ImgReviewChgName').val();
+				var extension = $(this).find('#ImgReviewExtension').val();
 				
 				$.ajax({
 					type : 'post',
-					url : '../Image/delete',
-					data : formData,
-					processData : false,
-					contentType : false,
-					success : function(data){
-						
+					url : '../image/delete',
+					data : {'path' : path, 'chgName' : chgName, 'extension' : extension},
+					success : function(result){
+						if(result == 1){
+							console.log("file delete success");
+							$(clickedItem).remove();
+							var find = $(".ImgReviewVOList").find('input[data-chgName='+chgName+']');
+							$(find).remove();
+						} else {
+							console.log("file delete fail");
+						}
 					}
 				});
 			}
 		});
 		
+		$(".cancel").click(function(){
+			var isCancel = confirm("리뷰 작성을 취소하시겠습니까?");
+			
+			if(isCancel){
+				var path = $(".image_item").find("input[id=ImgReviewPath]").val();
+				console.log(path);
+				$.ajax({
+					type : 'post',
+					url : '../image/cancel',
+					data : {'path': path},
+					success: function(result){
+						$(".image-list").empty();
+						$(".ImgReviewVOList").remove();
+						location.href="../food/list";
+					}
+				});//end ajax
+			}
+		});// end click
+		
+		$(".submit").click(function(){
+			var registForm = $("#registForm");
+			
+			var i = 0;
+			$(".ImgReviewVOList input").each(function(){
+				var ImgReviewVO = JSON.parse($(this).val());
+				console.log(ImgReviewVO);
+				
+				var reviewId =	$("<input>").attr('type','hidden').attr('name','imgReviewList['+i+'].reviewId').attr('value',ImgReviewVO.reviewId);
+				var realName =	$("<input>").attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewRealName').attr('value',ImgReviewVO.imgReviewRealName);
+				var chgName =	$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewChgName').attr('value',ImgReviewVO.imgReviewChgName);
+				var extension =	$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewExtension').attr('value',ImgReviewVO.imgReviewExtension);
+				var path =		$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewPath').attr('value',ImgReviewVO.imgReviewPath);
+				
+				registForm.append(reviewId);
+				registForm.append(realName);
+				registForm.append(chgName);
+				registForm.append(extension);
+				registForm.append(path);
+				
+				i++;
+			}); //end each
+			
+			registForm.submit();
+		});//end click
 	}); // end document
 	</script>
 </body>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gs24.website.domain.ImgReviewVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
 import com.gs24.website.util.PageMaker;
@@ -46,17 +47,19 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/register")
-	public void registerGET() {
+	public void registerGET(Model model, int foodId) {
 		log.info("registerGET()");
+		
+		model.addAttribute("foodId", foodId);
 	}
 	
 	@PostMapping("/register")
-	public String registerPOST(ReviewVO reviewVO, MultipartFile file) {
+	public String registerPOST(ReviewVO reviewVO) {
 		log.info("registerPOST()");
-		log.info(file.getOriginalFilename());
-		int result = reviewService.createReview(reviewVO, file);
-
-		return "redirect:list?foodId=" + reviewVO.getFoodId();
+		log.info(reviewVO);
+		reviewService.createReview(reviewVO);
+		
+		return "redirect:../food/list";
 	}
 
 	@GetMapping("/delete")
@@ -81,12 +84,11 @@ public class ReviewController {
 		model.addAttribute("reviewVO", reviewVO);
 	}
 	@PostMapping("/update")
-	public String updatePOST(ReviewVO reviewVO, MultipartFile file) {
+	public String updatePOST(ReviewVO reviewVO) {
 		log.info("updatePOST()");
 		log.info(reviewVO);
-		log.info(file.getOriginalFilename());
 		
-		reviewService.updateReview(reviewVO, file);
+		reviewService.updateReview(reviewVO);
 		
 		return "redirect:list?foodId=" + reviewVO.getFoodId();
 	}

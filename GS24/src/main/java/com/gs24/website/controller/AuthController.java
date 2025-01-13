@@ -138,7 +138,7 @@ public class AuthController {
 		if (currentMonth == birthdayMonth && currentDay == birthdayDay && isExisting != 1) {
 			GiftCardVO giftCardVO = new GiftCardVO();
 			giftCardVO.setGiftCardName("생일 축하 쿠폰");
-			giftCardVO.setBalance(10000);
+			giftCardVO.setDiscountValue(10000);
 			giftCardVO.setFoodType("전체");
 			giftCardVO.setMemberId(memberId);
 
@@ -154,6 +154,16 @@ public class AuthController {
 			return giftCardService.grantGiftCard(giftCardVO);
 		}
 		return 0;
+	}
+
+	@GetMapping("/login-success")
+	public void loginSuccessGET() {
+		log.info("loginSuccessGET");
+	}
+
+	@GetMapping("/login-fail")
+	public void loginfailGET() {
+		log.info("loginFailGET()");
 	}
 
 	@GetMapping("/find-id")

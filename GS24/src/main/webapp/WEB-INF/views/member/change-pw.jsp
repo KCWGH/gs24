@@ -44,7 +44,7 @@ function checkPw() {
 
     const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!pwRegex.test(password)) {
-        $('#passwordMatchMessage').html("비밀번호는 최소 8자 이상,<br>대소문자, 숫자, 특수문자를 포함해야 합니다.").css('color', 'red').show();
+        $('#passwordMatchMessage').text("비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.").css('color', 'red');
         $('#btnUpdatePw').prop('disabled', true);
     } else {
         if (password === passwordConfirm) {
@@ -63,24 +63,21 @@ function checkPw() {
     <h2>비밀번호 변경</h2>
     <h3>새로운 비밀번호를 입력해주세요.</h3>
     <form action="change-pw" method="POST">
-    <div>
+        <div>
             <input type="hidden" id="memberId" name="memberId" value="${memberVO.memberId}" readonly>
         </div>
-    <table>
-		<tr>
-			<th>비밀번호</th>
-			<td><input type="password" id="password" name="password" required></td>
-		</tr>
-		<tr>
-			<th>비밀번호 확인</th>
-			<td><input type="password" id="passwordConfirm" name="passwordConfirm" required></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><span id="passwordMatchMessage"></span></td>
-		</tr>
-	</table>
-        <br>
+
+        <div>
+            <label for="password">비밀번호</label> 
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div>
+            <label for="passwordConfirm">비밀번호 확인</label> 
+            <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+        </div>
+        <span id="passwordMatchMessage"></span><br>
+
         <button type="submit" id="btnUpdatePw" disabled>비밀번호 변경</button> 
         <button type="button" onclick='location.href="mypage"'>마이페이지로 돌아가기</button>
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">

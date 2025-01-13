@@ -23,7 +23,7 @@ public class GiftCardVO {
 	Date giftCardGrantDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	Date giftCardExpiredDate;
-	int balance;
+	int discountValue;
 	String foodType;
 	int isUsed;
 

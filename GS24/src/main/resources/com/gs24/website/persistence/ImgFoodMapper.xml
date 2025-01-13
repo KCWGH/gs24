@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateImgFood">
 		UPDATE IMG_FOOD SET
-		IMG_FOOD_PATH = #{ImgFoodPath}, IMG_FOOD_REAL_NAME =  #{ImgFoodRealName}, IMG_FOOD_CHG_NAME = #{ImgFoodChgName}, IMG_FOOD_EXTENSION = #{ImgFoodExtension}
+		IMG_FOOD_PATH = #{ImgFoodPath}, IMG_FOOD_REAL_NAME =  #{ImgFoodRealName}, IMG_FOOD_CHG_NAME = #{ImgFoodChgName}, IMG_FOOD_EXTENSION = #{ImgFoodExtension}, IMG_FOOD_DATE_CREATED = SYSDATE
 		WHERE FOOD_ID = #{foodId}
 	</update>
 	

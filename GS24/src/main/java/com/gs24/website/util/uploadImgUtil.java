@@ -65,14 +65,31 @@ public class uploadImgUtil {
 	        String fullPath = uploadPath + File.separator + makeDir(dir) + chgName + "." + extention;
 	        File file = new File(fullPath);
 	        if(file.exists()) {
-	        	log.info(fullPath + " file find");
+	        	log.info(fullPath + " found");
+	        	System.gc();
 	            if(file.delete()) {
-	                log.info(fullPath + " file delete success.");
+	                log.info(fullPath + " delete success.");
 	            } else {
-	                log.error(fullPath + " file delete failed.");
+	                log.error(fullPath + " delete failed.");
 	            }
 	        } else {
-	            log.error(fullPath + " file not found.");
+	            log.error(fullPath + " not found.");
 	        }
 	    }
+	  
+	  public static void deleteFile(String fullPath) {
+		  File file = new File(fullPath);
+		  log.info(file.isFile());
+		  if(file.exists()) {
+			  log.info(fullPath + " found");
+			  System.gc();
+			  if(file.delete()) {
+				  log.info(fullPath + " delete success");
+			  } else {
+				  log.error(fullPath + " delete failed");
+			  }
+		  } else {
+			  log.error(fullPath + " not found");
+		  }
+	  }
 }

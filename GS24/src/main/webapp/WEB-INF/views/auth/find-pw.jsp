@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-        	const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        	
         	const urlParams = new URLSearchParams(window.location.search);
             const memberId = urlParams.get('memberId');
             
@@ -23,13 +23,6 @@
             function checkPw() {
                 let password = $('#password').val();
                 let passwordConfirm = $('#passwordConfirm').val();
-                
-                if (!pwRegex.test(password)) {
-                    $('#passwordMatchMessage').text("비밀번호는 최소 8자, 대문자, 소문자, 숫자, 특수문자를 각각 하나 이상 포함해야 합니다.").css('color', 'red');
-                    isPasswordMatched = false;
-                    return;
-                }
-                
                 if (password === "" || passwordConfirm === "") {
                     $('#passwordMatchMessage').text("비밀번호를 입력해주세요.").css('color', 'red');
                     $('#btnUpdatePw').prop('disabled', true);
@@ -44,48 +37,41 @@
                 }
             }
 
-            $("#btnSendVerificationCode").click(function(event) {
+            $("#btnSendVerificationCode").click(function(event){
                 event.preventDefault();
                 let memberId = $("#memberId").val();
                 let email = $("#email").val();
-
-                if (email === "" || memberId === "") {
+                let verificationCode = $("#verificationCode").val();
+            	if (email === "" || memberId === "") {
                     alert("아이디와 이메일을 모두 기입해주세요.");
                     return;
                 }
-
-                // 인증번호 전송 버튼 비활성화
-                $("#btnSendVerificationCode").prop("disabled", true);
-
-                // 기존 타이머를 초기화
-                if (timerInterval) {
-                    clearInterval(timerInterval); // 기존 타이머 정지
-                }
-                remainingTime = 2 * 60; // 타이머를 2분으로 초기화
-                
-                $("#verificationCode").prop("disabled", false);
-
+            	$("#btnSendVerificationCode").prop("disabled", true);
                 $.ajax({
                     url: "find-pw",
                     type: "POST",
                     data: { memberId: memberId, email: email },
                     success: function(response) {
-                        $("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
-                        $("#sendResult, #verificationText, #verificationCode, #btnVerifyCode").show();
-                        startTimer(); // 타이머 시작
+                    	$("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
+                        $("#sendResult,#verificationText,#verificationCode,#btnVerifyCode").show();
+                        startTimer();
                         $("#timer").show();
                     },
                     error: function(xhr, status, error) {
                         let responseText = xhr.responseText;
                         if (responseText === "do not exist") {
-                            $("#sendResult").html("해당 아이디에 등록된 이메일이 아닙니다. 다시 확인해주세요.").show();
+                        	$("#sendResult").html("해당 아이디에 등록된 이메일이 아닙니다. 다시 확인해주세요.");
+                        	$("#sendResult").show();
                         } else {
-                            $("#sendResult").html("이메일 전송에 실패했습니다. 다시 시도해 주세요.").show();
+                        	$("#sendResult").html("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
+                        	$("#sendResult").show();
                         }
+                    },
+                    complete: function() {
+                        $("#btnSendVerificationCode").prop("disabled", false);
                     }
                 });
             });
-
 
             $("#btnUpdatePw").prop('disabled', true);
             $('#password').on('input', checkPw);
@@ -158,7 +144,6 @@
                         clearInterval(timerInterval);  // 타이머 멈추기
                         $("#timer").text("인증번호가 만료되었습니다.");
                         $("#verificationCode").prop("disabled", true);  // 인증번호 입력 불가
-                        $("#btnSendVerificationCode").prop("disabled", false);
                     }
                 }, 1000);
             }
@@ -168,68 +153,33 @@
 <body>
     <h2>비밀번호 찾기</h2>
     <p>회원가입 시 등록된 이메일로 인증번호를 전송합니다.</p>
-    
-    <table>
-        <tr>
-            <th>아이디</th>
-            <td>
-                <input type="text" id="memberId" name="memberId" required>
-            </td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <input type="email" id="email" name="email" required>
-                <button id="btnSendVerificationCode">인증번호 전송</button>
-            </td>
-        </tr>
-        <tr>
-        	<th></th>
-        	<td>
-        		<div id="sendResult" hidden="hidden"></div>
-        	</td>
-        </tr>
-        <tr>
-        	<th><span id="verificationText" hidden="hidden">인증번호</span></th>
-        	<td>
-        	<input type="text" id="verificationCode" name="verificationCode" required hidden="hidden">
-        	<button id="btnVerifyCode" hidden="hidden">인증번호 확인</button>
-        	</td>
-        </tr>
-        <tr>
-        	<th></th>
-        	<td>
-        		<div id="timer" hidden="hidden"></div>
-    			<div id="findResult" hidden="hidden"></div>
-        	</td>
-        </tr>
-    </table>
-    
+
+    <label for="memberId">아이디: </label>
+    <input type="text" id="memberId" name="memberId" required><br>
+
+    <label for="email">이메일: </label>
+    <input type="email" id="email" name="email" required>
+    <button id="btnSendVerificationCode">인증번호 전송</button><br>
+
+    <div id="sendResult" hidden="hidden"></div>
+    <span id="verificationText" hidden="hidden">인증번호: </span>
+    <input type="text" id="verificationCode" name="verificationCode" required hidden="hidden">
+    <button id="btnVerifyCode" hidden="hidden">인증번호 확인</button><br>
+    <div id="timer" hidden="hidden"></div>
+    <div id="findResult" hidden="hidden"></div>
+
     <div id="divPassword" hidden="hidden">
-    	<p>비밀번호를 재설정합니다.</p>
-    	<table>
-    		<tr>
-    			<th>비밀번호</th>
-    			<td>
-    				<input type="password" id="password" name="password" required>
-    			</td>
-    		</tr>
-    		<tr>
-    			<th>비밀번호 확인</th>
-    			<td>
-    				<input type="password" id="passwordConfirm" name="passwordConfirm" required >
-    				<button type="button" onclick="checkPw()" hidden="hidden">비밀번호 확인</button>
-    				<button id="btnUpdatePw" disabled>비밀번호 변경</button>
-    			</td>
-    		</tr>
-    		<tr>
-    			<th></th>
-    			<td>
-    				<span id="passwordMatchMessage"></span>
-    				<span id="updateResult"></span>
-    			</td>
-    		</tr>
-    	</table>     
+    	<span>비밀번호를 재설정합니다.</span><br>
+        <label for="password">비밀번호: </label>
+        <input type="password" id="password" name="password" required><br>
+        
+        <label for="passwordConfirm">비밀번호 확인: </label>
+        <input type="password" id="passwordConfirm" name="passwordConfirm" required >
+        
+        <button type="button" onclick="checkPw()" hidden="hidden">비밀번호 확인</button><br>
+        <span id="passwordMatchMessage"></span>
+        <button id="btnUpdatePw" disabled>비밀번호 변경</button><br>
+        <span id="updateResult"></span>
     </div>
 
     <a href="find-id"><button type="button">아이디 찾기</button></a>

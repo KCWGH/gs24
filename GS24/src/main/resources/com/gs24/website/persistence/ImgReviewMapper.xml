@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.ImgReviewMapper">
+	<resultMap type="com.gs24.website.domain.ImgReviewVO" id="ImgReviewResultMap">
+		<id property="ImgReviewId" column="IMG_REVIEW_ID"/>
+		<result property="reviewId" column="REVIEW_ID"/>
+		<result property="ImgReviewRealName" column="IMG_REVIEW_REAL_NAME"/>
+		<result property="ImgReviewChgName" column="IMG_REVIEW_CHG_NAME"/>
+		<result property="ImgReviewExtension" column="IMG_REVIEW_EXTENSION"/>
+		<result property="ImgReviewDateCreated" column="IMG_REVIEW_DATE_CREATED"/>
+		<result property="ImgReviewPath" column="IMG_REVIEW_PATH"/>
+	</resultMap>
+	
+	<insert id="insertImgReview">
+		INSERT INTO IMG_REVIEW
+		(IMG_REVIEW_ID, REVIEW_ID, IMG_REVIEW_REAL_NAME, IMG_REVIEW_CHG_NAME, IMG_REVIEW_EXTENSION, IMG_REVIEW_PATH)
+		VALUES(IMG_REVIEW_SEQ.NEXTVAL, #{reviewId}, #{ImgReviewRealName}, #{ImgReviewChgName}, #{ImgReviewExtension}, #{ImgReviewPath})
+	</insert>
+	
+	<select id="selectImgReviewByReviewId" resultMap="ImgReviewResultMap">
+		SELECT * FROM IMG_REVIEW WHERE REVIEW_ID = #{reviewId}
+	</select>
+	
+	<select id="selectImgReviewById" resultMap="ImgReviewResultMap">
+		SELECT * FROM IMG_REVIEW WHERE IMG_REVIEW_ID = #{ImgReviewId}
+	</select>
+	
+	<select id="selectAllImgReview" resultMap="ImgReviewResultMap">
+		SELECT * FROM IMG_REVIEW ORDER BY IMG_REVIEW_ID DESC
+	</select>
+	
+	<update id="updateImgReviewById">
+		UPDATE IMG_REVIEW SET
+		IMG_REVIEW_PATH = #{ImgReviewPath}, IMG_REVIEW_REAL_NAME=#{ImgReviewRealName}, IMG_REVIEW_CHG_NAME=#{ImgReviewChgName}, IMG_REVIEW_EXTENTION={ImgReviewExtention}, IMG_REVIEW_DATE_CREATED = SYSDATE
+		WHERE IMG_REVIEW_ID = #{ImgReviewId}
+	</update>
+	
+	<delete id="deleteImgReviewById">
+		DELETE IMG_REVIEW WHERE IMG_REVIEW_ID = #{ImgReviewId}
+	</delete>
+	
+	<select id="selectOldList" resultMap="ImgReviewResultMap">
+		SELECT * FROM IMG_REVIEW WHERE IMG_REVIEW_DATE_CREATED = TO_CHAR(SYSDATE - 1, "yyyy\mm\dd")
+	</select>
+	
+	<delete id="deleteImgReviewByReviewId">
+		DELETE * FROM IMG_REVIEW WHERE REVIEW_ID = #{reviewId}
+	</delete>
+</mapper>

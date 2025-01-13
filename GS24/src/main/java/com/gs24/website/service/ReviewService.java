@@ -8,13 +8,13 @@ import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.util.Pagination;
 
 public interface ReviewService {
-	int createReview(ReviewVO reviewVO, MultipartFile file);
+	int createReview(ReviewVO reviewVO);
 	
 	List<ReviewVO> getAllReviewByFoodId(int foodId);
 	
 	ReviewVO getReviewByReviewId(int reviewId);
 	
-	int updateReview(ReviewVO reviewVO, MultipartFile file);
+	int updateReview(ReviewVO reviewVO);
 	
 	int deleteReview(int reviewId, int foodId);
 	

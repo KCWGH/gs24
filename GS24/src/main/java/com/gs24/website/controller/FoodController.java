@@ -31,7 +31,7 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
-    // 음식 목록 페이지
+    // �쓬�떇 紐⑸줉 �럹�씠吏�
     @GetMapping("/list")
     public void listGET(HttpSession session, Model model, Pagination pagination) {
         log.info("listGET()");
@@ -51,13 +51,13 @@ public class FoodController {
         model.addAttribute("FoodList", foodList);
     }
 
-    // 음식 등록 페이지
+    // �쓬�떇 �벑濡� �럹�씠吏�
     @GetMapping("/register")
     public void registerGET() {
         log.info("registerGET()");
     }
 
-    // 음식 등록 처리
+    // �쓬�떇 �벑濡� 泥섎━
     @PostMapping("/register")
     public String registerPOST(FoodVO foodVO, MultipartFile file) {
         log.info("registerPOST()");
@@ -68,16 +68,17 @@ public class FoodController {
         return "redirect:/food/list";
     }
 
-    // 음식 상세 페이지
+    // �쓬�떇 �긽�꽭 �럹�씠吏�
     @GetMapping("/detail")
     public void detailGET(Model model, Integer foodId) {
         log.info("detailGET()");
         Object[] detailData = foodService.getDetailData(foodId);
+        log.info(detailData[1]);
         model.addAttribute("FoodVO", detailData[0]);
         model.addAttribute("reviewList", detailData[1]);
     }
 
-    // 음식 수정 페이지
+    // �쓬�떇 �닔�젙 �럹�씠吏�
     @GetMapping("/update")
     public void updateGET(Model model, Integer foodId) {
         log.info("updateGET()");
@@ -85,25 +86,25 @@ public class FoodController {
         model.addAttribute("FoodVO", foodVO);
     }
 
-    // 음식 수정 처리
+    // �쓬�떇 �닔�젙 泥섎━
     @PostMapping("/update")
     public String updatePOST(FoodVO foodVO, MultipartFile file) {
         log.info("updatePOST()");
-        // 음식 정보 수정
+        // �쓬�떇 �젙蹂� �닔�젙
         int result = foodService.updateFood(foodVO, file);
         if (result > 0) {
-            log.info("음식 정보 업데이트 성공");
+            log.info("�쓬�떇 �젙蹂� �뾽�뜲�씠�듃 �꽦怨�");
         } else {
-            log.info("음식 정보 업데이트 실패");
+            log.info("�쓬�떇 �젙蹂� �뾽�뜲�씠�듃 �떎�뙣");
         }
 
 		return "redirect:/food/list";
 	}
 
 	@GetMapping("/delete")
-	public String delete(int foodId) {
+	public String delete(int foodId, int reviewId) {
 		log.info("deleteFood()");
-		foodService.deleteFood(foodId);
+		foodService.deleteFood(foodId, reviewId);
 
 		return "redirect:/food/list";
 	}

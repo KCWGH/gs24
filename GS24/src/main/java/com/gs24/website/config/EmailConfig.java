@@ -8,9 +8,6 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 public class EmailConfig {
 
 	private static Properties props = new Properties();
@@ -19,7 +16,7 @@ public class EmailConfig {
 		try {
 			InputStream input = EmailConfig.class.getClassLoader().getResourceAsStream("email.properties");
 			if (input == null) {
-				log.info("Sorry, unable to find email.properties");
+				System.out.println("Sorry, unable to find email.properties");
 			} else {
 				props.load(input);
 			}

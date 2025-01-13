@@ -1,6 +1,7 @@
 package com.gs24.website.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 import lombok.Getter;
@@ -21,5 +22,5 @@ public class ReviewVO {
 	int reviewRating;
 	Date reviewDateCreated;
 	
-	String reviewImgPath;
+	List<ImgReviewVO> imgReviewList;
 }

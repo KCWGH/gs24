@@ -8,15 +8,21 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.service.ImgFoodService;
+import com.gs24.website.service.ImgReviewService;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class GetImgUtil {
+	
 	public static ResponseEntity<byte[]> getImage(String filePath){
 		log.info("getImage()");
 		
