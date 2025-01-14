@@ -61,8 +61,8 @@ function setExpirationDate(days) {
   }
 }
 
-function setDiscountValue(value) {
-  $("input[name='discountValue']").val(value);
+function setBalance(value) {
+  $("input[name='balance']").val(value);
 }
 
 $(document).ready(function() {
@@ -74,17 +74,6 @@ $(document).ready(function() {
   let minutes = String(currentDate.getMinutes()).padStart(2, '0');
   let minFormattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
   $('#giftCardExpiredDate').attr('min', minFormattedDate);
-
-    let discountFormHTML = '';
-      discountFormHTML += '<div><label for="discountValue">금액: </label>';
-      discountFormHTML += '<input type="number" name="discountValue" required> 원<br>';
-      discountFormHTML += '<button type="button" onclick="setDiscountValue(1000)">1000원</button>';
-      discountFormHTML += '<button type="button" onclick="setDiscountValue(3000)">3000원</button>';
-      discountFormHTML += '<button type="button" onclick="setDiscountValue(5000)">5000원</button>';
-      discountFormHTML += '<button type="button" onclick="setDiscountValue(10000)">10000원</button>';
-      discountFormHTML += '<button type="button" onclick="setDiscountValue(30000)">30000원</button></div>';
-    $('#discountForm').html(discountFormHTML);
- 
 });
 </script>
 </head>
@@ -96,42 +85,56 @@ $(document).ready(function() {
     </c:if>
 <h2>개별 기프트카드 제공</h2>
 <form action="grant" method="POST">
-  <div>
-    <label for="giftCardName">기프트카드 이름: </label>
-    <input type="text" id="giftCardName" name="giftCardName"><br>
-    기프트카드 이름을 적지 않으면 기본 기프트카드 이름으로 제공됩니다.<br>
-    <span style="color:gray">예) 음료 1000원 할인권</span>
-  </div><br>
-  <div>
-    <label for="memberId">아이디: </label>
-    <input type="text" id="memberId" name="memberId" required>
-    <button type="button" onclick="checkId(event)">아이디 체크</button>
-  </div><br>
-  <div>
-    <label for="foodType">음식 종류: </label>
-    <select id="foodType" name="foodType">
-    <option value="" selected disabled>선택하세요</option>
+<table>
+	<tr>
+		<th><label for="giftCardName">기프트카드 이름</label></th>
+		<td><input type="text" id="giftCardName" name="giftCardName"></td>
+	</tr>
+	<tr>
+		<td colspan="2">※ 기입하지 않으면 기본 기프트카드 이름으로 제공됩니다.<br>
+    	<span style="color:gray">예) 음료 10000원 금액권</span></td>
+	</tr>
+	<tr>
+		<th><label for="memberId">아이디</label></th>
+		<td><input type="text" id="memberId" name="memberId" required><button type="button" onclick="checkId(event)">아이디 체크</button></td>
+	</tr>
+	<tr>
+		<th><label for="foodType">음식 종류</label></th>
+		<td><select id="foodType" name="foodType" required>
+    <option value="" selected disabled >선택하세요</option>
       <c:forEach var="food" items="${foodTypeList}">
         <option value="${food}">${food}</option>
       </c:forEach>
-    </select>
-  </div><br>
-  <div id="discountForm"></div><br>
-  <div>
-    <label for="giftCardExpiredDate">유효기간: </label>
-    <input type="datetime-local" id="giftCardExpiredDate" name="giftCardExpiredDate" required><br>
-  </div>
-  <div>
-    <button type="button" onclick="setExpirationDate(1)">하루</button>
+    </select></td>
+	</tr>
+	<tr>
+		<th><label for="discountValue">금액</label></th>
+		<td><input type="number" name="balance" min="1000" step="1" required> 원</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><button type="button" onclick="setBalance(1000)">1000원</button>
+		<button type="button" onclick="setBalance(3000)">3000원</button>
+		<button type="button" onclick="setBalance(5000)">5000원</button>
+		<button type="button" onclick="setBalance(10000)">10000원</button>
+		<button type="button" onclick="setBalance(30000)">30000원</button></td>
+	</tr>
+	<tr>
+		<th><label for="giftCardExpiredDate">유효기간</label></th>
+		<td><input type="datetime-local" id="giftCardExpiredDate" name="giftCardExpiredDate" required></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><button type="button" onclick="setExpirationDate(1)">하루</button>
     <button type="button" onclick="setExpirationDate(3)">3일</button>
     <button type="button" onclick="setExpirationDate(7)">1주일</button>
     <button type="button" onclick="setExpirationDate(30)">1개월</button>
-    <button type="button" onclick="setExpirationDate(365)">1년</button>
-  </div><br>
-  <div>
+    <button type="button" onclick="setExpirationDate(365)">1년</button></td>
+	</tr>
+</table>
+<br>
     <button type="submit" id="btnGrant" disabled>기프트카드 제공</button>
     <a href="list"><button type="button">기프트카드 리스트로 돌아가기</button></a>
-  </div>
 </form>
 
 </body>

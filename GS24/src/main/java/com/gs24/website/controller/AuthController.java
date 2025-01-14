@@ -62,10 +62,10 @@ public class AuthController {
 		int result = memberService.register(memberVO);
 		log.info(result + "개 행 등록 완료");
 		if (result == 1) {
-			redirectAttributes.addFlashAttribute("message", "회원등록 완료.\\n\\n가입한 아이디와 비밀번호로 로그인하세요.");
+			redirectAttributes.addFlashAttribute("message", "회원등록 완료.\\n가입한 아이디와 비밀번호로 로그인하세요.");
 			return "redirect:/auth/login";
 		}
-		redirectAttributes.addFlashAttribute("message", "회원등록을 실패했습니다.\\n\\n유효하지 않은 회원정보(중복된 아이디, 패스워드, 전화번호)입니다.");
+		redirectAttributes.addFlashAttribute("message", "회원등록을 실패했습니다.\\n유효하지 않은 회원정보(중복된 아이디, 패스워드, 전화번호)입니다.");
 		return "redirect:/auth/register";
 	}
 
@@ -138,7 +138,7 @@ public class AuthController {
 		if (currentMonth == birthdayMonth && currentDay == birthdayDay && isExisting != 1) {
 			GiftCardVO giftCardVO = new GiftCardVO();
 			giftCardVO.setGiftCardName("생일 축하 쿠폰");
-			giftCardVO.setDiscountValue(10000);
+			giftCardVO.setBalance(10000);
 			giftCardVO.setFoodType("전체");
 			giftCardVO.setMemberId(memberId);
 
@@ -154,16 +154,6 @@ public class AuthController {
 			return giftCardService.grantGiftCard(giftCardVO);
 		}
 		return 0;
-	}
-
-	@GetMapping("/login-success")
-	public void loginSuccessGET() {
-		log.info("loginSuccessGET");
-	}
-
-	@GetMapping("/login-fail")
-	public void loginfailGET() {
-		log.info("loginFailGET()");
 	}
 
 	@GetMapping("/find-id")

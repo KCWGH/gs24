@@ -25,15 +25,20 @@
         const phoneRegex = /^01[016789]-\d{4}-\d{4}$/;
 
         $(document).ready(function () {
+        	const today = new Date();
+            const sevenYearsAgo = new Date();
+            sevenYearsAgo.setFullYear(today.getFullYear() - 7);
+
             $("#birthdayContainer").datepicker({
                 dateFormat: "yy-mm-dd",
                 changeMonth: true,
                 inline: true,
                 changeYear: true,
+                showMonthAfterYear: true,
                 yearRange: "1900:2025",
-                maxDate: -1,
+                maxDate: sevenYearsAgo,
                 onSelect: function (dateText) {
-                	$('#birthdayMessage').text("");
+                    $('#birthdayMessage').text("");
                     $('#birthday').val(dateText);
                 }
             });
@@ -156,6 +161,11 @@
         function checkPw() {
             let password = $('#password').val();
             let passwordConfirm = $('#passwordConfirm').val();
+            
+            if (!password || !passwordConfirm) {
+                $('#passwordMatchMessage').text("비밀번호를 입력해주세요.").css('color', 'red');
+                return;
+            }
 
             if (!pwRegex.test(password)) {
                 $('#passwordMatchMessage').text("비밀번호는 최소 8자, 대문자, 소문자, 숫자, 특수문자를 각각 하나 이상 포함해야 합니다.").css('color', 'red');
@@ -205,7 +215,7 @@
     </c:if>
     <h2>회원가입</h2>
     <form action="register" method="POST">
-        <p>아이디와 생일은 변경할 수 없으니, 신중하게 선택해주세요.</p>
+        <p>※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
         <table>
             <tr>
                 <th><label for="memberId">아이디</label></th>
@@ -255,7 +265,7 @@
                 <td>
                     <div id="birthdayContainer"></div>
                     <input type="hidden" id="birthday" name="birthday" required>
-                    <span id="birthdayMessage"></span>
+                    <span id="birthdayMessage" style="color:gray">※ 7세 이상만 회원가입이 가능합니다.</span>
                 </td>
             </tr>
             <tr>

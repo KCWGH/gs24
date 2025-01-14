@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EarlyBirdCouponQueueVO {
+public class CouponQueueVO {
 
 	int queueId;
 	int couponId;

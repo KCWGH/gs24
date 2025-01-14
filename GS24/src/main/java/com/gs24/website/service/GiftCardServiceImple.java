@@ -26,8 +26,8 @@ public class GiftCardServiceImple implements GiftCardService {
 	}
 
 	@Override
-	public List<GiftCardVO> getGiftCardList(String memberId) {
-		return giftCardMapper.selectList(memberId);
+	public List<GiftCardVO> getGiftCardListByFoodType(String memberId, String foodType) {
+		return giftCardMapper.selectListByMemberIdAndFoodType(memberId, foodType);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class GiftCardServiceImple implements GiftCardService {
 
 	@Override
 	public int getAvailableCount(String memberId) {
-		return giftCardMapper.selectAvailableCount(memberId);
+		return giftCardMapper.selectUnusedCount(memberId);
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public class GiftCardServiceImple implements GiftCardService {
 	}
 
 	@Override
-	public List<GiftCardVO> getPagedAvailableGiftCards(String memberId, Pagination pagination) {
-		return giftCardMapper.selectAvailableListByPagination(pagination);
+	public List<GiftCardVO> getPagedUnusedGiftCards(String memberId, Pagination pagination) {
+		return giftCardMapper.selectUnusedListByPagination(pagination);
 	}
 
 	@Override
@@ -85,6 +85,11 @@ public class GiftCardServiceImple implements GiftCardService {
 	@Override
 	public int birthdayGiftCardDupCheck(String memberId) {
 		return giftCardMapper.birthdayGiftCardDupCheck(memberId);
+	}
+
+	@Override
+	public int useGiftCard(int giftCardId, int preorderId) {
+		return giftCardMapper.useGiftCard(giftCardId, preorderId);
 	}
 
 	@Override
