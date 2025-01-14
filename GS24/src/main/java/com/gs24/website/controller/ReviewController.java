@@ -40,7 +40,6 @@ public class ReviewController {
 		
 		List<ReviewVO> list = reviewService.getReviewPaginationByFoodId(foodId, pagination);
 
-		//占쏙옙占쏙옙 占싱뱄옙占쏙옙 占쏙옙체 占쏙옙管占� 占쌕뀐옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占쏙옙
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("reviewList", list);
 		model.addAttribute("foodId", foodId);
@@ -57,7 +56,7 @@ public class ReviewController {
 	public String registerPOST(ReviewVO reviewVO) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
-		reviewService.createReview(reviewVO);
+		//reviewService.createReview(reviewVO);
 		
 		return "redirect:../food/list";
 	}

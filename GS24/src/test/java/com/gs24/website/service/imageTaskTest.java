@@ -27,6 +27,6 @@ public class imageTaskTest {
 	}
 	
 	public void a() {
-		imageCheckTask.deleteFoodImage();
+		imageCheckTask.deleteReviewImage();
 	}
 }

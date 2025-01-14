@@ -28,6 +28,6 @@ public class ImgFoodVO {
 	private MultipartFile file;
 	
 	public String getPath() {
-		return "C:\\Users\\Kim\\Desktop\\gsproject\\GS24\\src\\main\\webapp" + "\\" + ImgFoodPath;
+		return "C:\\Users\\sdedu\\Desktop\\gsproject\\GS24\\src\\main\\webapp" + "\\" + ImgFoodPath;
 	}
 }

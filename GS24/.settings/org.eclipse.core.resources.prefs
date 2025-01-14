@@ -4,6 +4,8 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/gs24/website/config/RootConfig.java=UTF-8
 encoding//src/main/java/com/gs24/website/controller/FoodController.java=UTF-8
+encoding//src/main/java/com/gs24/website/controller/PreorderController.java=UTF-8
 encoding//src/main/java/com/gs24/website/controller/ReviewController.java=UTF-8
 encoding//src/main/java/com/gs24/website/service/AnswerServiceImple.java=UTF-8
+encoding//src/test/java/com/gs24/website/persistence/GiftCardMapperTest.java=UTF-8
 encoding//src/test/java/com/gs24/website/persistence/ImgFoodTest.java=UTF-8

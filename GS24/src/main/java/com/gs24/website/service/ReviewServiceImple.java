@@ -14,6 +14,7 @@ import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
+import com.gs24.website.util.uploadImgUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -70,6 +71,10 @@ public class ReviewServiceImple implements ReviewService {
 	public ReviewVO getReviewByReviewId(int reviewId) {
 		log.info("getReviewByReviewId()");
 		ReviewVO reviewVO = reviewMapper.selectReviewByReviewId(reviewId);
+		
+		List<ImgReviewVO> list = imgReviewMapper.selectImgReviewByReviewId(reviewId);
+		
+		reviewVO.setImgReviewList(list);
 		log.info(reviewVO);
 		return reviewVO;
 	}
