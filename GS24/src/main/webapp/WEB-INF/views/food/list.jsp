@@ -47,12 +47,17 @@ img {
 
 </head>
 <body>
+<c:if test="${not empty message}">
+        <script type="text/javascript">
+            alert("${message}");
+        </script>
+    </c:if>
 	<c:if test="${not empty memberVO}">
       <span>환영합니다, ${memberId}님</span>
       <button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
       <button onclick='location.href="../auth/logout"'>로그아웃</button>
       <button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-      <button onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">쿠폰 목록</button>
+      <button onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드 목록</button>
    </c:if>
 
    <c:if test="${empty memberVO}">
@@ -65,7 +70,8 @@ img {
    <h1>식품 리스트</h1>
    <c:if test="${memberVO.memberRole == 2 }">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
-      <button onclick='location.href="register"'>식품등록</button><br>
+      <button onclick='location.href="register"'>식품등록</button>
+      <button onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button><br>
    </c:if>
    	<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
 	<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
@@ -85,11 +91,19 @@ img {
 				<p>${FoodVO.foodType}</p>
 				<p>${FoodVO.foodName}</p>
 				<p>${FoodVO.foodStock}개</p>
-				<p>${FoodVO.foodPrice}</p>
+				<p>${FoodVO.foodPrice}원</p>
 				<p>${FoodVO.foodAvgRating }점</p>
 				<p>리뷰 ${FoodVO.foodReviewCnt }개</P>
 				<button onclick="location.href='detail?foodId=${FoodVO.foodId}'">상세 보기</button><br>
 				<button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }"'>예약하기</button><br>
+				<c:choose>
+                <c:when test="${isAddedMap[FoodVO.foodId]}">
+                    <button class="deleteFavorites" data-foodId="${FoodVO.foodId}">찜 해제하기</button><br>
+                </c:when>
+                <c:otherwise>
+                    <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-foodType="${FoodVO.foodType }" data-foodName="${FoodVO.foodName }">찜하기</button><br>
+                </c:otherwise>
+            	</c:choose>
 				<c:if test="${memberVO.memberRole == 2 }">
 					<button onclick="location.href='update?foodId=${FoodVO.foodId}'">식품 수정</button><br>
 					<button onclick="location.href='delete?foodId=${FoodVO.foodId}'">식품 삭제</button>
@@ -139,6 +153,68 @@ img {
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$(document).on('click', '.addFavorites', function(event) {
+			let memberId = '${memberId}';
+		    let foodId = $(this).data('foodid');
+		    let foodType = $(this).data('foodtype');
+		    let foodName = $(this).data('foodname');
+		    
+		    if (memberId === ''){
+		    	alert('찜하시려면 로그인해주세요');
+		    	return;
+		    }
+		    
+		    $.ajax({
+                url: '../favorites/add',
+                type: 'POST',
+                data: { memberId: memberId,
+                		foodId: foodId,
+                		foodType: foodType,
+                		foodName: foodName
+                },
+                success: function(response) {
+                    alert("찜 목록에 추가되었습니다");
+                    let button = $("button[data-foodid='" + foodId + "']");
+                    button.removeClass('addFavorites').addClass('deleteFavorites');
+                    button.text('찜 해제하기');
+                },
+                error: function(xhr, status, error) {
+                    let responseText = xhr.responseText;
+                    if (responseText == 0) {
+                       alert("찜 목록 추가에 실패했습니다");
+                    } else {
+                    }
+                }
+            });
+		});
+		
+		$(document).on('click', '.deleteFavorites', function(event) {
+			let memberId = '${memberId}';
+		    let foodId = $(this).data('foodid');
+		    
+		    $.ajax({
+                url: '../favorites/delete',
+                type: 'POST',
+                data: { memberId: memberId,
+                		foodId: foodId
+                },
+                success: function(response) {
+                    alert("찜 목록에서 삭제되었습니다");
+                    let button = $("button[data-foodid='" + foodId + "']");
+                    button.removeClass('deleteFavorites').addClass('addFavorites');
+                    button.text('찜하기');
+                },
+                error: function(xhr, status, error) {
+                    let responseText = xhr.responseText;
+                    if (responseText == 0) {
+                       alert("찜 목록 추가에 실패했습니다");
+                    } else {
+                    }
+                }
+            });
+		});
+
 		
 		$("#searchForm button").on("click", function(e){
 			var searchForm = $("#searchForm");
@@ -278,8 +354,12 @@ img {
 			
 			var bottomPrice = $("#bottomPrice").val();
 			var topPrice = $("#topPrice").val();
+			var type = "<c:out value='${pageMaker.pagination.type }' />";
+			var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
 			searchForm.find("input[name='bottomPrice']").val(bottomPrice);
 			searchForm.find("input[name='topPrice']").val(topPrice);
+			searchForm.find("input[name='type']").val(type);
+			searchForm.find("input[name='keyword']").val(keyword);
 			
 			var pageNum = 1; // 검색 후 1페이지로 고정
 			// 현재 페이지 사이즈값 저장

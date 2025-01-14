@@ -9,7 +9,11 @@ import com.gs24.website.util.Pagination;
 public interface PreorderService {
 	int createPreorder(PreorderVO preorderVO);
 
-	int createPreorder(PreorderVO preorderVO, int earlyBirdCouponId);
+	int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId);
+
+	int createPreorder(PreorderVO preorderVO, int couponId);
+
+	int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId);
 
 	List<PreorderVO> getPreorderBymemberId(String memberId);
 

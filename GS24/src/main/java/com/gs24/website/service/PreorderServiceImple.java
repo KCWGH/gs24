@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gs24.website.domain.EarlyBirdCouponQueueVO;
-import com.gs24.website.domain.EarlyBirdCouponVO;
+import com.gs24.website.domain.CouponQueueVO;
+import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
-import com.gs24.website.persistence.EarlyBirdCouponMapper;
-import com.gs24.website.persistence.EarlyBirdCouponQueueMapper;
+import com.gs24.website.persistence.CouponMapper;
+import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FoodMapper;
+import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.util.Pagination;
 
@@ -30,10 +31,13 @@ public class PreorderServiceImple implements PreorderService {
 	private FoodMapper foodMapper;
 
 	@Autowired
-	private EarlyBirdCouponMapper earlyBirdCouponMapper;
+	private GiftCardMapper giftCardMapper;
 
 	@Autowired
-	private EarlyBirdCouponQueueMapper earlyBirdCouponQueueMapper;
+	private CouponMapper couponMapper;
+
+	@Autowired
+	private CouponQueueMapper couponQueueMapper;
 
 	@Override
 	@Transactional(value = "transactionManager")
@@ -41,7 +45,6 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("createPreorder()");
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		// TODO : 이걸 여기서 하지 말고 프론트에서 처리하는 걸로
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
 			int result = preorderMapper.insertPreorder(preorderVO);
@@ -52,26 +55,48 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	@Transactional(value = "transactionManager")
+	public int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId) {
+		int createResult = createPreorder(preorderVO);
+		int result = 0;
+		if (createResult == 1) {
+			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
+		}
+		return result;
+	}
+
+	@Override
+	@Transactional(value = "transactionManager")
 	public int createPreorder(PreorderVO preorderVO, int earlyBirdCouponId) {
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		EarlyBirdCouponVO earlyBirdCouponVO = earlyBirdCouponMapper.selectEarlyBirdCouponByCouponId(earlyBirdCouponId);
-		Date earlyBirdCouponExpiredDate = earlyBirdCouponVO.getEarlyBirdCouponExpiredDate();
+		CouponVO earlyBirdCouponVO = couponMapper.selectCouponByCouponId(earlyBirdCouponId);
+		Date earlyBirdCouponExpiredDate = earlyBirdCouponVO.getCouponExpiredDate();
 		Date currentDate = new Date();
 
-		if (foodAmount > 0 && foodAmount >= preorderAmount && earlyBirdCouponVO.getEarlyBirdCouponAmount() > 0
+		if (foodAmount > 0 && foodAmount >= preorderAmount && earlyBirdCouponVO.getCouponAmount() > 0
 				&& earlyBirdCouponExpiredDate.after(currentDate)) {
 			preorderMapper.insertPreorder(preorderVO);
 			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
-			earlyBirdCouponMapper.useEarlyBirdCoupon(earlyBirdCouponId);
-			EarlyBirdCouponQueueVO earlyBirdCouponQueueVO = new EarlyBirdCouponQueueVO();
+			couponMapper.useCoupon(earlyBirdCouponId);
+			CouponQueueVO earlyBirdCouponQueueVO = new CouponQueueVO();
 			earlyBirdCouponQueueVO.setCouponId(earlyBirdCouponId);
 			earlyBirdCouponQueueVO.setMemberId(preorderVO.getMemberId());
-			earlyBirdCouponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
-			log.info("createPreorderWithEarlyBirdCoupon()");
-			return 1;
+			int result = couponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
+			log.info("createPreorderWithCoupon()");
+			return result;
 		}
 		return 0;
+	}
+
+	@Override
+	@Transactional(value = "transactionManager")
+	public int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId) {
+		int createResult = createPreorder(preorderVO, couponId);
+		int result = 0;
+		if (createResult == 1) {
+			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
+		}
+		return result;
 	}
 
 	@Override
@@ -146,4 +171,5 @@ public class PreorderServiceImple implements PreorderService {
 		List<PreorderVO> list = preorderMapper.selectAlreadyPreorderByFoodId(foodId);
 		return list;
 	}
+
 }
