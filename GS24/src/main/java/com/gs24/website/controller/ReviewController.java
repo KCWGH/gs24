@@ -56,7 +56,7 @@ public class ReviewController {
 	public String registerPOST(ReviewVO reviewVO) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
-		//reviewService.createReview(reviewVO);
+		reviewService.createReview(reviewVO);
 		
 		return "redirect:../food/list";
 	}

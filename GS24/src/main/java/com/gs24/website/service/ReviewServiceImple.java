@@ -38,6 +38,8 @@ public class ReviewServiceImple implements ReviewService {
 
 		List<ImgReviewVO> imgReviewList = reviewVO.getImgReviewList();
 		
+		log.info(imgReviewList);
+		
 		for(ImgReviewVO vo : imgReviewList) {
 			imgReviewMapper.insertImgReview(vo);
 		}
@@ -84,7 +86,19 @@ public class ReviewServiceImple implements ReviewService {
 	public int updateReview(ReviewVO reviewVO) {
 		log.info("updateReview");
 		int result = reviewMapper.updateReview(reviewVO);
-
+		
+		imgReviewMapper.deleteImgReviewByReviewId(reviewVO.getReviewId());
+		
+		List<ImgReviewVO> updateList = reviewVO.getImgReviewList();
+		
+		log.info(updateList);
+		
+		for(ImgReviewVO vo : updateList) {
+			log.info(vo);
+			vo.setReviewId(reviewVO.getReviewId());
+			imgReviewMapper.insertImgReview(vo);
+		}
+		
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 		int size = list.size();
 
@@ -94,8 +108,14 @@ public class ReviewServiceImple implements ReviewService {
 			totalReviewRating += i.getReviewRating();
 		}
 
-		log.info("√Ü√≤¬±√ï ¬∫¬∞√Å¬° : " + totalReviewRating / size);
-		foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
+		if (size > 0) {
+			log.info("∆Ú±’ ∫∞¡° : " + totalReviewRating / size);
+			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
+			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
+		} else {
+			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), size);
+			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
+		}
 
 		return result;
 	}
@@ -119,15 +139,13 @@ public class ReviewServiceImple implements ReviewService {
 		log.info(size);
 
 		if (size > 0) {
-			log.info("√Ü√≤¬±√ï ¬∫¬∞√Å¬° : " + totalReviewRating / size);
+			log.info("∆Ú±’ ∫∞¡° : " + totalReviewRating / size);
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, totalReviewRating / size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		} else {
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		}
-		
-		
 		
 		return result;
 	}

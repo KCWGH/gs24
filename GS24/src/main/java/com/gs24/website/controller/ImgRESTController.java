@@ -39,6 +39,7 @@ public class ImgRESTController {
 		List<ImgReviewVO> entity = new ArrayList<ImgReviewVO>();
 		
 		if(reviewId == 0) {
+			log.info("신규 리뷰 작성입니다.");
 			reviewId = (int)imgService.getNextReviewId();
 		}		
 		String dir = "ReviewNO" + reviewId;
