@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.FoodService;
+import com.gs24.website.service.MemberService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -28,13 +31,14 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class FoodController {
 
-	@Autowired
-	private FoodService foodService;
-
-	@Autowired
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private FoodService foodService;
+    @Autowired
 	private FavoritesService favoritesService;
 
-	@GetMapping("/list")
+    @GetMapping("/list")
 	public void listGET(Model model, Pagination pagination) {
 		log.info("listGET()");
 		log.info("pagination" + pagination);
@@ -62,55 +66,53 @@ public class FoodController {
 		model.addAttribute("FoodList", foodList);
 	}
 
-	@GetMapping("/register")
-	public void registerGET() {
-		log.info("registerGET()");
-	}
 
-	@PostMapping("/register")
-	public String registerPOST(FoodVO foodVO, MultipartFile file) {
-		log.info("registerPOST()");
-		log.info(foodVO);
-		log.info(file.getOriginalFilename());
-		foodService.createFood(foodVO, file);
+    @GetMapping("/register")
+    public void registerGET() {
+        log.info("registerGET()");
+    }
 
-		return "redirect:/food/list";
-	}
+    @PostMapping("/register")
+    public String registerPOST(FoodVO foodVO) {
+        log.info("registerPOST()");
+        log.info(foodVO);
+        foodService.createFood(foodVO);
 
-	@GetMapping("/detail")
-	public void detailGET(Model model, Integer foodId) {
-		log.info("detailGET()");
-		Object[] detailData = foodService.getDetailData(foodId);
-		log.info(detailData[1]);
-		model.addAttribute("FoodVO", detailData[0]);
-		model.addAttribute("reviewList", detailData[1]);
-	}
+        return "redirect:/food/list";
+    }
 
-	@GetMapping("/update")
-	public void updateGET(Model model, Integer foodId) {
-		log.info("updateGET()");
-		FoodVO foodVO = foodService.getFoodById(foodId);
-		model.addAttribute("FoodVO", foodVO);
-	}
+    @GetMapping("/detail")
+    public void detailGET(Model model, Integer foodId) {
+        log.info("detailGET()");
+        Object[] detailData = foodService.getDetailData(foodId);
+        log.info(detailData[0]);
+        model.addAttribute("FoodVO", detailData[0]);
+        model.addAttribute("reviewList", detailData[1]);
+    }
 
-	@PostMapping("/update")
-	public String updatePOST(FoodVO foodVO, MultipartFile file) {
-		log.info("updatePOST()");
-		// �쓬�떇 �젙蹂� �닔�젙
-		int result = foodService.updateFood(foodVO, file);
-		if (result > 0) {
-			log.info("�쓬�떇 �젙蹂� �뾽�뜲�씠�듃 �꽦怨�");
-		} else {
-			log.info("�쓬�떇 �젙蹂� �뾽�뜲�씠�듃 �떎�뙣");
-		}
+    // �쓬�떇 �닔�젙 �럹�씠吏�
+    @GetMapping("/update")
+    public void updateGET(Model model, Integer foodId) {
+        log.info("updateGET()");
+        FoodVO foodVO = foodService.getFoodById(foodId);
+        log.info(foodVO);
+        model.addAttribute("FoodVO", foodVO);
+    }
 
+    // �쓬�떇 �닔�젙 泥섎━
+    @PostMapping("/update")
+    public String updatePOST(FoodVO foodVO) {
+        log.info("updatePOST()");
+        // �쓬�떇 �젙蹂� �닔�젙
+        int result = foodService.updateFood(foodVO);
+        
 		return "redirect:/food/list";
 	}
 
 	@GetMapping("/delete")
-	public String delete(int foodId, int reviewId) {
+	public String delete(int foodId) {
 		log.info("deleteFood()");
-		foodService.deleteFood(foodId, reviewId);
+		foodService.deleteFood(foodId);
 
 		return "redirect:/food/list";
 	}

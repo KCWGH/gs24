@@ -83,7 +83,7 @@
                     });
                     
                     if (giftCardList.length == 0){
-                    	giftCardHtml += '보유한 기프트카드가 없습니다.<br><br>';
+                    	giftCardHtml += '해당 상태의 기프트카드가 없습니다.<br><br>';
                     }
 
                     $(".giftCard-list").html(giftCardHtml);
@@ -208,8 +208,8 @@
 
     <label><input type="radio" name="choice" value="used" checked>사용중</label>
     <label><input type="radio" name="choice" value="unused">미사용</label>
-    <label><input type="radio" name="choice" value="expired">만료됨</label>
     <label><input type="radio" name="choice" value="all">전체</label>
+    <label><input type="radio" name="choice" value="expired">만료됨</label>
 
     <div class="giftCard-list"></div>
 

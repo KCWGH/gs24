@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.FoodVO;
-import com.gs24.website.domain.ImgFoodVO;
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
@@ -17,6 +16,7 @@ import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 import com.gs24.website.util.uploadImgFoodUtil;
+import com.gs24.website.util.uploadImgUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -41,30 +41,15 @@ public class FoodServiceImple implements FoodService{
 	
 	@Override
 	@Transactional("transactionManager()")
-	public int createFood(FoodVO foodVO, MultipartFile file) {
+	public int createFood(FoodVO foodVO) {
 		log.info("createFood()");
 		int result = foodMapper.insertFood(foodVO);
 		
-		ImgFoodVO imgFoodVO = new ImgFoodVO();
-		imgFoodVO.setFile(file);
-		log.info("file name : " + file.getOriginalFilename());
-		log.info("file size : " + file.getSize());
-
-		FoodVO VO = foodMapper.selectFirstFoodId();
-
-		String chgName = "FoodNO" + VO.getFoodId();
-		uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
-				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-		imgFoodVO.setImgFoodChgName(chgName);
-		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "."+ uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-		imgFoodVO.setFoodId(VO.getFoodId());
-
-		log.info(imgFoodVO); 
+		List<ImgVO> imgList = foodVO.getImgList();
 		
-		imgFoodMapper.insertImgFood(imgFoodVO);
+		for(ImgVO imgVO : imgList) {
+			imgFoodMapper.insertImgFood(imgVO);
+		}
 		
 		return result;
 	}
@@ -75,18 +60,17 @@ public class FoodServiceImple implements FoodService{
 		log.info("getAllFood()");
 		List<FoodVO> foodList = foodMapper.selectFoodList();
 		for(FoodVO i : foodList) {
-			ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(i.getFoodId());
-			i.setImgFoodVO(imgFoodVO);
+			List<ImgVO> imgList = imgFoodMapper.selectImgFoodByFoodId(i.getFoodId());
+			i.setImgList(imgList);
 		}
 		return foodList;
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public FoodVO getFoodById(int foodId) {
 		log.info("getFoodById");
 		FoodVO foodVO = foodMapper.selectFoodById(foodId);
-		foodVO.setImgFoodVO(imgFoodMapper.selectImgFoodById(foodId));
+		foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
 		return foodVO;
 	}
 	
@@ -97,31 +81,18 @@ public class FoodServiceImple implements FoodService{
 	
 	@Override
 	@Transactional("transactionManager()")
-	public int updateFood(FoodVO foodVO, MultipartFile file) {
+	public int updateFood(FoodVO foodVO) {
 		log.info("updateFood()");
 		int result = foodMapper.updateFood(foodVO);
 		
-		ImgFoodVO imgFoodVO = new ImgFoodVO();
-		imgFoodVO.setFile(file);
-		log.info("file name : " + file.getOriginalFilename());
-		log.info("file size : " + file.getSize());
-
-		String chgName = "FoodNO" + foodVO.getFoodId();	
-		uploadImgFoodUtil.saveFile(foodVO,uploadPath, file,
-				chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-
-		imgFoodVO.setImgFoodRealName(uploadImgFoodUtil.subStrName(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodChgName(chgName);
-
-		imgFoodVO.setImgFoodExtension(uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setImgFoodPath(uploadImgFoodUtil.makeDir(foodVO) + chgName + "." + uploadImgFoodUtil.subStrExtension(file.getOriginalFilename()));
-
-		imgFoodVO.setFoodId(foodVO.getFoodId());
-
-		log.info(imgFoodVO);
+		List<ImgVO> imgList = foodVO.getImgList();
+		
+		imgFoodMapper.deleteImgFood(foodVO.getFoodId());
+		
+		for(ImgVO imgVO : imgList) {
+			imgVO.setForeignId(foodVO.getFoodId());
+			imgFoodMapper.insertImgFood(imgVO);
+		}
 		
 		return result;
 	}
@@ -155,28 +126,28 @@ public class FoodServiceImple implements FoodService{
 	}
 	
 	@Override
-	public int deleteFood(int foodId, int reviewId) {
+	@Transactional("transactionManager()")
+	public int deleteFood(int foodId) {
 		log.info("deleteFood()");
 		int result = foodMapper.deleteFood(foodId);
 		
-		ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodId);
 		imgFoodMapper.deleteImgFood(foodId);
-		uploadImgFoodUtil.deleteFile(new FoodVO(),uploadPath, imgFoodVO.getImgFoodChgName() + "." + imgFoodVO.getImgFoodExtension());
-		reviewMapper.deleteReviewByFoodId(foodId);
 		
+		reviewMapper.deleteReviewByFoodId(foodId);
 		
 		return result;
 	}
 
 	@Override
-	public String[] getFoodTypeList() {
-		return foodMapper.selectFoodType();
-	}
-
-	@Override
+	@Transactional("transactionManager()")
 	public List<FoodVO> getPaginationFood(Pagination pagination) {
 		log.info("getPaginationFood()");
 		List<FoodVO> list = foodMapper.selectFoodPagination(pagination);
+		log.info(list);
+		for(FoodVO foodVO : list) {
+			foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodVO.getFoodId()));
+			log.info(foodVO.getImgList());
+		}
 		return list;
 	}
 	
@@ -194,14 +165,25 @@ public class FoodServiceImple implements FoodService{
 		log.info("getDetailData()");
 		Object[] detailData = new Object[2];
 		FoodVO foodVO = foodMapper.selectFoodById(foodId);
+		
+		foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
+		
 		List<ReviewVO> reviewList = reviewMapper.selectReviewByFoodId(foodId);
 		for(ReviewVO vo: reviewList) {
-			List<ImgReviewVO> list = imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId());
-			vo.setImgReviewList(list);
+			List<ImgVO> list = imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId());
+			vo.setImgList(list);
 		}
 		detailData[0] = foodVO;
 		detailData[1] = reviewList;
+		
+		log.info(detailData);
 		return detailData;
 	}
 	
+	@Override
+	public List<String> getFoodTypeList() {
+		List<String> list = foodMapper.selectFoodType();
+		list.add("전체");
+		return list;
+	}
 }

@@ -1,6 +1,7 @@
 package com.gs24.website.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,7 +39,7 @@ public class GiftCardController {
 	@GetMapping("/grant")
 	public void grantGET(Model model) {
 		log.info("grantGET()");
-		String[] foodType = foodService.getFoodTypeList();
+		List<String> foodType = foodService.getFoodTypeList();
 		model.addAttribute("foodTypeList", foodType);
 	}
 

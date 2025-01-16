@@ -2,16 +2,16 @@ package com.gs24.website.service;
 
 import java.util.List;
 
-import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgVO;
 
 public interface ImgFoodService {
-	int createImgFood(ImgFoodVO imgFoodVO);
+	int createImgFood(ImgVO imgVO);
 	
-	ImgFoodVO getImgFoodById(int foodId);
+	ImgVO getImgFoodById(int foodId);
 	
-	List<ImgFoodVO> getAllImgFood();
+	List<ImgVO> getAllImgFood();
 	
-	int updateImgFood(ImgFoodVO imgFoodVO);
+	int updateImgFood(ImgVO imgVO);
 	
 	int deleteImgFood(int foodId);
 }

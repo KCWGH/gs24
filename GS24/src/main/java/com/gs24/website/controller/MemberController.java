@@ -75,13 +75,12 @@ public class MemberController {
 			return "redirect:verify";
 		}
 
-		// PasswordEncoder를 사용하여 입력된 비밀번호와 DB에 저장된 비밀번호 비교
 		if (passwordEncoder.matches(password, memberVO.getPassword())) {
-			return "redirect:change-pw"; // 비밀번호가 일치하면 비밀번호 변경 페이지로 리다이렉트
+			return "redirect:change-pw";
 		} else {
 			log.info("비밀번호 검증 실패");
 			redirectAttributes.addFlashAttribute("message", "잘못된 비밀번호입니다.");
-			return "redirect:verify"; // 비밀번호가 틀리면 다시 로그인 페이지로 리다이렉트
+			return "redirect:verify";
 		}
 	}
 

@@ -8,9 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.gs24.website.domain.ImgReviewVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
 import com.gs24.website.util.PageMaker;
@@ -40,7 +38,6 @@ public class ReviewController {
 		
 		List<ReviewVO> list = reviewService.getReviewPaginationByFoodId(foodId, pagination);
 
-		//占쏙옙占쏙옙 占싱뱄옙占쏙옙 占쏙옙체 占쏙옙管占� 占쌕뀐옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占� 占쏙옙
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("reviewList", list);
 		model.addAttribute("foodId", foodId);

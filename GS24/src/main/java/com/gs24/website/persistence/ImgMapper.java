@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ImgMapper {
-	long selectNextReviewId();
+	int selectNextReviewId();
 	
-	long selectNextFoodId();
+	int selectNextFoodId();
 }

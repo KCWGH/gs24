@@ -49,8 +49,10 @@
 	</select>
 
 	<select id="selectListByFoodType" resultMap="CouponResultMap">
-		SELECT * FROM COUPON 
-		WHERE FOOD_TYPE = #{foodType} AND IS_AVAILABLE = 1
+		SELECT * 
+		FROM COUPON
+		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체') AND IS_AVAILABLE = 1
+		ORDER BY COUPON_ID DESC
 	</select>
 	
 	<delete id="deleteExpiredCoupons">

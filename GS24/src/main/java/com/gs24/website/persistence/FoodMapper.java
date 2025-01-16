@@ -34,7 +34,7 @@ public interface FoodMapper {
 	
 	int deleteFood(int foodId);
 
-	String[] selectFoodType();
+	List<String> selectFoodType();
 	
 	List<FoodVO> selectFoodPagination(Pagination pagination);
 	

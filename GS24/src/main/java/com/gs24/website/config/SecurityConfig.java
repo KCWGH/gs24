@@ -2,6 +2,7 @@ package com.gs24.website.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.gs24.website.service.CustomUserDetailsService;
+import com.gs24.website.util.CustomAuthenticationSuccessHandler;
 
 // Spring Security의 설정을 정의하는 클래스
 // WebSecurityConfigurerAdapter를 상속하여 보안 기능을 구성
@@ -30,6 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    public SecurityConfig(@Lazy CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+    }
 
 	// HttpSecurity 객체를 통해 HTTP 보안 기능을 구성
 	@Override
@@ -63,9 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");
 
 		httpSecurity.formLogin()
-        .loginPage("/auth/login")  // 로그인 페이지 URL
-        .loginProcessingUrl("/auth/login")  // 로그인 처리 URL
-        .defaultSuccessUrl("/food/list", false); 
+        .loginPage("/auth/login")
+        .loginProcessingUrl("/auth/login")
+        .successHandler(customAuthenticationSuccessHandler)  // 로그인 성공 후 핸들러 설정
+        .permitAll();
 
 		httpSecurity.logout().logoutUrl("/auth/logout") // logout url 설정
 		.logoutSuccessUrl("/current") // 로그아웃 성공 시 이동할 url 설정

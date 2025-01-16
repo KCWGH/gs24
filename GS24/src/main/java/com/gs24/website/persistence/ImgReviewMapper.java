@@ -4,24 +4,24 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
 
 @Mapper
 public interface ImgReviewMapper {
 	
-	int insertImgReview(ImgReviewVO imgReviewVO);
+	int insertImgReview(ImgVO imgVO);
 	
-	List<ImgReviewVO> selectImgReviewByReviewId(int reviewId);
+	List<ImgVO> selectImgReviewByReviewId(int reviewId);
 	
-	ImgReviewVO selectImgReviewById(int ImgReviewId);
+	ImgVO selectImgReviewById(int ImgReviewId);
 	
-	List<ImgReviewVO> selectAllImgReview();
+	List<ImgVO> selectAllImgReview();
 	
-	int updateImgReview(ImgReviewVO imgReviewVO);
+	int updateImgReview(ImgVO imgVO);
 	
 	int deleteImgReviewById(int ImgReviewId);
 	
 	int deleteImgReviewByReviewId(int reviewId);
 	
-	List<ImgReviewVO> selectOldReview();
+	List<ImgVO> selectOldReview();
 }

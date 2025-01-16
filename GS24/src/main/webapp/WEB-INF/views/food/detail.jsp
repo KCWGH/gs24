@@ -23,7 +23,9 @@
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<img src="../Img/Food?foodId=${FoodVO.foodId }">
+	<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+		<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
+	</c:forEach>
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>
@@ -36,7 +38,6 @@
 
 	<button onclick="location.href='../food/list'">돌아가기</button>
 
-	<sec:authentication property="principal" var="user"/>	
 	<a href="../review/register?foodId=${FoodVO.foodId}"><button>리뷰 작성</button></a>
 	
 	<div id="reviewList">
@@ -45,16 +46,16 @@
 		<hr>
 		<input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
 		<p>회원 아이디 : ${reviewVO.memberId }</p>
-		<div class='imagReviewList'>
-			<c:forEach var="ImgReviewVO" items="${reviewVO.imgReviewList }">
-				<input type="hidden" class="image_path" value="${ImgReviewVO.imgReviewPath }">
-				<img src="../image/reviewImage?imgReviewId=${ImgReviewVO.imgReviewId }">
+		<div class='imageList'>
+			<c:forEach var="ImgVO" items="${reviewVO.imgList }">
+				<input type="hidden" class="image_path" value="${ImgVO.imgPath }">
+				<img src="../image/reviewImage?imgId=${ImgVO.imgId }">
 			</c:forEach>
 		</div>
 		<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
 		<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
 		<p>리뷰 별점 : ${reviewVO.reviewRating }</p>
-		<sec:authentication property="principal" var="user"/>	
+		<sec:authentication property="principal" var="user"/>
 		<sec:authorize access="isAuthenticated()">
 			<c:if test="${ reviewVO.memberId eq user.username}">
 				<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}'">수정</button>
@@ -67,14 +68,6 @@
 	</div>
 	
 	<script type="text/javascript">
-	$(document).ajaxSend(function(e, xhr, opt){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        
-        xhr.setRequestHeader(header, token);
-     });
-
-	
 	$(document).ready(function () {
 	    pieChartDraw();
 	});
@@ -104,7 +97,7 @@
 
 	
 	$("#reviewList").on('click','.reviewItems #reviewDelete', function(){
-		var path = $(".imagReviewList").find('input[type=hidden]').val();
+		var path = $(".imageList").find('.image_path').val();
 		var reviewId = $(this).prevAll(".reviewId").val();
 		var foodId = ${FoodVO.foodId };
 		console.log("path : " + path);

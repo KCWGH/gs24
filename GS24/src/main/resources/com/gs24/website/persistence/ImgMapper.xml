@@ -5,12 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.gs24.website.persistence.ImgMapper">
 
-	<select id="selectNextReviewId" resultType="long">
+	<select id="selectNextReviewId" resultType="int">
 		SELECT LAST_NUMBER
 		FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'REVIEW_SEQ'
 	</select>
 	
-	<select id="selectNextFoodId" resultType="long">
+	<select id="selectNextFoodId" resultType="int">
 		SELECT LAST_NUMBER
 		FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'FOOD_SEQ'
 	</select>

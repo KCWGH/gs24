@@ -1,14 +1,13 @@
 package com.gs24.website.service;
 
-import com.gs24.website.domain.ImgFoodVO;
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
 
 public interface ImgService {
-	long getNextReviewId();
+	int getNextReviewId();
 	
-	long getNextFoodId();
+	int getNextFoodId();
 	
-	ImgReviewVO getImgReviewById(int imgReviewId);
+	ImgVO getImgReviewById(int imgId);
 	
-	ImgFoodVO getImgFoodById(int imgFoodId);
+	ImgVO getImgFoodById(int imgId);
 }

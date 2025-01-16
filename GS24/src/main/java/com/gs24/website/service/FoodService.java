@@ -2,13 +2,11 @@ package com.gs24.website.service;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.util.Pagination;
 
 public interface FoodService {
-	int createFood(FoodVO foodVO, MultipartFile file);
+	int createFood(FoodVO foodVO);
 	
 	List<FoodVO> getAllFood();
 	
@@ -16,7 +14,7 @@ public interface FoodService {
 	
 	FoodVO getFirstFoodId();
 	
-	int updateFood(FoodVO foodVO, MultipartFile file);
+	int updateFood(FoodVO foodVO);
 	
 	int updateFoodStock(int foodId, int foodStock);
 	
@@ -26,9 +24,9 @@ public interface FoodService {
 	
 	int updateFoodAmountByPreorderAmount(int foodId, int preorderAmount);
 	
-	int deleteFood(int foodId, int reviewId);
+	int deleteFood(int foodId);
 	
-	String[] getFoodTypeList();
+	List<String> getFoodTypeList();
 	
 	List<FoodVO> getPaginationFood(Pagination pagination);
 	

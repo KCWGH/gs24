@@ -3,22 +3,23 @@ package com.gs24.website.persistence;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgVO;
 
 @Mapper
 public interface ImgFoodMapper {
-	int insertImgFood(ImgFoodVO imgFoodVO);
+	int insertImgFood(ImgVO imgFoodVO);
 	
-	ImgFoodVO selectImgFoodById(int foodId);
+	ImgVO selectImgFoodById(int ImgId);
 	
-	String selectImgFoodPathByFoodId(int foodId);
+	List<ImgVO> selectImgFoodByFoodId(@RequestParam("foreignId") int foodId);
 	
-	List<ImgFoodVO> selectAllImagFood();
+	List<ImgVO> selectAllImagFood();
 	
-	int updateImgFood(ImgFoodVO imgFoodVO);
+	int updateImgFood(ImgVO imgFoodVO);
 	
 	int deleteImgFood(int foodId);
 	
-	List<ImgFoodVO> selectOldFood();
+	List<ImgVO> selectOldFood();
 }

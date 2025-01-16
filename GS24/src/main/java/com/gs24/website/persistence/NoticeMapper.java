@@ -10,32 +10,34 @@ import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface NoticeMapper {
-   
+
 	int insertNotice(NoticeVO vo);
-    
+
 	List<NoticeVO> selectListByNotice();
-    
+
 	NoticeVO selectOneByNotice(int noticeId);
-    
+
 	int updateNotice(NoticeVO vo);
-    
+
 	int deleteNotice(int noticeId);
-    
+
 	List<NoticeVO> selectListByPagination(Pagination pagination);
 
-    int selectTotalCount();
+	int selectTotalCount();
 
-    List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle);
+	List<NoticeVO> selectListByTitle(@Param("noticeTitle") String noticeTitle);
 
-    List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle, @Param("pagination") Pagination pagination);
+	List<NoticeVO> selectListByTitleWithPagination(@Param("noticeTitle") String noticeTitle,
+			@Param("pagination") Pagination pagination);
 
-    int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
+	int selectTotalCountByTitle(@Param("noticeTitle") String noticeTitle);
 
-    List<NoticeVO> selectListByContent(@Param("noticeContent") String noticeContent);
-    
-    List<NoticeVO> selectListByContentWithPagination(@Param("noticeContent") String noticeContent, @Param("pagination") Pagination pagination);
+	List<NoticeVO> selectListByContent(@Param("noticeContent") String noticeContent);
 
-    int selectTotalCountByContent(@Param("noticeContent") String noticeContent);
-    
-    int updateNoticeViews(int noticeId);
+	List<NoticeVO> selectListByContentWithPagination(@Param("noticeContent") String noticeContent,
+			@Param("pagination") Pagination pagination);
+
+	int selectTotalCountByContent(@Param("noticeContent") String noticeContent);
+
+	int updateNoticeViews(int noticeId);
 }

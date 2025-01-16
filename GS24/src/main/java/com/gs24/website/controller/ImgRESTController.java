@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gs24.website.domain.ImgFoodVO;
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.service.ImgService;
 import com.gs24.website.util.GetImgUtil;
 import com.gs24.website.util.uploadImgUtil;
@@ -33,73 +32,44 @@ public class ImgRESTController {
 	@Autowired
 	private ImgService imgService;
 	
-	@PostMapping("/review")
-	public ResponseEntity<List<ImgReviewVO>> createReviewImage(MultipartFile[] files) {
-		log.info("createReviewImage()");
-		List<ImgReviewVO> entity = new ArrayList<ImgReviewVO>();
+	@PostMapping("/")
+	public ResponseEntity<List<ImgVO>> createImage(MultipartFile[] files, int foreignId, String type){
+		log.info("createImage()");
+		List<ImgVO> entity = new ArrayList<ImgVO>();
 		
-		long reviewId = imgService.getNextReviewId();
+		log.info("foreignId : " + foreignId + " type : " + type);
 		
-		String dir = "ReviewNO" + reviewId;
-		
-		for(int i=0; i<files.length; i++) {
-			log.info(i + "th file : " + files[i].getOriginalFilename());
-			String realName = uploadImgUtil.subStrName(files[i].getOriginalFilename());
-			
-			String chgName = UUID.randomUUID().toString();
-			
-			String extension = uploadImgUtil.subStrExtension(files[i].getOriginalFilename());
-			
-			uploadImgUtil.saveFile(uploadPath, files[i], dir, chgName, extension);
-		
-			ImgReviewVO imgReviewVO = new ImgReviewVO();
-			
-			imgReviewVO.setImgReviewRealName(realName);
-			imgReviewVO.setImgReviewChgName(chgName);
-			imgReviewVO.setImgReviewExtension(extension);
-			imgReviewVO.setImgReviewPath(uploadImgUtil.makeDir(dir));
-			imgReviewVO.setReviewId((int)reviewId);
-			
-			entity.add(imgReviewVO);
+		String dir = "";
+		if(type.equals("review")) {
+			if(foreignId == 0)
+				foreignId = imgService.getNextReviewId();
+			dir = "ReviewNO" + foreignId;
+		} else if(type.equals("food")) {
+			if(foreignId == 0)
+				foreignId = imgService.getNextFoodId();
+			dir = "FoodNO" + foreignId;
 		}
 		
-		log.info(entity);
-		
-		return new ResponseEntity<List<ImgReviewVO>>(entity, HttpStatus.OK);
-	}
-	
-	@PostMapping("/food")
-	public ResponseEntity<List<ImgFoodVO>> createFoodImage(MultipartFile[] files) {
-		log.info("createFoodImage()");
-		List<ImgFoodVO> list = new ArrayList<>();
-		
-		long foodId = imgService.getNextFoodId();
-		
-		String dir = "FoodNO" + foodId;
-		
-		for(int i=0; i<files.length; i++) {
-			log.info(i + "th file : " + files[i].getOriginalFilename());
-			
+		for(MultipartFile file : files) {
+			String realName = uploadImgUtil.subStrName(file.getOriginalFilename());
 			String chgName = UUID.randomUUID().toString();
+			String extension = uploadImgUtil.subStrExtension(file.getOriginalFilename());
 			
-			String realName = uploadImgUtil.subStrName(files[i].getOriginalFilename());
-					
-			String extention = uploadImgUtil.subStrExtension(files[i].getOriginalFilename());
+			uploadImgUtil.saveFile(uploadPath, file, dir, chgName, extension);
 			
-			uploadImgUtil.saveFile(uploadPath, files[i], dir, chgName, extention);
+			ImgVO imgVO = new ImgVO();
 			
-			ImgFoodVO imgFoodVO = new ImgFoodVO();
+			imgVO.setForeignId(foreignId);
+			imgVO.setImgRealName(realName);
+			imgVO.setImgChgName(chgName);
+			imgVO.setImgExtension(extension);
+			imgVO.setImgPath(uploadImgUtil.makeDir(dir));
 			
-			imgFoodVO.setImgFoodChgName(chgName);
-			imgFoodVO.setImgFoodRealName(realName);
-			imgFoodVO.setImgFoodExtension(extention);
-			imgFoodVO.setImgFoodPath(uploadImgUtil.makeDir(dir));
-			imgFoodVO.setFoodId((int)foodId);
-			
-			list.add(imgFoodVO);
+			entity.add(imgVO);
 		}
 		
-		return new ResponseEntity<List<ImgFoodVO>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<ImgVO>>(entity, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/display")
@@ -126,9 +96,9 @@ public class ImgRESTController {
 		return new ResponseEntity<Integer>(1, HttpStatus.OK);
 	}
 	
-	@PostMapping("/cancel")
-	public ResponseEntity<Integer> cancel(String path){
-		log.info("cancel()");
+	@PostMapping("/remove")
+	public ResponseEntity<Integer> remove(String path){
+		log.info("remove()");
 		
 		if(path == null) {
 			return new ResponseEntity<Integer>(1, HttpStatus.OK);
@@ -155,29 +125,26 @@ public class ImgRESTController {
 	}
 	
 	@GetMapping("/reviewImage")
-	public ResponseEntity<byte[]> getReviewImage(int imgReviewId){
+	public ResponseEntity<byte[]> getReviewImage(int imgId){
 		log.info("getReviewImage()");
 		
-		ImgReviewVO vo = imgService.getImgReviewById(imgReviewId);
+		ImgVO vo = imgService.getImgReviewById(imgId);
 		
-		log.info(vo);
-		
-		String fullPath = uploadPath + File.separator + vo.getImgReviewPath() + vo.getImgReviewChgName() + "." + vo.getImgReviewExtension();
-		
-		log.info(fullPath);
+		String fullPath = uploadPath + File.separator + vo.getImgPath() + vo.getImgChgName() + "." + vo.getImgExtension();
 		
 		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		
 		return entity;
 	}
 	
-	@GetMapping("/food")
+	@GetMapping("/foodImage")
 	public ResponseEntity<byte[]> getFoodImage(int imgFoodId){
 		log.info("getFoodImage()");
 		
-		ImgFoodVO vo = imgService.getImgFoodById(imgFoodId);
+		ImgVO vo = imgService.getImgFoodById(imgFoodId);
+		log.info(vo);
 		
-		String fullPath = uploadPath + File.separator + vo.getImgFoodPath() + vo.getImgFoodChgName() + "." + vo.getImgFoodExtension();
+		String fullPath = uploadPath + File.separator + vo.getImgPath() + vo.getImgChgName() + "." + vo.getImgExtension();
 		
 		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		

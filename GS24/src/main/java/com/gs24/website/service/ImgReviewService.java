@@ -2,23 +2,24 @@ package com.gs24.website.service;
 
 import java.util.List;
 
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
+
 
 public interface ImgReviewService {
 	
-	int createImgReview(ImgReviewVO imgReviewVO);
+	int createImgReview(ImgVO imgReviewVO);
 	
-	List<ImgReviewVO> getImgReviewByReviewId(int reviewId);
+	List<ImgVO> getImgReviewByReviewId(int reviewId);
 	
-	List<ImgReviewVO> getAllImgReview();
+	List<ImgVO> getAllImgReview();
 	
-	ImgReviewVO getImgReviewById(int ImgReviewId);
+	ImgVO getImgReviewById(int ImgReviewId);
 	
-	int updateImgReview(ImgReviewVO imgReviewVO);
+	int updateImgReview(ImgVO imgReviewVO);
 	
 	int deleteImgReviewById(int ImgReviewId);
 	
 	int deleteImgReviewByReviewId(int reviewId);
 	
-	List<ImgReviewVO> selectOldReview();
+	List<ImgVO> selectOldReview();
 }

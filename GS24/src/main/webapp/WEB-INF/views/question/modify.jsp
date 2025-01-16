@@ -77,7 +77,6 @@
 	
 	<script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
 	
-	<script type="text/javascript">
 		<div>
 			<input type="submit" value="등록">
 		</div>

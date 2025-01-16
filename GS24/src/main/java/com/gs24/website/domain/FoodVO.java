@@ -1,6 +1,7 @@
 package com.gs24.website.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class FoodVO {
 	private int foodFat;
 	private int foodCarb;
 	private Date registeredDate;
-	private ImgFoodVO imgFoodVO;
 	private int foodReviewCnt;
+		
+	private List<ImgVO> imgList;
 }

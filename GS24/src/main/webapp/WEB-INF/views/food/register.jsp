@@ -10,21 +10,17 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <title>편의점 식품 등록</title>
-<style>
-	img{
-		width: 200px;
-		height: 150px;
-	}
-</style>
 </head>
 <body>
+	<input type="hidden" class="foreignId" value=0>
+	<input type="hidden" class="type" value="food">
+
 	<h1>편의점 식품 등록</h1>
 	<!-- 나중에 여기에 식품 이미지도 같이 DB에 저장해야 한다. -->
-	<form action="register" method="post" id="foodForm" enctype="multipart/form-data">
+	<form action="register" method="post" id="registerForm">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<div><input type="file" name="file" id="file" required="required"></div>
-		<div id="img"></div>
 		<div><input type="text" name="foodType" placeholder="식품 유형 입력" required="required"></div>
 		<div><input type="text" name="foodName" placeholder="식품명 입력" required="required"></div>
 		<div><input type="number" name="foodStock" placeholder="재고량 입력" required="required"></div>
@@ -32,58 +28,77 @@
 		<div><input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"></div>
 		<div><input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"></div>
 		<div><input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"></div>
-		<div><input type="submit" value="등록"></div>
 	</form>
 	
+	<div class="image-drop">
+	사진을 드래그해서 등록
+	</div>
+	
+	<div class="image-list"></div>
+	
+	<div class="ImgVOList"></div>
+	
+	<button class="cancel">사진 초기화</button>
+	<button class="submit">등록</button>
+	<button class="cancel" value="cancel">취소</button>
+	
+	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script>
+			$(document).ajaxSend(function(e, xhr, opt){
+		        var token = $("meta[name='_csrf']").attr("content");
+		        var header = $("meta[name='_csrf_header']").attr("content");
+		        
+		        xhr.setRequestHeader(header, token);
+		     });
 		$(document).ready(function() {
+			$(".image-list").on('click','.image-item',function(){
+				console.log(this);
+				var isDelete = confirm("삭제하시겠습니까?");
+				if(isDelete){					
+					$(this).remove();
+					
+					var path = $(this).find("#ImgPath").val();
+					var chgName = $(this).find("#ImgChgName").val();
+					var extension = $(this).find("#ImgExtension").val();
+					
+					$.ajax({
+						type : 'post',
+						url : '../image/delete',
+						data : {'path' : path, 'chgName' : chgName, 'extension' : extension},
+						success : function(result){
+							var find = $(".ImgVOList").find("input[data-chgName = "+ chgName +"]");
+							find.remove();
+						}//end success
+					});//end ajax
+				}
+			});//end on
 			
-			// 업로드를 허용할 확장자를 정의한 정규표현식
-			var accessExtensions = /\.(png|jpg|jpeg)$/i; 
-					
-			// 파일 전송 form validation
-			$("#file").change(function(event) {
-				var fileInput = $("input[name='file']"); // File input 요소 참조
-				var file = fileInput.prop('files')[0]; // file 객체 참조
-				var fileName = fileInput.val();	
-					
-				if (!file) { // file이 없는 경우
-					alert("파일을 선택하세요.");
-					event.preventDefault();
-					return;
-				}
-					
-				if (!accessExtensions.test(fileName)) { // 허용된 확장자가 아닌 경우
-					alert("이 확장자의 파일은 등록할 수 없습니다.");
-					event.preventDefault();
-					$(this).val("");
-					$("#img").html("");
-					return;
-				}
-					
-				var maxSize = 1 * 1024 * 1024; // 1 MB 
-				if (file.size > maxSize) {
-					alert("파일 크기가 너무 큽니다. 최대 크기는 1MB입니다.");
-					event.preventDefault();
-					$(this).val("");
-					$("#img").html("");
-					return;
-				}
+			$(".submit").click(function(){
+				var registerForm = $("#registerForm");
 				
-				showImg(this);
+				var i = 0;
+				$(".ImgVOList input").each(function(){
+					var ImgVO = JSON.parse($(this).val());
+					
+					console.log(ImgVO);
+					
+					var foodId		= $('<input>').attr('type','hidden').attr('name','imgList['+i+'].foreignId').attr('value',ImgVO.foreignId);
+					var realName	= $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
+					
+					registerForm.append(foodId);
+					registerForm.append(realName);
+					registerForm.append(chgName);
+					registerForm.append(extension);
+					registerForm.append(path);
+					
+					i++;
+				});
+				
+				registerForm.submit();
 			});
-			
-			function showImg(input){
-				console.log(input.files[0]);
-				let fileReader = new FileReader();
-				fileReader.onload = function(event){
-					console.log(event.target.result);
-					$("#img").html("<img src="+ event.target.result +">");
-				}
-				
-				fileReader.readAsDataURL(input.files[0]);
-			}
-			
 		});
 	</script>
 </body>

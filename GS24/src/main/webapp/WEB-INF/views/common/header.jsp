@@ -19,7 +19,7 @@
                     </span>
                     <input type="submit" value="로그아웃">
                     <button type="button" onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-                    <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드 목록</button>
+                    <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드함</button>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>
             </sec:authorize>

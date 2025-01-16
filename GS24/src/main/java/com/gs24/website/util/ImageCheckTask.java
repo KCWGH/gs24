@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
+import com.gs24.website.persistence.ImgReviewMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,42 +23,79 @@ public class ImageCheckTask {
 	private ImgFoodMapper imgFoodMapper;
 	
 	@Autowired
+	private ImgReviewMapper imgReviewMapper;
+	
+	@Autowired
     private String uploadPath;
 	
-	public void deleteFoodImage() {
+	
+	//TODO : Food도 같이 적용 될 수 있게 해야한다. 아니면 하나 더 만드던가
+	@Scheduled(cron = "0 30 12 * * *")
+	public void deleteReviewImage() {
 		log.warn("---------------------------");
 		log.warn("delete image task run");
 		
-		List<ImgFoodVO> imgFoodList = imgFoodMapper.selectOldFood();
+		List<ImgVO> imgList = imgReviewMapper.selectOldReview();
 		
-		if(imgFoodList.size() == 0) {
+		if(imgList.size() == 0) {
 			return;
 		}
 		
-		List<String> savedList = imgFoodList.stream().filter(this::isImage).map(this::toChgName).collect(Collectors.toList());
+		List<String> savedList = imgList.stream().map(this::toChgName).collect(Collectors.toList());
 		
-		//imgFoodList.stream().filter(this::isImage).map(null)
 		
-		log.warn(savedList);
+		log.warn("savedList : " + savedList);
 		
-		File targetDir = Paths.get(uploadPath, imgFoodList.get(0).getImgFoodPath()).toFile();
+		File targetDir = Paths.get(uploadPath, imgList.get(0).getImgPath()).toFile();
 		
-		//TODO : 지금은 DB에 ImgFoodPath가 .png 등의 파일 형태로 저장되어 있지만 나중에 폴더 명으로 한다면 바뀌어야 한다.
 		log.info("isDirectory : " + targetDir.isDirectory());
 		
 		log.info("isFile : " + targetDir.isFile());
 		
 		File[] removeFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
 		
-		log.info(removeFiles);
+		for(int i=0; i<removeFiles.length; i++) {
+			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
+			removeFiles[i].delete();
+		}
 	}
 	
-	public String toChgName(ImgFoodVO imgFoodVO) {
-		return imgFoodVO.getImgFoodChgName();
+	@Scheduled(cron = "0 30 12 * * *")
+	public void deleteFoodImage() {
+		log.warn("---------------------------");
+		log.warn("delete image task run");
+		
+		List<ImgVO> imgList = imgFoodMapper.selectOldFood();
+		
+		if(imgList.size() == 0) {
+			return;
+		}
+		
+		List<String> savedList = imgList.stream().map(this::toChgName).collect(Collectors.toList());
+		
+		
+		log.warn("savedList : " + savedList);
+		
+		File targetDir = Paths.get(uploadPath, imgList.get(0).getImgPath()).toFile();
+		
+		log.info("isDirectory : " + targetDir.isDirectory());
+		
+		log.info("isFile : " + targetDir.isFile());
+		
+		File[] removeFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
+		
+		for(int i=0; i<removeFiles.length; i++) {
+			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
+			removeFiles[i].delete();
+		}
 	}
 	
-	public boolean isImage(ImgFoodVO imgFoodVO) {
-		String extension = imgFoodVO.getImgFoodExtension().toLowerCase();
+	public String toChgName(ImgVO imgVO) {
+		return imgVO.getImgChgName() + "." + imgVO.getImgExtension();
+	}
+	
+	public boolean isImage(ImgVO imgVO) {
+		String extension = imgVO.getImgExtension().toLowerCase();
 		
 		if(extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") || extension.equals("gif")) {
 			return true;			

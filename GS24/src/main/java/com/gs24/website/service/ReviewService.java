@@ -2,8 +2,6 @@ package com.gs24.website.service;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.util.Pagination;
 

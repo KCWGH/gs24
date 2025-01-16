@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.gs24.website.service.ImgService;
 
 import lombok.extern.log4j.Log4j;
 

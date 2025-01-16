@@ -5,15 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.gs24.website.domain.ImgReviewVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
-import com.gs24.website.util.uploadImgFoodUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -35,15 +33,17 @@ public class ReviewServiceImple implements ReviewService {
 	public int createReview(ReviewVO reviewVO) {
 		log.info("createReview()");
 
-		List<ImgReviewVO> imgReviewList = reviewVO.getImgReviewList();
+		List<ImgVO> imgList = reviewVO.getImgList();
 		
-		for(ImgReviewVO vo : imgReviewList) {
+		log.info(imgList);
+		
+		for(ImgVO vo : imgList) {
 			imgReviewMapper.insertImgReview(vo);
 		}
 
 		int result = reviewMapper.insertReview(reviewVO);
 		
-		//TODO : »ø¿≤ ∂ßπÆø° ºˆ¡§¿Ã « ø‰«‘
+		//TODO : »øÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ øÔøΩÔøΩÔøΩ
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 
 		int totalReviewRating = 0;
@@ -70,6 +70,10 @@ public class ReviewServiceImple implements ReviewService {
 	public ReviewVO getReviewByReviewId(int reviewId) {
 		log.info("getReviewByReviewId()");
 		ReviewVO reviewVO = reviewMapper.selectReviewByReviewId(reviewId);
+		
+		List<ImgVO> list = imgReviewMapper.selectImgReviewByReviewId(reviewId);
+		
+		reviewVO.setImgList(list);
 		log.info(reviewVO);
 		return reviewVO;
 	}
@@ -79,7 +83,19 @@ public class ReviewServiceImple implements ReviewService {
 	public int updateReview(ReviewVO reviewVO) {
 		log.info("updateReview");
 		int result = reviewMapper.updateReview(reviewVO);
-
+		
+		imgReviewMapper.deleteImgReviewByReviewId(reviewVO.getReviewId());
+		
+		List<ImgVO> updateList = reviewVO.getImgList();
+		
+		log.info(updateList);
+		
+		for(ImgVO vo : updateList) {
+			log.info(vo);
+			vo.setForeignId(reviewVO.getReviewId());
+			imgReviewMapper.insertImgReview(vo);
+		}
+		
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 		int size = list.size();
 
@@ -89,8 +105,14 @@ public class ReviewServiceImple implements ReviewService {
 			totalReviewRating += i.getReviewRating();
 		}
 
-		log.info("√Ü√≤¬±√ï ¬∫¬∞√Å¬° : " + totalReviewRating / size);
-		foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
+		if (size > 0) {
+			log.info("ÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ : " + totalReviewRating / size);
+			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
+			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
+		} else {
+			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), size);
+			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
+		}
 
 		return result;
 	}
@@ -114,15 +136,13 @@ public class ReviewServiceImple implements ReviewService {
 		log.info(size);
 
 		if (size > 0) {
-			log.info("√Ü√≤¬±√ï ¬∫¬∞√Å¬° : " + totalReviewRating / size);
+			log.info("ÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ : " + totalReviewRating / size);
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, totalReviewRating / size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		} else {
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		}
-		
-		
 		
 		return result;
 	}

@@ -2,6 +2,7 @@ package com.gs24.website.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class CouponController {
 	@GetMapping("/publish")
 	public void publishGET(Model model) {
 		log.info("publishGET()");
-		String[] foodType = foodService.getFoodTypeList();
+		List<String> foodType = foodService.getFoodTypeList();
 		model.addAttribute("foodTypeList", foodType);
 	}
 

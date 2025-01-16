@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gs24.website.domain.ImgFoodVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -18,30 +18,30 @@ public class ImgFoodServiceImple implements ImgFoodService {
 	private ImgFoodMapper imgFoodMapper;
 
 	@Override
-	public int createImgFood(ImgFoodVO imgFoodVO) {
+	public int createImgFood(ImgVO imgFoodVO) {
 		log.info("createImgFood()");
 		int result = imgFoodMapper.insertImgFood(imgFoodVO);
 		return result;
 	}
 
 	@Override
-	public ImgFoodVO getImgFoodById(int foodId) {
+	public ImgVO getImgFoodById(int foodId) {
 		log.info("getImgFoodById");
-		ImgFoodVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodId);
+		ImgVO imgFoodVO = imgFoodMapper.selectImgFoodById(foodId);
 		log.info(imgFoodVO);
 		return imgFoodVO;
 	}
 
 	@Override
-	public List<ImgFoodVO> getAllImgFood() {
+	public List<ImgVO> getAllImgFood() {
 		log.info("getAllImgFood()");
-		List<ImgFoodVO> list = imgFoodMapper.selectAllImagFood();
+		List<ImgVO> list = imgFoodMapper.selectAllImagFood();
 		log.info(list);
 		return list;
 	}
 
 	@Override
-	public int updateImgFood(ImgFoodVO imgFoodVO) {
+	public int updateImgFood(ImgVO imgFoodVO) {
 		log.info("updateImgFood()");
 		int result = imgFoodMapper.updateImgFood(imgFoodVO);
 		return result;

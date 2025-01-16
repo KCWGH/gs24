@@ -12,14 +12,16 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <title>식품 정보 수정</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 </head>
 <body>
+	<input type="hidden" class="foreignId" value=${FoodVO.foodId }>
+	<input type="hidden" class="type" value="food">
+
 	<h1>식품 정보 수정</h1>
 	<h2>${FoodVO.foodName }</h2>
-	<form action="update" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<div><input type="file" name="file" id="file" required="required"></div>
-		<img id="img" style="width: 200px; height: 150px;">
+	<form action="update" method="post" id="updateForm">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" name="foodId" value="${FoodVO.foodId }"><br>
 		<p>재고량</p>
 		<input type="number" name="foodStock" value="${FoodVO.foodStock }" required="required"><br>
@@ -31,63 +33,79 @@
 		<input type="number" name="foodFat" value="${FoodVO.foodFat }" required="required"><br>
 		<p>탄수화물 함유량</p>
 		<input type="number" name="foodCarb" value= "${FoodVO.foodCarb }" required="required"><br>
-		<input type="submit" value="수정">
+		
+		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">
+			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
+			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
+			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
+			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
+		</c:forEach>
 	</form>
 	
+	<div class="image-drop" style="display: none">
+		사진을 드래그 하기
+	</div>
+	<div class="image-list">
+		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+			<div class="image-item">
+				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }" width="100px" height="100px">
+			</div>
+		</c:forEach>
+	</div>
+	
+	<div class="ImgVOList"></div>
+	
+	<button class="update-image">사진 수정</button>
+	<button class="insert-image">사진 추가</button>
+	<button class="submit">수정</button>
+	
+	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script type="text/javascript">
-	$(document).ajaxSend(function(e, xhr, opt){
-	    var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-	    
-	    xhr.setRequestHeader(header, token);
-	 });
 		$(document).ready(function(){
+			$(document).ajaxSend(function(e, xhr, opt){
+		        var token = $("meta[name='_csrf']").attr("content");
+		        var header = $("meta[name='_csrf_header']").attr("content");
+		        
+		        xhr.setRequestHeader(header, token);
+		     });
 			
-			// 업로드를 허용할 확장자를 정의한 정규표현식
-			var accessExtensions = /\.(png|jpg|jpeg)$/i; 
-					
-			// 파일 전송 form validation
-			$("#file").change(function(event) {
-				var fileInput = $("input[name='file']"); // File input 요소 참조
-				var file = fileInput.prop('files')[0]; // file 객체 참조
-				var fileName = fileInput.val();	
-					
-				if (!file) { // file이 없는 경우
-					alert("파일을 선택하세요.");
-					event.preventDefault();
-					return;
-				}
-					
-				if (!accessExtensions.test(fileName)) { // 허용된 확장자가 아닌 경우
-					alert("이 확장자의 파일은 등록할 수 없습니다.");
-					event.preventDefault();
-					$(this).val("");
-					$("#img").html("");
-					return;
-				}
-					
-				var maxSize = 1 * 1024 * 1024; // 1 MB 
-				if (file.size > maxSize) {
-					alert("파일 크기가 너무 큽니다. 최대 크기는 1MB입니다.");
-					event.preventDefault();
-					$(this).val("");
-					$("#img").html("");
-					return;
-				}
-				
-				showImg(this)
+			$(".insert-image").click(function(){
+				$(".image-drop").show();
 			});
-			
-			function showImg(input){
-				console.log(input.files[0]);
-				let fileReader = new FileReader();
-				fileReader.onload = function(event){
-					console.log(event.target.result);
-					$("#img").attr('src',event.target.result);
+			$(".update-image").click(function(){
+				var isUpdate = confirm("기존 사진들은 삭제 됩니다. 삭제하시겠습니까?");
+				if(isUpdate){
+					$(".image-list").empty();
+					$(".input-image-list").remove();
+					$(".image-drop").show();
 				}
+			});
+			$(".submit").click(function(){
 				
-				fileReader.readAsDataURL(input.files[0]);
-			}
+				var updateForm = $('#updateForm');
+				var i = $(".input-image-list").length / 4;
+				console.log(i);
+				
+				$(".ImgVOList input").each(function(){
+					
+					var ImgVO = JSON.parse($(this).val());
+					
+					
+					var realName 	= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
+					
+					updateForm.append(realName);
+					updateForm.append(chgName);
+					updateForm.append(extension);
+					updateForm.append(path);
+					
+					i++;
+					
+				});
+				updateForm.submit();
+			});
 		});
 	</script>
 </body>
