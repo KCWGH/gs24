@@ -29,9 +29,11 @@ public interface PreorderService {
 
 	int deleteOnlyPreoder(int preorderId);
 
-	List<PreorderVO> getPagingPreordersByMemberId(String memberId, Pagination pagination);
+	List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination);
 
 	int countPreorderByMemberId(String memberId);
 
 	List<PreorderVO> getAlreadyPreorder(int foodId);
+
+	int countRemainingPreorders(String memberId);
 }

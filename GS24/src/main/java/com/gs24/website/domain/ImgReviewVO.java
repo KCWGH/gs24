@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @ToString
 @Log4j
-public class ImgReviewVO{
+public class ImgReviewVO {
 	private int ImgReviewId;
 	private int reviewId;
 	private String ImgReviewRealName;

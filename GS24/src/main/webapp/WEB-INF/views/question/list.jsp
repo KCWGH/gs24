@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
@@ -41,22 +42,17 @@ li {
 </style>
 </head>
 <body>
-    <!-- 페이지 내용 -->
-    <a href="../food/list"><button>메인페이지</button></a>
-    <a href="../notice/list"><button>공지사항</button></a>
+ <%@ include file="../common/header.jsp" %>
+ <sec:authentication property="principal" var="user" />
 
     <h1>QnA 게시판</h1>
     <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
-
-    <!-- 글 작성 페이지 이동 버튼 -->
-	<c:if test="${empty sessionScope.memberId}">
-        * 글작성은 로그인이 필요한 서비스입니다.
-        <a href="../auth/login">로그인하기</a>
-	</c:if>
-    <c:if test="${not empty sessionScope.memberId}">
+	
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
 		<a href="register"><input type="button" value="글 작성"></a>
 		<a href="myList"><input type="button" value="내가 작성한 글"></a>
-	</c:if>
+	</sec:authorize>
+	
 
     <hr>
     <table>
@@ -71,37 +67,34 @@ li {
             </tr>
         </thead>
         <tbody>
-			<c:forEach var="QuestionVO" items="${questionVOList}">
+			<c:forEach var="QuestionVO" items="${questionList}">
 				<tr>
 					<td>${QuestionVO.questionId}</td>
 					<td>${QuestionVO.foodName}</td>
 					<td>
-					<c:choose>
-                            <c:when test="${QuestionVO.questionSecret == true}">
-                                <!-- 비밀글일 경우 처리 -->
-                                <c:if test="${sessionScope.memberId == QuestionVO.memberId || sessionScope.memberVO.memberRole == 2}">
-                                    <!-- 관리자나 작성자가 볼 수 있는 비밀글 -->
-                                    <!-- href="javascript:void(0);" 은 페이지를 이동 시키지 않고 자바 스크립트 기능만 실행 -->
-                                    <a href="javascript:void(0);" onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
-                                        ${QuestionVO.questionTitle} 🔒
-                                    </a>
-                                </c:if>
-								<c:if test="${sessionScope.memberId != QuestionVO.memberId && sessionScope.memberVO.memberRole != 2}">
-                                    <!-- 일반 사용자는 제목만 볼 수 있음 -->
-                                    ${QuestionVO.questionTitle} 🔒
-                                </c:if>
-							</c:when>
-							<c:otherwise>
-								<!-- 비밀글이 아닐 경우 제목을 클릭하여 내용 확인 가능 -->
-                                <a href="javascript:void(0);" onclick="handleClick(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
-                                    ${QuestionVO.questionTitle}
-                                </a>
-							</c:otherwise>
-						</c:choose>
-						</td>
+						<sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 일반회원이고 -->
+							<c:choose>
+								<c:when test="${QuestionVO.questionSecret == true }"> <!-- 비밀글일 때 -->
+									<c:choose>
+                						<c:when test="${user.username == QuestionVO.memberId}">
+                    						<p>작성자 본인의 비밀글입니다.</p>
+                						</c:when>
+                						<c:otherwise>
+                    						<p>비밀글입니다. 접근 권한이 없습니다.</p>
+                						</c:otherwise>
+            						</c:choose>
+								</c:when>
+								<c:when test="${QuestionVO.questionSecret == false }"> <!-- 비밀글이 아닐 때 -->
+									<p>공개된 글입니다.</p>
+								</c:when>
+							</c:choose>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_OWNER')"> <!-- 점주일 때 -->
+							
+						</sec:authorize>
+					</td>
 					<td>${QuestionVO.memberId}</td>
-					<fmt:formatDate value="${QuestionVO.questionDateCreated}"
-						pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
+					<fmt:formatDate value="${QuestionVO.questionDateCreated}" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
 					<td>${questionDateCreated}</td>
 					<td>
 						<c:if test="${QuestionVO.isAnswered == 0}">
@@ -137,8 +130,7 @@ li {
 			<li><a href="list?pageNum=${pageMaker.startNum - 1}">이전</a></li>
 		</c:if>
 		<!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
-		<c:forEach begin="${pageMaker.startNum }" end="${pageMaker.endNum }"
-			var="num">
+		<c:forEach begin="${pageMaker.startNum }" end="${pageMaker.endNum }" var="num">
 			<li><a href="list?pageNum=${num }">${num }</a></li>
 		</c:forEach>
 		<!-- 다음 버튼 생성을 위한 조건문 -->
@@ -150,13 +142,13 @@ li {
 	<!-- jQuery 스크립트 -->
 	<script type="text/javascript">
         // 현재 로그인한 사용자 정보
-        var currentUser = "${sessionScope.memberId}";
-        var currentUserRole = "${sessionScope.memberVO.memberRole}"; // 2: 관리자, 1: 일반 사용자
+        var currentUser = "${user.username}";
+        var currentUserRole = "${user.authorities}"; // 권한: ROLE_OWNER 등
 
         // 게시글 제목 클릭 시 처리하는 함수
         function handleClick(questionId, authorId) {
             // 작성자이거나 관리자일 경우 상세 페이지로 이동
-            if (currentUser === authorId || currentUserRole == 2) {
+            if (currentUser === authorId || currentUserRole.indexOf('ROLE_OWNER') != -1) {
                 window.location.href = "detail?questionId=" + questionId;
             } else {
                 // 권한이 없으면 질문 내용을 토글로 펼침

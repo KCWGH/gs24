@@ -62,12 +62,12 @@
 	<div class="ImgReviewVOList"></div>
 	
 	<script type="text/javascript">
-	$(document).ajaxSend(function(e, xhr, opt){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        
-        xhr.setRequestHeader(header, token);
-     });
+	 $(document).ajaxSend(function(e, xhr, opt){
+         var token = $("meta[name='_csrf']").attr("content");
+         var header = $("meta[name='_csrf_header']").attr("content");
+         
+         xhr.setRequestHeader(header, token);
+      });
 	
 	$(document).ready(function(){
 		// 파일 객체를 배열로 전달받아 검증하는 함수

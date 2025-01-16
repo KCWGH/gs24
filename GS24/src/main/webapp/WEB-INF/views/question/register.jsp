@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- css 파일 불러오기 -->
 <link rel="stylesheet"
@@ -36,6 +38,7 @@
             <p>내용 :</p>
             <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" required></textarea>
         </div>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
     <hr>
 	<div class="questionAttach-upload">
@@ -55,7 +58,12 @@
         <script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
         
         <script>
-		
+        $(document).ajaxSend(function(e, xhr, opt){
+	        var token = $("meta[name='_csrf']").attr("content");
+	        var header = $("meta[name='_csrf_header']").attr("content");
+	        
+	        xhr.setRequestHeader(header, token);
+	     });
 	
 		$(document).ready(function() {
 			// regsiterForm 데이터 전송

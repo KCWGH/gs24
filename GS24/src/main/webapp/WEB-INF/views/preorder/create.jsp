@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>편의점 식품 예약</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -112,7 +114,7 @@
         </table>
 
         <input type="hidden" name="foodId" value="${foodVO.foodId}">
-        <input type="hidden" name="memberId" value="${sessionScope.memberId}">
+        <input type="hidden" name="memberId" value="${memberVO.memberId}">
         <input type="hidden" name="pickupDate" id="pickupDate" required>
         <input type="hidden" name="couponId" id="couponId">
         <input type="hidden" name="giftCardId" id="giftCardId">
@@ -197,6 +199,7 @@
                 </c:choose>
             </div>
         </div>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
 
     <button onclick="location.href='../food/list'">돌아가기</button>
@@ -288,14 +291,14 @@
                     		$('#latestBalanceToggle').show();
                     	}
                     } else { // 쿠폰을 선택하지 않고 기프트카드만 선택했다면
-                    	if (balance >= appliedPrice) { // 기프트카드만이고 잔고가 더 많다면
-                    		$('#totalPrice').val(appliedPrice);
-                    		$('#latestBalance').text((balance - appliedPrice) + '원');
+                    	if (balance >= originalPrice) { // 기프트카드만이고 잔고가 가격보다 더 많다면
+                    		$('#totalPrice').val(originalPrice);
+                    		$('#latestBalance').text((balance - originalPrice) + '원');
                     		$('#latestBalanceToggle').show();
                     	} else { // 잔고보다 결제 금액이 더 많다면
                     		$('#totalPrice').val(balance);
                     		$('#latestBalance').text(0 + '원');
-                    		$('#buyPrice').text((appliedPrice - balance) + '원');
+                    		$('#buyPrice').text((originalPrice - balance) + '원');
                     		$('#latestBalanceToggle').show();
                     	}
                     }
@@ -323,6 +326,7 @@
                     }
                 });
 
+                let currentlyAppliedGiftCardId = null;
                 let currentlyAppliedCouponId = null;
 
                 $(".applyCoupon").click(function(event) {
@@ -340,6 +344,18 @@
                         alert('모두 소진된 쿠폰입니다.');
                         return;
                     }
+                    console.log('중복가능 여부 : '+isDuplicateAllowed);
+                    let giftCardId = $(".applyGiftCard").val();
+                    if (isDuplicateAllowed == 0) { // 쿠폰이 기프트카드와 중복 불가라면
+                    	 $('#giftCardId').val(""); // 기존 기프트카드 ID 제거
+                         $('#selectedGiftCard').text("없음"); // 선택된 기프트카드 표시 초기화
+                         currentlyAppliedGiftCardId = null;
+                         $('#buyPrice').text(currentPrice + '원'); // 초기 가격으로 리셋
+                         $('#totalPrice').val(0);  // 초기 가격으로 리셋
+                    }
+                    
+                    console.log('현재 적용된 깊카아이디 : '+giftCardId);
+                    
 
                     // 다른 쿠폰이 이미 적용되어 있는 경우 초기화
                     if (currentlyAppliedCouponId !== null && currentlyAppliedCouponId !== couponId) {

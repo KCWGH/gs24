@@ -2,22 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.7.1.js">
-</script>
-<title>예약 식품 목록</title>
-</head>
-<body>
-	<h1>에약된 식품 목록</h1>
-	<div id="list"></div>
-	<br>
-	<button id="cancell">예약 취소</button>
-	<button onclick="location.href='../food/list'">돌아가기</button>
-	<button id="delete">예약 취소 목록 삭제</button>
-	<script type="text/javascript">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+	$(document).ajaxSend(function(e, xhr, opt){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        
+        xhr.setRequestHeader(header, token);
+     });
 	
 	$(document).ready(function(){
 	    
@@ -28,7 +27,7 @@
 	    
 	    //회원이 예약한 식품들 불러오는 코드
 	    function getAllPreorder(){
-	        let url = "../preorder/all/"+ "${sessionScope.memberId}";
+	        let url = "../preorder/all/"+ "${memberId}";
 	        
 	        $.getJSON(url, function(data){
 	            console.log(data);
@@ -141,6 +140,18 @@
 	});
 	
 	</script>
+<title>예약 식품 목록</title>
+</head>
+<%@ include file="../common/header.jsp" %>
+<body>
+	<h1>예약된 식품 목록</h1>
+	<div id="list"></div>
+	<br>
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<button id="cancell">예약 취소</button>
+	<button onclick="location.href='../food/list'">돌아가기</button>
+	<button id="delete">예약 취소 목록 삭제</button>
+	
 </body>
 </html>
 

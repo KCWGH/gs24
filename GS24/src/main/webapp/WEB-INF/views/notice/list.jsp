@@ -45,11 +45,10 @@
     </style>
     <meta charset="UTF-8">
     <title>공지사항</title>
+     <%@ include file="../common/header.jsp" %>
 </head>
 <body>
-    
-    <a href="../food/list"><button>메인페이지</button></a>
-    <a href="../question/list"><button>QnA게시판</button></a>
+
     <h1>공지사항</h1>
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
     <hr>

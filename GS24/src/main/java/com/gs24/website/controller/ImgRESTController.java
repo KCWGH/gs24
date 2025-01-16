@@ -34,14 +34,12 @@ public class ImgRESTController {
 	private ImgService imgService;
 	
 	@PostMapping("/review")
-	public ResponseEntity<List<ImgReviewVO>> createReviewImage(MultipartFile[] files, int reviewId) {
+	public ResponseEntity<List<ImgReviewVO>> createReviewImage(MultipartFile[] files) {
 		log.info("createReviewImage()");
 		List<ImgReviewVO> entity = new ArrayList<ImgReviewVO>();
 		
-		if(reviewId == 0) {
-			log.info("신규 리뷰 작성입니다.");
-			reviewId = (int)imgService.getNextReviewId();
-		}		
+		long reviewId = imgService.getNextReviewId();
+		
 		String dir = "ReviewNO" + reviewId;
 		
 		for(int i=0; i<files.length; i++) {
@@ -60,7 +58,7 @@ public class ImgRESTController {
 			imgReviewVO.setImgReviewChgName(chgName);
 			imgReviewVO.setImgReviewExtension(extension);
 			imgReviewVO.setImgReviewPath(uploadImgUtil.makeDir(dir));
-			imgReviewVO.setReviewId(reviewId);
+			imgReviewVO.setReviewId((int)reviewId);
 			
 			entity.add(imgReviewVO);
 		}
@@ -128,9 +126,9 @@ public class ImgRESTController {
 		return new ResponseEntity<Integer>(1, HttpStatus.OK);
 	}
 	
-	@PostMapping("/remove")
-	public ResponseEntity<Integer> remove(String path){
-		log.info("remove()");
+	@PostMapping("/cancel")
+	public ResponseEntity<Integer> cancel(String path){
+		log.info("cancel()");
 		
 		if(path == null) {
 			return new ResponseEntity<Integer>(1, HttpStatus.OK);
@@ -162,14 +160,18 @@ public class ImgRESTController {
 		
 		ImgReviewVO vo = imgService.getImgReviewById(imgReviewId);
 		
+		log.info(vo);
+		
 		String fullPath = uploadPath + File.separator + vo.getImgReviewPath() + vo.getImgReviewChgName() + "." + vo.getImgReviewExtension();
+		
+		log.info(fullPath);
 		
 		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		
 		return entity;
 	}
 	
-	@GetMapping("/foodImage")
+	@GetMapping("/food")
 	public ResponseEntity<byte[]> getFoodImage(int imgFoodId){
 		log.info("getFoodImage()");
 		

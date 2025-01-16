@@ -2,10 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
@@ -33,47 +36,63 @@
 
 	<button onclick="location.href='../food/list'">돌아가기</button>
 
-	<c:if test="${not empty sessionScope.memberId}">
-		<a href="../review/list?foodId=${FoodVO.foodId}"><button>리뷰 작성</button></a>
-	</c:if>
+	<sec:authentication property="principal" var="user"/>	
+	<a href="../review/register?foodId=${FoodVO.foodId}"><button>리뷰 작성</button></a>
 	
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
 		<div class="reviewItems">
 		<hr>
-		<input type="hidden" value="${reviewVO.reviewId }"/>
+		<input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
 		<p>회원 아이디 : ${reviewVO.memberId }</p>
 		<div class='imagReviewList'>
 			<c:forEach var="ImgReviewVO" items="${reviewVO.imgReviewList }">
+				<input type="hidden" class="image_path" value="${ImgReviewVO.imgReviewPath }">
 				<img src="../image/reviewImage?imgReviewId=${ImgReviewVO.imgReviewId }">
 			</c:forEach>
 		</div>
 		<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
 		<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
 		<p>리뷰 별점 : ${reviewVO.reviewRating }</p>
-		<c:if test="${ sessionScope.memberId eq reviewVO.memberId }">
-			<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}'">수정</button>
-			<button onclick="location.href='../review/delete?reviewId=${reviewVO.reviewId}&foodId=${reviewVO.foodId }'" id="reviewDelete">삭제</button>
-		</c:if>
+		<sec:authentication property="principal" var="user"/>	
+		<sec:authorize access="isAuthenticated()">
+			<c:if test="${ reviewVO.memberId eq user.username}">
+				<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}'">수정</button>
+				<button id="reviewDelete">삭제</button>
+			</c:if>
+		</sec:authorize>
 		</div>
 	</c:forEach>
 	<hr>
 	</div>
 	
 	<script type="text/javascript">
-	window.onload = function () {
+	$(document).ajaxSend(function(e, xhr, opt){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        
+        xhr.setRequestHeader(header, token);
+     });
+
+	
+	$(document).ready(function () {
 	    pieChartDraw();
-	}
+	});
+	
+	let protein = ${FoodVO.foodProtein};
+	let fat = ${FoodVO.foodFat};
+	let carb = ${FoodVO.foodCarb};
 	let pieChartData = {
 	    labels: ["protein", "fat", "carbohydrate"],
 	    datasets: [{
-	        data: [${FoodVO.foodProtein},${FoodVO.foodFat},${FoodVO.foodCarb}],
-	        backgroundColor: ['rgb(255,0,0)','rgb(0,255,0)','rgb(0,0,255)']
-	    }] 
+	        data: [protein, fat, carb],
+	        backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
+	    }]
 	};
+
 	let pieChartDraw = function () {
-	    let ctx = document.getElementById('pieChart').getContext('2d');
-	    
+	    let ctx = $('#pieChart')[0].getContext('2d');  // jQuery를 사용하여 요소를 찾고, getContext 호출
+
 	    window.pieChart = new Chart(ctx, {
 	        type: 'pie',
 	        data: pieChartData,
@@ -82,6 +101,25 @@
 	        }
 	    });
 	};
+
+	
+	$("#reviewList").on('click','.reviewItems #reviewDelete', function(){
+		var path = $(".imagReviewList").find('input[type=hidden]').val();
+		var reviewId = $(this).prevAll(".reviewId").val();
+		var foodId = ${FoodVO.foodId };
+		console.log("path : " + path);
+		console.log("reviewId : " + reviewId);
+		console.log("foodId : " + foodId);
+		
+		$.ajax({
+			type : 'post',
+			url : '../image/remove',
+			data : {"path" : path},
+			success : function(result){
+				location.href='../review/delete?reviewId='+reviewId+'&foodId=' + foodId;
+			}
+		});
+	}); 
 	</script>
 </body>
 </html>

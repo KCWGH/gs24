@@ -16,7 +16,8 @@
 </head>
 <body>
 	<input type="hidden" class="path">
-	<input type="hidden" class="reviewId" value=0>
+	<input type="hidden" class="foreignId" value=0>
+	<input type="hidden" class="type" value=review>
 	<p>리뷰 작성</p>
 	
 	<form action="../review/register" method="post" id="registForm">
@@ -24,7 +25,7 @@
 		<input type="hidden" name="foodId" value="${foodId }">
 		<sec:authentication property="principal" var="user"/>	
 		<sec:authorize access="isAuthenticated()">
-		<p>회원 아이디</p><input type="text" name="memberId" value="${user.username }" readonly="readonly"><br>
+			<input type="hidden" name="memberId" value="${user.username }">
 		</sec:authorize>
 		<p>제목 : <p>
 		<input type="text" name="reviewTitle"><br>
@@ -99,9 +100,6 @@
 			event.preventDefault();
 			console.log('drop 테스트');
 			console.log($(".image-item").length);
-			if($(".image-item").length > 2){
-				$('.image-list').empty(); // 기존 이미지 dto 초기화
-			}
 							
 			// 드래그한 파일 정보를 갖고 있는 객체
 			var files = event.originalEvent.dataTransfer.files;
@@ -109,6 +107,10 @@
 			
 			if(!validateImages(files)) { 
 				return;
+			}
+			
+			if($(".image-item").length > 2){
+				$('.image-list').empty(); // 기존 이미지 dto 초기화
 			}
 			
 			// Ajax를 이용하여 서버로 파일을 업로드
@@ -119,7 +121,7 @@
 				formData.append("files", files[i]); 
 			}
 			
-			formData.append("reviewId",0);
+			formData.append("reviewId",$(".foreignId").val());
 			
 			$.ajax({
 				type : 'post', 
@@ -214,13 +216,13 @@
 				var ImgReviewVO = JSON.parse($(this).val());
 				console.log(ImgReviewVO);
 				
-				var reviewId =	$("<input>").attr('type','hidden').attr('name','imgReviewList['+i+'].reviewId').attr('value',ImgReviewVO.reviewId);
+				var foreignId =	$("<input>").attr('type','hidden').attr('name','imgReviewList['+i+'].reviewId').attr('value',ImgReviewVO.reviewId);
 				var realName =	$("<input>").attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewRealName').attr('value',ImgReviewVO.imgReviewRealName);
 				var chgName =	$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewChgName').attr('value',ImgReviewVO.imgReviewChgName);
 				var extension =	$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewExtension').attr('value',ImgReviewVO.imgReviewExtension);
 				var path =		$('<input>').attr('type','hidden').attr('name','imgReviewList['+i+'].ImgReviewPath').attr('value',ImgReviewVO.imgReviewPath);
 				
-				registForm.append(reviewId);
+				registForm.append(foreignId);
 				registForm.append(realName);
 				registForm.append(chgName);
 				registForm.append(extension);

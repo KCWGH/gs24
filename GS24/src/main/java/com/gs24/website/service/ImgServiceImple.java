@@ -39,8 +39,8 @@ public class ImgServiceImple implements ImgService{
 	}
 
 	@Override
-	public ImgReviewVO getImgReviewById(int imgId) {
-		ImgReviewVO imgReviewVO = imgReviewMapper.selectImgReviewById(imgId);
+	public ImgReviewVO getImgReviewById(int imgReviewId) {
+		ImgReviewVO imgReviewVO = imgReviewMapper.selectImgReviewById(imgReviewId);
 		return imgReviewVO;
 	}
 

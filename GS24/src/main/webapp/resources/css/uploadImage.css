@@ -1,0 +1,42 @@
+.image-drop {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed grey;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 200px;
+    font-size: 16px;
+    color: grey;
+}
+
+.update-image-drop {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed maroon;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 200px;
+    font-size: 16px;
+    color: grey;
+}
+
+.image-list {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 20px;
+    height: 120px;
+    width: 350px;
+}
+
+.image-item {
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+    margin: 4px;
+}
+.image-item:hover {
+	border-color: blue;
+	border-style: solid;
+}

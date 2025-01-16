@@ -2,15 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <meta charset="UTF-8">
-<meta name="_csrf" content="${_csrf.token}"/>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>리뷰 작성</title>
 <style>
 	#img #foodImg{
@@ -61,12 +58,8 @@
 		<div id="review"></div>
 	</div>
 	<form action="register" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" value="${foodId }" name="foodId">
-		<sec:authentication property="principal" var="user"/>	
-		<sec:authorize access="isAuthenticated()">
-			<input type="text" readonly="readonly" value="${user.username }" name="memberId">
-		</sec:authorize>
+		<input type="text" readonly="readonly" value="${sessionScope.memberId }" name="memberId">
 		<input type="file" required="required" name="file" id="registerFile"><br>
 		<input type="text" required="required" name="reviewTitle"><br>
 		<textarea rows="15" cols="80" name="reviewContent"></textarea><br>
@@ -84,13 +77,10 @@
 		<p>리뷰 제목 : ${reviewVO.reviewTitle }</p>
 		<p>리뷰 내용 : ${reviewVO.reviewContent }</p>
 		<p>리뷰 별점 : ${reviewVO.reviewRating }</p>
-		<sec:authentication property="principal" var="user"/>	
-		<sec:authorize access="isAuthenticated()">
-		<c:if test="${ reviewVO.memberId eq user.username }">
-			<button class="reviewUpdate">수정</button>
+		<c:if test="${ sessionScope.memberId eq reviewVO.memberId }">
+		<button class="reviewUpdate">수정</button>
 			<button onclick="location.href='delete?reviewId=${reviewVO.reviewId}&foodId=${reviewVO.foodId }'" id="reviewDelete">삭제</button>
 		</c:if>
-		</sec:authorize>
 		</div>
 	</c:forEach>
 	<hr>
@@ -112,12 +102,8 @@
 	<div id="editForm" style="display: none;">
 	
 	<form action="update" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" id="reviewId" name="reviewId" />
-		<sec:authentication property="principal" var="user"/>	
-		<sec:authorize access="isAuthenticated()">
-		<input type="hidden" name="memberId" value="${user.username }">
-		</sec:authorize>
+		<input type="hidden" name="memberId" value="${sessionScope.memberId }">
 		<input type="hidden" value="${foodId }" name="foodId">
 		<div id="update"></div>
 		<input type="file" name="file" id="updateFile"/><br>

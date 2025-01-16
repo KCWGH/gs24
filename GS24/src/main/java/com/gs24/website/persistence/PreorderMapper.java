@@ -27,4 +27,6 @@ public interface PreorderMapper {
 	int countPreorderByMemberId(String memberId);
 	
 	List<PreorderVO> selectAlreadyPreorderByFoodId(int foodId);
+	
+	int countNotPickedUpPreorderByMemberId(String memberId);
 }

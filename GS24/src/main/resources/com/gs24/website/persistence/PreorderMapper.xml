@@ -10,12 +10,16 @@
 		<result property="pickupDate" column="PICKUP_DATE"/>
 		<result property="isPickUp" column="IS_PICK_UP"/>
 		<result property="isExpiredOrder" column="IS_EXPIRED_ORDER"/>
+		<result property="totalPrice" column="TOTAL_PRICE"/>
 	</resultMap>
 	
-	<insert id="insertPreorder">
+	<insert id="insertPreorder" useGeneratedKeys="true" keyProperty="preorderId">
+	<selectKey keyProperty="preorderId" resultType="Integer" order="BEFORE">
+        SELECT PREORDER_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
 		INSERT INTO PREORDER
-		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER)
-		VALUES(PREORDER_SEQ.NEXTVAL, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder})
+		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER, TOTAL_PRICE)
+		VALUES(#{preorderId}, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder}, #{totalPrice})
 	</insert>
 	
 	<select id="selectPreorderOneById" resultMap="PreorderResultMap">
@@ -53,5 +57,9 @@
    
    <select id="selectAlreadyPreorderByFoodId" resultMap="PreorderResultMap">
    		SELECT * FROM PREORDER WHERE FOOD_ID = #{foodId} AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   </select>
+   
+   <select id="countNotPickedUpPreorderByMemberId" resultType="Integer">
+   		SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 0
    </select>
 </mapper>

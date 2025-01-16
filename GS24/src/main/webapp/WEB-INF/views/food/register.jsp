@@ -2,10 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>편의점 식품 등록</title>
 <style>
@@ -19,6 +22,7 @@
 	<h1>편의점 식품 등록</h1>
 	<!-- 나중에 여기에 식품 이미지도 같이 DB에 저장해야 한다. -->
 	<form action="register" method="post" id="foodForm" enctype="multipart/form-data">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<div><input type="file" name="file" id="file" required="required"></div>
 		<div id="img"></div>
 		<div><input type="text" name="foodType" placeholder="식품 유형 입력" required="required"></div>

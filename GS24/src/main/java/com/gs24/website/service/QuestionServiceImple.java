@@ -70,24 +70,42 @@ public class QuestionServiceImple implements QuestionService {
 	
 	@Transactional(value = "transactionManager")
 	@Override
-	public int updateQuestion(QuestionDTO questionDTO) {
-		log.info("updateQuestion()");
-		log.info("questionDTO" + questionDTO);
-		int updateQuestionResult = questionMapper.updateQuestion(toEntity(questionDTO));
-		log.info(updateQuestionResult + "행 파일 정보 수정");
-		
-		int deleteQuestionAttachResult = questionMapper.deleteQuestion(questionDTO.getQuestionId());
-		log.info(deleteQuestionAttachResult + "행 파일 정보 삭제");
-		
-		List<QuestionAttachDTO> questionAttachList = questionDTO.getQuestionAttachList();
-		
-		int insertQuestionAttachResult = 0;
-		for(QuestionAttachDTO questionAttachDTO : questionAttachList) {
-			questionAttachDTO.setQuestionId(questionDTO.getQuestionId());
-			insertQuestionAttachResult += questionAttachMapper.insertQuestionAttachModify(toEntity(questionAttachDTO));
-		}
-		log.info(insertQuestionAttachResult + "행 파일 정보 등록");
-		return 1;
+	public int modifyQuestion(QuestionDTO questionDTO) {
+	    log.info("updateQuestion()");
+	    log.info("QuestionDTO 내용: " + questionDTO);
+	    
+	    try {
+	        // 1. 기존 질문 내용 업데이트
+	        int updateQuestionResult = questionMapper.updateQuestion(toEntity(questionDTO));
+	        log.info(updateQuestionResult + "행 게시글 정보 수정");
+	        
+	        // 2. 기존 첨부 파일 삭제
+	        int deleteQuestionAttachResult = questionAttachMapper.deleteQuestionAttach(questionDTO.getQuestionId());
+	        log.info(deleteQuestionAttachResult + "행 기존 첨부파일 삭제");
+	        
+	        // 3. 새로운 첨부 파일 목록 가져오기
+	        List<QuestionAttachDTO> questionAttachList = questionDTO.getQuestionAttachList();
+	        if (questionAttachList != null && !questionAttachList.isEmpty()) {
+	            log.info("새로운 첨부파일 목록: " + questionAttachList);
+	            
+	            // 4. 새로운 첨부파일들을 데이터베이스에 등록
+	            int insertQuestionAttachResult = 0;
+	            for (QuestionAttachDTO questionAttachDTO : questionAttachList) {
+	                log.info("파일 등록 시작: " + questionAttachDTO);
+	                questionAttachDTO.setQuestionId(questionDTO.getQuestionId());
+	                insertQuestionAttachResult += questionAttachMapper.insertQuestionAttachModify(toEntity(questionAttachDTO));
+	            }
+	            log.info(insertQuestionAttachResult + "행 파일 정보 등록");
+	        } else {
+	            log.info("새로운 첨부파일이 없습니다.");
+	        }
+	        
+	        log.info("modifyQuestion() 끝");
+	        return updateQuestionResult;
+	    } catch (Exception e) {
+	        log.error("첨부파일 수정 중 오류 발생", e);
+	        throw e; // 트랜잭션 롤백을 유도
+	    }
 	} // end updateQuestion()
 
 	@Transactional(value = "transactionManager")
@@ -136,7 +154,6 @@ public class QuestionServiceImple implements QuestionService {
 
 	// QuestionVO 데이터를 QuestionDTO에 적용하는 메서드
 		public QuestionDTO toDTO(QuestionVO questionVO) {
-			log.info("Converting QuestionVO to QuestionDTO: " + questionVO);
 			QuestionDTO questionDTO = new QuestionDTO();
 			questionDTO.setQuestionId(questionVO.getQuestionId());
 			questionDTO.setMemberId(questionVO.getMemberId());

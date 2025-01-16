@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>식품 리스트</title>
 <style>
@@ -47,32 +51,21 @@ img {
 
 </head>
 <body>
-<c:if test="${not empty message}">
-        <script type="text/javascript">
-            alert("${message}");
-        </script>
-    </c:if>
-	<c:if test="${not empty memberVO}">
-      <span>환영합니다, ${memberId}님</span>
-      <button onclick="window.open('../member/mypage', '_blank', 'width=500,height=700')">마이페이지</button>
-      <button onclick='location.href="../auth/logout"'>로그아웃</button>
-      <button onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-      <button onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드 목록</button>
-   </c:if>
+<spring:message code="message" text="${message}" var="flashMessage" />
+    <script>
+        <c:if test="${not empty flashMessage}">
+            alert("${flashMessage}");
+        </c:if>
+    </script>
 
-   <c:if test="${empty memberVO}">
-      <button onclick='location.href="../auth/login"'>로그인</button>
-   </c:if>
-      <a href="../notice/list"><button>공지사항</button></a>
-      <a href="../question/list"><button>문의사항(QnA)</button></a>
-   <hr>
+	<%@ include file="../common/header.jsp" %>
 
-   <h1>식품 리스트</h1>
-   <c:if test="${memberVO.memberRole == 2 }">
+	<h1>식품 리스트</h1>
+    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
       <button onclick='location.href="register"'>식품등록</button>
       <button onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button><br>
-   </c:if>
+   </sec:authorize>
    	<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
 	<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
 	<button class="search">검색</button>
@@ -97,17 +90,17 @@ img {
 				<button onclick="location.href='detail?foodId=${FoodVO.foodId}'">상세 보기</button><br>
 				<button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }"'>예약하기</button><br>
 				<c:choose>
-                <c:when test="${isAddedMap[FoodVO.foodId]}">
+                <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
                     <button class="deleteFavorites" data-foodId="${FoodVO.foodId}">찜 해제하기</button><br>
                 </c:when>
                 <c:otherwise>
                     <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-foodType="${FoodVO.foodType }" data-foodName="${FoodVO.foodName }">찜하기</button><br>
                 </c:otherwise>
             	</c:choose>
-				<c:if test="${memberVO.memberRole == 2 }">
+				<sec:authorize access="hasRole('ROLE_OWNER')">
 					<button onclick="location.href='update?foodId=${FoodVO.foodId}'">식품 수정</button><br>
 					<button onclick="location.href='delete?foodId=${FoodVO.foodId}'">식품 삭제</button>
-				</c:if>
+				</sec:authorize>
 			</li>
 		</c:forEach>
 	</ul>
@@ -153,7 +146,12 @@ img {
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
+		$(document).ajaxSend(function(e, xhr, opt){
+	        var token = $("meta[name='_csrf']").attr("content");
+	        var header = $("meta[name='_csrf_header']").attr("content");
+	        
+	        xhr.setRequestHeader(header, token);
+	     });
 		$(document).on('click', '.addFavorites', function(event) {
 			let memberId = '${memberId}';
 		    let foodId = $(this).data('foodid');

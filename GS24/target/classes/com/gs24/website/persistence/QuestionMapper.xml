@@ -18,9 +18,9 @@
 	
 	<insert id="insertQuestion">
 		INSERT INTO QUESTION (QUESTION_ID, MEMBER_ID, FOOD_NAME,
-		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_SECRET, QUESTION_DATE_CREATED)
+		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_SECRET, IS_ANSWERED, QUESTION_DATE_CREATED)
 		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodName}, #{questionTitle},
-		 #{questionContent}, #{questionSecret}, SYSDATE)
+		 #{questionContent}, #{questionSecret}, 0, SYSDATE)
 	</insert>
 	<select id="selectQuestionList" resultMap="questionResultMap">
 		SELECT * FROM QUESTION ORDER BY QUESTION_ID DESC
@@ -30,7 +30,7 @@
 		SELECT * FROM QUESTION WHERE QUESTION_ID = #{questionId}
 	</select>
 	
-	<update id="updateQuestion">	 	
+	<update id="updateQuestion">
 	   UPDATE QUESTION SET
        QUESTION_TITLE = #{questionTitle}, 
        QUESTION_CONTENT = #{questionContent}, 

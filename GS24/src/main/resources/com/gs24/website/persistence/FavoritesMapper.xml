@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.FavoritesMapper">
+
+	<resultMap type="com.gs24.website.domain.FavoritesVO" id="FavoritesResultMap">
+		<id property="favoritesId" column="FAVORITES_ID" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="foodId" column="FOOD_ID" />
+		<result property="foodType" column="FOOD_TYPE" />
+		<result property="foodName" column="FOOD_NAME" />
+	</resultMap>
+
+	<insert id="insertFavorites">
+		INSERT INTO FAVORITES
+		(FAVORITES_ID, MEMBER_ID, FOOD_ID,
+		FOOD_TYPE, FOOD_NAME)
+		VALUES
+		(FAVORITES_SEQ.NEXTVAL, #{memberId}, #{foodId}, #{foodType}, #{foodName})
+	</insert>
+	
+	<select id="selectFavoritesListByPagination" resultMap="FavoritesResultMap">
+	SELECT * 
+    	FROM (
+        	SELECT ROW_NUMBER() OVER (ORDER BY FAVORITES_ID DESC) AS RN, 
+               FAVORITES.* 
+        FROM FAVORITES 
+        WHERE MEMBER_ID = #{memberId}
+    	)
+    	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countFavoritesByMemberId" resultType="Integer">
+		SELECT COUNT(*)
+		TOTAL_COUNT FROM FAVORITES WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="countFavoritesByMemberIdAndFoodId" resultType="Integer">
+		SELECT COUNT(*) FROM FAVORITES 
+		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+	</select>
+	
+	<delete id="deleteFavorites">
+		DELETE FROM FAVORITES
+		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+	</delete>
+</mapper>

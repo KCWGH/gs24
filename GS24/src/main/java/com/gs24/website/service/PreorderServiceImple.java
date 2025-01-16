@@ -66,24 +66,26 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	public int createPreorder(PreorderVO preorderVO, int earlyBirdCouponId) {
+	public int createPreorder(PreorderVO preorderVO, int couponId) {
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
-		CouponVO earlyBirdCouponVO = couponMapper.selectCouponByCouponId(earlyBirdCouponId);
-		Date earlyBirdCouponExpiredDate = earlyBirdCouponVO.getCouponExpiredDate();
+		CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
+		Date couponExpiredDate = couponVO.getCouponExpiredDate();
 		Date currentDate = new Date();
 
-		if (foodAmount > 0 && foodAmount >= preorderAmount && earlyBirdCouponVO.getCouponAmount() > 0
-				&& earlyBirdCouponExpiredDate.after(currentDate)) {
-			preorderMapper.insertPreorder(preorderVO);
-			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
-			couponMapper.useCoupon(earlyBirdCouponId);
-			CouponQueueVO earlyBirdCouponQueueVO = new CouponQueueVO();
-			earlyBirdCouponQueueVO.setCouponId(earlyBirdCouponId);
-			earlyBirdCouponQueueVO.setMemberId(preorderVO.getMemberId());
-			int result = couponQueueMapper.insertQueue(earlyBirdCouponQueueVO);
-			log.info("createPreorderWithCoupon()");
-			return result;
+		if (foodAmount > 0 && foodAmount >= preorderAmount && couponVO.getCouponAmount() > 0
+				&& couponExpiredDate.after(currentDate)) {
+			CouponQueueVO couponQueueVO = new CouponQueueVO();
+			couponQueueVO.setCouponId(couponId);
+			couponQueueVO.setMemberId(preorderVO.getMemberId());
+			int queueResult = couponQueueMapper.insertQueue(couponQueueVO);
+			if (queueResult == 1) {
+				int useResult = couponMapper.useCoupon(couponId);
+				if (useResult == 1) {
+					int createResult = createPreorder(preorderVO);
+					return createResult;
+				}
+			}
 		}
 		return 0;
 	}
@@ -156,7 +158,7 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public List<PreorderVO> getPagingPreordersByMemberId(String memberId, Pagination pagination) {
+	public List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination) {
 		return preorderMapper.selectPreorderBymemberIdPagination(pagination);
 	}
 
@@ -170,6 +172,11 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("getAlreadyPreorder()");
 		List<PreorderVO> list = preorderMapper.selectAlreadyPreorderByFoodId(foodId);
 		return list;
+	}
+
+	@Override
+	public int countRemainingPreorders(String memberId) {
+		return preorderMapper.countNotPickedUpPreorderByMemberId(memberId);
 	}
 
 }

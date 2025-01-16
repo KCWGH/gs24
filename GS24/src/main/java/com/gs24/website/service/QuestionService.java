@@ -13,7 +13,7 @@ public interface QuestionService {
 	
 	QuestionDTO getQuestionById(int questionId); // 특정 게시글 조회
 	
-	int updateQuestion(QuestionDTO questionVO); // 특정 게시글 수정
+	int modifyQuestion(QuestionDTO questionVO); // 특정 게시글 수정
 
 	int deleteQuestion(int questionId); // 특정 게시글 삭제
 	
@@ -26,4 +26,6 @@ public interface QuestionService {
 	List<QuestionDTO> getPagedQuestionsByMemberId(String memberId, Pagination pagination);
 	
 	int countQuestionByMemberId(String memberId);
+
+	
 }

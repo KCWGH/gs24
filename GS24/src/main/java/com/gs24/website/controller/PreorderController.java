@@ -5,9 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.CouponVO;
+import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.GiftCardVO;
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.CouponService;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.GiftCardService;
+import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
 
 import lombok.extern.log4j.Log4j;
@@ -31,6 +33,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/preorder")
 @Log4j
 public class PreorderController {
+
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private PreorderService preorderService;
@@ -45,9 +50,16 @@ public class PreorderController {
 	private FoodService foodService;
 
 	@GetMapping("/create")
-	public String createGET(Model model, int foodId, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String createGET(Model model, int foodId, @AuthenticationPrincipal CustomUser customUser,
+			RedirectAttributes redirectAttributes) {
 		log.info("createGET()");
-		String memberId = (String) session.getAttribute("memberId");
+		log.info("mypageGET()");
+		String memberId = customUser.getUsername(); // CustomUser의 username
+
+		// 회원 정보 가져오기
+		MemberVO memberVO = memberService.getMember(memberId);
+		model.addAttribute("memberVO", memberVO);
+
 		FoodVO foodVO = preorderService.getFoodInfo(foodId);
 		if (foodVO.getFoodStock() <= 0) {
 			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
@@ -105,6 +117,7 @@ public class PreorderController {
 			if (useGiftCard && useCoupon) { // 둘 다 사용했다면
 				giftCardId = Integer.parseInt(giftCardIdString);
 				couponId = Integer.parseInt(couponIdString);
+				System.out.println("들어온 값 : " + giftCardId + ", " + couponId);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
 				CouponVO couponVO = couponService.getCouponByCouponId(couponId);
 				if (giftCardVO == null || couponVO == null) {
@@ -166,21 +179,14 @@ public class PreorderController {
 	}
 
 	@GetMapping("/list")
-	public void listGET(HttpSession session, Model model) {
+	public void listGET(@AuthenticationPrincipal CustomUser customUser, Model model) {
 		log.info("listGET");
 
-		String memberId = (String) session.getAttribute("memberId");
-		Date nowDate = new Date();
+		String memberId = customUser.getUsername();
 		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
-		for (PreorderVO i : list) {
-			if (nowDate.after(i.getPickupDate())) {
-				log.info("�������� �������ϴ�.");
-				// 0 : ���� ������ ���� | 1 : �������� ������
-				preorderService.updateIsExpiredOrder(i.getPreorderId(), 1, i);
-			} else {
-				log.info("�������� ���� ���������ϴ�.");
-			}
-		}
+		
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("preorderList", list);
 
 	}
 }

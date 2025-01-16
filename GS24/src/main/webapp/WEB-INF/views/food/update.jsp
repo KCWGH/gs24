@@ -2,10 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <title>식품 정보 수정</title>
@@ -13,7 +16,8 @@
 <body>
 	<h1>식품 정보 수정</h1>
 	<h2>${FoodVO.foodName }</h2>
-	<form action="update" method="post"enctype="multipart/form-data">
+	<form action="update" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<div><input type="file" name="file" id="file" required="required"></div>
 		<img id="img" style="width: 200px; height: 150px;">
 		<input type="hidden" name="foodId" value="${FoodVO.foodId }"><br>
@@ -31,6 +35,12 @@
 	</form>
 	
 	<script type="text/javascript">
+	$(document).ajaxSend(function(e, xhr, opt){
+	    var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+	    
+	    xhr.setRequestHeader(header, token);
+	 });
 		$(document).ready(function(){
 			
 			// 업로드를 허용할 확장자를 정의한 정규표현식
