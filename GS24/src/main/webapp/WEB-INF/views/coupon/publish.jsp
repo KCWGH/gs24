@@ -42,13 +42,17 @@
         	  $('#couponExpiredDate').attr('min', minFormattedDate);
         	
             $("input[name='discountType']").change(function() {
-                const selectedChoice = $("input[name='discountType']:checked").val();
+                let selectedChoice = $("input[name='discountType']:checked").val();
                 if (selectedChoice == 'P') {
-                    $('#amountLabel, #amountValue').hide();
-                    $('#percentLabel, #percentValue').show();
+                    $('#amountLabel, #amountValue').prop('disabled', true).hide();
+                    $('#percentLabel, #percentValue').prop('disabled', false).show();
+                    $('#inputPercent').prop('disabled', false);
+                    $('#inputAmount').prop('disabled', true);
                 } else if (selectedChoice == 'A') {
-                    $('#percentLabel, #percentValue').hide();
-                    $('#amountLabel, #amountValue').show();
+                    $('#percentLabel, #percentValue').prop('disabled', true).hide();
+                    $('#amountLabel, #amountValue').prop('disabled', false).show();
+                    $('#inputAmount').prop('disabled', false);
+                    $('#inputPercent').prop('disabled', true);
                 }
             });
         });
@@ -92,7 +96,7 @@
             </tr>
             <tr id="percentLabel" hidden="hidden">
                 <th><label for="discountValue">할인율</label></th>
-                <td><input type="number" name="discountValue" required min=5 max=50> %</td>
+                <td><input type="number" id="inputPercent" name="discountValue" min=5 max=50> %</td>
             </tr>
             <tr id="percentValue" hidden="hidden">
                 <th></th>
@@ -107,7 +111,7 @@
             </tr>
             <tr id="amountLabel" hidden="hidden">
                 <th><label for="discountValue">할인액</label></th>
-                <td><input type="number" name="discountValue" required min=1000 max=10000> 원</td>
+                <td><input type="number" id="inputAmount" name="discountValue" disabled min=1000 max=10000> 원</td>
             </tr>
             <tr id="amountValue" hidden="hidden">
                 <th></th>
@@ -162,6 +166,7 @@
         </div>
         <br>
         <button type="submit" id="btnPublish">쿠폰 발행</button>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
 </body>
 </html>

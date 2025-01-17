@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -224,14 +225,24 @@ $(document).ready(function() {
 			<button id="btnUpdate">회원정보 수정</button>
 			<button id="btnUpdateEnd" hidden="hidden">수정 마치기</button>
 			<button id="btnDelete">회원 탈퇴</button>
-			<p id="textDelete" hidden="hidden">탈퇴 시 사용자의 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p>
+			<c:choose>
+			<c:when test="${memberVO.memberRole == 1}">
+			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
+			<c:when test="${memberVO.memberRole == 2}">
+			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
+			</c:choose>
 			<button id="btnDeleteConfirm" hidden="hidden">네</button>
 			<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			<p id="deleteResult" hidden="hidden"></p>
 		</div>
 		<div class="btn-container">
+			<sec:authorize access="hasRole('ROLE_OWNER')">
+			<button onclick='location.href="../giftcard/grant"'>기프트카드 제공</button>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<button onclick='location.href="../giftcard/list"'>기프트카드함</button>
 			<button onclick='location.href="myhistory"'>내 활동</button>
+			</sec:authorize>
 		</div>
 </div>
 </body>

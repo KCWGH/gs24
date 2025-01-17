@@ -5,18 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewVO;
+import com.gs24.website.persistence.CouponMapper;
+import com.gs24.website.persistence.CouponQueueMapper;
+import com.gs24.website.persistence.FavoritesMapper;
 import com.gs24.website.persistence.FoodMapper;
+import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
-import com.gs24.website.util.uploadImgFoodUtil;
-import com.gs24.website.util.uploadImgUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -35,6 +36,18 @@ public class FoodServiceImple implements FoodService{
 	
 	@Autowired
 	private ImgReviewMapper imgReviewMapper;
+	
+	@Autowired
+	private FavoritesMapper favoritesMapper;
+	
+	@Autowired
+	private GiftCardMapper giftCardMapper;
+	
+	@Autowired
+	private CouponMapper couponMapper;
+	
+	@Autowired
+	private CouponQueueMapper couponQueueMapper;
 	
 	@Autowired
 	private String uploadPath;
@@ -134,6 +147,8 @@ public class FoodServiceImple implements FoodService{
 		imgFoodMapper.deleteImgFood(foodId);
 		
 		reviewMapper.deleteReviewByFoodId(foodId);
+		
+		favoritesMapper.deleteAllFavorites(foodId);
 		
 		return result;
 	}

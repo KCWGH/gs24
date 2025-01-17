@@ -13,7 +13,8 @@ public interface GiftCardMapper {
 
 	int insertGiftCard(GiftCardVO giftCardVO);
 
-	List<GiftCardVO> selectListByMemberIdAndFoodType(@Param("memberId") String memberId, @Param("foodType") String foodType);
+	List<GiftCardVO> selectListByMemberIdAndFoodType(@Param("memberId") String memberId,
+			@Param("foodType") String foodType);
 
 	GiftCardVO selectDetailByGiftCardId(int giftCardId);
 

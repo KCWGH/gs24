@@ -37,7 +37,7 @@ public class FavoritesServiceImple implements FavoritesService {
 
 	@Override
 	public int deleteFavorites(String memberId, int foodId) {
-		return favoritesMapper.deleteFavorites(memberId, foodId);
+		return favoritesMapper.deleteEachFavorite(memberId, foodId);
 	}
 
 }

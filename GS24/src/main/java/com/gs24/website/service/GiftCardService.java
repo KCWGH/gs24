@@ -13,7 +13,7 @@ public interface GiftCardService {
 
 	GiftCardVO getGiftCardDetail(int giftCardId);
 
-	int birthdayGiftCardDupCheck(String memberId);
+	String birthdayGiftCardDupCheckAndGrant();
 
 	int dupCheckGiftCardNameAndMemberId(String GiftCardName, String memberId);
 

@@ -39,8 +39,13 @@
 		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
 	</select>
 	
-	<delete id="deleteFavorites">
+	<delete id="deleteEachFavorite">
 		DELETE FROM FAVORITES
 		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+	</delete>
+	
+	<delete id="deleteAllFavorites">
+		DELETE FROM FAVORITES
+		WHERE FOOD_ID = #{foodId}
 	</delete>
 </mapper>

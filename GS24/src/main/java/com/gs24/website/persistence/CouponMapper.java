@@ -17,6 +17,6 @@ public interface CouponMapper {
 	CouponVO selectCouponByCouponId(int couponId);
 
 	List<CouponVO> selectListByFoodType(String foodType);
-	
+
 	int deleteExpiredCoupons();
 }

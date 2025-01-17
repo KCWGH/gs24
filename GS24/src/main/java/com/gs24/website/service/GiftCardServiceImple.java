@@ -1,13 +1,19 @@
 package com.gs24.website.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.GiftCardVO;
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.persistence.GiftCardMapper;
+import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -18,6 +24,9 @@ public class GiftCardServiceImple implements GiftCardService {
 
 	@Autowired
 	private GiftCardMapper giftCardMapper;
+
+	@Autowired
+	private MemberMapper memberMapper;
 
 	@Override
 	public int grantGiftCard(GiftCardVO giftCardVO) {
@@ -83,8 +92,51 @@ public class GiftCardServiceImple implements GiftCardService {
 	}
 
 	@Override
-	public int birthdayGiftCardDupCheck(String memberId) {
-		return giftCardMapper.birthdayGiftCardDupCheck(memberId);
+	public String birthdayGiftCardDupCheckAndGrant() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String memberId = authentication.getName();
+		MemberVO memberVO = memberMapper.select(memberId);
+		int dupCheck = giftCardMapper.birthdayGiftCardDupCheck(memberId);
+		if (dupCheck != 1 && memberVO.getMemberRole() == 1) {
+			int checkGranted = birthdayGiftCard(memberId);
+			if (checkGranted == 1) {
+				return "생일 축하 기프트카드가 발급되었습니다.\\n기프트카드함에서 확인해보세요.";
+			}
+		}
+		return null;
+	}
+
+	private int birthdayGiftCard(String memberId) {
+		Calendar currentCalendar = Calendar.getInstance();
+		Calendar birthdayCalendar = Calendar.getInstance();
+
+		Date currentDate = new Date();
+		Date birthday = memberMapper.select(memberId).getBirthday();
+
+		currentCalendar.setTime(currentDate);
+		birthdayCalendar.setTime(birthday);
+
+		int currentMonth = currentCalendar.get(Calendar.MONTH);
+		int currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH);
+		int birthdayMonth = birthdayCalendar.get(Calendar.MONTH);
+		int birthdayDay = birthdayCalendar.get(Calendar.DAY_OF_MONTH);
+
+		if (currentMonth == birthdayMonth && currentDay == birthdayDay) {
+			GiftCardVO giftCardVO = new GiftCardVO();
+			giftCardVO.setGiftCardName("생일 축하 기프트카드");
+			giftCardVO.setBalance(10000);
+			giftCardVO.setFoodType("전체");
+			giftCardVO.setMemberId(memberId);
+
+			Calendar expirationCalendar = Calendar.getInstance();
+			expirationCalendar.setTime(currentDate);
+			expirationCalendar.add(Calendar.MONTH, 1);
+			Date oneMonthLater = expirationCalendar.getTime();
+			giftCardVO.setGiftCardExpiredDate(oneMonthLater);
+
+			return giftCardMapper.insertGiftCard(giftCardVO);
+		}
+		return 0;
 	}
 
 	@Override

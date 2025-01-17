@@ -95,6 +95,7 @@ img {
             <p>${FoodVO.foodAvgRating }점</p>
             <p>리뷰 ${FoodVO.foodReviewCnt }개</P>
             <button onclick="location.href='detail?foodId=${FoodVO.foodId}'">상세 보기</button><br>
+            <sec:authorize access="hasRole('ROLE_MEMBER')">
             <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }"'>예약하기</button><br>
             <c:choose>
                 <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
@@ -104,6 +105,7 @@ img {
                     <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-foodType="${FoodVO.foodType }" data-foodName="${FoodVO.foodName }">찜하기</button><br>
                 </c:otherwise>
                </c:choose>
+            </sec:authorize>
             	<sec:authorize access="hasRole('ROLE_OWNER')">
 					<button onclick="location.href='update?foodId=${FoodVO.foodId}'">식품 수정</button><br>
                		<button class="deleteFood">식품 삭제</button>
