@@ -12,6 +12,12 @@
 <meta charset="UTF-8">
 <title>${noticeVO.noticeTitle }</title>
 <%@ include file="../common/header.jsp" %>
+<style>
+    .button-container {
+        display: flex;
+        gap: 10px; /* 버튼 간의 간격 설정 */
+    }
+</style>
 </head>
 <body>
 	<h2>글 보기</h2>
@@ -32,17 +38,20 @@
 		<textarea rows="20" cols="120" readonly>${noticeVO.noticeContent }</textarea>
 	</div>
 
+	<div class="button-container">
 	<button onclick="location.href='list'">글 목록</button>
-	<button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글 수정</button>
-	<button id="deletenotice">글 삭제</button>
-	<c:if test="${ memberVO.memberRole == 2}">
-		<button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글
-			수정</button>
-		<button id="deletenotice">글 삭제</button>
-	</c:if>
+	<sec:authorize access="hasRole('ROLE_OWNER')">
+    <div>
+        <button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글 수정</button>
+    </div>
+    <div>
+        <button id="deletenotice">글 삭제</button>
+    </div>
+	</sec:authorize>
 	<c:if test="${ memberVO.memberRole != 2}">
 
 	</c:if>
+	</div>
 	<form id="deleteForm" action="delete" method="POST">
 		<input type="hidden" name="noticeId" value="${noticeVO.noticeId }">
 	</form>

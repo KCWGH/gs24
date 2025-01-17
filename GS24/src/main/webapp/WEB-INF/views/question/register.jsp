@@ -13,6 +13,11 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     <title>글 작성 페이지</title>
+    <style type="text/css">
+li {
+	display: inline-block;
+}
+</style>
 </head>
 <body>
     <h2>글 작성 페이지</h2>
@@ -23,11 +28,11 @@
             <label for="secret" class="form-check-label">비밀글 설정</label>
         </div>
         <div>
-            <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" required></p>
+            <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
             
         </div>
         <div>
-            <p>식품 : <input type="text" name="foodName" placeholder="식품 입력" maxlength="20" required></p>
+            <p>식품 : <input type="text" name="foodName" placeholder="식품 입력" maxlength="20" ></p>
             
         </div>  
         <div>
@@ -36,7 +41,7 @@
         </div>
         <div>
             <p>내용 :</p>
-            <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" required></textarea>
+            <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" ></textarea>
         </div>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
@@ -58,14 +63,17 @@
         <script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
         
         <script>
-        $(document).ajaxSend(function(e, xhr, opt){
-	        var token = $("meta[name='_csrf']").attr("content");
-	        var header = $("meta[name='_csrf_header']").attr("content");
-	        
-	        xhr.setRequestHeader(header, token);
-	     });
-	
+    	 // ajaxSend() : AJAX 요청이 전송되려고 할 때 실행할 함수를 지정
+		// ajax 요청을 보낼 때마다 CSRF 토큰을 요청 헤더에 추가하는 코드
+		$(document).ajaxSend(function(e, xhr, opt){
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			xhr.setRequestHeader(header, token);
+		});
+			
 		$(document).ready(function() {
+			let questionAttachDTO;
 			// regsiterForm 데이터 전송
 			$('#registerQuestion').click(function() {
 				 // form 전송 방지
@@ -98,7 +106,8 @@
 				$('.questionAttachDTOFile-list input[name="questionAttachDTO"]').each(function(){
 					console.log(this);
 					// JSON questionAttachDTO 데이터를 object 변경
-					var questionAttachDTO = JSON.parse($(this).val());
+					questionAttachDTO = JSON.parse($(this).val());
+					
 					// attachPath input 생성
 					var inputPath = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachPath');

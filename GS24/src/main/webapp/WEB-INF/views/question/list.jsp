@@ -48,8 +48,11 @@
 
 <h1>QnA 게시판</h1>
 <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
 <a href="register"><input type="button" value="글 작성"></a>
 <a href="myList"><input type="button" value="내가 작성한 글"></a>
+</sec:authorize>
+
 
 <hr>
 <table>
@@ -95,7 +98,7 @@
 
                     <sec:authorize access="hasRole('ROLE_OWNER')"> <!-- 점주일 때 -->
                         <a href="javascript:void(0);" class="question-title" data-question-id="${QuestionVO.questionId}" data-author-id="${QuestionVO.memberId}">
-                            ${QuestionVO.questionTitle} 🔒
+                            ${QuestionVO.questionTitle} 
                         </a>
                     </sec:authorize>
                     

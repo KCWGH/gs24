@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,12 +53,12 @@
 
     <h1>공지사항</h1>
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
-    <hr>
-    <!-- 글 작성 페이지 이동 버튼, 관리자만 보이도록 -->
-    <c:if test="${ memberVO.memberRole == 2}">
-        <a href="register"><input type="button" value="글 작성"></a>
-    </c:if>
- 
+    
+    <!-- 글 작성 페이지 이동 버튼, 점주만 보이도록 -->
+	<sec:authorize access="hasRole('ROLE_OWNER')">
+    <a href="register"><input type="button" value="글 작성"></a>
+	</sec:authorize>
+	 <hr>
     <!-- 공지사항 목록 테이블 -->
     <table>
         <thead>

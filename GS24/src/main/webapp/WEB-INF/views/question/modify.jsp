@@ -17,10 +17,11 @@
 	<h2>글 수정 페이지</h2>
 	<form id="modifyForm" action="modify" method="POST">
 		<div>
-			<p>번호 : ${questionDTO.questionId }</p>		
+			<p>번호 : <input type="text" name="questionId" value="${questionDTO.questionId }" readonly></p>	
 		</div>
 		<div>
-			<p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionDTO.questionTitle }" required></p>		
+			<p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionDTO.questionTitle }" required></p>	
+				
 		</div>
 		<div>
             <p>식품 : <input type="text" name="foodName" placeholder="식품 입력" maxlength="20" value="${questionDTO.foodName }" required></p>
@@ -28,6 +29,7 @@
         </div>
 		<div>
 			<p>작성자 : ${questionDTO.memberId} </p>	
+			<input type="hidden" name="memberId" value="${questionDTO.memberId}">
 		</div>
 		<div>
 			<p>내용 : </p>
@@ -35,14 +37,17 @@
 		</div>
 		<!-- 기존 첨부 파일 리스트 데이터 구성 -->
 		<c:forEach var="questionAttachDTO" items="${questionDTO.questionAttachList}" varStatus="status">
-			<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachPath" value="${questionAttachDTO.questionAttachPath }">
-			<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachRealName" value="${questionAttachDTO.questionAttachRealName }">
-			<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachChgName" value="${questionAttachDTO.questionAttachChgName }">
-			<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachExtension" value="${questionAttachDTO.questionAttachExtension }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachPath" value="${questionAttachDTO.questionAttachPath }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachRealName" value="${questionAttachDTO.questionAttachRealName }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachChgName" value="${questionAttachDTO.questionAttachChgName }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachExtension" value="${questionAttachDTO.questionAttachExtension }">
 		</c:forEach>
+
 	</form>
 	
 	<hr>
+	
+	<button id="change-upload">파일 변경</button>
 	
 	<!-- 첨부 파일 영역 -->
 	<div class="questionAttach-upload">
@@ -72,13 +77,71 @@
 		</div>
 	</div>
 	
-	<div class="questionAtachDTOFile-list">
+	<div class="questionAttachDTOFile-list">
 	</div>
+	
+	<button id="modifyQuestion">등록</button>
 	
 	<script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
 	
-		<div>
-			<input type="submit" value="등록">
-		</div>
+	<script>
+	
+	$(document).ready(function(){
+    	var questionAttachDTO;
+	    // 파일 변경 버튼 클릭 시
+	    $('#change-upload').click(function(){
+	    	if(!confirm('기존에 업로드 파일들은 삭제됩니다. 계속 하시겠습니까?')){
+	    		return;
+	    	}
+	        $('.questionAttach-modify').show();
+	        $('.questionAttach-view').hide();
+	        $('.input-questionAttach-list').remove(); // input-questionAttach-list 삭제
+	    });
+	
+	 // modifyForm 데이터 전송
+	    $('#modifyQuestion').click(function() {
+
+	        event.preventDefault();
+	        // form 객체 참조
+	        var modifyForm = $('#modifyForm');
+	        
+	        // attachDTOFile-list의 각 input 태그 접근
+	        var i = 0;
+
+	        $('.questionAttachDTOFile-list input[name="questionAttachDTO"]').each(function() {
+	            
+	        	questionAttachDTO = JSON.parse($(this).val());
+	        	
+	        	questionAttachDTO.questionId = ${questionDTO.questionId};
+
+	            var inputPath = $('<input>').attr('type', 'hidden')
+	                .attr('name', 'questionAttachList[' + i + '].questionAttachPath')
+	                inputPath.val(questionAttachDTO.questionAttachPath);
+
+	            var inputRealName = $('<input>').attr('type', 'hidden')
+	                .attr('name', 'questionAttachList[' + i + '].questionAttachRealName')
+	                inputRealName.val(questionAttachDTO.questionAttachRealName);
+
+	            var inputChgName = $('<input>').attr('type', 'hidden')
+	                .attr('name', 'questionAttachList[' + i + '].questionAttachChgName')
+	                inputChgName.val(questionAttachDTO.questionAttachChgName);
+
+	            var inputExtension = $('<input>').attr('type', 'hidden')
+	                .attr('name', 'questionAttachList[' + i + '].questionAttachExtension')
+	                inputExtension.val(questionAttachDTO.questionAttachExtension);
+
+	            modifyForm.append(inputPath);
+	            modifyForm.append(inputRealName);
+	            modifyForm.append(inputChgName);
+	            modifyForm.append(inputExtension);
+
+	            i++;
+	        });
+	        modifyForm.submit();
+	    });
+	});
+
+</script>
+		
 </body>
 </html>
