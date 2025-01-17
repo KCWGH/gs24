@@ -86,7 +86,7 @@ img {
             <input type="hidden" class="foodId" value="${FoodVO.foodId }">
             <div class="image-item">
             	<input type="hidden" class="path" value="${FoodVO.imgList[0].imgPath }">
-	            <img src="../image/foodImage?imgFoodId=${FoodVO.imgList[0].imgId }">
+	            <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>

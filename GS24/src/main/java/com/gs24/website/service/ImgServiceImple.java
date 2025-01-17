@@ -1,5 +1,7 @@
 package com.gs24.website.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,18 @@ public class ImgServiceImple implements ImgService{
 	public ImgVO getImgFoodById(int imgId) {
 		ImgVO imgFoodVO = imgFoodMapper.selectImgFoodById(imgId);
 		return imgFoodVO;
+	}
+
+	@Override
+	public List<ImgVO> getReviewImgListByReviewId(int reviewId) {
+		List<ImgVO> imgList = imgReviewMapper.selectImgReviewByReviewId(reviewId);
+		return imgList;
+	}
+
+	@Override
+	public List<ImgVO> getFoodImgListByFoodId(int foodId) {
+		List<ImgVO> imgList = imgFoodMapper.selectImgFoodByFoodId(foodId);
+		return imgList;
 	}
 	
 }

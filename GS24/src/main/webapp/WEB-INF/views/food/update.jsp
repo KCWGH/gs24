@@ -42,12 +42,26 @@
 		</c:forEach>
 	</form>
 	
+	
+	<div class="thumnail-drop" style="display: none;">
+		대표 사진 드래그로 등록
+	</div>
+	
+	<div class="thumnail-image">
+		<div class="thumnail-item">
+			<img src="../image/foodThumnail?foodId=${FoodVO.foodId }" width="200px" height="200px">
+		</div>
+	</div>
+	<button class="update-thumnail">대표 사진 수정</button>
+	
+		
 	<div class="image-drop" style="display: none">
 		사진을 드래그 하기
 	</div>
 	<div class="image-list">
 		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
 			<div class="image-item">
+				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
 				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }" width="100px" height="100px">
 			</div>
 		</c:forEach>
@@ -55,8 +69,8 @@
 	
 	<div class="ImgVOList"></div>
 	
-	<button class="update-image">사진 수정</button>
-	<button class="insert-image">사진 추가</button>
+	<button class="update-image">세부 사진 수정</button>
+	<button class="insert-image">세부 사진 추가</button>
 	<button class="submit">수정</button>
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
@@ -69,6 +83,93 @@
 		        xhr.setRequestHeader(header, token);
 		     });
 			
+			function checkThumnail(file){
+				
+				var checkExtension = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+				var checkFileSize = 1 * 1024 * 1024;
+				
+				if(file.length > 1){
+					console.log("썸네일 파일이 너무 많습니다.");
+					return false;
+				}
+				var fileName = file[0].name;
+				var fileSize = file[0].size;
+				console.log(fileName);
+				
+				if(!checkExtension.exec(fileName)){
+					console.log("사진 파일이 아닙니다.");
+					return false;
+				}
+				
+				if(fileSize > checkFileSize){
+					console.log("파일 크기가 너무 큽니다.");
+				}
+				
+				return true;
+			}
+			
+			$(".thumnail-drop").on('dragenter dragover',function(event){				
+				event.preventDefault();
+				console.log("드래그 중");
+			});
+			
+			$(".thumnail-drop").on('drop',function(event){
+				event.preventDefault();
+				console.log("사진 떨어뜨림");
+				
+				var file = event.originalEvent.dataTransfer.files;
+				console.log(file);
+				
+				var foodId = $(".foreignId").val();
+				console.log(foodId);
+				
+				var formData = new FormData();
+				for(var i = 0; i < file.length; i++) {
+					formData.append("file", file[i]); 
+				}
+				formData.append('foreignId',foodId);
+				
+				if(checkThumnail(file)){
+					$.ajax({
+						type : 'post',
+						url : '../image/thumnail',
+						processData : false,
+						contentType : false,
+						data : formData,
+						success : function(data){
+							console.log(this);
+							var list = "";
+							var ImgPath = encodeURIComponent(data.imgPath);
+							
+							var input = $('<input>').attr('type','hidden').attr('name','ImgVO').attr('data-chgName',data.imgChgName);
+							input.val(JSON.stringify(data));
+							
+							$(".ImgVOList").append(input);
+							
+							list += '<div class="thumnail-item">'
+								 +	'<pre>'
+								 +	'<input type="hidden" id="thumanilPath" value='+data.imgPath+'>'
+								 +	'<input type="hidden" id="thumanilChgName value='+data.imgChgName+'>'
+								 +	'<input type="hidden" id="thumanilExtension" value='+data.imgExtension+'>'
+								 +	'<img src="../image/display?path='+ImgPath+'&chgName='+data.imgChgName+'&extension='+data.imgExtension+'"width="200px" height="200px" />'
+								 +	'</pre>'
+								 +	'</pre>'
+								 + 	'</div>';
+								 
+								 $(".thumnail-image").html(list);
+								 $(".insertImage").attr('disabled',false);
+						}
+					});
+				}
+			});
+			
+			console.log($(".image-list .image-item").length);
+			$(".image-list .image-item").each(function(){
+				var chgName = $(this).find(".imgChgName").val();
+				console.log(chgName);
+				$(this).remove();
+			});
+			
 			$(".insert-image").click(function(){
 				$(".image-drop").show();
 			});
@@ -80,6 +181,18 @@
 					$(".image-drop").show();
 				}
 			});
+			
+			$(".update-thumnail").click(function(){
+				$(".thumnail-drop").show();
+				$(".thumnail-image").empty();
+				
+				$("#updateForm .input-image-list").each(function(){
+					if(chgName == ($(this).val())){
+						console.log(this);
+					}
+				});
+			});
+			
 			$(".submit").click(function(){
 				
 				var updateForm = $('#updateForm');

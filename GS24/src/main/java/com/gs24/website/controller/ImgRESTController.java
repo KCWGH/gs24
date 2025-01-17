@@ -71,6 +71,31 @@ public class ImgRESTController {
 		return new ResponseEntity<List<ImgVO>>(entity, HttpStatus.OK);
 		
 	}
+	@PostMapping("/thumnail")
+	public ResponseEntity<ImgVO> createThumnail(MultipartFile file, int foreignId){
+		log.info("createTumnail()");
+		
+		if(foreignId == 0) {
+			foreignId = imgService.getNextFoodId();
+		}
+		
+		String dir = "FoodNO" + foreignId;
+		String realName = uploadImgUtil.subStrName(file.getOriginalFilename());
+		String chgName = "t_" + UUID.randomUUID().toString();
+		String extension = uploadImgUtil.subStrExtension(file.getOriginalFilename());
+		
+		uploadImgUtil.saveFile(uploadPath, file, dir, chgName, extension);
+		
+		ImgVO imgVO = new ImgVO();
+		
+		imgVO.setForeignId(foreignId);
+		imgVO.setImgRealName(realName);
+		imgVO.setImgChgName(chgName);
+		imgVO.setImgExtension(extension);
+		imgVO.setImgPath(uploadImgUtil.makeDir(dir));
+		
+		return new ResponseEntity<ImgVO>(imgVO, HttpStatus.OK);
+	}
 	
 	@GetMapping("/display")
 	public ResponseEntity<byte[]> getReviewImage(String path, String chgName , String extension){
@@ -148,6 +173,23 @@ public class ImgRESTController {
 		
 		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		
+		return entity;
+	}
+	
+	@GetMapping("/foodThumnail")
+	public ResponseEntity<byte[]> getFoodThumnail(int foodId){
+		log.info("getFoodThumnail()");
+		
+		List<ImgVO> list = imgService.getFoodImgListByFoodId(foodId);
+		
+		ResponseEntity<byte[]> entity = null;
+		
+		for(ImgVO imgVO : list) {
+			if(imgVO.getImgChgName().startsWith("t_")) {
+				String fullPath = uploadPath + File.separator + imgVO.getImgPath() + imgVO.getImgChgName() + "." + imgVO.getImgExtension();
+				entity = GetImgUtil.getImage(fullPath);
+			}			
+		}
 		return entity;
 	}
 }

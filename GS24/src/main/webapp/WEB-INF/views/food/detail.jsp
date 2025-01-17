@@ -23,9 +23,15 @@
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<c:forEach var="ImgVO" items="${FoodVO.imgList }">
-		<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
-	</c:forEach>
+	<img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+	<div class="image-list">
+		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+			<div class="image-item">
+				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
+				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
+			</div>
+		</c:forEach>
+	</div>
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>
@@ -70,6 +76,16 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
 	    pieChartDraw();
+	    
+	    console.log($(".image-list .image-item").length);
+		$(".image-list .image-item").each(function(){
+			var chgName = $(this).find(".imgChgName").val();
+			console.log(chgName);
+			if(chgName.startsWith("t_")){
+				$(this).remove();
+			}
+		});
+	    
 	});
 	
 	let protein = ${FoodVO.foodProtein};
