@@ -65,12 +65,6 @@ public class ReviewController {
 		log.info("deleteGET()");
 		int result = reviewService.deleteReview(reviewId, foodId);
 
-		if(result == 0) {
-			log.info(result + "占쏙옙 占쏙옙占쏙옙占실억옙占쏙옙占싹댐옙.");
-		} else {
-			log.info("占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌩쏙옙占싹댐옙.");	
-		}
-
 		return "redirect:../food/list";
 	}
 	
@@ -87,6 +81,6 @@ public class ReviewController {
 		
 		reviewService.updateReview(reviewVO);
 		
-		return "redirect:list?foodId=" + reviewVO.getFoodId();
+		return "redirect:../food/detail?foodId=" + reviewVO.getFoodId();
 	}
 }

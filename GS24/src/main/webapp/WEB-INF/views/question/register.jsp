@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +13,11 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     <title>글 작성 페이지</title>
+    <style type="text/css">
+li {
+	display: inline-block;
+}
+</style>
 </head>
 <body>
     <h2>글 작성 페이지</h2>
@@ -27,17 +31,9 @@
             <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
             
         </div>
-        <div>          
-           
-                <label for="foodType">음식 종류</label>
-                <select id="foodType" name="foodType" required>
-                    <option value="" selected disabled>선택하세요</option>
-                    <c:forEach var="food" items="${foodTypeList}">
-                        <option value="${food}">${food}</option>
-                    </c:forEach>
-                </select>
-                
-                                   
+        <div>
+            <p>식품 : <input type="text" name="foodName" placeholder="식품 입력" maxlength="20" ></p>
+            
         </div>  
         <div>
             <p>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></p>
@@ -80,10 +76,12 @@
 			let questionAttachDTO;
 			// regsiterForm 데이터 전송
 			$('#registerQuestion').click(function() {
+				 // form 전송 방지
+		        event.preventDefault();
 
 		        var title = $('input[name="questionTitle"]').val();
 		        var content = $('textarea[name="questionContent"]').val();  // textarea의 name 속성 사용
-		        var foodType = $('select[name="foodType"]').val();
+		        var foodName = $('input[name="foodName"]').val();
 
 		        if (title.trim() === '') {
 		            alert("제목을 입력해주세요.");
@@ -93,8 +91,8 @@
 		            alert("내용을 입력해주세요.");
 		            return;
 		        }
-		        if (!foodType) { 
-		            alert("음식 종류를 선택해주세요.");
+		        if (foodName.trim() === '') {
+		            alert("식품을 입력해주세요.");
 		            return;
 		        }
 	            

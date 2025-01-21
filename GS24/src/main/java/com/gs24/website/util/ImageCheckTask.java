@@ -28,12 +28,10 @@ public class ImageCheckTask {
 	@Autowired
     private String uploadPath;
 	
-	
-	//TODO : Food도 같이 적용 될 수 있게 해야한다. 아니면 하나 더 만드던가
-	@Scheduled(cron = "0 30 12 * * *")
+	@Scheduled(cron = "0 8 14 * * *")
 	public void deleteReviewImage() {
 		log.warn("---------------------------");
-		log.warn("delete image task run");
+		log.warn("delete review image task run");
 		
 		List<ImgVO> imgList = imgReviewMapper.selectOldReview();
 		
@@ -60,10 +58,10 @@ public class ImageCheckTask {
 		}
 	}
 	
-	@Scheduled(cron = "0 30 12 * * *")
+	@Scheduled(cron = "0 8 14 * * *")
 	public void deleteFoodImage() {
 		log.warn("---------------------------");
-		log.warn("delete image task run");
+		log.warn("delete food image task run");
 		
 		List<ImgVO> imgList = imgFoodMapper.selectOldFood();
 		
@@ -82,11 +80,11 @@ public class ImageCheckTask {
 		
 		log.info("isFile : " + targetDir.isFile());
 		
-		File[] removeFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
+		File[] foodFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
 		
-		for(int i=0; i<removeFiles.length; i++) {
-			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
-			removeFiles[i].delete();
+		for(int i=0; i<foodFiles.length; i++) {
+			log.info( "delete " + i+"th file : " + foodFiles[i].getName());
+			foodFiles[i].delete();
 		}
 	}
 	

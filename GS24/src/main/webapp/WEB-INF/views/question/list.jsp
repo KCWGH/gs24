@@ -70,7 +70,7 @@
         <c:forEach var="QuestionVO" items="${questionList}">
             <tr>
                 <td>${QuestionVO.questionId}</td>
-                <td>${QuestionVO.foodType}</td>
+                <td>${QuestionVO.foodName}</td>
                 <td>
                     <sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 일반회원일 때 -->
                         <c:choose>
@@ -83,7 +83,7 @@
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        비밀글입니다.
+                                        ${QuestionVO.questionTitle} 🔒
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
@@ -132,7 +132,7 @@
             <!-- 댓글 영역 -->
             <tr id="answers-${QuestionVO.questionId}" style="display: none;">
                 <td colspan="6" style="padding: 10px;">
-                    <div class="answers-section" id="answer-${QuestionVO.questionId}"></div>
+                    <div class="answers-section" id="replies-${QuestionVO.questionId}"></div>
                 </td>
             </tr>
         </c:forEach>
@@ -204,10 +204,10 @@
 
         // 댓글을 불러오는 함수
         function loadComments(questionId) {
-            var answerElement = $("#answer-" + questionId);
+            var repliesElement = $("#replies-" + questionId);
 
             // 이미 댓글이 로딩되었으면 다시 요청하지 않음
-            if (answerElement.html() !== "") {
+            if (repliesElement.html() !== "") {
                 return;
             }
 
@@ -221,7 +221,7 @@
                         + '<div class="answer-meta">' + this.memberId + ' | ' + answerDateCreated.toLocaleString() + '</div>'
                         + '</div>';
                 });
-                answerElement.html(list).show();  // 댓글 목록을 삽입하고 댓글 영역을 보이게 처리
+                repliesElement.html(list).show();  // 댓글 목록을 삽입하고 댓글 영역을 보이게 처리
             });
         }
     });

@@ -23,7 +23,7 @@ public interface PreorderService {
 
 	int updateIsPickUp(int preorderId, int isPickUp);
 
-	int updateIsExpiredOrder(int preorderId, int isExpiredOrder, PreorderVO preorderVO);
+	int updateIsExpiredOrder(int preorderId, PreorderVO preorderVO);
 
 	int deletePreorder(int preorderId, int foodId, int preorderAmount);
 

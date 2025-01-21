@@ -133,9 +133,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	public int updateIsExpiredOrder(int preorderId, int isExpiredOrder, PreorderVO preorderVO) {
+	public int updateIsExpiredOrder(int preorderId,PreorderVO preorderVO) {
 		log.info("updatePreorderInIsExpiredOrder()");
-		int result = preorderMapper.updatePreorderInIsExpiredOrder(preorderId, isExpiredOrder);
+		int result = preorderMapper.updatePreorderInIsExpiredOrder(preorderId, 1);
 		int foodResult = foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(),
 				preorderVO.getPreorderAmount() * -1);
 		return result;

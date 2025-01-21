@@ -5,8 +5,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="_csrf" content="${_csrf.token}"/>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <!-- css 파일 불러오기 -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
@@ -25,15 +23,10 @@
 			<p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionDTO.questionTitle }" required></p>	
 				
 		</div>
-		<div>          
-                <label for="foodType">음식 종류</label>
-                <select id="foodType" name="foodType" required>
-                    <option value="" selected disabled>선택하세요</option>
-                    <c:forEach var="food" items="${foodTypeList}">
-                        <option value="${food}">${food}</option>
-                    </c:forEach>
-                </select>                          
-        </div>  
+		<div>
+            <p>식품 : <input type="text" name="foodName" placeholder="식품 입력" maxlength="20" value="${questionDTO.foodName }" required></p>
+            
+        </div>
 		<div>
 			<p>작성자 : ${questionDTO.memberId} </p>	
 			<input type="hidden" name="memberId" value="${questionDTO.memberId}">
@@ -49,7 +42,7 @@
     	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachChgName" value="${questionAttachDTO.questionAttachChgName }">
     	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachExtension" value="${questionAttachDTO.questionAttachExtension }">
 		</c:forEach>
-	 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+
 	</form>
 	
 	<hr>
@@ -92,14 +85,6 @@
 	<script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
 	
 	<script>
-	 // ajaxSend() : AJAX 요청이 전송되려고 할 때 실행할 함수를 지정
-	// ajax 요청을 보낼 때마다 CSRF 토큰을 요청 헤더에 추가하는 코드
-	$(document).ajaxSend(function(e, xhr, opt){
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		
-		xhr.setRequestHeader(header, token);
-	});
 	
 	$(document).ready(function(){
     	var questionAttachDTO;
@@ -117,24 +102,6 @@
 	    $('#modifyQuestion').click(function() {
 
 	        event.preventDefault();
-	        
-	        var title = $('input[name="questionTitle"]').val();
-	        var content = $('textarea[name="questionContent"]').val();  // textarea의 name 속성 사용
-	        var foodType = $('select[name="foodType"]').val();
-
-	        if (title.trim() === '') {
-	            alert("제목을 입력해주세요.");
-	            return;
-	        }
-	        if (content.trim() === '') {
-	            alert("내용을 입력해주세요.");
-	            return;
-	        }
-	        if (!foodType) { 
-	            alert("음식 종류를 선택해주세요.");
-	            return;
-	        }
-	        
 	        // form 객체 참조
 	        var modifyForm = $('#modifyForm');
 	        

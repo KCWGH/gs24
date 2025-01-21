@@ -13,7 +13,11 @@
 <link rel="stylesheet"
     href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     
-
+<style type="text/css">
+li {
+    display: inline-block;
+}
+</style>
 <!-- jquery 라이브러리 import -->
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
@@ -21,7 +25,6 @@
 <title>${questionDTO.questionTitle }</title>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
     
 <h2>글 보기</h2>
 <div>
@@ -31,7 +34,7 @@
     <p>제목 : ${questionDTO.questionTitle }</p>
 </div>
 <div>
-    <p>식품 : ${questionDTO.foodType }</p>
+    <p>식품 : ${questionDTO.foodName }</p>
 </div>
 <div>
     <p>작성자 : ${questionDTO.memberId }</p>
@@ -57,9 +60,10 @@
 </sec:authorize>
 
 <form id="modifyForm" action="modify" method="GET">
-		<input type="hidden" name="questionId">	
-</form>
-
+		<input type="hidden" name="questionId">
+		
+	</form>
+<!--                           -->
 <form id="deleteForm" action="delete" method="POST">
     <input type="hidden" name="questionId" value="${questionDTO.questionId }">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -67,6 +71,16 @@
 
 <input type="hidden" id="questionId" value="${questionDTO.questionId }">
 
+<!-- 점주 역할일 때만 댓글 작성 가능 -->
+<sec:authentication property="principal" var="user"/>
+<sec:authorize access="hasRole('ROLE_OWNER')">
+    <div style="text-align: center;">
+        <!-- memberId를 숨겨진 input으로 설정 -->
+        <input type="hidden" id="memberId" value="${user.username}">
+        <input type="text" id="answerContent">
+        <button id="btnAdd">작성</button>
+    </div>
+</sec:authorize>
 
 <!-- 첨부 파일 영역 -->
 <div class="questionAttach-upload">
@@ -87,20 +101,10 @@
         </div>
     </div>
 </div>
-<hr>
-<!-- 점주 역할일 때만 댓글 작성 가능 -->
-<sec:authentication property="principal" var="user"/>
-<sec:authorize access="hasRole('ROLE_OWNER')">
-    <div style="text-align: left;">
-        <!-- memberId를 숨겨진 input으로 설정 -->
-        <input type="hidden" id="memberId" value="${user.username}">
-        <textarea id="answerContent"  rows="5" cols="120"></textarea>
-        <button id="btnAdd">작성</button>
-    </div>
-</sec:authorize>
 
-<div style="text-align: left;">
-    <div id="answer"></div>
+<hr>
+<div style="text-align: center;">
+    <div id="replies"></div>
 </div>
 
 <script type="text/javascript">
@@ -205,9 +209,9 @@ $('#deleteQuestion').click(function() {
 																		list += '<div class="answer_item">'
 																				+ '<pre>'
 																				+ '<input type="hidden" id="answerId" value="'+ this.answerId +'">'
-																				+ "관리자"
+																				+ this.memberId
 																				+ '&nbsp;&nbsp;' // 공백
-																				+ '<textarea readonly rows="5" cols="120">' + this.answerContent + '</textarea>'
+																				+ '<input type="text" id="answerContent" value="'+ this.answerContent +'">'
 																				+ '&nbsp;&nbsp;'
 																				+ answerDateCreated
 																				+ '&nbsp;&nbsp;'
@@ -219,13 +223,13 @@ $('#deleteQuestion').click(function() {
 																				+ '</div>';
 																	}); // end each()
 
-													$('#answer').html(list); // 저장된 데이터를 answer div 표현
+													$('#replies').html(list); // 저장된 데이터를 replies div 표현
 												} // end function()
 										); // end getJSON()
 							} // end getAllAnswer()
 
 							// 수정 버튼을 클릭하면 선택된 댓글 수정
-							$('#answer')
+							$('#replies')
 									.on(
 											'click',
 											'.answer_item .btn_update',
@@ -266,10 +270,10 @@ $('#deleteQuestion').click(function() {
 															}
 														});
 
-											}); // end answer.on()
+											}); // end replies.on()
 
 							// 삭제 버튼을 클릭하면 선택된 댓글 삭제
-							$('#answer')
+							$('#replies')
 									.on(
 											'click',
 											'.answer_item .btn_delete',
@@ -301,7 +305,7 @@ $('#deleteQuestion').click(function() {
 																}
 															}
 														});
-											}); // end answer.on()		
+											}); // end replies.on()		
 
 						}); // end document()
 						</script>

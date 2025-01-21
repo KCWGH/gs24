@@ -266,6 +266,7 @@ img {
          listForm.find("input[name='type']").val(type);
          // keyword 값을 적용
          listForm.find("input[name='keyword']").val(keyword);
+         listForm.find("input[name='sortType']").val(sortType);
          listForm.find("input[name='bottomPrice']").val(bottomPrice);
          listForm.find("input[name='topPrice']").val(topPrice);
          listForm.submit(); // form 전송
@@ -318,6 +319,8 @@ img {
       });
       
       $(".search").click(function(e){
+         e.preventDefault(); // a 태그 이벤트 방지
+         
          let searchFoodName = $(".searchFoodName").val();
          let searchForm = $("#searchForm");
          console.log("검색어 : " + searchFoodName);
@@ -330,14 +333,13 @@ img {
          searchForm.find("input[name='type']").val("name");
          searchForm.find("input[name='keyword']").val(searchFoodName);
          
-         e.preventDefault(); // a 태그 이벤트 방지
          
          var keywordVal = searchForm.find("input[name='keyword']").val();
          console.log(keywordVal);
-         if(keywordVal == '') {
-            alert('검색 내용을 입력하세요.');
-            return;
-         }
+         //if(keywordVal == '') {
+         //   alert('검색 내용을 입력하세요.');
+         //   return;
+         //}
          
          var pageNum = 1; // 검색 후 1페이지로 고정
          // 현재 페이지 사이즈값 저장
@@ -349,24 +351,37 @@ img {
          // 선택된 옵션 값을 input name='pageSize' 값으로 적용
          searchForm.find("input[name='pageSize']").val(pageSize);
          searchForm.find("input[name='sortType']").val(sortType);
+
          searchForm.submit(); // form 전송
       });
       
       $("#priceSearch").click(function(e){
+         e.preventDefault(); // a 태그 이벤트 방지
+         
          let searchForm = $("#searchForm");
          
          searchForm.find("input[name='type']").val("price");
          
-         e.preventDefault(); // a 태그 이벤트 방지
-         
          var bottomPrice = $("#bottomPrice").val();
          var topPrice = $("#topPrice").val();
-         var type = "<c:out value='${pageMaker.pagination.type }' />";
-         var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
+         
+         if(bottomPrice == ''){
+        	 //bottomPrice가 입력되지 않은 경우
+        	 bottomPrice = 0;
+         } else if(topPrice == ''){
+        	 //topPrice가 입력되지 않은 경우 쿼리문에서 FOOD테이블에서 FOOD_PRICE가 가장 큰 값으로 검색
+        	 
+         } else if(bottomPrice > topPrice){
+        	 //bottomPrice 가 topPrice보다 클 경우
+        	 var temp = topPrice;
+        	 topPrice = bottomPrice;
+        	 bottomPrice = temp;
+         }
+         
+         console.log("가격대 " + bottomPrice + "원 에서" + topPrice + "원 까지");
+         
          searchForm.find("input[name='bottomPrice']").val(bottomPrice);
          searchForm.find("input[name='topPrice']").val(topPrice);
-         searchForm.find("input[name='type']").val(type);
-         searchForm.find("input[name='keyword']").val(keyword);
          
          var pageNum = 1; // 검색 후 1페이지로 고정
          // 현재 페이지 사이즈값 저장

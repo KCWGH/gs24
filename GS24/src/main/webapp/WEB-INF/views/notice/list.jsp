@@ -75,33 +75,13 @@
                     <td>${NoticeVO.noticeId}</td>
                     <td><a href="detail?noticeId=${NoticeVO.noticeId}">${NoticeVO.noticeTitle}</a></td>
                     <!-- 작성일 포맷 변경 -->
-                    <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd HH:mm" var="noticeDateCreated" />
+                    <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd" var="noticeDateCreated" />
                     <td>${noticeDateCreated}</td>
                     <td>${NoticeVO.noticeViews}</td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    
-    <hr>
-    
-    <!-- 페이징 처리 -->
-    <ul>
-        <!-- 이전 버튼 -->
-        <c:if test="${pageMaker.isPrev()}">
-            <li><a href="list?pageNum=${pageMaker.startNum - 1}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">이전</a></li>
-        </c:if>
-
-        <!-- 페이지 번호 -->
-        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
-            <li><a href="list?pageNum=${num}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">${num}</a></li>
-        </c:forEach>
-
-        <!-- 다음 버튼 -->
-        <c:if test="${pageMaker.isNext()}">
-            <li><a href="list?pageNum=${pageMaker.endNum + 1}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">다음</a></li>
-        </c:if>
-    </ul>
     <!-- 제목 또는 내용으로 검색 -->
     <div class="prgs">
         <form action="list" method="get">
@@ -119,4 +99,21 @@
             </div>
         </form>
     </div>
+    <!-- 페이징 처리 -->
+    <ul>
+        <!-- 이전 버튼 -->
+        <c:if test="${pageMaker.isPrev()}">
+            <li><a href="list?pageNum=${pageMaker.startNum - 1}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">이전</a></li>
+        </c:if>
+
+        <!-- 페이지 번호 -->
+        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+            <li><a href="list?pageNum=${num}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">${num}</a></li>
+        </c:forEach>
+
+        <!-- 다음 버튼 -->
+        <c:if test="${pageMaker.isNext()}">
+            <li><a href="list?pageNum=${pageMaker.endNum + 1}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">다음</a></li>
+        </c:if>
+    </ul>
 </body>

@@ -48,16 +48,14 @@ public class PreOrderRESTController {
 	}
 
 	@PostMapping("/cancel")
-	public ResponseEntity<Integer> cancellPreOrder(@RequestBody int[] selectedPreordersId) {
+	public ResponseEntity<Integer> cancelPreOrder(@RequestBody int[] selectedPreordersId) {
 		log.info("cancelPreOrder()");
 		Integer result = 0;
 		for (int i : selectedPreordersId) {
 			log.info(i);
 			PreorderVO preorderVO = preorderService.getPreorderOneById(i);
-			int preorderAmount = preorderVO.getPreorderAmount();
-			int foodId = preorderVO.getFoodId();
 
-			result = preorderService.deletePreorder(i, foodId, preorderAmount);
+			result = preorderService.updateIsExpiredOrder(preorderVO.getPreorderId(), preorderVO);
 		}
 
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,10 +36,18 @@
 		<input type="number" name="foodCarb" value= "${FoodVO.foodCarb }" required="required"><br>
 		
 		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">
-			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
-			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
-			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
-			<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
+			<c:if test="${fn:startsWith(ImgVO.imgChgName,'t_') }">
+				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
+				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
+				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
+				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
+			</c:if>
+			<c:if test="${not fn:startsWith(ImgVO.imgChgName,'t_') }">
+				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
+				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
+				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
+				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
+			</c:if>
 		</c:forEach>
 	</form>
 	
@@ -72,6 +81,7 @@
 	<button class="update-image">세부 사진 수정</button>
 	<button class="insert-image">세부 사진 추가</button>
 	<button class="submit">수정</button>
+	<button onclick="location.href='../food/list'">돌아가기</button>
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script type="text/javascript">
@@ -167,14 +177,16 @@
 			$(".image-list .image-item").each(function(){
 				var chgName = $(this).find(".imgChgName").val();
 				console.log(chgName);
-				$(this).remove();
+				if(chgName.startsWith('t_')){
+					$(this).remove();
+				}
 			});
 			
 			$(".insert-image").click(function(){
 				$(".image-drop").show();
 			});
 			$(".update-image").click(function(){
-				var isUpdate = confirm("기존 사진들은 삭제 됩니다. 삭제하시겠습니까?");
+				var isUpdate = confirm("기존 사진들은 없어지고 다시 등록해야 합니다.");
 				if(isUpdate){
 					$(".image-list").empty();
 					$(".input-image-list").remove();
@@ -186,17 +198,21 @@
 				$(".thumnail-drop").show();
 				$(".thumnail-image").empty();
 				
-				$("#updateForm .input-image-list").each(function(){
-					if(chgName == ($(this).val())){
-						console.log(this);
-					}
+				$("#updateForm .input-thumnail-image").each(function(){
+					console.log(this);
+					$(this).remove();
 				});
 			});
 			
 			$(".submit").click(function(){
 				
+				if($(".thumnail-item").length < 1){
+					alert("대표 사진을 등록해야 합니다.");
+					return;
+				}
+				
 				var updateForm = $('#updateForm');
-				var i = $(".input-image-list").length / 4;
+				var i = $(".input-image-list").length / 4 + 1;
 				console.log(i);
 				
 				$(".ImgVOList input").each(function(){
@@ -217,6 +233,16 @@
 					i++;
 					
 				});
+				
+				updateForm.find('input').each(function(){
+					console.log($(this).val());
+					
+					if($(this).val() == ''){
+						console.log("값이 빈 곳이 존재합니다.");
+						return;
+					}
+				});
+				
 				updateForm.submit();
 			});
 		});

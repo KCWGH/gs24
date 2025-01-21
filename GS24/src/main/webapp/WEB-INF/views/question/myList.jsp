@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,13 +27,20 @@ li {
 <title>나의 질문 리스트</title>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
-<sec:authentication property="principal" var="user"/> 
+		<a href="../food/list"><button>메인페이지</button></a>
+		<a href="../notice/list"><button>공지사항</button></a>
 	<h1>나의 질문 리스트</h1>
 
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="register"><input type="button" value="글 작성"></a>
-</sec:authorize>
+	<!-- 글 작성 페이지 이동 버튼 -->
+	<c:if test="${empty sessionScope.memberId}">
+        * 글작성은 로그인이 필요한 서비스입니다.
+        <a href="../member/login">로그인하기</a>
+	</c:if>
+
+	<c:if test="${not empty sessionScope.memberId}">
+		<a href="register"><input type="button" value="글 작성"></a>
+		<input type="button" value="내가 작성한 글">
+	</c:if>
 
 	<hr>
 	<table>
@@ -52,12 +58,13 @@ li {
 			<c:forEach var="QuestionVO" items="${myQuestionList}">
 				<tr>
 					<td>${QuestionVO.questionId}</td>
-					<td>${QuestionVO.foodType}</td>
+					<td>${QuestionVO.foodName}</td>
 
 					  <!-- 게시판 제목 클릭 시 checkAuthorAndRedirect 함수 호출 -->
-                    <td><a href="javascript:void(0);" onclick="checkAuthorAndRedirect(${QuestionVO.questionId}, '${QuestionVO.memberId}')">
+                    <td><a href="javascript:void(0);"
+                        onclick="checkAuthorAndRedirect(${QuestionVO.questionId}, '${QuestionVO.memberId}', '${sessionScope.memberRole}')">
                         ${QuestionVO.questionTitle}</a></td>
-                	<td>${QuestionVO.memberId}</td>
+                    <td>${QuestionVO.memberId}</td>
                     <!-- questionDateCreated 데이터 포멧 변경 -->
                     <fmt:formatDate value="${QuestionVO.questionDateCreated }"
                         pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
@@ -71,19 +78,18 @@ li {
             </c:forEach>
         </tbody>
     </table>
-    <hr>
-    <button onclick="location.href='../question/list'">돌아가기</button>
     
   <script type="text/javascript">
     // 작성자 확인 후 이동하는 함수
     function checkAuthorAndRedirect(questionId, authorId, memberRole) {
-    	var currentUser = "${user.username}"; // 현재 로그인된 사용자 ID
-        var currentUserRole = "${user.authorities}".split(","); // 현재 로그인된 사용자 권한
+        var currentUser = "${sessionScope.memberId}"; // 현재 로그인된 사용자 ID
+        var currentUserRole = "${sessionScope.memberVO.memberRole}"; // 현재 로그인된 사용자 권한
 
-        // 작성자이거나 ROLE_ADMIN 권한을 가지고 있는 경우
-        if (currentUser === authorId || currentUserRole.includes('ROLE_ADMIN')) {
-            window.location.href = "detail?questionId=" + questionId; // 게시판 상세로 이동
+        if (currentUser === authorId || currentUserRole == 2) {
+            // 작성자이거나 관리자일 경우 게시판 상세로 이동
+            window.location.href = "detail?questionId=" + questionId;
         } else {
+            // 작성자가 아니고 관리자가 아닐 경우 경고
             alert("게시판 작성자 또는 관리자만 해당 게시판에 접근할 수 있습니다.");
         }
     }

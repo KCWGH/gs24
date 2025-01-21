@@ -149,6 +149,13 @@ public class ImgRESTController {
 		return new ResponseEntity<Integer>(1, HttpStatus.OK);
 	}
 	
+	@PostMapping("/back")
+	public ResponseEntity<Integer> back(ImgVO[] imgVOList){
+		log.info("back()");
+		log.info(imgVOList);
+		return null;
+	}
+	
 	@GetMapping("/reviewImage")
 	public ResponseEntity<byte[]> getReviewImage(int imgId){
 		log.info("getReviewImage()");
