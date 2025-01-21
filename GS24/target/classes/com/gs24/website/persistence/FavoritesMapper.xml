@@ -12,10 +12,9 @@
 
 	<insert id="insertFavorites">
 		INSERT INTO FAVORITES
-		(FAVORITES_ID, MEMBER_ID, FOOD_ID,
-		FOOD_TYPE, FOOD_NAME)
+		(FAVORITES_ID, MEMBER_ID, FOOD_ID)
 		VALUES
-		(FAVORITES_SEQ.NEXTVAL, #{memberId}, #{foodId}, #{foodType}, #{foodName})
+		(FAVORITES_SEQ.NEXTVAL, #{memberId}, #{foodId})
 	</insert>
 	
 	<select id="selectFavoritesListByPagination" resultMap="FavoritesResultMap">
@@ -39,8 +38,13 @@
 		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
 	</select>
 	
-	<delete id="deleteFavorites">
+	<delete id="deleteEachFavorite">
 		DELETE FROM FAVORITES
 		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+	</delete>
+	
+	<delete id="deleteAllFavorites">
+		DELETE FROM FAVORITES
+		WHERE FOOD_ID = #{foodId}
 	</delete>
 </mapper>

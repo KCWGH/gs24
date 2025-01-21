@@ -41,6 +41,8 @@
 					
 	                let foodId = this.foodId;
 	                
+	                let preorderNO = this.preorderId;
+	                
 	                let isPickUp = '미수령';
 	                if(this.isPickUp == 1){
 	                    isPickUp = '수령 완';
@@ -51,9 +53,12 @@
 	                    isExpiredOrder = '예약 취소';
 	                }
 	                
-	                list += '<div class="preorderList">'
-	                        + '<input type="checkbox" class="check-box">'
-	                        + '<div><img src="../Img/Food?foodId='+foodId+'"></div>'
+	                list += '<div class="preorderList">';
+	                		if(isExpiredOrder == '예약 중'){
+	                        list += '<input type="checkbox" class="check-box">'
+	                		}
+	                list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
+	                        + '<div><img src="../image/foodThumnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
 	                        + '<div>수량 : '+this.preorderAmount+'</div>'
 	                        + '<div>수령일 : '+ StringDate+'</div>'
 	                        + '<div>'+isPickUp+'</div>'
@@ -73,28 +78,31 @@
 	    }// end checkToCheckBox
 	    
 	    function onCancellButton(){
-	        $('#cancell').click(function(){
-	            let selectedPreordersId = [];
-	            
-	            $(".preorderList").each(function(){
-	                if ($(this).find("input[type='checkbox']").prop('checked')) {
-	                    let preorderNO = $(this).find(".preorderNO").text();
-	                    selectedPreordersId.push(preorderNO);
-	                }
-	            });
-	           
-	             $.ajax({
-	                 url: "../preorder/cancell",
-	                 method: 'POST',
-	                 headers : {'Content-Type' : 'application/json' }, 
-	                 data: JSON.stringify(selectedPreordersId),
-	                 success: function(result) {
-	                     if(result == 1){
-	                    	 alert("삭제 성공!");
-	                    	 getAllPreorder();
-	                     }
-	                 }
-	             });
+	        $('#cancel').click(function(){
+	            var isCancel = confirm("취소하시겠습니까?");
+	            if(isCancel){
+	            	let selectedPreordersId = [];
+		            
+		            $(".preorderList").each(function(){
+		                if ($(this).find("input[type='checkbox']").prop('checked')) {
+		                    let preorderNO = $(this).find(".preorderNO").val();
+		                    selectedPreordersId.push(preorderNO);
+		                }
+		            });
+		           
+		             $.ajax({
+		                 url: "../preorder/cancel",
+		                 method: 'POST',
+		                 headers : {'Content-Type' : 'application/json' }, 
+		                 data: JSON.stringify(selectedPreordersId),
+		                 success: function(result) {
+		                     if(result == 1){
+		                    	 alert("예약 취소 완료");
+		                    	 getAllPreorder();
+		                     }
+		                 }
+		             });
+	            }
 	        });
 	    }// end onCancellButton
 	    
@@ -104,7 +112,7 @@
 	    		console.log(this);
 	    		$(".preorderList").each(function(){
 	    			if($(this).find(".isExpriedOrder").text() == "예약 취소"){
-	    				let preorderNO = $(this).find(".preorderNO").text();
+	    				let preorderNO = $(this).find(".preorderNO").val();
 	    				cancelledPreorderId.push(preorderNO);
 	    			}
 	    		});
@@ -148,7 +156,7 @@
 	<div id="list"></div>
 	<br>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<button id="cancell">예약 취소</button>
+	<button id="cancel">예약 취소</button>
 	<button onclick="location.href='../food/list'">돌아가기</button>
 	<button id="delete">예약 취소 목록 삭제</button>
 	

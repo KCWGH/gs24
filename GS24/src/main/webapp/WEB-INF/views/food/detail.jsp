@@ -16,22 +16,37 @@
 <title>식품 상세 정보</title>
 <style>
 	img{
+		width : 200px;
+		height: 150px;
+	}
+	.thumnail{
 		width : 300px;
 		height: 200px;
+	}
+	ul {
+		list-style-type: none;
+		display: inline-block;
+	}
+	li {
+		display: inline-block;
 	}
 </style>
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+	<ul>
+	<img class="thumnail" src="../image/foodThumnail?foodId=${FoodVO.foodId }">
 	<div class="image-list">
 		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+		<li>
 			<div class="image-item">
 				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
 				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
 			</div>
+		<li>
 		</c:forEach>
 	</div>
+	</ul>
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>
@@ -74,6 +89,13 @@
 	</div>
 	
 	<script type="text/javascript">
+	$(document).ajaxSend(function(e, xhr, opt){
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	        
+	xhr.setRequestHeader(header, token);
+	});
+	
 	$(document).ready(function () {
 	    pieChartDraw();
 	    
@@ -94,19 +116,20 @@
 	let pieChartData = {
 	    labels: ["protein", "fat", "carbohydrate"],
 	    datasets: [{
-	        data: [protein, fat, carb],
-	        backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
+	    		barThickness: 40,
+	        	data: [protein, fat, carb],
+	        	backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
 	    }]
 	};
 
 	let pieChartDraw = function () {
-	    let ctx = $('#pieChart')[0].getContext('2d');  // jQuery를 사용하여 요소를 찾고, getContext 호출
+	    let ctx = $('#pieChart')[0].getContext('2d');
 
 	    window.pieChart = new Chart(ctx, {
-	        type: 'pie',
+	        type: 'horizontalBar',
 	        data: pieChartData,
 	        options: {
-	            responsive: false
+	            responsive: false,
 	        }
 	    });
 	};

@@ -11,6 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    
     <style>
         .modal {
             display: none;
@@ -105,7 +107,7 @@
             </tr>
             <tr>
                 <th>별도 결제 금액</th>
-                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="submit" value="예약하기"></td>
+                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="button" id="createPreorder" value="예약하기"></td>
             </tr>
             <tr id="latestBalanceToggle" hidden="hidden">
                 <th>기프트카드 잔액</th>
@@ -436,7 +438,40 @@
                     $('#latestBalanceToggle').hide();
                 }
             }
+            $('#createPreorder').on('click', function(event) {
+                event.preventDefault(); // 기본 폼 제출을 막습니다.
 
+                // 결제 금액 및 필요한 정보 설정
+                let buyPrice = $('#buyPrice').text().replace(/[^\d]/g, ''); // 최종 결제 금액
+                let foodName = '${foodVO.foodName}'; // 식품 이름
+                let foodId = '${foodVO.foodId}'; // 식품 ID
+                let memberId = '${memberVO.memberId}'; // 회원 ID
+
+                // Iamport 결제 요청 객체 설정
+                var IMP = window.IMP; // Iamport의 결제 객체
+                IMP.init('imp84362136'); // 'iamport'는 Iamport에서 발급받은 가맹점 식별자
+
+                IMP.request_pay({
+                    pg: 'kakaopay', // 카카오페이 결제 방법
+                    pay_method: 'card', // 카드 결제
+                    merchant_uid: 'order_' + new Date().getTime(), // 주문 고유 번호
+                    name: foodName, // 결제할 항목 이름
+                    amount: buyPrice, // 결제 금액
+                    buyer_name: '${memberVO.memberId}', // 구매자 이름
+                    buyer_tel: '${memberVO.phone}', // 구매자 전화번호
+                    buyer_email: '${memberVO.email}', // 구매자 이메일
+                    m_redirect_url: '/payment/complete' // 결제 완료 후 리디렉션할 URL (필요시)
+                }, function(rsp) {
+                    if (rsp.success) {
+                        // 결제 성공 시 처리
+                        alert('결제가 완료되었습니다.');
+                        $('form').submit();
+                    } else {
+                        // 결제 실패 시 처리
+                        alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
+                    }
+                });
+            });
         });
     </script>
 </body>

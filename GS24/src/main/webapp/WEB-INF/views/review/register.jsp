@@ -23,7 +23,10 @@
 	<form action="../review/register" method="post" id="registForm">
 		<input type="hidden" name="foodId" value="${foodId }">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<p>회원 아이디</p><input type="text" name="memberId" value="test" readonly="readonly"><br>
+		<sec:authentication property="principal" var="user"/>	
+		<sec:authorize access="isAuthenticated()">
+		<p>회원 아이디</p><input type="text" name="memberId" value="${user.username}" readonly="readonly"><br>
+		</sec:authorize>
 		<p>제목 : <p>
 		<input type="text" name="reviewTitle"><br>
 		<p>내용 : <p>
@@ -38,7 +41,8 @@
 	</div>
 	
 	<div class="image-list"></div>
-	<button class="cancel" value="reset">사진 초기화</button> <button class="cancel" value="cancel">취소</button>
+	<button class="cancel" value="reset">사진 초기화</button>
+	<button class="cancel" value="cancel">취소</button>
 	<br><br><button class="submit">등록</button>
 	
 	<div class="ImgVOList"></div>

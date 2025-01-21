@@ -183,7 +183,6 @@
 				var registerForm = $("#registerForm");
 				
 				var i = 0;
-				var isEmpty = 0;
 				$(".ImgVOList input").each(function(){
 					var ImgVO = JSON.parse($(this).val());
 					
@@ -208,16 +207,12 @@
 					console.log($(this).val());
 					
 					if($(this).val() == ''){
-						console.log("값이 빈 곳이 있어요");
-						isEmpty++
+						console.log("값이 빈 곳이 존재합니다.");
+						return;
 					}
 				});
 				
-				if(isEmpty == 0){
-					registerForm.submit();
-				} else {
-					alert("값이 비어있는 곳이 존재합니다.");
-				}
+				registerForm.submit();
 			});
 		});
 	</script>
