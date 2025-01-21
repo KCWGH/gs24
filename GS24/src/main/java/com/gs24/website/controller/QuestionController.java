@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,7 @@ import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.QuestionDTO;
 import com.gs24.website.domain.QuestionVO;
+import com.gs24.website.service.FoodService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.QuestionService;
 import com.gs24.website.util.PageMaker;
@@ -29,6 +29,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/question")
 @Log4j
 public class QuestionController {
+	
+	@Autowired
+	private FoodService foodService;
 
 	@Autowired
 	private QuestionService questionService;
@@ -71,7 +74,6 @@ public class QuestionController {
 		// 모델에 데이터 추가
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("questionList", questionVOList); // VO 리스트를 JSP로 전달
-		// 로그인한 사용자의 아이디 전달
 	}
 
 	// DTO -> VO 변환 메서드
@@ -79,7 +81,7 @@ public class QuestionController {
 		QuestionVO questionVO = new QuestionVO();
 		questionVO.setQuestionId(questionDTO.getQuestionId());
 		questionVO.setMemberId(questionDTO.getMemberId());
-		questionVO.setFoodName(questionDTO.getFoodName());
+		questionVO.setFoodType(questionDTO.getFoodType());
 		questionVO.setQuestionTitle(questionDTO.getQuestionTitle());
 		questionVO.setQuestionContent(questionDTO.getQuestionContent());
 		questionVO.setIsAnswered(questionDTO.getIsAnswered());
@@ -88,21 +90,28 @@ public class QuestionController {
 		return questionVO;
 	}
 
-	// register.jsp 호출
-	@GetMapping("/register")
-	public void registerGET(@AuthenticationPrincipal CustomUser customUser, Model model) {
-		log.info("registerGET()");
-		if (customUser != null) {
-			String memberId = customUser.getUsername(); // CustomUser의 username
+	 // register.jsp 호출
+    @GetMapping("/register")
+    public void registerGET(Model model) {
+        log.info("registerGET()");
+        
+        List<String> foodType = foodService.getFoodTypeList();
+        model.addAttribute("foodTypeList", foodType);
+        
+        // 로그인한 사용자 정보 가져오기
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof CustomUser) {
+            CustomUser customUser = (CustomUser) principal;
+            String memberId = customUser.getUsername(); // CustomUser의 username
 
-			// 회원 정보 가져오기
-			MemberVO memberVO = memberService.getMember(memberId);
-			model.addAttribute("memberId", memberId);
-			model.addAttribute("memberVO", memberVO);
-		} else {
-			log.info("mypageGET() - 인증되지 않은 사용자");
-		}
-	}
+            // 회원 정보 가져오기
+            MemberVO memberVO = memberService.getMember(memberId);
+            model.addAttribute("memberId", memberId);
+            model.addAttribute("memberVO", memberVO);
+        } else {
+            log.info("registerGET() - 인증되지 않은 사용자");
+        }
+    }
 
 	// 게시글 데이터를 form-data를 전송받아 QuestionService로 전송
 	@PostMapping("/register")
@@ -135,13 +144,17 @@ public class QuestionController {
 	@GetMapping("/modify")
 	public void modifyGET(Model model, Integer questionId) {
 		log.info("modifyGET() - questionId = " + questionId); // questionId가 제대로 전달되었는지 확인
-
+		
+		List<String> foodType = foodService.getFoodTypeList();
+		
+		
 		QuestionDTO questionDTO = questionService.getQuestionById(questionId);
 		log.info("modifyGET() - 조회된 questionDTO = " + questionDTO); // 조회된 questionDTO 확인
 		if (questionDTO != null) {
 			model.addAttribute("questionDTO", questionDTO);
 		}
 		log.info("Uploaded Files: " + questionDTO.getQuestionAttachList());
+		model.addAttribute("foodTypeList", foodType);
 	}
 
 	// modify.jsp에서 데이터를 전송받아 게시글 수정
@@ -149,6 +162,7 @@ public class QuestionController {
 	public String modifyPOST(QuestionDTO questionDTO) {
 		log.info("modifyPOST()");
 		log.info("questionDTO = " + questionDTO);
+		
 		int result = questionService.modifyQuestion(questionDTO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";
@@ -168,14 +182,19 @@ public class QuestionController {
 		log.info("myListGET()");
 
 		// 로그인한 사용자 정보 가져오기
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = user.getUsername(); // 로그인한 사용자의 아이디
+		 Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	        if (principal instanceof User) {
+	            User user = (User) principal;
+	            String username = user.getUsername(); // 로그인한 사용자의 아이디
 
-		// 로그인한 사용자의 ID를 기준으로 질문 목록을 가져오기
-		List<QuestionVO> myQuestionList = questionService.getQuestionListByMemberId(username);
-		log.info(myQuestionList);
+	            // 로그인한 사용자의 ID를 기준으로 질문 목록을 가져오기
+	            List<QuestionVO> myQuestionList = questionService.getQuestionListByMemberId(username);
+	            log.info(myQuestionList);
 
-		model.addAttribute("myQuestionList", myQuestionList); // 사용자가 작성한 질문 목록
-		model.addAttribute("username", username); // 로그인한 사용자 정보를 모델에 추가
-	}
+	            model.addAttribute("myQuestionList", myQuestionList); // 사용자가 작성한 질문 목록
+	            model.addAttribute("username", username); // 로그인한 사용자 정보를 모델에 추가
+	        } else {
+	            log.info("myListGET() - 인증되지 않은 사용자");
+	        }
+	    }	
 }

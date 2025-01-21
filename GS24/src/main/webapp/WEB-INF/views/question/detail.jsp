@@ -13,11 +13,7 @@
 <link rel="stylesheet"
     href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     
-<style type="text/css">
-li {
-    display: inline-block;
-}
-</style>
+
 <!-- jquery 라이브러리 import -->
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
@@ -25,6 +21,7 @@ li {
 <title>${questionDTO.questionTitle }</title>
 </head>
 <body>
+<%@ include file="../common/header.jsp" %>
     
 <h2>글 보기</h2>
 <div>
@@ -34,7 +31,7 @@ li {
     <p>제목 : ${questionDTO.questionTitle }</p>
 </div>
 <div>
-    <p>식품 : ${questionDTO.foodName }</p>
+    <p>식품 : ${questionDTO.foodType }</p>
 </div>
 <div>
     <p>작성자 : ${questionDTO.memberId }</p>
@@ -60,10 +57,9 @@ li {
 </sec:authorize>
 
 <form id="modifyForm" action="modify" method="GET">
-		<input type="hidden" name="questionId">
-		
-	</form>
-<!--                           -->
+		<input type="hidden" name="questionId">	
+</form>
+
 <form id="deleteForm" action="delete" method="POST">
     <input type="hidden" name="questionId" value="${questionDTO.questionId }">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -71,16 +67,6 @@ li {
 
 <input type="hidden" id="questionId" value="${questionDTO.questionId }">
 
-<!-- 점주 역할일 때만 댓글 작성 가능 -->
-<sec:authentication property="principal" var="user"/>
-<sec:authorize access="hasRole('ROLE_OWNER')">
-    <div style="text-align: center;">
-        <!-- memberId를 숨겨진 input으로 설정 -->
-        <input type="hidden" id="memberId" value="${user.username}">
-        <input type="text" id="answerContent">
-        <button id="btnAdd">작성</button>
-    </div>
-</sec:authorize>
 
 <!-- 첨부 파일 영역 -->
 <div class="questionAttach-upload">
@@ -101,10 +87,20 @@ li {
         </div>
     </div>
 </div>
-
 <hr>
-<div style="text-align: center;">
-    <div id="replies"></div>
+<!-- 점주 역할일 때만 댓글 작성 가능 -->
+<sec:authentication property="principal" var="user"/>
+<sec:authorize access="hasRole('ROLE_OWNER')">
+    <div style="text-align: left;">
+        <!-- memberId를 숨겨진 input으로 설정 -->
+        <input type="hidden" id="memberId" value="${user.username}">
+        <textarea id="answerContent"  rows="5" cols="120"></textarea>
+        <button id="btnAdd">작성</button>
+    </div>
+</sec:authorize>
+
+<div style="text-align: left;">
+    <div id="answer"></div>
 </div>
 
 <script type="text/javascript">
@@ -209,9 +205,9 @@ $('#deleteQuestion').click(function() {
 																		list += '<div class="answer_item">'
 																				+ '<pre>'
 																				+ '<input type="hidden" id="answerId" value="'+ this.answerId +'">'
-																				+ this.memberId
+																				+ "관리자"
 																				+ '&nbsp;&nbsp;' // 공백
-																				+ '<input type="text" id="answerContent" value="'+ this.answerContent +'">'
+																				+ '<textarea readonly rows="5" cols="120">' + this.answerContent + '</textarea>'
 																				+ '&nbsp;&nbsp;'
 																				+ answerDateCreated
 																				+ '&nbsp;&nbsp;'
@@ -223,13 +219,13 @@ $('#deleteQuestion').click(function() {
 																				+ '</div>';
 																	}); // end each()
 
-													$('#replies').html(list); // 저장된 데이터를 replies div 표현
+													$('#answer').html(list); // 저장된 데이터를 answer div 표현
 												} // end function()
 										); // end getJSON()
 							} // end getAllAnswer()
 
 							// 수정 버튼을 클릭하면 선택된 댓글 수정
-							$('#replies')
+							$('#answer')
 									.on(
 											'click',
 											'.answer_item .btn_update',
@@ -270,10 +266,10 @@ $('#deleteQuestion').click(function() {
 															}
 														});
 
-											}); // end replies.on()
+											}); // end answer.on()
 
 							// 삭제 버튼을 클릭하면 선택된 댓글 삭제
-							$('#replies')
+							$('#answer')
 									.on(
 											'click',
 											'.answer_item .btn_delete',
@@ -305,7 +301,7 @@ $('#deleteQuestion').click(function() {
 																}
 															}
 														});
-											}); // end replies.on()		
+											}); // end answer.on()		
 
 						}); // end document()
 						</script>

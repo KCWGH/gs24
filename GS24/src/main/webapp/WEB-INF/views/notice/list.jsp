@@ -75,30 +75,16 @@
                     <td>${NoticeVO.noticeId}</td>
                     <td><a href="detail?noticeId=${NoticeVO.noticeId}">${NoticeVO.noticeTitle}</a></td>
                     <!-- 작성일 포맷 변경 -->
-                    <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd" var="noticeDateCreated" />
+                    <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd HH:mm" var="noticeDateCreated" />
                     <td>${noticeDateCreated}</td>
                     <td>${NoticeVO.noticeViews}</td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    <!-- 제목 또는 내용으로 검색 -->
-    <div class="prgs">
-        <form action="list" method="get">
-            <div class="search-container">
-                <!-- 검색 유형 선택 -->
-                <select name="searchType" id="searchType" title="검색 유형" class="select1" onchange="toggleSearchPlaceholder()">
-                    <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>제목</option>
-                    <option value="content" ${param.searchType == 'content' ? 'selected' : ''}>내용</option>
-                </select>
-                <input type="text" id="searchInput" name="${param.searchType == 'title' ? 'noticeTitle' : 'noticeContent'}"
-                       value="${param.searchType == 'title' ? param.noticeTitle : param.noticeContent}"
-                       title="${param.searchType == 'title' ? '검색' : '검색'}"
-                       placeholder="${param.searchType == 'title' ? '검색' : '검색'}">
-                <input type="submit" value="검색">
-            </div>
-        </form>
-    </div>
+    
+    <hr>
+    
     <!-- 페이징 처리 -->
     <ul>
         <!-- 이전 버튼 -->
@@ -116,4 +102,21 @@
             <li><a href="list?pageNum=${pageMaker.endNum + 1}&noticeTitle=${param.noticeTitle}&noticeContent=${param.noticeContent}&searchType=${param.searchType}">다음</a></li>
         </c:if>
     </ul>
+    <!-- 제목 또는 내용으로 검색 -->
+    <div class="prgs">
+        <form action="list" method="get">
+            <div class="search-container">
+                <!-- 검색 유형 선택 -->
+                <select name="searchType" id="searchType" title="검색 유형" class="select1" onchange="toggleSearchPlaceholder()">
+                    <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>제목</option>
+                    <option value="content" ${param.searchType == 'content' ? 'selected' : ''}>내용</option>
+                </select>
+                <input type="text" id="searchInput" name="${param.searchType == 'title' ? 'noticeTitle' : 'noticeContent'}"
+                       value="${param.searchType == 'title' ? param.noticeTitle : param.noticeContent}"
+                       title="${param.searchType == 'title' ? '검색' : '검색'}"
+                       placeholder="${param.searchType == 'title' ? '검색' : '검색'}">
+                <input type="submit" value="검색">
+            </div>
+        </form>
+    </div>
 </body>

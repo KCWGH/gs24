@@ -1,0 +1,7 @@
+이번주에 발생한 문제점
+question/register에서 questionAttach 파일이 network에 올라가지않는 문제 발생
+questionAttachServiceImple에서 DTO를 VO로 변경하는 과정에서 빠진 변수들을 발견하고 수정 후 해결.
+
+git commit 하는 과정에서 문제가 발생 다른 팀원부터  commit 및 push 하는걸로 순서를 변경
+이 과정에서 두명의 commit이 동시에 진행되어서 병합(merge)문제가 발생하였다.  
+git 관련해서 merge(병합)현상을 해결하기 위해 각자 맡아서한 파일들을 모아 다시 commit 하는 방식으로 해결.
