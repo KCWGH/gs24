@@ -160,7 +160,7 @@ public class QuestionServiceImple implements QuestionService {
 			QuestionDTO questionDTO = new QuestionDTO();
 			questionDTO.setQuestionId(questionVO.getQuestionId());
 			questionDTO.setMemberId(questionVO.getMemberId());
-			questionDTO.setFoodName(questionVO.getFoodName());
+			questionDTO.setFoodType(questionVO.getFoodType());
 			questionDTO.setQuestionTitle(questionVO.getQuestionTitle());
 			questionDTO.setQuestionContent(questionVO.getQuestionContent());
 			questionDTO.setQuestionSecret(questionVO.isQuestionSecret());
@@ -175,7 +175,7 @@ public class QuestionServiceImple implements QuestionService {
 			QuestionVO questionVO = new QuestionVO();
 		    questionVO.setQuestionId(questionDTO.getQuestionId());
 		    questionVO.setMemberId(questionDTO.getMemberId());
-		    questionVO.setFoodName(questionDTO.getFoodName());
+		    questionVO.setFoodType(questionDTO.getFoodType());
 		    questionVO.setQuestionTitle(questionDTO.getQuestionTitle());
 		    questionVO.setQuestionContent(questionDTO.getQuestionContent());
 		    questionVO.setQuestionSecret(questionDTO.isQuestionSecret());

@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/review/register").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/question/list").authenticated()
+        .antMatchers("/question/myList").authenticated()
         .antMatchers("/question/detail").permitAll()
         .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')");
 

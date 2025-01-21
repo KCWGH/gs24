@@ -15,7 +15,7 @@ import lombok.ToString;
 public class QuestionVO {
 	int questionId; // QUESTION_ID
 	String memberId; // MEMBER_ID
-	String foodName; // FOOD_NAME
+	String foodType; // FOOD_TYPE
 	String questionTitle; // QUESTION_TITLE
 	String questionContent; // QUESTION_CONTNET
 	Date questionDateCreated; // QUESTION_DATE_CREATED
