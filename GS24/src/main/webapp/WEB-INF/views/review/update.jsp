@@ -24,7 +24,7 @@
 		<p>회원 아이디</p><input type="text" name="memberId" value="test" readonly="readonly"><br>
 		<p>리뷰 제목 : </p><input type="text" name="reviewTitle" value="${reviewVO.reviewTitle }">
 		<p>리뷰 내용 : </p><textarea rows="5" cols="30" name="reviewContent">${reviewVO.reviewContent }</textarea>
-		<p>리뷰 별점 : </p><input type="number" name="reviewRating" value="${reviewVO.reviewRating }">
+		<p>리뷰 별점 : </p><input type="number" name="reviewRating" value="${reviewVO.reviewRating }" min="1" max="5">
 		
 		
 		<c:forEach var="ImgVO" items="${reviewVO.imgList }" varStatus="status">
@@ -110,6 +110,17 @@
 		
 		$(".update").click(function(){
 			var updateForm = $("#updateForm");
+			
+			var isInputEmpty = false;
+			updateForm.find('input').each(function(){
+				if($(this).val() == ''){
+					isInputEmpty = true;
+				}
+			});
+			if(isInputEmpty){
+				alert("값이 빈 곳이 존재합니다.");
+				return;
+			}
 			
 			var i = $("#updateForm").children(".input-image-list").length / 4;
 			console.log(i);

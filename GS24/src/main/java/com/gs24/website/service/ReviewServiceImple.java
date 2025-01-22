@@ -34,16 +34,15 @@ public class ReviewServiceImple implements ReviewService {
 		log.info("createReview()");
 
 		List<ImgVO> imgList = reviewVO.getImgList();
-		
-		log.info(imgList);
-		
-		for(ImgVO vo : imgList) {
-			imgReviewMapper.insertImgReview(vo);
+				
+		if(imgList != null) {
+			for(ImgVO vo : imgList) {
+				imgReviewMapper.insertImgReview(vo);
+			}
 		}
 
 		int result = reviewMapper.insertReview(reviewVO);
 		
-		//TODO : ȿ�� ������ ������ �ʿ���
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
 
 		int totalReviewRating = 0;
@@ -62,6 +61,11 @@ public class ReviewServiceImple implements ReviewService {
 	public List<ReviewVO> getAllReviewByFoodId(int foodId) {
 		log.info("getAllReviewByReviewId()");
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(foodId);
+		
+		for(ReviewVO vo : list) {
+			vo.setImgList(imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId()));
+		}
+		
 		log.info(list);
 		return list;
 	}
@@ -90,10 +94,12 @@ public class ReviewServiceImple implements ReviewService {
 		
 		log.info(updateList);
 		
-		for(ImgVO vo : updateList) {
-			log.info(vo);
-			vo.setForeignId(reviewVO.getReviewId());
-			imgReviewMapper.insertImgReview(vo);
+		if(updateList != null) {			
+			for(ImgVO vo : updateList) {
+				log.info(vo);
+				vo.setForeignId(reviewVO.getReviewId());
+				imgReviewMapper.insertImgReview(vo);
+			}
 		}
 		
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());

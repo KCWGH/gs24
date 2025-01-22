@@ -82,12 +82,14 @@ public class FoodController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(Model model, Integer foodId) {
+	public void detailGET(Model model, Integer foodId, Pagination pagination) {
 		log.info("detailGET()");
-		Object[] detailData = foodService.getDetailData(foodId);
-		log.info(detailData[0]);
+		Object[] detailData = foodService.getDetailData(foodId, pagination);
+		log.info(detailData[2]);
+		
 		model.addAttribute("FoodVO", detailData[0]);
 		model.addAttribute("reviewList", detailData[1]);
+		model.addAttribute("pageMaker", detailData[2]);
 	}
 
 	@GetMapping("/update")

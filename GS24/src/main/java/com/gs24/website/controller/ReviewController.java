@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
@@ -27,20 +29,14 @@ public class ReviewController {
 	@Autowired
 	private String uploadPath;
 
-	@GetMapping("/list")
-	public void listGET(Model model,int foodId, Pagination pagination) {
+	@PostMapping("/list")
+	@ResponseBody
+	public List<ReviewVO> listGET(@RequestBody int foodId) {
 		log.info("listGET()");
-		log.info("foodId : " + foodId);
 		
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(reviewService.getReviewCountByFoodId(foodId));
+		List<ReviewVO> reviewList = reviewService.getAllReviewByFoodId(foodId);
 		
-		List<ReviewVO> list = reviewService.getReviewPaginationByFoodId(foodId, pagination);
-
-		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("reviewList", list);
-		model.addAttribute("foodId", foodId);
+		return reviewList;
 	}
 	
 	@GetMapping("/register")

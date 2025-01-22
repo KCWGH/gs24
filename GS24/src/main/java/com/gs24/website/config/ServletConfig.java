@@ -40,5 +40,5 @@ public class ServletConfig implements WebMvcConfigurer {
 	public String uploadPath() {
 		return "\\images";
 	}
-	//이게 경로가 STS 설치 경로를 기준으로 파일이 저장이 되는 거군 이런 거면 씁... C드라이브 바로 밑에 하는게 좋을지도 어떤 컴퓨터든 C드라이브는 있으니까 물론 없는 경우도 보긴 했는데 그거 때문에라도 
+	
 }

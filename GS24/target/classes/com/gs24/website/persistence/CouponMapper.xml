@@ -38,6 +38,12 @@
 		WHERE COUPON_ID = #{couponId}
 	</update>
 	
+	<update id="refundCoupon">
+		UPDATE COUPON
+		SET COUPON_AMOUNT = COUPON_AMOUNT + 1
+		WHERE COUPON_ID = #{couponId}
+	</update>
+	
 	<select id="selectList" resultMap="CouponResultMap">
 		SELECT * FROM COUPON
 		ORDER BY COUPON_ID DESC

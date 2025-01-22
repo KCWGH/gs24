@@ -32,7 +32,7 @@
 		<p>내용 : <p>
 		<textarea rows="10" cols="40" name="reviewContent"></textarea><br>
 		<p>별점 : <p>
-		<input type="number" name="reviewRating">
+		<input type="number" name="reviewRating" min="1" max="5">
 	</form>
 	
 	<p>사진등록<p>
@@ -60,6 +60,18 @@
 		
 		$(".submit").click(function(){
 			var registForm = $("#registForm");
+			
+			var isInputEmpty = false;
+			registForm.find('input').each(function(){
+				if($(this).val() == ''){
+					console.log("값이 빈 곳이 존재합니다.");
+					isInputEmpty = true;
+				}
+			});
+			if(isInputEmpty){
+				alert("값이 빈 곳이 존재합니다.");
+				return;
+			}
 			
 			var i = 0;
 			$(".ImgVOList input").each(function(){

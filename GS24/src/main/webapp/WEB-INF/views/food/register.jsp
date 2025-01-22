@@ -179,8 +179,21 @@
 					alert("대표 사진을 등록해야 합니다.");
 					return;
 				}
-				
+
 				var registerForm = $("#registerForm");
+				
+				var isInputEmpty = false;
+				registerForm.find('input').each(function(){
+					if($(this).val() == ''){
+						console.log("값이 빈 곳이 존재합니다.");
+						isInputEmpty = true;
+					}
+				});
+				
+				if(isInputEmpty){
+					alert("값이 빈 곳이 존재합니다.");
+					return;
+				}
 				
 				var i = 0;
 				$(".ImgVOList input").each(function(){
@@ -202,16 +215,7 @@
 					
 					i++;
 				});
-				
-				registerForm.find('input').each(function(){
-					console.log($(this).val());
-					
-					if($(this).val() == ''){
-						console.log("값이 빈 곳이 존재합니다.");
-						return;
-					}
-				});
-				
+						
 				registerForm.submit();
 			});
 		});

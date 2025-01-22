@@ -32,5 +32,5 @@ public interface FoodService {
 	
 	int getFoodTotalCount(Pagination pagination);
 	
-	Object[] getDetailData(int foodId);
+	Object[] getDetailData(int foodId, Pagination pagination);
 }

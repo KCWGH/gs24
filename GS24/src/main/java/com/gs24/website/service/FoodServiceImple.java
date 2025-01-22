@@ -17,6 +17,7 @@ import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
+import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -176,22 +177,28 @@ public class FoodServiceImple implements FoodService{
 
 	@Override
 	@Transactional("transactionManager()")
-	public Object[] getDetailData(int foodId) {
+	public Object[] getDetailData(int foodId, Pagination pagination) {
 		log.info("getDetailData()");
-		Object[] detailData = new Object[2];
+		Object[] detailData = new Object[3];
 		FoodVO foodVO = foodMapper.selectFoodById(foodId);
 		
 		foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
 		
-		List<ReviewVO> reviewList = reviewMapper.selectReviewByFoodId(foodId);
+		List<ReviewVO> reviewList = reviewMapper.selectReviewPagination(foodId, pagination.getStart(), pagination.getEnd());
 		for(ReviewVO vo: reviewList) {
 			List<ImgVO> list = imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId());
 			vo.setImgList(list);
 		}
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(reviewMapper.selectTotalCountByFoodId(foodId));
+		
 		detailData[0] = foodVO;
 		detailData[1] = reviewList;
+		detailData[2] = pageMaker;
 		
-		log.info(detailData);
+		log.info(reviewList.size());
 		return detailData;
 	}
 	

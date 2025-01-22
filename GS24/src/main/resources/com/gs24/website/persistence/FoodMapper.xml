@@ -108,7 +108,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		</choose>
 		) AS RN, FOOD.* FROM FOOD
    		<choose>
-   			<when test="keyword == ''">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'foodType.toString()">WHERE FOOD_TYPE = #{keyword}</when>
    			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN #{bottomPrice} AND 
    				<choose>
    					<when test="topPrice == ''">
@@ -120,14 +121,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    				</choose>
    			</when>
    		</choose>
-   		
    		) WHERE RN BETWEEN #{start} AND #{end}
    </select>
 	
 	<select id="selectFoodTotalCount" resultType="int">
 		SELECT COUNT(*) TOTAL_COUNT FROM FOOD
 		<choose>
-   			<when test="keyword == ''">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
    			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN #{bottomPrice} AND 
    				<choose>
    					<when test="topPrice == ''">

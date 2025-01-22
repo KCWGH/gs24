@@ -212,6 +212,20 @@
 				}
 				
 				var updateForm = $('#updateForm');
+				
+				var isInputEmpty = false;
+				updateForm.find('input').each(function(){
+					if($(this).val() == ''){
+						console.log("값이 빈 곳이 존재합니다.");
+						isInputEmpty = true;
+					}
+				});
+				
+				if(isInputEmpty){
+					alert("값이 빈 곳이 존재합니다.");
+					return;
+				}
+				
 				var i = $(".input-image-list").length / 4 + 1;
 				console.log(i);
 				
@@ -233,16 +247,7 @@
 					i++;
 					
 				});
-				
-				updateForm.find('input').each(function(){
-					console.log($(this).val());
-					
-					if($(this).val() == ''){
-						console.log("값이 빈 곳이 존재합니다.");
-						return;
-					}
-				});
-				
+						
 				updateForm.submit();
 			});
 		});

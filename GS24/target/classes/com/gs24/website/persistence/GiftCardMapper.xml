@@ -157,6 +157,23 @@
         AND GC.BALANCE >= P.TOTAL_PRICE)
 	</update>
 	
+	<update id="refundGiftCard">
+		UPDATE GIFT_CARD GC
+    	SET GC.BALANCE = GC.BALANCE + (
+        SELECT P.TOTAL_PRICE
+        FROM PREORDER P
+        WHERE P.PREORDER_ID = #{preorderId}
+        AND P.MEMBER_ID = GC.MEMBER_ID
+   	 	),
+    	GC.IS_USED = '1' 
+    	WHERE GC.GIFT_CARD_ID = #{giftCardId}
+    	AND EXISTS (
+        SELECT 1
+        FROM PREORDER P
+        WHERE P.PREORDER_ID = #{preorderId}
+        AND P.MEMBER_ID = GC.MEMBER_ID)
+	</update>
+	
 	<delete id="deleteExpiredGiftCards">
         DELETE FROM GIFT_CARD
 		WHERE GIFT_CARD_EXPIRED_DATE &lt; SYSDATE - INTERVAL '30' DAY
