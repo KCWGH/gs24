@@ -214,12 +214,6 @@
     <div class="giftCard-list"></div>
 
     <div class="fixed-buttons">
-        <c:if test="${memberVO.memberRole == 2}"> 
-            <button id="btnGrantGiftCard">개별 기프트카드 제공</button><br>
-        </c:if>
-        <c:if test="${memberVO.memberRole == 1}"> 
-            <button id="btnPresentGiftCard">내 기프트카드 선물하기</button><br>
-        </c:if>
         <a href="../member/mypage"><button>마이페이지</button></a>
     </div>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

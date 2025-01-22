@@ -14,8 +14,7 @@
                     <span>환영합니다, <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
                         <a href="javascript:void(0);" 
                            onclick="window.open('../member/mypage', '_blank', 'width=500,height=700');">
-                            <sec:authentication property="principal.username" />
-                        </a>님
+                           <sec:authentication property="principal.username" /></a>님
                     </span>
                     <input type="submit" value="로그아웃">
                     <sec:authorize access="hasRole('ROLE_MEMBER')">

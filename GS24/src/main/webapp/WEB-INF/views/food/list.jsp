@@ -24,7 +24,7 @@
 }
 img {
    width: 200px;
-   height: 150px;
+   height: 200px;
 }
 .pagination_button {   
    display: inline-block;
@@ -47,14 +47,6 @@ img {
 }
 
 </style>
-<%
-    String message = (String) session.getAttribute("message");
-    if (message != null) {
-        out.println("<script>alert('생일 축하 기프트카드 10000원권이 발급되었습니다.');</script>");
-        session.removeAttribute("message");  // 메시지를 표시한 후 세션에서 제거
-    }
-%>
-
 </head>
 <body>
 <c:if test="${not empty message}">
@@ -86,15 +78,14 @@ img {
             <input type="hidden" class="foodId" value="${FoodVO.foodId }">
             <div class="image-item">
             	<input type="hidden" class="path" value="${FoodVO.imgList[0].imgPath }">
-	            <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+	            <a onclick="location.href='detail?foodId=${FoodVO.foodId}'"><img src="../image/foodThumnail?foodId=${FoodVO.foodId }"></a>
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>
             <p>${FoodVO.foodStock}개</p>
             <p>${FoodVO.foodPrice}원</p>
             <p>${FoodVO.foodAvgRating }점</p>
-            <p>리뷰 ${FoodVO.foodReviewCnt }개</P>
-            <button onclick="location.href='detail?foodId=${FoodVO.foodId}'">상세 보기</button><br>
+            <p>리뷰 ${FoodVO.foodReviewCnt }개</p>
             <sec:authorize access="hasRole('ROLE_MEMBER')">
             <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }"'>예약하기</button><br>
             <c:choose>
