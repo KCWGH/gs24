@@ -19,10 +19,12 @@ public class PreorderVO {
 	String memberId;
 	int preorderAmount;
 	int totalPrice;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date pickupDate;
-	
-	int isPickUp; 	// 1 : true | 0 : false
-	int isExpiredOrder;	// 1 : true | 0 : false
+
+	int isPickUp; // 1 : true | 0 : false
+	int isExpiredOrder; // 1 : true | 0 : false
+	int appliedGiftCardId;
+	int appliedCouponId;
 }

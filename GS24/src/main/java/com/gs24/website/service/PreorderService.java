@@ -23,11 +23,9 @@ public interface PreorderService {
 
 	int updateIsPickUp(int preorderId, int isPickUp);
 
-	int updateIsExpiredOrder(int preorderId, PreorderVO preorderVO);
+	int cancelPreorder(int preorderId, int foodId, int preorderAmount);
 
-	int deletePreorder(int preorderId, int foodId, int preorderAmount);
-
-	int deleteOnlyPreoder(int preorderId);
+	int deletePreorder(int preorderId);
 
 	List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination);
 

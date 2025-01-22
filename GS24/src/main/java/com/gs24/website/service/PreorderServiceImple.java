@@ -56,6 +56,7 @@ public class PreorderServiceImple implements PreorderService {
 	@Override
 	@Transactional(value = "transactionManager")
 	public int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId) {
+		preorderVO.setAppliedGiftCardId(giftCardId);
 		int createResult = createPreorder(preorderVO);
 		int result = 0;
 		if (createResult == 1) {
@@ -78,10 +79,12 @@ public class PreorderServiceImple implements PreorderService {
 			CouponQueueVO couponQueueVO = new CouponQueueVO();
 			couponQueueVO.setCouponId(couponId);
 			couponQueueVO.setMemberId(preorderVO.getMemberId());
+			couponQueueVO.setFoodId(preorderVO.getFoodId());
 			int queueResult = couponQueueMapper.insertQueue(couponQueueVO);
 			if (queueResult == 1) {
 				int useResult = couponMapper.useCoupon(couponId);
 				if (useResult == 1) {
+					preorderVO.setAppliedCouponId(couponId);
 					int createResult = createPreorder(preorderVO);
 					return createResult;
 				}
@@ -93,6 +96,8 @@ public class PreorderServiceImple implements PreorderService {
 	@Override
 	@Transactional(value = "transactionManager")
 	public int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId) {
+		preorderVO.setAppliedGiftCardId(giftCardId);
+		preorderVO.setAppliedCouponId(couponId);
 		int createResult = createPreorder(preorderVO, couponId);
 		int result = 0;
 		if (createResult == 1) {
@@ -133,26 +138,27 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	public int updateIsExpiredOrder(int preorderId,PreorderVO preorderVO) {
-		log.info("updatePreorderInIsExpiredOrder()");
+	public int cancelPreorder(int preorderId, int foodId, int preorderAmount) {
+		log.info("cancelPreorder()");
+		foodMapper.updateFoodAmountByPreorderAmount(foodId, preorderAmount * -1);
+		PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
+		if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() != 0) { // 기프트카드, 쿠폰 둘 다 적용
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
+			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
+			couponQueueMapper.deleteQueue(preorderVO.getAppliedCouponId(), preorderVO.getMemberId());
+		} else if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() == 0) { // 기프트카드만 적용
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
+		} else if (preorderVO.getAppliedGiftCardId() == 0 && preorderVO.getAppliedCouponId() != 0) { // 쿠폰만 적용
+			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
+			couponQueueMapper.deleteQueue(preorderVO.getAppliedCouponId(), preorderVO.getMemberId());
+		}
 		int result = preorderMapper.updatePreorderInIsExpiredOrder(preorderId, 1);
-		int foodResult = foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(),
-				preorderVO.getPreorderAmount() * -1);
 		return result;
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
-	public int deletePreorder(int preorderId, int foodId, int preorderAmount) {
+	public int deletePreorder(int preorderId) {
 		log.info("deletePreorder()");
-		int result = preorderMapper.deletePreorderByPreorderId(preorderId);
-		int updateresult = foodMapper.updateFoodAmountByPreorderAmount(foodId, preorderAmount * -1);
-		return result;
-	}
-
-	@Override
-	public int deleteOnlyPreoder(int preorderId) {
-		log.info("onlyDeletePreorder()");
 		int result = preorderMapper.deletePreorderByPreorderId(preorderId);
 		return result;
 	}

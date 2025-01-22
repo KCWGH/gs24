@@ -17,4 +17,9 @@ public class CouponQueueServiceImple implements CouponQueueService {
 		return couponQueueMapper.insertQueue(couponQueueVO);
 	}
 
+	@Override
+	public int dupCheckQueueByMemberId(int couponId, String memberId, int foodId) {
+		return couponQueueMapper.dupCheckQueueByMemberId(couponId, memberId, foodId);
+	}
+
 }

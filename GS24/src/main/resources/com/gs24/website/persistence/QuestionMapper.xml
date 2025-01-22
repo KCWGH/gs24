@@ -8,7 +8,7 @@
 		<!-- <id> : key 칼럼 매핑 태그 <result> : 일반 칼럼 매핑 태그 - 속성 : -->
 		<id property="questionId" column="QUESTION_ID" />
 		<result property="memberId" column="MEMBER_ID" />
-		<result property="foodName" column="FOOD_NAME" />
+		<result property="foodType" column="FOOD_TYPE" />
 		<result property="questionTitle" column="QUESTION_TITLE" />
 		<result property="questionContent" column="QUESTION_CONTENT" />
 		<result property="questionDateCreated" column="QUESTION_DATE_CREATED" />
@@ -17,9 +17,9 @@
 	</resultMap>
 	
 	<insert id="insertQuestion">
-		INSERT INTO QUESTION (QUESTION_ID, MEMBER_ID, FOOD_NAME,
+		INSERT INTO QUESTION (QUESTION_ID, MEMBER_ID, FOOD_TYPE,
 		 QUESTION_TITLE, QUESTION_CONTENT, QUESTION_SECRET, IS_ANSWERED, QUESTION_DATE_CREATED)
-		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodName}, #{questionTitle},
+		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodType}, #{questionTitle},
 		 #{questionContent}, #{questionSecret}, 0, SYSDATE)
 	</insert>
 	<select id="selectQuestionList" resultMap="questionResultMap">
@@ -34,7 +34,7 @@
 	   UPDATE QUESTION SET
        QUESTION_TITLE = #{questionTitle}, 
        QUESTION_CONTENT = #{questionContent}, 
-       FOOD_NAME = #{foodName},
+       FOOD_TYPE = #{foodType},
        QUESTION_DATE_CREATED = SYSDATE
        WHERE QUESTION_ID = #{questionId}	 	
 	 </update>

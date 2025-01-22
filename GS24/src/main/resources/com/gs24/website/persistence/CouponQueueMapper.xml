@@ -8,6 +8,7 @@
 		<result property="couponId" column="COUPON_ID" />
 		<result property="memberId" column="MEMBER_ID" />
 		<result property="queueDateCreated" column="QUEUE_DATE_CREATED" />
+		<result property="foodId" column="FOOD_ID"/>
 	</resultMap>
 	
 	<resultMap type="com.gs24.website.domain.PreorderVO" id="PreorderResultMap">
@@ -23,8 +24,16 @@
 	<insert id="insertQueue">
 		INSERT INTO COUPON_QUEUE
 		(QUEUE_ID, COUPON_ID, MEMBER_ID,
-		QUEUE_DATE_CREATED)
+		QUEUE_DATE_CREATED, FOOD_ID)
 		VALUES
-		(COUPON_QUEUE_SEQ.NEXTVAL, #{couponId}, #{memberId}, SYSDATE)
+		(COUPON_QUEUE_SEQ.NEXTVAL, #{couponId}, #{memberId}, SYSDATE, #{foodId})
 	</insert>
+	
+	<select id="dupCheckQueueByMemberId" resultType="Integer">
+		SELECT COUNT(*) FROM COUPON_QUEUE WHERE MEMBER_ID = #{memberId} AND COUPON_ID = #{couponId} AND FOOD_ID = #{foodId}
+	</select>
+	
+	<delete id="deleteQueue">
+		DELETE FROM COUPON_QUEUE WHERE COUPON_ID = #{couponId} AND MEMBER_ID = #{memberId}
+	</delete>
 </mapper>

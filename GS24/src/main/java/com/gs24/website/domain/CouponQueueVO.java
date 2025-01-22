@@ -19,4 +19,5 @@ public class CouponQueueVO {
 	int couponId;
 	String memberId;
 	Date queueDateCreated;
+	int foodId;
 }

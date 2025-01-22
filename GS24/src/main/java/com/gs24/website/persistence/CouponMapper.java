@@ -11,6 +11,8 @@ public interface CouponMapper {
 	int insertCoupon(CouponVO couponVO);
 
 	int useCoupon(int couponId);
+	
+	int refundCoupon(int couponId);
 
 	List<CouponVO> selectList();
 

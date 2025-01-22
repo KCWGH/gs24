@@ -88,7 +88,7 @@
                 <td><div id="pickupDateContainer"></div></td>
             </tr>
             <tr>
-                <td colspan="2" style="color:gray">※ 오늘을 기준으로 2일 후부터 2주 이내까지 가능합니다.</td>
+                <td colspan="2" style="color:gray">※ 오늘을 기준으로 2일 후부터 2주 이내까지 선택 가능합니다.</td>
             </tr>
             <tr>
                 <th>예약 수량</th>
@@ -96,18 +96,18 @@
             </tr>
             <tr>
                 <th>적용된 쿠폰</th>
-                <td><span id="selectedCoupon">없음</span> <button type="button" id="openCouponModal">쿠폰 변경</button></td>
+                <td><span id="selectedCoupon">없음</span> <button type="button" id="openCouponModal">쿠폰 변경</button><button type="button" id="selectCoupon" >저장하기</button></td>
             </tr>
             <tr>
                 <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰이 초기화됩니다.</td>
             </tr>
-            <tr id="giftCardToggle">
+            <tr id="giftCardToggle" hidden="hidden">
                 <th>사용할 기프트카드</th>
                 <td><span id="selectedGiftCard">없음</span> <button type="button" id="openGiftCardModal">기프트카드 변경</button></td>
             </tr>
             <tr>
                 <th>별도 결제 금액</th>
-                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="button" id="createPreorder" value="예약하기"></td>
+                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="button" id="createPreorder" value="예약하기" disabled></td>
             </tr>
             <tr id="latestBalanceToggle" hidden="hidden">
                 <th>기프트카드 잔액</th>
@@ -247,11 +247,12 @@
                     event.preventDefault();
                     let giftCardId = $(this).attr("data-giftCard-id");
                     let giftCardName = $(this).attr("data-giftCard-name");
-                    let balance = $(this).attr("data-balance");
+                    let balance = parseInt($(this).attr("data-balance"));
                     let giftCardExpiredDate = $(this).attr("data-giftCard-expired-date");
                     let preorderAmount = $('#preorderAmount').val();  // 예약 수량 가져오기
-                    let appliedPrice = $('#totalPrice').val();  // 쿠폰이 적용된 후의 totalPrice 사용
-                    let originalPrice = ${foodVO.foodPrice} * preorderAmount; // 쿠폰 적용 전 가격
+                    let appliedPrice = parseInt($('#totalPrice').val());  // 쿠폰이 적용된 후의 totalPrice 사용
+                    let originalPrice = parseInt(${foodVO.foodPrice} * preorderAmount); // 쿠폰 적용 전 가격
+                    let couponId = parseInt($('#couponId').val(), 10); // couponId 값 가져오기
 
                     console.log('appliedPrice : '+appliedPrice);
                     console.log('originalPrice : '+originalPrice);
@@ -281,9 +282,10 @@
                     $('#giftCardId').val(giftCardId);
                     $('#selectedGiftCard').text(giftCardName);
                     
-                    if ($('#couponId').val() !== "") { // 쿠폰을 이미 선택했다면
+                    if (!isNaN(couponId)) { // 쿠폰을 이미 선택했다면
                     	if (balance >= appliedPrice) { // 쿠폰, 기프트카드 적용이고 잔고가 더 많다면
                     		$('#totalPrice').val(appliedPrice);
+                    		$('#buyPrice').text(0 + '원');
                     		$('#latestBalance').text((balance - appliedPrice) + '원');
                     		$('#latestBalanceToggle').show();
                     	} else { // 잔고보다 결제 금액이 더 많다면
@@ -295,6 +297,7 @@
                     } else { // 쿠폰을 선택하지 않고 기프트카드만 선택했다면
                     	if (balance >= originalPrice) { // 기프트카드만이고 잔고가 가격보다 더 많다면
                     		$('#totalPrice').val(originalPrice);
+                    		$('#buyPrice').text(0 + '원');
                     		$('#latestBalance').text((balance - originalPrice) + '원');
                     		$('#latestBalanceToggle').show();
                     	} else { // 잔고보다 결제 금액이 더 많다면
@@ -346,7 +349,7 @@
                         alert('모두 소진된 쿠폰입니다.');
                         return;
                     }
-                    console.log('중복가능 여부 : '+isDuplicateAllowed);
+                    
                     let giftCardId = $(".applyGiftCard").val();
                     if (isDuplicateAllowed == 0) { // 쿠폰이 기프트카드와 중복 불가라면
                     	 $('#giftCardId').val(""); // 기존 기프트카드 ID 제거
@@ -355,9 +358,6 @@
                          $('#buyPrice').text(currentPrice + '원'); // 초기 가격으로 리셋
                          $('#totalPrice').val(0);  // 초기 가격으로 리셋
                     }
-                    
-                    console.log('현재 적용된 깊카아이디 : '+giftCardId);
-                    
 
                     // 다른 쿠폰이 이미 적용되어 있는 경우 초기화
                     if (currentlyAppliedCouponId !== null && currentlyAppliedCouponId !== couponId) {
@@ -378,11 +378,9 @@
                     $(this).text("적용중");
                     $(this).prop("disabled", true);
                     
-                    if (!isDuplicateAllowed) {
-                        $('#giftCardToggle').hide(); // 기프트카드 행 숨기기
-                    } else {
-                        $('#giftCardToggle').show(); // 기프트카드 행 보이기
-                    }
+                    $('#selectCoupon').show();
+                    
+                    
 
                     $("#couponModal").fadeOut();
                 });
@@ -438,11 +436,29 @@
                     $('#latestBalanceToggle').hide();
                 }
             }
+            
+            $('#selectCoupon').on('click', function(event) {
+            	let isDuplicateAllowed = $('.applyCoupon').data("is-duplicate-allowed");
+            	console.log(isDuplicateAllowed)
+            	if (!isDuplicateAllowed) {
+                    $('#giftCardToggle').hide(); // 기프트카드 행 숨기기
+                } else {
+                    $('#giftCardToggle').show(); // 기프트카드 행 보이기
+                }
+                $('#openCouponModal').hide();
+                $(this).hide();
+                $('#createPreorder').prop("disabled", false);
+            });
+            
             $('#createPreorder').on('click', function(event) {
                 event.preventDefault(); // 기본 폼 제출을 막습니다.
 
                 // 결제 금액 및 필요한 정보 설정
                 let buyPrice = $('#buyPrice').text().replace(/[^\d]/g, ''); // 최종 결제 금액
+                if (buyPrice == 0){
+                	 $('form').submit();
+                	return;
+                }
                 let foodName = '${foodVO.foodName}'; // 식품 이름
                 let foodId = '${foodVO.foodId}'; // 식품 ID
                 let memberId = '${memberVO.memberId}'; // 회원 ID
@@ -460,7 +476,6 @@
                     buyer_name: '${memberVO.memberId}', // 구매자 이름
                     buyer_tel: '${memberVO.phone}', // 구매자 전화번호
                     buyer_email: '${memberVO.email}', // 구매자 이메일
-                    m_redirect_url: '/payment/complete' // 결제 완료 후 리디렉션할 URL (필요시)
                 }, function(rsp) {
                     if (rsp.success) {
                         // 결제 성공 시 처리

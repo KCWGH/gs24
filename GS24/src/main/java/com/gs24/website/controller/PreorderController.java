@@ -21,6 +21,7 @@ import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.service.CouponQueueService;
 import com.gs24.website.service.CouponService;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.GiftCardService;
@@ -45,6 +46,9 @@ public class PreorderController {
 
 	@Autowired
 	private CouponService couponService;
+
+	@Autowired
+	private CouponQueueService couponQueueService;
 
 	@Autowired
 	private FoodService foodService;
@@ -107,7 +111,6 @@ public class PreorderController {
 				throw new Exception("예약 수량은 1보다 작거나 총 재고량보다 많을 수 없습니다.");
 			}
 			preorderVO.setPickupDate(pickupDate);
-
 			int giftCardId;
 			int couponId;
 
@@ -117,11 +120,16 @@ public class PreorderController {
 			if (useGiftCard && useCoupon) { // 둘 다 사용했다면
 				giftCardId = Integer.parseInt(giftCardIdString);
 				couponId = Integer.parseInt(couponIdString);
-				System.out.println("들어온 값 : " + giftCardId + ", " + couponId);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
 				CouponVO couponVO = couponService.getCouponByCouponId(couponId);
+				int dupCheck = couponQueueService.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
+						preorderVO.getFoodId());
 				if (giftCardVO == null || couponVO == null) {
+					redirectAttributes.addFlashAttribute("message", "존재하지 않는 기프트카드 ID 또는 쿠폰 ID입니다.");
 					throw new Exception("존재하지 않는 기프트카드 ID 또는 쿠폰 ID입니다.");
+				} else if (dupCheck != 0) {
+					redirectAttributes.addFlashAttribute("message", "이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.");
+					throw new Exception("이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.");
 				} else {
 					int result = preorderService.createPreorder(preorderVO, giftCardId, couponId);
 					if (result == 1) {
@@ -148,8 +156,13 @@ public class PreorderController {
 			} else if (useCoupon) { // 쿠폰만 사용했다면
 				couponId = Integer.parseInt(couponIdString);
 				CouponVO couponVO = couponService.getCouponByCouponId(couponId);
+				int dupCheck = couponQueueService.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
+						preorderVO.getFoodId());
 				if (couponVO == null) {
 					throw new Exception("존재하지 않는 쿠폰 ID입니다.");
+				} else if (dupCheck != 0) {
+					redirectAttributes.addFlashAttribute("message", "이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.");
+					throw new Exception("이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.");
 				} else {
 					int result = preorderService.createPreorder(preorderVO, couponId);
 					if (result == 1) {
@@ -173,7 +186,8 @@ public class PreorderController {
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			redirectAttributes.addFlashAttribute("message", "잘못된 값이 입력되었습니다. 예약이 실패했습니다.");
+			redirectAttributes.addFlashAttribute("message",
+					"잘못된 값이 입력되었거나, 이 품목에 이미 사용한 쿠폰입니다.\\n다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.\\n예약이 실패했습니다.");
 			return "redirect:/food/list"; // 기타 예외
 		}
 	}
@@ -184,7 +198,7 @@ public class PreorderController {
 
 		String memberId = customUser.getUsername();
 		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
-		
+
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("preorderList", list);
 
