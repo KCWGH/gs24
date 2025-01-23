@@ -34,9 +34,11 @@ public class GiftCardRESTController {
 	private GiftCardService giftCardService;
 
 	@PostMapping("/dup-check-id")
-	public ResponseEntity<String> dupcheckCouponNamePOST(String memberId) {
-		log.info("dupCheckCouponNamePOST()");
-		if (memberService.dupCheckId(memberId) == 1) {
+	public ResponseEntity<String> dupcheckIdPOST(String memberId) {
+		log.info("dupcheckIdPOST()");
+		if (memberService.dupCheckId(memberId) == 1 && memberService.checkRole(memberId) == 2) {
+			return ResponseEntity.ok("2");
+		} else if (memberService.dupCheckId(memberId) == 1 && memberService.checkRole(memberId) == 1) {
 			return ResponseEntity.ok("1");
 		}
 		return ResponseEntity.ok("0");

@@ -214,6 +214,7 @@
     <div class="giftCard-list"></div>
 
     <div class="fixed-buttons">
+    	<a href="../giftcard/purchase"><button>기프트카드 구매</button></a>
         <a href="../member/mypage"><button>마이페이지</button></a>
     </div>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

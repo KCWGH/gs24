@@ -32,4 +32,6 @@ public interface MemberService {
 	int dupCheckPhone(String phone);
 
 	int dupCheckIdAndEmail(String memberId, String email);
+	
+	int checkRole(String memberId);
 }

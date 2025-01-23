@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.MemberVO;
+import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MemberMapper;
+import com.gs24.website.persistence.MembershipMapper;
 
 @Service
 public class MemberServiceImple implements MemberService {
@@ -14,11 +17,18 @@ public class MemberServiceImple implements MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
 
+	@Autowired
+	private MembershipMapper membershipMapper;
+	
+	@Autowired
+	private GiftCardMapper giftCardMapper;
+
 	@Lazy
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
+	@Transactional(value = "transactionManager")
 	public int register(MemberVO memberVO) {
 		String memberId = memberVO.getMemberId();
 		String password = memberVO.getPassword();
@@ -27,6 +37,9 @@ public class MemberServiceImple implements MemberService {
 		String email = memberVO.getEmail();
 		String phone = memberVO.getPhone();
 		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
+			if (memberVO.getMemberRole() == 1) {
+				membershipMapper.insertMembership(memberId);
+			}
 			return memberMapper.insertUser(memberVO);
 		}
 		return 0;
@@ -73,8 +86,14 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
+	@Transactional(value = "transactionManager")
 	public int deleteMember(String memberId) {
-		// 회원 탈퇴 처리
+		MemberVO memberVO = memberMapper.select(memberId);
+		if (memberVO.getMemberRole() == 1 && giftCardMapper.countRemainingGiftCardsByMemberId(memberId) == 0) { // 일반회원이고 잔액이 남은 기프트카드가 없을 경우
+			membershipMapper.deleteMembership(memberId);
+		} else if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) != 0) { // 잔액이 남은 기프트카드가 있을 경우
+			return 2;
+		}
 		return memberMapper.delete(memberId);
 	}
 
@@ -111,4 +130,8 @@ public class MemberServiceImple implements MemberService {
 		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
 	}
 
+	@Override
+	public int checkRole(String memberId) {
+		return memberMapper.selectRole(memberId);
+	}
 }

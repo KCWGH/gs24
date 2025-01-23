@@ -111,6 +111,8 @@ public class MemberRESTController {
 						SecurityContextHolder.getContext().getAuthentication());
 				request.getSession().invalidate();
 				return ResponseEntity.ok("Delete Success");
+			} else if (result == 2) {
+				return ResponseEntity.ok("Delete Fail - Remaining Giftcard Balances");
 			} else {
 				return ResponseEntity.ok("Delete Fail");
 			}

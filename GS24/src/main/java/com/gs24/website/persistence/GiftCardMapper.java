@@ -21,6 +21,8 @@ public interface GiftCardMapper {
 	int birthdayGiftCardDupCheck(String memberId);
 
 	int countByGiftCardAndMemberId(@Param("giftCardName") String giftCardName, @Param("memberId") String memberId);
+	
+	int countRemainingGiftCardsByMemberId(String memberId);
 
 	int selectTotalCount(String memberId);
 

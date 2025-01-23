@@ -131,8 +131,7 @@ $(document).ready(function() {
     });
 
     $("#btnDeleteCancel").click(function(event) {
-        event.preventDefault();
-        $("#textDelete, #btnDeleteConfirm, #btnDeleteCancel").prop("hidden", true);
+    	location.reload();
     });
 
     $("#btnDeleteConfirm").click(function(event) {
@@ -150,10 +149,11 @@ $(document).ready(function() {
                         window.opener.location.reload();
                     }
                     window.close();
-                } else if(response === "Delete Fail - Remaining Preorders"){
+                } else if (response === "Delete Fail - Remaining Giftcard Balances"){
+                	$("#deleteResult").text("아이디 삭제 실패 - 잔액이 남은 기프트카드가 있습니다.").show();
+                } else if (response === "Delete Fail - Remaining Preorders") {
                 	$("#deleteResult").text("아이디 삭제 실패 - 미수령 예약이 있습니다.").show();
-                }
-                else {
+                } else {
                     $("#deleteResult").text("아이디 삭제 실패").show();
                 }
             }
@@ -227,7 +227,7 @@ $(document).ready(function() {
 			<button id="btnDelete">회원 탈퇴</button>
 			<c:choose>
 			<c:when test="${memberVO.memberRole == 1}">
-			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
+			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 멤버십 내역은 삭제되며, 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
 			<c:when test="${memberVO.memberRole == 2}">
 			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
 			</c:choose>

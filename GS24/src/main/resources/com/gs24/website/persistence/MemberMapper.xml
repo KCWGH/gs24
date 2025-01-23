@@ -91,6 +91,10 @@
 		WHERE MEMBER_ID =
 		#{memberId}
 	</update>
+	
+	<select id="selectRole" resultType="Integer">
+		SELECT MEMBER_ROLE FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
 
 	<update id="delete">
 		UPDATE MEMBER

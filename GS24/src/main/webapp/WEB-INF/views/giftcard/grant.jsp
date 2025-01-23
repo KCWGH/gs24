@@ -33,6 +33,9 @@ function checkId(event) {
       if (response == 1) {
         alert('존재하는 아이디입니다.');
         isIdChecked = true;
+      } else if (response == 2) {
+    	  alert('점주 아이디입니다. 기프트카드를 제공할 수 없습니다.');
+    	  isIdChecked = false;
       } else {
         alert('존재하지 않는 아이디입니다.');
         isIdChecked = false;
@@ -91,7 +94,7 @@ $(document).ready(function() {
             alert("${message}");
         </script>
     </c:if>
-<h2>개별 기프트카드 제공</h2>
+<h2>기프트카드 제공</h2>
 <form action="grant" method="POST">
 <table>
 	<tr>

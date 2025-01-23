@@ -44,7 +44,7 @@ public class CouponServiceImple implements CouponService {
 	}
 
 	@Override
-	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 0 0 * * *") // 매일 자정
 	public void deleteExpiredCoupons() {
 		int result = couponMapper.deleteExpiredCoupons();
 		if (result == 1) {
