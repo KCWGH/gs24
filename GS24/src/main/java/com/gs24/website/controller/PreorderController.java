@@ -27,6 +27,8 @@ import com.gs24.website.service.FoodService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -201,6 +203,21 @@ public class PreorderController {
 
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("preorderList", list);
-
+	}
+	
+	@GetMapping("/update")
+	public void updateGET(Model model, Pagination pagination) {
+		log.info("updateGET()");
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(preorderService.countRemainingPreorders(pagination.getKeyword()));
+		
+		List<PreorderVO> list = preorderService.getNotPickUpPreorder(pagination);
+		
+		log.info(list);
+		
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("preorderList", list);
 	}
 }

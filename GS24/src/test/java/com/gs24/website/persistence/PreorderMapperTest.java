@@ -8,14 +8,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
+import com.gs24.website.config.ServletConfig;
 import com.gs24.website.domain.PreorderVO;
 
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {RootConfig.class})
+@WebAppConfiguration
 @Log4j
 public class PreorderMapperTest {
 	@Autowired
@@ -23,7 +26,7 @@ public class PreorderMapperTest {
 	
 	@Test
 	public void test() {
-		delete();
+		select();
 	}
 	
 	public void insert() {
@@ -45,8 +48,8 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		List<PreorderVO> list =  preorderMapper.selectPreoderByMemberId("test");
-		log.info(list);
+		List<Integer> foodIds = preorderMapper.selectFoodIdByPickUpPreorder("test");
+		log.info(foodIds);
 	}
 	
 	public void delete() {

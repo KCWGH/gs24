@@ -73,4 +73,13 @@ public class PreOrderRESTController {
 
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
+	
+	@PostMapping("/check")
+	public ResponseEntity<Integer> checkPreorder(int preorderId){
+		log.info("checkPreorder()");
+		
+		Integer result = preorderService.updateIsPickUp(preorderId, 1);
+		
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
 }

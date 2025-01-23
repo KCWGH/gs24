@@ -29,4 +29,8 @@ public interface PreorderMapper {
 	List<PreorderVO> selectAlreadyPreorderByFoodId(int foodId);
 	
 	int countNotPickedUpPreorderByMemberId(String memberId);
+	
+	List<PreorderVO> selectNotPickUpPreorder(Pagination pagination);
+	
+	List<Integer> selectFoodIdByPickUpPreorder(String memberId);
 }

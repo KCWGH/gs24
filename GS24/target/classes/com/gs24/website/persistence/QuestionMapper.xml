@@ -78,5 +78,11 @@
 	<select id="selectQuestionListByMemberId" resultMap="questionResultMap">
     SELECT * FROM QUESTION WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<update id="deleteIsAnswered" parameterType="int">
+		UPDATE QUESTION
+		SET IS_ANSWERED = 0
+		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 1
+	</update>
 
 </mapper>

@@ -34,4 +34,6 @@ public interface PreorderService {
 	List<PreorderVO> getAlreadyPreorder(int foodId);
 
 	int countRemainingPreorders(String memberId);
+	
+	List<PreorderVO> getNotPickUpPreorder(Pagination pagination);
 }

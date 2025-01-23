@@ -185,4 +185,11 @@ public class PreorderServiceImple implements PreorderService {
 		return preorderMapper.countNotPickedUpPreorderByMemberId(memberId);
 	}
 
+	@Override
+	public List<PreorderVO> getNotPickUpPreorder(Pagination pagination) {
+		log.info("getNotPickUpPreorder()");
+		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
+		return list;
+	}
+
 }

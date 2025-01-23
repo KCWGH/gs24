@@ -109,7 +109,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) AS RN, FOOD.* FROM FOOD
    		<choose>
    			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
-   			<when test="type == 'foodType.toString()">WHERE FOOD_TYPE = #{keyword}</when>
    			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN #{bottomPrice} AND 
    				<choose>
    					<when test="topPrice == ''">

@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectOldList" resultMap="questionAttachResultMap">
 		SELECT * FROM QUESTION_ATTACH
-		WHERE QUESTION_ATTACH_PATH = TO_CHAR(SYSDATE -1, 'yyyy\mm\dd')
+		WHERE QUESTION_ATTACH_PATH = TO_CHAR(SYSDATE -1, 'yyyy\MM\dd')
 	</select>
 	
 
