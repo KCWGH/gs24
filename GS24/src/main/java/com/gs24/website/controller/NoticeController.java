@@ -2,6 +2,8 @@ package com.gs24.website.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,16 +82,17 @@ public class NoticeController {
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, Integer noticeId) {
+	public void detail(Model model, Integer noticeId, HttpSession session) {
 		log.info("detail()");
-		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+		
+		NoticeVO noticeVO = noticeService.getNoticeById(noticeId, session);
 		model.addAttribute("noticeVO", noticeVO);
 	}
 
 	@GetMapping("/modify")
 	public void modifyGET(Model model, Integer noticeId) {
 		log.info("modifyGET()");
-		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+		NoticeVO noticeVO = noticeService.getNoticeById(noticeId, null);
 		model.addAttribute("noticeVO", noticeVO);
 	}
 

@@ -28,8 +28,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/questionAttach")
 @Log4j
 public class QuestionAttachUploadRESTController {
+	
     @Autowired
-    private String uploadPath;
+    private String attachUploadPath;
     
     @Autowired
     private QuestionAttachService questionAttachService;
@@ -46,7 +47,7 @@ public class QuestionAttachUploadRESTController {
             // UUID 생성
             String chgName = UUID.randomUUID().toString();
             // 파일 저장
-            FileUploadUtil.saveFile(uploadPath, file, chgName);
+            FileUploadUtil.saveFile(attachUploadPath, file, chgName);
 
             String path = FileUploadUtil.makeDatePath();
             String extension = FileUploadUtil.subStrExtension(file.getOriginalFilename());
@@ -80,7 +81,7 @@ public class QuestionAttachUploadRESTController {
         String questionAttachRealName = questionAttachDTO.getQuestionAttachRealName();
         
         // 서버에 저장된 파일 정보 생성
-        String resourcePath = uploadPath + File.separator + questionAttachPath + File.separator + questionAttachChgName;
+        String resourcePath = attachUploadPath + File.separator + questionAttachPath + File.separator + questionAttachChgName;
         // 파일 리소스 생성
         Resource resource = new FileSystemResource(resourcePath);
         // 다운로드할 파일 이름을 헤더에 설정
@@ -96,7 +97,7 @@ public class QuestionAttachUploadRESTController {
     @PostMapping("/delete")
     public ResponseEntity<Integer> deleteQuestionAttach(String questionAttachPath, String questionAttachChgName) {
         log.info("deleteQuestionAttach()");
-        FileUploadUtil.deleteFile(uploadPath, questionAttachPath, questionAttachChgName);
+        FileUploadUtil.deleteFile(attachUploadPath, questionAttachPath, questionAttachChgName);
         
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }

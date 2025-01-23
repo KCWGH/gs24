@@ -23,7 +23,9 @@ public interface QuestionMapper {
 
 	int selectQuestionTotalCount();
 
-	int updateIsAnswered(int questionId); // 답변 상태 변경
+	int updateIsAnswered(int questionId); // 답변 상태 1으로 변경
+	
+	int deleteIsAnswered(int questionId); // 답변 상태 0으로 변경
 
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
 

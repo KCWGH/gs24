@@ -57,6 +57,11 @@ public class AnswerServiceImple implements AnswerService{
 		log.info("deleteAnswer()");
 		int deleteResult = answerMapper.deleteAnswer(answerId);
 		log.info(deleteResult + "행 댓글 삭제");
+		 if (deleteResult > 0) {
+	            //게시글의 isAnswered 값을 1로 업데이트
+	            int deleteAnsweredResult = questionMapper.deleteIsAnswered(questionId);
+	            log.info("게시글의 답변 상태 변경 결과: " + deleteAnsweredResult);
+	        }
 		
 		return 1;
 	}

@@ -87,16 +87,24 @@
         </div>
     </div>
 </div>
+
 <hr>
+
 <!-- 점주 역할일 때만 댓글 작성 가능 -->
 <sec:authentication property="principal" var="user"/>
 <sec:authorize access="hasRole('ROLE_OWNER')">
+ <c:if test="${questionDTO.isAnswered == 0}">
     <div style="text-align: left;">
         <!-- memberId를 숨겨진 input으로 설정 -->
         <input type="hidden" id="memberId" value="${user.username}">
         <textarea id="answerContent"  rows="5" cols="120"></textarea>
         <button id="btnAdd">작성</button>
     </div>
+</c:if>
+    <c:if test="${questionDTO.isAnswered == 1}">
+        <p style="color: gray;">이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.</p>
+    </c:if>
+ 
 </sec:authorize>
 
 <div style="text-align: left;">
@@ -142,6 +150,12 @@ $('#deleteQuestion').click(function() {
 								var questionId = $('#questionId').val(); // 게시판 번호 데이터
 								var memberId = $('#memberId').val(); // 작성자 데이터
 								var answerContent = $('#answerContent').val(); // 댓글 내용
+								var isAnswered = ${questionDTO.isAnswered};
+								
+								if (isAnswered === 1) {
+								        alert('이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.');
+								        return;
+								    }
 								
 								if(answerContent.trim() === '') {
 									alert('내용을 입력해 주세요.');

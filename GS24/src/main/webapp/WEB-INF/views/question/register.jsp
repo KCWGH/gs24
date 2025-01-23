@@ -25,23 +25,18 @@
         </div>
         <div>
             <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
-            
         </div>
-        <div>          
-           
-                <label for="foodType">음식 종류</label>
+        <div>                
+             <label for="foodType">음식 종류</label>
                 <select id="foodType" name="foodType" required>
                     <option value="" selected disabled>선택하세요</option>
                     <c:forEach var="food" items="${foodTypeList}">
                         <option value="${food}">${food}</option>
                     </c:forEach>
-                </select>
-                
-                                   
+                </select>                              
         </div>  
         <div>
-            <p>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></p>
-            
+            <p>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></p>   
         </div>
         <div>
             <p>내용 :</p>
@@ -49,7 +44,9 @@
         </div>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
+    
     <hr>
+    
 	<div class="questionAttach-upload">
 		<h2>첨부 파일 업로드</h2>
 		<p>* 첨부 파일은 최대 3개까지 가능합니다.</p>
@@ -59,8 +56,7 @@
 		<div class="questionAttach-list"></div>
 	</div>
 	
-	<div class="questionAttachDTOFile-list">
-	</div>
+	<div class="questionAttachDTOFile-list"></div>
         
 		<button id="registerQuestion">등록</button>
         

@@ -71,9 +71,9 @@ public class FileUploadUtil {
 	 * @param file       업로드된 파일
 	 * @param chgName    UUID
 	 */
-	public static void saveFile(String uploadPath, MultipartFile file, String chgName) {
+	public static void saveFile(String attachUploadPath, MultipartFile file, String chgName) {
 
-		File realUploadPath = new File(uploadPath, makeDatePath());
+		File realUploadPath = new File(attachUploadPath, makeDatePath());
 		if (!realUploadPath.exists()) {
 			realUploadPath.mkdirs();
 			log.info(realUploadPath.getPath() + " successfully created.");
@@ -101,9 +101,9 @@ public class FileUploadUtil {
 	 * @param path       파일이 저장된 날짜 경로
 	 * @param chgName    저장된 파일 이름
 	 */
-	public static void deleteFile(String uploadPath, String path, String chgName) {
+	public static void deleteFile(String attachUploadPath, String path, String chgName) {
 		// 삭제할 파일의 전체 경로 생성
-		String fullPath = uploadPath + File.separator + path + File.separator + chgName;
+		String fullPath = attachUploadPath + File.separator + path + File.separator + chgName;
 
 		// 파일 객체 생성
 		File file = new File(fullPath);
@@ -137,14 +137,5 @@ public class FileUploadUtil {
 		// Content Type이 "image/"로 시작하는지 확인
 		return contentType != null && contentType.startsWith("image/");
 	}
-
-	/**
-	 * 원본 이미지로 섬네일 파일을 생성
-	 * 
-	 * @param uploadPath 업로드된 파일의 기본 경로
-	 * @param path       업로드된 파일의 상세 경로
-	 * @param chgName    변경된 파일명
-	 * @param extension  파일 확장자
-	 */
 
 }
