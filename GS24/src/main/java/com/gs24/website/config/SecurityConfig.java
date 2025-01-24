@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/preorder/cancel").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/preorder/delete").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/preorder/check").access("hasRole('ROLE_OWNER')")
+        .antMatchers("/preorder/pickedup").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/review/list").permitAll()
         .antMatchers("/review/register").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")

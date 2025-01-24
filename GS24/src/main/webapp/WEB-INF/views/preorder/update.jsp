@@ -19,14 +19,20 @@
 	li {
 		margin-bottom: 40px;
 		width: 100px;
+		display: inline-block;
 	}
 	li div:hover {
 		background-color: silver;
 	}
+	.preorder-item:hover{
+		border-style: dotted;
+		border-color: aqua;
+		margin-bottom: 20px;
+	}
 }
 </style>
 <body>
-	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력"><button class="search">검색</button>
+	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력">
 	<ul class="preorder">
 		<li>
 			<div class="Order">
@@ -105,7 +111,26 @@
 				updateForm.submit();
 			});
 			
-			$(".search").click(function(){
+			 $(".pagination_button a").on("click", function(e){
+		         var updateForm = $("#updateForm"); // form 객체 참조
+		         e.preventDefault(); // a 태그 이벤트 방지
+		      
+		         var pageNum = $(this).attr("href"); // a태그의 href 값 저장
+		         // 현재 페이지 사이즈값 저장
+		         var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+		         var type = "<c:out value='${pageMaker.pagination.type }' />";
+		         var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
+		         var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
+		          
+		         updateForm.find("input[name='pageNum']").val(pageNum);
+		         updateForm.find("input[name='pageSize']").val(pageSize);
+		         updateForm.find("input[name='keyword']").val(keyword);
+		         updateForm.find("input[name='sortType']").val(sortType);
+		         
+		         updateForm.submit(); // form 전송
+		      }); // end on()
+			
+			$(".searchMemberId").change(function(){
 				var updateForm = $("#updateForm");
 				
 				var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";

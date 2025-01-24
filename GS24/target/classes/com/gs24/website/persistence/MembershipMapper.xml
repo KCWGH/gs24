@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.MembershipMapper">
+	<resultMap type="com.gs24.website.domain.MembershipVO" id="membershipResultMap">
+		<id property="memberId" column="MEMBER_ID" />
+		<result property="spentAmount" column="SPENT_AMOUNT" />
+		<result property="grade" column="GRADE"/>
+	</resultMap>
+	<insert id="insertMembership">
+		INSERT INTO MEMBERSHIP
+		(MEMBER_ID) VALUES
+		(#{memberId})
+	</insert>
+	
+	<update id="initialMembershipEvaluation">
+		UPDATE MEMBERSHIP
+		SET GRADE = CASE
+               WHEN SPENT_AMOUNT &gt;= 0 AND SPENT_AMOUNT &lt; 10000 THEN 1
+               WHEN SPENT_AMOUNT &gt;= 10000 AND SPENT_AMOUNT &lt; 30000 THEN 2
+               WHEN SPENT_AMOUNT &gt;= 30000 THEN 3
+            END
+		WHERE GRADE = 1
+	</update>
+	
+	<update id="initializeSpentAmount">
+		UPDATE MEMBERSHIP SET SPENT_AMOUNT = 0
+	</update>
+	
+	<delete id="deleteMembership">
+		DELETE FROM MEMBERSHIP WHERE MEMBER_ID = #{memberId}
+	</delete>
+</mapper>

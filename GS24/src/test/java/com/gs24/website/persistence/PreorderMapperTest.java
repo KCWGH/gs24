@@ -48,8 +48,7 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		List<Integer> foodIds = preorderMapper.selectFoodIdByPickUpPreorder("test");
-		log.info(foodIds);
+		
 	}
 	
 	public void delete() {

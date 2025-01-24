@@ -62,13 +62,7 @@
    </select>
    
    <select id="countNotPickedUpPreorderByMemberId" resultType="Integer">
-   		SELECT COUNT(*) FROM PREORDER WHERE
-   		<choose>
-	   		<when test="memberId == null"></when>
-   			<when test="memberId == ''"></when>
-   			<otherwise>MEMBER_ID = #{memberId} AND</otherwise>
-   		</choose>
-   		IS_PICK_UP = 0
+   		SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 0
    </select>
    
    <select id="selectNotPickUpPreorder" resultMap="PreorderResultMap">
@@ -85,5 +79,19 @@
    			<when test="sortType == 'Order'.toString">ORDER BY PREORDER_ID DESC</when>
    			<otherwise></otherwise>
    		</choose>
+   </select>
+   
+   <select id="countNotPickUpPreorderByPagination" resultType="int">
+   		SELECT COUNT(*) FROM PREORDER WHERE 
+   		<choose>
+   			<when test="keyword == null"></when>
+   			<when test="keyword == ''"></when>
+   			<otherwise>MEMBER_ID = #{keyword} AND</otherwise>
+   		</choose>
+   		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   </select>
+   
+   <select id="selectPickedUpFoodIdByMemberId" resultType="Integer">
+   		SELECT DISTINCT FOOD_ID FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 1
    </select>
 </mapper>

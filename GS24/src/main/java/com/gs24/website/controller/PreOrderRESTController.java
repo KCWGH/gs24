@@ -82,4 +82,16 @@ public class PreOrderRESTController {
 		
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
+	
+	@PostMapping("/pickedup")
+	public ResponseEntity<List<Integer>> pickedUp(@AuthenticationPrincipal CustomUser customUser){
+		log.info("pickedUp");
+		
+		String memberId = customUser.getUsername();
+		List<Integer> list = preorderService.getPickedUpFoodIdByMemberId(memberId);
+		
+		log.info(list);
+		
+		return new ResponseEntity<List<Integer>>(list, HttpStatus.OK);
+	}
 }

@@ -28,7 +28,6 @@ public class ImageCheckTask {
 	@Autowired
     private String uploadPath;
 	
-	@Scheduled(cron = "0 8 14 * * *")
 	public void deleteReviewImage() {
 		log.warn("---------------------------");
 		log.warn("delete review image task run");
@@ -36,6 +35,7 @@ public class ImageCheckTask {
 		List<ImgVO> imgList = imgReviewMapper.selectOldReview();
 		
 		if(imgList.size() == 0) {
+			log.warn("delete review image task exit");
 			return;
 		}
 		
@@ -56,9 +56,10 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
 			removeFiles[i].delete();
 		}
+		targetDir.delete();
 	}
 	
-	@Scheduled(cron = "0 8 14 * * *")
+	@Scheduled(cron = "0 33 10 * * *")
 	public void deleteFoodImage() {
 		log.warn("---------------------------");
 		log.warn("delete food image task run");
@@ -66,6 +67,7 @@ public class ImageCheckTask {
 		List<ImgVO> imgList = imgFoodMapper.selectOldFood();
 		
 		if(imgList.size() == 0) {
+			log.warn("delete food image task exit");
 			return;
 		}
 		
@@ -86,6 +88,7 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + foodFiles[i].getName());
 			foodFiles[i].delete();
 		}
+		targetDir.delete();
 	}
 	
 	public String toChgName(ImgVO imgVO) {

@@ -327,10 +327,6 @@ img {
          
          var keywordVal = searchForm.find("input[name='keyword']").val();
          console.log(keywordVal);
-         //if(keywordVal == '') {
-         //   alert('검색 내용을 입력하세요.');
-         //   return;
-         //}
          
          var pageNum = 1; // 검색 후 1페이지로 고정
          // 현재 페이지 사이즈값 저장
@@ -368,8 +364,6 @@ img {
         	 topPrice = bottomPrice;
         	 bottomPrice = temp;
          }
-         
-         console.log("가격대 " + bottomPrice + "원 에서" + topPrice + "원 까지");
          
          searchForm.find("input[name='bottomPrice']").val(bottomPrice);
          searchForm.find("input[name='topPrice']").val(topPrice);

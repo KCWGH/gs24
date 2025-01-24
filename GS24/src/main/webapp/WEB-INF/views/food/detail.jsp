@@ -60,13 +60,8 @@
 	</div>
 
 	<button onclick="location.href='../food/list'">돌아가기</button>
-
-	<a href="../review/register?foodId=${FoodVO.foodId}"><button>리뷰 작성</button></a>
+	<button class="reviewRegister" onclick="location.href='..review/register?foodId=${FoodVO.foodId}'" style="display: none;">리뷰 작성</button>
 	
-	<hr>
-	<input type="text" placeholder="리뷰 제목 입력">
-	<input type="text" placeholder="리뷰 내용 입력">
-	<input type="number" placeholder="리뷰 별점 입력" min="1" max="5">
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
 		<div class="reviewItems">
@@ -160,12 +155,24 @@
 	        type: 'horizontalBar',
 	        data: pieChartData,
 	        options: {
-	            responsive: false,
+	         	responsive: true,
+	         	maintainAspectRatio: false,
 	        }
 	    });
 	};
 
 	$(document).ready(function(){
+		
+		$.ajax({
+	    	 type : 'post',
+	    	 url : '../preorder/pickedup',
+	    	 success : function(result){
+	    		 console.log(result);
+	    		if(result.includes(${FoodVO.foodId})){
+	    			$(".reviewRegister").show();
+	    		}
+	    	 }
+	      });
 		
 		$("#reviewList").on('click','.reviewItems #reviewDelete', function(){
 			var path = $(".imageList").find('.image_path').val();
@@ -202,7 +209,7 @@
 	         detailForm.submit();
 	         
 	      }); // end on()
-		
+	      
 	});
 	</script>
 </body>

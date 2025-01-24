@@ -191,5 +191,19 @@ public class PreorderServiceImple implements PreorderService {
 		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
 		return list;
 	}
+	
+	@Override
+	public int getCountNotPickUpPreorderByPagination(Pagination pagination) {
+		log.info("getCountNotPickUpPreorderByPagination()");
+		int result = preorderMapper.countNotPickUpPreorderByPagination(pagination);
+		return result;
+	}
+
+	@Override
+	public List<Integer> getPickedUpFoodIdByMemberId(String memberId) {
+		log.info("getPickedUpFoodIDByMemberId()");
+		List<Integer> list = preorderMapper.selectPickedUpFoodIdByMemberId(memberId);
+		return list;
+	}
 
 }

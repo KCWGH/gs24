@@ -211,7 +211,7 @@ public class PreorderController {
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(preorderService.countRemainingPreorders(pagination.getKeyword()));
+		pageMaker.setTotalCount(preorderService.getCountNotPickUpPreorderByPagination(pagination));
 		
 		List<PreorderVO> list = preorderService.getNotPickUpPreorder(pagination);
 		
