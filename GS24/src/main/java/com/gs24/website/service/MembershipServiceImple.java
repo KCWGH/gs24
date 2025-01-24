@@ -19,12 +19,9 @@ public class MembershipServiceImple implements MembershipService {
 	@Override
 	@Transactional(value = "transactionManager")
 	@Scheduled(cron = "0 0 9 1 * *") // 매월 1일 오전 9시
-	public void membershipEvaluation() {
-		int result = membershipMapper.initialMembershipEvaluation();
-		if (result != 0) {
-			log.info(result + "명 등급 상승");
-		}
-		
+	public void membership() {
+		membershipMapper.membershipEvaluation();
+		membershipMapper.membershipPromotion();
+		membershipMapper.initializeSpentAmount();
 	}
-
 }

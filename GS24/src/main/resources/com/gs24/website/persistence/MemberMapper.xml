@@ -101,4 +101,11 @@
 		SET IS_ENABLED = 0
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+	
+	<select id="selectGrade" resultType="Integer">
+		SELECT MS.GRADE
+		FROM MEMBER M
+		JOIN MEMBERSHIP MS ON M.MEMBER_ID = MS.MEMBER_ID
+		WHERE M.MEMBER_ID = #{memberId} AND M.MEMBER_ROLE = 1
+	</select>
 </mapper>

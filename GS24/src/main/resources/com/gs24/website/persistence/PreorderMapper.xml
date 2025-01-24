@@ -62,7 +62,7 @@
    </select>
    
    <select id="countNotPickedUpPreorderByMemberId" resultType="Integer">
-   		SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 0
+   		SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
    </select>
    
    <select id="selectNotPickUpPreorder" resultMap="PreorderResultMap">

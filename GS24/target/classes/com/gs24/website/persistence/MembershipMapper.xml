@@ -12,12 +12,21 @@
 		(#{memberId})
 	</insert>
 	
-	<update id="initialMembershipEvaluation">
+	<update id="membershipEvaluation">
 		UPDATE MEMBERSHIP
 		SET GRADE = CASE
-               WHEN SPENT_AMOUNT &gt;= 0 AND SPENT_AMOUNT &lt; 10000 THEN 1
+               WHEN SPENT_AMOUNT &gt;= 0 AND SPENT_AMOUNT &lt; 10000 THEN GRADE - 1
+               ELSE GRADE
+            END
+		WHERE GRADE != 1
+	</update>
+	
+	<update id="membershipPromotion">
+		UPDATE MEMBERSHIP
+		SET GRADE = CASE
                WHEN SPENT_AMOUNT &gt;= 10000 AND SPENT_AMOUNT &lt; 30000 THEN 2
                WHEN SPENT_AMOUNT &gt;= 30000 THEN 3
+               ELSE GRADE
             END
 		WHERE GRADE = 1
 	</update>

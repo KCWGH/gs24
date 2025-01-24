@@ -40,4 +40,6 @@ public interface MemberMapper {
 	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 	
 	int selectRole(String memberId);
+	
+	int selectGrade(String memberId);
 }

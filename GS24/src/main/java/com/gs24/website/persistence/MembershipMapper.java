@@ -5,5 +5,9 @@ public interface MembershipMapper {
 
 	int deleteMembership(String memberId);
 
-	int initialMembershipEvaluation();
+	int membershipEvaluation();
+
+	int membershipPromotion();
+
+	int initializeSpentAmount();
 }

@@ -11,7 +11,10 @@ import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.MembershipMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class MemberServiceImple implements MemberService {
 
 	@Autowired
@@ -53,7 +56,6 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	public MemberVO getMember(String memberId) {
-		// 회원 정보 조회
 		return memberMapper.select(memberId);
 	}
 
@@ -133,5 +135,10 @@ public class MemberServiceImple implements MemberService {
 	@Override
 	public int checkRole(String memberId) {
 		return memberMapper.selectRole(memberId);
+	}
+
+	@Override
+	public int checkGrade(String memberId) {
+		return memberMapper.selectGrade(memberId);
 	}
 }

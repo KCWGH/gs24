@@ -171,6 +171,21 @@ $(document).ready(function() {
     </c:if>
 <div class="container">
 	<h2>마이페이지</h2>
+		<c:if test="${not empty memberGrade }">
+			<span>당신의 이번 달 멤버십 등급은 </span>
+			<c:choose>
+				<c:when test="${memberGrade == 1}">
+					<strong style="color: brown;">'브론즈'</strong>
+				</c:when>
+				<c:when test="${memberGrade == 2}">
+					<strong style="color: silver;">'실버'</strong>
+				</c:when>
+				<c:when test="${memberGrade == 3}">
+					<strong style="color: gold;">'골드'</strong>
+				</c:when>
+			</c:choose>
+			<span> 입니다.</span><br><br>
+		</c:if>
 		<form>
 			<table>
 				<tr>
@@ -220,7 +235,7 @@ $(document).ready(function() {
 				</tr>
 			</table>
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		</form>
+		</form><br>
 		<div class="btn-container">
 			<button id="btnUpdate">회원정보 수정</button>
 			<button id="btnUpdateEnd" hidden="hidden">수정 마치기</button>

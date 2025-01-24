@@ -34,4 +34,6 @@ public interface MemberService {
 	int dupCheckIdAndEmail(String memberId, String email);
 	
 	int checkRole(String memberId);
+	
+	int checkGrade(String memberId);
 }

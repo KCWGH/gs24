@@ -146,7 +146,7 @@ $(document).ready(function() {
 <br>
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     <button type="submit" id="btnGrant" disabled>기프트카드 제공</button>
-    <a href="list"><button type="button">기프트카드 리스트로 돌아가기</button></a>
+    <a href="../member/mypage"><button type="button">마이페이지로 돌아가기</button></a>
 </form>
 
 </body>

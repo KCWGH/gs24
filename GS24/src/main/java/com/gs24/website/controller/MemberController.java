@@ -40,6 +40,9 @@ public class MemberController {
 			// 회원 정보 가져오기
 			MemberVO memberVO = memberService.getMember(memberId);
 			model.addAttribute("memberVO", memberVO);
+			if (memberVO.getMemberRole() == 1) {
+				model.addAttribute("memberGrade", memberService.checkGrade(memberVO.getMemberId()));
+			}
 		} else {
 			log.info("mypageGET() - 인증되지 않은 사용자");
 		}
