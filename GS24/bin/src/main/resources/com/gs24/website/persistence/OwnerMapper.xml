@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.OwnerMapper">
+	<resultMap type="com.gs24.website.domain.OwnerVO" id="ownerResultMap">
+		<id property="ownerId" column="OWNER_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="address" column="ADDRESS"/>
+		<result property="isEnabled" column="IS_ENABLED" />
+	</resultMap>
+
+	<insert id="insertOwner">
+		INSERT INTO OWNER
+		(OWNER_ID, PASSWORD, EMAIL, PHONE, ADDRESS, IS_ENABLED) VALUES
+		(#{ownerId},#{password}, #{email}, #{phone}, #{address}, 1)
+	</insert>
+
+	<select id="selectOwnerByOwnerId" resultMap="ownerResultMap">
+		SELECT * FROM OWNER WHERE OWNER_ID = #{ownerId}
+	</select>
+	
+	<select id="selectOwnerIdByEmail" resultType="String">
+		SELECT OWNER_ID FROM OWNER WHERE EMAIL = #{email}
+	</select>
+
+	<select id="selectEmailByOwnerId" resultType="String">
+		SELECT EMAIL FROM OWNER WHERE OWNER_ID = #{ownerId}
+	</select>
+
+	<select id="selectPhoneByOwnerId" resultType="String">
+		SELECT PHONE FROM OWNER WHERE OWNER_ID = #{ownerId}
+	</select>
+	
+	<select id="countOwnerByOwnerId" resultType="Integer">
+		SELECT COUNT(*) FROM OWNER
+		WHERE OWNER_ID = #{ownerId}
+	</select>
+
+	<select id="countOwnerByEmail" resultType="Integer">
+		SELECT COUNT(*) FROM
+		OWNER WHERE EMAIL = #{email}
+	</select>
+
+	<select id="countOwnerByPhone" resultType="Integer">
+		SELECT COUNT(*) FROM
+		OWNER WHERE PHONE = #{phone}
+	</select>
+
+	<select id="countOwnerByOwnerIdAndEmail" resultType="Integer">
+		SELECT COUNT(*)
+		FROM OWNER
+		WHERE OWNER_ID = #{ownerId} AND EMAIL = #{email}
+	</select>
+
+	<update id="updateOwnerPassword">
+		UPDATE OWNER
+		SET PASSWORD = #{password}
+		WHERE
+		OWNER_ID = #{ownerId}
+	</update>
+
+	<update id="updateOwnerEmail">
+		UPDATE OWNER
+		SET EMAIL = #{email}
+		WHERE OWNER_ID = #{ownerId}
+	</update>
+
+	<update id="updateOwnerPhone">
+		UPDATE OWNER
+		SET PHONE = #{phone}
+		WHERE OWNER_ID = #{ownerId}
+	</update>
+
+	<update id="deleteOwnerByOwnerId">
+		UPDATE OWNER
+		SET IS_ENABLED = 0
+		WHERE OWNER_ID = #{ownerId}
+	</update>
+	
+	
+</mapper>

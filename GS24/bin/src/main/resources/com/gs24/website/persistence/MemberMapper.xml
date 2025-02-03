@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.MemberMapper">
+	<resultMap type="com.gs24.website.domain.MemberVO" id="memberResultMap">
+		<id property="memberId" column="MEMBER_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="birthday" column="BIRTHDAY" />
+		<result property="address" column="ADDRESS"/>
+		<result property="isEnabled" column="IS_ENABLED" />
+	</resultMap>
+
+	<insert id="insertMember">
+		INSERT INTO MEMBER
+		(MEMBER_ID, PASSWORD, EMAIL, PHONE,
+		BIRTHDAY, IS_ENABLED) VALUES
+		(#{memberId},#{password},
+		#{email}, #{phone}, #{birthday}, 1)
+	</insert>
+
+	<select id="selectMemberByMemberId" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberIdByEmail" resultType="String">
+		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+
+	<select id="selectEmailByMemberId" resultType="String">
+		SELECT EMAIL FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="selectPhoneByMemberId" resultType="String">
+		SELECT PHONE FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectGradeByMemberId" resultType="Integer">
+		SELECT MS.GRADE
+		FROM MEMBER M
+		JOIN MEMBERSHIP MS ON M.MEMBER_ID = MS.MEMBER_ID
+		WHERE M.MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="countMemberByMemberId" resultType="Integer">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="countMemberByEmail" resultType="Integer">
+		SELECT COUNT(*) FROM
+		MEMBER WHERE EMAIL = #{email}
+	</select>
+
+	<select id="countMemberByPhone" resultType="Integer">
+		SELECT COUNT(*) FROM
+		MEMBER WHERE PHONE = #{phone}
+	</select>
+
+	<select id="countMemberByMemberIdAndEmail" resultType="Integer">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId} AND EMAIL = #{email}
+	</select>
+
+	<update id="updateMemberPassword">
+		UPDATE MEMBER
+		SET PASSWORD = #{password}
+		WHERE
+		MEMBER_ID = #{memberId}
+	</update>
+
+	<update id="updateMemberEmail">
+		UPDATE MEMBER
+		SET EMAIL = #{email}
+		WHERE MEMBER_ID =
+		#{memberId}
+	</update>
+
+	<update id="updateMemberPhone">
+		UPDATE MEMBER
+		SET PHONE = #{phone}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
+	<update id="deleteMemberByMemberId">
+		UPDATE MEMBER
+		SET IS_ENABLED = 0
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
+	
+</mapper>

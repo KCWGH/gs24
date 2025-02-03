@@ -149,11 +149,27 @@ public class ImgRESTController {
 		return new ResponseEntity<Integer>(1, HttpStatus.OK);
 	}
 	
-	@PostMapping("/back")
-	public ResponseEntity<Integer> back(ImgVO[] imgVOList){
-		log.info("back()");
-		log.info(imgVOList);
-		return null;
+	@PostMapping("/remove2")
+	public ResponseEntity<Integer> remove(int foreignId){
+		log.info("remove2()");
+		
+		ImgVO vo = imgService.getFoodImgListByFoodId(foreignId).get(0);
+		
+		String fullPath = uploadPath + File.separator + vo.getImgPath();
+		
+		File forder = new File(fullPath);
+		
+		log.info("isDirectory : " + forder.isDirectory());
+		
+		File[] fileList = forder.listFiles();
+		
+		System.gc();
+		for(int i=0; i < fileList.length; i++) {
+			fileList[i].delete();
+		}
+		forder.delete();
+		
+		return new ResponseEntity<Integer>(1, HttpStatus.OK);
 	}
 	
 	@GetMapping("/reviewImage")
@@ -175,6 +191,10 @@ public class ImgRESTController {
 		
 		ImgVO vo = imgService.getImgFoodById(imgFoodId);
 		log.info(vo);
+		
+		if(vo.getImgChgName().startsWith("t_")) {
+			return null;
+		}
 		
 		String fullPath = uploadPath + File.separator + vo.getImgPath() + vo.getImgChgName() + "." + vo.getImgExtension();
 		

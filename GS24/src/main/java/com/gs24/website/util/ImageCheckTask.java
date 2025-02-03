@@ -17,6 +17,7 @@ import lombok.extern.log4j.Log4j;
 
 @Component
 @Log4j
+
 public class ImageCheckTask {
 	
 	@Autowired
@@ -28,6 +29,7 @@ public class ImageCheckTask {
 	@Autowired
     private String uploadPath;
 	
+	@Scheduled(cron = "0 0 12 * * *")
 	public void deleteReviewImage() {
 		log.warn("---------------------------");
 		log.warn("delete review image task run");
@@ -56,10 +58,9 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
 			removeFiles[i].delete();
 		}
-		targetDir.delete();
 	}
 	
-	@Scheduled(cron = "0 33 10 * * *")
+	@Scheduled(cron = "0 0 12 * * *")
 	public void deleteFoodImage() {
 		log.warn("---------------------------");
 		log.warn("delete food image task run");
@@ -88,7 +89,6 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + foodFiles[i].getName());
 			foodFiles[i].delete();
 		}
-		targetDir.delete();
 	}
 	
 	public String toChgName(ImgVO imgVO) {

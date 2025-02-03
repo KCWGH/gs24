@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.FoodListMapper">
+	<resultMap type="com.gs24.website.domain.FoodListVO" id="foodListResultMap">
+		<id property="foodId" column="FOOD_ID"/>
+		<result property="foodType" column="FOOD_TYPE"/>
+		<result property="foodName" column="FOOD_NAME"/>
+		<result property="foodPrice" column="FOOD_PRICE"/>
+		<result property="foodProtein" column="FOOD_PROTEIN"/>
+		<result property="foodFat" column="FOOD_FAT"/>
+		<result property="foodCarb" column="FOOD_CARB"/>
+		<result property="foodStock" column="FOOD_STOCK"/>
+		<result property="isSelling" column="IS_SELLING"/>
+	</resultMap>
+	
+	<insert id="insertFood">
+		INSERT INTO FOOD_LIST(FOOD_ID,FOOD_TYPE, FOOD_NAME, FOOD_PRICE, FOOD_PROTEIN, FOOD_FAT, FOOD_CARB, FOOD_STOCK, IS_SELLING)
+		VALUES(FOOD_SEQ.NEXTVAL, #{foodType}, #{foodName}, #{foodPrice}, #{foodProtein},#{foodFat},#{foodCarb}, #{foodStock}, #{isSelling})
+	</insert>
+	
+	<select id="selectAllFood" resultMap="foodListResultMap">
+		SELECT * FROM FOOD_LIST ORDER BY FOOD_ID DESC
+	</select>
+	
+	<select id="selectFoodById" resultMap="foodListResultMap">
+		SELECT * FROM FOOD_LIST WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	<update id="updateFoodById">
+		UPDATE FOOD_LIST SET FOOD_STOCK = #{foodStock}, FOOD_PRICE = #{foodPrice}, IS_SELLING = #{isSelling} WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<delete id="deleteFoodById">
+		DELETE FROM FOOD_LIST WHERE FOOD_ID = #{foodId}
+	</delete>
+</mapper>
