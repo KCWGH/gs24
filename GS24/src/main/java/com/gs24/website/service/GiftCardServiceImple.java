@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.GiftCardVO;
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.util.Pagination;
@@ -95,9 +94,8 @@ public class GiftCardServiceImple implements GiftCardService {
 	public String birthdayGiftCardDupCheckAndGrant() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String memberId = authentication.getName();
-		MemberVO memberVO = memberMapper.select(memberId);
 		int dupCheck = giftCardMapper.birthdayGiftCardDupCheck(memberId);
-		if (dupCheck != 1 && memberVO.getMemberRole() == 1) {
+		if (dupCheck != 1) {
 			int checkGranted = birthdayGiftCard(memberId);
 			if (checkGranted == 1) {
 				return "생일 축하 기프트카드가 발급되었습니다.\\n기프트카드함에서 확인해보세요.";
@@ -111,7 +109,7 @@ public class GiftCardServiceImple implements GiftCardService {
 		Calendar birthdayCalendar = Calendar.getInstance();
 
 		Date currentDate = new Date();
-		Date birthday = memberMapper.select(memberId).getBirthday();
+		Date birthday = memberMapper.selectMemberByMemberId(memberId).getBirthday();
 
 		currentCalendar.setTime(currentDate);
 		birthdayCalendar.setTime(birthday);

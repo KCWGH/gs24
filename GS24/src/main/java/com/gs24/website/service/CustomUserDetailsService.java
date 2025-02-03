@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
+import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.persistence.MemberMapper;
+import com.gs24.website.persistence.OwnerMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -22,34 +24,36 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private MemberMapper memberMapper;
 
+	@Autowired
+	private OwnerMapper ownerMapper;
+
 	// 전송된 username으로 사용자 정보를 조회하고, UserDetails에 저장하여 리턴하는 메서드
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 		log.info("loadUserByUsername()");
 		log.info(username);
 
-		MemberVO memberVO = memberMapper.select(username);
+		// 1. MEMBER 테이블에서 사용자 조회
+		MemberVO memberVO = memberMapper.selectMemberByMemberId(username);
 
-		// 조회된 회원 정보가 없을 경우 예외 처리
-		if (memberVO == null) {
-			throw new UsernameNotFoundException("UsernameNotFound");
-		}
-		
-		if (memberVO.getIsEnabled() != 1) {
-			throw new UsernameNotFoundException("User is not active");
+		if (memberVO != null && memberVO.getIsEnabled() == 1) {
+			// 회원이 활성화된 경우
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER")); // ROLE_MEMBER 역할 부여
+			return new CustomUser(memberVO, authorities);
 		}
 
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		
-		String roleName = null;
-		if (memberVO.getMemberRole() == 1) { // 1: 일반회원
-			roleName = "ROLE_MEMBER";
-		} else if (memberVO.getMemberRole() == 2) { // 2: 점주
-			roleName = "ROLE_OWNER";
-		}
-		authorities.add(new SimpleGrantedAuthority(roleName));
+		// 2. OWNER 테이블에서 사용자 조회
+		OwnerVO ownerVO = ownerMapper.selectOwnerByOwnerId(username);
 
-		// UserDetails 객체를 생성하여 회원 정보와 역할 정보를 담아 반환
-		return new CustomUser(memberVO, authorities);
+		if (ownerVO != null && ownerVO.getIsEnabled() == 1) {
+			// 소유자가 활성화된 경우
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_OWNER")); // ROLE_OWNER 역할 부여
+			return new CustomUser(ownerVO, authorities);
+		}
+
+		// 3. 회원 또는 소유자가 존재하지 않거나 활성화되지 않은 경우 예외 처리
+		throw new UsernameNotFoundException("Username is not found or User is not active");
 	}
 }

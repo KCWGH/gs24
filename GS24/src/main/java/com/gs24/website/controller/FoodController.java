@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.FoodVO;
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.service.GiftCardService;
@@ -39,23 +39,23 @@ public class FoodController {
 	public void listGET(Model model, Pagination pagination) {
 		log.info("listGET()");
 		log.info("pagination" + pagination);
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 		List<FoodVO> foodList = foodService.getPaginationFood(pagination);
-		if (principal instanceof CustomUser) {
-			CustomUser customUser = (CustomUser) principal;
-			MemberVO memberVO = customUser.getMemberVO();
-			model.addAttribute("memberId", memberVO.getMemberId());
-			Map<Integer, Integer> isAddedMap = new HashMap<>();
-			for (FoodVO foodVO : foodList) {
-				// 찜 여부 확인: 이미 찜한 음식은 1, 찜하지 않은 음식은 0
-				int isAdded = favoritesService.isAddedCheck(memberVO.getMemberId(), foodVO.getFoodId());
-				isAddedMap.put(foodVO.getFoodId(), isAdded);
-				model.addAttribute("isAddedMap", isAddedMap);
-			}
-			String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
-			if (birthdayMessage != null) {
-				model.addAttribute("message", birthdayMessage);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null) {
+			String username = authentication.getName();
+			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+				model.addAttribute("memberId", username);
+				Map<Integer, Integer> isAddedMap = new HashMap<>();
+				for (FoodVO foodVO : foodList) {
+					// 찜 여부 확인: 이미 찜한 음식은 1, 찜하지 않은 음식은 0
+					int isAdded = favoritesService.isAddedCheck(username, foodVO.getFoodId());
+					isAddedMap.put(foodVO.getFoodId(), isAdded);
+					model.addAttribute("isAddedMap", isAddedMap);
+				}
+				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
+				if (birthdayMessage != null) {
+					model.addAttribute("message", birthdayMessage);
+				}
 			}
 		}
 
@@ -86,7 +86,7 @@ public class FoodController {
 		log.info("detailGET()");
 		Object[] detailData = foodService.getDetailData(foodId, pagination);
 		log.info(detailData[2]);
-		
+
 		model.addAttribute("FoodVO", detailData[0]);
 		model.addAttribute("reviewList", detailData[1]);
 		model.addAttribute("pageMaker", detailData[2]);

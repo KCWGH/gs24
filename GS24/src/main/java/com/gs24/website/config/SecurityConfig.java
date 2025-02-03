@@ -36,8 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests() // ROLE_MEMBER와 ROLE_OWNER중에 선택
 		.antMatchers("/auth/**").permitAll()
-        .antMatchers("/member/mypage").authenticated()
+		.antMatchers("/user/mypage", "/user/verify", "/user/change-pw").authenticated()
+        .antMatchers("/user/**").permitAll()
         .antMatchers("/member/myhistory").access("hasRole('ROLE_MEMBER')")
+        .antMatchers("/member/register").permitAll()
+        .antMatchers("/owner/register").permitAll()
         .antMatchers("/giftcard/list").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/giftcard/detail").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/giftcard/grant").access("hasRole('ROLE_OWNER')")

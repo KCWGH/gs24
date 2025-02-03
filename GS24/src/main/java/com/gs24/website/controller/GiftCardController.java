@@ -64,14 +64,14 @@ public class GiftCardController {
 			redirectAttributes.addFlashAttribute("message", "사용할 수 없는 기프트카드 이름입니다.");
 			return "redirect:/giftcard/purchase";
 		}
-		if (memberService.dupCheckId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000) {
+		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000) {
 			int result = giftCardService.grantGiftCard(giftCardVO);
 			log.info(result + "개 기프트카드 제공 완료");
 		} else if (giftCardVO.getBalance() < 1000) {
 			redirectAttributes.addFlashAttribute("message", "기프트카드 금액은 1000원 이상이어야 합니다.");
 			return "redirect:/giftcard/purchase";
 		} else {
-			redirectAttributes.addFlashAttribute("message", "존재하지 않는 회원 아이디입니다. 기프트카드 제공에 실패했습니다.");
+			redirectAttributes.addFlashAttribute("message", "존재하지 않는 일반회원 아이디입니다. 기프트카드 제공에 실패했습니다.");
 			return "redirect:/giftcard/purchase";
 		}
 		redirectAttributes.addFlashAttribute("message", "기프트카드 구매 완료 :)");
@@ -93,7 +93,7 @@ public class GiftCardController {
 			redirectAttributes.addFlashAttribute("message", "사용할 수 없는 기프트카드 이름입니다.");
 			return "redirect:/giftcard/grant";
 		}
-		if (memberService.dupCheckId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000) {
+		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000) {
 			int result = giftCardService.grantGiftCard(giftCardVO);
 			log.info(result + "개 기프트카드 제공 완료");
 		} else if (giftCardVO.getBalance() < 1000) {

@@ -7,105 +7,87 @@
 		<result property="email" column="EMAIL" />
 		<result property="phone" column="PHONE" />
 		<result property="birthday" column="BIRTHDAY" />
-		<result property="memberRole" column="MEMBER_ROLE" />
+		<result property="address" column="ADDRESS"/>
 		<result property="isEnabled" column="IS_ENABLED" />
 	</resultMap>
 
-	<insert id="insertUser">
+	<insert id="insertMember">
 		INSERT INTO MEMBER
 		(MEMBER_ID, PASSWORD, EMAIL, PHONE,
-		BIRTHDAY, MEMBER_ROLE, IS_ENABLED) VALUES
+		BIRTHDAY, IS_ENABLED) VALUES
 		(#{memberId},#{password},
-		#{email}, #{phone}, #{birthday}, #{memberRole}, 1)
+		#{email}, #{phone}, #{birthday}, 1)
 	</insert>
 
-	<select id="login" resultType="Integer">
-		SELECT
-		COUNT(*) AS user_count
-		FROM
-		MEMBER WHERE MEMBER_ID = #{memberId} AND
-		PASSWORD = #{password} AND
-		IS_ENABLED = 1
+	<select id="selectMemberByMemberId" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberIdByEmail" resultType="String">
+		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 
-	<select id="select" resultMap="memberResultMap">
-		SELECT * FROM MEMBER WHERE
-		MEMBER_ID = #{memberId}
+	<select id="selectEmailByMemberId" resultType="String">
+		SELECT EMAIL FROM MEMBER WHERE MEMBER_ID = #{memberId}
 	</select>
 
-	<select id="dupCheckId" resultType="Integer">
+	<select id="selectPhoneByMemberId" resultType="String">
+		SELECT PHONE FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectGradeByMemberId" resultType="Integer">
+		SELECT MS.GRADE
+		FROM MEMBER M
+		JOIN MEMBERSHIP MS ON M.MEMBER_ID = MS.MEMBER_ID
+		WHERE M.MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="countMemberByMemberId" resultType="Integer">
 		SELECT COUNT(*) FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 
-	<select id="dupCheckEmail" resultType="Integer">
+	<select id="countMemberByEmail" resultType="Integer">
 		SELECT COUNT(*) FROM
 		MEMBER WHERE EMAIL = #{email}
 	</select>
 
-	<select id="dupCheckPhone" resultType="Integer">
+	<select id="countMemberByPhone" resultType="Integer">
 		SELECT COUNT(*) FROM
 		MEMBER WHERE PHONE = #{phone}
 	</select>
 
-	<select id="findId" resultType="String">
-		<!-- 전체 게시글 조회 -->
-		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
-	</select>
-
-	<select id="findEmailById" resultType="String">
-		SELECT EMAIL
-		FROM MEMBER
-		WHERE MEMBER_ID = #{memberId}
-	</select>
-
-	<select id="findPhoneById" resultType="String">
-		SELECT PHONE
-		FROM MEMBER
-		WHERE MEMBER_ID = #{memberId}
-	</select>
-
-	<select id="isExistMemberByIdAndEmail" resultType="Integer">
+	<select id="countMemberByMemberIdAndEmail" resultType="Integer">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId} AND EMAIL = #{email}
 	</select>
 
-	<update id="updatePassword">
+	<update id="updateMemberPassword">
 		UPDATE MEMBER
 		SET PASSWORD = #{password}
 		WHERE
 		MEMBER_ID = #{memberId}
 	</update>
 
-	<update id="updateEmail">
+	<update id="updateMemberEmail">
 		UPDATE MEMBER
 		SET EMAIL = #{email}
 		WHERE MEMBER_ID =
 		#{memberId}
 	</update>
 
-	<update id="updatePhone">
+	<update id="updateMemberPhone">
 		UPDATE MEMBER
 		SET PHONE = #{phone}
-		WHERE MEMBER_ID =
-		#{memberId}
+		WHERE MEMBER_ID = #{memberId}
 	</update>
-	
-	<select id="selectRole" resultType="Integer">
-		SELECT MEMBER_ROLE FROM MEMBER WHERE MEMBER_ID = #{memberId}
-	</select>
 
-	<update id="delete">
+	<update id="deleteMemberByMemberId">
 		UPDATE MEMBER
 		SET IS_ENABLED = 0
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 	
-	<select id="selectGrade" resultType="Integer">
-		SELECT MS.GRADE
-		FROM MEMBER M
-		JOIN MEMBERSHIP MS ON M.MEMBER_ID = MS.MEMBER_ID
-		WHERE M.MEMBER_ID = #{memberId} AND M.MEMBER_ROLE = 1
-	</select>
+	
 </mapper>

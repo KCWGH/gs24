@@ -4,17 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,69 +49,6 @@ public class MemberRESTController {
 
 	@Autowired
 	private FavoritesService favoritesService;
-
-	@PostMapping("/update-email")
-	public ResponseEntity<String> updateEmailPOST(@RequestBody MemberVO memberVO) {
-		if (memberVO.getEmail().equals(memberService.findEmailById(memberVO.getMemberId()))) {
-			return ResponseEntity.ok("Update Fail - Same Email");
-		} else {
-			int dupCheck = memberService.dupCheckEmail(memberVO.getEmail());
-			if (dupCheck == 0) {
-				int result = memberService.updateMemberEmail(memberVO);
-				if (result == 0) { // 업데이트가 안 되면
-					log.info("이메일 수정 실패");
-					return ResponseEntity.ok("Update Fail");
-				} else {
-					log.info("updateEmailPOST()");
-					return ResponseEntity.ok("Update Success");
-				}
-			} else {
-				return ResponseEntity.ok("Update Fail - Duplicated Email");
-			}
-		}
-
-	}
-
-	@PostMapping("/update-phone")
-	public ResponseEntity<String> updatePhonePOST(@RequestBody MemberVO memberVO) {
-		if (memberVO.getPhone().equals(memberService.findPhoneById(memberVO.getMemberId()))) {
-			return ResponseEntity.ok("Update Fail - Same Phone");
-		} else {
-			int dupCheck = memberService.dupCheckPhone(memberVO.getPhone());
-			if (dupCheck == 0) {
-				int result = memberService.updateMemberPhone(memberVO);
-				if (result == 0) { // 업데이트가 안 되면
-					log.info("휴대폰 번호 수정 실패");
-					return ResponseEntity.ok("Update Fail");
-				} else {
-					log.info("updateEmailPOST()");
-					return ResponseEntity.ok("Update Success");
-				}
-			} else {
-				return ResponseEntity.ok("Update Fail - Duplicated Phone");
-			}
-		}
-	}
-
-	@PostMapping("/delete")
-	public ResponseEntity<String> deletePOST(String memberId, HttpServletRequest request,
-			HttpServletResponse response) {
-		int checkPreorders = preorderService.countRemainingPreorders(memberId);
-		if (checkPreorders == 0) {
-			int result = memberService.deleteMember(memberId);
-			if (result == 1) {
-				new SecurityContextLogoutHandler().logout(request, response,
-						SecurityContextHolder.getContext().getAuthentication());
-				request.getSession().invalidate();
-				return ResponseEntity.ok("Delete Success");
-			} else if (result == 2) {
-				return ResponseEntity.ok("Delete Fail - Remaining Giftcard Balances");
-			} else {
-				return ResponseEntity.ok("Delete Fail");
-			}
-		}
-		return ResponseEntity.ok("Delete Fail - Remaining Preorders");
-	}
 
 	@GetMapping("/myReviews")
 	public ResponseEntity<Map<String, Object>> reviewList(Pagination pagination,

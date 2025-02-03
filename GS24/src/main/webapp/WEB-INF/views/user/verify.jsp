@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,9 +41,17 @@ $(document).ready(function() {
 	<h3>비밀번호를 다시 한번 입력해 주세요.</h3>
 	<form action="check-pw" method="POST" >
 	<table>
+		
 		<tr>
 			<th>아이디</th>
-			<td><input type="text" id="memberId" name="memberId" value="${memberVO.memberId}" readonly></td>
+			<td>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+			<input type="text" name="memberId" value="${userInfo.memberId}" readonly>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_OWNER')">
+			<input type="text" name="ownerId" value="${userInfo.ownerId}" readonly>
+			</sec:authorize>
+			</td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>

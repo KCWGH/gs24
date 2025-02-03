@@ -74,6 +74,7 @@
 
         function checkId() {
             let memberId = $('#memberId').val();
+            console.log('파라미터값은 ' + memberId);
             if (!memberId) {
                 $('#memberIdMessage').text("아이디를 입력해주세요.").css('color', 'red');
                 return;
@@ -85,7 +86,7 @@
             }
 
             $.ajax({
-                url: 'dup-check-id',
+                url: '../user/dup-check-id',
                 type: 'POST',
                 data: { memberId: memberId },
                 success: function (response) {
@@ -117,7 +118,7 @@
             }
 
             $.ajax({
-                url: 'dup-check-email',
+                url: '../user/dup-check-email',
                 type: 'POST',
                 data: { email: email },
                 success: function (response) {
@@ -149,7 +150,7 @@
             }
 
             $.ajax({
-                url: 'dup-check-phone',
+                url: '../user/dup-check-phone',
                 type: 'POST',
                 data: { phone: phone },
                 success: function (response) {
@@ -224,19 +225,16 @@
         </script>
     </c:if>
     <h2>회원가입</h2>
-    <form action="register" method="POST">
         <p>※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
+	<form action="register" method="POST">
         <table>
-            <tr>
-                <th><label for="memberId">아이디</label></th>
-                <td>
-                    <input type="text" id="memberId" name="memberId" required>
-                    <button type="button" onclick="checkId()">아이디 중복 확인</button>
-                    <br>
-                    <span id="memberIdMessage"></span>
-                </td>
-            </tr>
-            <tr>
+			<tr>
+				<th><label for="memberId">아이디</label></th>
+				<td><input type="text" id="memberId" name="memberId" required>
+					<button type="button" onclick="checkId()">아이디 중복 확인</button> <br>
+					<span id="memberIdMessage"></span></td>
+			</tr>
+			<tr>
                 <th><label for="password">비밀번호</label></th>
                 <td>
                     <input type="password" id="password" name="password" required>
@@ -270,7 +268,7 @@
                     <span id="phoneMessage"></span>
                 </td>
             </tr>
-            <tr>
+            <tr id="birthdayRow">
                 <th><label for="birthday">생일</label></th>
                 <td>
                     <div id="birthdayContainer"></div>
@@ -279,19 +277,10 @@
                 </td>
             </tr>
             <tr>
-                <th><label>계정 유형</label></th>
-                <td>
-                    <input type="radio" id="memberRole1" name="memberRole" value="1" required>
-                    <label for="memberRole1">일반회원</label>
-                    <input type="radio" id="memberRole2" name="memberRole" value="2">
-                    <label for="memberRole2">점주</label>
-                </td>
-            </tr>
-            <tr>
                 <td></td>
                 <td>
                     <button type="submit" id="btnRegister" disabled>회원가입</button>
-                    <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+                    <a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
                 </td>
             </tr>
         </table>

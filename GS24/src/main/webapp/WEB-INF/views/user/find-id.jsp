@@ -69,7 +69,7 @@
                     success: function(response) {
                         $("#findResult").html("인증번호가 일치합니다. 아이디는 " + response + " 입니다.");
                         $("#findResult").show();
-                        let findPwUrl = 'find-pw?memberId=' + encodeURIComponent(response);
+                        let findPwUrl = 'find-pw?username=' + encodeURIComponent(response);
                         $("#btnFindPw").attr("onclick", "location.href='" + findPwUrl + "'");
                         $("#timer").hide();
                     },
@@ -137,6 +137,6 @@
     <br>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     <button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button>
-    <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+    <a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
 </body>
 </html>

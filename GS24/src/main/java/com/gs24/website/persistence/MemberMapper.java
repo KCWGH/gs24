@@ -7,39 +7,34 @@ import com.gs24.website.domain.MemberVO;
 
 @Mapper
 public interface MemberMapper {
-	int insertUser(MemberVO memberVO);
+	int insertMember(MemberVO memberVO);
 
-	int login(@Param("memberId") String memberId, @Param("password") String password);
+	MemberVO selectMemberByMemberId(String memberId);
 
-	MemberVO select(String memberId);
+	String selectMemberIdByEmail(String email);
 
-	int updatePassword(MemberVO memberVO);
-	
-	int updatePassword(@Param("memberId") String memberId, @Param("password") String password);
+	String selectEmailByMemberId(String memberId);
 
-	int updateEmail(MemberVO memberVO);
+	String selectPhoneByMemberId(String memberId);
 
-	int updatePhone(MemberVO memberVO);
+	int selectGradeByMemberId(String memberId);
 
-	int delete(String memberId);
+	int countMemberByMemberId(String memberId);
 
-	int dupCheckId(String memberId);
+	int countMemberByEmail(String email);
 
-	int dupCheckEmail(String email);
+	int countMemberByPhone(String phone);
 
-	int dupCheckPhone(String phone);
+	int countMemberByMemberIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
 
-	String findId(String email);
+	int updateMemberPassword(MemberVO memberVO);
 
-	String findEmailById(String memberId);
+	int updateMemberPassword(@Param("memberId") String memberId, @Param("password") String password);
 
-	String findPhoneById(String memberId);
+	int updateMemberEmail(MemberVO memberVO);
 
-	String findPwById(String memberId);
+	int updateMemberPhone(MemberVO memberVO);
 
-	int isExistMemberByIdAndEmail(@Param("memberId") String memberId, @Param("email") String email);
-	
-	int selectRole(String memberId);
-	
-	int selectGrade(String memberId);
+	int deleteMemberByMemberId(String memberId);
+
 }

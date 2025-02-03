@@ -19,10 +19,10 @@
         $(document).ready(function() {
         	const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         	const urlParams = new URLSearchParams(window.location.search);
-            const memberId = urlParams.get('memberId');
+            const username = urlParams.get('username');
             
-            if (memberId) {
-                $("#memberId").val(memberId);
+            if (username) {
+                $("#username").val(username);
             }
             
             let timerInterval; // 타이머 인터벌 변수
@@ -54,10 +54,10 @@
 
             $("#btnSendVerificationCode").click(function(event) {
                 event.preventDefault();
-                let memberId = $("#memberId").val();
+                let username = $("#username").val();
                 let email = $("#email").val();
 
-                if (email === "" || memberId === "") {
+                if (email === "" || username === "") {
                     alert("아이디와 이메일을 모두 기입해주세요.");
                     return;
                 }
@@ -76,7 +76,7 @@
                 $.ajax({
                     url: "find-pw",
                     type: "POST",
-                    data: { memberId: memberId, email: email },
+                    data: { username: username, email: email },
                     success: function(response) {
                         $("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
                         $("#sendResult, #verificationText, #verificationCode, #btnVerifyCode").show();
@@ -101,7 +101,7 @@
 
             $("#btnVerifyCode").click(function(event){
             	event.preventDefault();
-            	let memberId = $("#memberId").val();
+            	let username = $("#username").val();
     			let email = $("#email").val();
     			let code = $("#verificationCode").val();
     			$.ajax({
@@ -133,10 +133,10 @@
 
             $("#btnUpdatePw").click(function(event){
             	event.preventDefault();
-            	let memberId = $("#memberId").val();
+            	let username = $("#username").val();
             	let password = $("#password").val();
             	let email = $("#email").val();
-            	let data = {memberId: memberId, email: email, password: password};
+            	let data = {username: username, email: email, password: password};
             	$.ajax({
         			url: "find-update-pw",
     	            type: "POST",
@@ -144,7 +144,7 @@
     	            success: function (response) {
     	            	$('#findResult').prop("hidden", false);
                         if (response === "Update Success") {
-                        	window.location.href = "login";
+                        	window.location.href = "../auth/login";
                         	alert('비밀번호가 변경되었습니다. 해당 아이디와 비밀번호로 로그인하세요.');
                         } else {
                         	$('#updateResult').text('비밀번호 변경 실패. 해당 이메일로 등록된 아이디가 아닙니다.');
@@ -181,7 +181,7 @@
         <tr>
             <th>아이디</th>
             <td>
-                <input type="text" id="memberId" name="memberId" required>
+                <input type="text" id="username" name="username" required>
             </td>
         </tr>
         <tr>
@@ -241,7 +241,7 @@
     </div>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     <a href="find-id"><button type="button">아이디 찾기</button></a>
-    <a href="login"><button type="button">로그인 창으로 돌아가기</button></a>
+    <a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
 
     <div id="message"></div>
 </body>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,10 +72,15 @@ function checkPw() {
     <h2>비밀번호 변경</h2>
     <h3>새로운 비밀번호를 입력해주세요.</h3>
     <form action="change-pw" method="POST">
-    <div>
-            <input type="hidden" id="memberId" name="memberId" value="${memberVO.memberId}" readonly>
-        </div>
-    <table>
+		<div>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+				<input type="text" name="memberId" value="${userInfo.memberId}" readonly hidden="hidden">
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_OWNER')">
+				<input type="text" name="ownerId" value="${userInfo.ownerId}" readonly hidden="hidden">
+			</sec:authorize>
+		</div>
+		<table>
 		<tr>
 			<th>비밀번호</th>
 			<td><input type="password" id="password" name="password" required></td>

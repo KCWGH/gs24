@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,7 +34,7 @@ $(document).ready(function() {
         event.preventDefault();
         $("#email").prop("disabled", false);
         $("#btnUpdateEmail").prop("hidden", true);
-        $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", false);
+        $("#btnUpdateMemberEmailConfirm, #btnUpdateEmailCancel").prop("hidden", false);
         $("#updateEmailResult").hide();
     });
 
@@ -41,11 +42,14 @@ $(document).ready(function() {
         event.preventDefault();
         $("#email").prop("disabled", true);
         $("#btnUpdateEmail").prop("hidden", false);
-        $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
+        $("#btnUpdateMemberEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
         $("#updateEmailResult").hide();
     });
-
-    $("#btnUpdateEmailConfirm").click(function(event) {
+   
+    let userRole = "${userRole}";
+    let username = $("#username").attr("data-username");
+    
+    $("#btnUpdateMemberEmailConfirm").click(function(event) {
         event.preventDefault();
         let email = $("#email").val();
         
@@ -54,10 +58,17 @@ $(document).ready(function() {
             return;
         }
         
-        let memberId = "${memberVO.memberId}";
-        let data = { email: email, memberId: memberId };
+        let url;
+        let data;
+        if (userRole === 'member') {
+        	url = 'member';
+        	data = { email: email, memberId: username };
+        } else if (userRole === 'owner') {
+        	url = 'owner';
+        	data = { email: email, ownerId: username };
+        }
         $.ajax({
-            url: "update-email",
+            url: "update-" + url + "-email",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(data),
@@ -66,7 +77,7 @@ $(document).ready(function() {
                     $("#updateEmailResult").text("이메일 수정 완료 :)").css('color', 'green').show();
                     $("#email").prop("disabled", true);
                     $("#btnUpdateEmail").prop("hidden", false);
-                    $("#btnUpdateEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
+                    $("#btnUpdateMemberEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
                 } else if (response === "Update Fail - Same Email") {
                     $("#updateEmailResult").text("동일한 이메일입니다.").css('color', 'red').show();
                 } else if (response === "Update Fail - Duplicated Email") {
@@ -75,6 +86,8 @@ $(document).ready(function() {
             }
         });
     });
+    
+   
 
     $("#btnUpdatePhone").click(function(event) {
         event.preventDefault();
@@ -102,11 +115,17 @@ $(document).ready(function() {
             .show();
             return;
         }
-        
-        let memberId = "${memberVO.memberId}";
-        let data = { phone: phone, memberId: memberId };
+        let url;
+        let data;
+        if (userRole === 'member') {
+        	url = 'member';
+        	data = { phone: phone, memberId: username };
+        } else if (userRole === 'owner') {
+        	url = 'owner';
+        	data = { phone: phone, ownerId: username };
+        }
         $.ajax({
-            url: "update-phone",
+            url: "update-" + url + "-phone",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(data),
@@ -136,10 +155,17 @@ $(document).ready(function() {
 
     $("#btnDeleteConfirm").click(function(event) {
         event.preventDefault();
-        let memberId = "${memberVO.memberId}";
-        let data = { memberId: memberId };
+        let url;
+        let data;
+        if (userRole === 'member') {
+        	url = 'member';
+        	data = { memberId: username };
+        } else if (userRole === 'owner') {
+        	url = 'owner';
+        	data = { ownerId: username };
+        }
         $.ajax({
-            url: "delete",
+            url: "delete-" + url,
             type: "POST",
             data: data,
             success: function(response) {
@@ -186,33 +212,46 @@ $(document).ready(function() {
 			</c:choose>
 			<span> 입니다.</span><br><br>
 		</c:if>
-		<form>
 			<table>
 				<tr>
 					<th>아이디</th>
-					<td>${memberVO.memberId}</td>
+					<sec:authorize access="hasRole('ROLE_MEMBER')">
+					<td id="username" data-username="${userInfo.memberId}">${userInfo.memberId}</td>
+					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_OWNER')">
+					<td id="username" data-username="${userInfo.ownerId}">${userInfo.ownerId}</td>
+					</sec:authorize>
+				</tr>
+				<tr>
+					<th>계정유형</th>
+					<td>
+						<sec:authorize access="hasRole('ROLE_MEMBER')">일반회원</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_OWNER')">점주</sec:authorize>
+					</td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
-					<td><button type="button" onclick='location.href="../member/verify"'>비밀번호 변경</button></td>
+					<td><button type="button" onclick='location.href="../user/verify"'>비밀번호 변경</button></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td id="updatePasswordResult" hidden="hidden">수정 결과창</td>
 				</tr>
-				<tr>
-					<th>이메일</th>
-					<td><input id="email" type="email" value="${memberVO.email}" disabled>
-					<button id="btnUpdateEmail" hidden="hidden">수정</button><button id="btnUpdateEmailConfirm" hidden="hidden">저장</button>
+			<tr>
+				<th>이메일</th>
+				<td><input id="email" type="email" value="${userInfo.email}"
+					disabled>
+					<button id="btnUpdateEmail" hidden="hidden">수정</button>
+						<button id="btnUpdateMemberEmailConfirm" hidden="hidden">저장</button>
 					<button id="btnUpdateEmailCancel" hidden="hidden">취소</button></td>
-				</tr>
-				<tr>
+			</tr>
+			<tr>
 					<td></td>
 					<td id="updateEmailResult" hidden="hidden">수정 결과창</td>
 				</tr>
 				<tr>
 					<th>휴대폰</th>
-					<td><input id="phone" type="text" value="${memberVO.phone}" disabled>
+					<td><input id="phone" type="text" value="${userInfo.phone}" disabled>
 					<button id="btnUpdatePhone" hidden="hidden">수정</button><button id="btnUpdatePhoneConfirm" hidden="hidden">저장</button>
 					<button id="btnUpdatePhoneCancel" hidden="hidden">취소</button></td>
 				</tr>
@@ -220,32 +259,22 @@ $(document).ready(function() {
 					<td></td>
 					<td id="updatePhoneResult" hidden="hidden">수정 결과창</td>
 				</tr>
+				<sec:authorize access="hasRole('ROLE_MEMBER')">
 				<tr>
 					<th>생일</th>
-					<td>${memberVO.birthday}</td>
+					<td>${userInfo.birthday}</td>
 				</tr>
-				<tr>
-					<th>계정 유형</th>
-					<td>
-						<c:choose>
-							<c:when test="${memberVO.memberRole == 1}">일반회원</c:when>
-							<c:when test="${memberVO.memberRole == 2}">점주</c:when>
-						</c:choose>
-					</td>
-				</tr>
+				</sec:authorize>
 			</table>
-			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		</form><br>
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
 		<div class="btn-container">
 			<button id="btnUpdate">회원정보 수정</button>
 			<button id="btnUpdateEnd" hidden="hidden">수정 마치기</button>
 			<button id="btnDelete">회원 탈퇴</button>
-			<c:choose>
-			<c:when test="${memberVO.memberRole == 1}">
-			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 멤버십 내역은 삭제되며, 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
-			<c:when test="${memberVO.memberRole == 2}">
-			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></c:when>
-			</c:choose>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 멤버십 내역은 삭제되며, 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
+			<sec:authorize access="hasRole('ROLE_OWNER')">
+			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<button id="btnDeleteConfirm" hidden="hidden">네</button>
 			<button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			<p id="deleteResult" hidden="hidden"></p>
@@ -256,7 +285,7 @@ $(document).ready(function() {
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<button onclick='location.href="../giftcard/list"'>기프트카드함</button>
-			<button onclick='location.href="myhistory"'>내 활동</button>
+			<button onclick='location.href="../member/myhistory"'>내 활동</button>
 			</sec:authorize>
 		</div>
 </div>

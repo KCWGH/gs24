@@ -10,6 +10,7 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.MembershipMapper;
+import com.gs24.website.persistence.OwnerMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -22,7 +23,10 @@ public class MemberServiceImple implements MemberService {
 
 	@Autowired
 	private MembershipMapper membershipMapper;
-	
+
+	@Autowired
+	private OwnerMapper ownerMapper;
+
 	@Autowired
 	private GiftCardMapper giftCardMapper;
 
@@ -32,113 +36,96 @@ public class MemberServiceImple implements MemberService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	public int register(MemberVO memberVO) {
+	public int registerMember(MemberVO memberVO) {
 		String memberId = memberVO.getMemberId();
 		String password = memberVO.getPassword();
 		String encodedPassword = passwordEncoder.encode(password);
 		memberVO.setPassword(encodedPassword);
 		String email = memberVO.getEmail();
 		String phone = memberVO.getPhone();
-		if (dupCheckId(memberId) == 0 && dupCheckEmail(email) == 0 && dupCheckPhone(phone) == 0) {
-			if (memberVO.getMemberRole() == 1) {
-				membershipMapper.insertMembership(memberId);
-			}
-			return memberMapper.insertUser(memberVO);
+		if (ownerMapper.countOwnerByOwnerId(memberId) == 0 && dupCheckMemberId(memberId) == 0
+				&& dupCheckMemberEmail(email) == 0 && dupCheckMemberPhone(phone) == 0) {
+			membershipMapper.insertMembership(memberId);
+			return memberMapper.insertMember(memberVO);
 		}
 		return 0;
 	}
 
 	@Override
-	public int login(String memberId, String password) {
-		String encodedPassword = passwordEncoder.encode(password);
-		return memberMapper.login(memberId, encodedPassword);
-	}
-
-	@Override
 	public MemberVO getMember(String memberId) {
-		return memberMapper.select(memberId);
+		return memberMapper.selectMemberByMemberId(memberId);
 	}
 
 	@Override
-	public String findId(String email) {
-		// 이메일을 이용해 아이디 찾기
-		return memberMapper.findId(email);
+	public String findMemberIdByEmail(String email) {
+		return memberMapper.selectMemberIdByEmail(email);
 	}
 
 	@Override
 	public int updateMemberPassword(MemberVO memberVO) {
-		return memberMapper.updatePassword(memberVO);
+		return memberMapper.updateMemberPassword(memberVO);
 	}
 
 	@Override
 	public int updateMemberPassword(String memberId, String password) {
 		String encodedPassword = passwordEncoder.encode(password);
 		password = encodedPassword;
-		return memberMapper.updatePassword(memberId, password);
+		return memberMapper.updateMemberPassword(memberId, password);
 	}
 
 	@Override
 	public int updateMemberEmail(MemberVO memberVO) {
-		return memberMapper.updateEmail(memberVO);
+		return memberMapper.updateMemberEmail(memberVO);
 	}
 
 	@Override
 	public int updateMemberPhone(MemberVO memberVO) {
-		return memberMapper.updatePhone(memberVO);
+		return memberMapper.updateMemberPhone(memberVO);
 	}
 
 	@Override
 	@Transactional(value = "transactionManager")
 	public int deleteMember(String memberId) {
-		MemberVO memberVO = memberMapper.select(memberId);
-		if (memberVO.getMemberRole() == 1 && giftCardMapper.countRemainingGiftCardsByMemberId(memberId) == 0) { // 일반회원이고 잔액이 남은 기프트카드가 없을 경우
+		if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) == 0) { // 잔액이 남은 기프트카드가 없을 경우
 			membershipMapper.deleteMembership(memberId);
 		} else if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) != 0) { // 잔액이 남은 기프트카드가 있을 경우
 			return 2;
 		}
-		return memberMapper.delete(memberId);
+		return memberMapper.deleteMemberByMemberId(memberId);
 	}
 
 	@Override
-	public int dupCheckId(String memberId) {
-		// 회원 아이디 중복 체크
-		return memberMapper.dupCheckId(memberId);
+	public int dupCheckMemberId(String memberId) { // 회원 아이디 중복 체크
+		return memberMapper.countMemberByMemberId(memberId);
 	}
 
 	@Override
-	public int dupCheckEmail(String email) {
-		// 이메일 중복 체크
-		return memberMapper.dupCheckEmail(email);
+	public int dupCheckMemberEmail(String email) { // 이메일 중복 체크
+		return memberMapper.countMemberByEmail(email);
 	}
 
 	@Override
-	public int dupCheckPhone(String phone) {
-		// 전화번호 중복 체크
-		return memberMapper.dupCheckPhone(phone);
+	public int dupCheckMemberPhone(String phone) { // 전화번호 중복 체크
+		return memberMapper.countMemberByPhone(phone);
 	}
 
 	@Override
-	public String findEmailById(String memberId) {
-		return memberMapper.findEmailById(memberId);
+	public String findEmailByMemberId(String memberId) {
+		return memberMapper.selectEmailByMemberId(memberId);
 	}
 
 	@Override
-	public String findPhoneById(String memberId) {
-		return memberMapper.findPhoneById(memberId);
+	public String findPhoneByMemberId(String memberId) {
+		return memberMapper.selectPhoneByMemberId(memberId);
 	}
 
 	@Override
-	public int dupCheckIdAndEmail(String memberId, String email) {
-		return memberMapper.isExistMemberByIdAndEmail(memberId, email);
+	public int dupCheckMemberByMemberIdAndMemberEmail(String memberId, String email) {
+		return memberMapper.countMemberByMemberIdAndEmail(memberId, email);
 	}
 
 	@Override
-	public int checkRole(String memberId) {
-		return memberMapper.selectRole(memberId);
-	}
-
-	@Override
-	public int checkGrade(String memberId) {
-		return memberMapper.selectGrade(memberId);
+	public int findGrade(String memberId) {
+		return memberMapper.selectGradeByMemberId(memberId);
 	}
 }

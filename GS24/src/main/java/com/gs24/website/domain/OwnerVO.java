@@ -1,7 +1,5 @@
 package com.gs24.website.domain;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +11,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
-	String memberId;
+public class OwnerVO {
+	String ownerId;
 	String password;
 	String email;
 	String phone;
-	Date birthday;
+	String address;
 	int isEnabled;
 }

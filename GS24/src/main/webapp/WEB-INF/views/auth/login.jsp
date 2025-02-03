@@ -140,9 +140,9 @@ $(document).ready(function() {
             <button type="submit">로그인</button>
 
             <div>
-                <a href="find-id">아이디 찾기</a>
-                <a href="find-pw">비밀번호 찾기</a>
-                <a href="register">회원가입</a>
+                <a href="../user/find-id">아이디 찾기</a>
+                <a href="../user/find-pw">비밀번호 찾기</a>
+                <a href="../user/register">회원가입</a>
             </div>
             <input type="hidden" name="recaptchaToken" id="recaptchaToken">
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

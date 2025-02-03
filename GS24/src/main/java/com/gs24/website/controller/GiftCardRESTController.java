@@ -17,6 +17,7 @@ import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.MemberService;
+import com.gs24.website.service.OwnerService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -31,14 +32,17 @@ public class GiftCardRESTController {
 	private MemberService memberService;
 
 	@Autowired
+	private OwnerService ownerService;
+
+	@Autowired
 	private GiftCardService giftCardService;
 
 	@PostMapping("/dup-check-id")
 	public ResponseEntity<String> dupcheckIdPOST(String memberId) {
 		log.info("dupcheckIdPOST()");
-		if (memberService.dupCheckId(memberId) == 1 && memberService.checkRole(memberId) == 2) {
+		if (memberService.dupCheckMemberId(memberId) != 1 && ownerService.dupCheckOwnerId(memberId) == 1) {
 			return ResponseEntity.ok("2");
-		} else if (memberService.dupCheckId(memberId) == 1 && memberService.checkRole(memberId) == 1) {
+		} else if (memberService.dupCheckMemberId(memberId) == 1) {
 			return ResponseEntity.ok("1");
 		}
 		return ResponseEntity.ok("0");
