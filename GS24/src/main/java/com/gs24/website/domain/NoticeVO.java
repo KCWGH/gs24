@@ -19,5 +19,5 @@ public class NoticeVO {
 	String noticeTitle; // NOTICE_TITLE
 	String noticeContent; // NOTICE_CONTENT
 	Date noticeDateCreated; // NOTICE_DATE_CREATED
-	int noticeViews; // NOTICE_VIEWS
+
 }

@@ -50,7 +50,6 @@
 <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 <a href="register"><input type="button" value="글 작성"></a>
-<a href="myList"><input type="button" value="내가 작성한 글"></a>
 </sec:authorize>
 
 

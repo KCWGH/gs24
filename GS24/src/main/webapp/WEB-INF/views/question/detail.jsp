@@ -182,7 +182,8 @@ $('#deleteQuestion').click(function() {
 										console.log(result);
 										if (result == 1) {
 											alert('댓글 입력 성공');
-											getAllAnswer(); // 함수 호출		
+											getAllAnswer(); // 함수 호출	
+											location.reload(); // 페이지 새로 고침
 										}
 									}
 								});
@@ -195,7 +196,7 @@ $('#deleteQuestion').click(function() {
 								var url = '../answer/all/' + questionId;
 								$
 										.getJSON(
-												url,
+												url,	
 												function(data) {
 													// data : 서버에서 전송받은 list 데이터가 저장되어 있음.
 													// getJSON()에서 json 데이터는 

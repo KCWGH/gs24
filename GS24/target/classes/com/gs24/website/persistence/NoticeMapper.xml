@@ -14,7 +14,6 @@
 		<result property="noticeContent" column="NOTICE_CONTENT" />
 		<result property="noticeDateCreated"
 			column="NOTICE_DATE_CREATED" />
-		<result property="noticeViews" column="NOTICE_VIEWS" />
 	</resultMap>
 
 	<insert id="insertNotice">
@@ -53,70 +52,30 @@
 		SELECT * FROM
 		(
 		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC) AS RN, NOTICE.*
-		FROM NOTICE
-		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		FROM NOTICE	
+		<choose>
+				<when test="type == 'title'.toString()">
+					WHERE NOTICE_TITLE LIKE '%'||#{keyword}||'%'
+				</when>
+				<when test="type == 'content'.toString()">
+					WHERE NOTICE_CONTENT LIKE '%'||#{keyword}||'%'
+				</when>	
+			</choose>	   
+			) 
+			WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="selectTotalCount" resultType="Integer">
 		SELECT COUNT(*)
 		TOTAL_COUNT FROM NOTICE
+		<choose>
+				<when test="type == 'title'.toString()">
+					WHERE NOTICE_TITLE LIKE '%'||#{keyword}||'%'
+				</when>
+				<when test="type == 'content'.toString()">
+					WHERE NOTICE_CONTENT LIKE '%'||#{keyword}||'%'
+				</when>
+			</choose>	
 	</select>
-
-	<!-- 제목으로 검색 -->
-	<select id="selectListByTitle" resultMap="noticeResultMap">
-		SELECT * FROM NOTICE
-		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
-		ORDER BY
-		NOTICE_DATE_CREATED DESC
-	</select>
-
-	<select id="selectListByTitleWithPagination" resultMap="noticeResultMap">
-		SELECT * FROM (
-		SELECT ROW_NUMBER() OVER (ORDER BY
-		NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
-		FROM NOTICE
-		WHERE NOTICE_TITLE
-		LIKE '%' || #{noticeTitle} || '%'
-		)
-		WHERE RN BETWEEN #{pagination.start} AND #{pagination.end}
-	</select>
-
-	<select id="selectTotalCountByTitle" resultType="Integer">
-		SELECT COUNT(*)
-		FROM NOTICE
-		WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
-	</select>
-
-	<!-- 내용으로 검색 -->
-	<select id="selectListByContent" resultMap="noticeResultMap">
-		SELECT * FROM NOTICE
-		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
-		ORDER BY
-		NOTICE_DATE_CREATED DESC
-	</select>
-
-	<select id="selectListByContentWithPagination" resultMap="noticeResultMap">
-		SELECT * FROM (
-		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_DATE_CREATED DESC) AS RN, NOTICE.*
-		FROM NOTICE
-		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent} || '%'
-		)
-		WHERE RN BETWEEN #{pagination.start} AND #{pagination.end}
-	</select>
-
-	<select id="selectTotalCountByContent" resultType="Integer">
-		SELECT
-		COUNT(*) FROM NOTICE
-		WHERE NOTICE_CONTENT LIKE '%' || #{noticeContent}
-		|| '%'
-	</select>
-
-	<update id="updateNoticeViews" parameterType="int">
-		UPDATE NOTICE
-		SET
-		NOTICE_VIEWS = NOTICE_VIEWS + 1
-		WHERE NOTICE_ID = #{noticeId}
-	</update>
 
 </mapper>

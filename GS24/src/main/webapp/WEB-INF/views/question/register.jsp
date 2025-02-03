@@ -24,8 +24,14 @@
             <label for="secret" class="form-check-label">비밀글 설정</label>
         </div>
         <div>
-            <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
-        </div>
+        	<label for="storeList">매장 선택</label>
+                <select id="storeList" name="storeList" required>
+                    <option value="" selected disabled>선택하세요</option>
+                    <c:forEach var="store" items="${onwerIdList}">
+                        <option value="${ownerId}">${ownerId}</option>
+                    </c:forEach>
+                </select>         
+        </div>   
         <div>                
              <label for="foodType">음식 종류</label>
                 <select id="foodType" name="foodType" required>
@@ -35,6 +41,9 @@
                     </c:forEach>
                 </select>                              
         </div>  
+        <div>
+            <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
+        </div>
         <div>
             <p>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></p>   
         </div>
