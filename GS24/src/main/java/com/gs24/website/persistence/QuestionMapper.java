@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gs24.website.domain.QuestionDTO;
 import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.util.Pagination;
 @Mapper
@@ -29,7 +28,9 @@ public interface QuestionMapper {
 
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
 
-	List<QuestionDTO> selectQuestionListByPaginationBymemberId(Pagination pagination);
+	List<QuestionVO> selectQuestionListByPaginationBymemberId(Pagination pagination);
 
 	int countQuestionListByMemberId(String memeberId);
+
+	List<QuestionVO> selectQuestionListByOwnerId(String ownerId);
 }

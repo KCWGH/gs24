@@ -11,7 +11,7 @@ public interface NoticeMapper {
 
 	int insertNotice(NoticeVO notice);
 
-	List<NoticeVO> selectListByNotice();
+	List<NoticeVO> getAllNotice();
 
 	NoticeVO selectOneByNotice(int noticeId);
 

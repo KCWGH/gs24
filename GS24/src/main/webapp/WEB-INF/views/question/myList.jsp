@@ -32,8 +32,7 @@ li {
 <sec:authentication property="principal" var="user"/> 
 	<h1>나의 질문 리스트</h1>
 
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="register"><input type="button" value="글 작성"></a>
+	<sec:authorize access="hasRole('ROLE_OWNER')">
 </sec:authorize>
 
 	<hr>
@@ -80,8 +79,8 @@ li {
     	var currentUser = "${user.username}"; // 현재 로그인된 사용자 ID
         var currentUserRole = "${user.authorities}".split(","); // 현재 로그인된 사용자 권한
 
-        // 작성자이거나 ROLE_ADMIN 권한을 가지고 있는 경우
-        if (currentUser === authorId || currentUserRole.includes('ROLE_ADMIN')) {
+        // 작성자이거나 ROLE_OWNER 권한을 가지고 있는 경우
+        if (currentUser === authorId || currentUserRole.includes('ROLE_OWNER')) {
             window.location.href = "detail?questionId=" + questionId; // 게시판 상세로 이동
         } else {
             alert("게시판 작성자 또는 관리자만 해당 게시판에 접근할 수 있습니다.");

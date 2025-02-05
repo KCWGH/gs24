@@ -13,16 +13,16 @@
 <!-- jquery 라이브러리 import -->
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
-<title>${questionDTO.questionTitle }</title>
+<title>${questionVO.questionTitle }</title>
 </head>
 <body>
 	<h2>글 수정 페이지</h2>
 	<form id="modifyForm" action="modify" method="POST">
 		<div>
-			<p>번호 : <input type="text" name="questionId" value="${questionDTO.questionId }" readonly></p>	
+			<p>번호 : <input type="text" name="questionId" value="${questionVO.questionId }" readonly></p>	
 		</div>
 		<div>
-			<p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionDTO.questionTitle }" required></p>	
+			<p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionVO.questionTitle }" required></p>	
 				
 		</div>
 		<div>          
@@ -35,19 +35,19 @@
                 </select>                          
         </div>  
 		<div>
-			<p>작성자 : ${questionDTO.memberId} </p>	
-			<input type="hidden" name="memberId" value="${questionDTO.memberId}">
+			<p>작성자 : ${questionVO.memberId} </p>	
+			<input type="hidden" name="memberId" value="${questionVO.memberId}">
 		</div>
 		<div>
 			<p>내용 : </p>
-			<textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" required>${questionDTO.questionContent }</textarea>
+			<textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" required>${questionVO.questionContent }</textarea>
 		</div>
 		<!-- 기존 첨부 파일 리스트 데이터 구성 -->
-		<c:forEach var="questionAttachDTO" items="${questionDTO.questionAttachList}" varStatus="status">
-    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachPath" value="${questionAttachDTO.questionAttachPath }">
-    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachRealName" value="${questionAttachDTO.questionAttachRealName }">
-    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachChgName" value="${questionAttachDTO.questionAttachChgName }">
-    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachExtension" value="${questionAttachDTO.questionAttachExtension }">
+		<c:forEach var="questionAttach" items="${questionVO.questionAttachList}" varStatus="status">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachPath" value="${questionAttach.questionAttachPath }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachRealName" value="${questionAttach.questionAttachRealName }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachChgName" value="${questionAttach.questionAttachChgName }">
+    	<input type="hidden" class="input-questionAttach-list" name="questionAttachList[${status.index }].questionAttachExtension" value="${questionAttach.questionAttachExtension }">
 		</c:forEach>
 	 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	</form>
@@ -61,14 +61,14 @@
 		<div class="questionAttach-view">
 			<h2>첨부 파일 리스트</h2>
 			<div class="questionAttach-list">
-			<c:forEach var="questionAttachDTO" items="${questionDTO.questionAttachList}">
-		 		<c:if test="${not (questionAttachDTO.questionAttachExtension eq 'jpg' or 
-			    			  questionAttachDTO.questionAttachExtension eq 'jpeg' or 
-			    			  questionAttachDTO.questionAttachExtension eq 'png' or 
-			    			  questionAttachDTO.questionAttachExtension eq 'gif')}">
+			<c:forEach var="questionAttach" items="${questionVO.questionAttachList}">
+		 		<c:if test="${not (questionAttach.questionAttachExtension eq 'jpg' or 
+			    			  questionAttach.questionAttachExtension eq 'jpeg' or 
+			    			  questionAttach.questionAttachExtension eq 'png' or 
+			    			  questionAttach.questionAttachExtension eq 'gif')}">
 			    	<div class="questionAttach_item">
-			    	<p><a href="../questionAttach/download?questionAttachId=${questionAttachDTO.questionAttachId }">
-			    	${questionAttachDTO.questionAttachRealName }.${questionAttachDTO.questionAttachExtension }</a></p>
+			    	<p><a href="../questionAttach/download?questionAttachId=${questionAttach.questionAttachId }">
+			    	${questionAttach.questionAttachRealName }.${questionAttach.questionAttachExtension }</a></p>
 			    	</div>
 			    </c:if>
 			</c:forEach>		
@@ -84,7 +84,7 @@
 		</div>
 	</div>
 	
-	<div class="questionAttachDTOFile-list">
+	<div class="questionAttachFile-list">
 	</div>
 	
 	<button id="modifyQuestion">등록</button>
@@ -102,7 +102,7 @@
 	});
 	
 	$(document).ready(function(){
-    	var questionAttachDTO;
+    	var questionAttach;
 	    // 파일 변경 버튼 클릭 시
 	    $('#change-upload').click(function(){
 	    	if(!confirm('기존에 업로드 파일들은 삭제됩니다. 계속 하시겠습니까?')){
@@ -138,30 +138,30 @@
 	        // form 객체 참조
 	        var modifyForm = $('#modifyForm');
 	        
-	        // attachDTOFile-list의 각 input 태그 접근
+	        // questionAttachFile-list의 각 input 태그 접근
 	        var i = 0;
 
-	        $('.questionAttachDTOFile-list input[name="questionAttachDTO"]').each(function() {
+	        $('.questionAttachFile-list input[name="questionAttach"]').each(function() {
 	            
-	        	questionAttachDTO = JSON.parse($(this).val());
+	        	questionAttach = JSON.parse($(this).val());
 	        	
-	        	questionAttachDTO.questionId = ${questionDTO.questionId};
+	        	questionAttach.questionId = ${questionVO.questionId};
 
 	            var inputPath = $('<input>').attr('type', 'hidden')
 	                .attr('name', 'questionAttachList[' + i + '].questionAttachPath')
-	                inputPath.val(questionAttachDTO.questionAttachPath);
+	                inputPath.val(questionAttach.questionAttachPath);
 
 	            var inputRealName = $('<input>').attr('type', 'hidden')
 	                .attr('name', 'questionAttachList[' + i + '].questionAttachRealName')
-	                inputRealName.val(questionAttachDTO.questionAttachRealName);
+	                inputRealName.val(questionAttach.questionAttachRealName);
 
 	            var inputChgName = $('<input>').attr('type', 'hidden')
 	                .attr('name', 'questionAttachList[' + i + '].questionAttachChgName')
-	                inputChgName.val(questionAttachDTO.questionAttachChgName);
+	                inputChgName.val(questionAttach.questionAttachChgName);
 
 	            var inputExtension = $('<input>').attr('type', 'hidden')
 	                .attr('name', 'questionAttachList[' + i + '].questionAttachExtension')
-	                inputExtension.val(questionAttachDTO.questionAttachExtension);
+	                inputExtension.val(questionAttach.questionAttachExtension);
 
 	            modifyForm.append(inputPath);
 	            modifyForm.append(inputRealName);

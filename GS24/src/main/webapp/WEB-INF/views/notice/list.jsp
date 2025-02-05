@@ -58,17 +58,10 @@
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
     
     <!-- 글 작성 페이지 이동 버튼, 점주만 보이도록 -->
-	<sec:authorize access="hasRole('ROLE_OWNER')">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
     <a href="register"><input type="button" value="글 작성"></a>
 	</sec:authorize>
 	 
-	<select id="selectSize">
-			<option value="" disabled selected>게시글 수</option>
-	        <option value="5">5</option>
-	        <option value="10">10</option>
-	        <option value="15">15</option>
-	        <option value="20">20</option>
-	</select> 
 	    
 	 <hr>
 	 
@@ -110,7 +103,7 @@
 		
     <!-- 게시글 번호, 페이지 번호, 페이지 사이즈를 전송하는 form  -->
 		<form id="detailForm" action="detail" method="get">
-			<input type="hidden" name="boardId" >
+			<input type="hidden" name="noticeId" >
 			<input type="hidden" name="pageNum" >
 	    	<input type="hidden" name="pageSize" >
 	    	<input type="hidden" name="type" >
@@ -144,28 +137,7 @@
 	    <script type="text/javascript">
 		$(document).ready(function(){
 			
-			// select 옵션을 선택하면 이벤트 발생
-			$("#selectSize").on("change", function(e){
-				var listForm = $("#listForm"); // form 객체 참조
-				console.log(this);
-				// c:out을 이용한 현재 페이지 번호값 저장
-				var pageNum = "<c:out value='${pageMaker.pagination.pageNum }' />";
-				var pageSize = $(this).val(); // 선택된 값을 저장
-				
-				var type = "<c:out value='${pageMaker.pagination.type }' />";
-				var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
-				 
-				// 페이지 번호를 input name='pageNum' 값으로 적용
-				listForm.find("input[name='pageNum']").val(pageNum);
-				// 선택된 옵션 값을 input name='pageSize' 값으로 적용
-				listForm.find("input[name='pageSize']").val(pageSize);
-				// type 값을 적용
-				listForm.find("input[name='type']").val(type);
-				// keyword 값을 적용
-				listForm.find("input[name='keyword']").val(keyword);
-				
-				listForm.submit(); // form 전송
-			}); // end on()
+			
 									
 			// pagination_button을 클릭하면 페이지 이동
 			$(".pagination_button a").on("click", function(e){
@@ -194,7 +166,7 @@
 				var detailForm = $("#detailForm");
 				e.preventDefault(); // a 태그 이벤트 방지
 			
-				var boardId = $(this).attr("href"); // a태그의 href 값 저장
+				var noticed = $(this).attr("href"); // a태그의 href 값 저장
 
 				var type = "<c:out value='${pageMaker.pagination.type }' />";
 				var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
@@ -202,8 +174,8 @@
 				// 현재 페이지 사이즈값 저장
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
 				 
-				// 클릭된 게시글 번호를 input name='boardId' 값으로 적용
-				detailForm.find("input[name='noticeId']").val(boardId);
+				// 클릭된 게시글 번호를 input name='noticeId' 값으로 적용
+				detailForm.find("input[name='noticeId']").val(noticeId);
 				// 페이지 번호를 input name='pageNum' 값으로 적용
 				detailForm.find("input[name='pageNum']").val(pageNum);
 				// 선택된 옵션 값을 input name='pageSize' 값으로 적용

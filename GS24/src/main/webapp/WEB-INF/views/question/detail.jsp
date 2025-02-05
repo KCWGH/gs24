@@ -18,30 +18,30 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js">
 </script>
 <meta charset="UTF-8">
-<title>${questionDTO.questionTitle }</title>
+<title>${questionVO.questionTitle }</title>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
     
 <h2>글 보기</h2>
 <div>
-    <p>글 번호 : ${questionDTO.questionId }</p>
+    <p>글 번호 : ${questionVO.questionId }</p>
 </div>
 <div>
-    <p>제목 : ${questionDTO.questionTitle }</p>
+    <p>제목 : ${questionVO.questionTitle }</p>
 </div>
 <div>
-    <p>식품 : ${questionDTO.foodType }</p>
+    <p>식품 : ${questionVO.foodType }</p>
 </div>
 <div>
-    <p>작성자 : ${questionDTO.memberId }</p>
+    <p>작성자 : ${questionVO.memberId }</p>
     <!-- boardDateCreated 데이터 포멧 변경 -->
-    <fmt:formatDate value="${questionDTO.questionDateCreated }"
+    <fmt:formatDate value="${questionVO.questionDateCreated }"
                 pattern="yyyy-MM-dd HH:mm:ss" var="questionDateCreated"/>
     <p>작성일 : ${questionDateCreated }</p>
 </div>
 <div>
-    <textarea rows="20" cols="120" readonly>${questionDTO.questionContent }</textarea>
+    <textarea rows="20" cols="120" readonly>${questionVO.questionContent }</textarea>
 </div>
 
 <button onclick="location.href='list'">글 목록</button>
@@ -50,7 +50,7 @@
 <!-- 게시글 작성자일 때 글 수정, 삭제 가능 -->
 <sec:authentication property="principal" var="user"/>
 <sec:authorize access="isAuthenticated()">
-    <c:if test="${user.username == questionDTO.memberId}">
+    <c:if test="${user.username == questionVO.memberId}">
         <button id="modifyQuestion">글 수정</button>
         <button id="deleteQuestion">글 삭제</button>
     </c:if>
@@ -61,11 +61,11 @@
 </form>
 
 <form id="deleteForm" action="delete" method="POST">
-    <input type="hidden" name="questionId" value="${questionDTO.questionId }">
+    <input type="hidden" name="questionId" value="${questionVO.questionId }">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 </form>
 
-<input type="hidden" id="questionId" value="${questionDTO.questionId }">
+<input type="hidden" id="questionId" value="${questionVO.questionId }">
 
 
 <!-- 첨부 파일 영역 -->
@@ -73,14 +73,14 @@
     <div class="questionAttach-view">
         <h2>첨부 파일 리스트</h2>
         <div class="questionAttach-list">
-            <c:forEach var="questionAttachDTO" items="${questionAttachList}">
-                <c:if test="${not (questionAttachDTO.questionAttachExtension eq 'jpg' or 
-                                   questionAttachDTO.questionAttachExtension eq 'jpeg' or 
-                                   questionAttachDTO.questionAttachExtension eq 'png' or 
-                                   questionAttachDTO.questionAttachExtension eq 'gif')}">
+            <c:forEach var="questionAttach" items="${questionAttachList}">
+                <c:if test="${not (questionAttach.questionAttachExtension eq 'jpg' or 
+                                   questionAttach.questionAttachExtension eq 'jpeg' or 
+                                   questionAttach.questionAttachExtension eq 'png' or 
+                                   questionAttach.questionAttachExtension eq 'gif')}">
                     <div class="questionAttach_item">
-                        <p><a href="../questionAttach/download?questionAttachId=${questionAttachDTO.questionAttachId}">
-                            ${questionAttachDTO.questionAttachRealName }.${questionAttachDTO.questionAttachExtension}</a></p>
+                        <p><a href="../questionAttach/download?questionAttachId=${questionAttach.questionAttachId}">
+                            ${questionAttach.questionAttachRealName }.${questionAttach.questionAttachExtension}</a></p>
                     </div>
                 </c:if>
             </c:forEach>
@@ -93,7 +93,7 @@
 <!-- 점주 역할일 때만 댓글 작성 가능 -->
 <sec:authentication property="principal" var="user"/>
 <sec:authorize access="hasRole('ROLE_OWNER')">
- <c:if test="${questionDTO.isAnswered == 0}">
+ <c:if test="${questionVO.isAnswered == 0}">
     <div style="text-align: left;">
         <!-- memberId를 숨겨진 input으로 설정 -->
         <input type="hidden" id="memberId" value="${user.username}">
@@ -101,7 +101,7 @@
         <button id="btnAdd">작성</button>
     </div>
 </c:if>
-    <c:if test="${questionDTO.isAnswered == 1}">
+    <c:if test="${questionVO.isAnswered == 1}">
         <p style="color: gray;">이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.</p>
     </c:if>
  
@@ -125,7 +125,7 @@ $(document).ajaxSend(function(e, xhr, opt){
 $("#modifyQuestion").click(function(){
 	var modifyForm = $("#modifyForm"); // form 객체 참조
 	
-	var questionId = "<c:out value='${questionDTO.questionId}' />";
+	var questionId = "<c:out value='${questionVO.questionId}' />";
 	
 	
 	// 게시글 번호를 input name='boardId' 값으로 적용
@@ -150,7 +150,7 @@ $('#deleteQuestion').click(function() {
 								var questionId = $('#questionId').val(); // 게시판 번호 데이터
 								var memberId = $('#memberId').val(); // 작성자 데이터
 								var answerContent = $('#answerContent').val(); // 댓글 내용
-								var isAnswered = ${questionDTO.isAnswered};
+								var isAnswered = ${questionVO.isAnswered};
 								
 								if (isAnswered === 1) {
 								        alert('이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.');

@@ -291,6 +291,10 @@
 
         <ul class="pagination"></ul>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+<<<<<<< Updated upstream
         <button onclick='location.href="../user/mypage"'>마이페이지</button>
+=======
+        <a href="../user/mypage">마이페이지</a>
+>>>>>>> Stashed changes
 </body>
 </html>

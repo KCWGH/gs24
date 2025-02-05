@@ -28,7 +28,10 @@
                 </form>
             </sec:authorize>
             <a href="../notice/list" style="display: inline-block;"><button>공지사항</button></a>
-            <a href="../question/list" style="display: inline-block;"><button>문의사항(QnA)</button></a>
+            <a href="../question/list" style="display: inline-block;"><button>전체 문의사항</button></a>
+            <sec:authorize access="hasRole('ROLE_OWNER')">
+			<a href="../question/ownerList"><input type="button" value="매장 문의사항"></a>
+			</sec:authorize>
         </div>
     </div>
 </header>

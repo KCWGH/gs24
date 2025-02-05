@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gs24.website.domain.QuestionAttachDTO;
+import com.gs24.website.domain.QuestionAttach;
 import com.gs24.website.service.QuestionAttachService;
 import com.gs24.website.util.FileUploadUtil;
 
@@ -37,10 +37,10 @@ public class QuestionAttachUploadRESTController {
 
     // 첨부 파일 생성 
     @PostMapping
-    public ResponseEntity<ArrayList<QuestionAttachDTO>> createQuestionAttach(MultipartFile[] files) {
+    public ResponseEntity<ArrayList<QuestionAttach>> createQuestionAttach(MultipartFile[] files) {
         log.info("createQuestionAttach");
 
-        ArrayList<QuestionAttachDTO> list = new ArrayList<>();
+        ArrayList<QuestionAttach> list = new ArrayList<>();
 
         for (MultipartFile file : files) {
         	
@@ -52,20 +52,20 @@ public class QuestionAttachUploadRESTController {
             String path = FileUploadUtil.makeDatePath();
             String extension = FileUploadUtil.subStrExtension(file.getOriginalFilename());
 
-            QuestionAttachDTO questionAttachDTO = new QuestionAttachDTO();
+            QuestionAttach questionAttach = new QuestionAttach();
             // 파일 경로 설정
-            questionAttachDTO.setQuestionAttachPath(path);
+            questionAttach.setQuestionAttachPath(path);
             // 파일 실제 이름 설정
-            questionAttachDTO.setQuestionAttachRealName(FileUploadUtil.subStrName(file.getOriginalFilename()));
+            questionAttach.setQuestionAttachRealName(FileUploadUtil.subStrName(file.getOriginalFilename()));
             // 파일 변경 이름(UUID) 설정
-            questionAttachDTO.setQuestionAttachChgName(chgName);
+            questionAttach.setQuestionAttachChgName(chgName);
             // 파일 확장자 설정
-            questionAttachDTO.setQuestionAttachExtension(extension);
+            questionAttach.setQuestionAttachExtension(extension);
 
-            list.add(questionAttachDTO);
+            list.add(questionAttach);
         }
 
-        return new ResponseEntity<ArrayList<QuestionAttachDTO>>(list, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<QuestionAttach>>(list, HttpStatus.OK);
     }
     
     // 첨부 파일 다운로드(GET)
@@ -74,11 +74,11 @@ public class QuestionAttachUploadRESTController {
         log.info("download()");
 
         // attachId로 상세 정보 조회
-        QuestionAttachDTO questionAttachDTO = questionAttachService.getQuestionAttachById(questionAttachId);
-        String questionAttachPath = questionAttachDTO.getQuestionAttachPath();
-        String questionAttachChgName = questionAttachDTO.getQuestionAttachChgName();
-        String questionAttachExtension = questionAttachDTO.getQuestionAttachExtension();
-        String questionAttachRealName = questionAttachDTO.getQuestionAttachRealName();
+        QuestionAttach questionAttach = questionAttachService.getQuestionAttachById(questionAttachId);
+        String questionAttachPath = questionAttach.getQuestionAttachPath();
+        String questionAttachChgName = questionAttach.getQuestionAttachChgName();
+        String questionAttachExtension = questionAttach.getQuestionAttachExtension();
+        String questionAttachRealName = questionAttach.getQuestionAttachRealName();
         
         // 서버에 저장된 파일 정보 생성
         String resourcePath = attachUploadPath + File.separator + questionAttachPath + File.separator + questionAttachChgName;

@@ -52,6 +52,10 @@
 <a href="register"><input type="button" value="글 작성"></a>
 </sec:authorize>
 
+<sec:authorize access="hasRole('ROLE_OWNER')">
+<a href="ownerList"><input type="button" value="관련 목록"></a>
+</sec:authorize>
+
 
 <hr>
 <table>
@@ -73,38 +77,34 @@
                 <td>
                     <sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 일반회원일 때 -->
                         <c:choose>
-                            <c:when test="${QuestionVO.questionSecret == true}">
-                                <!-- 비밀글일 때 -->
+                            <c:when test="${QuestionVO.questionSecret == true}"> <!-- 비밀글일 때 --> 
                                 <c:choose>
                                     <c:when test="${user.username == QuestionVO.memberId}">
-                                        <a href="javascript:void(0);" class="question-title" data-question-id="${QuestionVO.questionId}" data-author-id="${QuestionVO.memberId}">
-                                            ${QuestionVO.questionTitle} 🔒
-                                        </a>
+                                        <a href="detail?questionId=${QuestionVO.questionId}">
+                                        ${QuestionVO.questionTitle} 🔒
+                                    	</a>
                                     </c:when>
                                     <c:otherwise>
                                         비밀글입니다.
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
-                            <c:when test="${QuestionVO.questionSecret == false}">
-                                <!-- 비밀글이 아닐 때 -->
-                                <a href="javascript:void(0);" class="question-title" data-question-id="${QuestionVO.questionId}" data-author-id="${QuestionVO.memberId}">
-                                    ${QuestionVO.questionTitle}
-                                </a>
+                            <c:when test="${QuestionVO.questionSecret == false}"> <!-- 비밀글이 아닐 때 -->
+                                <a href="detail?questionId=${QuestionVO.questionId}">
+                                ${QuestionVO.questionTitle}
+                           		</a>
                             </c:when>
                         </c:choose>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_OWNER')"> <!-- 점주일 때 -->
-                        <a href="javascript:void(0);" class="question-title" data-question-id="${QuestionVO.questionId}" data-author-id="${QuestionVO.memberId}">
+                        <a href="detail?questionId=${QuestionVO.questionId}">
                             ${QuestionVO.questionTitle} 
                         </a>
                     </sec:authorize>
                     
-                    <sec:authorize access="isAnonymous()">
-                    
-                    ${QuestionVO.questionTitle}
-                    
+                    <sec:authorize access="isAnonymous()">       
+                    ${QuestionVO.questionTitle}  
             		</sec:authorize>
                 </td>
                 <td>${QuestionVO.memberId}</td>
@@ -118,22 +118,7 @@
                         답변완료
                     </c:if>
                 </td>
-            </tr>
-
-            <!-- 질문 내용 (초기에는 숨겨짐) -->
-            <tr class="question-content" id="content-${QuestionVO.questionId}" style="display: none;">
-                <td colspan="6" style="text-align: left; padding: 10px;">
-                    <strong>내용:</strong>
-                    <p>${QuestionVO.questionContent}</p>
-                </td>
-            </tr>
-
-            <!-- 댓글 영역 -->
-            <tr id="answers-${QuestionVO.questionId}" style="display: none;">
-                <td colspan="6" style="padding: 10px;">
-                    <div class="answers-section" id="answer-${QuestionVO.questionId}"></div>
-                </td>
-            </tr>
+            </tr>        
         </c:forEach>
     </tbody>
 </table>
@@ -156,74 +141,5 @@
     </c:if>
 </ul>
 
-<!-- jQuery 스크립트 -->
-<script type="text/javascript">
-    $(document).ready(function () {
-        var currentUser = "${user.username}";
-        var currentUserRole = "${user.authorities}"; // ROLE_OWNER : 점주, ROLE_MEMBER : 일반 사용자 권한 정보 확인
-
-        function hasRole(role) {
-            return currentUserRole.includes(role);
-        }
-
-        // 게시글 제목 클릭 시 처리하는 함수
-        $(".question-title").click(function () {
-            var questionId = $(this).data("question-id");
-            var authorId = $(this).data("author-id");
-
-            if (hasRole('ROLE_OWNER') || currentUser === authorId) {
-                // 점주, 작성자 모두 상세 페이지 접근 가능
-                goToDetail(questionId);
-            } else {
-                // 권한이 없으면 내용 토글 및 댓글 로딩
-                toggleQuestionContent(questionId);
-                loadComments(questionId);
-            }
-        });
-
-        // 상세 페이지 이동 함수
-        function goToDetail(questionId) {
-            window.location.href = "detail?questionId=" + questionId;
-        }
-
-        // 질문 내용 토글 함수
-        function toggleQuestionContent(questionId) {
-            var contentElement = $("#content-" + questionId);
-            var answersElement = $("#answers-" + questionId);
-            
-            // 질문 내용 및 댓글을 펼치거나 숨기기
-            if (contentElement.is(":hidden")) {
-                contentElement.show();  // 내용 보이게
-                answersElement.show();  // 댓글 영역 보이게
-            } else {
-                contentElement.hide();  // 내용 숨기기
-                answersElement.hide();  // 댓글 영역 숨기기
-            }
-        }
-
-        // 댓글을 불러오는 함수
-        function loadComments(questionId) {
-            var answerElement = $("#answer-" + questionId);
-
-            // 이미 댓글이 로딩되었으면 다시 요청하지 않음
-            if (answerElement.html() !== "") {
-                return;
-            }
-
-            // 댓글을 서버에서 불러오기 위한 Ajax 요청
-            $.getJSON('../answer/all/' + questionId, function(data) {
-                var list = '';
-                $.each(data, function() {
-                    var answerDateCreated = new Date(this.answerDateCreated);
-                    list += '<div class="answer_item">'
-                        + '<div class="answer-content">' + this.answerContent + '</div>'
-                        + '<div class="answer-meta">' + this.memberId + ' | ' + answerDateCreated.toLocaleString() + '</div>'
-                        + '</div>';
-                });
-                answerElement.html(list).show();  // 댓글 목록을 삽입하고 댓글 영역을 보이게 처리
-            });
-        }
-    });
-</script>
 </body>
 </html>

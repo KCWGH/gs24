@@ -1,8 +1,8 @@
 package com.gs24.website.service;
 
-import com.gs24.website.domain.QuestionAttachDTO;
+import com.gs24.website.domain.QuestionAttach;
 
 public interface QuestionAttachService {
 
-	QuestionAttachDTO getQuestionAttachById(int questionAttachId);
+	QuestionAttach getQuestionAttachById(int questionAttachId);
 }

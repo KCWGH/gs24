@@ -52,7 +52,7 @@ $(document).ready(function(){
 	    
 	    questionAttachList.empty(); // 자식 요소 삭제
 	    
-	    $('.questionAttachDTOFile-list').empty(); // 기존 선택 목록 초기화
+	    $('.questionAttachFile-list').empty(); // 기존 선택 목록 초기화
 	    
 
 
@@ -75,34 +75,34 @@ $(document).ready(function(){
 				$(data).each(function(){
 					// this : 컬렉션의 각 인덱스 데이터를 의미
 					console.log(this);
-				  	var questionAttachDTO = this; // attachDTO 저장
+				  	var questionAttach = this; // questionAttach 저장
 				  	// encodeURIComponent() : 문자열에 포함된 특수 기호를 UTF-8로 
 				  	// 인코딩하여 이스케이프시퀀스로 변경하는 함수 
 					var questionAttachPath = encodeURIComponent(this.questionAttachPath);
 
 					// input 태그 생성 
 					// - type = hidden
-					// - name = questionAttachDTO
-					// - data-chgName = questionAttachtDTO.questionAttachChgName
+					// - name = questionAttach
+					// - data-chgName = questionAttach.questionAttachChgName
 					var input = $('<input>').attr('type', 'hidden')
-						.attr('name', 'questionAttachDTO')
-						.attr('data-chgName', questionAttachDTO.questionAttachChgName);
+						.attr('name', 'questionAttach')
+						.attr('data-chgName', questionAttach.questionAttachChgName);
 					
-					// attachDTO를 JSON 데이터로 변경
+					// questionAttach를 JSON 데이터로 변경
 					// - object 형태로 데이터 인식 불가능
-					input.val(JSON.stringify(questionAttachDTO));
+					input.val(JSON.stringify(questionAttach));
 					
        				// div에 input 태그 추가
-        			$('.questionAttachDTOFile-list').append(input);
+        			$('.questionAttachFile-list').append(input);
 				  	
 				    // 첨부 파일 목록 출력
 				    list += '<div class="questionAttach_item" data-chgName="'+ this.questionAttachChgName +'">'
 				    	+ '<pre>'
 				    	+ '<input type="hidden" id="questionAttachPath" value="'+ this.questionAttachPath +'">'
-				    	+ '<input type="hidden" id="questionAttachChgName" value="'+ questionAttachDTO.questionAttachChgName +'">'
+				    	+ '<input type="hidden" id="questionAttachChgName" value="'+ questionAttach.questionAttachChgName +'">'
 				        + '<div>'
-				        + questionAttachDTO.questionAttachRealName 
-				        + "." + questionAttachDTO.questionAttachExtension
+				        + questionAttach.questionAttachRealName 
+				        + "." + questionAttach.questionAttachExtension
 				        + '</div>'
 				        + '<button class="questionAttach_delete" >x</button>'
 				        + '</pre>'
@@ -146,7 +146,7 @@ $(document).ready(function(){
 				    })
 				    .remove();
 				    
-				    $('.questionAttachDTOFile-list').find('input')
+				    $('.questionAttachFile-list').find('input')
 				    .filter(function() {
 				    	// data-chgName이 삭제 선택된 파일 이름과 같은 경우
 				        return $(this).attr('data-chgName') === questionAttachChgName;

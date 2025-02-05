@@ -1,5 +1,7 @@
 package com.gs24.website.service;
 
+import java.util.List;
+
 import com.gs24.website.domain.OwnerVO;
 
 public interface OwnerService {
@@ -29,5 +31,10 @@ public interface OwnerService {
 	int updateOwnerPhone(OwnerVO ownerVO);
 
 	int deleteOwner(String ownerId);
+	
+	List<OwnerVO> getOwnerVOList();
+		
+	List<OwnerVO> getOwnerListByUsername(String ownerId);
+
 
 }

@@ -23,15 +23,18 @@
             <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
             <label for="secret" class="form-check-label">비밀글 설정</label>
         </div>
-        <div>
-        	<label for="storeList">매장 선택</label>
-                <select id="storeList" name="storeList" required>
-                    <option value="" selected disabled>선택하세요</option>
-                    <c:forEach var="store" items="${onwerIdList}">
-                        <option value="${ownerId}">${ownerId}</option>
-                    </c:forEach>
-                </select>         
-        </div>   
+
+		  <div>
+		    <label for="ownerAddress">매장 선택</label>	    
+		    <select id="ownerId" name="ownerId">
+    			<option value="" selected disabled>선택하세요</option>
+    			<option value="전체">전체</option>
+    				<c:forEach var="owner" items="${ownerVOList}">
+        				<option value="${owner.ownerId}">${owner.address}</option>
+    				</c:forEach>
+			</select>		          
+		</div>
+
         <div>                
              <label for="foodType">음식 종류</label>
                 <select id="foodType" name="foodType" required>
@@ -65,7 +68,7 @@
 		<div class="questionAttach-list"></div>
 	</div>
 	
-	<div class="questionAttachDTOFile-list"></div>
+	<div class="questionAttachFile-list"></div>
         
 		<button id="registerQuestion">등록</button>
         
@@ -82,13 +85,15 @@
 		});
 			
 		$(document).ready(function() {
-			let questionAttachDTO;
+			let questionAttach;
 			// regsiterForm 데이터 전송
 			$('#registerQuestion').click(function() {
+				event.preventDefault();  //  기본 제출 동작 방지
 
 		        var title = $('input[name="questionTitle"]').val();
-		        var content = $('textarea[name="questionContent"]').val();  // textarea의 name 속성 사용
+		        var content = $('textarea[name="questionContent"]').val();
 		        var foodType = $('select[name="foodType"]').val();
+		        var owner = $('select[name="ownerId"]').val();
 
 		        if (title.trim() === '') {
 		            alert("제목을 입력해주세요.");
@@ -102,38 +107,41 @@
 		            alert("음식 종류를 선택해주세요.");
 		            return;
 		        }
+		        if (!owner) {
+		        	alert("매장을 선택해주세요.");
+		        	return;
+		        }
 	            
 				// form 객체 참조
 				var registerForm = $('#registerForm');
 				
-				// attachDTOImg-list의 각 input 태그 접근
 				var i = 0;
 							
-				// questionAttachDTOFile-list의 각 input 태그 접근
-				$('.questionAttachDTOFile-list input[name="questionAttachDTO"]').each(function(){
+				// questionAttachFile-list의 각 input 태그 접근
+				$('.questionAttachFile-list input[name="questionAttach"]').each(function(){
 					console.log(this);
-					// JSON questionAttachDTO 데이터를 object 변경
-					questionAttachDTO = JSON.parse($(this).val());
+					// JSON questionAttach 데이터를 object 변경
+					questionAttach = JSON.parse($(this).val());
 					
 					// attachPath input 생성
 					var inputPath = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachPath');
-					inputPath.val(questionAttachDTO.questionAttachPath);
+					inputPath.val(questionAttach.questionAttachPath);
 					
 					// attachRealName input 생성
 					var inputRealName = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachRealName');
-					inputRealName.val(questionAttachDTO.questionAttachRealName);
+					inputRealName.val(questionAttach.questionAttachRealName);
 					
 					// attachChgName input 생성
 					var inputChgName = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachChgName');
-					inputChgName.val(questionAttachDTO.questionAttachChgName);
+					inputChgName.val(questionAttach.questionAttachChgName);
 					
 					// attachExtension input 생성
 					var inputExtension = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachExtension');
-					inputExtension.val(questionAttachDTO.questionAttachExtension);
+					inputExtension.val(questionAttach.questionAttachExtension);
 					
 					// form에 태그 추가
 					registerForm.append(inputPath);

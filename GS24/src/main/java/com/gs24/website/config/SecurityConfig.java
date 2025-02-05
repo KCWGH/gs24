@@ -49,9 +49,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/owner/register").permitAll()
         .antMatchers("/giftcard/list", "/giftcard/detail", "/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/giftcard/grant").access("hasRole('ROLE_OWNER')")
+<<<<<<< Updated upstream
         .antMatchers("/coupon/**").access("hasRole('ROLE_ADMIN')")
         .antMatchers("/food/detail", "/food/list").permitAll()
         .antMatchers("/food/register", "/food/update").access("hasRole('ROLE_OWNER')")
+=======
+        .antMatchers("/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
+        .antMatchers("/coupon/**").access("hasRole('ROLE_OWNER')")
+        .antMatchers("/food/detail").permitAll()
+        .antMatchers("/food/list").permitAll()
+        .antMatchers("/foodlist/list").permitAll()
+        .antMatchers("/food/register").access("hasRole('ROLE_OWNER')")
+        .antMatchers("/food/update").access("hasRole('ROLE_OWNER')")
+>>>>>>> Stashed changes
         .antMatchers("/imgfood/register").authenticated()
         .antMatchers("/notice/list").permitAll()
         .antMatchers("/notice/modify").access("hasRole('ROLE_OWNER')")
@@ -69,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/question/list").authenticated()
         .antMatchers("/question/myList").authenticated()
+        .antMatchers("/question/ownerList").access("hasRole('ROLE_OWNER')")
         .antMatchers("/question/detail").permitAll()
         .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN')");

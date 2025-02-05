@@ -1,9 +1,12 @@
 package com.gs24.website.persistence;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.OwnerVO;
+
 
 @Mapper
 public interface OwnerMapper {
@@ -34,5 +37,9 @@ public interface OwnerMapper {
 	int countOwnerByPhone(String phone);
 
 	int countOwnerByOwnerIdAndEmail(@Param("ownerId") String ownerId, @Param("email") String email);
+	
+	List<OwnerVO> selectOwnerVOList();
+	
+	List<OwnerVO> selectOwnerListByOwnerId(String ownerId);
 
 }
