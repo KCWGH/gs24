@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.AdminMapper">
+	<resultMap type="com.gs24.website.domain.AdminVO" id="adminResultMap">
+		<id property="adminId" column="ADMIN_ID" />
+		<result property="password" column="PASSWORD" />
+	</resultMap>
+
+	<select id="selectAdminByAdminId" resultMap="adminResultMap">
+		SELECT * FROM ADMIN WHERE ADMIN_ID = #{adminId}
+	</select>
+	
+</mapper>

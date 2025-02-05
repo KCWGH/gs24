@@ -291,6 +291,6 @@
 
         <ul class="pagination"></ul>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-        <a href="../member/mypage">마이페이지</a>
+        <button onclick='location.href="../user/mypage"'>마이페이지</button>
 </body>
 </html>

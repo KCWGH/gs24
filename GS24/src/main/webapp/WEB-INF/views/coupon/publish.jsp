@@ -7,12 +7,16 @@
     <title>쿠폰 발행</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
-        function setAmount(value) {
+        function setCouponAmount(value) {
             $("input[name='couponAmount']").val(value);
         }
 
-        function setDiscountValue(value) {
-            $("input[name='discountValue']").val(value);
+        function setPercentage(value) {
+            $("input[name='percentage']").val(value);
+        }
+        
+        function setAmount(value) {
+            $("input[name='amount']").val(value);
         }
 
         function setExpirationDate(days) {
@@ -96,30 +100,30 @@
             </tr>
             <tr id="percentLabel" hidden="hidden">
                 <th><label for="discountValue">할인율</label></th>
-                <td><input type="number" id="inputPercent" name="discountValue" min=5 max=50> %</td>
+                <td><input type="number" id="inputPercent" name="percentage" min=5 max=50> %</td>
             </tr>
             <tr id="percentValue" hidden="hidden">
                 <th></th>
                 <td>
-                    <button type="button" onclick="setDiscountValue(5)">5%</button>
-                    <button type="button" onclick="setDiscountValue(10)">10%</button>
-                    <button type="button" onclick="setDiscountValue(20)">20%</button>
-                    <button type="button" onclick="setDiscountValue(30)">30%</button>
-                    <button type="button" onclick="setDiscountValue(50)">50%</button><br>
+                    <button type="button" onclick="setPercentage(5)">5%</button>
+                    <button type="button" onclick="setPercentage(10)">10%</button>
+                    <button type="button" onclick="setPercentage(20)">20%</button>
+                    <button type="button" onclick="setPercentage(30)">30%</button>
+                    <button type="button" onclick="setPercentage(50)">50%</button><br>
                     <span style="color:gray">5% ~ 50% 사이의 숫자를 입력하세요.</span>
                 </td>
             </tr>
             <tr id="amountLabel" hidden="hidden">
                 <th><label for="discountValue">할인액</label></th>
-                <td><input type="number" id="inputAmount" name="discountValue" disabled min=1000 max=10000> 원</td>
+                <td><input type="number" id="inputAmount" name="amount" disabled min=1000 max=10000> 원</td>
             </tr>
             <tr id="amountValue" hidden="hidden">
                 <th></th>
                 <td>
-                    <button type="button" onclick="setDiscountValue(1000)">1000원</button>
-                    <button type="button" onclick="setDiscountValue(3000)">3000원</button>
-                    <button type="button" onclick="setDiscountValue(5000)">5000원</button>
-                    <button type="button" onclick="setDiscountValue(10000)">10000원</button><br>
+                    <button type="button" onclick="setAmount(1000)">1000원</button>
+                    <button type="button" onclick="setAmount(3000)">3000원</button>
+                    <button type="button" onclick="setAmount(5000)">5000원</button>
+                    <button type="button" onclick="setAmount(10000)">10000원</button><br>
                     <span style="color:gray">1000원 ~ 10000원 사이의 숫자를 입력하세요.</span>
                 </td>
             </tr>
@@ -130,11 +134,11 @@
             <tr>
                 <th></th>
                 <td>
-                    <button type="button" onclick="setAmount(5)">5매</button>
-                    <button type="button" onclick="setAmount(10)">10매</button>
-                    <button type="button" onclick="setAmount(50)">50매</button>
-                    <button type="button" onclick="setAmount(100)">100매</button>
-                    <button type="button" onclick="setAmount(500)">500매</button><br>
+                    <button type="button" onclick="setCouponAmount(5)">5매</button>
+                    <button type="button" onclick="setCouponAmount(10)">10매</button>
+                    <button type="button" onclick="setCouponAmount(50)">50매</button>
+                    <button type="button" onclick="setCouponAmount(100)">100매</button>
+                    <button type="button" onclick="setCouponAmount(500)">500매</button><br>
                     <span style="color:gray">5매 ~ 500매 사이의 숫자를 입력하세요.</span>
                 </td>
             </tr>

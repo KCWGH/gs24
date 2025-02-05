@@ -12,6 +12,12 @@
 <title>편의점 목록</title>
 </head>
 <body>
+	<c:if test="${not empty message}">
+		<script type="text/javascript">
+			alert("${message}");
+		</script>
+	</c:if>
+	<%@ include file="../common/header.jsp"%>
 	<div id="conveniList">
 	<c:forEach var="conveniVO" items="${conveniList }">
 	<div class="conveni">

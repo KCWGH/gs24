@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ConvenienceVO;
 import com.gs24.website.domain.OwnerVO;
@@ -26,7 +25,7 @@ public class OwnerServiceImple implements OwnerService {
 
 	@Autowired
 	private ConvenienceMapper convenienceMapper;
-	
+
 	@Lazy
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -41,18 +40,18 @@ public class OwnerServiceImple implements OwnerService {
 		String phone = ownerVO.getPhone();
 		if (memberMapper.countMemberByMemberId(ownerId) == 0 && dupCheckOwnerId(ownerId) == 0
 				&& dupCheckOwnerEmail(email) == 0 && dupCheckOwnerPhone(phone) == 0) {
-			
+
 			int result = ownerMapper.insertOwner(ownerVO);
-			
-			//박재민이 한 곳
+
+			// 박재민이 한 곳
 			log.info("점주 추가");
 			ConvenienceVO convenienceVO = new ConvenienceVO();
 			convenienceVO.setOwnerId(ownerId);
 			convenienceMapper.insertConvenience(convenienceVO);
-			
+
 			return result;
 		}
-		
+
 		return 0;
 	}
 

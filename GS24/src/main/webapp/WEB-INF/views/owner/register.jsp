@@ -7,20 +7,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
-	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     
     <title>회원가입</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-    $(document).ajaxSend(function(e, xhr, opt){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        
-        xhr.setRequestHeader(header, token);
-     });
+        $(document).ajaxSend(function(e, xhr, opt){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            xhr.setRequestHeader(header, token);
+        });
 
         let isIdChecked = false;
         let isEmailChecked = false;
@@ -37,6 +37,10 @@
         $(document).ready(function () {
             $('form').submit(function (event) {
                 event.preventDefault();
+                
+                let fullAddress = $('#address').val() + " " + $('#detailAddress').val() + $('#extraAddress').val();
+                $('#integratedAddress').val(fullAddress);
+                
                 grecaptcha.ready(function() {
                     grecaptcha.execute('6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR', { action: 'signup' }).then(function(token) {
                         // 토큰을 hidden input에 설정
@@ -46,7 +50,76 @@
                     });
                 });
             });
+
+            // 우편번호 찾기 찾기 화면을 넣을 element
+            var element_wrap = document.getElementById('wrap');
         });
+
+        function foldDaumPostcode() {
+            var element_wrap = document.getElementById('wrap');
+            // iframe을 넣은 element를 안보이게 한다.
+            element_wrap.style.display = 'none';
+        }
+
+        function sample3_execDaumPostcode() {
+            // 현재 scroll 위치를 저장해놓는다.
+            var element_wrap = document.getElementById('wrap');
+            var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("extraAddress").value = extraAddr;
+                    } else {
+                        document.getElementById("extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById("address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();
+
+                    // iframe을 넣은 element를 안보이게 한다.
+                    element_wrap.style.display = 'none';
+
+                    // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                    document.body.scrollTop = currentScroll;
+                },
+                onresize : function(size) {
+                    element_wrap.style.height = size.height+'px';
+                },
+                width : '100%',
+                height : '100%'
+            }).embed(element_wrap);
+
+            // iframe을 넣은 element를 보이게 한다.
+            element_wrap.style.display = 'block';
+        }
 
         function checkId() {
             let ownerId = $('#ownerId').val();
@@ -194,22 +267,25 @@
 </head>
 
 <body>
-<c:if test="${not empty message}">
+    <c:if test="${not empty message}">
         <script type="text/javascript">
             alert("${message}");
         </script>
     </c:if>
     <h2>회원가입</h2>
-        <p>※ 아이디는 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
-	<form action="register" method="POST">
+    <p>※ 아이디는 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
+    <form action="register" method="POST">
         <table>
-			<tr>
-				<th><label for="ownerId">아이디</label></th>
-				<td><input type="text" id="ownerId" name="ownerId" required>
-					<button type="button" onclick="checkId()">아이디 중복 확인</button> <br>
-					<span id="ownerIdMessage"></span></td>
-			</tr>
-			<tr>
+            <tr>
+                <th><label for="ownerId">아이디</label></th>
+                <td>
+                    <input type="text" id="ownerId" name="ownerId" required>
+                    <button type="button" onclick="checkId()">아이디 중복 확인</button>
+                    <br>
+                    <span id="ownerIdMessage"></span>
+                </td>
+            </tr>
+            <tr>
                 <th><label for="password">비밀번호</label></th>
                 <td>
                     <input type="password" id="password" name="password" required>
@@ -244,10 +320,21 @@
                 </td>
             </tr>
             <tr>
-            	<th><label for="address">주소</label></th>
-            	<td>
-            		<input type="text" id="address" name="address" required>
-            	</td>
+                <th><label for="address">주소</label></th>
+                <td>
+                    <input type="text" id="postcode" placeholder="우편번호">
+                    <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기">
+                    <br>
+                    <input type="text" id="address" placeholder="주소">
+                    <br>
+                    <input type="text" id="detailAddress" placeholder="상세주소">
+                    <input type="text" id="extraAddress" placeholder="참고항목">
+                    <div id="wrap" style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
+                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+                            onclick="foldDaumPostcode()" alt="접기 버튼">
+                    </div>
+                    <input type="text" id="integratedAddress" name="address" hidden="hidden">
+                </td>
             </tr>
             <tr>
                 <td></td>

@@ -10,10 +10,10 @@
 		<result property="couponName" column="COUPON_NAME" />
 		<result property="couponAmount" column="COUPON_AMOUNT" />
 		<result property="discountType" column="DISCOUNT_TYPE" />
-		<result property="discountValue" column="DISCOUNT_VALUE" />
+		<result property="percentage" column="PERCENTAGE" />
+		<result property="amount" column="AMOUNT" />
 		<result property="couponExpiredDate" column="COUPON_EXPIRED_DATE" />
 		<result property="isDuplicateAllowed" column="IS_DUPLICATE_ALLOWED" />
-		<result property="isAvailable" column="IS_AVAILABLE" />
 	</resultMap>
 
 	<insert id="insertCoupon" useGeneratedKeys="true" keyProperty="couponId">
@@ -21,14 +21,21 @@
     <selectKey keyProperty="couponId" resultType="Integer" order="BEFORE">
         SELECT COUPON_SEQ.NEXTVAL FROM DUAL
     </selectKey>
-    
-    INSERT INTO COUPON
-    (COUPON_ID, FOOD_TYPE, COUPON_AMOUNT, COUPON_NAME,
-    COUPON_EXPIRED_DATE, DISCOUNT_TYPE, DISCOUNT_VALUE, IS_DUPLICATE_ALLOWED, IS_AVAILABLE)
-    VALUES
-    (#{couponId}, #{foodType}, #{couponAmount}, #{couponName},
-    #{couponExpiredDate}, #{discountType},
-    #{discountValue}, #{isDuplicateAllowed}, 1)
+    	INSERT INTO COUPON (
+        COUPON_ID, FOOD_TYPE, COUPON_NAME, COUPON_AMOUNT, 
+        DISCOUNT_TYPE, PERCENTAGE, AMOUNT, COUPON_EXPIRED_DATE, 
+        IS_DUPLICATE_ALLOWED) VALUES (
+        #{couponId}, #{foodType}, #{couponName}, #{couponAmount}, 
+        #{discountType}, 
+        <choose>
+            <when test="discountType == 'A'">NULL</when>
+            <otherwise>#{percentage}</otherwise>
+        </choose>,
+        <choose>
+            <when test="discountType == 'P'">NULL</when>
+            <otherwise>#{amount}</otherwise>
+        </choose>,
+        #{couponExpiredDate}, #{isDuplicateAllowed})
 	</insert>
 
 	
@@ -57,7 +64,7 @@
 	<select id="selectListByFoodType" resultMap="CouponResultMap">
 		SELECT * 
 		FROM COUPON
-		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체') AND IS_AVAILABLE = 1
+		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체')
 		ORDER BY COUPON_ID DESC
 	</select>
 	

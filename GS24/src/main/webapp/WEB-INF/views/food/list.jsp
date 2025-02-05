@@ -49,14 +49,14 @@ img {
 </style>
 </head>
 <body>
-<c:if test="${not empty message}">
-        <script type="text/javascript">
-            alert("${message}");
-        </script>
-    </c:if>
-    <%@ include file="../common/header.jsp" %>
- 
-   <h1>식품 리스트</h1>
+	<c:if test="${not empty message}">
+		<script type="text/javascript">
+			alert("${message}");
+		</script>
+	</c:if>
+	<%@ include file="../common/header.jsp"%>
+
+	<h1>식품 리스트</h1>
    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
       <button onclick='location.href="register"'>식품등록</button>

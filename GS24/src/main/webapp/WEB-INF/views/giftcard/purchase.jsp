@@ -35,27 +35,43 @@
             event.preventDefault();
             let buyPrice = $('#balance').val().replace(/[^\d]/g, '');
             let giftCardName = $('#giftCardName').val();
+            let memberId = $('#memberId').val();
             
             if (giftCardName === '생일 축하 기프트카드'){
             	alert('사용할 수 없는 이름입니다. 다른 이름을 입력해주세요.');
             	return;
             }
-            
-            var IMP = window.IMP;
-            IMP.init('imp84362136');
-
-            IMP.request_pay({
-                pg: 'kakaopay',
-                pay_method: 'card',
-                merchant_uid: 'order_' + new Date().getTime(),
-                name: 'GS24 기프트카드',
-                amount: buyPrice
-            }, function(rsp) {
-                if (rsp.success) {
-                    alert('결제가 완료되었습니다.');
-                    $('form').submit();
-                } else {
-                    alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
+            console.log(memberId);
+            $.ajax({
+                url: 'dup-check-id',
+                type: 'POST',
+                data: { memberId: memberId },
+                success: function(response) {
+                    if (response == 1) {
+                    	var IMP = window.IMP;
+                        IMP.init('imp84362136');
+                    	IMP.request_pay({
+                            pg: 'kakaopay',
+                            pay_method: 'card',
+                            merchant_uid: 'order_' + new Date().getTime(),
+                            name: 'GS24 기프트카드',
+                            amount: buyPrice
+                        }, function(rsp) {
+                            if (rsp.success) {
+                                alert('결제가 완료되었습니다.');
+                                $('form').submit();
+                            } else {
+                                alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
+                            }
+                        });
+                    } else if (response == 2) {
+                        alert('점주 아이디입니다. 기프트카드를 제공할 수 없습니다.');
+                    } else {
+                        alert('존재하지 않는 아이디입니다.');
+                    }
+                },
+                error: function() {
+                    alert('중복 확인 중 오류가 발생했습니다.');
                 }
             });
         });

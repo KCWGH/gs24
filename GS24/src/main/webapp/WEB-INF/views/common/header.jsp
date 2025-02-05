@@ -5,7 +5,7 @@
 <header style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff; z-index: 1000; border-bottom: 1px solid #ddd; padding: 10px 0;">
     <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <div class="header-section" style="display: flex; align-items: center; gap: 10px;">
-        <a href="../food/list" style="display: inline-block;">GS24</a>
+        <a href="../convenience/list" style="display: inline-block;">GS24</a>
             <sec:authorize access="isAnonymous()">
                 <button onclick='location.href="../auth/login"'>로그인</button>
             </sec:authorize>

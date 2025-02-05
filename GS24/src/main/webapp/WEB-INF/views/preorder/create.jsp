@@ -150,7 +150,8 @@
                                                     data-coupon-id="${couponVO.couponId}"
                                                     data-coupon-name="${couponVO.couponName}"
                                                     data-discount-type="${couponVO.discountType}"
-                                                    data-discount-value="${couponVO.discountValue}"
+                                                    data-percentage="${couponVO.percentage}"
+                                                    data-amount="${couponVO.amount}"
                                                     data-coupon-amount="${couponVO.couponAmount}"
                                                     data-is-duplicate-allowed="${couponVO.isDuplicateAllowed}">
                                                 적용하기
@@ -336,8 +337,13 @@
                     event.preventDefault();
                     let couponId = $(this).data("coupon-id");
                     let couponName = $(this).data("coupon-name");
-                    let discountValue = $(this).data("discount-value");
                     let discountType = $(this).data("discount-type");
+                    let discountValue;
+                    if (discountType == 'A') {
+                    	discountValue = $(this).data("amount");
+                    } else if (discountType == 'P') {
+                    	discountValue = $(this).data("percentage");
+                    }
                     let couponAmount = $(this).data("coupon-amount");
                     let isDuplicateAllowed = $(this).data("is-duplicate-allowed");
                     let currentPrice = ${foodVO.foodPrice} * $('#preorderAmount').val(); // 식품 가격에 예약 수량 곱하기

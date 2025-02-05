@@ -209,8 +209,9 @@ public class UserRESTController {
 		if (memberVO.getEmail().equals(memberService.findEmailByMemberId(memberVO.getMemberId()))) {
 			return ResponseEntity.ok("Update Fail - Same Email");
 		} else {
-			int dupCheck = memberService.dupCheckMemberEmail(memberVO.getEmail());
-			if (dupCheck == 0) {
+			int memberResult = memberService.dupCheckMemberEmail(memberVO.getEmail());
+			int ownerResult = ownerService.dupCheckOwnerEmail(memberVO.getEmail());
+			if (memberResult == 0 && ownerResult == 0) {
 				int result = memberService.updateMemberEmail(memberVO);
 				if (result == 0) { // 업데이트가 안 되면
 					log.info("이메일 수정 실패");
@@ -230,8 +231,9 @@ public class UserRESTController {
 		if (ownerVO.getEmail().equals(ownerService.findEmailByOwnerId(ownerVO.getOwnerId()))) {
 			return ResponseEntity.ok("Update Fail - Same Email");
 		} else {
-			int dupCheck = ownerService.dupCheckOwnerEmail(ownerVO.getEmail());
-			if (dupCheck == 0) {
+			int memberResult = memberService.dupCheckMemberEmail(ownerVO.getEmail());
+			int ownerResult = ownerService.dupCheckOwnerEmail(ownerVO.getEmail());
+			if (memberResult == 0 && ownerResult == 0) {
 				int result = ownerService.updateOwnerEmail(ownerVO);
 				if (result == 0) { // 업데이트가 안 되면
 					log.info("이메일 수정 실패");
@@ -252,8 +254,9 @@ public class UserRESTController {
 		if (memberVO.getPhone().equals(memberService.findPhoneByMemberId(memberVO.getMemberId()))) {
 			return ResponseEntity.ok("Update Fail - Same Phone");
 		} else {
-			int dupCheck = memberService.dupCheckMemberPhone(memberVO.getPhone());
-			if (dupCheck == 0) {
+			int memberResult = memberService.dupCheckMemberPhone(memberVO.getPhone());
+			int ownerResult = ownerService.dupCheckOwnerPhone(memberVO.getPhone());
+			if (memberResult == 0 && ownerResult == 0) {
 				int result = memberService.updateMemberPhone(memberVO);
 				if (result == 0) { // 업데이트가 안 되면
 					log.info("휴대폰 번호 수정 실패");
@@ -273,8 +276,9 @@ public class UserRESTController {
 		if (ownerVO.getPhone().equals(ownerService.findPhoneByOwnerId(ownerVO.getOwnerId()))) {
 			return ResponseEntity.ok("Update Fail - Same Phone");
 		} else {
-			int dupCheck = ownerService.dupCheckOwnerPhone(ownerVO.getPhone());
-			if (dupCheck == 0) {
+			int memberResult = memberService.dupCheckMemberPhone(ownerVO.getPhone());
+			int ownerResult = ownerService.dupCheckOwnerPhone(ownerVO.getPhone());
+			if (memberResult == 0 && ownerResult == 0) {
 				int result = ownerService.updateOwnerPhone(ownerVO);
 				if (result == 0) { // 업데이트가 안 되면
 					log.info("휴대폰 번호 수정 실패");

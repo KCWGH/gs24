@@ -10,4 +10,6 @@ public interface MembershipMapper {
 	int membershipPromotion();
 
 	int initializeSpentAmount();
+
+	int addSpentAmount(int spentAmount, String memberId);
 }

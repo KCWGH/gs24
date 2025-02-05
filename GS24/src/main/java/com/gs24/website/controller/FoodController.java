@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +35,13 @@ public class FoodController {
 	private GiftCardService giftCardService;
 
 	@GetMapping("/list")
-	public void listGET(Model model, Pagination pagination) {
+	public void listGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("listGET()");
 		log.info("pagination" + pagination);
 		List<FoodVO> foodList = foodService.getPaginationFood(pagination);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			String username = authentication.getName();
-			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				model.addAttribute("memberId", username);
 				Map<Integer, Integer> isAddedMap = new HashMap<>();
 				for (FoodVO foodVO : foodList) {

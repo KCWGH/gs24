@@ -5,7 +5,6 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,17 +63,16 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage")
-	public String mypageGET(Model model) {
+	public String mypageGET(Authentication auth, Model model) {
 		log.info("mypageGET()");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			String username = authentication.getName();
-			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				MemberVO memberVO = memberService.getMember(username);
 				model.addAttribute("userInfo", memberVO);
 				model.addAttribute("userRole", "member");
 				model.addAttribute("memberGrade", memberService.findGrade(username));
-			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				OwnerVO ownerVO = ownerService.getOwner(username);
 				model.addAttribute("userInfo", ownerVO);
 				model.addAttribute("userRole", "owner");
@@ -87,15 +85,14 @@ public class UserController {
 	}
 
 	@GetMapping("/verify")
-	public void verifyPasswordGET(Model model) {
+	public void verifyPasswordGET(Authentication auth, Model model) {
 		log.info("verifyPasswordGET()");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			String username = authentication.getName();
-			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				MemberVO memberVO = memberService.getMember(username);
 				model.addAttribute("userInfo", memberVO);
-			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				OwnerVO ownerVO = ownerService.getOwner(username);
 				model.addAttribute("userInfo", ownerVO);
 			} else {
@@ -149,15 +146,14 @@ public class UserController {
 	}
 
 	@GetMapping("/change-pw")
-	public void changePwGET(Model model) {
+	public void changePwGET(Authentication auth, Model model) {
 		log.info("changePwGET()");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			String username = authentication.getName();
-			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				MemberVO memberVO = memberService.getMember(username);
 				model.addAttribute("userInfo", memberVO);
-			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				OwnerVO ownerVO = ownerService.getOwner(username);
 				model.addAttribute("userInfo", ownerVO);
 			} else {

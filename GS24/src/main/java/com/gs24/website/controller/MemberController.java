@@ -3,7 +3,7 @@ package com.gs24.website.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.RecaptchaService;
@@ -47,7 +46,6 @@ public class MemberController {
 			redirectAttributes.addFlashAttribute("message", "reCAPTCHA 검증에 실패했습니다. 다시 시도해주세요.");
 			return "redirect:/member/register";
 		}
-		System.out.println(memberVO);
 		int result = memberService.registerMember(memberVO);
 		if (result == 1) {
 			log.info("registerMemberPOST()");
@@ -59,12 +57,12 @@ public class MemberController {
 	}
 
 	@GetMapping("/myhistory")
-	public String myhistoryGET(@AuthenticationPrincipal CustomUser customUser, Model model) {
+	public String myhistoryGET(Authentication auth, Model model) {
 		log.info("myhistoryGET()");
-		if (customUser != null) {
-			String memberId = customUser.getUsername();
+		if (auth != null) {
+			String memberId = auth.getName();
 			model.addAttribute("memberId", memberId);
 		}
-		return "user/myhistory";
+		return "member/myhistory";
 	}
 }

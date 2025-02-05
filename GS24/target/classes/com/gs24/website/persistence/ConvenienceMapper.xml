@@ -24,4 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             	OWNER.IS_ENABLED
         FROM CONVENIENCE JOIN OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID
     </select>
+    
+    <select id="selectConvenienceIdByOwnerId" resultType="Integer">
+    	SELECT CONVENIENCE_ID FROM CONVENIENCE WHERE OWNER_ID = #{ownerId}
+    </select>
 </mapper>

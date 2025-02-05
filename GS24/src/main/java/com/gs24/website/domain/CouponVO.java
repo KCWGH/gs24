@@ -22,7 +22,8 @@ public class CouponVO {
 	String couponName;
 	int couponAmount;
 	char discountType;
-	int discountValue;
+	int percentage;
+	int amount;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	Date couponExpiredDate;
 	int isDuplicateAllowed;

@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.gs24.website.domain.AdminVO;
 import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.OwnerVO;
+import com.gs24.website.persistence.AdminMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.OwnerMapper;
 
@@ -26,6 +28,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private OwnerMapper ownerMapper;
+
+	@Autowired
+	private AdminMapper adminMapper;
 
 	// 전송된 username으로 사용자 정보를 조회하고, UserDetails에 저장하여 리턴하는 메서드
 	@Override
@@ -51,6 +56,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_OWNER")); // ROLE_OWNER 역할 부여
 			return new CustomUser(ownerVO, authorities);
+		}
+
+		AdminVO adminVO = adminMapper.selectAdminByAdminId(username);
+
+		if (adminVO != null) {
+			// 소유자가 활성화된 경우
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // ROLE_OWNER 역할 부여
+			return new CustomUser(adminVO, authorities);
 		}
 
 		// 3. 회원 또는 소유자가 존재하지 않거나 활성화되지 않은 경우 예외 처리

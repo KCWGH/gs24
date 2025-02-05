@@ -1,5 +1,6 @@
 package com.gs24.website.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,11 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Autowired
+	private CustomLoginSuccessHandler customLoginSuccessHandler;
+	
 	// HttpSecurity 객체를 통해 HTTP 보안 기능을 구성
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests() // ROLE_MEMBER와 ROLE_OWNER중에 선택
 		.antMatchers("/auth/**").permitAll()
+		.antMatchers("/convenience/**").permitAll()
 		.antMatchers("/user/mypage", "/user/verify", "/user/change-pw").authenticated()
         .antMatchers("/user/**").permitAll()
         .antMatchers("/member/myhistory").access("hasRole('ROLE_MEMBER')")
@@ -76,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.formLogin()
         .loginPage("/auth/login")
         .loginProcessingUrl("/auth/login")
-        .defaultSuccessUrl("/food/list", false)// 로그인 성공 후 핸들러 설정
+        .successHandler(customLoginSuccessHandler)  // 로그인 성공 시 핸들러 적용
         .permitAll();
 
 		httpSecurity.logout().logoutUrl("/auth/logout") // logout url 설정

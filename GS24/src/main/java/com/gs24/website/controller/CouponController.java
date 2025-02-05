@@ -46,10 +46,10 @@ public class CouponController {
 			String value = "";
 			switch (couponVO.getDiscountType()) {
 			case 'A':
-				value = couponVO.getDiscountValue() + "원";
+				value = couponVO.getAmount() + "원";
 				break;
 			case 'P':
-				value = couponVO.getDiscountValue() + "%";
+				value = couponVO.getPercentage() + "%";
 				break;
 			}
 			couponVO.setCouponName(foodType + " " + value + " 할인권");
@@ -67,7 +67,7 @@ public class CouponController {
 
 		switch (couponVO.getDiscountType()) {
 		case 'A':
-			if (couponVO.getDiscountValue() >= 1000) {
+			if (couponVO.getAmount() >= 1000) {
 				int result = couponService.publishCoupon(couponVO);
 				if (result == 1) {
 					log.info("publishPOST()");
@@ -80,7 +80,7 @@ public class CouponController {
 			}
 			break;
 		case 'P':
-			if (couponVO.getDiscountValue() >= 5) {
+			if (couponVO.getPercentage() >= 5) {
 				int result = couponService.publishCoupon(couponVO);
 				if (result == 1) {
 					log.info("publishPOST()");

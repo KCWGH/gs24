@@ -15,6 +15,7 @@ import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.GiftCardMapper;
+import com.gs24.website.persistence.MembershipMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.util.Pagination;
 
@@ -38,6 +39,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private CouponQueueMapper couponQueueMapper;
+
+	@Autowired
+	private MembershipMapper membershipMapper;
 
 	@Override
 	@Transactional(value = "transactionManager")
@@ -129,11 +133,15 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
+	@Transactional("transactionManager()")
 	public int updateIsPickUp(int preorderId, int isPickUp) {
 		log.info("updatePreorderInIsPickUp()");
 		int result = preorderMapper.updatePreorderInIsPickUp(preorderId, isPickUp);
+		if (result == 1) {
+			PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
+			membershipMapper.addSpentAmount(preorderVO.getTotalPrice(), preorderVO.getMemberId());
+		}
 		return result;
-
 	}
 
 	@Override
@@ -186,14 +194,14 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public List<PreorderVO> getNotPickUpPreorder(Pagination pagination) {
+	public List<PreorderVO> getNotPickedUpPreorder(Pagination pagination) {
 		log.info("getNotPickUpPreorder()");
 		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
 		return list;
 	}
-	
+
 	@Override
-	public int getCountNotPickUpPreorderByPagination(Pagination pagination) {
+	public int getCountNotPickedUpPreorderByPagination(Pagination pagination) {
 		log.info("getCountNotPickUpPreorderByPagination()");
 		int result = preorderMapper.countNotPickUpPreorderByPagination(pagination);
 		return result;

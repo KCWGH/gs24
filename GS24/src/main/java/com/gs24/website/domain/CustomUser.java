@@ -14,6 +14,7 @@ public class CustomUser extends User { // User 클래스 상속
 
 	private MemberVO memberVO;
 	private OwnerVO ownerVO;
+	private AdminVO adminVO;
 
 	public CustomUser(MemberVO memberVO, Collection<? extends GrantedAuthority> authorities) {
 		// User 클래스 생성자에 username, password, authorities를 적용
@@ -25,6 +26,12 @@ public class CustomUser extends User { // User 클래스 상속
 		// User 클래스 생성자에 username, password, authorities를 적용
 		super(ownerVO.getOwnerId(), ownerVO.getPassword(), authorities);
 		this.ownerVO = ownerVO;
+	}
+
+	public CustomUser(AdminVO adminVO, Collection<? extends GrantedAuthority> authorities) {
+		// User 클래스 생성자에 username, password, authorities를 적용
+		super(adminVO.getAdminId(), adminVO.getPassword(), authorities);
+		this.adminVO = adminVO;
 	}
 
 }
