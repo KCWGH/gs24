@@ -9,11 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewVO;
-import com.gs24.website.persistence.CouponMapper;
-import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FavoritesMapper;
 import com.gs24.website.persistence.FoodMapper;
-import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -24,47 +21,35 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class FoodServiceImple implements FoodService{
+public class FoodServiceImple implements FoodService {
 
 	@Autowired
 	private FoodMapper foodMapper;
-	
+
 	@Autowired
 	private ImgFoodMapper imgFoodMapper;
-	
+
 	@Autowired
 	private ReviewMapper reviewMapper;
-	
+
 	@Autowired
 	private ImgReviewMapper imgReviewMapper;
-	
+
 	@Autowired
 	private FavoritesMapper favoritesMapper;
-	
-	@Autowired
-	private GiftCardMapper giftCardMapper;
-	
-	@Autowired
-	private CouponMapper couponMapper;
-	
-	@Autowired
-	private CouponQueueMapper couponQueueMapper;
-	
-	@Autowired
-	private String uploadPath;
-	
+
 	@Override
 	@Transactional("transactionManager()")
 	public int createFood(FoodVO foodVO) {
 		log.info("createFood()");
 		int result = foodMapper.insertFood(foodVO);
-		
+
 		List<ImgVO> imgList = foodVO.getImgList();
-		
-		for(ImgVO imgVO : imgList) {
+
+		for (ImgVO imgVO : imgList) {
 			imgFoodMapper.insertImgFood(imgVO);
 		}
-		
+
 		return result;
 	}
 
@@ -73,7 +58,7 @@ public class FoodServiceImple implements FoodService{
 	public List<FoodVO> getAllFood() {
 		log.info("getAllFood()");
 		List<FoodVO> foodList = foodMapper.selectFoodList();
-		for(FoodVO i : foodList) {
+		for (FoodVO i : foodList) {
 			List<ImgVO> imgList = imgFoodMapper.selectImgFoodByFoodId(i.getFoodId());
 			i.setImgList(imgList);
 		}
@@ -87,27 +72,27 @@ public class FoodServiceImple implements FoodService{
 		foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
 		return foodVO;
 	}
-	
+
 	public FoodVO getFirstFoodId() {
 		log.info("getFirstFoodId()");
 		return foodMapper.selectFirstFoodId();
 	}
-	
+
 	@Override
 	@Transactional("transactionManager()")
 	public int updateFood(FoodVO foodVO) {
 		log.info("updateFood()");
 		int result = foodMapper.updateFood(foodVO);
-		
+
 		List<ImgVO> imgList = foodVO.getImgList();
-		
+
 		imgFoodMapper.deleteImgFood(foodVO.getFoodId());
-		
-		for(ImgVO imgVO : imgList) {
+
+		for (ImgVO imgVO : imgList) {
 			imgVO.setForeignId(foodVO.getFoodId());
 			imgFoodMapper.insertImgFood(imgVO);
 		}
-		
+
 		return result;
 	}
 
@@ -138,19 +123,19 @@ public class FoodServiceImple implements FoodService{
 		int result = foodMapper.updateFoodAmountByPreorderAmount(foodId, preorderAmount);
 		return result;
 	}
-	
+
 	@Override
 	@Transactional("transactionManager()")
 	public int deleteFood(int foodId) {
 		log.info("deleteFood()");
 		int result = foodMapper.deleteFood(foodId);
-		
+
 		imgFoodMapper.deleteImgFood(foodId);
-		
+
 		reviewMapper.deleteReviewByFoodId(foodId);
-		
+
 		favoritesMapper.deleteAllFavorites(foodId);
-		
+
 		return result;
 	}
 
@@ -160,13 +145,13 @@ public class FoodServiceImple implements FoodService{
 		log.info("getPaginationFood()");
 		List<FoodVO> list = foodMapper.selectFoodPagination(pagination);
 		log.info(list);
-		for(FoodVO foodVO : list) {
+		for (FoodVO foodVO : list) {
 			foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodVO.getFoodId()));
 			log.info(foodVO.getImgList());
 		}
 		return list;
 	}
-	
+
 	@Override
 	public int getFoodTotalCount(Pagination pagination) {
 		log.info("getFoodTotalCount()");
@@ -181,27 +166,28 @@ public class FoodServiceImple implements FoodService{
 		log.info("getDetailData()");
 		Object[] detailData = new Object[3];
 		FoodVO foodVO = foodMapper.selectFoodById(foodId);
-		
+
 		foodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
-		
-		List<ReviewVO> reviewList = reviewMapper.selectReviewPagination(foodId, pagination.getStart(), pagination.getEnd());
-		for(ReviewVO vo: reviewList) {
+
+		List<ReviewVO> reviewList = reviewMapper.selectReviewPagination(foodId, pagination.getStart(),
+				pagination.getEnd());
+		for (ReviewVO vo : reviewList) {
 			List<ImgVO> list = imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId());
 			vo.setImgList(list);
 		}
-		
+
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(reviewMapper.selectTotalCountByFoodId(foodId));
-		
+
 		detailData[0] = foodVO;
 		detailData[1] = reviewList;
 		detailData[2] = pageMaker;
-		
+
 		log.info(reviewList.size());
 		return detailData;
 	}
-	
+
 	@Override
 	public List<String> getFoodTypeList() {
 		List<String> list = foodMapper.selectFoodType();

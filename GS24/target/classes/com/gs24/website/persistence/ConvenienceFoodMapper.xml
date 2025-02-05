@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodType" column="FOOD_TYPE"/>
 		<result property="foodName" column="FOOD_NAME"/>
 		<result property="foodPrice" column="FOOD_PRICE"/>
-		<result property="foodStock" column="FOOD_STOCK"/>
+		<result property="foodAmount" column="FOOD_AMOUNT"/>
 		<result property="foodProtein" column="FOOD_PROTEIN"/>
 		<result property="foodFat" column="FOOD_FAT"/>
 		<result property="foodCarb" column="FOOD_CARB"/>
@@ -20,8 +20,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<insert id="insertConvenienceFood">
-		INSERT INTO CONVENIENCE_FOOD (CONVENIENCE_FOOD_ID,CONVENIENCE_ID,FOOD_ID,FOOD_STOCK)
-		VALUES(CONVENIENCE_FOOD_SEQ.NEXTVAL ,#{convenienceId},#{foodId},#{foodStock})
+		INSERT INTO CONVENIENCE_FOOD (CONVENIENCE_FOOD_ID,CONVENIENCE_ID,FOOD_ID,FOOD_AMOUNT)
+		VALUES(CONVENIENCE_FOOD_SEQ.NEXTVAL ,#{convenienceId},#{foodId},#{foodAmount})
 	</insert>
 	
 	<select id="selectAllConvenienceFood" resultMap="ConvenienceFoodResultMap">
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				FOOD_LIST.FOOD_TYPE,
 				FOOD_LIST.FOOD_NAME,
 				FOOD_LIST.FOOD_PRICE,
-				CONVENIENCE_FOOD.FOOD_STOCK,
+				CONVENIENCE_FOOD.FOOD_AMOUNT,
 				CONVENIENCE_FOOD.FOOD_AVG_RATING,
 				CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
 				IMG_FOOD.IMG_FOOD_PATH
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FOOD_LIST.FOOD_TYPE,
 		FOOD_LIST.FOOD_NAME,
 		FOOD_LIST.FOOD_PRICE,
-		CONVENIENCE_FOOD.FOOD_STOCK,
+		CONVENIENCE_FOOD.FOOD_AMOUNT,
 		CONVENIENCE_FOOD.FOOD_AVG_RATING,
 		CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
 		IMG_FOOD.IMG_FOOD_PATH
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FOOD_LIST.FOOD_PROTEIN,
 		FOOD_LIST.FOOD_FAT,
 		FOOD_LIST.FOOD_CARB,
-		CONVENIENCE_FOOD.FOOD_STOCK,
+		CONVENIENCE_FOOD.FOOD_AMOUNT,
 		CONVENIENCE_FOOD.FOOD_AVG_RATING,
 		CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
 		IMG_FOOD.IMG_FOOD_PATH

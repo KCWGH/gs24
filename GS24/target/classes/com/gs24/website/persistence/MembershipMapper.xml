@@ -12,6 +12,14 @@
 		(#{memberId})
 	</insert>
 	
+	<select id="selectSilverMember" resultType="String">
+		SELECT MEMBER_ID FROM MEMBERSHIP WHERE GRADE = 2
+	</select>
+	
+	<select id="selectGoldMember" resultType="String">
+		SELECT MEMBER_ID FROM MEMBERSHIP WHERE GRADE = 3
+	</select>
+	
 	<update id="membershipEvaluation">
 		UPDATE MEMBERSHIP
 		SET GRADE = CASE

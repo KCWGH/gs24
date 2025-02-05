@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.gs24.website" })
+@ComponentScan(basePackages = { "com.gs24.website.controller" })
 public class ServletConfig implements WebMvcConfigurer {
 
 	@Override

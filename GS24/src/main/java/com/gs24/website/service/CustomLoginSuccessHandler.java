@@ -1,4 +1,4 @@
-package com.gs24.website.config;
+package com.gs24.website.service;
 
 import java.io.IOException;
 import java.util.Collection;

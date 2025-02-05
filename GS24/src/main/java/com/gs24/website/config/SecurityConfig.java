@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.gs24.website.service.CustomLoginSuccessHandler;
 import com.gs24.website.service.CustomUserDetailsService;
 
 // Spring Security의 설정을 정의하는 클래스
@@ -69,7 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/question/list").authenticated()
         .antMatchers("/question/myList").authenticated()
         .antMatchers("/question/detail").permitAll()
-        .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')");
+        .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')")
+        .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN')");
 
 		// 접근 제한 경로 설정
 		httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");

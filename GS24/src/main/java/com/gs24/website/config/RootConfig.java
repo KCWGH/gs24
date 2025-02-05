@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -19,8 +21,9 @@ import com.zaxxer.hikari.HikariDataSource;
 // root-context.xml과 동일
 @Configuration
 @EnableScheduling
-@ComponentScan(basePackages = "com.gs24.website")
+@ComponentScan(basePackages = "com.gs24.website.service")
 @MapperScan(basePackages = { "com.gs24.website.persistence" }) // 패키지 경로로 Mapper 스캐닝
+@EnableTransactionManagement
 public class RootConfig {
 
 	@Bean // 스프링 bean으로 설정. xml의 <bean>태그와 동일
@@ -49,10 +52,20 @@ public class RootConfig {
 		sqlSessionFactoryBean.setDataSource(dataScource());
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
 	}
-	
+
 	@Bean
 	public TransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataScource());
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	@Bean
+	public RecaptchaConfig recaptchaConfig() {
+		return new RecaptchaConfig();
 	}
 
 } // end RootConfig
