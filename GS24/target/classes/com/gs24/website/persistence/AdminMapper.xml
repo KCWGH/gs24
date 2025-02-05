@@ -5,6 +5,10 @@
 		<id property="adminId" column="ADMIN_ID" />
 		<result property="password" column="PASSWORD" />
 	</resultMap>
+	
+	<insert id="insertAdmin">
+		INSERT INTO ADMIN (ADMIN_ID, PASSWORD) VALUES (#{adminId}, #{password})
+	</insert>
 
 	<select id="selectAdminByAdminId" resultMap="adminResultMap">
 		SELECT * FROM ADMIN WHERE ADMIN_ID = #{adminId}

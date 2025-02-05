@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// HttpSecurity 객체를 통해 HTTP 보안 기능을 구성
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeRequests() // ROLE_MEMBER와 ROLE_OWNER중에 선택
+		httpSecurity.authorizeRequests()
 		.antMatchers("/auth/**").permitAll()
 		.antMatchers("/convenience/**").permitAll()
 		.antMatchers("/user/mypage", "/user/verify", "/user/change-pw").authenticated()
@@ -46,15 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/member/myhistory").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/member/register").permitAll()
         .antMatchers("/owner/register").permitAll()
-        .antMatchers("/giftcard/list").access("hasRole('ROLE_MEMBER')")
-        .antMatchers("/giftcard/detail").access("hasRole('ROLE_MEMBER')")
+        .antMatchers("/giftcard/list", "/giftcard/detail", "/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/giftcard/grant").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
-        .antMatchers("/coupon/**").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/food/detail").permitAll()
-        .antMatchers("/food/list").permitAll()
-        .antMatchers("/food/register").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/food/update").access("hasRole('ROLE_OWNER')")
+        .antMatchers("/coupon/**").access("hasRole('ROLE_ADMIN')")
+        .antMatchers("/food/detail", "/food/list").permitAll()
+        .antMatchers("/food/register", "/food/update").access("hasRole('ROLE_OWNER')")
         .antMatchers("/imgfood/register").authenticated()
         .antMatchers("/notice/list").permitAll()
         .antMatchers("/notice/modify").access("hasRole('ROLE_OWNER')")

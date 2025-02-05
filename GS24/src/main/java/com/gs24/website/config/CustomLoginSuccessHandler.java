@@ -40,7 +40,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 				redirectURL = "../convenienceFood/list?convenienceId=" + branchId; // 점주 전용 페이지
 				break;
 			} else if (role.equals("ROLE_ADMIN")) {
-				redirectURL = "/foodlist/list"; // 관리자 전용 페이지
+				redirectURL = "../foodlist/list"; // 관리자 전용 페이지
 				break;
 			}
 		}
