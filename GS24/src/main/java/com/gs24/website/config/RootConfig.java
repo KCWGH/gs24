@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,9 +52,9 @@ public class RootConfig {
 		sqlSessionFactoryBean.setDataSource(dataScource());
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
 	}
-
+	
 	@Bean
-	public PlatformTransactionManager transactionManager() {
+	public TransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataScource());
 	}
 
@@ -62,10 +62,10 @@ public class RootConfig {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
+	
 	@Bean
 	public RecaptchaConfig recaptchaConfig() {
 		return new RecaptchaConfig();
 	}
-
+	
 } // end RootConfig

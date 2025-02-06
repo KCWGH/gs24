@@ -19,6 +19,7 @@
 </style>
 </head>
 <body>
+<%@ include file="../common/header.jsp" %>
 	<button onclick='location.href="register"'>추가</button>
 	<table id="foodTable">
 		<thead>

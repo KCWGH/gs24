@@ -23,18 +23,7 @@
             <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
             <label for="secret" class="form-check-label">비밀글 설정</label>
         </div>
-
-		  <div>
-		    <label for="ownerAddress">매장 선택</label>	    
-		    <select id="ownerId" name="ownerId">
-    			<option value="" selected disabled>선택하세요</option>
-    			<option value="전체">전체</option>
-    				<c:forEach var="owner" items="${ownerVOList}">
-        				<option value="${owner.ownerId}">${owner.address}</option>
-    				</c:forEach>
-			</select>		          
-		</div>
-
+        <br>
         <div>                
              <label for="foodType">음식 종류</label>
                 <select id="foodType" name="foodType" required>

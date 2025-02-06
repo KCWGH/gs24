@@ -4,9 +4,9 @@ import org.apache.ibatis.annotations.Param;
 
 public interface MembershipMapper {
 	int insertMembership(String memberId);
-
+	
 	String[] selectSilverMember();
-
+	
 	String[] selectGoldMember();
 
 	int deleteMembership(String memberId);
@@ -16,6 +16,11 @@ public interface MembershipMapper {
 	int membershipPromotion();
 
 	int initializeSpentAmount();
+<<<<<<< Updated upstream
 
 	int addSpentAmount(@Param("spentAmount") int spentAmount,@Param("memberId") String memberId);
+=======
+	
+	int addSpentAmount(int spentAmount, String memberId);
+>>>>>>> Stashed changes
 }

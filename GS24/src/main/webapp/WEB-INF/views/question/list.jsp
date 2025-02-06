@@ -52,10 +52,6 @@
 <a href="register"><input type="button" value="글 작성"></a>
 </sec:authorize>
 
-<sec:authorize access="hasRole('ROLE_OWNER')">
-<a href="ownerList"><input type="button" value="관련 목록"></a>
-</sec:authorize>
-
 
 <hr>
 <table>
@@ -99,6 +95,11 @@
 
                     <sec:authorize access="hasRole('ROLE_OWNER')"> <!-- 점주일 때 -->
                         <a href="detail?questionId=${QuestionVO.questionId}">
+                            ${QuestionVO.questionTitle} 
+                        </a>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                   		<a href="detail?questionId=${QuestionVO.questionId}">
                             ${QuestionVO.questionTitle} 
                         </a>
                     </sec:authorize>

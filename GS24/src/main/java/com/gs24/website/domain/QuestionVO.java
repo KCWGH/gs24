@@ -22,6 +22,6 @@ public class QuestionVO {
 	Date questionDateCreated; // QUESTION_DATE_CREATED
 	int isAnswered; // IS_ANSWERED
 	boolean questionSecret; // QUESTION_SECRET
-	List<QuestionAttach> questionAttachList;
 	
+	List<QuestionAttach> questionAttachList; // QUESTION_ATTACH_LIST
 }

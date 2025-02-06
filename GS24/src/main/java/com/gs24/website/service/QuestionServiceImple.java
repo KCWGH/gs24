@@ -1,5 +1,6 @@
 package com.gs24.website.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,18 @@ public class QuestionServiceImple implements QuestionService {
 		log.info(insertQuestionResult + "행 게시글 등록");
 	
 		List<QuestionAttach> questionAttachList = questionVO.getQuestionAttachList();
-
+		
+		if (questionAttachList == null) {
+	        questionAttachList = new ArrayList<>();
+	        log.info("첨부파일이 없습니다. 빈 리스트로 처리합니다.");
+	    }
+		
 		int insertQuestionAttachResult = 0;
 		for(QuestionAttach questionAttach : questionAttachList) {
 			insertQuestionAttachResult += questionAttachMapper.insertQuestionAttach(questionAttach);
 		}
 		log.info(insertQuestionAttachResult + "행 파일 정보 등록");
+		
 		
 		return 1;
 	} // end createQuestion()

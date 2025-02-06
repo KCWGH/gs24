@@ -39,7 +39,7 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private CouponQueueMapper couponQueueMapper;
-
+	
 	@Autowired
 	private MembershipMapper membershipMapper;
 
@@ -192,7 +192,7 @@ public class PreorderServiceImple implements PreorderService {
 		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
 		return list;
 	}
-
+	
 	@Override
 	public int getCountNotPickedUpPreorderByPagination(Pagination pagination) {
 		log.info("getCountNotPickUpPreorderByPagination()");

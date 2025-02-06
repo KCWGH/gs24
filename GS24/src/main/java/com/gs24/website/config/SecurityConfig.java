@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/imgfood/register").authenticated()
         .antMatchers("/notice/list").permitAll()
         .antMatchers("/notice/modify").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/notice/register").access("hasRole('ROLE_OWNER')")
+        .antMatchers("/notice/register").access("hasRole('ROLE_ADMIN')")
         .antMatchers("/preorder/create").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/preorder/update").access("hasRole('ROLE_OWNER')")
         .antMatchers("/preorder/list").access("hasRole('ROLE_MEMBER')")
@@ -69,10 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/question/list").authenticated()
         .antMatchers("/question/myList").authenticated()
+        .antMatchers("/question/ownerList").access("hasRole('ROLE_OWNER')")
         .antMatchers("/question/detail").permitAll()
         .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')")
-        .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
-;
+        .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN')");
 
 		// 접근 제한 경로 설정
 		httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");
@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll();
 
 		httpSecurity.logout().logoutUrl("/auth/logout") // logout url 설정
-		.logoutSuccessUrl("/convenience/list") // 로그아웃 성공 시 이동할 url 설정
+		.logoutSuccessUrl("/current") // 로그아웃 성공 시 이동할 url 설정
 		.invalidateHttpSession(true)
 		.clearAuthentication(true);; // 세션 무효화 설정
 

@@ -90,12 +90,11 @@
 
 <hr>
 
-<!-- 점주 역할일 때만 댓글 작성 가능 -->
 <sec:authentication property="principal" var="user"/>
 <sec:authorize access="hasRole('ROLE_OWNER')">
+ <c:if test="${user.username == questionVO.ownerId}">
  <c:if test="${questionVO.isAnswered == 0}">
-    <div style="text-align: left;">
-        <!-- memberId를 숨겨진 input으로 설정 -->
+    <div style="text-align: left;">  
         <input type="hidden" id="memberId" value="${user.username}">
         <textarea id="answerContent"  rows="5" cols="120"></textarea>
         <button id="btnAdd">작성</button>
@@ -104,6 +103,7 @@
     <c:if test="${questionVO.isAnswered == 1}">
         <p style="color: gray;">이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.</p>
     </c:if>
+</c:if>
  
 </sec:authorize>
 
@@ -128,7 +128,7 @@ $("#modifyQuestion").click(function(){
 	var questionId = "<c:out value='${questionVO.questionId}' />";
 	
 	
-	// 게시글 번호를 input name='boardId' 값으로 적용
+	// 게시글 번호를 input name='questionId' 값으로 적용
 	modifyForm.find("input[name='questionId']").val(questionId);				
 
 	modifyForm.submit(); // form 전송

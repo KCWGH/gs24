@@ -58,7 +58,7 @@
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
     
     <!-- 글 작성 페이지 이동 버튼, 점주만 보이도록 -->
-	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	<sec:authorize access="hasRole('ROLE_OWNER')">
     <a href="register"><input type="button" value="글 작성"></a>
 	</sec:authorize>
 	 

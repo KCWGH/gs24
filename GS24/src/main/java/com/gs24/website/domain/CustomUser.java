@@ -33,5 +33,5 @@ public class CustomUser extends User { // User 클래스 상속
 		super(adminVO.getAdminId(), adminVO.getPassword(), authorities);
 		this.adminVO = adminVO;
 	}
-
+	
 }
