@@ -84,7 +84,7 @@ img {
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>
-            <p>${FoodVO.foodStock}개</p>
+            <p>${FoodVO.foodAmount}개</p>
             <p>${FoodVO.foodPrice}원</p>
             <p>${FoodVO.foodAvgRating }점</p>
             <p>리뷰 ${FoodVO.foodReviewCnt }개</p>

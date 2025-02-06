@@ -11,10 +11,10 @@
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <form action="../auth/logout" method="post" style="display: flex; align-items: center; gap: 10px; margin: 0;">
-                    <span>환영합니다, <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
-                        <a href="javascript:void(0);" 
+                    <span>환영합니다, <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize><sec:authorize access="hasRole('ROLE_ADMIN')">관리자 </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_OWNER') or hasRole('ROLE_MEMBER')"><a href="javascript:void(0);" 
                            onclick="window.open('../user/mypage', '_blank', 'width=500,height=700');">
-                           <sec:authentication property="principal.username" /></a>님
+                           <sec:authentication property="principal.username" /></a>님</sec:authorize><sec:authorize access="hasRole('ROLE_ADMIN')"><sec:authentication property="principal.username" />님</sec:authorize>
                     </span>
                     <input type="submit" value="로그아웃">
                     <sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -22,16 +22,17 @@
                     <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드</button>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_OWNER')">
+                    <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
                     <button type="button" onclick="window.open('../giftcard/grant', '_blank', 'width=500,height=700')">기프트카드 제공</button>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <button type="button" onclick='location.href="../foodlist/list"'>음식 창고</button>
                     </sec:authorize>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>
             </sec:authorize>
             <a href="../notice/list" style="display: inline-block;"><button>공지사항</button></a>
-            <a href="../question/list" style="display: inline-block;"><button>전체 문의사항</button></a>
-            <sec:authorize access="hasRole('ROLE_OWNER')">
-			<a href="../question/ownerList"><input type="button" value="매장 문의사항"></a>
-			</sec:authorize>
+            <a href="../question/list" style="display: inline-block;"><button>문의사항(QnA)</button></a>
         </div>
     </div>
 </header>

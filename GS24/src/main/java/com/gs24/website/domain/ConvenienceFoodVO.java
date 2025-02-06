@@ -21,7 +21,7 @@ public class ConvenienceFoodVO {
 	private int foodProtein;
 	private int foodFat;
 	private int foodCarb;
-	private int foodStock;
+	private int foodAmount;
 	private int foodAvgRating;
 	private int foodReviewCnt;
 	private String imgPath;

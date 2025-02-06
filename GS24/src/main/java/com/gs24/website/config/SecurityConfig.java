@@ -49,19 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/owner/register").permitAll()
         .antMatchers("/giftcard/list", "/giftcard/detail", "/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/giftcard/grant").access("hasRole('ROLE_OWNER')")
-<<<<<<< Updated upstream
         .antMatchers("/coupon/**").access("hasRole('ROLE_ADMIN')")
         .antMatchers("/food/detail", "/food/list").permitAll()
         .antMatchers("/food/register", "/food/update").access("hasRole('ROLE_OWNER')")
-=======
-        .antMatchers("/giftcard/purchase").access("hasRole('ROLE_MEMBER')")
-        .antMatchers("/coupon/**").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/food/detail").permitAll()
-        .antMatchers("/food/list").permitAll()
-        .antMatchers("/foodlist/list").permitAll()
-        .antMatchers("/food/register").access("hasRole('ROLE_OWNER')")
-        .antMatchers("/food/update").access("hasRole('ROLE_OWNER')")
->>>>>>> Stashed changes
         .antMatchers("/imgfood/register").authenticated()
         .antMatchers("/notice/list").permitAll()
         .antMatchers("/notice/modify").access("hasRole('ROLE_OWNER')")
@@ -79,10 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")
         .antMatchers("/question/list").authenticated()
         .antMatchers("/question/myList").authenticated()
-        .antMatchers("/question/ownerList").access("hasRole('ROLE_OWNER')")
         .antMatchers("/question/detail").permitAll()
         .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')")
-        .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN')");
+        .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
+;
 
 		// 접근 제한 경로 설정
 		httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");
@@ -94,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll();
 
 		httpSecurity.logout().logoutUrl("/auth/logout") // logout url 설정
-		.logoutSuccessUrl("/current") // 로그아웃 성공 시 이동할 url 설정
+		.logoutSuccessUrl("/convenience/list") // 로그아웃 성공 시 이동할 url 설정
 		.invalidateHttpSession(true)
 		.clearAuthentication(true);; // 세션 무효화 설정
 

@@ -20,10 +20,6 @@ import lombok.extern.log4j.Log4j;
 @Service
 @Log4j
 public class MembershipServiceImple implements MembershipService {
-	
-	public MembershipServiceImple() {
-        System.out.println("Scheduler Created!");
-    }
 
 	@Autowired
 	private GiftCardMapper giftCardMapper;

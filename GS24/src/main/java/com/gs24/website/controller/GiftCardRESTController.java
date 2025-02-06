@@ -6,13 +6,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.GiftCardService;
@@ -49,33 +48,28 @@ public class GiftCardRESTController {
 	}
 
 	@GetMapping("/list-unused")
-	public ResponseEntity<Map<String, Object>> availableList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	public ResponseEntity<Map<String, Object>> availableList(Pagination pagination, Authentication customUser) {
 		return getCouponList("unused", pagination, customUser);
 	}
 
 	@GetMapping("/list-expired")
-	public ResponseEntity<Map<String, Object>> expiredList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	public ResponseEntity<Map<String, Object>> expiredList(Pagination pagination, Authentication customUser) {
 		return getCouponList("expired", pagination, customUser);
 	}
 
 	@GetMapping("/list-used")
-	public ResponseEntity<Map<String, Object>> usedList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	public ResponseEntity<Map<String, Object>> usedList(Pagination pagination, Authentication customUser) {
 		return getCouponList("used", pagination, customUser);
 	}
 
 	@GetMapping("/list-all")
-	public ResponseEntity<Map<String, Object>> allList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	public ResponseEntity<Map<String, Object>> allList(Pagination pagination, Authentication customUser) {
 		return getCouponList("all", pagination, customUser);
 	}
 
-	private ResponseEntity<Map<String, Object>> getCouponList(String type, Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	private ResponseEntity<Map<String, Object>> getCouponList(String type, Pagination pagination, Authentication auth) {
 		log.info("getCouponList()");
-		String memberId = customUser.getUsername();
+		String memberId = auth.getName();
 		Map<String, Object> response = new HashMap<>();
 
 		if (memberId != null) {

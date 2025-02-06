@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,7 +30,7 @@ public class RootConfig {
 	public DataSource dataScource() { // DataSource 객체 리턴 메소드
 		HikariConfig config = new HikariConfig(); // HikariConfig : DBCP 라이브러리
 		config.setDriverClassName("oracle.jdbc.OracleDriver");
-		config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		config.setJdbcUrl("jdbc:oracle:thin:@192.168.0.137:1521:xe");
 		config.setUsername("STUDY");
 		config.setPassword("1234");
 
@@ -54,7 +54,7 @@ public class RootConfig {
 	}
 
 	@Bean
-	public TransactionManager transactionManager() {
+	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataScource());
 	}
 
