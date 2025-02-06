@@ -44,7 +44,6 @@ public class PreorderServiceImple implements PreorderService {
 	private MembershipMapper membershipMapper;
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int createPreorder(PreorderVO preorderVO) {
 		log.info("createPreorder()");
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
@@ -58,7 +57,6 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId) {
 		preorderVO.setAppliedGiftCardId(giftCardId);
 		int createResult = createPreorder(preorderVO);
@@ -70,7 +68,6 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int createPreorder(PreorderVO preorderVO, int couponId) {
 		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
 		int preorderAmount = preorderVO.getPreorderAmount();
@@ -98,7 +95,6 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId) {
 		preorderVO.setAppliedGiftCardId(giftCardId);
 		preorderVO.setAppliedCouponId(couponId);
@@ -126,14 +122,12 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public FoodVO getFoodInfo(int foodId) {
 		log.info("getFoodInfo()");
 		return foodMapper.selectFoodById(foodId);
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public int updateIsPickUp(int preorderId, int isPickUp) {
 		log.info("updatePreorderInIsPickUp()");
 		int result = preorderMapper.updatePreorderInIsPickUp(preorderId, isPickUp);
@@ -145,7 +139,6 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int cancelPreorder(int preorderId, int foodId, int preorderAmount) {
 		log.info("cancelPreorder()");
 		foodMapper.updateFoodAmountByPreorderAmount(foodId, preorderAmount * -1);

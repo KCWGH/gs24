@@ -44,12 +44,16 @@
 	                let preorderNO = this.preorderId;
 	                
 	                let isPickUp = '미수령';
-	                if(this.isPickUp == 1){
-	                    isPickUp = '수령 완';
-	                }
 	                
 	                let isExpiredOrder = '예약 중';
+	                
+	                if(this.isPickUp == 1){
+	                    isPickUp = '수령 완';
+	                    isExpiredOrder = '예약 종료';
+	                }
+	                
 	                if(this.isExpiredOrder == 1){
+	                	isPickUp = '수령 취소';
 	                    isExpiredOrder = '예약 취소';
 	                }
 	                
@@ -156,7 +160,7 @@
 	<div id="list"></div>
 	<br>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<button id="cancel">예약 취소</button>
+	<button id="cancel">미수령 예약 취소</button>
 	<button onclick="location.href='../food/list'">돌아가기</button>
 	<button id="delete">예약 취소 목록 삭제</button>
 	

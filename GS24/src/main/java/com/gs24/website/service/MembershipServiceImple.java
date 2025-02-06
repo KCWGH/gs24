@@ -29,7 +29,7 @@ public class MembershipServiceImple implements MembershipService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	@Scheduled(cron = "*/10 * * * * *") // 10초마다 실행
+	@Scheduled(cron = "*/60 * * * * *") // 10초마다 실행
 	public void membership() {
 		LocalDate lastDayOfMonth = YearMonth.now().atEndOfMonth();
 		LocalDateTime lastDateTime = lastDayOfMonth.atTime(23, 59);
@@ -41,6 +41,7 @@ public class MembershipServiceImple implements MembershipService {
 		membershipMapper.membershipEvaluation();
 		membershipMapper.membershipPromotion();
 		membershipMapper.initializeSpentAmount();
+		log.info("등급에 변경이 생겼어요");
 	}
 
 	private void distributeGiftCards(String[] memberIds, String giftCardName, int balance, Date expiredDate) {
@@ -54,5 +55,5 @@ public class MembershipServiceImple implements MembershipService {
 			giftCardMapper.insertGiftCard(giftCardVO);
 		}
 	}
-
+	
 }

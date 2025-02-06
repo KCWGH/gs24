@@ -24,6 +24,10 @@
 	<form action="update" method="post" id="updateForm">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" name="foodId" value="${FoodVO.foodId }"><br>
+		<p>식품 유형</p>
+		<input type="text" name="foodType" value="${FoodVO.foodType }" required="required"><br>
+		<p>식품 이름</p>
+		<input type="text" name="foodName" value="${FoodVO.foodName }" required="required"><br>
 		<p>재고량</p>
 		<input type="number" name="foodStock" value="${FoodVO.foodStock }" required="required"><br>
 		<p>가격</p>
@@ -226,8 +230,8 @@
 					return;
 				}
 				
-				var i = $(".input-image-list").length / 4 + 1;
-				console.log(i);
+				var i = 0; 
+				i = $(".input-image-list").length / 4 + $(".input-thumnail-image").length / 4;
 				
 				$(".ImgVOList input").each(function(){
 					

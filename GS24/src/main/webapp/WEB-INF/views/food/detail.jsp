@@ -60,7 +60,7 @@
 	</div>
 
 	<button onclick="location.href='../food/list'">돌아가기</button>
-	<button class="reviewRegister" onclick="location.href='..review/register?foodId=${FoodVO.foodId}'" style="display: none;">리뷰 작성</button>
+	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}'" style="display: none;">리뷰 작성</button>
 	
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
@@ -175,7 +175,7 @@
 	      });
 		
 		$("#reviewList").on('click','.reviewItems #reviewDelete', function(){
-			var path = $(".imageList").find('.image_path').val();
+			var path = $(this).prevAll(".imageList").find(".image_path").val();
 			var reviewId = $(this).prevAll(".reviewId").val();
 			var foodId = ${FoodVO.foodId };
 			console.log("path : " + path);

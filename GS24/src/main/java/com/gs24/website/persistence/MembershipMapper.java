@@ -1,5 +1,7 @@
 package com.gs24.website.persistence;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface MembershipMapper {
 	int insertMembership(String memberId);
 
@@ -15,5 +17,5 @@ public interface MembershipMapper {
 
 	int initializeSpentAmount();
 
-	int addSpentAmount(int spentAmount, String memberId);
+	int addSpentAmount(@Param("spentAmount") int spentAmount,@Param("memberId") String memberId);
 }

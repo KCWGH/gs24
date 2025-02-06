@@ -24,6 +24,9 @@ public class PreorderMapperTest {
 	@Autowired
 	private PreorderMapper preorderMapper;
 	
+	@Autowired
+	private ReviewMapper reviewMapper;
+	
 	@Test
 	public void test() {
 		select();
@@ -48,7 +51,7 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		
+		log.info(reviewMapper.selectAvgRatingByFoodId(85));
 	}
 	
 	public void delete() {

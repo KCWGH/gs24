@@ -21,7 +21,10 @@
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<p>리뷰 아이디</p><input type="number" name="reviewId" class="reviewId" value="${reviewVO.reviewId }">
 		<p>식품 아이디</p><input type="number" name="foodId" value="${reviewVO.foodId }">
-		<p>회원 아이디</p><input type="text" name="memberId" value="test" readonly="readonly"><br>
+		<sec:authentication property="principal" var="user"/>	
+		<sec:authorize access="isAuthenticated()">
+		<p>회원 아이디</p><input type="text" name="memberId" value="${user.username}" readonly="readonly"><br>
+		</sec:authorize>
 		<p>리뷰 제목 : </p><input type="text" name="reviewTitle" value="${reviewVO.reviewTitle }">
 		<p>리뷰 내용 : </p><textarea rows="5" cols="30" name="reviewContent">${reviewVO.reviewContent }</textarea>
 		<p>리뷰 별점 : </p><input type="number" name="reviewRating" value="${reviewVO.reviewRating }" min="1" max="5">

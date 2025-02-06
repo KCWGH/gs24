@@ -109,5 +109,9 @@
 		SELECT COUNT(*) FROM REVIEW WHERE FOOD_ID = #{foodId}
 	</select>
 	
+	<select id="selectAvgRatingByFoodId" resultType="Integer">
+		SELECT SUM(REVIEW_RATING) / COUNT(REVIEW_RATING) AS AVG_RATING FROM REVIEW WHERE FOOD_ID = #{foodId}
+	</select>
+	
 </mapper>
 		

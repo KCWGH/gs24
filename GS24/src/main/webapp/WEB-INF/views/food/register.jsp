@@ -31,11 +31,11 @@
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
 		<input type="text" name="foodType" placeholder="식품 유형 입력" required="required"><br>
 		<input type="text" name="foodName" placeholder="식품명 입력" required="required"><br>
-		<input type="number" name="foodStock" placeholder="재고량 입력" required="required"><br>
-		<input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required"><br>
-		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
-		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
-		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required">
+		<input type="number" name="foodStock" placeholder="재고량 입력" required="required" min="1"><br>
+		<input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required" min="1"><br>
+		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required" min="1"><br>
+		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required" min="1"><br>
+		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required" min="1">
 	</form>
 	
 	<div class="thumnail-drop">

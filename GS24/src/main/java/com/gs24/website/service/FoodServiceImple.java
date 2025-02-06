@@ -79,6 +79,7 @@ public class FoodServiceImple implements FoodService {
 	@Override
 	public int updateFood(FoodVO foodVO) {
 		log.info("updateFood()");
+		log.info(foodVO);
 		int result = foodMapper.updateFood(foodVO);
 
 		List<ImgVO> imgList = foodVO.getImgList();

@@ -35,7 +35,6 @@ public class MemberServiceImple implements MemberService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int registerMember(MemberVO memberVO) {
 		String memberId = memberVO.getMemberId();
 		String password = memberVO.getPassword();
@@ -84,7 +83,6 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	@Transactional(value = "transactionManager")
 	public int deleteMember(String memberId) {
 		if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) == 0) { // 잔액이 남은 기프트카드가 없을 경우
 			membershipMapper.deleteMembership(memberId);

@@ -41,4 +41,6 @@ public interface ReviewMapper {
 	List<ReviewVO> selectReviewPagination(@Param("foodId")int foodId, @Param("start")int start, @Param("end")int end);
 	
 	int selectTotalCountByFoodId(int foodId);
+	
+	int selectAvgRatingByFoodId(int foodId);
 }
