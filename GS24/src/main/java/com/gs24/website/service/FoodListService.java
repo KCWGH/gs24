@@ -14,4 +14,6 @@ public interface FoodListService {
 	int updateFoodById(FoodListVO foodListVO);
 	
 	int deleteFoodById(int foodId);
+	
+	int updateFoodStockByFoodAmount(int foodId, int foodAmount);
 }

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodServiceImple;
@@ -73,14 +74,26 @@ public class ConvenienceFoodController {
 	@GetMapping("/detail")
 	public void detailGET(Model model, int foodId) {
 		log.info("detailGET()");
-
-		ConvenienceFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId);
+		
+		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId);
 		List<ReviewVO> reviewList = convenienceFoodServiceImple.getReviewsByFoodId(foodId);
-
+		
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
-
+		
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
+	}
+	
+	@GetMapping("/register")
+	public String registerGET(Authentication auth, int foodId, int foodAmount) {
+		log.info("registerGET");
+		
+		log.info("foodId : " + foodId + "  foodAmount : " + foodAmount);
+		String ownerId = auth.getName();
+		
+		convenienceFoodServiceImple.createConvenienceFood(foodId, foodAmount, ownerId);
+		
+		return "redirect:../foodlist/list";
 	}
 }

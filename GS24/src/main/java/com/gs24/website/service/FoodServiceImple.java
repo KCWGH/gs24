@@ -39,7 +39,6 @@ public class FoodServiceImple implements FoodService {
 	private FavoritesMapper favoritesMapper;
 
 	@Override
-	@Transactional("transactionManager()")
 	public int createFood(FoodVO foodVO) {
 		log.info("createFood()");
 		int result = foodMapper.insertFood(foodVO);
@@ -54,7 +53,6 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public List<FoodVO> getAllFood() {
 		log.info("getAllFood()");
 		List<FoodVO> foodList = foodMapper.selectFoodList();
@@ -79,7 +77,6 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public int updateFood(FoodVO foodVO) {
 		log.info("updateFood()");
 		int result = foodMapper.updateFood(foodVO);
@@ -125,7 +122,6 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public int deleteFood(int foodId) {
 		log.info("deleteFood()");
 		int result = foodMapper.deleteFood(foodId);
@@ -140,7 +136,6 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public List<FoodVO> getPaginationFood(Pagination pagination) {
 		log.info("getPaginationFood()");
 		List<FoodVO> list = foodMapper.selectFoodPagination(pagination);
@@ -161,7 +156,6 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public Object[] getDetailData(int foodId, Pagination pagination) {
 		log.info("getDetailData()");
 		Object[] detailData = new Object[3];

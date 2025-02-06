@@ -59,7 +59,7 @@ img {
    <h1>식품 리스트</h1>
    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
-      <button onclick='location.href="register"'>식품등록</button>
+      <button onclick='location.href="../foodlist/list"'>식품등록</button>
       <button onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button><br>
    </sec:authorize>
    <!-- 
@@ -100,7 +100,6 @@ img {
                </c:choose>
             </sec:authorize>
             	<sec:authorize access="hasRole('ROLE_OWNER')">
-					<button onclick="location.href='update?foodId=${FoodVO.foodId}'">식품 수정</button><br>
                		<button class="deleteFood">식품 삭제</button>
             </sec:authorize>
          </li>

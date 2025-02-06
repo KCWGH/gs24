@@ -29,7 +29,6 @@ public class ReviewServiceImple implements ReviewService {
 	private FoodMapper foodMapper;
 
 	@Override
-	@Transactional("transactionManager()")
 	public int createReview(ReviewVO reviewVO) {
 		log.info("createReview()");
 
@@ -51,7 +50,7 @@ public class ReviewServiceImple implements ReviewService {
 			totalReviewRating += i.getReviewRating();
 		}
 
-		log.info("Æò±Õ º°Á¡ : " + totalReviewRating / size);
+		log.info("평균 별점 : " + totalReviewRating / size);
 		foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
 		foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
 		return result;
@@ -83,7 +82,6 @@ public class ReviewServiceImple implements ReviewService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public int updateReview(ReviewVO reviewVO) {
 		log.info("updateReview");
 		int result = reviewMapper.updateReview(reviewVO);
@@ -112,7 +110,7 @@ public class ReviewServiceImple implements ReviewService {
 		}
 
 		if (size > 0) {
-			log.info("��� ���� : " + totalReviewRating / size);
+			log.info("평균 별점 : " + totalReviewRating / size);
 			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
 			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
 		} else {
@@ -124,7 +122,6 @@ public class ReviewServiceImple implements ReviewService {
 	}
 
 	@Override
-	@Transactional("transactionManager()")
 	public int deleteReview(int reviewId, int foodId) {
 		log.info("deleteReview");
 
@@ -142,7 +139,7 @@ public class ReviewServiceImple implements ReviewService {
 		log.info(size);
 
 		if (size > 0) {
-			log.info("��� ���� : " + totalReviewRating / size);
+			log.info("평균 별점 :" + totalReviewRating / size);
 			foodMapper.updateFoodAvgRatingByFoodId(foodId, totalReviewRating / size);
 			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
 		} else {

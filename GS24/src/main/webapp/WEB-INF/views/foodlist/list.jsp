@@ -33,6 +33,9 @@
 				<th>재고량</th>
 				<th>상태</th>
 				<th colspan="3">기타</th>
+				<sec:authorize access="hasRole('ROLE_OWNER')">
+					<th>발주</th>
+				</sec:authorize>
 			</tr>
 		</thead>
 		
@@ -46,7 +49,7 @@
 			<td>${foodListVO.foodProtein }</td>
 			<td>${foodListVO.foodFat }</td>
 			<td>${foodListVO.foodCarb }</td>
-			<td>${foodListVO.foodStock }</td>
+			<td class="foodStock">${foodListVO.foodStock }</td>
 			<c:choose>
 				<c:when test="${foodListVO.isSelling == 0 }">
 					<td>판매 중지</td>
@@ -61,6 +64,9 @@
 			<td><a href="../image/foodThumnail?foodId=${foodListVO.foodId }" target="_blank">썸내일 보기</a></td>
 			<td><a href="update?foodId=${foodListVO.foodId }">수정</a></td>
 			<td class="delete"><a href="delete?foodId=${foodListVO.foodId }">삭제</a></td>
+			<sec:authorize access="hasRole('ROLE_OWNER')">
+			 	<td><input class="foodAmount" type="number"><button class="insert">발주</button></td>
+   			</sec:authorize>
 		</tr>
 		</c:forEach>
 		</tbody>
@@ -88,6 +94,22 @@
 	  				}
 	  			});
 				
+			});
+			$(".foodRow").on('click','td .insert', function(){
+				console.log(this);
+				var foodAmount = $(this).prev().val();
+				var foodId = $(this).parents().prevAll('.foodId').text();
+				var foodStock = $(this).parents().prevAll('.foodStock').text();
+				console.log(foodId);
+				console.log(foodAmount);
+				console.log(foodStock);
+				console.log(foodStock - foodAmount);
+				
+				if(foodStock - foodAmount >= 0){
+					location.href="../convenienceFood/register?foodId=" + foodId + "&foodAmount=" + foodAmount;
+				}
+				
+				alert("재고량보다 발주량이 많습니다.");
 			});
 			
 		});

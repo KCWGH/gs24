@@ -1,5 +1,7 @@
 package com.gs24.website.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +13,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ConvenienceFoodVO {
+public class ConvenienceDetailFoodVO {
 	private int convenienceFoodId;
 	private int convenienceId;
 	private int foodId;
 	private String foodType;
 	private String foodName;
 	private int foodPrice;
+	private int foodProtein;
+	private int foodFat;
+	private int foodCarb;
 	private int foodAmount;
-	private int foodAvgRating;
-	private int foodReviewCnt;
-	private String imgPath;
+	
+	private List<ImgVO> imgList;
 }

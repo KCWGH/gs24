@@ -11,12 +11,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodName" column="FOOD_NAME"/>
 		<result property="foodPrice" column="FOOD_PRICE"/>
 		<result property="foodAmount" column="FOOD_AMOUNT"/>
-		<result property="foodProtein" column="FOOD_PROTEIN"/>
-		<result property="foodFat" column="FOOD_FAT"/>
-		<result property="foodCarb" column="FOOD_CARB"/>
 		<result property="foodAvgRating" column="FOOD_AVG_RATING"/>
 		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT"/>
 		<result property="imgPath" column="IMG_FOOD_PATH"/>
+	</resultMap>
+	
+	<resultMap type="com.gs24.website.domain.ConvenienceDetailFoodVO" id="ConvenienceDetailFoodResultMap">
+		<id property="convenienceFoodId" column="CONVENIENCE_FOOD_ID"/>
+		<result property="convenienceId" column="CONVENIENCE_ID"/>
+		<result property="foodId" column="FOOD_ID"/>
+		<result property="foodType" column="FOOD_TYPE"/>
+		<result property="foodName" column="FOOD_NAME"/>
+		<result property="foodPrice" column="FOOD_PRICE"/>
+		<result property="foodProtein" column="FOOD_PROTEIN"/>
+		<result property="foodFat" column="FOOD_FAT"/>
+		<result property="foodCarb" column="FOOD_CARB"/>
+		<result property="foodAmount" column="FOOD_AMOUNT"/>
 	</resultMap>
 	
 	<insert id="insertConvenienceFood">
@@ -55,10 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = FOOD_LIST.FOOD_ID
-		WHERE CONVENIENCE_ID = #{convenienceId}
+		WHERE CONVENIENCE_ID = #{convenienceId} ORDER BY CONVENIENCE_FOOD_ID DESC
 	</select>
 	
-	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceFoodResultMap">
+	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceDetailFoodResultMap">
 		SELECT DISTINCT
 		CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID,
 		CONVENIENCE_FOOD.CONVENIENCE_ID,
@@ -69,13 +79,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FOOD_LIST.FOOD_PROTEIN,
 		FOOD_LIST.FOOD_FAT,
 		FOOD_LIST.FOOD_CARB,
-		CONVENIENCE_FOOD.FOOD_AMOUNT,
-		CONVENIENCE_FOOD.FOOD_AVG_RATING,
-		CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
-		IMG_FOOD.IMG_FOOD_PATH
+		CONVENIENCE_FOOD.FOOD_AMOUNT
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = FOOD_LIST.FOOD_ID
 		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId}
 	</select>
+	
+	<select id="checkHasFood" resultType="Integer">
+		SELECT CASE WHEN EXISTS (SELECT 1 FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}) THEN 1 ELSE 0 END AS result
+		FROM DUAL
+	</select>
+	
+	<update id="updateFoodAmountByInsert">
+		UPDATE CONVENIENCE_FOOD SET FOOD_AMOUNT = FOOD_AMOUNT + #{foodAmount} WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+	</update>
 </mapper>

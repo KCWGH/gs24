@@ -78,4 +78,12 @@ public class FoodListServiceImple implements FoodListService{
 		return result;
 	}
 
+	@Override
+	public int updateFoodStockByFoodAmount(int foodId, int foodAmount) {
+		log.info("updateFoodStockByFoodAmount()");
+		
+		int result = foodListMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
+		
+		return result;
+	}
 }

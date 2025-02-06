@@ -4,30 +4,62 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
+import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.ConvenienceMapper;
+import com.gs24.website.persistence.FoodListMapper;
+import com.gs24.website.persistence.ImgFoodMapper;
+import com.gs24.website.persistence.ImgMapper;
+import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 
-import lombok.extern.java.Log;
+
+import lombok.extern.log4j.Log4j;
 
 @Service
-@Log
+@Log4j
 public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
 	
 	@Autowired
+	private ConvenienceMapper convenienceMapper;
+	
+	@Autowired
+	private FoodListMapper foodListMapper;
+	
+	@Autowired
+	private ImgFoodMapper imgFoodMapper;
+	
+	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	@Autowired
+	private ImgReviewMapper imgReviewMapper;
+	
 	@Override
-	public int createConvenienceFood(ConvenienceFoodVO convenienceFoodVO) {
+	public int createConvenienceFood(int foodId, int foodAmount, String ownerId) {
 		log.info("createConvenienceFood()");
 		
-		int result = convenienceFoodMapper.insertConvenienceFood(convenienceFoodVO);
+		int result = 0;
+		
+		int convenienceId = convenienceMapper.selectConvenienceIdByOwnerId(ownerId);
+		foodListMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
+		
+		if(convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1) {
+			log.info("기존 데이터가 있음!!");
+			result = convenienceFoodMapper.updateFoodAmountByInsert(foodId, foodAmount, convenienceId);
+			return result;
+		}
+		
+		
+		result = convenienceFoodMapper.insertConvenienceFood(foodId,foodAmount,convenienceId);
 		
 		return result;
 	}
@@ -51,10 +83,12 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public ConvenienceFoodVO getDetailConvenienceFoodByFoodId(int foodId) {
+	public ConvenienceDetailFoodVO getDetailConvenienceFoodByFoodId(int foodId) {
 		log.info("getDetailConvenienceFoodByFoodId()");
 		
-		ConvenienceFoodVO convenienceFoodVO = convenienceFoodMapper.selectDetailConvenienceFoodByFoodId(foodId);
+		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodMapper.selectDetailConvenienceFoodByFoodId(foodId);
+		
+		convenienceFoodVO.setImgList(imgFoodMapper.selectImgFoodByFoodId(foodId));
 		
 		return convenienceFoodVO;
 	}
@@ -64,6 +98,10 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		log.info("getReviewsByFoodId()");
 		
 		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(foodId);
+		
+		for(ReviewVO reviewVO : list) {
+			reviewVO.setImgList(imgReviewMapper.selectImgReviewByReviewId(reviewVO.getReviewId()));
+		}
 		
 		return list;
 	}

@@ -34,16 +34,24 @@
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<ul>
 	<div class="image-list">
+	<ul>
 		<li>
 			<img class="thumnail" src="../image/foodThumnail?foodId=${FoodVO.foodId }">
 		</li>
-	</div>
+		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+		<li>
+			<div class="image-item">
+				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
+				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
+			</div>
+		<li>
+		</c:forEach>
 	</ul>
+	</div>
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
-	<p>재고량 : ${FoodVO.foodStock }개</p>
+	<p>재고량 : ${FoodVO.foodAmount }개</p>
 	<p>가격 : ${FoodVO.foodPrice }원</p>
 	<p>영양 정보</p>
 	<div id="chart">
@@ -51,7 +59,7 @@
 	</div>
 
 	<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
-	<button class="reviewRegister" onclick="location.href='..review/register?foodId=${FoodVO.foodId}'" style="display: none;">리뷰 작성</button>
+	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}'">리뷰 작성</button>
 	
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
