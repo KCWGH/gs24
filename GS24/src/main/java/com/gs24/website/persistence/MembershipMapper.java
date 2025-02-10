@@ -16,11 +16,6 @@ public interface MembershipMapper {
 	int membershipPromotion();
 
 	int initializeSpentAmount();
-<<<<<<< Updated upstream
 
 	int addSpentAmount(@Param("spentAmount") int spentAmount,@Param("memberId") String memberId);
-=======
-	
-	int addSpentAmount(int spentAmount, String memberId);
->>>>>>> Stashed changes
 }

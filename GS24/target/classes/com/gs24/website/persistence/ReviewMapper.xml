@@ -14,8 +14,12 @@
 		<result property="reviewDateCreated"
 			column="REVIEW_DATE_CREATED" />
 	</resultMap>
-
-
+	
+	<resultMap type="com.gs24.website.domain.ReviewRatingVO" id="reviewRatingResultMap">
+		<result property="avgRating" column="AVG_RATING"/>
+		<result property="reviewCnt" column="REVIEW_CNT"/>
+	</resultMap>
+	
 	<insert id="insertReview">
 		INSERT INTO REVIEW
 		(REVIEW_ID, MEMBER_ID,
@@ -111,6 +115,10 @@
 	
 	<select id="selectAvgRatingByFoodId" resultType="Integer">
 		SELECT SUM(REVIEW_RATING) / COUNT(REVIEW_RATING) AS AVG_RATING FROM REVIEW WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	<select id="selectTotalRatingReviewCntByFoodId" resultMap="reviewRatingResultMap">
+		SELECT (SUM(REVIEW_RATING) / COUNT(FOOD_ID))AS AVG_RATING, COUNT(FOOD_ID) AS REVIEW_CNT FROM REVIEW WHERE FOOD_ID = #{foodId}
 	</select>
 	
 </mapper>

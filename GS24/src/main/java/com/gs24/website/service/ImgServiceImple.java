@@ -9,7 +9,6 @@ import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
-
 import lombok.extern.log4j.Log4j;
 
 @Service

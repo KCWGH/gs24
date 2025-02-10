@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.FoodVO;
@@ -66,12 +67,13 @@ public class PreorderController {
 		MemberVO memberVO = memberService.getMember(memberId);
 		model.addAttribute("memberVO", memberVO);
 
-		FoodVO foodVO = preorderService.getFoodInfo(foodId);
-		if (foodVO.getFoodStock() <= 0) {
-			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
-			return "redirect:/food/list";
-		}
-		model.addAttribute("foodVO", foodVO);
+//		FoodVO foodVO = preorderService.getFoodInfo(foodId);
+//		if (foodVO.getFoodStock() <= 0) {
+//			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
+//			return "redirect:/food/list";
+//		}
+//		model.addAttribute("foodVO", foodVO);
+		ConvenienceFoodVO foodVO = preorderService.getConvenienceFoodInfo(foodId, 1);
 		List<CouponVO> couponList = couponService.getCouponListByFoodType(foodVO.getFoodType());
 		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId, foodVO.getFoodType());
 		model.addAttribute("couponList", couponList);

@@ -83,6 +83,15 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
+	public ConvenienceFoodVO getConvenienceFoodByFoodId(int foodId, int convenienceId) {
+		log.info("getConvenienceFoodByFoodId()");
+		
+		ConvenienceFoodVO convenienceFoodVO = convenienceFoodMapper.selectConvenienceFoodByFoodId(foodId, convenienceId);
+		
+		return convenienceFoodVO;
+	}
+
+	@Override
 	public ConvenienceDetailFoodVO getDetailConvenienceFoodByFoodId(int foodId) {
 		log.info("getDetailConvenienceFoodByFoodId()");
 		
@@ -105,5 +114,6 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		
 		return list;
 	}
+
 
 }

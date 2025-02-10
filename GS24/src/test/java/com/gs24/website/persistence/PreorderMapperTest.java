@@ -51,7 +51,7 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		log.info(reviewMapper.selectAvgRatingByFoodId(85));
+		log.info(reviewMapper.selectTotalRatingReviewCntByFoodId(4));
 	}
 	
 	public void delete() {

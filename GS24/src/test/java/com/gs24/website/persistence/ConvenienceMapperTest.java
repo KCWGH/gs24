@@ -29,7 +29,7 @@ public class ConvenienceMapperTest {
 	
 	@Test
 	public void test() {
-		
+		selectFood();
 	}
 	
 	void select() {
@@ -51,7 +51,7 @@ public class ConvenienceMapperTest {
 	}
 	
 	void selectFood() {
-		log.info(convenienceFoodMapper.selectAllConvenienceFood());
+		log.info(convenienceFoodMapper.selectConvenienceFoodByConvenienceId(1));
 	}
 	
 	void getId() {

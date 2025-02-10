@@ -74,6 +74,7 @@ public class FoodListServiceImple implements FoodListService{
 	public int deleteFoodById(int foodId) {
 		log.info("deleteFoodById()");
 		int result = foodListMapper.deleteFoodById(foodId);
+		log.info("삭제 중");
 		imgFoodMapper.deleteImgFood(foodId);
 		return result;
 	}

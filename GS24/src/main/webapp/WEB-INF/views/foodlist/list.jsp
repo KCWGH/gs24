@@ -20,7 +20,9 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 	<button onclick='location.href="register"'>추가</button>
+	</sec:authorize>
 	<table id="foodTable">
 		<thead>
 			<tr>
@@ -33,8 +35,11 @@
 				<th>탄수화물 양</th>
 				<th>재고량</th>
 				<th>상태</th>
-				<th colspan="3">기타</th>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<th colspan="3">기타</th>
+				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_OWNER')">
+					<th colspan="1">기타</th>
 					<th>발주</th>
 				</sec:authorize>
 			</tr>
@@ -53,18 +58,20 @@
 			<td class="foodStock">${foodListVO.foodStock }</td>
 			<c:choose>
 				<c:when test="${foodListVO.isSelling == 0 }">
-					<td>판매 중지</td>
+					<td class="isSelling">판매 중지</td>
 				</c:when>
 				<c:when test="${foodListVO.isSelling == 1 }">
-					<td>판매 진행</td>
+					<td class="isSelling">판매 진행</td>
 				</c:when>
 				<c:when test="${foodListVO.isSelling == 2 }">
-					<td>판매 대기</td>
+					<td class="isSelling">판매 대기</td>
 				</c:when>
 			</c:choose>
 			<td><a href="../image/foodThumnail?foodId=${foodListVO.foodId }" target="_blank">썸내일 보기</a></td>
-			<td><a href="update?foodId=${foodListVO.foodId }">수정</a></td>
-			<td class="delete"><a href="delete?foodId=${foodListVO.foodId }">삭제</a></td>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<td><a href="update?foodId=${foodListVO.foodId }">수정</a></td>
+				<td class="delete"><a href="delete?foodId=${foodListVO.foodId }">삭제</a></td>
+			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_OWNER')">
 			 	<td><input class="foodAmount" type="number"><button class="insert">발주</button></td>
    			</sec:authorize>
@@ -101,6 +108,15 @@
 				var foodAmount = $(this).prev().val();
 				var foodId = $(this).parents().prevAll('.foodId').text();
 				var foodStock = $(this).parents().prevAll('.foodStock').text();
+				var isSelling = $(this).parents().prevAll('.isSelling').text();
+				
+				console.log(isSelling);
+				
+				if(isSelling != '판매 진행'){
+					alert("판매 진행 중인 상품이 아닙니다.");
+					return;
+				}
+				
 				console.log(foodId);
 				console.log(foodAmount);
 				console.log(foodStock);
@@ -108,9 +124,9 @@
 				
 				if(foodStock - foodAmount >= 0){
 					location.href="../convenienceFood/register?foodId=" + foodId + "&foodAmount=" + foodAmount;
+				}else{					
+				 	alert("재고량보다 발주량이 많습니다.");
 				}
-				
-				alert("재고량보다 발주량이 많습니다.");
 			});
 			
 		});

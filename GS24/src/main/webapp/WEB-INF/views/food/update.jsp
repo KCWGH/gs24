@@ -104,6 +104,7 @@
 				
 				if(file.length > 1){
 					console.log("썸네일 파일이 너무 많습니다.");
+					alert("대표 사진을 등록해야 합니다.");
 					return false;
 				}
 				var fileName = file[0].name;
@@ -218,15 +219,22 @@
 				var updateForm = $('#updateForm');
 				
 				var isInputEmpty = false;
-				updateForm.find('input').each(function(){
+				var isMinusValue = false;
+				registerForm.find('input').each(function(){
 					if($(this).val() == ''){
 						console.log("값이 빈 곳이 존재합니다.");
 						isInputEmpty = true;
+					}else if($(this).val() < 1){
+						console.log("값이 음수인 곳이 존재합니다.");
+						isMinusValue = true;
 					}
 				});
 				
 				if(isInputEmpty){
 					alert("값이 빈 곳이 존재합니다.");
+					return;
+				} else if(isMinusValue){
+					alert("값이 음수인 곳이 존재합니다.");
 					return;
 				}
 				

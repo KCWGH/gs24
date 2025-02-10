@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ImgVO;
+import com.gs24.website.domain.ReviewRatingVO;
 import com.gs24.website.domain.ReviewVO;
+import com.gs24.website.persistence.FoodListMapper;
 import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -27,6 +29,9 @@ public class ReviewServiceImple implements ReviewService {
 
 	@Autowired
 	private FoodMapper foodMapper;
+	
+	@Autowired
+	private FoodListMapper foodListMapper;
 
 	@Override
 	public int createReview(ReviewVO reviewVO) {
@@ -42,17 +47,9 @@ public class ReviewServiceImple implements ReviewService {
 
 		int result = reviewMapper.insertReview(reviewVO);
 		
-		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
-
-		int totalReviewRating = 0;
-		int size = list.size();
-		for (ReviewVO i : list) {
-			totalReviewRating += i.getReviewRating();
-		}
-
-		log.info("평균 별점 : " + totalReviewRating / size);
-		foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
-		foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
+		ReviewRatingVO reviewRatingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(reviewVO.getFoodId());
+		
+		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(reviewRatingVO.getAvgRating(), reviewRatingVO.getReviewCnt(), reviewVO.getFoodId());
 		return result;
 	}
 
@@ -100,23 +97,10 @@ public class ReviewServiceImple implements ReviewService {
 			}
 		}
 		
-		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(reviewVO.getFoodId());
-		int size = list.size();
-
-		int totalReviewRating = 0;
-
-		for (ReviewVO i : list) {
-			totalReviewRating += i.getReviewRating();
-		}
-
-		if (size > 0) {
-			log.info("평균 별점 : " + totalReviewRating / size);
-			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), totalReviewRating / size);
-			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
-		} else {
-			foodMapper.updateFoodAvgRatingByFoodId(reviewVO.getFoodId(), size);
-			foodMapper.updateFoodReviewCntByFoodId(reviewVO.getFoodId(), size);
-		}
+		int foodId = reviewVO.getFoodId();
+		ReviewRatingVO ratingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(foodId);
+		
+		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
 
 		return result;
 	}
@@ -128,24 +112,8 @@ public class ReviewServiceImple implements ReviewService {
 		int result = reviewMapper.deleteReview(reviewId);
 		imgReviewMapper.deleteImgReviewByReviewId(reviewId);
 		
-		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(foodId);
-
-		int totalReviewRating = 0;
-		int size = list.size();
-
-		for (ReviewVO i : list) {
-			totalReviewRating += i.getReviewRating();
-		}
-		log.info(size);
-
-		if (size > 0) {
-			log.info("평균 별점 :" + totalReviewRating / size);
-			foodMapper.updateFoodAvgRatingByFoodId(foodId, totalReviewRating / size);
-			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
-		} else {
-			foodMapper.updateFoodAvgRatingByFoodId(foodId, size);
-			foodMapper.updateFoodReviewCntByFoodId(foodId, size);
-		}
+		ReviewRatingVO ratingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(foodId);
+		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
 		
 		return result;
 	}

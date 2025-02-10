@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodCarb" column="FOOD_CARB"/>
 		<result property="foodStock" column="FOOD_STOCK"/>
 		<result property="isSelling" column="IS_SELLING"/>
+		<result property="foodAvgRating" column="FOOD_AVG_RATING"/>
+		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT"/>
 	</resultMap>
 	
 	<insert id="insertFood">
@@ -39,5 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateFoodStockByFoodAmount">
 		UPDATE FOOD_LIST SET FOOD_STOCK = FOOD_STOCK - #{foodAmount} WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<update id="updateFoodTotalRatingFoodReviewCntByFoodId">
+		UPDATE FOOD_LIST SET FOOD_AVG_RATING = #{avgRating}, FOOD_REVIEW_CNT = #{reviewCnt} WHERE FOOD_ID = #{foodId}
 	</update>
 </mapper>

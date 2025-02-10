@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.CouponQueueVO;
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
+import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.FoodMapper;
@@ -30,6 +32,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private FoodMapper foodMapper;
+	
+	@Autowired
+	private ConvenienceFoodMapper convenienceFoodMapper;
 
 	@Autowired
 	private GiftCardMapper giftCardMapper;
@@ -126,7 +131,13 @@ public class PreorderServiceImple implements PreorderService {
 		log.info("getFoodInfo()");
 		return foodMapper.selectFoodById(foodId);
 	}
-
+	
+	@Override
+	public ConvenienceFoodVO getConvenienceFoodInfo(int foodId, int convenienceId) {
+		log.info("getConvenienceFoodInfo()");
+		return convenienceFoodMapper.selectConvenienceFoodByFoodId(foodId, convenienceId);
+	}
+	
 	@Override
 	public int updateIsPickUp(int preorderId, int isPickUp) {
 		log.info("updatePreorderInIsPickUp()");

@@ -23,6 +23,8 @@ public class FoodListVO {
 	private int foodCarb;
 	private int foodStock;
 	private int isSelling;
+	private int foodAvgRating;
+	private int foodReviewCnt;
 	
 	private List<ImgVO> imgList;
 }

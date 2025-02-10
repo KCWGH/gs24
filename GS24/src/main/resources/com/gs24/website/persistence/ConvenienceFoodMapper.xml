@@ -11,9 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="foodName" column="FOOD_NAME"/>
 		<result property="foodPrice" column="FOOD_PRICE"/>
 		<result property="foodAmount" column="FOOD_AMOUNT"/>
+		<result property="imgPath" column="IMG_FOOD_PATH"/>
 		<result property="foodAvgRating" column="FOOD_AVG_RATING"/>
 		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT"/>
-		<result property="imgPath" column="IMG_FOOD_PATH"/>
 	</resultMap>
 	
 	<resultMap type="com.gs24.website.domain.ConvenienceDetailFoodVO" id="ConvenienceDetailFoodResultMap">
@@ -41,9 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				FOOD_LIST.FOOD_TYPE,
 				FOOD_LIST.FOOD_NAME,
 				FOOD_LIST.FOOD_PRICE,
+				FOOD_LIST.FOOD_AVG_RATING,
+				FOOD_LIST.FOOD_REVIEW_CNT,
 				CONVENIENCE_FOOD.FOOD_AMOUNT,
-				CONVENIENCE_FOOD.FOOD_AVG_RATING,
-				CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
 				IMG_FOOD.IMG_FOOD_PATH
 				FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
@@ -58,14 +58,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FOOD_LIST.FOOD_TYPE,
 		FOOD_LIST.FOOD_NAME,
 		FOOD_LIST.FOOD_PRICE,
+		FOOD_LIST.FOOD_AVG_RATING,
+		FOOD_LIST.FOOD_REVIEW_CNT,
 		CONVENIENCE_FOOD.FOOD_AMOUNT,
-		CONVENIENCE_FOOD.FOOD_AVG_RATING,
-		CONVENIENCE_FOOD.FOOD_REVIEW_CNT,
 		IMG_FOOD.IMG_FOOD_PATH
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = FOOD_LIST.FOOD_ID
+		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		WHERE CONVENIENCE_ID = #{convenienceId} ORDER BY CONVENIENCE_FOOD_ID DESC
+	</select>
+	
+	<select id="selectConvenienceFoodByFoodId" resultMap="ConvenienceFoodResultMap">
+		SELECT DISTINCT
+		CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID,
+		CONVENIENCE_FOOD.CONVENIENCE_ID,
+		FOOD_LIST.FOOD_ID,
+		FOOD_LIST.FOOD_TYPE,
+		FOOD_LIST.FOOD_NAME,
+		FOOD_LIST.FOOD_PRICE,
+		FOOD_LIST.FOOD_AVG_RATING,
+		FOOD_LIST.FOOD_REVIEW_CNT,
+		CONVENIENCE_FOOD.FOOD_AMOUNT,
+		IMG_FOOD.IMG_FOOD_PATH
+		FROM CONVENIENCE_FOOD
+		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
+		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
+		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</select>
 	
 	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceDetailFoodResultMap">
@@ -94,4 +112,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateFoodAmountByInsert">
 		UPDATE CONVENIENCE_FOOD SET FOOD_AMOUNT = FOOD_AMOUNT + #{foodAmount} WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</update>
+	
 </mapper>

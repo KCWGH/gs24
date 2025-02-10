@@ -59,8 +59,7 @@ img {
    <h1>식품 리스트</h1>
    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
-      <button onclick='location.href="../foodlist/list"'>식품등록</button>
-      <button onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button><br>
+      <button onclick='location.href="../foodlist/list"'>식품발주</button>
    </sec:authorize>
    <!-- 
       <input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
