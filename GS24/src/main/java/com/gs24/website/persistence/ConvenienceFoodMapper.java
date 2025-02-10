@@ -16,9 +16,9 @@ public interface ConvenienceFoodMapper {
 	
 	List<ConvenienceFoodVO> selectConvenienceFoodByConvenienceId(int convenienceId);
 	
-	ConvenienceFoodVO selectConvenienceFoodByFoodId(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
+	ConvenienceFoodVO selectConvenienceFoodByFoodIdAndConvenienceId(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 	
-	ConvenienceDetailFoodVO selectDetailConvenienceFoodByFoodId(int foodId);
+	ConvenienceDetailFoodVO selectDetailConvenienceFoodByFoodId(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 	
 	int checkHasFood(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 	

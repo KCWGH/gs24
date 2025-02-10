@@ -72,10 +72,10 @@ public class ConvenienceFoodController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(Model model, int foodId) {
+	public void detailGET(Model model, int foodId, int convenienceId) {
 		log.info("detailGET()");
 		
-		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId);
+		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId,convenienceId);
 		List<ReviewVO> reviewList = convenienceFoodServiceImple.getReviewsByFoodId(foodId);
 		
 		log.info(convenienceFoodVO);

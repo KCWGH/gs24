@@ -10,32 +10,32 @@ import javax.mail.Session;
 
 public class EmailConfig {
 
-	private static Properties props = new Properties();
+	private static final Properties props = new Properties();
 
 	static {
-		try {
-			InputStream input = EmailConfig.class.getClassLoader().getResourceAsStream("email.properties");
+		// try-with-resources를 사용하여 InputStream 자동 닫기
+		try (InputStream input = EmailConfig.class.getClassLoader().getResourceAsStream("email.properties")) {
 			if (input == null) {
-				System.out.println("Sorry, unable to find email.properties");
-			} else {
-				props.load(input);
+				throw new IOException("Unable to find email.properties");
 			}
+			props.load(input);
 		} catch (IOException e) {
+			// 예외 처리: 로깅 또는 예외 전파
 			e.printStackTrace();
+			throw new RuntimeException("Failed to load email configuration", e);
 		}
 	}
 
 	// 이메일 설정 반환
 	public static Session getMailSession() {
-		String host = props.getProperty("mail.smtp.host");
-		String port = props.getProperty("mail.smtp.port");
 		String username = props.getProperty("mail.smtp.username");
 		String password = props.getProperty("mail.smtp.password");
 
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.port", port);
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
+		// SMTP 설정이 프로퍼티에 있을 경우만 적용
+		props.putIfAbsent("mail.smtp.host", props.getProperty("mail.smtp.host"));
+		props.putIfAbsent("mail.smtp.port", props.getProperty("mail.smtp.port"));
+		props.putIfAbsent("mail.smtp.auth", "true");
+		props.putIfAbsent("mail.smtp.starttls.enable", "true");
 
 		return Session.getInstance(props, new Authenticator() {
 			@Override

@@ -37,7 +37,7 @@ public class EmailServiceImple implements EmailService {
 		String fromAddress = EmailConfig.getUsername();
 		message.setFrom(new InternetAddress(fromAddress));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-		message.setSubject("<GS24> 이메일 인증번호");
+		message.setSubject("[GS24] 이메일 인증번호");
 		message.setText("당신의 인증번호는 " + verificationCode + " 입니다.");
 
 		Transport.send(message);

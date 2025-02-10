@@ -61,6 +61,14 @@
             $("#btnFindId").click(function() {
                 let email = $("#email").val();
                 let code = $("#verificationCode").val();
+                code = code.replace(/\s+/g, '').replace(/\D/g, '');
+                
+                if (code.length !== 6) {
+                    $("#findResult").html("인증번호 6자리를 정확히 입력해 주세요.");
+                    $("#findResult").show();
+                    return;
+                }
+                
                 $.ajax({
                     url: 'verifyCode-ID',
                     type: 'POST',

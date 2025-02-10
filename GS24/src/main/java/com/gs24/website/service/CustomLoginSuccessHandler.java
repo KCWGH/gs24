@@ -33,14 +33,14 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			String role = authority.getAuthority();
 
 			if (role.equals("ROLE_MEMBER")) {
-				redirectURL = "../food/list"; // 회원 전용 페이지
+				redirectURL = "../convenience/list"; // 회원 전용 페이지
 				break;
 			} else if (role.equals("ROLE_OWNER")) {
 				int branchId = convenienceMapper.selectConvenienceIdByOwnerId(authentication.getName());
-				redirectURL = "../food/list";// 점주 전용 페이지
+				redirectURL = "../convenienceFood/list?convenienceId=" + branchId; // 점주 전용 페이지
 				break;
 			} else if (role.equals("ROLE_ADMIN")) {
-				redirectURL = "../food/list"; // 관리자 전용 페이지
+				redirectURL = "../foodlist/list"; // 관리자 전용 페이지
 				break;
 			}
 		}

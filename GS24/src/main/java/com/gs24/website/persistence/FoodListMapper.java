@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.FoodListVO;
 
-import retrofit2.http.PartMap;
-
 @Mapper
 public interface FoodListMapper {
 	int insertFood(FoodListVO foodListVO);

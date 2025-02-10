@@ -34,8 +34,8 @@
 </head>
 <body>
 	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<ul>
 	<div class="image-list">
+	<ul>
 		<li>
 			<img class="thumnail" src="../image/foodThumnail?foodId=${FoodVO.foodId }">
 		</li>
@@ -47,8 +47,8 @@
 			</div>
 		<li>
 		</c:forEach>
-	</div>
 	</ul>
+	</div>
 	<p>식품 유형 : ${FoodVO.foodType }</p>
 	<p>식품 이름 : ${FoodVO.foodName }</p>
 	<p>재고량 : ${FoodVO.foodStock }개</p>

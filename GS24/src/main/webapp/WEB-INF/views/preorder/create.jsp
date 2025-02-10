@@ -81,7 +81,7 @@
             </tr>
             <tr>
                 <th>총 재고량</th>
-                <td>${foodVO.foodStock}개</td>
+                <td>${foodVO.foodAmount}개</td>
             </tr>
             <tr>
                 <th>예약 일자</th>
@@ -114,13 +114,14 @@
                 <td><span id="latestBalance"></span></td>
             </tr>
         </table>
-
-        <input type="hidden" name="foodId" value="${foodVO.foodId}">
-        <input type="hidden" name="memberId" value="${memberVO.memberId}">
+        
+        <input type="hidden" name="convenienceId" id="convenienceId">
+        <input type="hidden" name="foodId" id="foodId">
+        <input type="hidden" name="memberId" id="memberId">
         <input type="hidden" name="pickupDate" id="pickupDate" required>
         <input type="hidden" name="couponId" id="couponId">
         <input type="hidden" name="giftCardId" id="giftCardId">
-        <input type="hidden" name="totalPrice" id="totalPrice" value="${foodVO.foodPrice}">
+        <input type="hidden" name="totalPrice" id="totalPrice">
 
         <div id="couponModal" class="modal">
             <div class="modal-content">
@@ -205,10 +206,20 @@
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
 
-    <button onclick="location.href='../food/list'">돌아가기</button>
+    <button onclick="location.href='../convenienceFood/list?convenienceId=' + ${foodVO.convenienceId }">돌아가기</button>
 
     <script>
         $(document).ready(function() {
+        	let convenienceId = '${foodVO.convenienceId}';
+        	let foodId = '${foodVO.foodId}';
+        	let memberId = '${memberId}';
+        	let totalPrice = '${foodVO.foodPrice}';
+        	
+        	$('#convenienceId').val(convenienceId);
+        	$('#foodId').val(foodId);
+        	$('#memberId').val(memberId);
+        	$('#totalPrice').val(totalPrice);
+        	
             initializeDatePicker();
             initializeCouponModals();
             initializeGiftCardModals();
@@ -411,7 +422,7 @@
 
                 // 가격 업데이트 기능을 별도의 함수로 분리
                 function updatePriceFunction() {
-                    let amount = Math.max(1, Math.min(${foodVO.foodStock}, $('#preorderAmount').val()));
+                    let amount = Math.max(1, Math.min(${foodVO.foodAmount}, $('#preorderAmount').val()));
                     $('#preorderAmount').val(amount);
                     let originalPrice = ${foodVO.foodPrice} * amount;
                     $('#buyPrice').text(originalPrice + "원");

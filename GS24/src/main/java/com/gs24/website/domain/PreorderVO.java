@@ -19,6 +19,7 @@ public class PreorderVO {
 	String memberId;
 	int preorderAmount;
 	int totalPrice;
+	int convenienceId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date pickupDate;

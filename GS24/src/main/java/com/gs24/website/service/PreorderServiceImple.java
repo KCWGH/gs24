@@ -135,7 +135,7 @@ public class PreorderServiceImple implements PreorderService {
 	@Override
 	public ConvenienceFoodVO getConvenienceFoodInfo(int foodId, int convenienceId) {
 		log.info("getConvenienceFoodInfo()");
-		return convenienceFoodMapper.selectConvenienceFoodByFoodId(foodId, convenienceId);
+		return convenienceFoodMapper.selectConvenienceFoodByFoodIdAndConvenienceId(foodId, convenienceId);
 	}
 	
 	@Override

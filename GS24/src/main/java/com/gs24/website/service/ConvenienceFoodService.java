@@ -16,7 +16,7 @@ public interface ConvenienceFoodService {
 	
 	ConvenienceFoodVO getConvenienceFoodByFoodId(int foodId, int convenienceId);
 	
-	ConvenienceDetailFoodVO getDetailConvenienceFoodByFoodId(int foodId);
+	ConvenienceDetailFoodVO getDetailConvenienceFoodByFoodId(int foodId, int convenienceId);
 	
 	List<ReviewVO> getReviewsByFoodId(int foodId);
 }

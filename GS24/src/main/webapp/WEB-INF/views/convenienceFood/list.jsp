@@ -79,7 +79,7 @@ img {
             <input type="hidden" class="foodId" value="${FoodVO.foodId }">
             <div class="image-item">
             	<input type="hidden" class="path" value="${FoodVO.imgPath }">
-	            <a onclick="location.href='detail?foodId=${FoodVO.foodId}'"><img src="../image/foodThumnail?foodId=${FoodVO.foodId }"></a>
+	            <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'"><img src="../image/foodThumnail?foodId=${FoodVO.foodId }"></a>
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>
@@ -88,7 +88,7 @@ img {
             <p>${FoodVO.foodAvgRating }점</p>
             <p>리뷰 ${FoodVO.foodReviewCnt }개</p>
             <sec:authorize access="hasRole('ROLE_MEMBER')">
-            <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }"'>예약하기</button><br>
+            <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button><br>
             <c:choose>
                 <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
                     <button class="deleteFavorites" data-foodId="${FoodVO.foodId}">찜 해제하기</button><br>

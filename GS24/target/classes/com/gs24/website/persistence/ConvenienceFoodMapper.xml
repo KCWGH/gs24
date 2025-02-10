@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CONVENIENCE_ID = #{convenienceId} ORDER BY CONVENIENCE_FOOD_ID DESC
 	</select>
 	
-	<select id="selectConvenienceFoodByFoodId" resultMap="ConvenienceFoodResultMap">
+	<select id="selectConvenienceFoodByFoodIdAndConvenienceId" resultMap="ConvenienceFoodResultMap">
 		SELECT DISTINCT
 		CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID,
 		CONVENIENCE_FOOD.CONVENIENCE_ID,
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId} AND CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
 	</select>
 	
 	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceDetailFoodResultMap">
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_FOOD ON IMG_FOOD.FOOD_ID = FOOD_LIST.FOOD_ID
-		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId}
+		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId} AND CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
 	</select>
 	
 	<select id="checkHasFood" resultType="Integer">

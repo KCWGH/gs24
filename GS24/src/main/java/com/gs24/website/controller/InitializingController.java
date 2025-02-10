@@ -8,6 +8,6 @@ public class InitializingController {
 
 	@RequestMapping("/")
 	public String redirectToMain() {
-		return "redirect:/convenience/list";
+		return "redirect:/auth/login";
 	}
 }

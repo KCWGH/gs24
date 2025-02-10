@@ -33,7 +33,7 @@ public class FoodController {
 	private FavoritesService favoritesService;
 	@Autowired
 	private GiftCardService giftCardService;
-	
+
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("listGET()");
@@ -101,7 +101,7 @@ public class FoodController {
 	@PostMapping("/update")
 	public String updatePOST(FoodVO foodVO) {
 		log.info("updatePOST()");
-		int result = foodService.updateFood(foodVO);
+		foodService.updateFood(foodVO);
 
 		return "redirect:/food/list";
 	}

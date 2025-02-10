@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private OwnerMapper ownerMapper;
-	
+
 	@Autowired
 	private AdminMapper adminMapper;
 
@@ -59,14 +59,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 
 		AdminVO adminVO = adminMapper.selectAdminByAdminId(username);
-		
+
 		if (adminVO != null) {
 			// 소유자가 활성화된 경우
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // ROLE_OWNER 역할 부여
 			return new CustomUser(adminVO, authorities);
 		}
-		
+
 		// 3. 회원 또는 소유자가 존재하지 않거나 활성화되지 않은 경우 예외 처리
 		throw new UsernameNotFoundException("Username is not found or User is not active");
 	}

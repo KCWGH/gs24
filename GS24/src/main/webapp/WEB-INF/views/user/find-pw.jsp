@@ -104,6 +104,8 @@
             	let username = $("#username").val();
     			let email = $("#email").val();
     			let code = $("#verificationCode").val();
+    			code = code.replace(/\s+/g, '').replace(/\D/g, '');
+    			
     			$.ajax({
     			    url: 'verifyCode-PW',
     			    type: 'POST',
