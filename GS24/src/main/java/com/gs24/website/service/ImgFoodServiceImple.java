@@ -50,7 +50,7 @@ public class ImgFoodServiceImple implements ImgFoodService {
 	@Override
 	public int deleteImgFood(int foodId) {
 		log.info("deleteImgFood()");
-		int result = imgFoodMapper.deleteImgFood(foodId);
+		imgFoodMapper.deleteImgFood(foodId);
 		return 0;
 	}
 

@@ -161,7 +161,7 @@
 	<br>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<button id="cancel">미수령 예약 취소</button>
-	<button onclick="location.href='../food/list'">돌아가기</button>
+	<button onclick="history.back()">돌아가기</button>
 	<button id="delete">예약 취소 목록 삭제</button>
 	
 </body>

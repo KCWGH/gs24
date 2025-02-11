@@ -57,7 +57,7 @@
 	<button class="update-image">사진 수정</button>
 	<button class="insert-image">사진 추가</button>
 	<button class="update">리뷰 수정</button>
-	<button onclick="location.href='../food/list'">돌아가기</button>
+	<button onclick="history.back()">취소</button>
 	
 	<div class="ImgUpdateList"></div>
 	

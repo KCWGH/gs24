@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewRatingVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodListMapper;
-import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
@@ -26,9 +24,6 @@ public class ReviewServiceImple implements ReviewService {
 	
 	@Autowired
 	private ImgReviewMapper imgReviewMapper;
-
-	@Autowired
-	private FoodMapper foodMapper;
 	
 	@Autowired
 	private FoodListMapper foodListMapper;

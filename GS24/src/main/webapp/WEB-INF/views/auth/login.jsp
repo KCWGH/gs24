@@ -9,7 +9,7 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로그인</title>
+<title>GS24</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
 

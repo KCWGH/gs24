@@ -18,6 +18,7 @@
 		</script>
 	</c:if>
 	<%@ include file="../common/header.jsp"%>
+	<h1>지점 리스트</h1>
 	<div id="conveniList">
 	<c:forEach var="conveniVO" items="${conveniList }">
 	<div class="conveni">

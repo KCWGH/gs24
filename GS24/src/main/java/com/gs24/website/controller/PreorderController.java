@@ -108,16 +108,10 @@ public class PreorderController {
 			int giftCardId;
 			int couponId;
 
-			System.out.println("giftCardIdString : " + giftCardIdString);
-			System.out.println("couponIdString : " + couponIdString);
-
 			boolean useGiftCard = !giftCardIdString.equals("");
 			boolean useCoupon = !couponIdString.equals("");
-			
-			System.out.println(preorderVO);
 
 			if (useGiftCard && useCoupon) { // 둘 다 사용했다면
-				System.out.println("둘다사용");
 				giftCardId = Integer.parseInt(giftCardIdString);
 				couponId = Integer.parseInt(couponIdString);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
@@ -140,7 +134,6 @@ public class PreorderController {
 					}
 				}
 			} else if (useGiftCard) { // 기프트카드만 사용했다면
-				System.out.println("깊카사용");
 				giftCardId = Integer.parseInt(giftCardIdString);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
 				if (giftCardVO == null) {
@@ -155,7 +148,6 @@ public class PreorderController {
 					}
 				}
 			} else if (useCoupon) { // 쿠폰만 사용했다면
-				System.out.println("쿠폰사용");
 				couponId = Integer.parseInt(couponIdString);
 				CouponVO couponVO = couponService.getCouponByCouponId(couponId);
 				int dupCheck = couponQueueService.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
@@ -175,9 +167,9 @@ public class PreorderController {
 					}
 				}
 			} else { // 모두 사용하지 않았다면
-				System.out.println("둘다안사용");
+				System.out.println("요기임");
 				int result = preorderService.createPreorder(preorderVO);
-				System.out.println("예약 결과 : "+result);
+				System.out.println("예약 결과 : " + result);
 				if (result == 1) {
 					log.info("createPOST()");
 					redirectAttributes.addFlashAttribute("message", "예약에 성공했습니다.");

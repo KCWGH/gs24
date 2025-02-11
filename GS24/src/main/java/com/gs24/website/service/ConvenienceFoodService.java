@@ -19,4 +19,6 @@ public interface ConvenienceFoodService {
 	ConvenienceDetailFoodVO getDetailConvenienceFoodByFoodId(int foodId, int convenienceId);
 
 	List<ReviewVO> getReviewsByFoodId(int foodId);
+
+	List<String> getFoodTypeList();
 }

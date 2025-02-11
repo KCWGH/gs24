@@ -113,4 +113,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CONVENIENCE_FOOD SET FOOD_AMOUNT = FOOD_AMOUNT + #{foodAmount} WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</update>
 	
+	<update id="updateFoodAmountByPreorder">
+		UPDATE CONVENIENCE_FOOD SET FOOD_AMOUNT = FOOD_AMOUNT - #{preorderAmount} WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+	</update>
+	
+	<select id="selectFoodType" resultType="String">
+      	SELECT DISTINCT FOOD_TYPE
+		FROM FOOD_LIST
+		WHERE FOOD_ID IN (SELECT FOOD_ID FROM CONVENIENCE_FOOD)
+   	</select>
+	
 </mapper>

@@ -27,4 +27,9 @@ public interface ConvenienceFoodMapper {
 
 	int updateFoodAmountByInsert(@Param("foodId") int foodId, @Param("foodAmount") int foodAmount,
 			@Param("convenienceId") int convenienceId);
+
+	int updateFoodAmountByPreorder(@Param("foodId") int foodId, @Param("preorderAmount") int preorderAmount,
+			@Param("convenienceId") int convenienceId);
+
+	List<String> selectFoodType();
 }

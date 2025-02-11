@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectFoodType" resultType="String">
       	SELECT DISTINCT FOOD_TYPE
       	FROM FOOD
-   </select>
+   	</select>
    
    <select id="selectFoodPagination" resultMap="foodResultMap">
    		SELECT * FROM ( SELECT ROW_NUMBER() OVER (

@@ -42,7 +42,7 @@
 	
 	<div class="image-list"></div>
 	<button class="cancel" value="reset">사진 초기화</button>
-	<button class="cancel" value="cancel">취소</button>
+	<button onclick="history.back()">취소</button>
 	<br><br><button class="submit">등록</button>
 	
 	<div class="ImgVOList"></div>

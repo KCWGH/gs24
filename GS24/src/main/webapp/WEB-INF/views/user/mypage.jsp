@@ -280,9 +280,6 @@ $(document).ready(function() {
 			<p id="deleteResult" hidden="hidden"></p>
 		</div>
 		<div class="btn-container">
-			<sec:authorize access="hasRole('ROLE_OWNER')">
-			<button onclick='location.href="../giftcard/grant"'>기프트카드 제공</button>
-			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<button onclick='location.href="../giftcard/list"'>기프트카드함</button>
 			<button onclick='location.href="../member/myhistory"'>내 활동</button>

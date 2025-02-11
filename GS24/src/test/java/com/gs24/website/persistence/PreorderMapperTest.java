@@ -1,7 +1,6 @@
 package com.gs24.website.persistence;
 
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.config.ServletConfig;
 import com.gs24.website.domain.PreorderVO;
 
 import lombok.extern.log4j.Log4j;

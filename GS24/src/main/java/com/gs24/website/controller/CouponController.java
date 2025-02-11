@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.CouponVO;
+import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.CouponService;
-import com.gs24.website.service.FoodService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j;
 public class CouponController {
 
 	@Autowired
-	private FoodService foodService;
+	private ConvenienceFoodService convenienceFoodService;
 
 	@Autowired
 	private CouponService couponService;
@@ -33,7 +33,7 @@ public class CouponController {
 	@GetMapping("/publish")
 	public void publishGET(Model model) {
 		log.info("publishGET()");
-		List<String> foodType = foodService.getFoodTypeList();
+		List<String> foodType = convenienceFoodService.getFoodTypeList();
 		model.addAttribute("foodTypeList", foodType);
 	}
 

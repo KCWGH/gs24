@@ -9,7 +9,7 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<title>식품 리스트</title>
+<title>${convenienceId}호점</title>
 <style>
 #paginationList{
    list-style-type: none;
@@ -55,11 +55,10 @@ img {
         </script>
     </c:if>
     <%@ include file="../common/header.jsp" %>
- 
+    
    <h1>식품 리스트</h1>
    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update"'>예약 상품 수령 확인</button>
-      <button onclick='location.href="../foodlist/list"'>식품발주</button>
    </sec:authorize>
    <!-- 
       <input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
@@ -91,12 +90,12 @@ img {
             <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button><br>
             <c:choose>
                 <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
-                    <button class="deleteFavorites" data-foodId="${FoodVO.foodId}">찜 해제하기</button><br>
+                    <button class="deleteFavorites" data-foodId="${FoodVO.foodId}" data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button><br>
                 </c:when>
                 <c:otherwise>
                     <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-convenienceId="${FoodVO.convenienceId }">찜하기</button><br>
                 </c:otherwise>
-               </c:choose>
+            </c:choose>
             </sec:authorize>
             	<sec:authorize access="hasRole('ROLE_OWNER')">
                		<button class="deleteFood">식품 삭제</button>
@@ -152,65 +151,73 @@ img {
 	     });
 	   
 	   $(document).on('click', '.addFavorites', function(event) {
-			let memberId = '${memberId}';
+		    let memberId = '${memberId}';
 		    let foodId = $(this).data('foodid');
 		    let convenienceId = $(this).data('convenienceid');
-		    
-		    if (memberId === ''){
-		    	alert('찜하시려면 로그인해주세요');
-		    	return;
+
+		    if (memberId === '') {
+		        alert('찜하시려면 로그인해주세요');
+		        return;
 		    }
-		    
+
 		    $.ajax({
-               url: '../favorites/add',
-               type: 'POST',
-               data: { memberId: memberId,
-               		foodId: foodId,
-               		convenienceId: convenienceId
-               },
-               success: function(response) {
-                   alert("찜 목록에 추가되었습니다");
-                   let button = $("button[data-foodid='" + foodId + "']");
-                   button.removeClass('addFavorites').addClass('deleteFavorites');
-                   button.text('찜 해제하기');
-               },
-               error: function(xhr, status, error) {
-                   let responseText = xhr.responseText;
-                   if (responseText == 0) {
-                      alert("찜 목록 추가에 실패했습니다");
-                   } else {
-                   }
-               }
-           });
+		        url: '../favorites/add',
+		        type: 'POST',
+		        data: {
+		            memberId: memberId,
+		            foodId: foodId,
+		            convenienceId: convenienceId
+		        },
+		        success: function(response) {
+		            alert("찜 목록에 추가되었습니다");
+
+		            let button = $("button[data-foodid='" + foodId + "']");
+		            
+		            button.removeClass('addFavorites')
+		                  .addClass('deleteFavorites')
+		                  .text('찜 해제하기')
+		        },
+		        error: function(xhr, status, error) {
+		            let responseText = xhr.responseText;
+		            if (responseText == 0) {
+		                alert("찜 목록 추가에 실패했습니다");
+		            }
+		        }
+		    });
 		});
+
 		
-		$(document).on('click', '.deleteFavorites', function(event) {
-			let memberId = '${memberId}';
+	   $(document).on('click', '.deleteFavorites', function(event) {
+		    let memberId = '${memberId}';
 		    let foodId = $(this).data('foodid');
 		    let convenienceId = $(this).data('convenienceid');
-		    
+
 		    $.ajax({
-               url: '../favorites/delete',
-               type: 'POST',
-               data: { memberId: memberId,
-               		foodId: foodId,
-               		convenienceId: convenienceId
-               },
-               success: function(response) {
-                   alert("찜 목록에서 삭제되었습니다");
-                   let button = $("button[data-foodid='" + foodId + "']");
-                   button.removeClass('deleteFavorites').addClass('addFavorites');
-                   button.text('찜하기');
-               },
-               error: function(xhr, status, error) {
-                   let responseText = xhr.responseText;
-                   if (responseText == 0) {
-                      alert("찜 목록 추가에 실패했습니다");
-                   } else {
-                   }
-               }
-           });
+		        url: '../favorites/delete',
+		        type: 'POST',
+		        data: {
+		            memberId: memberId,
+		            foodId: foodId,
+		            convenienceId: convenienceId
+		        },
+		        success: function(response) {
+		            alert("찜 목록에서 삭제되었습니다");
+
+		            let button = $("button[data-foodid='" + foodId + "']");
+
+		            button.removeClass('deleteFavorites')
+		                  .addClass('addFavorites')
+		                  .text('찜하기')
+		        },
+		        error: function(xhr, status, error) {
+		            let responseText = xhr.responseText;
+		            if (responseText == 0) {
+		                alert("찜 목록 삭제에 실패했습니다");
+		            }
+		        }
+		    });
 		});
+
 
       
       $("#searchForm button").on("click", function(e){

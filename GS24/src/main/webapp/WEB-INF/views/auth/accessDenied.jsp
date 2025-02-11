@@ -6,9 +6,9 @@
     <title>접근 제한</title>
 </head>
 <script type="text/javascript">
-function goBack() {
-    history.back();
-}
+	function goBack() {
+		history.back();
+	}
 </script>
 <body>
     <!-- SPRING_SECURITY_403_EXCEPTION.getMessage() : Spring Security에서 전달된 403 예외 메시지를 출력 -->

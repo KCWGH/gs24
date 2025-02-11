@@ -26,7 +26,7 @@ public class AdminController {
 	@GetMapping("/register")
 	public String registerGET(Principal principal, RedirectAttributes redirectAttributes) {
 		if (principal != null) {
-			return "redirect:/food/list";
+			return "redirect:/convenience/list";
 		}
 		return "/admin/register";
 	}

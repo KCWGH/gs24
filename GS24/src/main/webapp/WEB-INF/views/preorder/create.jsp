@@ -95,23 +95,23 @@
                 <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개 <button type="button" id=reset>쿠폰, 기프트카드 초기화</button></td>
             </tr>
             <tr>
-                <th>적용된 쿠폰</th>
-                <td><button type="button" id="openCouponModal">쿠폰 변경</button> <span id="selectedCoupon">없음</span> <button type="button" id="doNotApplyCoupon" >쿠폰 사용하지 않기</button><button type="button" id="selectCoupon" hidden="hidden">선택하기</button></td>
+                <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰 및 기프트카드가 초기화됩니다.</td>
             </tr>
             <tr>
-                <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰이 초기화됩니다.</td>
+                <th>적용된 쿠폰</th>
+                <td><button type="button" id="openCouponModal">쿠폰 변경</button> <span id="selectedCoupon">없음</span> <button type="button" id="doNotApplyCoupon" >쿠폰 사용하지 않기</button><button type="button" id="selectCoupon" hidden="hidden">선택하기</button></td>
             </tr>
             <tr id="giftCardToggle" hidden="hidden">
                 <th>사용할 기프트카드</th>
                 <td><span id="selectedGiftCard">없음</span> <button type="button" id="openGiftCardModal">기프트카드 변경</button></td>
             </tr>
-            <tr>
-                <th>별도 결제 금액</th>
-                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="submit" id="createPreorder" value="예약하기" disabled></td>
-            </tr>
             <tr id="latestBalanceToggle" hidden="hidden">
                 <th>기프트카드 잔액</th>
                 <td><span id="latestBalance"></span></td>
+            </tr>
+            <tr id="priceToggle" hidden="hidden">
+                <th>별도 결제 금액</th>
+                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="submit" id="createPreorder" value="예약하기" disabled></td>
             </tr>
         </table>
         
@@ -395,6 +395,7 @@
                     
                     $('#selectCoupon').show();
                     $('#doNotApplyCoupon').hide();
+                    $('#priceToggle').show();
                     
                     $("#couponModal").fadeOut();
                 });
@@ -439,6 +440,7 @@
                     $('#openCouponModal').show();
                     $('#createPreorder').prop("disabled", true);
                     $('#doNotApplyCoupon').show();
+                    $('#priceToggle').hide();
                     $('#selectCoupon').hide();
 
                     $(".applyCoupon").each(function() {
@@ -458,6 +460,7 @@
             $('#doNotApplyCoupon').on('click', function(event) {
             	$(this).hide();
             	$('#openCouponModal').hide();
+            	$('#priceToggle').show();
             	$('#giftCardToggle').show();
             	$('#createPreorder').prop("disabled", false);
             });

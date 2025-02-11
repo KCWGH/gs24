@@ -50,7 +50,10 @@ public class PreorderServiceImple implements PreorderService {
 				.getFoodAmount();
 		int preorderAmount = preorderVO.getPreorderAmount();
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
-			convenienceFoodMapper.updateFoodAmountByInsert(preorderVO.getFoodId(), foodAmount,
+			System.out.println(preorderVO.getFoodId());
+			System.out.println(preorderAmount);
+			System.out.println(preorderVO.getConvenienceId());
+			convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(), preorderAmount,
 					preorderVO.getConvenienceId());
 			int result = preorderMapper.insertPreorder(preorderVO);
 			return result;
@@ -146,7 +149,8 @@ public class PreorderServiceImple implements PreorderService {
 	public int cancelPreorder(int preorderId, int foodId, int preorderAmount) {
 		log.info("cancelPreorder()");
 		PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
-		convenienceFoodMapper.updateFoodAmountByInsert(foodId, preorderAmount * -1, preorderVO.getConvenienceId());
+		convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(), preorderAmount * -1,
+				preorderVO.getConvenienceId());
 		if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() != 0) { // 기프트카드, 쿠폰 둘 다 적용
 			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
 			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());

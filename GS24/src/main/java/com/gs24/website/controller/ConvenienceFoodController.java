@@ -66,6 +66,7 @@ public class ConvenienceFoodController {
 			}
 		}
 
+		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("FoodList", list);
 	}

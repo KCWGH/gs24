@@ -7,7 +7,7 @@
 <title>관리자 계정 생성</title>
 </head>
 <body>
-<h2>계정 생성</h2>
+<h2>관리자 계정 생성</h2>
         <form action="register" method="POST">
             <div>
                 <label for="adminId">아이디</label> <input type="text" id="adminId" name="adminId" required>

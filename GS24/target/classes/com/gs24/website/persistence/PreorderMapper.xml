@@ -13,6 +13,7 @@
 		<result property="totalPrice" column="TOTAL_PRICE"/>
 		<result property="appliedGiftCardId" column="APPLIED_GIFTCARD_ID"/>
 		<result property="appliedCouponId" column="APPLIED_COUPON_ID"/>
+		<result property="convenienceId" column="CONVENIENCE_ID"/>
 	</resultMap>
 	
 	<insert id="insertPreorder" useGeneratedKeys="true" keyProperty="preorderId">
@@ -20,8 +21,8 @@
         SELECT PREORDER_SEQ.NEXTVAL FROM DUAL
     </selectKey>
 		INSERT INTO PREORDER
-		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER, TOTAL_PRICE, APPLIED_GIFTCARD_ID, APPLIED_COUPON_ID)
-		VALUES(#{preorderId}, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder}, #{totalPrice}, #{appliedGiftCardId}, #{appliedCouponId})
+		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER, TOTAL_PRICE, APPLIED_GIFTCARD_ID, APPLIED_COUPON_ID, CONVENIENCE_ID)
+		VALUES(#{preorderId}, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder}, #{totalPrice}, #{appliedGiftCardId}, #{appliedCouponId}, #{convenienceId})
 	</insert>
 	
 	<select id="selectPreorderOneById" resultMap="PreorderResultMap">

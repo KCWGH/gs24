@@ -112,4 +112,11 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		return list;
 	}
 
+	@Override
+	public List<String> getFoodTypeList() {
+		List<String> list = convenienceFoodMapper.selectFoodType();
+		list.add("전체");
+		return list;
+	}
+
 }

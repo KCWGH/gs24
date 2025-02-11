@@ -76,6 +76,6 @@ public class ReviewController {
 
 		reviewService.updateReview(reviewVO);
 
-		return "redirect:../food/detail?foodId=" + reviewVO.getFoodId();
+		return "redirect:../convenience/list";
 	}
 }
