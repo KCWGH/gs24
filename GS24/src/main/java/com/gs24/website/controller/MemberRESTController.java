@@ -6,18 +6,17 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gs24.website.domain.CustomUser;
-import com.gs24.website.domain.FoodVO;
+import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FavoritesService;
-import com.gs24.website.service.FoodService;
+import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
 import com.gs24.website.service.QuestionService;
@@ -45,39 +44,34 @@ public class MemberRESTController {
 	private PreorderService preorderService;
 
 	@Autowired
-	private FoodService foodService;
+	private FoodListService foodListService;
 
 	@Autowired
 	private FavoritesService favoritesService;
 
 	@GetMapping("/myReviews")
-	public ResponseEntity<Map<String, Object>> reviewList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
-		return postListGET("myReviews", pagination, customUser);
+	public ResponseEntity<Map<String, Object>> reviewList(Pagination pagination, Authentication auth) {
+		return postListGET("myReviews", pagination, auth);
 	}
 
 	@GetMapping("/myQuestions")
-	public ResponseEntity<Map<String, Object>> questionList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
-		return postListGET("myQuestions", pagination, customUser);
+	public ResponseEntity<Map<String, Object>> questionList(Pagination pagination, Authentication auth) {
+		return postListGET("myQuestions", pagination, auth);
 	}
 
 	@GetMapping("/myPreorders")
-	public ResponseEntity<Map<String, Object>> preorderList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
-		return postListGET("myPreorders", pagination, customUser);
+	public ResponseEntity<Map<String, Object>> preorderList(Pagination pagination, Authentication auth) {
+		return postListGET("myPreorders", pagination, auth);
 	}
 
 	@GetMapping("/myFavorites")
-	public ResponseEntity<Map<String, Object>> notificationList(Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
-		return postListGET("myFavorites", pagination, customUser);
+	public ResponseEntity<Map<String, Object>> notificationList(Pagination pagination, Authentication auth) {
+		return postListGET("myFavorites", pagination, auth);
 	}
 
-	public ResponseEntity<Map<String, Object>> postListGET(String type, Pagination pagination,
-			@AuthenticationPrincipal CustomUser customUser) {
+	public ResponseEntity<Map<String, Object>> postListGET(String type, Pagination pagination, Authentication auth) {
 		log.info("postListGET()");
-		String memberId = customUser.getUsername();
+		String memberId = auth.getName();
 		Map<String, Object> response = new HashMap<>();
 		MemberVO memberVO = memberService.getMember(memberId);
 		memberVO.setPassword(null);
@@ -105,8 +99,7 @@ public class MemberRESTController {
 			break;
 		case "myFavorites":
 			pagination.setPageSize(4);
-			postList = favoritesService.getPagedfavoritesByMemberId(memberId, pagination);
-			System.out.println(favoritesService.countFavoritesByMemberId(memberId));
+			postList = favoritesService.getPagedFavoritesByMemberId(memberId, pagination);
 			pageMaker.setTotalCount(favoritesService.countFavoritesByMemberId(memberId));
 			break;
 		}
@@ -118,7 +111,7 @@ public class MemberRESTController {
 
 	@RequestMapping(value = "/get-food-name", method = RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String getFoodName(int foodId) {
-		FoodVO foodVO = foodService.getFoodById(foodId);
+		FoodListVO foodVO = foodListService.getFoodById(foodId);
 		return foodVO != null ? foodVO.getFoodName() : "음식 정보 없음";
 	}
 

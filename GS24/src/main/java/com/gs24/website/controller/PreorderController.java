@@ -22,7 +22,6 @@ import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.CouponQueueService;
 import com.gs24.website.service.CouponService;
-import com.gs24.website.service.FoodService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.PreorderService;
 import com.gs24.website.util.PageMaker;
@@ -46,9 +45,6 @@ public class PreorderController {
 
 	@Autowired
 	private CouponQueueService couponQueueService;
-
-	@Autowired
-	private FoodService foodService;
 
 	@Autowired
 	private ConvenienceFoodService convenienceFoodService;
@@ -80,52 +76,48 @@ public class PreorderController {
 	}
 
 	@PostMapping("/create")
-	public String createPOST(PreorderVO preorderVO, @RequestParam("convenienceId") int convenienceId,
-			@RequestParam("pickupDate") String pickupDateString, @RequestParam("giftCardId") String giftCardIdString,
-			@RequestParam("couponId") String couponIdString, RedirectAttributes redirectAttributes) {
+	public String createPOST(PreorderVO preorderVO, @RequestParam("pickupDate") String pickupDateString,
+			@RequestParam("giftCardId") String giftCardIdString, @RequestParam("couponId") String couponIdString,
+			RedirectAttributes redirectAttributes) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date pickupDate = sdf.parse(pickupDateString);
-
 			// 오늘 날짜
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.HOUR_OF_DAY, 0);
 			calendar.set(Calendar.MINUTE, 0);
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
-
 			// 2일 후 날짜
 			calendar.add(Calendar.DATE, 2);
 			Date twoDaysLater = calendar.getTime();
-
 			// 2주 후 날짜
 			calendar.add(Calendar.DATE, 14);
 			Date twoWeeksLater = calendar.getTime();
-
 			if (pickupDate.before(twoDaysLater) || pickupDate.after(twoWeeksLater)) {
 				throw new Exception("예약 날짜는 오늘을 기준으로 2일 후에서 2주 사이여야 합니다.");
 			}
-
-			int foodStock = foodService.getFoodById(preorderVO.getFoodId()).getFoodStock();
-			if (preorderVO.getPreorderAmount() < 1 || foodStock < preorderVO.getPreorderAmount()) {
+			int foodAmount = convenienceFoodService
+					.getDetailConvenienceFoodByFoodId(preorderVO.getFoodId(), preorderVO.getConvenienceId())
+					.getFoodAmount();
+			if (preorderVO.getPreorderAmount() < 1 || foodAmount < preorderVO.getPreorderAmount()) {
 				throw new Exception("예약 수량은 1보다 작거나 총 재고량보다 많을 수 없습니다.");
 			}
-			System.out.println(convenienceId+" 이게 콘베니아이디입니다");
-			preorderVO.setConvenienceId(convenienceId);
 			preorderVO.setPickupDate(pickupDate);
-			
-			System.out.println(preorderVO);
-			
+
 			int giftCardId;
 			int couponId;
 
 			System.out.println("giftCardIdString : " + giftCardIdString);
-			System.out.println("couponIdString:" + couponIdString);
+			System.out.println("couponIdString : " + couponIdString);
 
 			boolean useGiftCard = !giftCardIdString.equals("");
 			boolean useCoupon = !couponIdString.equals("");
+			
+			System.out.println(preorderVO);
 
 			if (useGiftCard && useCoupon) { // 둘 다 사용했다면
+				System.out.println("둘다사용");
 				giftCardId = Integer.parseInt(giftCardIdString);
 				couponId = Integer.parseInt(couponIdString);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
@@ -148,6 +140,7 @@ public class PreorderController {
 					}
 				}
 			} else if (useGiftCard) { // 기프트카드만 사용했다면
+				System.out.println("깊카사용");
 				giftCardId = Integer.parseInt(giftCardIdString);
 				GiftCardVO giftCardVO = giftCardService.getGiftCardDetail(giftCardId);
 				if (giftCardVO == null) {
@@ -162,6 +155,7 @@ public class PreorderController {
 					}
 				}
 			} else if (useCoupon) { // 쿠폰만 사용했다면
+				System.out.println("쿠폰사용");
 				couponId = Integer.parseInt(couponIdString);
 				CouponVO couponVO = couponService.getCouponByCouponId(couponId);
 				int dupCheck = couponQueueService.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
@@ -181,7 +175,9 @@ public class PreorderController {
 					}
 				}
 			} else { // 모두 사용하지 않았다면
+				System.out.println("둘다안사용");
 				int result = preorderService.createPreorder(preorderVO);
+				System.out.println("예약 결과 : "+result);
 				if (result == 1) {
 					log.info("createPOST()");
 					redirectAttributes.addFlashAttribute("message", "예약에 성공했습니다.");

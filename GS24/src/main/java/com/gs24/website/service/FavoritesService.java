@@ -11,9 +11,9 @@ public interface FavoritesService {
 
 	int countFavoritesByMemberId(String memberId);
 
-	int isAddedCheck(String memberId, int foodId);
+	int isAddedCheck(String memberId, int foodId, int convenienceId);
 
-	int deleteFavorites(String memberId, int foodId);
+	int deleteFavorites(String memberId, int foodId, int convenienceId);
 
-	List<FavoritesVO> getPagedfavoritesByMemberId(String memberId, Pagination pagination);
+	List<FavoritesVO> getPagedFavoritesByMemberId(String memberId, Pagination pagination);
 }

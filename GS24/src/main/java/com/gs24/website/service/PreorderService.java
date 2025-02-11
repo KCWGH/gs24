@@ -3,7 +3,6 @@ package com.gs24.website.service;
 import java.util.List;
 
 import com.gs24.website.domain.ConvenienceFoodVO;
-import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.util.Pagination;
 
@@ -20,8 +19,6 @@ public interface PreorderService {
 
 	PreorderVO getPreorderOneById(int preorderId);
 
-	FoodVO getFoodInfo(int foodId);
-	
 	ConvenienceFoodVO getConvenienceFoodInfo(int foodId, int convenienceId);
 
 	int updateIsPickUp(int preorderId, int isPickUp);
@@ -37,10 +34,10 @@ public interface PreorderService {
 	List<PreorderVO> getAlreadyPreorder(int foodId);
 
 	int countRemainingPreorders(String memberId);
-	
+
 	List<PreorderVO> getNotPickedUpPreorder(Pagination pagination);
-	
+
 	int getCountNotPickedUpPreorderByPagination(Pagination pagination);
-	
+
 	List<Integer> getPickedUpFoodIdByMemberId(String memberId);
 }

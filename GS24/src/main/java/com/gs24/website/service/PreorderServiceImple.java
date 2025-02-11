@@ -5,17 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.CouponQueueVO;
 import com.gs24.website.domain.CouponVO;
-import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
-import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MembershipMapper;
 import com.gs24.website.persistence.PreorderMapper;
@@ -31,9 +28,6 @@ public class PreorderServiceImple implements PreorderService {
 	private PreorderMapper preorderMapper;
 
 	@Autowired
-	private FoodMapper foodMapper;
-	
-	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
 
 	@Autowired
@@ -44,17 +38,20 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private CouponQueueMapper couponQueueMapper;
-	
+
 	@Autowired
 	private MembershipMapper membershipMapper;
 
 	@Override
 	public int createPreorder(PreorderVO preorderVO) {
 		log.info("createPreorder()");
-		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
+		int foodAmount = convenienceFoodMapper
+				.selectDetailConvenienceFoodByFoodId(preorderVO.getFoodId(), preorderVO.getConvenienceId())
+				.getFoodAmount();
 		int preorderAmount = preorderVO.getPreorderAmount();
 		if (foodAmount > 0 && foodAmount >= preorderAmount) {
-			foodMapper.updateFoodAmountByPreorderAmount(preorderVO.getFoodId(), preorderAmount);
+			convenienceFoodMapper.updateFoodAmountByInsert(preorderVO.getFoodId(), foodAmount,
+					preorderVO.getConvenienceId());
 			int result = preorderMapper.insertPreorder(preorderVO);
 			return result;
 		}
@@ -74,7 +71,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	public int createPreorder(PreorderVO preorderVO, int couponId) {
-		int foodAmount = foodMapper.selectFoodById(preorderVO.getFoodId()).getFoodStock();
+		int foodAmount = convenienceFoodMapper
+				.selectDetailConvenienceFoodByFoodId(preorderVO.getFoodId(), preorderVO.getConvenienceId())
+				.getFoodAmount();
 		int preorderAmount = preorderVO.getPreorderAmount();
 		CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
 		Date couponExpiredDate = couponVO.getCouponExpiredDate();
@@ -127,17 +126,11 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public FoodVO getFoodInfo(int foodId) {
-		log.info("getFoodInfo()");
-		return foodMapper.selectFoodById(foodId);
-	}
-	
-	@Override
 	public ConvenienceFoodVO getConvenienceFoodInfo(int foodId, int convenienceId) {
 		log.info("getConvenienceFoodInfo()");
 		return convenienceFoodMapper.selectConvenienceFoodByFoodIdAndConvenienceId(foodId, convenienceId);
 	}
-	
+
 	@Override
 	public int updateIsPickUp(int preorderId, int isPickUp) {
 		log.info("updatePreorderInIsPickUp()");
@@ -152,8 +145,8 @@ public class PreorderServiceImple implements PreorderService {
 	@Override
 	public int cancelPreorder(int preorderId, int foodId, int preorderAmount) {
 		log.info("cancelPreorder()");
-		foodMapper.updateFoodAmountByPreorderAmount(foodId, preorderAmount * -1);
 		PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
+		convenienceFoodMapper.updateFoodAmountByInsert(foodId, preorderAmount * -1, preorderVO.getConvenienceId());
 		if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() != 0) { // 기프트카드, 쿠폰 둘 다 적용
 			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
 			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
@@ -203,7 +196,7 @@ public class PreorderServiceImple implements PreorderService {
 		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
 		return list;
 	}
-	
+
 	@Override
 	public int getCountNotPickedUpPreorderByPagination(Pagination pagination) {
 		log.info("getCountNotPickUpPreorderByPagination()");

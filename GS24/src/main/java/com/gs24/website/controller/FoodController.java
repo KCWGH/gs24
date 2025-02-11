@@ -46,8 +46,8 @@ public class FoodController {
 				Map<Integer, Integer> isAddedMap = new HashMap<>();
 				for (FoodVO foodVO : foodList) {
 					// 찜 여부 확인: 이미 찜한 음식은 1, 찜하지 않은 음식은 0
-					int isAdded = favoritesService.isAddedCheck(username, foodVO.getFoodId());
-					isAddedMap.put(foodVO.getFoodId(), isAdded);
+					//int isAdded = favoritesService.isAddedCheck(username, foodVO.getFoodId());
+					//isAddedMap.put(foodVO.getFoodId(), isAdded);
 					model.addAttribute("isAddedMap", isAddedMap);
 				}
 				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();

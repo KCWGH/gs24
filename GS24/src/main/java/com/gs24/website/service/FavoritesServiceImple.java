@@ -21,7 +21,7 @@ public class FavoritesServiceImple implements FavoritesService {
 	}
 
 	@Override
-	public List<FavoritesVO> getPagedfavoritesByMemberId(String memberId, Pagination pagination) {
+	public List<FavoritesVO> getPagedFavoritesByMemberId(String memberId, Pagination pagination) {
 		return favoritesMapper.selectFavoritesListByPagination(pagination);
 	}
 
@@ -31,13 +31,13 @@ public class FavoritesServiceImple implements FavoritesService {
 	}
 
 	@Override
-	public int isAddedCheck(String memberId, int foodId) {
-		return favoritesMapper.countFavoritesByMemberIdAndFoodId(memberId, foodId);
+	public int isAddedCheck(String memberId, int foodId, int convenienceId) {
+		return favoritesMapper.countFavoritesByMemberIdAndFoodIdAndConvenienceId(memberId, foodId, convenienceId);
 	}
 
 	@Override
-	public int deleteFavorites(String memberId, int foodId) {
-		return favoritesMapper.deleteEachFavorite(memberId, foodId);
+	public int deleteFavorites(String memberId, int foodId, int convenienceId) {
+		return favoritesMapper.deleteEachFavorite(memberId, foodId, convenienceId);
 	}
 
 }

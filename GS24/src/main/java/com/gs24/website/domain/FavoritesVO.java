@@ -16,6 +16,5 @@ public class FavoritesVO {
 	int favoritesId;
 	String memberId;
 	int foodId;
-	String foodType;
-	String foodName;
+	int convenienceId;
 }

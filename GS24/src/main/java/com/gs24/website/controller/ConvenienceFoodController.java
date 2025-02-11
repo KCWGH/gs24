@@ -55,10 +55,9 @@ public class ConvenienceFoodController {
 				Map<Integer, Integer> isAddedMap = new HashMap<>();
 				for (ConvenienceFoodVO convenienceFoodVO : list) {
 					// 찜 여부 확인: 이미 찜한 음식은 1, 찜하지 않은 음식은 0
-					int isAdded = favoritesService.isAddedCheck(username, convenienceFoodVO.getFoodId());
+					int isAdded = favoritesService.isAddedCheck(username, convenienceFoodVO.getFoodId(), convenienceId);
 					isAddedMap.put(convenienceFoodVO.getFoodId(), isAdded);
 					model.addAttribute("isAddedMap", isAddedMap);
-					System.out.println(isAdded);
 				}
 				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
 				if (birthdayMessage != null) {
@@ -74,26 +73,27 @@ public class ConvenienceFoodController {
 	@GetMapping("/detail")
 	public void detailGET(Model model, int foodId, int convenienceId) {
 		log.info("detailGET()");
-		
-		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId,convenienceId);
+
+		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId,
+				convenienceId);
 		List<ReviewVO> reviewList = convenienceFoodServiceImple.getReviewsByFoodId(foodId);
-		
+
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
-		
+
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
 	}
-	
+
 	@GetMapping("/register")
 	public String registerGET(Authentication auth, int foodId, int foodAmount) {
 		log.info("registerGET");
-		
+
 		log.info("foodId : " + foodId + "  foodAmount : " + foodAmount);
 		String ownerId = auth.getName();
-		
+
 		convenienceFoodServiceImple.createConvenienceFood(foodId, foodAmount, ownerId);
-		
+
 		return "redirect:../foodlist/list";
 	}
 }

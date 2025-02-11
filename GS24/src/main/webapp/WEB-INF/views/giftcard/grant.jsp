@@ -38,7 +38,13 @@
                 let memberId = $('#memberId').val();
                 let loginedId = '${memberId}';
                 let giftCardName = $('#giftCardName').val();
+                let balance = $('#balance').val();
 
+                if (giftCardName === '생일 축하 기프트카드') {
+                    alert('사용할 수 없는 이름입니다. 다른 이름을 입력해주세요.');
+                    return;
+                }
+                
                 if (!memberId) {
                     alert('선물할 아이디를 입력해주세요.');
                     return;
@@ -49,9 +55,9 @@
                     return;
                 }
 
-                if (giftCardName === '생일 축하 기프트카드') {
-                    alert('사용할 수 없는 이름입니다. 다른 이름을 입력해주세요.');
-                    return;
+                if (balance == null || balance < 1000 || balance > 30000) {
+                	alert('구매할 금액을 1000원 이상, 30000원 이하로 입력해주세요.');
+                	return;
                 }
 
                 let buyPrice = $('#balance').val().replace(/[^\d]/g, '');

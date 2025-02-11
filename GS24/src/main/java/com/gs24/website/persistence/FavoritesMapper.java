@@ -17,9 +17,11 @@ public interface FavoritesMapper {
 
 	int countFavoritesByMemberId(String memberId);
 
-	int countFavoritesByMemberIdAndFoodId(@Param("memberId") String memberId, @Param("foodId") int foodId);
+	int countFavoritesByMemberIdAndFoodIdAndConvenienceId(@Param("memberId") String memberId,
+			@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 
-	int deleteEachFavorite(@Param("memberId") String memberId, @Param("foodId") int foodId);
-	
+	int deleteEachFavorite(@Param("memberId") String memberId, @Param("foodId") int foodId,
+			@Param("convenienceId") int convenienceId);
+
 	int deleteAllFavorites(int foodId);
 }

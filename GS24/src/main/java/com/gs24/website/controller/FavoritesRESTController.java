@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.FavoritesVO;
-import com.gs24.website.domain.FoodVO;
 import com.gs24.website.service.FavoritesService;
 
 import lombok.extern.log4j.Log4j;
@@ -22,11 +21,7 @@ public class FavoritesRESTController {
 	private FavoritesService favoritesService;
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addFavoritesPOST(FavoritesVO favoritesVO, FoodVO foodVO,
-			RedirectAttributes redirectAttributes) {
-		favoritesVO.setFoodId(foodVO.getFoodId());
-		favoritesVO.setFoodType(foodVO.getFoodType());
-		favoritesVO.setFoodName(foodVO.getFoodName());
+	public ResponseEntity<String> addFavoritesPOST(FavoritesVO favoritesVO, RedirectAttributes redirectAttributes) {
 		int result = favoritesService.addFavorites(favoritesVO);
 		if (result == 1) {
 			return ResponseEntity.ok("1");
@@ -36,9 +31,9 @@ public class FavoritesRESTController {
 	}
 
 	@PostMapping("/delete")
-	public ResponseEntity<String> deleteFavoritesPOST(String memberId, int foodId,
-			RedirectAttributes redirectAttributes) {
-		int result = favoritesService.deleteFavorites(memberId, foodId);
+	public ResponseEntity<String> deleteFavoritesPOST(FavoritesVO favoritesVO, RedirectAttributes redirectAttributes) {
+		int result = favoritesService.deleteFavorites(favoritesVO.getMemberId(), favoritesVO.getFoodId(),
+				favoritesVO.getConvenienceId());
 		if (result == 1) {
 			return ResponseEntity.ok("1");
 		} else {

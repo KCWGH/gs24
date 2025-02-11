@@ -8,13 +8,14 @@
 		<result property="foodId" column="FOOD_ID" />
 		<result property="foodType" column="FOOD_TYPE" />
 		<result property="foodName" column="FOOD_NAME" />
+		<result property="convenienceId" column="CONVENIENCE_ID"/>
 	</resultMap>
 
 	<insert id="insertFavorites">
 		INSERT INTO FAVORITES
-		(FAVORITES_ID, MEMBER_ID, FOOD_ID)
+		(FAVORITES_ID, MEMBER_ID, FOOD_ID, CONVENIENCE_ID)
 		VALUES
-		(FAVORITES_SEQ.NEXTVAL, #{memberId}, #{foodId})
+		(FAVORITES_SEQ.NEXTVAL, #{memberId}, #{foodId}, #{convenienceId})
 	</insert>
 	
 	<select id="selectFavoritesListByPagination" resultMap="FavoritesResultMap">
@@ -33,14 +34,14 @@
 		TOTAL_COUNT FROM FAVORITES WHERE MEMBER_ID = #{memberId}
 	</select>
 	
-	<select id="countFavoritesByMemberIdAndFoodId" resultType="Integer">
+	<select id="countFavoritesByMemberIdAndFoodIdAndConvenienceId" resultType="Integer">
 		SELECT COUNT(*) FROM FAVORITES 
-		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</select>
 	
 	<delete id="deleteEachFavorite">
 		DELETE FROM FAVORITES
-		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId}
+		WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</delete>
 	
 	<delete id="deleteAllFavorites">

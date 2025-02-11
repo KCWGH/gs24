@@ -94,7 +94,7 @@ img {
                     <button class="deleteFavorites" data-foodId="${FoodVO.foodId}">찜 해제하기</button><br>
                 </c:when>
                 <c:otherwise>
-                    <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-foodType="${FoodVO.foodType }" data-foodName="${FoodVO.foodName }">찜하기</button><br>
+                    <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-convenienceId="${FoodVO.convenienceId }">찜하기</button><br>
                 </c:otherwise>
                </c:choose>
             </sec:authorize>
@@ -150,11 +150,11 @@ img {
 	        
 	        xhr.setRequestHeader(header, token);
 	     });
+	   
 	   $(document).on('click', '.addFavorites', function(event) {
 			let memberId = '${memberId}';
 		    let foodId = $(this).data('foodid');
-		    let foodType = $(this).data('foodtype');
-		    let foodName = $(this).data('foodname');
+		    let convenienceId = $(this).data('convenienceid');
 		    
 		    if (memberId === ''){
 		    	alert('찜하시려면 로그인해주세요');
@@ -166,8 +166,7 @@ img {
                type: 'POST',
                data: { memberId: memberId,
                		foodId: foodId,
-               		foodType: foodType,
-               		foodName: foodName
+               		convenienceId: convenienceId
                },
                success: function(response) {
                    alert("찜 목록에 추가되었습니다");
@@ -188,12 +187,14 @@ img {
 		$(document).on('click', '.deleteFavorites', function(event) {
 			let memberId = '${memberId}';
 		    let foodId = $(this).data('foodid');
+		    let convenienceId = $(this).data('convenienceid');
 		    
 		    $.ajax({
                url: '../favorites/delete',
                type: 'POST',
                data: { memberId: memberId,
-               		foodId: foodId
+               		foodId: foodId,
+               		convenienceId: convenienceId
                },
                success: function(response) {
                    alert("찜 목록에서 삭제되었습니다");

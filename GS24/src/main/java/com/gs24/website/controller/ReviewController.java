@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
-import com.gs24.website.util.PageMaker;
-import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -33,25 +31,25 @@ public class ReviewController {
 	@ResponseBody
 	public List<ReviewVO> listGET(@RequestBody int foodId) {
 		log.info("listGET()");
-		
+
 		List<ReviewVO> reviewList = reviewService.getAllReviewByFoodId(foodId);
-		
+
 		return reviewList;
 	}
-	
+
 	@GetMapping("/register")
 	public void registerGET(Model model, int foodId) {
 		log.info("registerGET()");
-		
+
 		model.addAttribute("foodId", foodId);
 	}
-	
+
 	@PostMapping("/register")
 	public String registerPOST(ReviewVO reviewVO) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
 		reviewService.createReview(reviewVO);
-		
+
 		return "redirect:../food/list";
 	}
 
@@ -59,24 +57,25 @@ public class ReviewController {
 	public String deleteGET(int reviewId, int foodId) {
 		log.info(reviewId);
 		log.info("deleteGET()");
-		int result = reviewService.deleteReview(reviewId, foodId);
+		reviewService.deleteReview(reviewId, foodId);
 
 		return "redirect:../food/list";
 	}
-	
+
 	@GetMapping("/update")
 	public void updateGET(Model model, int reviewId) {
 		log.info("updateGET()");
 		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
 		model.addAttribute("reviewVO", reviewVO);
 	}
+
 	@PostMapping("/update")
 	public String updatePOST(ReviewVO reviewVO) {
 		log.info("updatePOST()");
 		log.info(reviewVO);
-		
+
 		reviewService.updateReview(reviewVO);
-		
+
 		return "redirect:../food/detail?foodId=" + reviewVO.getFoodId();
 	}
 }

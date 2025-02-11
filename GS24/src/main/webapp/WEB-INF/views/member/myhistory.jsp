@@ -155,6 +155,8 @@
                                     dataType: 'text',
                                     contentType: 'text/plain; charset=UTF-8',
                                     success: function(foodName) {
+
+                                    	console.log(foodName);
                                         foodNames[preorderVO.foodId] = foodName;
                                         completedRequests++;
 
@@ -188,7 +190,7 @@
                         	postList.forEach(function(favoritesVO) {  
                         	    postHTML += '<div class="favorites-item">';
                         	    
-                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '" class="link-in-child">' + '<img src="../image/foodThumnail?foodId=' + favoritesVO.foodId + '"></a>';
+                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '" class="link-in-child">' + '<img src="../image/foodThumnail?foodId=' + favoritesVO.foodId + '"></a>';
                         	    postHTML += '</div>';
                         	});
                         	postHTML += '</div>각 항목을 클릭하면 예약 페이지로 바로 이동합니다.';
