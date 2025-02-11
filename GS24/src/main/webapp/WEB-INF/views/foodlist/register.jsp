@@ -54,6 +54,7 @@
 	
 	<div class="image-list"></div>
 	
+	<div class="ThumnailVO"></div>
 	<div class="ImgVOList"></div>
 	
 	<button class="cancel">사진 초기화</button>
@@ -131,7 +132,7 @@
 							var input = $('<input>').attr('type','hidden').attr('name','ImgVO').attr('data-chgName',data.imgChgName);
 							input.val(JSON.stringify(data));
 							
-							$(".ImgVOList").append(input);
+							$(".ThumnailVO").append(input);
 							
 							list += '<div class="thumnail-item">'
 								 +	'<pre>'
@@ -199,6 +200,24 @@
 					return;
 				}
 				
+				$(".ThumnailVO input").each(function(){
+					var ImgVO = JSON.parse($(this).val());
+					
+					console.log(ImgVO);
+					
+					var foodId		= $('<input>').attr('type','hidden').attr('name','imgThumnail.foreignId').attr('value',ImgVO.foreignId);
+					var realName	= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgPath').attr('value',ImgVO.imgPath);
+					
+					registerForm.append(foodId);
+					registerForm.append(realName);
+					registerForm.append(chgName);
+					registerForm.append(extension);
+					registerForm.append(path);
+				});
+				
 				var i = 0;
 				$(".ImgVOList input").each(function(){
 					var ImgVO = JSON.parse($(this).val());
@@ -220,7 +239,7 @@
 					i++;
 				});
 						
-				registerForm.submit();
+					registerForm.submit();
 			});
 		});
 	</script>

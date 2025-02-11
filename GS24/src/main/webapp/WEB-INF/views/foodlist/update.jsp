@@ -37,13 +37,12 @@
 		판매 대기
 		<input type="radio" name="isSelling" id="val2" value="2">
 		
-		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">
-			<c:if test="${fn:startsWith(ImgVO.imgChgName,'t_') }">
-				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
-				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
-				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
-				<input type="hidden" class="input-thumnail-image" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
-			</c:if>
+		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgRealName" value="${FoodVO.imgThumnail.imgRealName }">
+		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgChgName" value="${FoodVO.imgThumnail.imgChgName }">
+		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgExtension" value="${FoodVO.imgThumnail.imgExtension }">
+		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgPath" value="${FoodVO.imgThumnail.imgPath }">
+		
+		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">	
 			<c:if test="${not fn:startsWith(ImgVO.imgChgName,'t_') }">
 				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
 				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
@@ -78,6 +77,7 @@
 		</c:forEach>
 	</div>
 	
+	<div class="ThumnailVO"></div>
 	<div class="ImgVOList"></div>
 	
 	<button class="update-image">세부 사진 수정</button>
@@ -160,7 +160,7 @@
 							var input = $('<input>').attr('type','hidden').attr('name','ImgVO').attr('data-chgName',data.imgChgName);
 							input.val(JSON.stringify(data));
 							
-							$(".ImgVOList").append(input);
+							$(".ThumnailVO").append(input);
 							
 							list += '<div class="thumnail-item">'
 								 +	'<pre>'
@@ -232,8 +232,22 @@
 					return;
 				}
 				
+				$(".ThumnailVO input").each(function(){
+					var ImgVO = JSON.parse($(this).val());
+						
+					var realName 	= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgPath').attr('value',ImgVO.imgPath);
+					
+					updateForm.append(realName);
+					updateForm.append(chgName);
+					updateForm.append(extension);
+					updateForm.append(path);
+				});
+				
 				var i = 0; 
-				i = $(".input-image-list").length / 4 + $(".input-thumnail-image").length / 4;
+				i = $(".input-image-list").length / 4;
 				
 				if(i == null){}
 				

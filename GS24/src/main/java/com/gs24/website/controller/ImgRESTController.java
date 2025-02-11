@@ -153,7 +153,7 @@ public class ImgRESTController {
 	public ResponseEntity<Integer> remove(int foreignId){
 		log.info("remove2()");
 		
-		ImgVO vo = imgService.getFoodImgListByFoodId(foreignId).get(0);
+		ImgVO vo = imgService.getThumnailByFoodId(foreignId);
 		
 		String fullPath = uploadPath + File.separator + vo.getImgPath();
 		
@@ -207,16 +207,12 @@ public class ImgRESTController {
 	public ResponseEntity<byte[]> getFoodThumnail(int foodId){
 		log.info("getFoodThumnail()");
 		
-		List<ImgVO> list = imgService.getFoodImgListByFoodId(foodId);
+		ImgVO imgVO = imgService.getThumnailByFoodId(foodId);
+		log.info(imgVO);
+		String fullPath = uploadPath + File.separator + imgVO.getImgPath() + imgVO.getImgChgName() + "." + imgVO.getImgExtension();
 		
-		ResponseEntity<byte[]> entity = null;
+		ResponseEntity<byte[]> entity = GetImgUtil.getImage(fullPath);
 		
-		for(ImgVO imgVO : list) {
-			if(imgVO.getImgChgName().startsWith("t_")) {
-				String fullPath = uploadPath + File.separator + imgVO.getImgPath() + imgVO.getImgChgName() + "." + imgVO.getImgExtension();
-				entity = GetImgUtil.getImage(fullPath);
-			}			
-		}
 		return entity;
 	}
 }

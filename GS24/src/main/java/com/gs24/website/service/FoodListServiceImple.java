@@ -9,6 +9,7 @@ import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.FoodListMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
+import com.gs24.website.persistence.ImgThumnailMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,13 +22,20 @@ public class FoodListServiceImple implements FoodListService{
 	
 	@Autowired
 	private ImgFoodMapper imgFoodMapper;
+	
+	@Autowired
+	private ImgThumnailMapper imgThumnailMapper;
 
 	@Override
 	public int createFood(FoodListVO foodListVO) {
 		log.info("createFood()");
 		int result = foodListMapper.insertFood(foodListVO);
-		for(ImgVO vo : foodListVO.getImgList()) {
-			imgFoodMapper.insertImgFood(vo);
+		
+		imgThumnailMapper.insertImgThumnail(foodListVO.getImgThumnail());
+		if(foodListVO.getImgList() != null) {
+			for(ImgVO vo : foodListVO.getImgList()) {
+				imgFoodMapper.insertImgFood(vo);
+			}
 		}
 		return result;
 	}
@@ -44,8 +52,10 @@ public class FoodListServiceImple implements FoodListService{
 		log.info("getFoodById()");
 		FoodListVO foodListVO = foodListMapper.selectFoodById(foodId);
 		
+		ImgVO imgVO = imgThumnailMapper.selectImgThumnailByFoodId(foodId);
 		List<ImgVO> list = imgFoodMapper.selectImgFoodByFoodId(foodId);
 		
+		foodListVO.setImgThumnail(imgVO);
 		foodListVO.setImgList(list);
 		
 		return foodListVO;
@@ -57,13 +67,19 @@ public class FoodListServiceImple implements FoodListService{
 		
 		int result = foodListMapper.updateFoodById(foodListVO);
 		
-		List<ImgVO> list = foodListVO.getImgList();
-		
+		imgThumnailMapper.deleteImgThumnail(foodListVO.getFoodId());
 		imgFoodMapper.deleteImgFood(foodListVO.getFoodId());
 		
-		for(ImgVO vo : list) {
-			vo.setForeignId(foodListVO.getFoodId());
-			imgFoodMapper.insertImgFood(vo);
+		foodListVO.getImgThumnail().setForeignId(foodListVO.getFoodId());
+		imgThumnailMapper.insertImgThumnail(foodListVO.getImgThumnail());
+		
+		List<ImgVO> list = foodListVO.getImgList();
+		
+		if(foodListVO.getImgList() != null) {	
+			for(ImgVO vo : list) {
+				vo.setForeignId(foodListVO.getFoodId());
+				imgFoodMapper.insertImgFood(vo);
+			}
 		}
 		
 		return result;
@@ -74,8 +90,6 @@ public class FoodListServiceImple implements FoodListService{
 	public int deleteFoodById(int foodId) {
 		log.info("deleteFoodById()");
 		int result = foodListMapper.deleteFoodById(foodId);
-		log.info("삭제 중");
-		imgFoodMapper.deleteImgFood(foodId);
 		return result;
 	}
 

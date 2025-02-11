@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gs24.website.persistence.ImgThumnailMapper">
+	<resultMap type="com.gs24.website.domain.ImgVO" id="ImgThumanilResultMap">
+		<id property="ImgId" column="IMG_THUMNAIL_ID"/>
+		<result property="foreignId" column="FOOD_ID"/>
+		<result property="ImgRealName" column="IMG_THUMNAIL_REAL_NAME"/>
+		<result property="ImgChgName" column="IMG_THUMNAIL_CHG_NAME"/>
+		<result property="ImgExtension" column="IMG_THUMNAIL_EXTENSION"/>
+		<result property="ImgDateCreated" column="IMG_THUMNAIL_DATE_CREATED"/>
+		<result property="ImgPath" column="IMG_THUMNAIL_PATH"/>
+	</resultMap>
+	
+	<insert id="insertImgThumnail">
+		INSERT INTO IMG_THUMNAIL
+		(IMG_THUMNAIL_ID, FOOD_ID, IMG_THUMNAIL_PATH, IMG_THUMNAIL_REAL_NAME, IMG_THUMNAIL_CHG_NAME, IMG_THUMNAIL_EXTENSION)
+		VALUES(IMG_THUMNAIL_SEQ.NEXTVAL, #{foreignId}, #{ImgPath}, #{ImgRealName}, #{ImgChgName}, #{ImgExtension} )
+	</insert>
+	
+	<select id="selectImgThumnailById" resultMap="ImgThumanilResultMap">
+		SELECT * FROM IMG_THUMNAIL WHERE IMG_THUMNAIL_ID = #{ImgId}
+	</select>
+	
+	<select id="selectImgThumnailByFoodId" resultMap="ImgThumanilResultMap">
+		SELECT * FROM IMG_THUMNAIL WHERE FOOD_ID = ${foreignId}
+	</select>
+	
+	<select id="selectAllImagThumnail" resultMap="ImgThumanilResultMap">
+		SELECT * FROM IMG_THUMNAIL ORDER BY IMG_FOOD_ID DESC
+	</select>
+	
+	<update id="updateImgFood">
+		UPDATE IMG_THUMNAIL SET
+		IMG_THUMNAIL_PATH = #{ImgPath}, IMG_THUMNAIL_REAL_NAME =  #{ImgRealName}, IMG_THUMNAIL_CHG_NAME = #{ImgChgName}, IMG_THUMNAIL_EXTENSION = #{ImgExtension}, IMG_THUMNAIL_DATE_CREATED = SYSDATE
+		WHERE FOOD_ID = #{foreignId}
+	</update>
+	
+	<delete id="deleteImgThumnail">
+		DELETE FROM IMG_THUMNAIL WHERE  FOOD_ID = #{foreignId}
+	</delete>
+	
+	<select id="selectOldThumnail" resultMap="ImgThumanilResultMap">
+		SELECT * FROM IMG_THUMNAIL WHERE IMG_THUMNAIL_DATE_CREATED = TO_CHAR(SYSDATE -1, 'yyyy\mm\dd')
+	</select>
+</mapper>

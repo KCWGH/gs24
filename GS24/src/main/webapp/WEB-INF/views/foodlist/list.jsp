@@ -58,13 +58,13 @@
 			<td class="foodStock">${foodListVO.foodStock }</td>
 			<c:choose>
 				<c:when test="${foodListVO.isSelling == 0 }">
-					<td class="isSelling">판매 중지</td>
+					<td class="isSelling">발주 중지</td>
 				</c:when>
 				<c:when test="${foodListVO.isSelling == 1 }">
-					<td class="isSelling">판매 진행</td>
+					<td class="isSelling">발주 진행</td>
 				</c:when>
 				<c:when test="${foodListVO.isSelling == 2 }">
-					<td class="isSelling">판매 대기</td>
+					<td class="isSelling">발주 준비</td>
 				</c:when>
 			</c:choose>
 			<td><a href="../image/foodThumnail?foodId=${foodListVO.foodId }" target="_blank">썸내일 보기</a></td>
@@ -112,8 +112,8 @@
 				
 				console.log(isSelling);
 				
-				if(isSelling != '판매 진행'){
-					alert("판매 진행 중인 상품이 아닙니다.");
+				if(isSelling != '발주 진행'){
+					alert("발주 진행 중인 상품이 아닙니다.");
 					return;
 				}
 				
