@@ -1,5 +1,6 @@
 package com.gs24.website.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
+import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.OrderHistoryVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodServiceImple;
 import com.gs24.website.service.FavoritesService;
+import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.GiftCardService;
+import com.gs24.website.service.OrderHistoryService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -36,6 +42,12 @@ public class ConvenienceFoodController {
 
 	@Autowired
 	private GiftCardService giftCardService;
+	
+	@Autowired
+	private OrderHistoryService orderHistoryService;
+	
+	@Autowired
+	private FoodListService foodListService;
 
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, int convenienceId, Pagination pagination) {
@@ -94,7 +106,33 @@ public class ConvenienceFoodController {
 		String ownerId = auth.getName();
 
 		convenienceFoodServiceImple.createConvenienceFood(foodId, foodAmount, ownerId);
+		
+		 OrderHistoryVO orderHistory = new OrderHistoryVO();
+		 orderHistory.setFoodId(foodId);           // 음식 ID 설정
+		 orderHistory.setOrderAmount(foodAmount);  // 주문 수량 설정
+		 orderHistory.setOwnerId(ownerId);         // 주문자(소유자) ID 설정
+		 orderHistory.setOrderDateCreated(new Date()); // 현재 날짜와 시간으로 주문 생성
+		 
+		 orderHistoryService.insertOrder(orderHistory);
+
 
 		return "redirect:../foodlist/list";
+	}
+	
+	@GetMapping("/getOrderHistory")
+	@ResponseBody
+	public List<OrderHistoryVO> getOrderHistory(Authentication auth) {
+	    log.info("getOrderHistory");
+
+	    String ownerId = auth.getName();
+	    List<OrderHistoryVO> orderHistoryList = orderHistoryService.getOrdersByOwnerId(ownerId);
+	    
+
+	    for (OrderHistoryVO orderHistory : orderHistoryList) {
+	        FoodListVO food = foodListService.getFoodById(orderHistory.getFoodId());
+	        orderHistory.setFoodType(food.getFoodType());
+	        orderHistory.setFoodName(food.getFoodName());
+	    }
+	    return orderHistoryList;
 	}
 }

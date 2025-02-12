@@ -41,17 +41,14 @@
 
 	<div class="button-container">
 	<button onclick="location.href='list'">글 목록</button>
-	<sec:authorize access="hasRole('ROLE_OWNER')">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
     <div>
         <button onclick="location.href='modify?noticeId=${noticeVO.noticeId}'">글 수정</button>
     </div>
     <div>
-        <button id="deletenotice">글 삭제</button>
+        <button id="deleteNotice">글 삭제</button>
     </div>
 	</sec:authorize>
-	<c:if test="${ memberVO.memberRole != 2}">
-
-	</c:if>
 	</div>
 	<form id="deleteForm" action="delete" method="POST">
 		<input type="hidden" name="noticeId" value="${noticeVO.noticeId }">

@@ -25,9 +25,11 @@
                     <sec:authorize access="hasRole('ROLE_MEMBER')">
                     <button type="button" onclick='location.href="../preorder/list"'>예약 식품 목록</button>
                     <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드</button>
+                    <button type="button" onclick='location.href="../question/list"'>문의사항(QnA)</button>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_OWNER')">
                     <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
+                    <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(QnA)</button>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <button type="button" onclick='location.href="../foodlist/list"'>음식 창고</button>
@@ -37,7 +39,6 @@
                 </form>
             </sec:authorize>
             <a href="../notice/list" style="display: inline-block;"><button>공지사항</button></a>
-            <a href="../question/list" style="display: inline-block;"><button>문의사항(QnA)</button></a>
         </div>
     </div>
 </header>

@@ -19,9 +19,9 @@
 </script>
 <meta charset="UTF-8">
 <title>${questionVO.questionTitle }</title>
+<%@ include file="../common/header.jsp" %>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
     
 <h2>글 보기</h2>
 <div>
@@ -35,7 +35,7 @@
 </div>
 <div>
     <p>작성자 : ${questionVO.memberId }</p>
-    <!-- boardDateCreated 데이터 포멧 변경 -->
+    <!-- questionDateCreated 데이터 포멧 변경 -->
     <fmt:formatDate value="${questionVO.questionDateCreated }"
                 pattern="yyyy-MM-dd HH:mm:ss" var="questionDateCreated"/>
     <p>작성일 : ${questionDateCreated }</p>

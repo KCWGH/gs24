@@ -127,33 +127,72 @@
 				}
 				
 			});
-			$(".foodRow").on('click','td .insert', function(){
-				console.log(this);
-				var foodAmount = $(this).prev().val();
-				var foodId = $(this).parents().prevAll('.foodId').text();
-				var foodStock = $(this).parents().prevAll('.foodStock').text();
-				var isSelling = $(this).parents().prevAll('.isSelling').text();
-				
-				console.log(isSelling);
-				
-				if(isSelling != '발주 진행'){
-					alert("발주 진행 중인 상품이 아닙니다.");
-					return;
-				}
-				
-				console.log(foodId);
-				console.log(foodAmount);
-				console.log(foodStock);
-				console.log(foodStock - foodAmount);
-				
-				if(foodStock - foodAmount >= 0){
-					location.href="../convenienceFood/register?foodId=" + foodId + "&foodAmount=" + foodAmount;
-				}else{					
-				 	alert("재고량보다 발주량이 많습니다.");
-				}
+			$(".foodRow").on('click', 'td .insert', function() {
+			    var foodAmount = $(this).prev().val();
+			    var foodId = $(this).parents().prevAll('.foodId').text();
+			    var foodStock = $(this).parents().prevAll('.foodStock').text();
+			    var isSelling = $(this).parents().prevAll('.isSelling').text();
+
+			    if (isSelling != '발주 진행') {
+			        alert("발주 진행 중인 상품이 아닙니다.");
+			        return;
+			    }
+
+			    if (foodStock - foodAmount >= 0) {
+			        $.ajax({
+			            type: 'GET',
+			            url: "../convenienceFood/register",  // 발주 처리
+			            data: { foodId: foodId, foodAmount: foodAmount },
+			            success: function(response) {
+			                // 주문 내역을 비동기적으로 가져오기
+			                $.ajax({
+			                    type: 'GET',
+			                    url: "../convenienceFood/getOrderHistory",  // 주문 내역 가져오기
+			                    success: function(orderHistoryList) {
+			                        var tableBody = $("#orderHistoryTable tbody");
+			                        tableBody.empty();
+
+			                        $.each(orderHistoryList, function(index, orderHistory) {
+			                            var newRow = "<tr>";
+			                            newRow += "<td>" + orderHistory.foodId + "</td>";
+			                            newRow += "<td>" + orderHistory.orderAmount + "</td>";
+			                            newRow += "<td>" + orderHistory.ownerId + "</td>";
+			                            newRow += "<td>" + orderHistory.orderDateCreated + "</td>";
+			                            newRow += "</tr>";
+
+			                            tableBody.append(newRow);
+			                        });
+
+			                        // 여기서 페이지 리다이렉트를 제거합니다.
+			                    },
+			                    error: function(xhr, status, error) {
+			                        alert("주문 내역을 불러오는 데 실패했습니다.");
+			                    }
+			                });
+			            },
+			            error: function(xhr, status, error) {
+			                alert("발주 처리에 실패했습니다.");
+			            }
+			        });
+			    } else {
+			        alert("재고량보다 발주량이 많습니다.");
+			    }
 			});
-			
+
 		});
 	</script>
+	<table id="orderHistoryTable">
+    <thead>
+        <tr>
+            <th>음식ID</th>
+            <th>주문 수량</th>
+            <th>주문자 ID</th>
+            <th>주문 일시</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 비동기적으로 주문 내역이 여기에 추가됩니다. -->
+    </tbody>
+</table>
 </body>
 </html>

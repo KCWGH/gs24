@@ -8,13 +8,13 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta charset="UTF-8">
 <title>${noticeVO.noticeTitle }</title>
+<%@ include file="../common/header.jsp" %>
 </head>
 <body>
 	<h2>글 수정 페이지</h2>
 	<form action="modify" method="POST">
 		<div>
-			<p>번호 : </p>
-			<input type="text" name="noticeId" value="${noticeVO.noticeId }" readonly>
+			<p>글 번호 : ${noticeVO.noticeId }</p>			
 		</div>
 		<div>
 			<p>제목 : </p>
@@ -22,8 +22,7 @@
 maxlength="20" value="${noticeVO.noticeTitle }" required>
 		</div>
 		<div>
-			<p>작성자 : ${noticeVO.memberId} </p>
-			
+			<p>작성자 : ${noticeVO.memberId} </p>	
 		</div>
 		<div>
 			<p>내용 : </p>

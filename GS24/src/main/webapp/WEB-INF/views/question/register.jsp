@@ -14,6 +14,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     <title>글 작성 페이지</title>
+    <%@ include file="../common/header.jsp" %>
 </head>
 <body>
     <h2>글 작성 페이지</h2>
@@ -23,7 +24,17 @@
             <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
             <label for="secret" class="form-check-label">비밀글 설정</label>
         </div>
-        <br>
+
+		  <div>
+		    <label for="ownerAddress">매장 선택</label>	    
+		    <select id="ownerId" name="ownerId">
+    			<option value="" selected disabled>선택하세요</option>   			
+    				<c:forEach var="owner" items="${ownerVOList}">
+        				<option value="${owner.ownerId}">${owner.address}</option>
+    				</c:forEach>
+			</select>		          
+		</div>
+
         <div>                
              <label for="foodType">음식 종류</label>
                 <select id="foodType" name="foodType" required>

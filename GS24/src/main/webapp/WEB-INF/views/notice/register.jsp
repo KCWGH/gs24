@@ -8,15 +8,14 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta charset="UTF-8">
 <title>글 작성 페이지</title>
+<%@ include file="../common/header.jsp" %>
 </head>
 <body>
    <h2>글 작성 페이지</h2>
    <form action="register" method="POST">
    <!-- input 태그의 name은 vo의 멤버 변수 이름과 동일하게 작성 -->
       <div>
-         <p>제목 : </p>
-         <input type="text" name="noticeTitle" 
-         placeholder="제목 입력" maxlength="20" required>
+         <p>제목 : </p><input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="300" required>
       </div>
       <div>
          <p>작성자 : </p>
