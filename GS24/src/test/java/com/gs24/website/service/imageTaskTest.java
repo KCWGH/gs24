@@ -8,7 +8,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
+import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.util.ImageCheckTask;
+import com.gs24.website.util.PreordercCheckTask;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,12 +23,18 @@ public class imageTaskTest {
 	@Autowired
 	private ImageCheckTask imageCheckTask;
 	
+	@Autowired
+	private PreordercCheckTask checkPreorderTask;
+	
+	@Autowired
+	private PreorderMapper preorderMapper;
+	
 	@Test
 	public void mapperTest() {
 		a();
 	}
 	
 	public void a() {
-		imageCheckTask.deleteFoodImage();
+		checkPreorderTask.Task();
 	}
 }

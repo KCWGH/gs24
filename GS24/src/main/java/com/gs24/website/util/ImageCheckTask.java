@@ -18,7 +18,6 @@ import lombok.extern.log4j.Log4j;
 
 @Component
 @Log4j
-
 public class ImageCheckTask {
 	
 	@Autowired
@@ -30,10 +29,13 @@ public class ImageCheckTask {
 	@Autowired
 	private ImgThumnailMapper imgThumnailMapper;
 	
-	@Autowired
-    private String uploadPath;
+	@Scheduled(cron = "40 14 16 * * *")
+	public void checkTask() {
+		deleteThumnailImage();
+		deleteFoodImage();
+		deleteReviewImage();
+	}
 	
-	@Scheduled(cron = "0 0 12 * * *")
 	public void deleteReviewImage() {
 		log.warn("---------------------------");
 		log.warn("delete review image task run");
@@ -50,7 +52,7 @@ public class ImageCheckTask {
 		
 		log.warn("savedList : " + savedList);
 		
-		File targetDir = Paths.get(uploadPath, imgList.get(0).getImgPath()).toFile();
+		File targetDir = Paths.get("\\images", imgList.get(0).getImgPath()).toFile();
 		
 		log.info("isDirectory : " + targetDir.isDirectory());
 		
@@ -62,9 +64,11 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + removeFiles[i].getName());
 			removeFiles[i].delete();
 		}
+		
+		log.warn("delete review image task finish");
+		log.warn("---------------------------");
 	}
 	
-	@Scheduled(cron = "0 1 12 * * *")
 	public void deleteFoodImage() {
 		log.warn("---------------------------");
 		log.warn("delete food image task run");
@@ -81,7 +85,7 @@ public class ImageCheckTask {
 		
 		log.warn("savedList : " + savedList);
 		
-		File targetDir = Paths.get(uploadPath, imgList.get(0).getImgPath()).toFile();
+		File targetDir = Paths.get("\\images", imgList.get(0).getImgPath()).toFile();
 		
 		log.info("isDirectory : " + targetDir.isDirectory());
 		
@@ -93,9 +97,11 @@ public class ImageCheckTask {
 			log.info( "delete " + i+"th file : " + foodFiles[i].getName());
 			foodFiles[i].delete();
 		}
+		
+		log.warn("delete food image task finish");
+		log.warn("---------------------------");
 	}
 	
-	@Scheduled(cron = "0 2 12 * * *")
 	public void deleteThumnailImage() {
 		log.warn("-------------------------");
 		log.warn("deleteThumnailImage()");
@@ -111,7 +117,7 @@ public class ImageCheckTask {
 		
 		log.warn("savedList : " + savedList);
 		
-		File targetDir = Paths.get(uploadPath,imgList.get(0).getImgPath()).toFile();
+		File targetDir = Paths.get("\\images",imgList.get(0).getImgPath()).toFile();
 		
 		log.info("isDirectory : " + targetDir.isDirectory());
 		
@@ -123,6 +129,9 @@ public class ImageCheckTask {
 			log.info("delete " + i + "th file : " + thumnailFiles[i].getName());
 			thumnailFiles[i].delete();
 		}
+		
+		log.warn("delete thumnail image task finish");
+		log.warn("---------------------------");
 	}
 	
 	public String toChgName(ImgVO imgVO) {

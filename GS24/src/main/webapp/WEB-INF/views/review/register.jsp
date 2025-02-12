@@ -60,6 +60,8 @@
 		
 		$(".submit").click(function(){
 			var registForm = $("#registForm");
+			var convenienceId = ${param.convenienceId };
+			var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
 			
 			var isInputEmpty = false;
 			registForm.find('input').each(function(){
@@ -76,6 +78,7 @@
 			var i = 0;
 			$(".ImgVOList input").each(function(){
 				var ImgVO = JSON.parse($(this).val());
+				
 				console.log(ImgVO);
 				
 				var foreignId =	$("<input>").attr('type','hidden').attr('name','imgList['+i+'].foreignId').attr('value',ImgVO.foreignId);
@@ -93,6 +96,7 @@
 				i++;
 			}); //end each  
 			
+			registForm.append(inputConvenienceId);
 			registForm.submit();
 		});//end click
 		

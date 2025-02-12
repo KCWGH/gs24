@@ -59,7 +59,7 @@
 	</div>
 
 	<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
-	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}'">리뷰 작성</button>
+	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'">리뷰 작성</button>
 	
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
@@ -79,7 +79,7 @@
 		<sec:authentication property="principal" var="user"/>
 		<sec:authorize access="isAuthenticated()">
 			<c:if test="${ reviewVO.memberId eq user.username}">
-				<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}'">수정</button>
+				<button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}&convenienceId=${FoodVO.convenienceId }'">수정</button>
 				<button id="reviewDelete">삭제</button>
 			</c:if>
 		</sec:authorize>
@@ -177,6 +177,7 @@
 			var path = $(".imageList").find('.image_path').val();
 			var reviewId = $(this).prevAll(".reviewId").val();
 			var foodId = ${FoodVO.foodId };
+			var convenienceId = ${FoodVO.convenienceId}
 			console.log("path : " + path);
 			console.log("reviewId : " + reviewId);
 			console.log("foodId : " + foodId);
@@ -186,7 +187,7 @@
 				url : '../image/remove',
 				data : {"path" : path},
 				success : function(result){
-					location.href='../review/delete?reviewId='+reviewId+'&foodId=' + foodId;
+					location.href='../review/delete?reviewId='+reviewId+'&foodId=' + foodId + '&convenienceId=' + convenienceId;
 				}
 			});
 		});

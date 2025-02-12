@@ -113,6 +113,8 @@
 		
 		$(".update").click(function(){
 			var updateForm = $("#updateForm");
+			var convenienceId = ${param.convenienceId };
+			var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
 			
 			var isInputEmpty = false;
 			updateForm.find('input').each(function(){
@@ -143,7 +145,7 @@
 				
 				i++;
 			});
-			
+			updateForm.append(inputConvenienceId);
 			updateForm.submit();
 		});
 	}); // end document

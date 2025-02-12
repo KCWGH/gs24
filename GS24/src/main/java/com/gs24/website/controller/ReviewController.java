@@ -38,44 +38,44 @@ public class ReviewController {
 	}
 
 	@GetMapping("/register")
-	public void registerGET(Model model, int foodId) {
+	public void registerGET(Model model, int foodId,int convenienceId) {
 		log.info("registerGET()");
 
 		model.addAttribute("foodId", foodId);
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(ReviewVO reviewVO) {
+	public String registerPOST(ReviewVO reviewVO,int convenienceId) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
 		reviewService.createReview(reviewVO);
 
-		return "redirect:../food/list";
+		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
 	}
 
 	@GetMapping("/delete")
-	public String deleteGET(int reviewId, int foodId) {
+	public String deleteGET(int reviewId, int foodId, int convenienceId) {
 		log.info(reviewId);
 		log.info("deleteGET()");
 		reviewService.deleteReview(reviewId, foodId);
 
-		return "redirect:../food/list";
+		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
 	}
 
 	@GetMapping("/update")
-	public void updateGET(Model model, int reviewId) {
+	public void updateGET(Model model, int reviewId, int convenienceId) {
 		log.info("updateGET()");
 		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
 		model.addAttribute("reviewVO", reviewVO);
 	}
 
 	@PostMapping("/update")
-	public String updatePOST(ReviewVO reviewVO) {
+	public String updatePOST(ReviewVO reviewVO, int convenienceId) {
 		log.info("updatePOST()");
 		log.info(reviewVO);
 
 		reviewService.updateReview(reviewVO);
 
-		return "redirect:../convenience/list";
+		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
 	}
 }

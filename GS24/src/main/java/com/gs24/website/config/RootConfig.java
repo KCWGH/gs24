@@ -15,6 +15,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import com.gs24.website.util.ImageCheckTask;
+import com.gs24.website.util.PreordercCheckTask;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -66,6 +68,16 @@ public class RootConfig {
 	@Bean
 	public RecaptchaConfig recaptchaConfig() {
 		return new RecaptchaConfig();
+	}
+	
+	@Bean
+	public ImageCheckTask imageCheckTask() {
+		return new ImageCheckTask();
+	}
+	
+	@Bean
+	public PreordercCheckTask checkPreorderTask() {
+		return new PreordercCheckTask();
 	}
 
 } // end RootConfig
