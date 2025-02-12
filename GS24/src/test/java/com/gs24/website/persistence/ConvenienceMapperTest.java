@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
+import com.gs24.website.domain.ConvenienceDetailFoodVO;
+import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ConvenienceVO;
 
 import lombok.extern.log4j.Log4j;
@@ -25,9 +27,12 @@ public class ConvenienceMapperTest {
 	
 	@Autowired ConvenienceFoodMapper convenienceFoodMapper;
 	
+	@Autowired
+	private FoodListMapper foodListMapper;
+	
 	@Test
 	public void test() {
-		selectFood();
+		check();
 	}
 	
 	void select() {
@@ -54,5 +59,9 @@ public class ConvenienceMapperTest {
 	
 	void getId() {
 		log.info(convenienceMapper.selectConvenienceIdByOwnerId("testpjm2002"));
+	}
+	
+	void check() {
+		log.info(foodListMapper.checkFoodAmountStatus(10));
 	}
 }

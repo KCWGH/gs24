@@ -2,6 +2,7 @@ package com.gs24.website.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,8 +15,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class GiftCardMapperTest {
 
-//	@Autowired
-//	private GiftCardMapper giftCardMapper;
+	@Autowired
+	private GiftCardMapper giftCardMapper;
+
+	@Autowired
+	private CouponMapper earlyBirdCouponMapper;
 
 	@Test
 	public void test() {
@@ -25,10 +29,10 @@ public class GiftCardMapperTest {
 		// use();
 	}
 
-//	private void dupcheck() {
-//		int result = giftCardMapper.countByGiftCardAndMemberId("쿠폰1", "test");
-//
-//		log.info(result + "입니다");
-//	}
+	private void dupcheck() {
+		int result = giftCardMapper.countByGiftCardAndMemberId("쿠폰1", "test");
+
+		log.info(result + "입니다");
+	}
 
 }

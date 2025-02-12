@@ -22,4 +22,6 @@ public interface FoodListMapper {
 	int updateFoodStockByFoodAmount(@Param("foodId") int foodId, @Param("foodAmount") int foodAmount);
 	
 	int updateFoodTotalRatingFoodReviewCntByFoodId(@Param("avgRating") int avgRating, @Param("reviewCnt") int reviewCnt, @Param("foodId") int foodId);
+	
+	int checkFoodAmountStatus(int foodId);
 }

@@ -18,19 +18,23 @@
 		</script>
 	</c:if>
 	<%@ include file="../common/header.jsp"%>
-	<h1>지점 리스트</h1>
 	<div id="conveniList">
 	<c:forEach var="conveniVO" items="${conveniList }">
 	<div class="conveni">
+	<sec:authorize access="hasRole('ROLE_MEMBER') or isAnonymous()">
 		<c:if test="${conveniVO.isEnabled == 1 }">
 			<p>${conveniVO.convenienceId }</p>
 			<p>${conveniVO.ownerId }</p>
 			<p>${conveniVO.address }</p>
 			<p>${conveniVO.isEnabled }</p>
 		</c:if>
+	</sec:authorize>
 	</div>
 	</c:forEach>	
 	</div>
+	<sec:authorize access="hasRole('ROLE_OWNER')">
+		<meta http-equiv="refresh" content="0;URL='http://localhost:8080/website/convenienceFood/list?convenienceId=${checkConvenienceId }'">
+	</sec:authorize>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#conveniList").on('click','.conveni',function(){

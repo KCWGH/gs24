@@ -88,19 +88,43 @@
 			     
 			    xhr.setRequestHeader(header, token);
 			});
+			
 			$(".foodRow").on('click','.delete',function(e){
 				e.preventDefault();
 				var foodId = $(this).prevAll().eq(10).html();
-				console.log(foodId);
+			
+				var isSelling = $(this).prevAll('.isSelling').text();
 				
+				var checkDelete;
+				
+				if(isSelling != '발주 중지'){
+					alert("발주 중지 중인 상품이 아닙니다.");
+					return;
+				}
+				
+				//삭제해도 되는지 확인하기 위한 json 데이터 전송
 				$.ajax({
-	  				type : 'post',
-	  				url : '../image/remove2',
-	  				data : {"foreignId" : foodId},
-	  				success : function(result){
-	  					location.href='../foodlist/delete?foodId=' + foodId;
-	  				}
-	  			});
+					type : 'post',
+					contentType: "application/json",
+					url : 'checkdelete',
+					data : foodId,
+					success : function(result){
+						console.log(result);
+						checkDelete = result;
+					}
+				});
+				
+				if(checkDelete == 'success'){
+					console.log("삭제할 거에요");
+					$.ajax({
+		  				type : 'post',
+		  				url : '../image/remove2',
+		  				data : {"foreignId" : foodId},
+		  				success : function(result){
+		  					location.href='../foodlist/delete?foodId=' + foodId;
+		  				}
+		  			});
+				}
 				
 			});
 			$(".foodRow").on('click','td .insert', function(){

@@ -196,7 +196,7 @@ public class PreorderController {
 		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
 
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("preorderList", list);
+		//model.addAttribute("preorderList", list);
 	}
 
 	@GetMapping("/update")

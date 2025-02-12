@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
+import com.gs24.website.persistence.ImgThumnailMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,6 +26,9 @@ public class ImageCheckTask {
 	
 	@Autowired
 	private ImgReviewMapper imgReviewMapper;
+	
+	@Autowired
+	private ImgThumnailMapper imgThumnailMapper;
 	
 	@Autowired
     private String uploadPath;
@@ -60,7 +64,7 @@ public class ImageCheckTask {
 		}
 	}
 	
-	@Scheduled(cron = "0 0 12 * * *")
+	@Scheduled(cron = "0 1 12 * * *")
 	public void deleteFoodImage() {
 		log.warn("---------------------------");
 		log.warn("delete food image task run");
@@ -88,6 +92,36 @@ public class ImageCheckTask {
 		for(int i=0; i<foodFiles.length; i++) {
 			log.info( "delete " + i+"th file : " + foodFiles[i].getName());
 			foodFiles[i].delete();
+		}
+	}
+	
+	@Scheduled(cron = "0 2 12 * * *")
+	public void deleteThumnailImage() {
+		log.warn("-------------------------");
+		log.warn("deleteThumnailImage()");
+		
+		List<ImgVO> imgList = imgThumnailMapper.selectOldThumnail();
+		
+		if(imgList.size() == 0) {
+			log.warn("delete thumnail image task exit");
+			return;
+		}
+		
+		List<String> savedList = imgList.stream().map(this::toChgName).collect(Collectors.toList());
+		
+		log.warn("savedList : " + savedList);
+		
+		File targetDir = Paths.get(uploadPath,imgList.get(0).getImgPath()).toFile();
+		
+		log.info("isDirectory : " + targetDir.isDirectory());
+		
+		log.info("isFile : " + targetDir.isFile());
+		
+		File[] thumnailFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
+		
+		for(int i=0; i<thumnailFiles.length; i++) {
+			log.info("delete " + i + "th file : " + thumnailFiles[i].getName());
+			thumnailFiles[i].delete();
 		}
 	}
 	

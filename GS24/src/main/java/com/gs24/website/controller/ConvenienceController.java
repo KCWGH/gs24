@@ -39,6 +39,10 @@ public class ConvenienceController {
 				if (birthdayMessage != null) {
 					model.addAttribute("message", birthdayMessage);
 				}
+			} else if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				log.info(checkConvenienceId);
+				model.addAttribute("checkConvenienceId", checkConvenienceId);
 			}
 		}
 		

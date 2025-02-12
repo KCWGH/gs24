@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="selectPreoderByMemberId" resultMap="PreorderResultMap">
-		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId}
+		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId} ORDER BY PREORDER_ID DESC
 	</select>
 	
 	<update id="updatePreorderInIsPickUp">

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.service.FoodListService;
@@ -18,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/foodlist")
 @Log4j
 public class FoodListController {
-
+	
 	@Autowired
 	private FoodListService foodListService;
 
@@ -35,9 +37,9 @@ public class FoodListController {
 	@GetMapping("/delete")
 	public String deleteGET(int foodId) {
 		log.info("deleteGET()");
-
+		
 		foodListService.deleteFoodById(foodId);
-
+		
 		return "redirect:/foodlist/list";
 	}
 
@@ -74,5 +76,20 @@ public class FoodListController {
 		foodListService.updateFoodById(foodListVO);
 
 		return "redirect:/foodlist/list";
+	}
+	
+	@PostMapping("/checkdelete")
+	@ResponseBody
+	public String checkDelete(@RequestBody int foodId) {
+		log.info("checkDelete()");
+		
+		int result = foodListService.checkFoodAmountStatus(foodId);
+		
+		if(result > 0) {
+			return "failed";
+		} else {
+			return "success";			
+		}
+		
 	}
 }

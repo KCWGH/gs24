@@ -101,4 +101,13 @@ public class FoodListServiceImple implements FoodListService{
 		
 		return result;
 	}
+
+	@Override
+	public int checkFoodAmountStatus(int foodId) {
+		log.info("checkFoodAmountStatus()");
+		
+		int result = foodListMapper.checkFoodAmountStatus(foodId);
+		
+		return result;
+	}
 }

@@ -29,4 +29,10 @@ public class ConvenienceServiceImple implements ConvenienceService {
 		return list;
 	}
 
+	@Override
+	public int getConvenienceIdByOwnerId(String ownerId) {
+		int result = convenienceMapper.selectConvenienceIdByOwnerId(ownerId);
+		return result;
+	}
+
 }

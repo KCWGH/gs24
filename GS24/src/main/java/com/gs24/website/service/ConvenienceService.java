@@ -8,4 +8,6 @@ public interface ConvenienceService {
 	int createConvenience(ConvenienceVO convenienceVO);
 	
 	List<ConvenienceVO> getAllConvenience();
+	
+	int getConvenienceIdByOwnerId(String ownerId);
 }

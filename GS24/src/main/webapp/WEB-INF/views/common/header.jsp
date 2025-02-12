@@ -5,7 +5,7 @@
 <header style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff; z-index: 1000; border-bottom: 1px solid #ddd; padding: 10px 0;">
     <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <div class="header-section" style="display: flex; align-items: center; gap: 10px;">
-        <sec:authorize access="isAnonymous() or hasRole('ROLE_MEMBER')">
+        <sec:authorize access="isAnonymous() or hasRole('ROLE_MEMBER')  or hasRole('ROLE_OWNER')">
         <a href="../convenience/list" style="display: inline-block;">GS24</a>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">

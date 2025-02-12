@@ -46,4 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateFoodTotalRatingFoodReviewCntByFoodId">
 		UPDATE FOOD_LIST SET FOOD_AVG_RATING = #{avgRating}, FOOD_REVIEW_CNT = #{reviewCnt} WHERE FOOD_ID = #{foodId}
 	</update>
+	
+	<select id="checkFoodAmountStatus" resultType="Integer">
+        SELECT CASE WHEN SUM(FOOD_AMOUNT) > 0 THEN 1 ELSE 0 END AS RESULT
+        FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId}
+    </select>
 </mapper>
