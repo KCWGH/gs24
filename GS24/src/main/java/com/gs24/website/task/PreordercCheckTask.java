@@ -1,4 +1,4 @@
-package com.gs24.website.util;
+package com.gs24.website.task;
 
 import java.util.List;
 
@@ -17,27 +17,29 @@ import lombok.extern.log4j.Log4j;
 public class PreordercCheckTask {
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
-	
+
 	@Autowired
 	private PreorderMapper preorderMapper;
-	
+
 	@Scheduled(cron = "30 34 16 * * *")
 	public void Task() {
 		log.warn("PreorderCheckTask");
-		
+
 		List<PreorderVO> list = preorderMapper.selectOldPreorder();
-		
-		if(list.size() == 0) {
+
+		if (list.size() == 0) {
 			log.warn("task exit");
 			return;
 		}
-		
-		for(PreorderVO preorderVO : list) {
+
+		for (PreorderVO preorderVO : list) {
 			log.warn("update preorder : " + preorderVO.getPreorderId());
 			preorderMapper.updatePreorderByOverPickupDate(preorderVO.getPreorderId());
-			convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(), preorderVO.getPreorderAmount() * -1, preorderVO.getConvenienceId());
+			convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(),
+					preorderVO.getPreorderAmount() * -1, preorderVO.getConvenienceId());
+
 		}
-		
+
 		log.warn("PreorderCheckTask finish");
 	}
 }

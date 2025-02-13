@@ -9,8 +9,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.persistence.PreorderMapper;
-import com.gs24.website.util.ImageCheckTask;
-import com.gs24.website.util.PreordercCheckTask;
+import com.gs24.website.task.ImageCheckTask;
+import com.gs24.website.task.PreordercCheckTask;
 
 import lombok.extern.log4j.Log4j;
 

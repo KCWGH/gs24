@@ -94,7 +94,9 @@ public class PreorderController {
 			// 2주 후 날짜
 			calendar.add(Calendar.DATE, 14);
 			Date twoWeeksLater = calendar.getTime();
+
 			if (pickupDate.before(twoDaysLater) || pickupDate.after(twoWeeksLater)) {
+
 				throw new Exception("예약 날짜는 오늘을 기준으로 2일 후에서 2주 사이여야 합니다.");
 			}
 			int foodAmount = convenienceFoodService
@@ -119,7 +121,7 @@ public class PreorderController {
 				int dupCheck = couponQueueService.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
 						preorderVO.getFoodId());
 				if (giftCardVO == null || couponVO == null) {
-					redirectAttributes.addFlashAttribute("message", "존재하지 않는 기프트카드 ID 또는 쿠폰 ID입니다.");
+					redirectAttributes.addFlashAttribute("message", "1");
 					throw new Exception("존재하지 않는 기프트카드 ID 또는 쿠폰 ID입니다.");
 				} else if (dupCheck != 0) {
 					redirectAttributes.addFlashAttribute("message", "이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.");
@@ -167,9 +169,7 @@ public class PreorderController {
 					}
 				}
 			} else { // 모두 사용하지 않았다면
-				System.out.println("요기임");
 				int result = preorderService.createPreorder(preorderVO);
-				System.out.println("예약 결과 : " + result);
 				if (result == 1) {
 					log.info("createPOST()");
 					redirectAttributes.addFlashAttribute("message", "예약에 성공했습니다.");
@@ -196,7 +196,7 @@ public class PreorderController {
 		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
 
 		model.addAttribute("memberId", memberId);
-		//model.addAttribute("preorderList", list);
+		// model.addAttribute("preorderList", list);
 	}
 
 	@GetMapping("/update")

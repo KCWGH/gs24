@@ -39,40 +39,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
-            .antMatchers("/convenience/**").permitAll()
-            .antMatchers("/user/mypage", "/user/verify", "/user/change-pw").authenticated()
-            .antMatchers("/user/**").permitAll()
-            .antMatchers("/member/myhistory").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/member/register").permitAll()
-            .antMatchers("/owner/register").permitAll()
-            .antMatchers("/giftcard/list", "/giftcard/detail", "/giftcard/purchase", "/giftcard/grant").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/coupon/**").access("hasRole('ROLE_ADMIN')")
-            .antMatchers("/food/detail", "/food/list").permitAll()
-            .antMatchers("/food/register", "/food/update").access("hasRole('ROLE_OWNER')")
-            .antMatchers("/imgfood/register").authenticated()
-            .antMatchers("/notice/list").permitAll()
-            .antMatchers("/notice/detail").permitAll()
-            .antMatchers("/notice/modify").access("hasRole('ROLE_ADMIN')")
-            .antMatchers("/notice/register").access("hasRole('ROLE_ADMIN')")
-            .antMatchers("/preorder/create").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/preorder/update").access("hasRole('ROLE_OWNER')")
-            .antMatchers("/preorder/list").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/preorder/all/**").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/preorder/cancel").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/preorder/delete").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/preorder/check").access("hasRole('ROLE_OWNER')")
-            .antMatchers("/preorder/pickedup").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/review/list").permitAll()
-            .antMatchers("/review/register").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/review/update").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/question/list").authenticated()
-            .antMatchers("/question/modify").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/question/ownerList").access("hasRole('ROLE_OWNER')")
-            .antMatchers("/question/detail").permitAll()
-            .antMatchers("/question/register").access("hasRole('ROLE_MEMBER')")
-            .antMatchers("/foodlist/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')");
+    	httpSecurity.authorizeRequests()
+        .antMatchers(
+            "/auth/**", "/convenience/**", "/user/**", 
+            "/member/register", "/owner/register", 
+            "/food/detail", "/food/list", "/notice/list", 
+            "/notice/detail", "/review/list", "/question/detail", 
+            "/convenienceFood/detail"
+        ).permitAll()
+        
+        .antMatchers(
+            "/user/mypage", "/user/verify", "/user/change-pw", 
+            "/imgfood/register", "/question/list"
+        ).authenticated()
+        
+        .antMatchers(
+            "/member/myhistory", "/giftcard/list", "/giftcard/detail", 
+            "/giftcard/purchase", "/giftcard/grant", "/preorder/create", 
+            "/preorder/list", "/preorder/all/**", "/preorder/pickedup", 
+            "/preorder/cancel", "/preorder/delete", "/review/register", 
+            "/review/update", "/question/modify", "/question/register"
+        ).access("hasRole('ROLE_MEMBER')")
+        
+        .antMatchers(
+        		"/food/register", "/food/update", "/preorder/update", 
+        		"/preorder/check", "/question/ownerList", "/foodlist/**"
+        ).access("hasRole('ROLE_OWNER')")
+        
+        .antMatchers(
+            "/coupon/**", "/notice/modify", "/notice/register", 
+            "/foodlist/**"
+        ).access("hasRole('ROLE_ADMIN')");
+
 
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");
 

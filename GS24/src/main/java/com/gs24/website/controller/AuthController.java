@@ -29,7 +29,7 @@ public class AuthController {
 			model.addAttribute("errorMsg", "아이디 또는 비밀번호가 잘못되었습니다.\\n아이디와 비밀번호를 정확히 입력해 주세요.");
 		}
 		if (principal != null) {
-			return "redirect:/food/list";
+			return "redirect:/convenience/list";
 		}
 		return "/auth/login";
 

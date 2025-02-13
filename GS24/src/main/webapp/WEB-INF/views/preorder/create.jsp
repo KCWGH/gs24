@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>편의점 식품 예약</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -88,14 +89,14 @@
                 <td><div id="pickupDateContainer"></div></td>
             </tr>
             <tr>
-                <td colspan="2" style="color:gray">※ 오늘을 기준으로 2일 후부터 2주 이내까지 선택 가능합니다.</td>
+                <td colspan="2" style="color:gray">※ 오늘을 기준으로 2일 후부터 2주 이내까지 선택 가능합니다.<br><br></td>
             </tr>
             <tr>
                 <th>예약 수량</th>
                 <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개 <button type="button" id=reset>쿠폰, 기프트카드 초기화</button></td>
             </tr>
             <tr>
-                <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰 및 기프트카드가 초기화됩니다.</td>
+                <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰 및 기프트카드가 초기화됩니다.<br><br></td>
             </tr>
             <tr>
                 <th>적용된 쿠폰</th>

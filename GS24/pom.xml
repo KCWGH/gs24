@@ -159,14 +159,14 @@
 			<artifactId>ojdbc11</artifactId>
 			<version>23.2.0.0</version>
 		</dependency>
-	
+
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.3.2</version>
 		</dependency>
-		
+
 		<!-- Spring Security 모듈 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -235,12 +235,12 @@
 			<artifactId>javax.mail</artifactId>
 			<version>1.6.2</version>
 		</dependency>
-		
-	<dependency>
-	    <groupId>com.github.iamport</groupId>
-	    <artifactId>iamport-rest-client-java</artifactId>
-	    <version>0.2.23</version>
-	</dependency>
+
+		<dependency>
+			<groupId>com.github.iamport</groupId>
+			<artifactId>iamport-rest-client-java</artifactId>
+			<version>0.2.23</version>
+		</dependency>
 
 	</dependencies>
 	<build>
