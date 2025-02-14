@@ -59,7 +59,7 @@
 	</div>
 
 	<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
-	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'">리뷰 작성</button>
+	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'" style="display: none;">리뷰 작성</button>
 	
 	<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
@@ -123,55 +123,6 @@
 	
 	$(document).ready(function () {
 	    pieChartDraw();
-	    
-	    console.log($(".image-list .image-item").length);
-		$(".image-list .image-item").each(function(){
-			var chgName = $(this).find(".imgChgName").val();
-			console.log(chgName);
-			if(chgName.startsWith("t_")){
-				$(this).remove();
-			}
-		});
-	    
-	});
-	
-	let protein = ${FoodVO.foodProtein};
-	let fat = ${FoodVO.foodFat};
-	let carb = ${FoodVO.foodCarb};
-	let pieChartData = {
-	    labels: ["protein", "fat", "carbohydrate"],
-	    datasets: [{
-	    		barThickness: 40,
-	        	data: [protein, fat, carb],
-	        	backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
-	    }]
-	};
-
-	let pieChartDraw = function () {
-	    let ctx = $('#pieChart')[0].getContext('2d');
-
-	    window.pieChart = new Chart(ctx, {
-	        type: 'horizontalBar',
-	        data: pieChartData,
-	        options: {
-	         	responsive: true,
-	         	maintainAspectRatio: false,
-	        }
-	    });
-	};
-
-	$(document).ready(function(){
-		
-		$.ajax({
-	    	 type : 'post',
-	    	 url : '../preorder/pickedup',
-	    	 success : function(result){
-	    		 console.log(result);
-	    		if(result.includes(${FoodVO.foodId})){
-	    			$(".reviewRegister").show();
-	    		}
-	    	 }
-	      });
 		
 		$("#reviewList").on('click','.reviewItems #reviewDelete', function(){
 			var path = $(".imageList").find('.image_path').val();
@@ -209,8 +160,44 @@
 	         detailForm.submit();
 	         
 	      }); // end on()
-	      
+		 if("${memberId}" != ""){    
+			 $.ajax({
+		    	 type : 'post',
+		    	 url : '../preorder/pickedup',
+		    	 success : function(result){
+		    		 console.log(result);
+		    		if(result.includes(${FoodVO.foodId})){
+		    			$(".reviewRegister").show();
+		    		}
+		    	 }
+		      });
+		  }
 	});
+	
+	let protein = ${FoodVO.foodProtein};
+	let fat = ${FoodVO.foodFat};
+	let carb = ${FoodVO.foodCarb};
+	let pieChartData = {
+	    labels: ["protein", "fat", "carbohydrate"],
+	    datasets: [{
+	    		barThickness: 40,
+	        	data: [protein, fat, carb],
+	        	backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
+	    }]
+	};
+
+	let pieChartDraw = function () {
+	    let ctx = $('#pieChart')[0].getContext('2d');
+
+	    window.pieChart = new Chart(ctx, {
+	        type: 'horizontalBar',
+	        data: pieChartData,
+	        options: {
+	         	responsive: true,
+	         	maintainAspectRatio: false,
+	        }
+	    });
+	};
 	</script>
 </body>
 </html>

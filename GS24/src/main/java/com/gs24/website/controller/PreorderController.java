@@ -193,21 +193,19 @@ public class PreorderController {
 		log.info("listGET");
 
 		String memberId = auth.getName();
-		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
 
 		model.addAttribute("memberId", memberId);
-		// model.addAttribute("preorderList", list);
 	}
 
 	@GetMapping("/update")
-	public void updateGET(Model model, Pagination pagination) {
+	public void updateGET(Model model, Pagination pagination, int convenienceId) {
 		log.info("updateGET()");
 
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(preorderService.getCountNotPickedUpPreorderByPagination(pagination));
 
-		List<PreorderVO> list = preorderService.getNotPickedUpPreorder(pagination);
+		List<PreorderVO> list = preorderService.getNotPickedUpPreorder(pagination, convenienceId);
 
 		log.info(list);
 

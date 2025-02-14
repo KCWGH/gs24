@@ -73,7 +73,7 @@
    			<when test="keyword == ''"></when>
    			<otherwise>MEMBER_ID = #{keyword} AND</otherwise>
    		</choose>
-   		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0 AND CONVENIENCE_ID = #{convenienceId}
    		<choose>
    			<when test="sortType == 'Date'.toString">ORDER BY PICKUP_DATE DESC</when>
    			<when test="sortType == 'Food'.toString">ORDER BY FOOD_ID DESC</when>

@@ -51,7 +51,7 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-		log.info(preorderMapper.selectNotPickUpPreorder(null));
+	
 	}
 	
 	public void delete() {

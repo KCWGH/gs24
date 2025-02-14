@@ -30,7 +30,7 @@ public interface PreorderMapper {
 	
 	int countNotPickedUpPreorderByMemberId(String memberId);
 	
-	List<PreorderVO> selectNotPickUpPreorder(Pagination pagination);
+	List<PreorderVO> selectNotPickUpPreorder(@Param("keyword") String keyword,@Param("sortType") String sortType,@Param("convenienceId") int convenienceId);
 	
 	int countNotPickUpPreorderByPagination(Pagination pagination);
 	

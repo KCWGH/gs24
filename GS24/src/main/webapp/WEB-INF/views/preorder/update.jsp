@@ -62,7 +62,7 @@
 		</c:forEach>
 	</div>
 	
-	<button onclick="location.href='../food/list'">돌아가기</button>
+	<button onclick="location.href='../convenience/list'">돌아가기</button>
 	 <ul id="paginationList">
          <!-- 이전 버튼 생성을 위한 조건문 -->
          <c:if test="${pageMaker.isPrev() }">

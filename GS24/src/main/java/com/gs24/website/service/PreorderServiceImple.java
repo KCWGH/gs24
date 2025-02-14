@@ -195,9 +195,9 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public List<PreorderVO> getNotPickedUpPreorder(Pagination pagination) {
+	public List<PreorderVO> getNotPickedUpPreorder(Pagination pagination, int convenienceId) {
 		log.info("getNotPickUpPreorder()");
-		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination);
+		List<PreorderVO> list = preorderMapper.selectNotPickUpPreorder(pagination.getKeyword(),pagination.getSortType(), convenienceId);
 		return list;
 	}
 

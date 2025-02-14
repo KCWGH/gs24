@@ -35,7 +35,7 @@ public interface PreorderService {
 
 	int countRemainingPreorders(String memberId);
 
-	List<PreorderVO> getNotPickedUpPreorder(Pagination pagination);
+	List<PreorderVO> getNotPickedUpPreorder(Pagination pagination, int convenienceId);
 
 	int getCountNotPickedUpPreorderByPagination(Pagination pagination);
 
