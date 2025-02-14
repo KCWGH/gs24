@@ -125,7 +125,7 @@ $(document).ready(function() {
         </script>
     </c:if>
     <div class="container">
-        <h2><a href="../convenience/list">GS24</a> 로그인</h2>
+        <h1><a href="../convenience/list">GS24</a></h1>
         <form action="login" method="POST" id="loginForm">
             <div>
                 <label for="username">아이디</label> <input type="text" id="username"

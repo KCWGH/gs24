@@ -1,75 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<footer style="text-align: center;">
-    
-
+<div style="margin-top: 70px;">
+    <!-- 실제 콘텐츠가 들어갑니다. -->
+</div>
+<footer>
     <div class="footer-container">
         <div class="footer-section">
-            <h3>Contact Us</h3>
-            <p>Address: 서울특별시 강남구 봉은사로 119 성옥빌딩<br>Email: mokcoding@example.com<br>Phone: 123-456-7890</p>
+            <a href="../notice/list">공지사항</a>
+            <a>이용약관</a>
+            <a>개인정보처리방침</a>
+            <a>고객센터</a>
         </div>
         <div class="footer-section">
-            <h3>Follow Us</h3>
-            <ul class="social-links">
-                <li><a href="#" target="_blank">Facebook</a></li>
-                <li><a href="#" target="_blank">Twitter</a></li>
-                <li><a href="#" target="_blank">Instagram</a></li>
-            </ul>
+            <span>© 2025 GS24. All Rights Reserved.</span>
         </div>
-    </div>
-    <div class="copyright">
-        <p>&copy; 2025 GS24. All rights reserved.</p>
     </div>
 </footer>
 <style>
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #fff; /* Add a solid background color (white in this case) */
+    z-index: 1000; /* Ensures footer appears above other content */
+}
 
-        .footer-section {
-            text-align: center;
-            margin: 0 10px;
-        }
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
 
-        .footer-section h3 {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
+.footer-section {
+    display: flex;
+    gap: 15px;
+}
 
-        .footer-section p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
+footer a {
+    color: #333; /* 어두운 회색 */
+    text-decoration: none;
+    font-size: 14px;
+}
 
-        .social-links {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
+footer a:hover {
+    color: #555; /* 조금 더 밝은 회색 */
+    text-decoration: underline;
+}
 
-        .social-links li {
-            display: inline;
-        }
-
-        .social-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .social-links a:hover {
-            text-decoration: underline;
-        }
-
-        .copyright {
-            margin-top: 10px;
-            font-size: 12px;
-        }
-    </style>
+footer span {
+    color: #666; /* 중간 회색 */
+    font-size: 13px;
+}
+</style>

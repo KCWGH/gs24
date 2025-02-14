@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.gs24.website.task.ImageCheckTask;
-import com.gs24.website.task.PreordercCheckTask;
+import com.gs24.website.task.PreorderCheckTask;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -76,8 +76,8 @@ public class RootConfig {
 	}
 	
 	@Bean
-	public PreordercCheckTask checkPreorderTask() {
-		return new PreordercCheckTask();
+	public PreorderCheckTask checkPreorderTask() {
+		return new PreorderCheckTask();
 	}
 
 } // end RootConfig

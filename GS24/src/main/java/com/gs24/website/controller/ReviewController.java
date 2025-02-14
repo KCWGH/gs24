@@ -24,9 +24,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
-	@Autowired
-	private String uploadPath;
-
 	@PostMapping("/list")
 	@ResponseBody
 	public List<ReviewVO> listGET(@RequestBody int foodId) {

@@ -1,7 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<style>
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* 연한 회색 */
+    z-index: 1000;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto; /* 오른쪽 정렬 */
+}
+
+header a {
+    color: #333; /* 어두운 회색 */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    color: #555; /* 조금 더 밝은 회색 */
+}
+
+header button,
+header input[type="submit"] {
+    background-color: #ddd; /* 중간 회색 */
+    color: #333;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover,
+header input[type="submit"]:hover {
+    background-color: #bbb; /* 더 진한 회색 */
+}
+
+header span {
+    color: #666; /* 중간 회색 */
+    font-size: 14px;
+}
+</style>
 <header style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff; z-index: 1000; border-bottom: 1px solid #ddd; padding: 10px 0;">
     <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <div class="header-section" style="display: flex; align-items: center; gap: 10px;">
@@ -44,6 +107,6 @@
 </header>
 
 <!-- 아래 콘텐츠가 헤더 아래에서 시작되도록 충분한 여백을 줍니다. -->
-<div style="margin-top: 50px;">
+<div style="margin-top: 70px;">
     <!-- 실제 콘텐츠가 들어갑니다. -->
 </div>

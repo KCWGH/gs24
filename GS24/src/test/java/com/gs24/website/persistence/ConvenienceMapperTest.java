@@ -10,8 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.domain.ConvenienceDetailFoodVO;
-import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ConvenienceVO;
 
 import lombok.extern.log4j.Log4j;

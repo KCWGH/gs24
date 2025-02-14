@@ -63,13 +63,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         .antMatchers(
         		"/food/register", "/food/update", "/preorder/update", 
-        		"/preorder/check", "/question/ownerList", "/foodlist/**"
+        		"/preorder/check", "/question/ownerList"
         ).access("hasRole('ROLE_OWNER')")
         
         .antMatchers(
-            "/coupon/**", "/notice/modify", "/notice/register", 
-            "/foodlist/**"
-        ).access("hasRole('ROLE_ADMIN')");
+            "/coupon/**", "/notice/modify", "/notice/register"
+        ).access("hasRole('ROLE_ADMIN')")
+    	
+    	.antMatchers(
+                "/foodlist/**"
+            ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')");
 
 
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");

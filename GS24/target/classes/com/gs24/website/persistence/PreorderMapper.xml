@@ -33,18 +33,6 @@
 		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId} ORDER BY PREORDER_ID DESC
 	</select>
 	
-	<update id="updatePreorderInIsPickUp">
-		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId}
-	</update>
-	
-	<update id="updatePreorderInIsExpiredOrder">
-		UPDATE PREORDER SET IS_EXPIRED_ORDER = #{isExpiredOrder} WHERE PREORDER_ID = #{preorderId}
-	</update>
-	
-	<delete id="deletePreorderByPreorderId">
-		DELETE FROM PREORDER WHERE PREORDER_ID = #{preorderId}
-	</delete>
-	
 	<select id="selectPreorderBymemberIdPagination" resultMap="PreorderResultMap">
       SELECT * FROM
       (
@@ -62,11 +50,11 @@
    		SELECT * FROM PREORDER WHERE FOOD_ID = #{foodId} AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
    </select>
    
-   <select id="countNotPickedUpPreorderByMemberId" resultType="Integer">
+   	<select id="countNotPickedUpPreorderByMemberId" resultType="Integer">
    		SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
-   </select>
+   	</select>
    
-   <select id="selectNotPickUpPreorder" resultMap="PreorderResultMap">
+   	<select id="selectNotPickUpPreorder" resultMap="PreorderResultMap">
    		SELECT * FROM PREORDER WHERE 
    		<choose>
    			<when test="keyword == null"></when>
@@ -80,9 +68,9 @@
    			<when test="sortType == 'Order'.toString">ORDER BY PREORDER_ID DESC</when>
    			<otherwise></otherwise>
    		</choose>
-   </select>
+   	</select>
    
-   <select id="countNotPickUpPreorderByPagination" resultType="int">
+   	<select id="countNotPickUpPreorderByPagination" resultType="int">
    		SELECT COUNT(*) FROM PREORDER WHERE 
    		<choose>
    			<when test="keyword == null"></when>
@@ -90,9 +78,29 @@
    			<otherwise>MEMBER_ID = #{keyword} AND</otherwise>
    		</choose>
    		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
-   </select>
+   	</select>
    
-   <select id="selectPickedUpFoodIdByMemberId" resultType="Integer">
+   	<select id="selectPickedUpFoodIdByMemberId" resultType="Integer">
    		SELECT DISTINCT FOOD_ID FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 1
-   </select>
+  	</select>
+   
+   	<select id="selectOldPreorder" resultMap="PreorderResultMap">
+         SELECT * FROM PREORDER WHERE PICKUP_DATE = TO_CHAR(SYSDATE - 1, 'yyyy\mm\dd') AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   	</select>
+   
+	<update id="updatePreorderInIsPickUp">
+		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId}
+	</update>
+	
+	<update id="updatePreorderInIsExpiredOrder">
+		UPDATE PREORDER SET IS_EXPIRED_ORDER = #{isExpiredOrder} WHERE PREORDER_ID = #{preorderId}
+	</update>
+	
+   	<update id="updatePreorderByOverPickupDate">
+         UPDATE PREORDER SET IS_EXPIRED_ORDER = 1 WHERE PREORDER_ID = #{preorderId}
+   	</update>
+   
+	<delete id="deletePreorderByPreorderId">
+		DELETE FROM PREORDER WHERE PREORDER_ID = #{preorderId}
+	</delete>
 </mapper>
