@@ -8,18 +8,26 @@ import org.springframework.stereotype.Component;
 
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
+import com.gs24.website.persistence.CouponMapper;
+import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.PreorderMapper;
 
 import lombok.extern.log4j.Log4j;
 
 @Component
 @Log4j
-public class PreordercCheckTask {
+public class PreorderCheckTask {
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
 
 	@Autowired
 	private PreorderMapper preorderMapper;
+
+	@Autowired
+	private CouponMapper couponMapper;
+
+	@Autowired
+	private GiftCardMapper giftCardMapper;
 
 	@Scheduled(cron = "30 34 16 * * *")
 	public void Task() {
@@ -37,6 +45,8 @@ public class PreordercCheckTask {
 			preorderMapper.updatePreorderByOverPickupDate(preorderVO.getPreorderId());
 			convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(),
 					preorderVO.getPreorderAmount() * -1, preorderVO.getConvenienceId());
+			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderVO.getPreorderId());
 
 		}
 

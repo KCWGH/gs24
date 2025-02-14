@@ -163,7 +163,7 @@
 	<button id="cancel">미수령 예약 취소</button>
 	<button onclick="history.back()">돌아가기</button>
 	<button id="delete">예약 취소 목록 삭제</button>
-	
+<%@ include file="../common/footer.jsp"%>	
 </body>
 </html>
 

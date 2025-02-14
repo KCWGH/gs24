@@ -17,10 +17,18 @@
 }
 .food_box {
    list-style-type: none;
+   text-align: center;  /* 리스트를 가운데 정렬 */
 }
 
 .food_box .List {
    display: inline-block;
+   text-align: center;  /* 개별 항목 내용도 가운데 정렬 */
+   margin: 5px; /* 간격을 5px로 줄임 */
+}
+
+.food_box img {
+   display: block;
+   margin: 0 auto; /* 이미지를 가운데 정렬 */
 }
 img {
    width: 200px;
@@ -45,6 +53,12 @@ img {
 .searchList li:hover {
    background-color: silver;
 }
+.button-container {
+    display: flex;
+    justify-content: center; /* 버튼을 가운데 정렬 */
+    gap: 10px; /* 버튼 사이 여백 */
+    flex-wrap: wrap; /* 버튼이 너무 많으면 줄바꿈 */
+}
 
 </style>
 </head>
@@ -56,7 +70,7 @@ img {
     </c:if>
     <%@ include file="../common/header.jsp" %>
     
-   <h1>식품 리스트</h1>
+   <h1>${convenienceId}호점 식품 리스트</h1>
    <sec:authorize access="hasRole('ROLE_OWNER')">
       <button onclick='location.href="../preorder/update?convenienceId=${FoodList[0].convenienceId}"'>예약 상품 수령 확인</button>
    </sec:authorize>
@@ -82,22 +96,25 @@ img {
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>
-            <p>${FoodVO.foodAmount}개</p>
-            <p>${FoodVO.foodPrice}원</p>
-            <p>${FoodVO.foodAvgRating }점</p>
-            <p>리뷰 ${FoodVO.foodReviewCnt }개</p>
+            <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
+            <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
             <sec:authorize access="hasRole('ROLE_MEMBER')">
-            <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button><br>
-            <c:choose>
-                <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
-                    <button class="deleteFavorites" data-foodId="${FoodVO.foodId}" data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button><br>
-                </c:when>
-                <c:otherwise>
-                    <button class="addFavorites" data-foodId="${FoodVO.foodId}" data-convenienceId="${FoodVO.convenienceId }">찜하기</button><br>
-                </c:otherwise>
-            </c:choose>
-            </sec:authorize>
-            	<sec:authorize access="hasRole('ROLE_OWNER')">
+					<div class="button-container">
+						<button
+							onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+						<c:choose>
+							<c:when test="${isAddedMap[FoodVO.foodId] == 1}">
+								<button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
+									data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button>
+							</c:when>
+							<c:otherwise>
+								<button class="addFavorites" data-foodId="${FoodVO.foodId}"
+									data-convenienceId="${FoodVO.convenienceId }">찜하기</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
+			</sec:authorize> 
+			<sec:authorize access="hasRole('ROLE_OWNER')">
                		<button class="deleteFood">식품 삭제</button>
             </sec:authorize>
          </li>
@@ -405,5 +422,5 @@ img {
       });
    });
 </script>
-
+<%@ include file="../common/footer.jsp"%>
 </html>

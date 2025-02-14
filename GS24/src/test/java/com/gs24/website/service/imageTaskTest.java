@@ -10,7 +10,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.task.ImageCheckTask;
-import com.gs24.website.task.PreordercCheckTask;
+import com.gs24.website.task.PreorderCheckTask;
 
 import lombok.extern.log4j.Log4j;
 
@@ -24,7 +24,7 @@ public class imageTaskTest {
 	private ImageCheckTask imageCheckTask;
 	
 	@Autowired
-	private PreordercCheckTask checkPreorderTask;
+	private PreorderCheckTask checkPreorderTask;
 	
 	@Autowired
 	private PreorderMapper preorderMapper;

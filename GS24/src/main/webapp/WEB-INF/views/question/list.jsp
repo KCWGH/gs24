@@ -141,6 +141,6 @@
         <li><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
     </c:if>
 </ul>
-
+<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

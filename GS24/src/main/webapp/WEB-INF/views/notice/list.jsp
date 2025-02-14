@@ -212,5 +212,5 @@
 			
 		}); // end document()
 	</script>
-
+<%@ include file="../common/footer.jsp"%>
 </body>

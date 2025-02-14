@@ -65,6 +65,7 @@
     </style>
 </head>
 <body>
+<%@ include file="../common/header.jsp"%>
     <h1>식품 예약 페이지</h1>
     <form action="create" method="POST">
         <table>
@@ -481,5 +482,6 @@
             });
         });
     </script>
+    <%@ include file="../common/footer.jsp"%>
 </body>
 </html>
