@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.service.ConvenienceFoodService;
+import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.OwnerService;
 import com.gs24.website.service.QuestionService;
@@ -30,6 +32,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/question")
 @Log4j
 public class QuestionController {
+
+	@Autowired
+	private ConvenienceService convenienceService;
 
 	@Autowired
 	private ConvenienceFoodService convenienceFoodService;
@@ -182,6 +187,14 @@ public class QuestionController {
 		log.info("ownerListGET()");
 		String userId = auth.getName(); // 로그인한 사용자의 아이디
 		model.addAttribute("userId", userId);
+
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 
 		List<OwnerVO> ownerIdList = ownerService.getOwnerListByUsername(userId);
 

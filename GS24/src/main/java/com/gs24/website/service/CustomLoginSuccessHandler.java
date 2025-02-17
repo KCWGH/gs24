@@ -33,11 +33,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		String redirectURL = (savedRequest != null) ? savedRequest.getRedirectUrl()
 				: determineTargetUrl(authentication);
-		
-		System.out.println("savedRequest : " + savedRequest);
-		
-		System.out.println("redirectURL : " + redirectURL);
-		
+
 		// 사용 후 requestCache에서 제거
 		if (savedRequest != null) {
 			requestCache.removeRequest(request, response);

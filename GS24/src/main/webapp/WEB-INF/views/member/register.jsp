@@ -216,25 +216,52 @@
             updateSubmitButton();
         });
     </script>
+    <style>
+        /* Body의 전체를 중앙 정렬 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Card 스타일 */
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
 <c:if test="${not empty message}">
-        <script type="text/javascript">
-            alert("${message}");
-        </script>
-    </c:if>
+    <script type="text/javascript">
+        alert("${message}");
+    </script>
+</c:if>
+
+<div class="card">
     <h2>회원가입</h2>
-        <p>※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
-	<form action="register" method="POST">
+    <p>※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
+    <form action="register" method="POST">
         <table>
-			<tr>
-				<th><label for="memberId">아이디</label></th>
-				<td><input type="text" id="memberId" name="memberId" required>
-					<button type="button" onclick="checkId()">아이디 중복 확인</button> <br>
-					<span id="memberIdMessage"></span></td>
-			</tr>
-			<tr>
+            <tr>
+                <th><label for="memberId">아이디</label></th>
+                <td><input type="text" id="memberId" name="memberId" required>
+                    <button type="button" onclick="checkId()">아이디 중복 확인</button> <br>
+                    <span id="memberIdMessage"></span></td>
+            </tr>
+            <tr>
                 <th><label for="password">비밀번호</label></th>
                 <td>
                     <input type="password" id="password" name="password" required>
@@ -287,6 +314,8 @@
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
+</div>
+
 </body>
 
 </html>

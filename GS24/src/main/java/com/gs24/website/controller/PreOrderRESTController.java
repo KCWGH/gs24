@@ -19,7 +19,6 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
-import com.gs24.website.service.ReviewService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -30,9 +29,6 @@ public class PreOrderRESTController {
 
 	@Autowired
 	private PreorderService preorderService;
-	
-	@Autowired
-	private ReviewService reviewService;
 
 	@Autowired
 	private MemberService memberService;
@@ -78,27 +74,28 @@ public class PreOrderRESTController {
 
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/check")
-	public ResponseEntity<Integer> checkPreorder(int preorderId){
+	public ResponseEntity<Integer> checkPreorder(int preorderId) {
 		log.info("checkPreorder()");
-		
+
 		Integer result = preorderService.updateIsPickUp(preorderId, 1);
-		
+
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/pickedup")
-	public ResponseEntity<Boolean> pickedUp(Authentication auth, int foodId){
+	public ResponseEntity<List<Integer>> pickedUp(Authentication auth) {
 		log.info("pickedUp");
-		
-		Boolean isPickedUp = false;
-		if (auth != null) {			
+		List<Integer> list = null;
+		if (auth != null) {
+
 			String memberId = auth.getName();
-			isPickedUp = preorderService.getPickedUpFoodIdByMemberId(memberId, foodId);
-			log.info(isPickedUp);
+			list = preorderService.getPickedUpFoodIdByMemberId(memberId);
+
+			log.info(list);
 		}
-		
-		return new ResponseEntity<Boolean>(isPickedUp, HttpStatus.OK);
+
+		return new ResponseEntity<List<Integer>>(list, HttpStatus.OK);
 	}
 }

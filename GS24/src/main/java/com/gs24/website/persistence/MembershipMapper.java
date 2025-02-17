@@ -17,5 +17,5 @@ public interface MembershipMapper {
 
 	int initializeSpentAmount();
 
-	int addSpentAmount(@Param("spentAmount")int spentAmount, @Param("memberId") String memberId);
+	int addSpentAmount(@Param("spentAmount") int spentAmount, @Param("memberId") String memberId);
 }

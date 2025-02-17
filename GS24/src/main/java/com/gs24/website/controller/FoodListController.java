@@ -3,6 +3,8 @@ package com.gs24.website.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.FoodListService;
 
 import lombok.extern.log4j.Log4j;
@@ -20,12 +23,24 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/foodlist")
 @Log4j
 public class FoodListController {
-	
+
 	@Autowired
 	private FoodListService foodListService;
 
+	@Autowired
+	private ConvenienceService convenienceService;
+
 	@GetMapping("/list")
-	public void listGET(Model model) {
+	public void listGET(Authentication auth, Model model) {
+
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
+
 		log.info("listGET()");
 		List<FoodListVO> foodListVO = foodListService.getAllFood();
 
@@ -37,9 +52,9 @@ public class FoodListController {
 	@GetMapping("/delete")
 	public String deleteGET(int foodId) {
 		log.info("deleteGET()");
-		
+
 		foodListService.deleteFoodById(foodId);
-		
+
 		return "redirect:/foodlist/list";
 	}
 
@@ -77,19 +92,19 @@ public class FoodListController {
 
 		return "redirect:/foodlist/list";
 	}
-	
+
 	@PostMapping("/checkdelete")
 	@ResponseBody
 	public String checkDelete(@RequestBody int foodId) {
 		log.info("checkDelete()");
-		
+
 		int result = foodListService.checkFoodAmountStatus(foodId);
-		
-		if(result > 0) {
+
+		if (result > 0) {
 			return "failed";
 		} else {
-			return "success";			
+			return "success";
 		}
-		
+
 	}
 }

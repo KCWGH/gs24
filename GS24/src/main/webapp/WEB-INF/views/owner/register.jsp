@@ -13,6 +13,31 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        /* Body의 전체를 중앙 정렬 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Card 스타일 */
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    </style>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -272,6 +297,7 @@
             alert("${message}");
         </script>
     </c:if>
+    <div class="card">
     <h2>회원가입</h2>
     <p>※ 아이디는 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
     <form action="register" method="POST">
@@ -293,7 +319,7 @@
                 </td>
             </tr>
             <tr>
-                <th><label for="passwordConfirm">비밀번호 확인</label></th>
+                <th><label for="passwordConfirm">비밀번호<br>확인</label></th>
                 <td>
                     <input type="password" id="passwordConfirm" name="passwordConfirm" required>
                     <button type="button" onclick="checkPw()">비밀번호 확인</button>
@@ -347,6 +373,6 @@
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
+</div>
 </body>
-
 </html>

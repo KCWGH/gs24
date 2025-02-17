@@ -8,6 +8,36 @@
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>비밀번호 찾기</title>
+    <style>
+        /* Body의 전체를 중앙 정렬 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Card 스타일 */
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .verification-container {
+        display: flex;
+        gap: 10px; /* Optional: Add some space between the input and button */
+        align-items: center; /* Vertically align elements in the center */
+    	}
+    </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
     $(document).ajaxSend(function(e, xhr, opt){
@@ -33,7 +63,7 @@
                 let passwordConfirm = $('#passwordConfirm').val();
                 
                 if (!pwRegex.test(password)) {
-                    $('#passwordMatchMessage').text("비밀번호는 최소 8자, 대문자, 소문자, 숫자, 특수문자를 각각 하나 이상 포함해야 합니다.").css('color', 'red');
+                	$('#passwordMatchMessage').html("비밀번호는 최소 8자, 대문자, 소문자, 숫자, 특수문자를<br>각각 하나 이상 포함해야 합니다.").css('color', 'red');
                     isPasswordMatched = false;
                     return;
                 }
@@ -176,6 +206,7 @@
     </script>
 </head>
 <body>
+<div class="card">
     <h2>비밀번호 찾기</h2>
     <p>회원가입 시 등록된 이메일로 인증번호를 전송합니다.</p>
     
@@ -202,8 +233,10 @@
         <tr>
         	<th><span id="verificationText" hidden="hidden">인증번호</span></th>
         	<td>
+        	<div class="verification-container">
         	<input type="text" id="verificationCode" name="verificationCode" required hidden="hidden">
         	<button id="btnVerifyCode" hidden="hidden">인증번호 확인</button>
+        	</div>
         	</td>
         </tr>
         <tr>
@@ -211,6 +244,13 @@
         	<td>
         		<div id="timer" hidden="hidden"></div>
     			<div id="findResult" hidden="hidden"></div>
+        	</td>
+        </tr>
+        <tr>
+        	<th></th>
+        	<td>
+        		<a href="find-id"><button type="button">아이디 찾기</button></a>
+    			<a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
         	</td>
         </tr>
     </table>
@@ -225,26 +265,21 @@
     			</td>
     		</tr>
     		<tr>
-    			<th>비밀번호 확인</th>
+    			<th>비밀번호<br>확인</th>
     			<td>
     				<input type="password" id="passwordConfirm" name="passwordConfirm" required >
     				<button type="button" onclick="checkPw()" hidden="hidden">비밀번호 확인</button>
     				<button id="btnUpdatePw" disabled>비밀번호 변경</button>
     			</td>
     		</tr>
-    		<tr>
-    			<th></th>
-    			<td>
-    				<span id="passwordMatchMessage"></span>
-    				<span id="updateResult"></span>
-    			</td>
-    		</tr>
-    	</table>     
+			<tr>
+				<td colspan="2"><span id="passwordMatchMessage"></span> <span id="updateResult"></span></td>
+			</tr>
+		</table>     
     </div>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    <a href="find-id"><button type="button">아이디 찾기</button></a>
-    <a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
 
     <div id="message"></div>
+</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.gs24.website.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gs24.website.domain.ConvenienceFoodVO;
@@ -11,7 +12,7 @@ public interface PreorderService {
 
 	int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId);
 
-	int createPreorder(PreorderVO preorderVO, int couponId);
+	int createPreorderWithCoupon(PreorderVO preorderVO, int couponId);
 
 	int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId);
 
@@ -39,5 +40,11 @@ public interface PreorderService {
 
 	int getCountNotPickedUpPreorderByPagination(Pagination pagination);
 
-	boolean getPickedUpFoodIdByMemberId(String memberId, int foodId);
+	List<Integer> getPickedUpFoodIdByMemberId(String memberId);
+
+	boolean validatePickupDate(Date pickupDate);
+
+	boolean validatePreorderAmount(int preorderAmount, int foodAmount);
+
+	String handlePreorderWithDiscounts(PreorderVO preorderVO, String giftCardIdString, String couponIdString);
 }

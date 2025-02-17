@@ -71,9 +71,6 @@ img {
     <%@ include file="../common/header.jsp" %>
     
    <h1>${convenienceId}호점 식품 리스트</h1>
-   <sec:authorize access="hasRole('ROLE_OWNER')">
-      <button onclick='location.href="../preorder/update?convenienceId=${FoodList[0].convenienceId}"'>예약 상품 수령 확인</button>
-   </sec:authorize>
    <!-- 
       <input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
    <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">

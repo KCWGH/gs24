@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             	OWNER.OWNER_ID,
             	OWNER.ADDRESS,
             	OWNER.IS_ENABLED
-        FROM CONVENIENCE JOIN OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID
+        FROM CONVENIENCE JOIN OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID ORDER BY CONVENIENCE.CONVENIENCE_ID
     </select>
     
     <select id="selectConvenienceIdByOwnerId" resultType="Integer">

@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
-import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.domain.OrderHistoryVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodServiceImple;
 import com.gs24.website.service.FavoritesService;
-import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderHistoryService;
 import com.gs24.website.util.PageMaker;
@@ -42,7 +40,7 @@ public class ConvenienceFoodController {
 
 	@Autowired
 	private GiftCardService giftCardService;
-	
+
 	@Autowired
 	private OrderHistoryService orderHistoryService;
 
@@ -90,11 +88,11 @@ public class ConvenienceFoodController {
 
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
-		
-		if(auth != null) {	
+
+		if (auth != null) {
 			model.addAttribute("memberId", auth.getName());
 		}
-		
+
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
 	}
@@ -107,25 +105,23 @@ public class ConvenienceFoodController {
 		String ownerId = auth.getName();
 
 		convenienceFoodServiceImple.createConvenienceFood(foodId, foodAmount, ownerId);
-		
-		 OrderHistoryVO orderHistory = new OrderHistoryVO();
-		 orderHistory.setFoodId(foodId);           // 음식 ID 설정
-		 orderHistory.setOrderAmount(foodAmount);  // 주문 수량 설정
-		 orderHistory.setOwnerId(ownerId);         // 주문자(소유자) ID 설정
-		 orderHistory.setOrderDateCreated(new Date()); // 현재 날짜와 시간으로 주문 생성
-		 
-		 orderHistoryService.insertOrder(orderHistory);
 
+		OrderHistoryVO orderHistory = new OrderHistoryVO();
+		orderHistory.setFoodId(foodId); // 음식 ID 설정
+		orderHistory.setOrderAmount(foodAmount); // 주문 수량 설정
+		orderHistory.setOwnerId(ownerId); // 주문자(소유자) ID 설정
+		orderHistory.setOrderDateCreated(new Date()); // 현재 날짜와 시간으로 주문 생성
+
+		orderHistoryService.insertOrder(orderHistory);
 
 		return "redirect:../foodlist/list";
 	}
-	
-	
+
 	@GetMapping("/getOrdersAllHistory")
 	@ResponseBody
 	public List<OrderHistoryVO> getOrderAllHistory() {
 		log.info("getOrderAllHistory");
 		return orderHistoryService.getAllOrders();
-		
+
 	}
 }
