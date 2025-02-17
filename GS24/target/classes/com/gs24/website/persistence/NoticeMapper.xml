@@ -14,15 +14,16 @@
 		<result property="noticeContent" column="NOTICE_CONTENT" />
 		<result property="noticeDateCreated"
 			column="NOTICE_DATE_CREATED" />
+		<result property="noticeType" column="NOTICE_TYPE" />
 	</resultMap>
 
 	<insert id="insertNotice">
 		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID,
 		NOTICE_TITLE, NOTICE_CONTENT,
-		NOTICE_DATE_CREATED)
+		NOTICE_DATE_CREATED, NOTICE_TYPE)
 		VALUES
 		(NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent},
-		SYSDATE)
+		SYSDATE, #{noticeType})
 	</insert>
 
 	<select id="selectListByNotice" resultMap="noticeResultMap">
@@ -39,7 +40,8 @@
 		UPDATE NOTICE SET
 		NOTICE_TITLE = #{noticeTitle},
 		NOTICE_CONTENT = #{noticeContent},
-		NOTICE_DATE_CREATED = SYSDATE
+		NOTICE_DATE_CREATED = SYSDATE,
+		NOTICE_TYPE = #{noticeType}
 		WHERE
 		NOTICE_ID = #{noticeId}
 	</update>

@@ -76,14 +76,29 @@
         </thead>
         <tbody>
             <c:forEach var="NoticeVO" items="${noticeList}">
+        <c:choose>
+            <c:when test="${NoticeVO.noticeType == 0}">
+                <!-- 일반 공지사항 (누구나 볼 수 있음) -->
                 <tr>
                     <td>${NoticeVO.noticeId}</td>
                     <td><a href="detail?noticeId=${NoticeVO.noticeId}">${NoticeVO.noticeTitle}</a></td>
-                    <!-- 작성일 포맷 변경 -->
                     <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd HH:mm" var="noticeDateCreated" />
                     <td>${noticeDateCreated}</td>
                 </tr>
-            </c:forEach>
+            </c:when>
+            <c:when test="${NoticeVO.noticeType == 1}">
+                <!-- 점주 전용 공지사항 (ROLE_OWNER 또는 ROLE_ADMIN만 볼 수 있음) -->
+                <sec:authorize access="hasRole('ROLE_OWNER') or hasRole('ROLE_ADMIN')">
+                    <tr>
+                        <td>${NoticeVO.noticeId}</td>
+                        <td><a href="detail?noticeId=${NoticeVO.noticeId}">${NoticeVO.noticeTitle}</a></td>
+                        <fmt:formatDate value="${NoticeVO.noticeDateCreated}" pattern="yyyy-MM-dd HH:mm" var="noticeDateCreated" />
+                        <td>${noticeDateCreated}</td>
+                    </tr>
+                </sec:authorize>
+            </c:when>
+        </c:choose>
+    </c:forEach>
         </tbody>
     </table>
     

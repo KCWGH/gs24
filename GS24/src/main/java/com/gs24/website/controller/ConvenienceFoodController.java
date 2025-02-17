@@ -45,9 +45,6 @@ public class ConvenienceFoodController {
 	
 	@Autowired
 	private OrderHistoryService orderHistoryService;
-	
-	@Autowired
-	private FoodListService foodListService;
 
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, int convenienceId, Pagination pagination) {
@@ -123,20 +120,12 @@ public class ConvenienceFoodController {
 		return "redirect:../foodlist/list";
 	}
 	
-	@GetMapping("/getOrderHistory")
+	
+	@GetMapping("/getOrdersAllHistory")
 	@ResponseBody
-	public List<OrderHistoryVO> getOrderHistory(Authentication auth) {
-	    log.info("getOrderHistory");
-
-	    String ownerId = auth.getName();
-	    List<OrderHistoryVO> orderHistoryList = orderHistoryService.getOrdersByOwnerId(ownerId);
-	    
-
-	    for (OrderHistoryVO orderHistory : orderHistoryList) {
-	        FoodListVO food = foodListService.getFoodById(orderHistory.getFoodId());
-	        orderHistory.setFoodType(food.getFoodType());
-	        orderHistory.setFoodName(food.getFoodName());
-	    }
-	    return orderHistoryList;
+	public List<OrderHistoryVO> getOrderAllHistory() {
+		log.info("getOrderAllHistory");
+		return orderHistoryService.getAllOrders();
+		
 	}
 }

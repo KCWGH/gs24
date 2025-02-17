@@ -14,6 +14,12 @@
    <h2>글 작성 페이지</h2>
    <form action="register" method="POST">
    <!-- input 태그의 name은 vo의 멤버 변수 이름과 동일하게 작성 -->
+   	  <div>
+   	  	<label>
+   	  	  <input type="checkbox" id="noticeTypeCheckbox">점주 전용 공지사항
+   	  	</label>
+   	  	<input type="hidden" name="noticeType" id="noticeType" value="0">
+   	  </div>
       <div>
          <p>제목 : </p><input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="300" required>
       </div>
@@ -31,5 +37,11 @@
       </div>
       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
    </form>
+   <script type="text/javascript">
+   document.getElementById("noticeTypeCheckbox").addEventListener("change", function() {
+       document.getElementById("noticeType").value = this.checked ? "1" : "0";
+    });
+   </script>
+   
 </body>
 </html>
