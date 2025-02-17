@@ -46,4 +46,6 @@ public interface ReviewMapper {
 	int selectAvgRatingByFoodId(int foodId);
 	
 	ReviewRatingVO selectTotalRatingReviewCntByFoodId(int foodId);
+	
+	Integer hasReview(@Param("memberId") String memberId, @Param("foodId")int foodId);
 }

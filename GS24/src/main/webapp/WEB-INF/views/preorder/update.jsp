@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>예약 식품 확인</title>
 </head>
@@ -33,7 +32,6 @@
 }
 </style>
 <body>
-<%@ include file="../common/header.jsp"%>
 	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력">
 	<ul class="preorder">
 		<li>
@@ -59,8 +57,7 @@
 				<p class="preorderId">${preorderVO.preorderId }</p>
 				<img src="../image/foodThumnail?foodId=${preorderVO.foodId }" width="100px" height="100px">
 				<p class="pickupDate">${preorderVO.pickupDate }</p>
-				<p class="memberId">${preorderVO.memberId }</p>
-				<p class="totalPrice">${preorderVO.totalPrice }</p>
+				<p class="memberId">${preorderVO.memberId }</p> 
 			</div>
 		</c:forEach>
 	</div>
@@ -87,6 +84,7 @@
 		<input type="hidden" name="pageNum">
 		<input type="hidden" name="sortType">
 		<input type="hidden" name="keyword">
+		<input type="hidden" name="convenienceId">
 	</form>
 	
 	<script type="text/javascript">
@@ -105,11 +103,13 @@
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
 				var sortType = $(this).attr('class');
 				var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
+				var convenienceId = "<c:out value='${param.convenienceId}' />";
 				
 				updateForm.find("input[name=pageNum]").val(pageNum);
 				updateForm.find("input[name=pageSize]").val(pageSize);
 				updateForm.find("input[name=sortType]").val(sortType);
 				updateForm.find("input[name=keyword]").val(keyword);
+				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				
 				updateForm.submit();
 			});
@@ -124,11 +124,13 @@
 		         var type = "<c:out value='${pageMaker.pagination.type }' />";
 		         var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
 		         var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
+		         var convenienceId = "<c:out value='${Param.convenienceId}' />";
 		          
 		         updateForm.find("input[name='pageNum']").val(pageNum);
 		         updateForm.find("input[name='pageSize']").val(pageSize);
 		         updateForm.find("input[name='keyword']").val(keyword);
 		         updateForm.find("input[name='sortType']").val(sortType);
+		         updateForm.find("input[name=convenienceId]").val(convenienceId);
 		         
 		         updateForm.submit(); // form 전송
 		      }); // end on()
@@ -140,11 +142,14 @@
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
 				var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
 				var keyword = $(".searchMemberId").val();
+				var convenienceId = "<c:out value='${param.convenienceId}' />";
+		          
 				
 				updateForm.find('input[name=pageNum]').val(pageNum);
 				updateForm.find('input[name=pageSize]').val(pageSize);
 				updateForm.find('input[name=sortType]').val(sortType);
 				updateForm.find('input[name=keyword]').val(keyword);
+				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				
 				updateForm.submit();
 			});
@@ -155,49 +160,35 @@
 				if(isCheck){				
 					var preorderId = $(this).find(".preorderId").text();
 					console.log(preorderId);
-					var totalPrice = $(this).find(".totalPrice").text();
-					var IMP = window.IMP;
-                    IMP.init('imp84362136');
-                	IMP.request_pay({
-                        pg: 'kakaopay',
-                        pay_method: 'card',
-                        merchant_uid: 'order_' + new Date().getTime(),
-                        name: '편의점 음식 PICKUP',
-                        amount: totalPrice
-                    }, function(rsp) {
-                        if (rsp.success) {
-                            alert('결제가 완료되었습니다.');
-                            $.ajax({
-        						type : "post",
-        						url : "../preorder/check",
-        						data : {"preorderId" : preorderId},
-        						success : function(result){
-        							console.log(result);
-        							if(result == 1){
-        								var updateForm = $("#updateForm");
-        								
-        								var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
-        								var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
-        								var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
-        								var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
-        								
-        								updateForm.find('input[name=pageNum]').val(pageNum);
-        								updateForm.find('input[name=pageSize]').val(pageSize);
-        								updateForm.find('input[name=sortType]').val(sortType);
-        								updateForm.find('input[name=keyword]').val(keyword);
-        								
-        								updateForm.submit();
-        							}
-        						}
-        					});
-                        } else {
-                            alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
-                        }
-                    });
+					$.ajax({
+						type : "post",
+						url : "../preorder/check",
+						data : {"preorderId" : preorderId},
+						success : function(result){
+							console.log(result);
+							if(result == 1){
+								var updateForm = $("#updateForm");
+								
+								var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
+								var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
+								var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
+								var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
+								var convenienceId = "<c:out value='${param.convenienceId}' />";
+								
+								updateForm.find('input[name=pageNum]').val(pageNum);
+								updateForm.find('input[name=pageSize]').val(pageSize);
+								updateForm.find('input[name=sortType]').val(sortType);
+								updateForm.find('input[name=keyword]').val(keyword);
+								updateForm.find("input[name=convenienceId]").val(convenienceId);
+								
+								updateForm.submit();
+							}
+						}
+					});
 				}
 			});
 		});
 	</script>
-	<%@ include file="../common/footer.jsp"%>
+	
 </body>
 </html>

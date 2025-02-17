@@ -84,7 +84,7 @@ public class ConvenienceFoodController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(Model model, int foodId, int convenienceId) {
+	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth) {
 		log.info("detailGET()");
 
 		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId,
@@ -93,7 +93,11 @@ public class ConvenienceFoodController {
 
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
-
+		
+		if(auth != null) {	
+			model.addAttribute("memberId", auth.getName());
+		}
+		
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
 	}

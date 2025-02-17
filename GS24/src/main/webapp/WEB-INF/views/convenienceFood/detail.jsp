@@ -164,9 +164,10 @@
 			 $.ajax({
 		    	 type : 'post',
 		    	 url : '../preorder/pickedup',
+		    	 data : {"foodId" : ${FoodVO.foodId}},
 		    	 success : function(result){
 		    		 console.log(result);
-		    		if(result.includes(${FoodVO.foodId})){
+		    		if(result){
 		    			$(".reviewRegister").show();
 		    		}
 		    	 }

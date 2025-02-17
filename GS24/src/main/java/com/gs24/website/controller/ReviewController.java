@@ -3,6 +3,7 @@ package com.gs24.website.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gs24.website.check.CheckData;
+import com.gs24.website.check.CheckReviewData;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
 
@@ -23,6 +26,9 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private CheckReviewData checkReviewData;
 
 	@PostMapping("/list")
 	@ResponseBody
@@ -42,11 +48,15 @@ public class ReviewController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(ReviewVO reviewVO,int convenienceId) {
+	public String registerPOST(Authentication auth ,ReviewVO reviewVO,int convenienceId, int status) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
-		reviewService.createReview(reviewVO);
-
+		
+		//status : 
+		if(status != 0 && checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {		
+			reviewService.createReview(reviewVO);
+		}
+		
 		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
 	}
 
@@ -70,8 +80,10 @@ public class ReviewController {
 	public String updatePOST(ReviewVO reviewVO, int convenienceId) {
 		log.info("updatePOST()");
 		log.info(reviewVO);
-
-		reviewService.updateReview(reviewVO);
+		
+		if(checkReviewData.checkReviewData(null, reviewVO, convenienceId)) {
+			reviewService.updateReview(reviewVO);
+		}
 
 		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
 	}

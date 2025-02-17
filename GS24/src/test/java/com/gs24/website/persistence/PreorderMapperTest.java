@@ -22,8 +22,8 @@ public class PreorderMapperTest {
 	@Autowired
 	private PreorderMapper preorderMapper;
 	
-//	@Autowired
-//	private ReviewMapper reviewMapper;
+	@Autowired
+	private ReviewMapper reviewMapper;
 	
 	@Test
 	public void test() {
@@ -49,7 +49,10 @@ public class PreorderMapperTest {
 	}
 	
 	public void select() {
-	
+		if(reviewMapper.hasReview("pjm2002", 1) == null) {
+			
+			log.info("null ");
+		}
 	}
 	
 	public void delete() {

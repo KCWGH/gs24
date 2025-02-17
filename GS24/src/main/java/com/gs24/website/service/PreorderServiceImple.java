@@ -16,6 +16,7 @@ import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MembershipMapper;
 import com.gs24.website.persistence.PreorderMapper;
+import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -26,6 +27,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private PreorderMapper preorderMapper;
+	
+	@Autowired
+	private ReviewMapper reviewMapper;
 
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
@@ -209,10 +213,18 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public List<Integer> getPickedUpFoodIdByMemberId(String memberId) {
+	public boolean getPickedUpFoodIdByMemberId(String memberId, int foodId) {
 		log.info("getPickedUpFoodIDByMemberId()");
 		List<Integer> list = preorderMapper.selectPickedUpFoodIdByMemberId(memberId);
-		return list;
+		if(list.contains(foodId)) {
+			if(reviewMapper.hasReview(memberId, foodId) == null) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 }

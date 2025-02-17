@@ -121,5 +121,9 @@
 		SELECT (SUM(REVIEW_RATING) / COUNT(FOOD_ID))AS AVG_RATING, COUNT(FOOD_ID) AS REVIEW_CNT FROM REVIEW WHERE FOOD_ID = #{foodId}
 	</select>
 	
+	<select id="hasReview" resultType="Integer">
+		SELECT 1 AS CNT FROM DUAL WHERE EXISTS(SELECT 1 FROM REVIEW WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId})
+	</select>
+	
 </mapper>
 		

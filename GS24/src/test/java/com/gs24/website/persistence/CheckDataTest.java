@@ -1,4 +1,4 @@
-package com.gs24.website.service;
+package com.gs24.website.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,8 +7,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.gs24.website.check.CheckData;
+import com.gs24.website.check.CheckReviewData;
 import com.gs24.website.config.RootConfig;
-import com.gs24.website.task.PreorderCheckTask;
+import com.gs24.website.domain.ReviewVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -16,23 +18,21 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration(classes = {RootConfig.class})
 @WebAppConfiguration
 @Log4j
-public class imageTaskTest {
-	
-//	@Autowired
-//	private ImageCheckTask imageCheckTask;
+public class CheckDataTest {
 	
 	@Autowired
-	private PreorderCheckTask checkPreorderTask;
+	private CheckData checkDataUtil;
 	
-//	@Autowired
-//	private PreorderMapper preorderMapper;
+	@Autowired
+	private CheckReviewData checkReviewData;
 	
 	@Test
-	public void mapperTest() {
-		a();
-	}
-	
-	public void a() {
-		checkPreorderTask.Task();
+	public void test() {
+		ReviewVO reviewVO = new ReviewVO();
+		reviewVO.setReviewId(17);
+		reviewVO.setFoodId(9);
+		reviewVO.setMemberId("pjm2002");
+		
+		checkReviewData.checkReviewMemberId(reviewVO.getMemberId(), reviewVO.getFoodId());
 	}
 }

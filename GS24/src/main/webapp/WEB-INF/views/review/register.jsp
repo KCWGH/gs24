@@ -28,9 +28,9 @@
 		<p>회원 아이디</p><input type="text" name="memberId" value="${user.username}" readonly="readonly"><br>
 		</sec:authorize>
 		<p>제목 : <p>
-		<input type="text" name="reviewTitle"><br>
+		<input type="text" name="reviewTitle" maxlength="200"><br>
 		<p>내용 : <p>
-		<textarea rows="10" cols="40" name="reviewContent"></textarea><br>
+		<textarea rows="10" cols="40" name="reviewContent" maxlength="500"></textarea><br>
 		<p>별점 : <p>
 		<input type="number" name="reviewRating" min="1" max="5">
 	</form>
@@ -62,6 +62,10 @@
 			var registForm = $("#registForm");
 			var convenienceId = ${param.convenienceId };
 			var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
+			var foodId = $('input[name=foodId]').val();
+				
+			var status = $('<input>').attr('type','hidden').attr('name','status').attr('value',checkFoodId(foodId));
+			registForm.append(status);
 			
 			var isInputEmpty = false;
 			registForm.find('input').each(function(){
@@ -122,6 +126,15 @@
 				});
 			}
 		});
+		
+		function checkFoodId(foodId){
+			var checkFoodId = ${param.foodId};
+			if(checkFoodId != foodId){
+				alert("리뷰를 작성 할 수 없습니다.");
+				return 0;
+			}
+			return 1;
+		}
 		
 	}); // end document
 	</script>

@@ -15,15 +15,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-import com.gs24.website.task.ImageCheckTask;
-import com.gs24.website.task.PreorderCheckTask;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 // root-context.xml과 동일
 @Configuration
 @EnableScheduling
-@ComponentScan(basePackages = {"com.gs24.website.service", "com.gs24.website.task"})
+@ComponentScan(basePackages = {"com.gs24.website.service", "com.gs24.website.task", "com.gs24.website.check"})
 @MapperScan(basePackages = { "com.gs24.website.persistence" }) // 패키지 경로로 Mapper 스캐닝
 @EnableTransactionManagement
 public class RootConfig {
@@ -68,16 +66,6 @@ public class RootConfig {
 	@Bean
 	public RecaptchaConfig recaptchaConfig() {
 		return new RecaptchaConfig();
-	}
-	
-	@Bean
-	public ImageCheckTask imageCheckTask() {
-		return new ImageCheckTask();
-	}
-	
-	@Bean
-	public PreorderCheckTask checkPreorderTask() {
-		return new PreorderCheckTask();
 	}
 
 } // end RootConfig

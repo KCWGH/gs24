@@ -19,6 +19,7 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
+import com.gs24.website.service.ReviewService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -29,6 +30,9 @@ public class PreOrderRESTController {
 
 	@Autowired
 	private PreorderService preorderService;
+	
+	@Autowired
+	private ReviewService reviewService;
 
 	@Autowired
 	private MemberService memberService;
@@ -85,17 +89,16 @@ public class PreOrderRESTController {
 	}
 	
 	@PostMapping("/pickedup")
-	public ResponseEntity<List<Integer>> pickedUp(Authentication auth){
+	public ResponseEntity<Boolean> pickedUp(Authentication auth, int foodId){
 		log.info("pickedUp");
-		List<Integer> list = null;
-		if (auth != null) {
-			
+		
+		Boolean isPickedUp = false;
+		if (auth != null) {			
 			String memberId = auth.getName();
-			list = preorderService.getPickedUpFoodIdByMemberId(memberId);
-			
-			log.info(list);
+			isPickedUp = preorderService.getPickedUpFoodIdByMemberId(memberId, foodId);
+			log.info(isPickedUp);
 		}
 		
-		return new ResponseEntity<List<Integer>>(list, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(isPickedUp, HttpStatus.OK);
 	}
 }
