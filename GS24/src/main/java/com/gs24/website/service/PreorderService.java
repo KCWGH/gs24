@@ -40,7 +40,7 @@ public interface PreorderService {
 
 	int getCountNotPickedUpPreorderByPagination(Pagination pagination);
 
-	List<Integer> getPickedUpFoodIdByMemberId(String memberId);
+	boolean getPickedUpFoodIdByMemberId(String memberId, int foodId);
 
 	boolean validatePickupDate(Date pickupDate);
 

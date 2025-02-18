@@ -85,17 +85,15 @@ public class PreOrderRESTController {
 	}
 
 	@PostMapping("/pickedup")
-	public ResponseEntity<List<Integer>> pickedUp(Authentication auth) {
+	public ResponseEntity<Boolean> pickedUp(Authentication auth, int foodId) {
 		log.info("pickedUp");
-		List<Integer> list = null;
-		if (auth != null) {
-
+		Boolean isPickedUp = false;
+		if (auth != null) {			
 			String memberId = auth.getName();
-			list = preorderService.getPickedUpFoodIdByMemberId(memberId);
-
-			log.info(list);
+			isPickedUp = preorderService.getPickedUpFoodIdByMemberId(memberId, foodId);
+			log.info(isPickedUp);
 		}
 
-		return new ResponseEntity<List<Integer>>(list, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(isPickedUp, HttpStatus.OK);
 	}
 }

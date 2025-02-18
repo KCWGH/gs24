@@ -122,7 +122,7 @@
 	</select>
 	
 	<select id="hasReview" resultType="Integer">
-		SELECT 1 AS CNT FROM DUAL WHERE EXISTS(SELECT 1 FROM REVIEW WHERE MEMBER_ID = #{memberId} AND FOOD_ID = #{foodId})
+		SELECT CASE WHEN EXISTS (SELECT 1 FROM REVIEW WHERE FOOD_ID = #{foodId} AND MEMBER_ID = #{memberId}) THEN 1 ELSE 0 END AS result FROM DUAL
 	</select>
 	
 </mapper>

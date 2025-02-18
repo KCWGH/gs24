@@ -34,16 +34,15 @@ public class CheckReviewData {
 		try {
 			switch (checkReviewId(reviewVO.getReviewId())) {
 			case 0:
-				log.info("리뷰 아이디가 음수 입니다.");
+				log.info("없는 리뷰 입니다.");
 				return false;
 			case 1:
-				log.info("리뷰 아이디가 양수 입니다.");
+				log.info("신규 리뷰 이거나 기존 리뷰 입니다.");
 				check = check && checkReviewMemberId(reviewVO.getMemberId(), reviewVO.getFoodId());
 				break;
 			case 2:
-				log.info("신규 등록 리뷰 입니다.");
-				check = check && CheckData.checkUserName(auth, reviewVO.getMemberId());
-				break;
+				log.info("신규 리뷰 입니다.");
+				check = check && CheckData.checkUserName(auth, reviewVO.getMemberId()); 
 			}
 			// 그 편의점이 갖고 있는 식품인지 확인하는 코드
 			check = check && checkReviewFoodId(reviewVO.getFoodId(),convenienceId);
@@ -59,12 +58,13 @@ public class CheckReviewData {
 			return false;
 		}
 		
+		log.info(check);
 		return check;
 	}
 	public int checkReviewId(int reviewId) {
 		int check = 0;
 		
-		//반환값 0 : 존재할 수 없는 리뷰 | 1 : 기존 리뷰 | 2 : 신규 등록 리뷰
+		//반환값 0 : 존재할 수 없는 리뷰 | 1 : 기존 리뷰일 수도 있는 것 | 2 : 신규 등록 리뷰
 		try {
 			if(reviewId < 0) {
 				check = 0;
@@ -85,7 +85,7 @@ public class CheckReviewData {
 		boolean check = false;
 		
 		try {
-			check = (reviewMapper.hasReview(memberId, foodId) != null ? true : false);
+			check = (reviewMapper.hasReview(memberId, foodId) == 1 ? true : false);
 		}catch (Exception e) {
 			log.info(e.getMessage());
 			return false;
