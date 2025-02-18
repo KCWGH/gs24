@@ -17,11 +17,11 @@
 <style>
 	img{
 		width : 200px;
-		height: 150px;
+		height: 200px;
 	}
 	.thumnail{
-		width : 300px;
-		height: 200px;
+		width : 500px;
+		height: 500px;
 	}
 	ul {
 		list-style-type: none;
@@ -30,38 +30,56 @@
 	li {
 		display: inline-block;
 	}
+	.content-container {
+        display: flex; /* 가로 정렬 */
+        align-items: flex-start; /* 상단 정렬 */
+    }
+
+    .image-list {
+        width: 40%; /* 이미지 영역 */
+        padding-right: 20px; /* 이미지와 정보 사이 간격 */
+    }
+
+    .food-details {
+        width: 60%; /* 상세 정보 영역 */
+    }
 </style>
 </head>
 <body>
-	<!-- 상품 이미지도 같이 넣어줘야 한다. -->
-	<div class="image-list">
-	<ul>
-		<li>
-			<img class="thumnail" src="../image/foodThumnail?foodId=${FoodVO.foodId }">
-		</li>
-		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
-		<li>
-			<div class="image-item">
-				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
-				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
-			</div>
-		<li>
-		</c:forEach>
-	</ul>
-	</div>
-	<p>식품 유형 : ${FoodVO.foodType }</p>
-	<p>식품 이름 : ${FoodVO.foodName }</p>
-	<p>재고량 : ${FoodVO.foodAmount }개</p>
-	<p>가격 : ${FoodVO.foodPrice }원</p>
-	<p>영양 정보</p>
-	<div id="chart">
-		<canvas id="pieChart" width="300px" height="300px"></canvas>
-	</div>
+	<div class="content-container">
+    <!-- 왼쪽: 이미지 리스트 -->
+    <div class="image-list">
+        <ul>
+            <li>
+                <img class="thumnail" src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+            </li>
+            <c:forEach var="ImgVO" items="${FoodVO.imgList }">
+            <li>
+                <div class="image-item">
+                    <input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
+                    <img src="../image/foodImage?imgFoodId=${ImgVO.imgId }">
+                </div>
+            </li>
+            </c:forEach>
+        </ul>
+    </div>
 
-	<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
-	<button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'" style="display: none;">리뷰 작성</button>
-	
-	<div id="reviewList">
+    <!-- 오른쪽: 식품 상세 정보 -->
+    <div class="food-details">
+        <p>식품 유형 : ${FoodVO.foodType }</p>
+        <p>식품 이름 : ${FoodVO.foodName }</p>
+        <p>재고량 : ${FoodVO.foodAmount }개</p>
+        <p>가격 : ${FoodVO.foodPrice }원</p>
+
+        <div id="chart">
+        <p>영양 정보</p>
+            <canvas id="diagram" width="300px" height="300px"></canvas>
+        </div>
+	</div>
+    </div>
+        <button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
+        <button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'" style="display: none;">리뷰 작성</button>
+<div id="reviewList">
 	<c:forEach var="reviewVO" items="${reviewList }">
 		<div class="reviewItems">
 		<hr>
@@ -178,27 +196,36 @@
 	let protein = ${FoodVO.foodProtein};
 	let fat = ${FoodVO.foodFat};
 	let carb = ${FoodVO.foodCarb};
-	let pieChartData = {
-	    labels: ["protein", "fat", "carbohydrate"],
-	    datasets: [{
-	    		barThickness: 40,
-	        	data: [protein, fat, carb],
-	        	backgroundColor: ['rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
-	    }]
-	};
+	function pieChartDraw() {
+	    let ctx = document.getElementById('diagram').getContext('2d');
 
-	let pieChartDraw = function () {
-	    let ctx = $('#pieChart')[0].getContext('2d');
-
-	    window.pieChart = new Chart(ctx, {
-	        type: 'horizontalBar',
-	        data: pieChartData,
+	    let chart = new Chart(ctx, {
+	        type: 'bar', // 세로 막대 그래프
+	        data: {
+	            labels: ['단백질(g)', '지방(g)', '탄수화물(g)'], // 항목 이름
+	            datasets: [{
+	                data: [protein, fat, carb], // 값
+	                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6)'],
+	                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
+	                borderWidth: 1
+	            }]
+	        },
 	        options: {
-	         	responsive: true,
-	         	maintainAspectRatio: false,
+	            responsive: false,
+	            scales: {
+	                yAxes: [{
+	                    ticks: {
+	                        beginAtZero: true // 0부터 시작
+	                    }
+	                }]
+	            },
+	            legend: {
+	                display: false // 범례 제거
+	            }
 	        }
 	    });
-	};
+	}
+
 	</script>
 </body>
 </html>

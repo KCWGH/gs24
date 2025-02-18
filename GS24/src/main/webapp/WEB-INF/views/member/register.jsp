@@ -269,7 +269,7 @@
                 </td>
             </tr>
             <tr>
-                <th><label for="passwordConfirm">비밀번호 확인</label></th>
+                <th><label for="passwordConfirm">비밀번호<br>확인</label></th>
                 <td>
                     <input type="password" id="passwordConfirm" name="passwordConfirm" required>
                     <button type="button" onclick="checkPw()">비밀번호 확인</button>
