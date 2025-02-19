@@ -7,7 +7,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.gs24.website.check.CheckData;
 import com.gs24.website.check.CheckReviewData;
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.domain.ReviewVO;
@@ -20,9 +19,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class CheckDataTest {
 	
-	@Autowired
-	private CheckData checkDataUtil;
-	
+//	@Autowired
+//	private CheckData checkDataUtil;
+//	
 	@Autowired
 	private CheckReviewData checkReviewData;
 	

@@ -1,28 +1,23 @@
 package com.gs24.website.check;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-
-import com.gs24.website.persistence.ConvenienceFoodMapper;
-import com.gs24.website.persistence.FoodListMapper;
-import com.gs24.website.persistence.ReviewMapper;
 
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class CheckData {
 
-	@Autowired
-	private ReviewMapper reviewMapper;
-
-	@Autowired
-	private ConvenienceFoodMapper convenienceFoodMapper;
-
-	@Autowired
-	private FoodListMapper foodListMapper;
-
-	@Autowired
-	private CheckReviewData checkReviewData;
+//	@Autowired
+//	private ReviewMapper reviewMapper;
+//
+//	@Autowired
+//	private ConvenienceFoodMapper convenienceFoodMapper;
+//
+//	@Autowired
+//	private FoodListMapper foodListMapper;
+//
+//	@Autowired
+//	private CheckReviewData checkReviewData;
 
 	/**
 	 * 로그인한 회원 ID와 확인할 ID가 맞는지 확인하는 메소드

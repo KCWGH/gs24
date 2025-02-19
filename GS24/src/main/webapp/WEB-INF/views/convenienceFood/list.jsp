@@ -8,58 +8,64 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>${convenienceId}호점</title>
 <style>
-#paginationList{
-   list-style-type: none;
-   text-align: center;
-}
-.food_box {
-   list-style-type: none;
-   text-align: center;  /* 리스트를 가운데 정렬 */
-}
+	body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+   .food_box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; /* Center horizontally */
+      align-items: flex-start; /* Align items to the top */
+      gap: 20px; /* Space between items */
+      padding: 20px;
+      list-style-type: none; /* Remove bullets from list */
+      margin: 0; /* Remove default margin from list */
+   }
 
-.food_box .List {
-   display: inline-block;
-   text-align: center;  /* 개별 항목 내용도 가운데 정렬 */
-   margin: 5px; /* 간격을 5px로 줄임 */
-}
+   /* Style individual list items */
+   .food_box .List {
+      width: 250px; /* Set a fixed width for each item */
+      text-align: center; /* Center text inside each item */
+      border: 1px solid #ddd; /* Add a border around each item */
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      transition: box-shadow 0.3s ease-in-out;
+   }
 
-.food_box img {
-   display: block;
-   margin: 0 auto; /* 이미지를 가운데 정렬 */
-}
-img {
-   width: 200px;
-   height: 200px;
-}
-.pagination_button {   
-   display: inline-block;
-}
-.searchList{
-   list-style-type: none;
-   text-align: center;
-   border-top: 1px solid;
-   border-bottom: 1px solid;
-}
-.searchList li{
-   display: inline-block;
-   width: 150px;
-   margin-left: 20px;
-   border-left: 1px solid;
-   border-right:1px solid;
-}
-.searchList li:hover {
-   background-color: silver;
-}
-.button-container {
-    display: flex;
-    justify-content: center; /* 버튼을 가운데 정렬 */
-    gap: 10px; /* 버튼 사이 여백 */
-    flex-wrap: wrap; /* 버튼이 너무 많으면 줄바꿈 */
-}
+   .image-item img {
+      width: 100%; /* Make the image fill the container */
+      height: auto;
+      border-radius: 4px;
+      cursor: pointer;
+   }
 
+   .button-container button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: none;
+      background-color: #ddd;
+      color: black;
+      cursor: pointer;
+      font-size: 14px;
+   }
+
+   .button-container button:hover {
+      background-color: #bbb;
+   }
 </style>
 </head>
 <body>
@@ -84,38 +90,40 @@ img {
     -->
 
    <ul class="food_box">
-      <c:forEach var="FoodVO" items="${FoodList}">
-         <li class="List">
+    <c:forEach var="FoodVO" items="${FoodList}">
+        <li class="List">
             <input type="hidden" class="foodId" value="${FoodVO.foodId }">
             <div class="image-item">
-            	<input type="hidden" class="path" value="${FoodVO.imgPath }">
-	            <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'"><img src="../image/foodThumnail?foodId=${FoodVO.foodId }"></a>
+                <input type="hidden" class="path" value="${FoodVO.imgPath }">
+                <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'">
+                    <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+                </a>
             </div>
             <p>${FoodVO.foodType}</p>
             <p>${FoodVO.foodName}</p>
             <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
             <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
             <sec:authorize access="hasRole('ROLE_MEMBER')">
-					<div class="button-container">
-						<button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
-						<c:choose>
-							<c:when test="${isAddedMap[FoodVO.foodId] == 1}">
-								<button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
-									data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button>
-							</c:when>
-							<c:otherwise>
-								<button class="addFavorites" data-foodId="${FoodVO.foodId}"
-									data-convenienceId="${FoodVO.convenienceId }">찜하기</button>
-							</c:otherwise>
-						</c:choose>
-					</div>
-			</sec:authorize> 
-			<sec:authorize access="hasRole('ROLE_OWNER')">
-               		<button class="deleteFood">식품 삭제</button>
+                <div class="button-container">
+                    <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+                    <c:choose>
+                        <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
+                            <button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
+                                data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button class="addFavorites" data-foodId="${FoodVO.foodId}"
+                                data-convenienceId="${FoodVO.convenienceId }">찜하기</button>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </sec:authorize> 
+            <sec:authorize access="hasRole('ROLE_OWNER')">
+                <button class="deleteFood">식품 삭제</button>
             </sec:authorize>
-         </li>
-      </c:forEach>
-   </ul>
+        </li>
+    </c:forEach>
+</ul>
    
    <!-- 실제 controller로 데이터를 전송해주는 form -->
    <form id="searchForm" action="list" method="GET">
