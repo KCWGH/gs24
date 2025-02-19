@@ -181,5 +181,10 @@
         DELETE FROM GIFTCARD
 		WHERE GIFTCARD_EXPIRED_DATE &lt; SYSDATE - INTERVAL '30' DAY
     </delete>
+    
+    <delete id="deleteTotallyUsedGiftCards">
+        DELETE FROM GIFTCARD
+		WHERE BALANCE = 0
+    </delete>
 
 </mapper>

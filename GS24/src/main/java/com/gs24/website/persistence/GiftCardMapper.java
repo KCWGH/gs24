@@ -21,7 +21,7 @@ public interface GiftCardMapper {
 	int birthdayGiftCardDupCheck(String memberId);
 
 	int countByGiftCardAndMemberId(@Param("giftCardName") String giftCardName, @Param("memberId") String memberId);
-	
+
 	int countRemainingGiftCardsByMemberId(String memberId);
 
 	int selectTotalCount(String memberId);
@@ -41,9 +41,11 @@ public interface GiftCardMapper {
 	List<GiftCardVO> selectUsedListByPagination(Pagination pagination);
 
 	int useGiftCard(@Param("giftCardId") int giftCardId, @Param("preorderId") int preorderId);
-	
+
 	int refundGiftCard(@Param("giftCardId") int giftCardId, @Param("preorderId") int preorderId);
 
 	int deleteExpiredGiftCards();
+
+	int deleteTotallyUsedGiftCards();
 
 }

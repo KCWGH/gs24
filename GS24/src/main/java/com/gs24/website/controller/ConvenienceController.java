@@ -20,32 +20,33 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/convenience")
 @Log4j
 public class ConvenienceController {
-	
+
 	@Autowired
 	private ConvenienceService convenienceService;
-	
+
 	@Autowired
 	private GiftCardService giftCardService;
-	
+
 	@GetMapping("/list")
-	public void listGET(Authentication auth, Model model) {
+	public String listGET(Authentication auth, Model model) {
 		log.info("listGET()");
-		
+
 		List<ConvenienceVO> list = convenienceService.getAllConvenience();
-		
+
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
 				if (birthdayMessage != null) {
 					model.addAttribute("message", birthdayMessage);
 				}
-			} else if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
 				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
+				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}
 		}
-		
 		model.addAttribute("conveniList", list);
+		return "/convenience/list";
 	}
 }

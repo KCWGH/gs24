@@ -1,8 +1,7 @@
 package com.gs24.website.controller;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,10 +21,10 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-	
+
 	@GetMapping("/register")
-	public String registerGET(Principal principal, RedirectAttributes redirectAttributes) {
-		if (principal != null) {
+	public String registerGET(Authentication auth, RedirectAttributes redirectAttributes) {
+		if (auth != null) {
 			return "redirect:/convenience/list";
 		}
 		return "/admin/register";

@@ -151,4 +151,13 @@ public class GiftCardServiceImple implements GiftCardService {
 		}
 	}
 
+	@Override
+	@Scheduled(cron = "0 0 0 * * *")
+	public void deleteTotallyUsedGiftCards() {
+		int result = giftCardMapper.deleteTotallyUsedGiftCards();
+		if (result == 1) {
+			log.info("deleteTotallyUsedGiftCards()");
+		}
+	}
+
 }

@@ -41,7 +41,6 @@
         margin: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
         transition: box-shadow 0.3s;
         position: relative;
     }
@@ -52,7 +51,7 @@
 
     .conveni p {
         margin: 10px 0;
-        font-size: 14px;
+        font-size: 16px;
         color: #555;
     }
 
@@ -62,7 +61,8 @@
 
     .conveni .address {
         color: #777;
-        font-size: 14px;
+        font-size: 16px;
+        cursor: pointer;
     }
 
     .conveni img {
@@ -71,6 +71,7 @@
         border-radius: 8px;
         object-fit: cover;
         z-index: 1;
+        cursor: pointer;
     }
 
     .small-map {
@@ -95,6 +96,7 @@
     	justify-content: center;
     	text-align: center;
     	display: none;
+    	cursor: pointer;
 	}
 </style>
 </head>

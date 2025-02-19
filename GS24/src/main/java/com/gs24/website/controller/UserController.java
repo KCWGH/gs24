@@ -1,7 +1,5 @@
 package com.gs24.website.controller;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.OwnerVO;
+import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.OwnerService;
 import com.gs24.website.service.RecaptchaService;
@@ -33,33 +32,45 @@ public class UserController {
 	private OwnerService ownerService;
 
 	@Autowired
+	private ConvenienceService convenienceService;
+
+	@Autowired
 	private RecaptchaService recaptchaService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/register")
-	public String registerGET(Principal principal, RedirectAttributes redirectAttributes) {
-		if (principal != null) {
-			return "redirect:/food/list";
-		}
-		return "/user/register";
+	public String registerGET(Authentication auth, Model model) {
+		return handleRedirectByRole(auth, model, "/user/register");
 	}
 
 	@GetMapping("/find-id")
-	public String findIdGET(Principal principal, RedirectAttributes redirectAttributes) {
-		if (principal != null) {
-			return "redirect:/food/list";
-		}
-		return "/user/find-id";
+	public String findIdGET(Authentication auth, Model model) {
+		return handleRedirectByRole(auth, model, "/user/find-id");
 	}
 
 	@GetMapping("/find-pw")
-	public String findPwGET(Principal principal, RedirectAttributes redirectAttributes) {
-		if (principal != null) {
-			return "redirect:/food/list";
+	public String findPwGET(Authentication auth, Model model) {
+		return handleRedirectByRole(auth, model, "/user/find-pw");
+	}
+
+	private String handleRedirectByRole(Authentication auth, Model model, String defaultUrl) {
+		if (auth == null) {
+			return defaultUrl;
 		}
-		return "/user/find-pw";
+
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+			return "redirect:/convenience/list";
+		}
+
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+			int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+			model.addAttribute("convenienceId", convenienceId);
+			return "redirect:/convenienceFood/list?convenienceId=" + convenienceId;
+		}
+
+		return defaultUrl;
 	}
 
 	@GetMapping("/mypage")

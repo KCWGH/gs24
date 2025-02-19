@@ -21,6 +21,7 @@ table, th, td {
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
+	<h2>재고 목록</h2>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<button onclick='location.href="register"'>추가</button>
 	</sec:authorize>
@@ -70,7 +71,7 @@ table, th, td {
 					</c:choose>
 					<td><a
 						href="../image/foodThumnail?foodId=${foodListVO.foodId }"
-						target="_blank">썸내일 보기</a></td>
+						target="_blank">썸네일 보기</a></td>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<td><a href="update?foodId=${foodListVO.foodId }">수정</a></td>
 						<td class="delete"><a
@@ -84,7 +85,6 @@ table, th, td {
 			</c:forEach>
 		</tbody>
 	</table>
-
 	<script type="text/javascript">
     $(document).ready(function () {
         $(document).ajaxSend(function (e, xhr, opt) {
@@ -153,8 +153,9 @@ table, th, td {
                     url: "../convenienceFood/register",
                     data: { foodId: foodId, foodAmount: foodAmount },
                     success: function () {
-
                         loadOrderHistory();
+                        alert("발주 처리에 성공했습니다.");
+                        location.reload();
                     },
                     error: function () {
                         alert("발주 처리에 실패했습니다.");
@@ -169,6 +170,7 @@ table, th, td {
 
 	<br>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	<h2>발주 이력</h2>
 		<table id="orderHistoryTable">
 			<thead>
 				<tr>
@@ -183,6 +185,6 @@ table, th, td {
 			</tbody>
 		</table>
 	</sec:authorize>
-
+<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

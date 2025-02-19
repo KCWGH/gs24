@@ -124,6 +124,11 @@ $(document).ready(function() {
             alert("${errorMsg}");
         </script>
     </c:if>
+    <c:if test="${not empty expiredMsg}">
+        <script type="text/javascript">
+            alert("${expiredMsg}");
+        </script>
+    </c:if>
     <div class="container">
         <h1><a href="../convenience/list">GS24</a></h1>
         <form action="login" method="POST" id="loginForm">

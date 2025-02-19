@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
     	httpSecurity.authorizeRequests()
         .antMatchers(
-            "/auth/**", "/convenience/**", "/user/**", 
+            "/auth/**", "/convenience/**", "/user/register", 
             "/member/register", "/owner/register", 
             "/food/detail", "/food/list", "/notice/list", 
             "/notice/detail", "/review/list", "/question/detail", 
@@ -62,17 +62,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ).access("hasRole('ROLE_MEMBER')")
         
         .antMatchers(
-        		"/food/register", "/food/update", "/preorder/update", 
-        		"/preorder/check", "/question/ownerList"
+        	"/food/register", "/food/update", "/preorder/update", 
+        	"/preorder/check", "/question/ownerList"
         ).access("hasRole('ROLE_OWNER')")
         
         .antMatchers(
-            "/coupon/**", "/notice/modify", "/notice/register"
+        	"/coupon/**", "/notice/modify", "/notice/register"
         ).access("hasRole('ROLE_ADMIN')")
     	
     	.antMatchers(
-                "/foodlist/**"
-            ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')");
+    		"/foodlist/**"
+        ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')");
 
 
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");
@@ -87,7 +87,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutUrl("/auth/logout")
             .logoutSuccessUrl("/convenience/list")
             .invalidateHttpSession(true)
-            .clearAuthentication(true);
+            .clearAuthentication(true)
+            .deleteCookies("JSESSIONID");
+        
+        httpSecurity.sessionManagement().maximumSessions(1).expiredUrl("/auth/login?expired").maxSessionsPreventsLogin(false);
 
         // 로그인 전 요청한 URL 저장 기능 추가
         httpSecurity.requestCache().requestCache(requestCache());

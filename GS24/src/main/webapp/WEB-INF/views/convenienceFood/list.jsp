@@ -97,8 +97,7 @@ img {
             <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
             <sec:authorize access="hasRole('ROLE_MEMBER')">
 					<div class="button-container">
-						<button
-							onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+						<button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
 						<c:choose>
 							<c:when test="${isAddedMap[FoodVO.foodId] == 1}">
 								<button class="deleteFavorites" data-foodId="${FoodVO.foodId}"

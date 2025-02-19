@@ -46,6 +46,7 @@
 </style>
 </head>
 <body>
+<%@ include file="../common/header.jsp"%>
 	<div class="content-container">
     <!-- 왼쪽: 이미지 리스트 -->
     <div class="image-list">
@@ -77,6 +78,9 @@
         </div>
 	</div>
     </div>
+    <sec:authorize access="isAnonymous() or hasRole('ROLE_MEMBER')">
+        <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+    </sec:authorize>
         <button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
         <button class="reviewRegister" onclick="location.href='../review/register?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId}'" style="display: none;">리뷰 작성</button>
 <div id="reviewList">
@@ -227,5 +231,6 @@
 	}
 
 	</script>
+	<%@ include file="../common/footer.jsp"%>
 </body>
 </html>

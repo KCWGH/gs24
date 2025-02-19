@@ -18,7 +18,7 @@ import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.OrderHistoryVO;
 import com.gs24.website.domain.ReviewVO;
-import com.gs24.website.service.ConvenienceFoodServiceImple;
+import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderHistoryService;
@@ -33,7 +33,7 @@ import lombok.extern.log4j.Log4j;
 public class ConvenienceFoodController {
 
 	@Autowired
-	private ConvenienceFoodServiceImple convenienceFoodServiceImple;
+	private ConvenienceFoodService convenienceFoodService;
 
 	@Autowired
 	private FavoritesService favoritesService;
@@ -48,7 +48,7 @@ public class ConvenienceFoodController {
 	public void listGET(Authentication auth, Model model, int convenienceId, Pagination pagination) {
 		log.info("listGET()");
 
-		List<ConvenienceFoodVO> list = convenienceFoodServiceImple.getConvenienceFoodByConvenienceId(convenienceId);
+		List<ConvenienceFoodVO> list = convenienceFoodService.getConvenienceFoodByConvenienceId(convenienceId);
 
 		log.info(list);
 
@@ -82,15 +82,19 @@ public class ConvenienceFoodController {
 	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth) {
 		log.info("detailGET()");
 
-		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodServiceImple.getDetailConvenienceFoodByFoodId(foodId,
+		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodService.getDetailConvenienceFoodByFoodId(foodId,
 				convenienceId);
-		List<ReviewVO> reviewList = convenienceFoodServiceImple.getReviewsByFoodId(foodId);
+		List<ReviewVO> reviewList = convenienceFoodService.getReviewsByFoodId(foodId);
 
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
 
 		if (auth != null) {
-			model.addAttribute("memberId", auth.getName());
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+				model.addAttribute("memberId", auth.getName());
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				model.addAttribute("convenienceId", convenienceId);
+			}
 		}
 
 		model.addAttribute("FoodVO", convenienceFoodVO);
@@ -104,7 +108,7 @@ public class ConvenienceFoodController {
 		log.info("foodId : " + foodId + "  foodAmount : " + foodAmount);
 		String ownerId = auth.getName();
 
-		convenienceFoodServiceImple.createConvenienceFood(foodId, foodAmount, ownerId);
+		convenienceFoodService.createConvenienceFood(foodId, foodAmount, ownerId);
 
 		OrderHistoryVO orderHistory = new OrderHistoryVO();
 		orderHistory.setFoodId(foodId); // 음식 ID 설정

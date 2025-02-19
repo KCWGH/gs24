@@ -36,5 +36,6 @@ public interface GiftCardService {
 	int useGiftCard(int giftCardId, int preorderId);
 
 	void deleteExpiredGiftCards();
-
+	
+	void deleteTotallyUsedGiftCards();
 }
