@@ -124,6 +124,7 @@ header span {
                 <button type="button" onclick='location.href="../foodlist/list"'>음식 창고</button>
                 <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700')">쿠폰 발행</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
+                <button type="button" onclick='location.href="../orders/list"'>발주내역</button>
             </sec:authorize>
         </div>
     </div>

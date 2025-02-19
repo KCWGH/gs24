@@ -32,4 +32,6 @@ public interface ConvenienceFoodMapper {
 			@Param("convenienceId") int convenienceId);
 
 	List<String> selectFoodType();
+
+	String getFoodNameById(int foodId);
 }
