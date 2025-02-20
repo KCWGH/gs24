@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gs24.website.persistence.OrderMapper">
+    <resultMap type="com.gs24.website.domain.OrderVO" id="orderResultMap">
+        <id property="orderId" column="ORDER_ID" />
+        <result property="foodId" column="FOOD_ID" />
+        <result property="orderAmount" column="ORDER_AMOUNT" />
+        <result property="orderDateCreated" column="ORDER_DATE_CREATED" />
+        <result property="ownerId" column="OWNER_ID" />
+        <result property="approvalStatus" column="APPROVAL_STATUS" />
+    </resultMap>
+    
+    <insert id="insertOrder" >
+        INSERT INTO ORDERS (ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID)
+        VALUES (ORDERS_SEQ.NEXTVAL, #{foodId}, #{orderAmount}, SYSDATE, #{ownerId})
+    </insert>
+
+    <select id="selectAllOrders" resultMap="orderResultMap">
+        SELECT ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID, APPROVAL_STATUS 
+        FROM ORDERS ORDER BY ORDER_DATE_CREATED DESC
+    </select>
+    
+    <select id="selectOrdersByOwnerId" parameterType="string" resultMap="orderResultMap">
+        SELECT ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID, APPROVAL_STATUS 
+        FROM ORDERS
+        WHERE OWNER_ID = #{ownerId}
+    </select>
+    
+    <select id="selectOrderById" parameterType="int" resultMap="orderResultMap">
+        SELECT ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID, APPROVAL_STATUS 
+        FROM ORDERS WHERE ORDER_ID = #{orderId}
+    </select>
+
+    <update id="updateApprovalStatus">
+        UPDATE ORDERS
+        SET APPROVAL_STATUS = #{approvalStatus}
+        WHERE ORDER_ID = #{orderId}
+    </update>
+</mapper>

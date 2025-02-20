@@ -50,52 +50,52 @@
             </c:forEach>
         </tbody>
     </table>
-    <script>
-    $(document).ajaxSend(function(e, xhr, opt){
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		
-		xhr.setRequestHeader(header, token);
-	});
-    function approveOrder(orderId) {
-        $.ajax({
-            url: '../orders/approve',
-            type: 'POST',
-            data: { orderId: orderId },
-            success: function(response) {
-                if (response === "success") {
-                    alert('해당 발주가 승인되었습니다.');
-                    location.reload();
-                } else {
-                    alert('Unexpected response: ' + response);
-                }
-            },
-            error: function(xhr) {
-                alert('Error approving order: ' + xhr.status + ' ' + xhr.statusText);
-                console.log(xhr.responseText);
-            }
+     <script>
+        $(document).ajaxSend(function(e, xhr, opt){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            xhr.setRequestHeader(header, token);
         });
-    }
 
-    function rejectOrder(orderId) {
-        $.ajax({
-            url: '../orders/reject',
-            type: 'POST',
-            data: { orderId: orderId },
-            success: function(response) {
-                if (response === "success") {
-                    alert('해당 발주가 거절되었습니다.');
-                    location.reload();
-                } else {
-                    alert('Unexpected response: ' + response);
+        function approveOrder(orderId) {
+            $.ajax({
+                url: '../orders/approve', 
+                type: 'POST',
+                data: { "orderId": orderId }, 
+                success: function(response) {
+                    if (response === "success") {
+                        alert('해당 발주가 승인되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('해당 발주의 승인 에러 발생: ' + response);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error approving order: ' + xhr.status + ' ' + xhr.statusText);
+                    console.log(xhr.responseText);
                 }
-            },
-            error: function(xhr) {
-                alert('Error rejecting order: ' + xhr.status + ' ' + xhr.statusText);
-                console.log(xhr.responseText);
-            }
-        });
-    }
+            });
+        }
+
+        function rejectOrder(orderId) {
+            $.ajax({
+                url: '../orders/reject',
+                type: 'POST',
+                data: { "orderId": orderId }, 
+                success: function(response) {
+                    if (response === "success") {
+                        alert('해당 발주가 거절되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('해당 발주의 거절 에러 발생: ' + response);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error rejecting order: ' + xhr.status + ' ' + xhr.statusText);
+                    console.log(xhr.responseText);
+                }
+            });
+        }
 
     </script>
 </body>

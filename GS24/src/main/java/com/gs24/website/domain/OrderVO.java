@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OrderHistoryVO {
+public class OrderVO {
 	private int orderId;
     private int foodId;
     private int orderAmount;

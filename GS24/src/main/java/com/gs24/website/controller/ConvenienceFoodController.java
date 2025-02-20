@@ -1,6 +1,5 @@
 package com.gs24.website.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
-import com.gs24.website.domain.OrderHistoryVO;
+import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.GiftCardService;
-import com.gs24.website.service.OrderHistoryService;
+import com.gs24.website.service.OrderService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -44,7 +43,7 @@ public class ConvenienceFoodController {
 	private GiftCardService giftCardService;
 
 	@Autowired
-	private OrderHistoryService orderHistoryService;
+	private OrderService orderService;
 
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, int convenienceId) {
@@ -104,39 +103,18 @@ public class ConvenienceFoodController {
 	public ResponseEntity<Integer> registerGET(Authentication auth, int foodId, int foodAmount) {
 	    log.info("registerGET");
 
+	    log.info("foodId : " + foodId + ", foodAmount : " + foodAmount);
 	    String ownerId = auth.getName();
 
-	    // 발주 내역 중 해당 foodId가 이미 존재하는지 확인 (기존 발주 내역을 중복으로 추가하지 않기 위해)
-	    List<OrderHistoryVO> orderHistoryList = orderHistoryService.getOrdersByOwnerId(ownerId);
-	    boolean isApproved = false;
+	    OrderVO order = new OrderVO();
+	    order.setFoodId(foodId);
+	    order.setOrderAmount(foodAmount);
+	    order.setOwnerId(ownerId);
+	    order.setApprovalStatus(0); // 대기 상태
 
-	    // 해당 foodId의 음식이 승인 상태인지 확인
-	    for (OrderHistoryVO order : orderHistoryList) {
-	        if (order.getFoodId() == foodId && order.getApprovalStatus() == 1) { // 승인된 상태인지 확인
-	            isApproved = true;
-	            break;
-	        }
-	    }
+	    orderService.insertOrder(order);
 
-	    // 승인된 상품만 발주 처리
-	    if (isApproved) {
-	        // 주문 내역 생성
-	        OrderHistoryVO orderHistory = new OrderHistoryVO();
-	        orderHistory.setFoodId(foodId); // 음식 ID 설정
-	        orderHistory.setOrderAmount(foodAmount); // 주문 수량 설정
-	        orderHistory.setOwnerId(ownerId); // 주문자(소유자) ID 설정
-	        orderHistory.setOrderDateCreated(new Date()); // 현재 날짜와 시간으로 주문 생성
-	        orderHistory.setApprovalStatus(0); // 승인 대기 상태로 설정 (발주 대기 상태)
-
-	        // 주문 내역을 orders/list에 추가
-	        orderHistoryService.insertOrder(orderHistory);
-
-	        // 발주가 성공적으로 처리되었음을 알리는 메시지 또는 리다이렉트
-	        return new ResponseEntity<>(1, HttpStatus.OK);
-	    } else {
-	        // 승인되지 않은 상품일 경우 처리 (예: 오류 메시지 등)
-	        return new ResponseEntity<Integer>(0, HttpStatus.BAD_REQUEST); 
-	    }
+	    return new ResponseEntity<>(1, HttpStatus.OK);
 	}
 	
 	@GetMapping("/updateShowStatus")
@@ -144,14 +122,5 @@ public class ConvenienceFoodController {
 		log.info("updateShowStatus()");
 		convenienceFoodService.updateShowStatus(foodId, convenienceId);
 		return "redirect:list?convenienceId=" + convenienceId;
-	}
-
-
-	@GetMapping("/getOrdersAllHistory")
-	@ResponseBody
-	public List<OrderHistoryVO> getOrderAllHistory() {
-		log.info("getOrderAllHistory");
-		return orderHistoryService.getAllOrders();
-		
 	}
 }
