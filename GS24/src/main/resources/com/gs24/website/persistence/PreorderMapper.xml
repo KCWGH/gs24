@@ -14,6 +14,7 @@
 		<result property="appliedGiftCardId" column="APPLIED_GIFTCARD_ID"/>
 		<result property="appliedCouponId" column="APPLIED_COUPON_ID"/>
 		<result property="convenienceId" column="CONVENIENCE_ID"/>
+		<result property="writeReview" column="WRITE_REVIEW"/>
 	</resultMap>
 	
 	<insert id="insertPreorder" useGeneratedKeys="true" keyProperty="preorderId">
@@ -89,11 +90,11 @@
    	</select>
    
 	<update id="updatePreorderInIsPickUp">
-		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId}
+		UPDATE PREORDER SET IS_PICK_UP = #{isPickUp} WHERE PREORDER_ID = #{preorderId} AND IS_EXPIRED_ORDER = 0
 	</update>
 	
 	<update id="updatePreorderInIsExpiredOrder">
-		UPDATE PREORDER SET IS_EXPIRED_ORDER = #{isExpiredOrder} WHERE PREORDER_ID = #{preorderId}
+		UPDATE PREORDER SET IS_EXPIRED_ORDER = #{isExpiredOrder} WHERE PREORDER_ID = #{preorderId} AND IS_PICK_UP = 0
 	</update>
 	
    	<update id="updatePreorderByOverPickupDate">
@@ -103,4 +104,8 @@
 	<delete id="deletePreorderByPreorderId">
 		DELETE FROM PREORDER WHERE PREORDER_ID = #{preorderId}
 	</delete>
+	
+	<update id="updateWriteReview">
+		UPDATE PREORDER SET WRITE_REVIEW = 1 WHERE PREORDER_ID = #{preorderId}
+	</update>
 </mapper>

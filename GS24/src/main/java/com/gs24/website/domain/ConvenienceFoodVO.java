@@ -21,5 +21,6 @@ public class ConvenienceFoodVO {
 	private int foodAmount;
 	private int foodAvgRating;
 	private int foodReviewCnt;
+	private int showStatus;
 	private String imgPath;
 }

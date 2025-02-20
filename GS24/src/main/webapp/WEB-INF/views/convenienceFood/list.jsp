@@ -91,6 +91,8 @@
 
    <ul class="food_box">
     <c:forEach var="FoodVO" items="${FoodList}">
+    <sec:authorize access="hasRole('ROLE_MEMBER') or !isAuthenticated()">
+    <c:if test="${FoodVO.showStatus == 1 }">
         <li class="List">
             <input type="hidden" class="foodId" value="${FoodVO.foodId }">
             <div class="image-item">
@@ -103,7 +105,6 @@
             <p>${FoodVO.foodName}</p>
             <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
             <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
-            <sec:authorize access="hasRole('ROLE_MEMBER')">
                 <div class="button-container">
                     <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
                     <c:choose>
@@ -117,14 +118,35 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-            </sec:authorize> 
-            <sec:authorize access="hasRole('ROLE_OWNER')">
-                <button class="deleteFood">식품 삭제</button>
-            </sec:authorize>
         </li>
+    </c:if>
+    </sec:authorize>
+   	<sec:authorize access="hasRole('ROLE_OWNER')">
+   		<li class="List">
+            <input type="hidden" class="foodId" value="${FoodVO.foodId }">
+            <div class="image-item">
+                <input type="hidden" class="path" value="${FoodVO.imgPath }">
+                <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'">
+                    <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+                </a>
+            </div>
+            <p>${FoodVO.foodType}</p>
+            <p>${FoodVO.foodName}</p>
+            <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
+            <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
+            <input type="hidden" class="showStatus" value="${FoodVO.showStatus }">
+            <div class="button-container">
+            	<c:if test="${FoodVO.showStatus == 1}">
+	   				<button class="HideFood">식품 숨기기</button>
+            	</c:if>
+            	<c:if test="${FoodVO.showStatus == 0 }">
+            		<button class="HideFood">식품 보이기</button>
+            	</c:if>
+            </div>
+        </li>
+    </sec:authorize>
     </c:forEach>
 </ul>
-   
    <!-- 실제 controller로 데이터를 전송해주는 form -->
    <form id="searchForm" action="list" method="GET">
       <input type="hidden" name="pageNum">
@@ -408,21 +430,13 @@
          searchForm.submit(); // form 전송
       });
       
-      $(".food_box").on('click','.List .deleteFood',function(){
-    	  console.log(this);
-    	  	var path = $(this).prevAll('.image-item').find('.path').val();
-  			var foodId = $(this).prevAll('.foodId').val();
-  			console.log("path : " + path);
-  			console.log("foodId : " + foodId);
-  			
-  			$.ajax({
-  				type : 'post',
-  				url : '../image/remove',
-  				data : {"path" : path},
-  				success : function(result){
-  					location.href='../food/delete?foodId=' + foodId;
-  				}
-  			});
+      $(".food_box").on('click','.List .HideFood',function(){
+    	  let foodId = $(this).parent().siblings().eq(0).val();
+    	  console.log(foodId);
+    	  let convenienceId = ${param.convenienceId};
+    	  console.log(convenienceId);
+    	  let showStatus = $(this).parent().siblings().eq(6).val();
+    	  location.href="updateShowStatus?foodId=" + foodId + "&convenienceId=" + convenienceId + "&showStatus="+showStatus;
       });
    });
 </script>

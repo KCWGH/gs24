@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.CouponQueueVO;
@@ -24,6 +25,7 @@ import com.gs24.website.util.Pagination;
 import lombok.extern.log4j.Log4j;
 
 @Service
+@Transactional("transactionManager")
 @Log4j
 public class PreorderServiceImple implements PreorderService {
 
@@ -302,5 +304,4 @@ public class PreorderServiceImple implements PreorderService {
 			return false;
 		}
 	}
-
 }

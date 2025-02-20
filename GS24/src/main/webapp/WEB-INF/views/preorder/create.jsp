@@ -208,7 +208,7 @@
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
 
-    <button onclick="location.href='../convenienceFood/list?convenienceId=' + ${foodVO.convenienceId }">돌아가기</button>
+    <button onclick="location.href='../convenienceFood/list?convenienceId=${foodVO.convenienceId }'">돌아가기</button>
 
     <script>
         $(document).ready(function() {

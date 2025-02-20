@@ -21,4 +21,6 @@ public interface ConvenienceFoodService {
 	List<ReviewVO> getReviewsByFoodId(int foodId);
 
 	List<String> getFoodTypeList();
+	
+	int updateShowStatus(int foodId, int convenienceId,int showStatus);
 }

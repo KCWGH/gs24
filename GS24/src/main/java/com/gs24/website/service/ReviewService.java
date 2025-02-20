@@ -6,7 +6,7 @@ import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.util.Pagination;
 
 public interface ReviewService {
-	int createReview(ReviewVO reviewVO);
+	int createReview(ReviewVO reviewVO, int preorderId);
 	
 	List<ReviewVO> getAllReviewByFoodId(int foodId);
 	

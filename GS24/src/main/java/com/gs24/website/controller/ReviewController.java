@@ -40,20 +40,22 @@ public class ReviewController {
 	}
 
 	@GetMapping("/register")
-	public void registerGET(Model model, int foodId, int convenienceId) {
+	public void registerGET(Model model, int foodId, int convenienceId, int preorderId) {
 		log.info("registerGET()");
-
+		log.info("foodId : " + foodId + " convenienceId : " + convenienceId + " preorderId : " + preorderId);
 		model.addAttribute("foodId", foodId);
+		model.addAttribute("preorderId", preorderId);
+		model.addAttribute("convenienceId", convenienceId);
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(Authentication auth, ReviewVO reviewVO, int convenienceId, int status) {
+	public String registerPOST(Authentication auth, ReviewVO reviewVO, int convenienceId, int status, int preorderId) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
 
 		// status :
-		if (status != 0 && checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {
-			reviewService.createReview(reviewVO);
+		if (status == 1 && checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {
+			reviewService.createReview(reviewVO, preorderId);
 		}
 
 		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;

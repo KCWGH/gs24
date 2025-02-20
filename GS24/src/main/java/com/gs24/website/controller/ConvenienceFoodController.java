@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -45,15 +47,12 @@ public class ConvenienceFoodController {
 	private OrderHistoryService orderHistoryService;
 
 	@GetMapping("/list")
-	public void listGET(Authentication auth, Model model, int convenienceId, Pagination pagination) {
+	public void listGET(Authentication auth, Model model, int convenienceId) {
 		log.info("listGET()");
 
 		List<ConvenienceFoodVO> list = convenienceFoodService.getConvenienceFoodByConvenienceId(convenienceId);
 
 		log.info(list);
-
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
 
 		if (auth != null) {
 			String username = auth.getName();
@@ -74,7 +73,6 @@ public class ConvenienceFoodController {
 		}
 
 		model.addAttribute("convenienceId", convenienceId);
-		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("FoodList", list);
 	}
 
@@ -102,7 +100,8 @@ public class ConvenienceFoodController {
 	}
 
 	@GetMapping("/register")
-	public String registerGET(Authentication auth, int foodId, int foodAmount) {
+	@ResponseBody
+	public ResponseEntity<Integer> registerGET(Authentication auth, int foodId, int foodAmount) {
 	    log.info("registerGET");
 
 	    String ownerId = auth.getName();
@@ -133,13 +132,19 @@ public class ConvenienceFoodController {
 	        orderHistoryService.insertOrder(orderHistory);
 
 	        // 발주가 성공적으로 처리되었음을 알리는 메시지 또는 리다이렉트
-	        return "redirect:../foodlist/list";
+	        return new ResponseEntity<>(1, HttpStatus.OK);
 	    } else {
 	        // 승인되지 않은 상품일 경우 처리 (예: 오류 메시지 등)
-	        return "redirect:../auth/accessDenied"; 
+	        return new ResponseEntity<Integer>(0, HttpStatus.BAD_REQUEST); 
 	    }
 	}
-
+	
+	@GetMapping("/updateShowStatus")
+	public String updateShowStatus(int foodId, int convenienceId, int showStatus) {
+		log.info("updateShowStatus()");
+		convenienceFoodService.updateShowStatus(foodId, convenienceId, showStatus);
+		return "redirect:list?convenienceId=" + convenienceId;
+	}
 
 
 	@GetMapping("/getOrdersAllHistory")

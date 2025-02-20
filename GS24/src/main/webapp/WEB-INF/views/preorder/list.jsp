@@ -43,6 +43,8 @@
 	                
 	                let preorderNO = this.preorderId;
 	                
+	                let convenienceId = this.convenienceId;
+	                
 	                let isPickUp = '미수령';
 	                
 	                let isExpiredOrder = '예약 중';
@@ -59,7 +61,7 @@
 	                
 	                list += '<div class="preorderList">';
 	                		if(isExpiredOrder == '예약 중'){
-	                        list += '<input type="checkbox" class="check-box">'
+	                        list += '<input type="checkbox" class="check-box">';
 	                		}
 	                list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
 	                        + '<div><img src="../image/foodThumnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
@@ -68,6 +70,10 @@
 	                        + '<div>'+isPickUp+'</div>'
 	                        + '<div class="isExpriedOrder">'+isExpiredOrder+'</div>'
 	                        + '</div>';
+	                        if(this.writeReview == 0 && this.isPickUp == 1){
+	                        	let onclick = '\"location.href=\'../review/register?foodId='+foodId+'&convenienceId='+convenienceId+'&preorderId='+preorderNO+'\'\"';
+	    	                	list += '<button onclick='+onclick+'>리뷰 작성</button>';
+	    	                }
 	            });
 	            $('#list').html(list);
 	        });
@@ -78,6 +84,11 @@
 	        $('#list').on('click', '.preorderList', function(){
 	            let isChecked = $(this).find("input[type='checkbox']").prop('checked');
 	            $(this).find("input[type='checkbox']").prop('checked', !isChecked);
+	        });
+	        
+	        $('#list').on('click', '.preorderList .check-box',function(){
+	        	 let isChecked = $(this).prop('checked');
+		         $(this).prop('checked', !isChecked);
 	        });
 	    }// end checkToCheckBox
 	    

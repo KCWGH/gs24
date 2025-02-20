@@ -39,4 +39,6 @@ public interface PreorderMapper {
 	List<PreorderVO> selectOldPreorder();
 	
 	int updatePreorderByOverPickupDate(int preorderId);
+	
+	int updateWriteReview(int preorderId);
 }

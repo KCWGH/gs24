@@ -10,6 +10,7 @@ import com.gs24.website.domain.ReviewRatingVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.FoodListMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
+import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 
@@ -23,13 +24,16 @@ public class ReviewServiceImple implements ReviewService {
 	private ReviewMapper reviewMapper;
 	
 	@Autowired
+	private PreorderMapper preorderMapper;
+	
+	@Autowired
 	private ImgReviewMapper imgReviewMapper;
 	
 	@Autowired
 	private FoodListMapper foodListMapper;
 
 	@Override
-	public int createReview(ReviewVO reviewVO) {
+	public int createReview(ReviewVO reviewVO, int preorderId) {
 		log.info("createReview()");
 
 		List<ImgVO> imgList = reviewVO.getImgList();
@@ -41,6 +45,8 @@ public class ReviewServiceImple implements ReviewService {
 		}
 
 		int result = reviewMapper.insertReview(reviewVO);
+		
+		preorderMapper.updateWriteReview(preorderId);
 		
 		ReviewRatingVO reviewRatingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(reviewVO.getFoodId());
 		

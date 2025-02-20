@@ -118,5 +118,16 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		list.add("전체");
 		return list;
 	}
+	
+	@Override
+	public int updateShowStatus(int foodId, int convenienceId,int showStatus) {
+		log.info("updateShowStatus");
+		if(showStatus == 0)
+			showStatus = 1;
+		else
+			showStatus = 0;
+		int result = convenienceFoodMapper.updateShowStatus(foodId, convenienceId,showStatus);
+		return result;
+	}
 
 }

@@ -28,4 +28,6 @@ public class PreorderVO {
 	int isExpiredOrder; // 1 : true | 0 : false
 	int appliedGiftCardId;
 	int appliedCouponId;
+	int writeReview; // 1 : 작성됨 | 0 : 작성 안됨
+	
 }

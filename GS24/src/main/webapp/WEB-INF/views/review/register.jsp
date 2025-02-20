@@ -19,7 +19,6 @@
 	<input type="hidden" class="foreignId" value=0>
 	<input type="hidden" class="type" value="review">
 	<p>리뷰 작성</p>
-	
 	<form action="../review/register" method="post" id="registForm">
 		<input type="hidden" name="foodId" value="${foodId }">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -60,10 +59,13 @@
 		
 		$(".submit").click(function(){
 			var registForm = $("#registForm");
-			var convenienceId = ${param.convenienceId };
+			var convenienceId = ${convenienceId };
 			var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
 			var foodId = $('input[name=foodId]').val();
-				
+			
+			var preorderId = $('<input>').attr('type','hidden').attr('name','preorderId').attr('value',${preorderId});
+			registForm.append(preorderId);
+			
 			var status = $('<input>').attr('type','hidden').attr('name','status').attr('value',checkFoodId(foodId));
 			registForm.append(status);
 			
@@ -128,7 +130,7 @@
 		});
 		
 		function checkFoodId(foodId){
-			var checkFoodId = ${param.foodId};
+			var checkFoodId = ${foodId};
 			if(checkFoodId != foodId){
 				alert("리뷰를 작성 할 수 없습니다.");
 				return 0;

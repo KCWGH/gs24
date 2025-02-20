@@ -152,21 +152,10 @@
 			$(".preorder-list").on("click","div",function(){
 				console.log(this);
 				var isCheck = confirm("수락하시겠습니까?");
-				if(isCheck){				
+				if(isCheck){
 					var preorderId = $(this).find(".preorderId").text();
 					console.log(preorderId);
 					var totalPrice = $(this).find(".totalPrice").text();
-					var IMP = window.IMP;
-                    IMP.init('imp84362136');
-                	IMP.request_pay({
-                        pg: 'kakaopay',
-                        pay_method: 'card',
-                        merchant_uid: 'order_' + new Date().getTime(),
-                        name: '편의점 음식 PICKUP',
-                        amount: totalPrice
-                    }, function(rsp) {
-                        if (rsp.success) {
-                            alert('결제가 완료되었습니다.');
                             $.ajax({
         						type : "post",
         						url : "../preorder/check",
@@ -174,27 +163,42 @@
         						success : function(result){
         							console.log(result);
         							if(result == 1){
-        								var updateForm = $("#updateForm");
+        								var IMP = window.IMP;
+        								IMP.init('imp84362136');
+        								IMP.request_pay({
+        									pg: 'kakaopay',
+        									pay_method: 'card',
+        			 						merchant_uid: 'order_' + new Date().getTime(),
+        									name: '편의점 음식 PICKUP',
+        			                        amount: totalPrice
+        			                    }, function(rsp) {
+        			                        if (rsp.success) {
+        			                           alert('결제가 완료되었습니다.');
+        			                           var updateForm = $("#updateForm");
+               								
+       											var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
+       											var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
+       											var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
+       											var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
+       								
+       											updateForm.find('input[name=pageNum]').val(pageNum);
+       											updateForm.find('input[name=pageSize]').val(pageSize);
+       											updateForm.find('input[name=sortType]').val(sortType);
+       											updateForm.find('input[name=keyword]').val(keyword);
+       									
+       											updateForm.submit();
+       											location.reload();
+        			                        } else {
+        			                            alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
+        			                        }
+        			                    });
         								
-        								var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
-        								var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
-        								var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
-        								var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
-        								
-        								updateForm.find('input[name=pageNum]').val(pageNum);
-        								updateForm.find('input[name=pageSize]').val(pageSize);
-        								updateForm.find('input[name=sortType]').val(sortType);
-        								updateForm.find('input[name=keyword]').val(keyword);
-        								
-        								updateForm.submit();
+        							} else {
+        								alert("예약이 취소 되어 결제가 취소되었습니다.");
         								location.reload();
         							}
         						}
         					});
-                        } else {
-                            alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
-                        }
-                    });
 				}
 			});
 		});

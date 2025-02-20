@@ -152,12 +152,14 @@ table, th, td {
                     type: 'GET',
                     url: "../convenienceFood/register",  // 발주 내역을 서버로 전송하는 요청
                     data: { foodId: foodId, foodAmount: foodAmount },
-                    success: function () {
-
-                        loadOrderHistory();
-                        alert("발주 처리에 성공했습니다.");
-                        location.reload();
-
+                    success: function (result) {
+						if(result == 1){
+                        	loadOrderHistory();
+                        	alert("발주 처리에 성공했습니다.");
+						} else {
+							alert("발주 처리에 실패했습니다.");
+						}
+                        	location.reload();
                     },
                     error: function () {
                         alert("발주 처리에 실패했습니다.");
