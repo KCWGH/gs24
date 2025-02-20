@@ -120,13 +120,9 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 	
 	@Override
-	public int updateShowStatus(int foodId, int convenienceId,int showStatus) {
+	public int updateShowStatus(int foodId, int convenienceId) {
 		log.info("updateShowStatus");
-		if(showStatus == 0)
-			showStatus = 1;
-		else
-			showStatus = 0;
-		int result = convenienceFoodMapper.updateShowStatus(foodId, convenienceId,showStatus);
+		int result = convenienceFoodMapper.updateShowStatus(foodId, convenienceId);
 		return result;
 	}
 

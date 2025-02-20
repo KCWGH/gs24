@@ -134,7 +134,6 @@
             <p>${FoodVO.foodName}</p>
             <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
             <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
-            <input type="hidden" class="showStatus" value="${FoodVO.showStatus }">
             <div class="button-container">
             	<c:if test="${FoodVO.showStatus == 1}">
 	   				<button class="HideFood">식품 숨기기</button>
@@ -435,8 +434,8 @@
     	  console.log(foodId);
     	  let convenienceId = ${param.convenienceId};
     	  console.log(convenienceId);
-    	  let showStatus = $(this).parent().siblings().eq(6).val();
-    	  location.href="updateShowStatus?foodId=" + foodId + "&convenienceId=" + convenienceId + "&showStatus="+showStatus;
+    	  
+    	  location.href="updateShowStatus?foodId=" + foodId + "&convenienceId=" + convenienceId;
       });
    });
 </script>

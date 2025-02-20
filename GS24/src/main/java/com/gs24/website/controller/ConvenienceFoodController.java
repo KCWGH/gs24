@@ -140,9 +140,9 @@ public class ConvenienceFoodController {
 	}
 	
 	@GetMapping("/updateShowStatus")
-	public String updateShowStatus(int foodId, int convenienceId, int showStatus) {
+	public String updateShowStatus(int foodId, int convenienceId) {
 		log.info("updateShowStatus()");
-		convenienceFoodService.updateShowStatus(foodId, convenienceId, showStatus);
+		convenienceFoodService.updateShowStatus(foodId, convenienceId);
 		return "redirect:list?convenienceId=" + convenienceId;
 	}
 

@@ -127,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	</select>
 	
 	<update id="updateShowStatus">
-		UPDATE CONVENIENCE_FOOD SET SHOW_STATUS = #{showStatus}
-		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+		UPDATE CONVENIENCE_FOOD SET SHOW_STATUS = CASE  WHEN SHOW_STATUS = 1 THEN 0 WHEN SHOW_STATUS = 0 THEN 1 END
+		WHERE FOOD_ID = 9 AND CONVENIENCE_ID = 1
 	</update>
 </mapper>
