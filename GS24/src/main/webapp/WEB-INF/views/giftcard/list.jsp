@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>기프트카드 리스트</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
@@ -122,83 +123,147 @@
 </script>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
+/* 전체 페이지 스타일 */
+body {
+    margin: 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
 
-    .giftCard-list {
-        margin-top: 20px;
-    }
+/* 제목 스타일 */
+h2 {
+    color: #333;
+    margin-bottom: 5px;
+}
 
-    .giftCard-item {
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-        transition: border-color 0.3s;
-        display: block;
-    }
+/* 안내 문구 */
+p {
+    color: #888;
+    margin-bottom: 10px;
+}
 
-    .giftCard-item:hover {
-        border-color: #ccc;
-    }
+/* 선택 옵션 스타일 */
+label {
+    margin: 0 5px;
+    cursor: pointer;
+}
 
-    .giftCard-item table {
-        width: 100%;
-        border-spacing: 0;
-        table-layout: fixed;
-    }
+input[type="radio"] {
+    margin-right: 3px;
+}
 
-    .giftCard-item table td {
-        padding: 8px;
-    }
+/* 기프트카드 리스트 스타일 */
+.giftCard-list {
+    margin-top: 15px;
+}
+/* 
+/* 개별 기프트카드 */
+.giftCard-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 8px 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
 
-    .giftCard-item img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 5px;
-    }
+.giftCard-item img {
+    width: 150px;
+    height: auto;
+    border-radius: 5px;
+}
 
-    ul {
-    	position: fixed;
-    	bottom: 10px;
-    	left: 50%;
-    	transform: translateX(-50%);
-    	z-index: 100;
-        list-style-type: none;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
+.giftCard-item table {
+    width: 100%;
+    text-align: left;
+}
 
-    ul li {
-        display: inline-block;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
+.giftCard-item td {
+    padding: 5px;
+}
 
-    ul li.active {
-        font-weight: bold;
-        color: #007bff;
-    }
+.giftCard-item strong {
+    color: #333;
+} */
 
-    ul li.disabled {
-        color: #ccc;
-        cursor: not-allowed;
-    }
+/* 상태별 텍스트 스타일 */
+.status-text {
+    font-size: 13px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+/* 페이지네이션 */
+.pagination {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
 
-    ul li a {
-        text-decoration: none;
-        color: inherit;
-    }
+.pagination li {
+    display: inline;
+    margin: 0 3px;
+}
 
-    ul li a:hover {
-        color: inherit;
-    }
+.pagination a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
 
-    
+.pagination .active a {
+    background: #555;
+    color: white;
+}
+
+/* 하단 버튼 스타일 */
+.fixed-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.fixed-buttons button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 8px;
+    font-size: 13px;
+    border: none;
+    background: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fixed-buttons button:hover {
+    background: #bbb;
+}
+
+.fixed-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* 왼쪽 정렬 버튼 */
+.left-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+}
+
+/* 오른쪽 정렬 버튼 */
+.right-button {
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+}
+
 </style>
 </head>
 <body>
@@ -213,13 +278,18 @@
 
     <div class="giftCard-list"></div>
 
+    <ul class="pagination"></ul>
     <div class="fixed-buttons">
-    	<a href="../giftcard/purchase"><button>기프트카드 구매</button></a>
-    	<a href="../giftcard/grant"><button>기프트카드 선물하기</button></a>
+    <div class="left-buttons">
+        <a href="../giftcard/purchase"><button>기프트카드 구매</button></a>
+        <a href="../giftcard/grant"><button>기프트카드 선물하기</button></a>
+    </div>
+    <div class="right-button">
         <a href="../user/mypage"><button>마이페이지</button></a>
     </div>
+	</div>
+
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    <ul class="pagination"></ul>
 
 </body>
 </html>

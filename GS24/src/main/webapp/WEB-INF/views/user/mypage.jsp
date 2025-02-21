@@ -10,6 +10,110 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>마이페이지</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<style type="text/css">
+/* 전체 페이지 스타일 */
+body {
+    margin: 0;
+    padding: 60px 15px 15px 15px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    max-width: 100%;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 제목 스타일 */
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+}
+
+td {
+    font-size: 14px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"], input[type="email"] {
+    width: 60%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 7px 10px;
+    font-size: 13px;
+    border: none;
+    background: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #bbb;
+}
+
+/* 버튼 크기 통일 */
+.btn-container button {
+    width: 120px; /* 모든 버튼의 너비를 동일하게 */
+    padding: 10px; /* 패딩을 조정하여 크기 균일화 */
+    font-size: 14px; /* 글자 크기 통일 */
+    text-align: center;
+}
+
+/* 삭제 확인 문구 */
+#textDelete {
+    font-size: 13px;
+    color: red;
+    margin-bottom: 5px;
+}
+
+/* 결과 메시지 */
+#updateEmailResult, #updatePhoneResult, #deleteResult {
+    font-size: 12px;
+    margin-top: 5px;
+    color: red;
+}
+#btnDelete {
+    background: #ff6666; /* 연붉은색 */
+    color: white;
+}
+
+#btnDelete:hover {
+    background: #ff4d4d; /* 좀 더 진한 붉은색 */
+}
+</style>
 <script>
 $(document).ajaxSend(function(e, xhr, opt){
     var token = $("meta[name='_csrf']").attr("content");
@@ -40,10 +144,7 @@ $(document).ready(function() {
 
     $("#btnUpdateEmailCancel").click(function(event) {
         event.preventDefault();
-        $("#email").prop("disabled", true);
-        $("#btnUpdateEmail").prop("hidden", false);
-        $("#btnUpdateMemberEmailConfirm, #btnUpdateEmailCancel").prop("hidden", true);
-        $("#updateEmailResult").hide();
+        location.reload();
     });
    
     let userRole = "${userRole}";
@@ -99,10 +200,7 @@ $(document).ready(function() {
 
     $("#btnUpdatePhoneCancel").click(function(event) {
         event.preventDefault();
-        $("#phone").prop("disabled", true);
-        $("#btnUpdatePhone").prop("hidden", false);
-        $("#btnUpdatePhoneConfirm, #btnUpdatePhoneCancel").prop("hidden", true);
-        $("#updatePhoneResult").hide();
+        location.reload();
     });
 
     $("#btnUpdatePhoneConfirm").click(function(event) {
@@ -233,31 +331,21 @@ $(document).ready(function() {
 					<th>비밀번호</th>
 					<td><button type="button" onclick='location.href="../user/verify"'>비밀번호 변경</button></td>
 				</tr>
-				<tr>
-					<td></td>
-					<td id="updatePasswordResult" hidden="hidden">수정 결과창</td>
-				</tr>
 			<tr>
 				<th>이메일</th>
 				<td><input id="email" type="email" value="${userInfo.email}"
 					disabled>
 					<button id="btnUpdateEmail" hidden="hidden">수정</button>
 						<button id="btnUpdateMemberEmailConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdateEmailCancel" hidden="hidden">취소</button></td>
+					<button id="btnUpdateEmailCancel" hidden="hidden">취소</button><br>
+					<span id="updateEmailResult" hidden="hidden">수정 결과창</span></td>
 			</tr>
-			<tr>
-					<td></td>
-					<td id="updateEmailResult" hidden="hidden">수정 결과창</td>
-				</tr>
 				<tr>
 					<th>휴대폰</th>
 					<td><input id="phone" type="text" value="${userInfo.phone}" disabled>
 					<button id="btnUpdatePhone" hidden="hidden">수정</button><button id="btnUpdatePhoneConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdatePhoneCancel" hidden="hidden">취소</button></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td id="updatePhoneResult" hidden="hidden">수정 결과창</td>
+					<button id="btnUpdatePhoneCancel" hidden="hidden">취소</button><br>
+					<span id="updatePhoneResult" hidden="hidden">수정 결과창</span></td>
 				</tr>
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 				<tr>
@@ -268,21 +356,17 @@ $(document).ready(function() {
 			</table>
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
 		<div class="btn-container">
-			<button id="btnUpdate">회원정보 수정</button>
-			<button id="btnUpdateEnd" hidden="hidden">수정 마치기</button>
-			<button id="btnDelete">회원 탈퇴</button>
+			<button id="btnUpdate">회원정보 수정</button><button id="btnUpdateEnd" hidden="hidden">수정 마치기</button><button id="btnDelete">회원 탈퇴</button>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 멤버십 내역은 삭제되며, 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<sec:authorize access="hasRole('ROLE_OWNER')">
 			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
-			<button id="btnDeleteConfirm" hidden="hidden">네</button>
-			<button id="btnDeleteCancel" hidden="hidden">아니오</button>
+			<button id="btnDeleteConfirm" hidden="hidden">네</button><button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			<p id="deleteResult" hidden="hidden"></p>
 		</div>
 		<div class="btn-container">
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-			<button onclick='location.href="../giftcard/list"'>기프트카드함</button>
-			<button onclick='location.href="../member/myhistory"'>내 활동</button>
+			<button onclick='location.href="../giftcard/list"'>기프트카드함</button><button onclick='location.href="../member/myhistory"'>내 활동</button>
 			</sec:authorize>
 		</div>
 </div>

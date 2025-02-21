@@ -128,4 +128,9 @@ public class MemberServiceImple implements MemberService {
 	public int findGrade(String memberId) {
 		return memberMapper.selectGradeByMemberId(memberId);
 	}
+
+	@Override
+	public int reActivateMember(String memberId) {
+		return memberMapper.activateMember(memberId);
+	}
 }

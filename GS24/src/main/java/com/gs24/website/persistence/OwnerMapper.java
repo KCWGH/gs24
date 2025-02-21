@@ -41,4 +41,8 @@ public interface OwnerMapper {
 
 	List<OwnerVO> selectOwnerListByOwnerId(String ownerId);
 
+	int requestActivation(String ownerId);
+
+	int activateOwner(String ownerId);
+
 }

@@ -118,7 +118,7 @@ public class OwnerServiceImple implements OwnerService {
 	public int deleteOwner(String ownerId) {
 		return ownerMapper.deleteOwnerByOwnerId(ownerId);
 	}
-	
+
 	@Override
 	public List<OwnerVO> getOwnerVOList() {
 		List<OwnerVO> list = ownerMapper.selectOwnerVOList();
@@ -127,10 +127,18 @@ public class OwnerServiceImple implements OwnerService {
 
 	@Override
 	public List<OwnerVO> getOwnerListByUsername(String ownerId) {
-		
+
 		return ownerMapper.selectOwnerListByOwnerId(ownerId);
 	}
 
-	
+	@Override
+	public int requestActivationOwner(String ownerId) {
+		return ownerMapper.requestActivation(ownerId);
+	}
+
+	@Override
+	public int reActivateOwner(String ownerId) {
+		return ownerMapper.activateOwner(ownerId);
+	}
 
 }

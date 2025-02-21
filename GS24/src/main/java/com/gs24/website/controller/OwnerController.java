@@ -1,8 +1,13 @@
 package com.gs24.website.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,5 +68,19 @@ public class OwnerController {
 		}
 		redirectAttributes.addFlashAttribute("message", "회원등록을 실패했습니다.\\n유효하지 않은 회원정보(중복된 아이디, 패스워드, 전화번호)입니다.");
 		return "redirect:/owner/register";
+	}
+
+	@PostMapping("/request-activation")
+	public String activateOwnerPOST(Authentication auth, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, HttpServletResponse response) {
+		int result = ownerService.requestActivationOwner(auth.getName());
+		if (result == 1) {
+			log.info("registerOwnerPOST()");
+			new SecurityContextLogoutHandler().logout(request, response,
+					SecurityContextHolder.getContext().getAuthentication());
+			request.getSession().invalidate();
+			redirectAttributes.addFlashAttribute("message", "관리자에게 계정 비활성화 해제를 요청했습니다.");
+		}
+		return "redirect:/auth/login";
 	}
 }

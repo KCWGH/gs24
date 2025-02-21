@@ -131,8 +131,8 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $("#conveniList").on("click", ".setDestination", function () {
-            var $this = $(this).closest(".conveni");
-            var address = $this.data("address");
+            var closestConveni = $(this).closest(".conveni");
+            var address = closestConveni.data("address");
 
             var geocoder = new kakao.maps.services.Geocoder();
             geocoder.addressSearch(address, function (result, status) {
@@ -149,8 +149,8 @@
         });
 
         $("#conveniList").on("click", ".redirect", function () {
-            var $this = $(this).closest(".conveni");
-            var conveniId = $this.find("#convenienceNum").text();
+            var closestConveni = $(this).closest(".conveni");
+            var conveniId = closestConveni.find("#convenienceNum").text();
             location.href = "../convenienceFood/list?convenienceId=" + conveniId;
         });
 
@@ -174,9 +174,9 @@
 
         $("#conveniList").on("click", ".address", function (event) {
             event.preventDefault();
-            var $this = $(this).closest(".conveni");
-            var conveniId = $this.find("#convenienceNum").text();
-            var address = $this.data("address");
+            var closestConveni = $(this).closest(".conveni");
+            var conveniId = closestConveni.find("#convenienceNum").text();
+            var address = closestConveni.data("address");
 
             var smallMap = $("#map_" + conveniId);
             smallMap.show();
@@ -184,7 +184,9 @@
             var mapContainer = smallMap[0];
             var mapOption = {
                 center: new kakao.maps.LatLng(37.5665, 126.9780),
-                level: 3
+                level: 3,
+                draggable: false,
+                scrollwheel: false 
             };
 
             var map = new kakao.maps.Map(mapContainer, mapOption);

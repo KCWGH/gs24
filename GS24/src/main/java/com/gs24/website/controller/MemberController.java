@@ -1,8 +1,13 @@
 package com.gs24.website.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,5 +78,30 @@ public class MemberController {
 			model.addAttribute("memberId", memberId);
 		}
 		return "member/myhistory";
+	}
+
+	@GetMapping("/activate")
+	public String activateGET(Authentication auth, Model model) {
+		log.info("activateGET()");
+		if (auth != null) {
+			MemberVO memberVO = memberService.getMember(auth.getName());
+			model.addAttribute("memberId", memberVO.getMemberId());
+			model.addAttribute("email", memberVO.getEmail());
+		}
+		return "member/activate";
+	}
+
+	@PostMapping("/activate")
+	public void activateMemberPOST(Authentication auth, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, HttpServletResponse response) {
+		if (auth != null) {
+			int result = memberService.reActivateMember(auth.getName());
+			if (result == 1) {
+				new SecurityContextLogoutHandler().logout(request, response,
+						SecurityContextHolder.getContext().getAuthentication());
+				request.getSession().invalidate();
+				log.info("activateMemberPOST()");
+			}
+		}
 	}
 }

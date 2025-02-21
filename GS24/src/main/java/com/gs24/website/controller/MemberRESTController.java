@@ -20,7 +20,6 @@ import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
 import com.gs24.website.service.QuestionService;
-import com.gs24.website.service.ReviewService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -35,9 +34,6 @@ public class MemberRESTController {
 	private MemberService memberService;
 
 	@Autowired
-	private ReviewService reviewService;
-
-	@Autowired
 	private QuestionService questionService;
 
 	@Autowired
@@ -48,11 +44,6 @@ public class MemberRESTController {
 
 	@Autowired
 	private FavoritesService favoritesService;
-
-	@GetMapping("/myReviews")
-	public ResponseEntity<Map<String, Object>> reviewList(Pagination pagination, Authentication auth) {
-		return postListGET("myReviews", pagination, auth);
-	}
 
 	@GetMapping("/myQuestions")
 	public ResponseEntity<Map<String, Object>> questionList(Pagination pagination, Authentication auth) {
@@ -85,10 +76,6 @@ public class MemberRESTController {
 		List<?> postList = null;
 
 		switch (type) {
-		case "myReviews":
-			postList = reviewService.getPagedReviewsByMemberId(memberId, pagination);
-			pageMaker.setTotalCount(reviewService.countReviewByMemberId(memberId));
-			break;
 		case "myQuestions":
 			postList = questionService.getPagedQuestionsByMemberId(memberId, pagination);
 			pageMaker.setTotalCount(questionService.countQuestionByMemberId(memberId));

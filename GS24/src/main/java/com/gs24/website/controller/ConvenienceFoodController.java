@@ -23,8 +23,6 @@ import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderService;
-import com.gs24.website.util.PageMaker;
-import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -59,7 +57,6 @@ public class ConvenienceFoodController {
 				model.addAttribute("memberId", username);
 				Map<Integer, Integer> isAddedMap = new HashMap<>();
 				for (ConvenienceFoodVO convenienceFoodVO : list) {
-					// 찜 여부 확인: 이미 찜한 음식은 1, 찜하지 않은 음식은 0
 					int isAdded = favoritesService.isAddedCheck(username, convenienceFoodVO.getFoodId(), convenienceId);
 					isAddedMap.put(convenienceFoodVO.getFoodId(), isAdded);
 					model.addAttribute("isAddedMap", isAddedMap);

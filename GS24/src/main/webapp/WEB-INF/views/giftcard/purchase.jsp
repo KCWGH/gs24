@@ -10,6 +10,88 @@
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <title>기프트카드 구매</title>
 </head>
+<style>
+/* 전체 페이지 스타일 */
+body {
+    margin: 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    max-width: 100%;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 제목 스타일 */
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+}
+
+td {
+    font-size: 14px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"], input[type="email"], input[type="number"] {
+    width: 60%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 7px 10px;
+    font-size: 13px;
+    border: none;
+    background: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #bbb;
+}
+
+/* 버튼 크기 통일 */
+.btn-container button {
+    width: 120px; /* 모든 버튼의 너비를 동일하게 */
+    padding: 10px; /* 패딩을 조정하여 크기 균일화 */
+    font-size: 14px; /* 글자 크기 통일 */
+    text-align: center;
+}
+</style>
 <script type="text/javascript">
     $(document).ajaxSend(function(e, xhr, opt){
         var token = $("meta[name='_csrf']").attr("content");
@@ -98,7 +180,7 @@
     <form action="purchase" method="POST">
         <table>
             <tr>
-                <th><label for="giftCardName">기프트카드 이름</label></th>
+                <th><label for="giftCardName">카드<br>이름</label></th>
                 <td><input type="text" id="giftCardName" name="giftCardName"></td>
             </tr>
             <tr>
@@ -115,11 +197,14 @@
                 <td><input id="foodType" name="foodType" required></td>
             </tr>
             <tr>
-                <th><label for="balance">구매할 금액권</label></th>
+                <th><label for="balance">구매할<br>금액권</label></th>
                 <td><input type="number" id="balance" name="balance" required min="1000" max="30000"> 원</td>
             </tr>
             <tr>
-                <th></th>
+                <td colspan="2">※ 1000원 이상, 30000원 이하로 입력해 주세요.</td>
+            </tr>
+            <tr>
+                <th>프리셋</th>
                 <td>
                     <button type="button" onclick="setBalance(1000)">1000원</button>
                     <button type="button" onclick="setBalance(3000)">3000원</button>

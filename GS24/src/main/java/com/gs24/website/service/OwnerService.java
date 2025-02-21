@@ -31,10 +31,13 @@ public interface OwnerService {
 	int updateOwnerPhone(OwnerVO ownerVO);
 
 	int deleteOwner(String ownerId);
-	
+
 	List<OwnerVO> getOwnerVOList();
-		
+
 	List<OwnerVO> getOwnerListByUsername(String ownerId);
 
+	int requestActivationOwner(String ownerId);
+
+	int reActivateOwner(String ownerId);
 
 }

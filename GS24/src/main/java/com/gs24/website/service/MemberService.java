@@ -33,4 +33,6 @@ public interface MemberService {
 
 	int dupCheckMemberByMemberIdAndMemberEmail(String memberId, String email);
 
+	int reActivateMember(String memberId);
+
 }

@@ -37,4 +37,6 @@ public interface MemberMapper {
 
 	int deleteMemberByMemberId(String memberId);
 
+	int activateMember(String memberId);
+
 }

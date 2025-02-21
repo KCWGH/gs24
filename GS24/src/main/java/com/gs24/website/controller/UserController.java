@@ -202,4 +202,21 @@ public class UserController {
 		return "redirect:change-pw";
 	}
 
+	@GetMapping("/reactivate")
+	public String reactivateGET(Authentication auth, Model model) {
+		log.info("reactivateGET()");
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+				return "redirect:/convenience/list";
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				log.info(checkConvenienceId);
+				model.addAttribute("checkConvenienceId", checkConvenienceId);
+				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
+			}
+		}
+		return "/user/reactivate";
+
+	}
+
 }

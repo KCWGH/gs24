@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
@@ -15,7 +14,6 @@
 
 <style>
     body {
-        filter: grayscale(100%);
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
         color: #333;
@@ -37,7 +35,6 @@
     }
 
     h2 {
-        color: #333;
         font-size: 24px;
         margin-bottom: 20px;
     }
@@ -62,7 +59,7 @@
     button {
         width: 100%;
         padding: 10px;
-        background-color: #4CAF50;
+        background-color: #999;
         color: white;
         border: none;
         border-radius: 4px;
@@ -71,27 +68,18 @@
     }
 
     button:hover {
-        background-color: #45a049;
+        background-color: #777;
     }
 
     a {
         display: inline-block;
         margin: 10px 5px;
-        color: #007BFF;
+        color: #333;
         text-decoration: none;
     }
 
     a:hover {
         text-decoration: underline;
-    }
-
-    button, a {
-        filter: grayscale(50%);
-        transition: filter 0.3s ease;
-    }
-
-    button:hover, a:hover {
-        filter: grayscale(0%);
     }
 </style>
 </head>
@@ -115,43 +103,44 @@ $(document).ready(function() {
 </script>
 <body>
 <c:if test="${not empty message}">
-        <script type="text/javascript">
-            alert("${message}");
-        </script>
-    </c:if>
-    <c:if test="${not empty errorMsg}">
-        <script type="text/javascript">
-            alert("${errorMsg}");
-        </script>
-    </c:if>
-    <c:if test="${not empty expiredMsg}">
-        <script type="text/javascript">
-            alert("${expiredMsg}");
-        </script>
-    </c:if>
-    <div class="container">
-        <h1><a href="../convenience/list">GS24</a></h1>
-        <form action="login" method="POST" id="loginForm">
-            <div>
-                <label for="username">아이디</label> <input type="text" id="username"
-                    name="username" required>
-            </div>
+    <script type="text/javascript">
+        alert("${message}");
+    </script>
+</c:if>
+<c:if test="${not empty errorMsg}">
+    <script type="text/javascript">
+        alert("${errorMsg}");
+    </script>
+</c:if>
+<c:if test="${not empty expiredMsg}">
+    <script type="text/javascript">
+        alert("${expiredMsg}");
+    </script>
+</c:if>
+<div class="container">
+    <h1><a href="../convenience/list">GS24</a></h1>
+    <form action="login" method="POST" id="loginForm">
+        <div>
+            <label for="username">아이디</label> 
+            <input type="text" id="username" name="username" required>
+        </div>
 
-            <div>
-                <label for="password">비밀번호</label> <input type="password"
-                    id="password" name="password" required>
-            </div>
+        <div>
+            <label for="password">비밀번호</label> 
+            <input type="password" id="password" name="password" required>
+        </div>
 
-            <button type="submit">로그인</button>
+        <button type="submit">로그인</button>
 
-            <div>
-                <a href="../user/find-id">아이디 찾기</a>
-                <a href="../user/find-pw">비밀번호 찾기</a>
-                <a href="../user/register">회원가입</a>
-            </div>
-            <input type="hidden" name="recaptchaToken" id="recaptchaToken">
-            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-        </form>
-    </div>
+        <div>
+            <a href="../user/find-id">아이디 찾기</a>
+            <a href="../user/find-pw">비밀번호 찾기</a>
+            <a href="../user/register">회원가입</a>
+        </div>
+
+        <input type="hidden" name="recaptchaToken" id="recaptchaToken">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+    </form>
+</div>
 </body>
 </html>

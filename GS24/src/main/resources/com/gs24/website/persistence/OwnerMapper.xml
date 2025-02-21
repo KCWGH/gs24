@@ -79,13 +79,22 @@
 	</update>
 	
 	<select id="selectOwnerVOList" resultMap="ownerResultMap">
-    SELECT OWNER_ID, PASSWORD, EMAIL, PHONE, ADDRESS, IS_ENABLED FROM OWNER
+    	SELECT OWNER_ID, PASSWORD, EMAIL, PHONE, ADDRESS, IS_ENABLED FROM OWNER
 	</select>
 
-   
-   <select id="selectOwnerListByOwnerId" resultMap="ownerResultMap">
-    SELECT * FROM OWNER WHERE OWNER_ID = #{ownerId}
+    <select id="selectOwnerListByOwnerId" resultMap="ownerResultMap">
+    	SELECT * FROM OWNER WHERE OWNER_ID = #{ownerId}
 	</select>
 	
+	<update id="requestActivation">
+		UPDATE OWNER
+		SET IS_ENABLED = 2
+		WHERE OWNER_ID = #{ownerId}
+	</update>
 	
+	<update id="activateOwner">
+		UPDATE OWNER
+		SET IS_ENABLED = 1
+		WHERE OWNER_ID = #{ownerId}
+	</update>
 </mapper>

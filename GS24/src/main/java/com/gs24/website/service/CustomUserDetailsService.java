@@ -46,6 +46,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER")); // ROLE_MEMBER 역할 부여
 			return new CustomUser(memberVO, authorities);
+		} else if (memberVO != null && memberVO.getIsEnabled() == 0) {
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_MEMBER"));
+			return new CustomUser(memberVO, authorities);
 		}
 
 		// 2. OWNER 테이블에서 사용자 조회
@@ -55,6 +59,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 			// 소유자가 활성화된 경우
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_OWNER")); // ROLE_OWNER 역할 부여
+			return new CustomUser(ownerVO, authorities);
+		} else if (ownerVO != null && ownerVO.getIsEnabled() == 0) {
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_OWNER"));
+			return new CustomUser(ownerVO, authorities);
+		} else if (ownerVO != null && ownerVO.getIsEnabled() == 2) {
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_ACTIVATION_REQUESTED_OWNER"));
 			return new CustomUser(ownerVO, authorities);
 		}
 

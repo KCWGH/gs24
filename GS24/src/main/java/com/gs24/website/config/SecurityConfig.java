@@ -72,7 +72,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	
     	.antMatchers(
     		"/foodlist/**"
-        ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')");
+        ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
+    	
+    	.antMatchers(
+        		"/member/activate"
+        ).access("hasRole('ROLE_DEACTIVATED_MEMBER')")
+    	
+    	.antMatchers(
+        		"/owner/activate", "/owner/request-activation"
+        ).access("hasRole('ROLE_DEACTIVATED_OWNER')")
+    	
+    	.antMatchers(
+        		"/user/reactivate"
+        ).access("hasRole('ROLE_DEACTIVATED_OWNER') or hasRole('ROLE_DEACTIVATED_MEMBER')");
 
 
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/accessDenied");

@@ -89,5 +89,9 @@
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 	
-	
+	<update id="activateMember">
+		UPDATE MEMBER
+		SET IS_ENABLED = 1
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 </mapper>

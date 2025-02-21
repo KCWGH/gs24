@@ -81,7 +81,6 @@
 	</table>
 	
 	<script type="text/javascript">
-<<<<<<< Updated upstream
     $(document).ready(function () {
         $(document).ajaxSend(function (e, xhr, opt) {
             var token = $("meta[name='_csrf']").attr("content");

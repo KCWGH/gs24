@@ -16,6 +16,7 @@
         xhr.setRequestHeader(header, token);
      });
         $(document).ready(function() {
+        	let currentPage = 1;
             $("input[name='choice']").change(function() {
                 const selectedChoice = $("input[name='choice']:checked").val();
                 fetchPostList(selectedChoice, 1);
@@ -68,52 +69,6 @@
 
                         postHTML += '<div class="post-item">';
                         switch (choice) {
-                        case 'myReviews':
-                            if (postList.length == 0){
-                                postHTML += '<br>내가 작성한 리뷰가 없습니다.';
-                                break;
-                            }
-                            postHTML += '<table><thead><tr><th>작성일시</th><th>품목명</th><th>리뷰 제목</th><th>별점</th></tr></thead><tbody>';
-                            completedRequests = 0;
-                            foodNames = {};
-
-                            postList.forEach(function(reviewVO) {
-                                $.ajax({
-                                    url: 'get-food-name',
-                                    type: 'GET',
-                                    data: { foodId: reviewVO.foodId },
-                                    dataType: 'text',
-                                    contentType: 'text/plain; charset=UTF-8',
-                                    success: function(foodName) {
-                                        foodNames[reviewVO.foodId] = foodName;
-                                        completedRequests++;
-
-                                        if (completedRequests === postList.length) {
-                                            postList.forEach(function(reviewVO) {
-                                                postHTML += '<tr><td>';
-                                                postHTML += formatDate(reviewVO.reviewDateCreated);
-                                                postHTML += '</td><td>';
-                                                postHTML += foodNames[reviewVO.foodId];
-                                                postHTML += '</td><td>';
-                                                postHTML += '<a href="../food/detail?foodId=' + reviewVO.foodId + '&reviewId=' + reviewVO.reviewId + '" class="link-in-child">';
-                                                postHTML += reviewVO.reviewTitle;
-                                                postHTML += '</a>';
-                                                postHTML += '</td><td>';
-                                                postHTML += reviewVO.reviewRating;
-                                                postHTML += '점';
-                                                postHTML += '</td></tr>';
-                                            });
-                                            postHTML += '</tbody></table>';
-                                            $(".post-list").html(postHTML);
-                                        }
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Failed to fetch food name: ' + error);
-                                    }
-                                });
-                            });
-                            break;
-
                         case 'myQuestions':
                             if (postList.length == 0) {
                                 postHTML += '<br>내가 작성한 질문이 없습니다.';
@@ -186,14 +141,14 @@
                                 postHTML += '<br>내 찜 목록이 없습니다.';
                                 break;
                             }
-                        	postHTML += '<br><div class="favorites-container">';
+                        	postHTML += '<div class="favorites-container">';
                         	postList.forEach(function(favoritesVO) {  
                         	    postHTML += '<div class="favorites-item">';
                         	    
                         	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '" class="link-in-child">' + '<img src="../image/foodThumnail?foodId=' + favoritesVO.foodId + '"></a>';
                         	    postHTML += '</div>';
                         	});
-                        	postHTML += '</div>각 항목을 클릭하면 예약 페이지로 바로 이동합니다.';
+                        	postHTML += '</div>';
                             break;
                         }
                         $(".post-list").html(postHTML);
@@ -205,79 +160,153 @@
                 });
             }
 
-            function updatePagination(pageMaker, choice, currentPage) {
+            function updatePagination(pageMaker, choice, pageNum) {
                 let paginationHtml = '';
+                currentPage = pageNum; // 클릭된 페이지를 currentPage로 업데이트
+
                 if (pageMaker.isPrev) {
                     paginationHtml += '<li><a href="#" data-page="' + (pageMaker.startNum - 1) + '">이전</a></li>';
                 }
                 for (let num = pageMaker.startNum; num <= pageMaker.endNum; num++) {
-                    let activeClass = (num === currentPage) ? ' class="active"' : '';
-                    paginationHtml += '<li><a href="#" data-page="' + num + '"' + activeClass + '>' + num + '</a></li>';
+                    const activeClass = num === currentPage ? 'active' : ''; // 현재 페이지에 active 클래스 추가
+                    paginationHtml += '<li class="' + activeClass + '"><a href="#" data-page="' + num + '">' + num + '</a></li>';
                 }
                 if (pageMaker.isNext) {
                     paginationHtml += '<li><a href="#" data-page="' + (pageMaker.endNum + 1) + '">다음</a></li>';
                 }
-                $(".pagination").html(paginationHtml);
+                $(".pagination").html(paginationHtml); // 페이지네이션 내용 업데이트
             }
 
             fetchPostList('myFavorites', 1);
         });
     </script>
-    <style>
-        .pagination li a.active {
-            font-weight: bold;
-            color: #007bff;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: left;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        ul li {
-            display: inline-block;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        ul li.disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-
-        ul li a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul li a:hover {
-            color: inherit;
-        }
-        .favorites-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2열로 구성 */
-        gap: 10px; /* 사진 간격 */
-        justify-items: center; /* 사진 중앙 정렬 */
-    }
-
-    .favorites-item {
-        width: 100%;
-        max-width: 200px; /* 이미지 크기 제한 */
-        text-align: center;
-    }
-
-    .favorites-item img {
-        max-width: 100%; /* 이미지 크기 비율 유지 */
-        height: auto;
-        border-radius: 8px; /* 이미지 모서리 둥글게 */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-
+<style>
+/* 전체 페이지 스타일 */
+body {
+    margin: 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    text-align: center;
 }
 
-    </style>
+/* 제목 스타일 */
+h2 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* 안내 문구 */
+p {
+    color: #888;
+    margin-bottom: 10px;
+}
+/* 라디오 버튼과 텍스트에 마우스를 올리면 손가락 모양으로 변경 */
+input[type="radio"]:hover,
+label:hover {
+    cursor: pointer;
+}
+
+/* 내 찜 목록을 2x2 형태로 배치 */
+.favorites-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2개의 열로 배치 */
+    gap: 15px; /* 아이템 간 간격 */
+    margin-top: 15px;
+}
+
+.favorites-item {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.favorites-item img {
+    width: 90%;
+    height: auto;
+    border-radius: 5px;
+}
+/* 페이지네이션 */
+.pagination {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.pagination li {
+	display: inline;
+	margin: 0 3px;
+}
+
+.pagination a {
+	text-decoration: none;
+	color: black;
+	font-size: 14px;
+	padding: 3px 6px;
+	border-radius: 5px;
+	transition: background 0.3s;
+}
+
+.pagination .active a {
+	background: #555;
+	color: white;
+}
+/* 하단 버튼 스타일 */
+.fixed-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fixed-buttons button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 8px;
+    font-size: 13px;
+    border: none;
+    background: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fixed-buttons button:hover {
+    background: #bbb;
+}
+
+/* 왼쪽 정렬 버튼 */
+.left-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+}
+
+/* 오른쪽 정렬 버튼 */
+.right-button {
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+table th, table td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #fff;
+}
+</style>
 </head>
 <body>
         <h2>${memberId}님의 활동</h2>
@@ -285,7 +314,6 @@
         <div>
             <label><input type="radio" name="choice" value="myFavorites" checked>내 찜 목록</label>
             <label><input type="radio" name="choice" value="myPreorders">내 예약 내역</label>
-            <label><input type="radio" name="choice" value="myReviews">내가 쓴 리뷰</label>
             <label><input type="radio" name="choice" value="myQuestions">내 질문</label>
         </div>
 
@@ -293,6 +321,9 @@
 
         <ul class="pagination"></ul>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        <div class="fixed-buttons">
+        <div class="right-button">
         <button onclick='location.href="../user/mypage"'>마이페이지</button>
+        </div></div>
 </body>
 </html>
