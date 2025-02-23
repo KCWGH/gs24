@@ -1,5 +1,6 @@
 package com.gs24.website.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,45 @@ public class CouponServiceImple implements CouponService {
 
 	@Autowired
 	private CouponMapper couponMapper;
+
+	@Override
+	public int validateAndPublishCoupon(CouponVO couponVO) {
+		if (couponVO.getCouponName().equals("")) {
+			String foodType = couponVO.getFoodType();
+			String value = "";
+			switch (couponVO.getDiscountType()) {
+			case 'A':
+				value = couponVO.getAmount() + "원";
+				break;
+			case 'P':
+				value = couponVO.getPercentage() + "%";
+				break;
+			}
+			couponVO.setCouponName(foodType + " " + value + " 할인권");
+		}
+
+		if (couponVO.getCouponExpiredDate() == null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.YEAR, 100);
+			couponVO.setCouponExpiredDate(calendar.getTime());
+		}
+
+		switch (couponVO.getDiscountType()) {
+		case 'A':
+			if (couponVO.getAmount() < 1000) {
+				return -1; // 정액권은 최소 1000원이어야 함
+			}
+			break;
+		case 'P':
+			if (couponVO.getPercentage() < 5) {
+				return -2; // 비율권은 최소 5%이어야 함
+			}
+			break;
+		}
+
+		// 쿠폰 발행
+		return couponMapper.insertCoupon(couponVO);
+	}
 
 	@Override
 	public int publishCoupon(CouponVO couponVO) {
@@ -51,4 +91,5 @@ public class CouponServiceImple implements CouponService {
 			log.info("deleteExpiredCoupons()");
 		}
 	}
+
 }

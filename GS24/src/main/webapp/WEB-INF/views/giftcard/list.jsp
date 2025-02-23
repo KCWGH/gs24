@@ -263,19 +263,30 @@ input[type="radio"] {
 .right-button {
     margin-left: auto; /* 오른쪽 끝으로 정렬 */
 }
+.radio-group {
+    display: flex;
+    justify-content: space-between; /* 3등분 자동 배치 */
+    width: 100%; /* 부모 컨테이너 너비 */
+    max-width: 500px; /* 500px 기준으로 정렬 */
+    margin: 10px auto; /* 중앙 정렬 */
+}
 
+.radio-group label {
+    flex: 1; /* 각 라벨을 동일한 너비로 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
 </style>
 </head>
 <body>
 
     <h2>${memberVO.memberId}님의 기프트카드함</h2>
     <p>만료된 이후 30일이 경과한 기프트카드는 자동 삭제됩니다.</p>
-
+	<div class="radio-group">
     <label><input type="radio" name="choice" value="used" checked>사용중</label>
     <label><input type="radio" name="choice" value="unused">미사용</label>
     <label><input type="radio" name="choice" value="all">전체</label>
     <label><input type="radio" name="choice" value="expired">만료됨</label>
-
+	</div>
     <div class="giftCard-list"></div>
 
     <ul class="pagination"></ul>

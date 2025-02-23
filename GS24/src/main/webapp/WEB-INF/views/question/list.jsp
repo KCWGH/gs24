@@ -9,36 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style type="text/css">
-        table, th, td {
-            border-style: solid;
-            border-width: 1px;
-            text-align: center;
-        }
-
-        ul {
-            list-style-type: none;
-            text-align: center;
-        }
-
-        li {
-            display: inline-block;
-        }
-
-        .answer_item {
-            padding: 10px;
-            margin: 10px 0;
-        }
-
-        .answer_item .answer-content {
-            font-size: 1em;
-            color: #333;
-        }
-
-        .answer_item .answer-meta {
-            font-size: 0.9em;
-            color: #777;
-            margin-bottom: 5px;
-        }
     </style>
 </head>
 <body>
@@ -52,8 +22,6 @@
 <a href="register"><input type="button" value="글 작성"></a>
 </sec:authorize>
 
-
-<hr>
 <table>
     <thead>
         <tr>

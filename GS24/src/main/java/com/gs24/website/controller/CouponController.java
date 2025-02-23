@@ -1,7 +1,5 @@
 package com.gs24.website.controller;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,58 +38,25 @@ public class CouponController {
 	@PostMapping("/publish")
 	public String publishPOST(@ModelAttribute CouponVO couponVO, Model model, RedirectAttributes redirectAttributes) {
 
-		if (couponVO.getCouponName().equals("")) { // 이름을 따로 입력하지 않았으면
-			String foodType = couponVO.getFoodType();
+		int result = couponService.validateAndPublishCoupon(couponVO);
 
-			String value = "";
-			switch (couponVO.getDiscountType()) {
-			case 'A':
-				value = couponVO.getAmount() + "원";
+		if (result == 1) {
+			log.info("쿠폰 발행에 성공했습니다.");
+			redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 성공했습니다 :)");
+		} else {
+			String errorMessage = "";
+			switch (result) {
+			case -1:
+				errorMessage = "정액권인 경우 최솟값은 1000원입니다.";
 				break;
-			case 'P':
-				value = couponVO.getPercentage() + "%";
+			case -2:
+				errorMessage = "비율권인 경우 최솟값은 5%입니다.";
+				break;
+			default:
+				errorMessage = "쿠폰 발행에 실패했습니다. 다시 시도해 주세요.";
 				break;
 			}
-			couponVO.setCouponName(foodType + " " + value + " 할인권");
-		}
-		if (couponVO.getCouponExpiredDate() == null) {
-			Date currentDate = new Date();
-
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(currentDate);
-			calendar.add(Calendar.YEAR, 100);
-
-			Date futureDate = calendar.getTime();
-			couponVO.setCouponExpiredDate(futureDate);
-		}
-
-		switch (couponVO.getDiscountType()) {
-		case 'A':
-			if (couponVO.getAmount() >= 1000) {
-				int result = couponService.publishCoupon(couponVO);
-				if (result == 1) {
-					log.info("publishPOST()");
-					redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 성공했습니다 :)");
-				} else {
-					redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 실패했습니다. 다시 시도해 주세요.");
-				}
-			} else {
-				redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 실패했습니다.\\n정액권인 경우 최솟값은 1000원입니다.");
-			}
-			break;
-		case 'P':
-			if (couponVO.getPercentage() >= 5) {
-				int result = couponService.publishCoupon(couponVO);
-				if (result == 1) {
-					log.info("publishPOST()");
-					redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 성공했습니다 :)");
-				} else {
-					redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 실패했습니다. 다시 시도해 주세요.");
-				}
-			} else {
-				redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 실패했습니다.\\n비율권인 경우 최솟값은 5%입니다.");
-			}
-			break;
+			redirectAttributes.addFlashAttribute("message", errorMessage);
 		}
 
 		return "redirect:/coupon/publish";

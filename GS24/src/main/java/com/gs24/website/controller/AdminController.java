@@ -56,17 +56,12 @@ public class AdminController {
 	}
 
 	@GetMapping("/console")
-	public String consoleGET(Authentication auth, Model model, RedirectAttributes redirectAttributes) {
-		if (auth != null) {
-			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
-				return "redirect:/convenience/list";
-			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
-				log.info(checkConvenienceId);
-				model.addAttribute("checkConvenienceId", checkConvenienceId);
-				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
-			}
-		}
+	public String consoleGET() {
 		return "/admin/console";
+	}
+
+	@GetMapping("/activate")
+	public String activateGET() {
+		return "/admin/activate";
 	}
 }

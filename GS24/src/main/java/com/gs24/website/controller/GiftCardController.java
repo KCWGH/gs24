@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.GiftCardService;
@@ -45,9 +43,10 @@ public class GiftCardController {
 		String memberId = auth.getName();
 		model.addAttribute("memberId", memberId);
 	}
-	
+
 	@PostMapping("/purchase")
-	public String purchasePOST(@ModelAttribute GiftCardVO giftCardVO, Model model, RedirectAttributes redirectAttributes) {
+	public String purchasePOST(@ModelAttribute GiftCardVO giftCardVO, Model model,
+			RedirectAttributes redirectAttributes) {
 		log.info("purchasePOST()");
 		log.info(giftCardVO);
 		if (giftCardVO.getGiftCardName().equals("")) { // 이름을 따로 입력하지 않았으면
@@ -57,7 +56,8 @@ public class GiftCardController {
 			redirectAttributes.addFlashAttribute("message", "사용할 수 없는 기프트카드 이름입니다.");
 			return "redirect:/giftcard/purchase";
 		}
-		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000 && giftCardVO.getBalance() <= 30000) {
+		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000
+				&& giftCardVO.getBalance() <= 30000) {
 			int result = giftCardService.grantGiftCard(giftCardVO);
 			log.info(result + "개 기프트카드 제공 완료");
 		} else if (giftCardVO.getBalance() < 1000 || giftCardVO.getBalance() > 30000) {
@@ -83,7 +83,8 @@ public class GiftCardController {
 			redirectAttributes.addFlashAttribute("message", "사용할 수 없는 기프트카드 이름입니다.");
 			return "redirect:/giftcard/grant";
 		}
-		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000 && giftCardVO.getBalance() <= 30000) {
+		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000
+				&& giftCardVO.getBalance() <= 30000) {
 			int result = giftCardService.grantGiftCard(giftCardVO);
 			log.info(result + "개 기프트카드 제공 완료");
 		} else if (giftCardVO.getBalance() < 1000 || giftCardVO.getBalance() > 30000) {
@@ -99,10 +100,9 @@ public class GiftCardController {
 	}
 
 	@GetMapping("/list")
-	public String list(Model model, @AuthenticationPrincipal CustomUser customUser) {
+	public String list(Model model, Authentication auth) {
 		log.info("list()");
-		String memberId = customUser.getUsername();
-		System.out.println(memberId);
+		String memberId = auth.getName();
 		if (memberId != null) {
 			MemberVO memberVO = memberService.getMember(memberId);
 			memberVO.setPassword(null);
@@ -112,9 +112,9 @@ public class GiftCardController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(@AuthenticationPrincipal CustomUser customUser, Model model, int giftCardId) {
+	public void detailGET(Authentication auth, Model model, int giftCardId) {
 		log.info("detailGET()");
-		String memberId = customUser.getUsername();
+		String memberId = auth.getName();
 		if (memberId != null) {
 			MemberVO memberVO = memberService.getMember(memberId);
 			model.addAttribute("memberVO", memberVO);
@@ -125,4 +125,4 @@ public class GiftCardController {
 		model.addAttribute("sysDate", sysDate);
 	}
 
-} // end BoardController
+}

@@ -198,20 +198,15 @@ button:hover {
             </tr>
             <tr>
                 <th><label for="balance">구매할<br>금액권</label></th>
-                <td><input type="number" id="balance" name="balance" required min="1000" max="30000"> 원</td>
-            </tr>
-            <tr>
-                <td colspan="2">※ 1000원 이상, 30000원 이하로 입력해 주세요.</td>
-            </tr>
-            <tr>
-                <th>프리셋</th>
-                <td>
-                    <button type="button" onclick="setBalance(1000)">1000원</button>
+                <td><input type="number" id="balance" name="balance" required min="1000" max="30000"> 원<br>
+                <button type="button" onclick="setBalance(1000)">1000원</button>
                     <button type="button" onclick="setBalance(3000)">3000원</button>
                     <button type="button" onclick="setBalance(5000)">5000원</button>
                     <button type="button" onclick="setBalance(10000)">10000원</button>
-                    <button type="button" onclick="setBalance(30000)">30000원</button>
-                </td>
+                    <button type="button" onclick="setBalance(30000)">30000원</button></td>
+            </tr>
+            <tr>
+                <td colspan="2">※ 1000원 이상, 30000원 이하로 입력해 주세요.</td>
             </tr>
             <tr hidden="hidden">
                 <th><label for="giftCardExpiredDate">유효기간</label></th>

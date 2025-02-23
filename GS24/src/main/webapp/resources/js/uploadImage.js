@@ -106,6 +106,7 @@
 					
 					var htmlList = $(".image-list").html();
 					htmlList = htmlList + list;
+					$(".image-list").show();
 					$(".image-list").html(htmlList);
 				} // end success
 			}); // end $.ajax()

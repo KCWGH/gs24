@@ -205,6 +205,18 @@ input[type="radio"]:hover,
 label:hover {
     cursor: pointer;
 }
+.radio-group {
+    display: flex;
+    justify-content: space-between; /* 3등분 자동 배치 */
+    width: 100%; /* 부모 컨테이너 너비 */
+    max-width: 500px; /* 500px 기준으로 정렬 */
+    margin: 10px auto; /* 중앙 정렬 */
+}
+
+.radio-group label {
+    flex: 1; /* 각 라벨을 동일한 너비로 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
 
 /* 내 찜 목록을 2x2 형태로 배치 */
 .favorites-container {
@@ -311,7 +323,7 @@ table td {
 <body>
         <h2>${memberId}님의 활동</h2>
         <p>각 링크를 클릭하면 메인 페이지에서 해당 페이지가 열립니다.</p>
-        <div>
+        <div class="radio-group">
             <label><input type="radio" name="choice" value="myFavorites" checked>내 찜 목록</label>
             <label><input type="radio" name="choice" value="myPreorders">내 예약 내역</label>
             <label><input type="radio" name="choice" value="myQuestions">내 질문</label>

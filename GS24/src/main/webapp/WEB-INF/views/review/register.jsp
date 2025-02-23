@@ -13,6 +13,11 @@
 </script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <title>리뷰 작성</title>
+<style>
+	.image-list {
+    display: none;
+}
+</style>
 </head>
 <body>
 	<input type="hidden" class="path">

@@ -87,7 +87,6 @@ public class MemberServiceImple implements MemberService {
 	@Transactional(value = "transactionManager")
 	public int deleteMember(String memberId) {
 		if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) == 0) { // 잔액이 남은 기프트카드가 없을 경우
-			membershipMapper.deleteMembership(memberId);
 		} else if (giftCardMapper.countRemainingGiftCardsByMemberId(memberId) != 0) { // 잔액이 남은 기프트카드가 있을 경우
 			return 2;
 		}

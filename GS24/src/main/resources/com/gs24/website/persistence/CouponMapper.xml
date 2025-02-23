@@ -21,22 +21,24 @@
     <selectKey keyProperty="couponId" resultType="Integer" order="BEFORE">
         SELECT COUPON_SEQ.NEXTVAL FROM DUAL
     </selectKey>
-    	INSERT INTO COUPON (
+    INSERT INTO COUPON (
         COUPON_ID, FOOD_TYPE, COUPON_NAME, COUPON_AMOUNT, 
         DISCOUNT_TYPE, PERCENTAGE, AMOUNT, COUPON_EXPIRED_DATE, 
-        IS_DUPLICATE_ALLOWED) VALUES (
+        IS_DUPLICATE_ALLOWED
+    ) VALUES (
         #{couponId}, #{foodType}, #{couponName}, #{couponAmount}, 
         #{discountType}, 
         <choose>
-            <when test="discountType == 'A'">NULL</when>
+            <when test="discountType == 'A'">NULL</when> <!-- A일 경우 null, DB 기본값 적용 -->
             <otherwise>#{percentage}</otherwise>
         </choose>,
         <choose>
-            <when test="discountType == 'P'">NULL</when>
+            <when test="discountType == 'P'">NULL</when> <!-- P일 경우 null, DB 기본값 적용 -->
             <otherwise>#{amount}</otherwise>
         </choose>,
-        #{couponExpiredDate}, #{isDuplicateAllowed})
-	</insert>
+        #{couponExpiredDate}, #{isDuplicateAllowed}
+    )
+</insert>
 
 	
 	<update id="useCoupon">

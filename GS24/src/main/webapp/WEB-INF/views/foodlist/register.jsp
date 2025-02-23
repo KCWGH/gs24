@@ -12,6 +12,9 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <style>
+.thumnail-image {
+    display: none;
+}
 .image-drop{
 	display: none;
 }
@@ -143,8 +146,8 @@
 								 +	'</pre>'
 								 +	'</pre>'
 								 + 	'</div>';
-								 
 								 $(".thumnail-image").html(list);
+								 $(".thumnail-image").show();
 								 $(".insertImage").attr('disabled',false);
 						}
 					});

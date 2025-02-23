@@ -62,7 +62,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 				int branchId = convenienceMapper.selectConvenienceIdByOwnerId(authentication.getName());
 				redirectURL = "../convenienceFood/list?convenienceId=" + branchId; // 점주 전용 페이지
 			} else if (role.equals("ROLE_ADMIN")) {
-				redirectURL = "../foodlist/list"; // 관리자 전용 페이지
+				redirectURL = "../admin/console"; // 관리자 전용 페이지
 			} else if (role.equals("ROLE_DEACTIVATED_OWNER") || role.equals("ROLE_DEACTIVATED_MEMBER")) {
 				return "../user/reactivate"; // 비활성화된 계정 페이지 (즉시 리다이렉트)
 			}

@@ -49,8 +49,6 @@ public class ConvenienceFoodController {
 
 		List<ConvenienceFoodVO> list = convenienceFoodService.getConvenienceFoodByConvenienceId(convenienceId);
 
-		log.info(list);
-
 		if (auth != null) {
 			String username = auth.getName();
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
@@ -98,22 +96,22 @@ public class ConvenienceFoodController {
 	@GetMapping("/register")
 	@ResponseBody
 	public ResponseEntity<Integer> registerGET(Authentication auth, int foodId, int foodAmount) {
-	    log.info("registerGET");
+		log.info("registerGET");
 
-	    log.info("foodId : " + foodId + ", foodAmount : " + foodAmount);
-	    String ownerId = auth.getName();
+		log.info("foodId : " + foodId + ", foodAmount : " + foodAmount);
+		String ownerId = auth.getName();
 
-	    OrderVO order = new OrderVO();
-	    order.setFoodId(foodId);
-	    order.setOrderAmount(foodAmount);
-	    order.setOwnerId(ownerId);
-	    order.setApprovalStatus(0); // 대기 상태
+		OrderVO order = new OrderVO();
+		order.setFoodId(foodId);
+		order.setOrderAmount(foodAmount);
+		order.setOwnerId(ownerId);
+		order.setApprovalStatus(0); // 대기 상태
 
-	    orderService.insertOrder(order);
+		orderService.insertOrder(order);
 
-	    return new ResponseEntity<>(1, HttpStatus.OK);
+		return new ResponseEntity<>(1, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/updateShowStatus")
 	public String updateShowStatus(int foodId, int convenienceId) {
 		log.info("updateShowStatus()");
