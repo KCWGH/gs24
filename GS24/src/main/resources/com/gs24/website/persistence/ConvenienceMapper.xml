@@ -17,12 +17,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         VALUES (CONVENIENCE_SEQ.NEXTVAL, #{ownerId})
     </insert>
     
-    <select id="selectAllConvenience" resultMap="ConvenienceResultMap">
-        SELECT 	CONVENIENCE.CONVENIENCE_ID, 
-            	OWNER.OWNER_ID,
-            	OWNER.ADDRESS,
-            	OWNER.IS_ENABLED
-        FROM CONVENIENCE JOIN OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID WHERE OWNER.IS_ENABLED = 1 ORDER BY CONVENIENCE.CONVENIENCE_ID
+    <select id="selectAllEnabledConvenience" resultMap="ConvenienceResultMap">
+        	SELECT * 
+	FROM (
+    	SELECT 
+        	ROW_NUMBER() OVER (ORDER BY CONVENIENCE.CONVENIENCE_ID ASC) AS RN,
+        	CONVENIENCE.CONVENIENCE_ID, 
+        	OWNER.OWNER_ID,
+        	OWNER.ADDRESS,
+        	OWNER.IS_ENABLED
+    	FROM 
+        	CONVENIENCE 
+    	JOIN 
+        	OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID
+    	WHERE 
+        	OWNER.IS_ENABLED = 1
+	) 
+	WHERE 
+    	RN BETWEEN #{start} AND #{end}
+    </select>
+    
+    <select id="countAllEnabledConvenience" resultType="Integer">
+    	SELECT count(*) 
+	FROM (
+    	SELECT 
+        	ROW_NUMBER() OVER (ORDER BY CONVENIENCE.CONVENIENCE_ID ASC) AS RN,
+        	CONVENIENCE.CONVENIENCE_ID, 
+        	OWNER.OWNER_ID,
+        	OWNER.ADDRESS,
+        	OWNER.IS_ENABLED
+    	FROM 
+        	CONVENIENCE 
+    	JOIN 
+        	OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID
+    	WHERE 
+        	OWNER.IS_ENABLED = 1
+	)
     </select>
     
     <select id="selectConvenienceIdByOwnerId" resultType="Integer">

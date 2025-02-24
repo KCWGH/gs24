@@ -37,9 +37,9 @@ public class NoticeServiceImple implements NoticeService {
     }
 
     @Override
-    public int updateNotice(NoticeVO vo) {
+    public int updateNotice(NoticeVO noticeVO) {
         log.info("updateNotice()");
-        return noticeMapper.updateNotice(vo);
+        return noticeMapper.updateNotice(noticeVO);
     }
 
     @Override

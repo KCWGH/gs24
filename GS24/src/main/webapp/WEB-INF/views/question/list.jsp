@@ -9,19 +9,102 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style type="text/css">
+        /* 전체 페이지 스타일 */
+        body {
+            margin: 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        /* 제목 스타일 */
+        h1, h2 {
+            color: #333;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #555;
+        }
+
+        /* 버튼 스타일 */
+        button, input[type="button"] {
+            background: #ddd;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover, input[type="button"]:hover {
+            background: #bbb;
+        }
+
+        /* 검색 폼 스타일 */
+        #searchForm {
+            margin-top: 10px;
+        }
+
+        /* 페이징 스타일 */
+    .pagination_button {
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .pagination_button a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: black;
+    }
+
+    .pagination_button a:hover {
+        background: #bbb;
+    }
+
+    /* 글 작성 버튼 컨테이너 */
+    .button-container {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+    .pagination_button.current a {
+    background: #333;
+    color: white;
+	} 
     </style>
+    <title>Q&amp;A 게시판</title>
 </head>
 <body>
 
 <%@ include file="../common/header.jsp" %>
-<sec:authentication property="principal" var="user"/> 
+<sec:authentication property="principal" var="user"/>
 
-<h1>QnA 게시판</h1>
+<h1>Q&amp;A 게시판</h1>
 <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
+
+<!-- 글 작성 버튼 (회원만 보이도록) -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="register"><input type="button" value="글 작성"></a>
+    <div class="button-container">
+        <a href="register"><input type="button" value="글 작성"></a>
+    </div>
 </sec:authorize>
 
+<!-- QnA 목록 -->
 <table>
     <thead>
         <tr>
@@ -46,7 +129,7 @@
                                     <c:when test="${user.username == QuestionVO.memberId}">
                                         <a href="detail?questionId=${QuestionVO.questionId}">
                                         ${QuestionVO.questionTitle} 🔒
-                                    	</a>
+                                        </a>
                                     </c:when>
                                     <c:otherwise>
                                         비밀글입니다.
@@ -56,7 +139,7 @@
                             <c:when test="${QuestionVO.questionSecret == false}"> <!-- 비밀글이 아닐 때 -->
                                 <a href="detail?questionId=${QuestionVO.questionId}">
                                 ${QuestionVO.questionTitle}
-                           		</a>
+                                </a>
                             </c:when>
                         </c:choose>
                     </sec:authorize>
@@ -67,14 +150,14 @@
                         </a>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                   		<a href="detail?questionId=${QuestionVO.questionId}">
+                        <a href="detail?questionId=${QuestionVO.questionId}">
                             ${QuestionVO.questionTitle} 
                         </a>
                     </sec:authorize>
-                    
+
                     <sec:authorize access="isAnonymous()">       
-                    ${QuestionVO.questionTitle}  
-            		</sec:authorize>
+                        ${QuestionVO.questionTitle}  
+                    </sec:authorize>
                 </td>
                 <td>${QuestionVO.memberId}</td>
                 <fmt:formatDate value="${QuestionVO.questionDateCreated}" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
@@ -91,24 +174,25 @@
         </c:forEach>
     </tbody>
 </table>
-<hr>
 
+<!-- 페이징 처리 -->
 <ul>
-    <!-- 이전 버튼 생성을 위한 조건문 -->
-    <c:if test="${pageMaker.isPrev() }">
-        <li><a href="list?pageNum=${pageMaker.startNum - 1}">이전</a></li>
+    <c:if test="${pageMaker.isPrev()}">
+        <li class="pagination_button"><a href="list?pageNum=${pageMaker.startNum - 1}">이전</a></li>
     </c:if>
-    
-    <!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
-    <c:forEach begin="${pageMaker.startNum }" end="${pageMaker.endNum }" var="num">
-        <li><a href="list?pageNum=${num }">${num }</a></li>
+
+    <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+        <li class="pagination_button 
+            <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
+            <a href="list?pageNum=${num}">${num}</a>
+        </li>
     </c:forEach>
-    
-    <!-- 다음 버튼 생성을 위한 조건문 -->
-    <c:if test="${pageMaker.isNext() }">
-        <li><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
+
+    <c:if test="${pageMaker.isNext()}">
+        <li class="pagination_button"><a href="list?pageNum=${pageMaker.endNum + 1}">다음</a></li>
     </c:if>
 </ul>
+
 <%@ include file="../common/footer.jsp"%>
 </body>
 </html>

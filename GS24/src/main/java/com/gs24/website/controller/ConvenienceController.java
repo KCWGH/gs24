@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gs24.website.domain.ConvenienceVO;
 import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.GiftCardService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -28,11 +30,13 @@ public class ConvenienceController {
 	private GiftCardService giftCardService;
 
 	@GetMapping("/list")
-	public String listGET(Authentication auth, Model model) {
+	public String listGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("listGET()");
 
-		List<ConvenienceVO> list = convenienceService.getAllConvenience();
-
+		List<ConvenienceVO> list = convenienceService.getAllConvenience(pagination);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(convenienceService.countAllEnabledConvenience());
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
@@ -46,6 +50,7 @@ public class ConvenienceController {
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}
 		}
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("conveniList", list);
 		return "/convenience/list";
 	}

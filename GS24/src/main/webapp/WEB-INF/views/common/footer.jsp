@@ -7,9 +7,9 @@
     <div class="footer-container">
         <div class="footer-section">
             <a href="../notice/list">공지사항</a>
-            <a>이용약관</a>
-            <a>개인정보처리방침</a>
-            <a>고객센터</a>
+            <a href="../user/terms">이용약관</a>
+            <a href="../user/privacy-policy">개인정보처리방침</a>
+            <a href="../user/customer-service">고객센터</a>
         </div>
         <div class="footer-section">
             <span>© 2025 GS24. All Rights Reserved.</span>

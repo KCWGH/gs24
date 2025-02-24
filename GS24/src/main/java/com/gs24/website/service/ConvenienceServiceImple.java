@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.ConvenienceVO;
 import com.gs24.website.persistence.ConvenienceMapper;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -16,7 +17,7 @@ public class ConvenienceServiceImple implements ConvenienceService {
 
 	@Autowired
 	private ConvenienceMapper convenienceMapper;
-	
+
 	@Override
 	public int createConvenience(ConvenienceVO convenienceVO) {
 		int result = convenienceMapper.insertConvenience(convenienceVO);
@@ -24,9 +25,14 @@ public class ConvenienceServiceImple implements ConvenienceService {
 	}
 
 	@Override
-	public List<ConvenienceVO> getAllConvenience() {
-		List<ConvenienceVO> list = convenienceMapper.selectAllConvenience();
+	public List<ConvenienceVO> getAllConvenience(Pagination pagination) {
+		List<ConvenienceVO> list = convenienceMapper.selectAllEnabledConvenience(pagination);
 		return list;
+	}
+
+	@Override
+	public int countAllEnabledConvenience() {
+		return convenienceMapper.countAllEnabledConvenience();
 	}
 
 	@Override

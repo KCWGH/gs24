@@ -76,14 +76,33 @@
     .foodRow td a:hover, .foodRow td .insert:hover {
         background: #bbb;
     }
-
+    
+    #insert {
+    	background: #ddd;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    #insert:hover {
+    	background: #bbb;
+    }
+    
+    .button-container {
+        text-align: right;
+        margin-bottom: 10px;
+    }
 </style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <h1>음식 리스트</h1>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-    <button id="insert" onclick='location.href="register"'>추가</button>
+	<div class="button-container">
+    	<button id="insert" onclick='location.href="register"'>음식 추가</button>
+    </div>
 </sec:authorize>
 
 <table id="foodTable">
@@ -144,47 +163,6 @@ $(document).ready(function () {
         var header = $("meta[name='_csrf_header']").attr("content");
         xhr.setRequestHeader(header, token);
     });
-
-    function loadOrderHistory() {
-        $.ajax({
-            type: 'GET',
-            url: "../convenienceFood/getOrdersAllHistory",
-            success: function (orderHistoryList) {
-                var tableBody = $("#orderHistoryTable tbody");
-                tableBody.empty();
-
-                orderHistoryList.sort((a, b) => new Date(b.orderDateCreated) - new Date(a.orderDateCreated));
-
-                var latestOrders = orderHistoryList.slice(0, 10);
-
-                $.each(latestOrders, function (index, orderHistory) {
-                    var orderDate = new Date(orderHistory.orderDateCreated);
-                    var formattedDate = orderDate.getFullYear() + "-" +
-                                        ('0' + (orderDate.getMonth() + 1)).slice(-2) + "-" +
-                                        ('0' + orderDate.getDate()).slice(-2) + " " +
-                                        ('0' + orderDate.getHours()).slice(-2) + ":" +
-                                        ('0' + orderDate.getMinutes()).slice(-2) + ":" +
-                                        ('0' + orderDate.getSeconds()).slice(-2);
-
-                    var newRow = "<tr>";
-                    newRow += "<td>" + orderHistory.foodId + "</td>";
-                    newRow += "<td>" + orderHistory.orderAmount + "</td>";
-                    newRow += "<td>" + orderHistory.ownerId + "</td>";
-                    newRow += "<td>" + formattedDate + "</td>";
-                    newRow += "</tr>";
-
-                    tableBody.append(newRow);
-                });
-            },
-            error: function () {
-                alert("주문 내역을 불러오는 데 실패했습니다.");
-            }
-        });
-    }
-
-    loadOrderHistory();
-
-    setInterval(loadOrderHistory, 600000);
 
     $(".foodRow").on('click', 'td .insert', function () {
         var foodAmount = $(this).prev().val();
@@ -257,25 +235,6 @@ $(document).ready(function () {
     });
 });
 </script>
-
-<br>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-    <h2>발주 이력</h2>
-    <table id="orderHistoryTable">
-        <thead>
-            <tr>
-                <th>음식ID</th>
-                <th>주문 수량</th>
-                <th>주문자 ID</th>
-                <th>주문 일시</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- 주문 내역이 여기에 추가됩니다. -->
-        </tbody>
-    </table>
-</sec:authorize>
-
 <%@ include file="../common/footer.jsp"%>
 </body>
 </html>

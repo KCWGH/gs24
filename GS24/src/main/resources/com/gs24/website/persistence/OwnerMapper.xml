@@ -52,6 +52,11 @@
 		FROM OWNER
 		WHERE OWNER_ID = #{ownerId} AND EMAIL = #{email}
 	</select>
+	
+	<select id="selectActivationRequestedOwners" resultType="String">
+		SELECT OWNER_ID FROM OWNER
+		WHERE IS_ENABLED = 2
+	</select>
 
 	<update id="updateOwnerPassword">
 		UPDATE OWNER
