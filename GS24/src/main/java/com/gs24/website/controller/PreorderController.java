@@ -48,7 +48,6 @@ public class PreorderController {
 	public String createGET(Model model, int convenienceId, int foodId, Authentication auth,
 			RedirectAttributes redirectAttributes) {
 		log.info("createGET()");
-		log.info("mypageGET()");
 		String memberId = auth.getName();
 
 		model.addAttribute("memberId", memberId);
@@ -125,7 +124,7 @@ public class PreorderController {
 		List<PreorderVO> list = preorderService.getNotPickedUpPreorder(pagination, convenienceId);
 
 		log.info(list);
-		
+
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("preorderList", list);

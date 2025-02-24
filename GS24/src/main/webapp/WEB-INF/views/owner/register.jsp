@@ -86,7 +86,7 @@
             element_wrap.style.display = 'none';
         }
 
-        function sample3_execDaumPostcode() {
+        function execDaumPostcode() {
             // 현재 scroll 위치를 저장해놓는다.
             var element_wrap = document.getElementById('wrap');
             var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
@@ -212,13 +212,23 @@
 
         function checkPhone() {
             let phone = $('#phone').val();
+            
+            phone = phone.replace(/[^0-9]/g, '');
+            if (phone.length === 11) {
+                phone = phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+            } else if (phone.length === 10) {
+                phone = phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+            }
+            
+            $('#phone').val(phone);
+            
             if (!phone) {
                 $('#phoneMessage').text("전화번호를 입력해주세요.").css('color', 'red');
                 return;
             }
 
             if (!phoneRegex.test(phone)) {
-                $('#phoneMessage').text("전화번호는 하이픈(-)을 포함한 010, 011, 016, 017, 018, 019 형식이어야 합니다.").css('color', 'red');
+                $('#phoneMessage').text("전화번호는 010, 011, 016, 017, 018, 019 형식이어야 합니다.").css('color', 'red');
                 return;
             }
 
@@ -349,7 +359,7 @@
                 <th><label for="address">주소</label></th>
                 <td>
                     <input type="text" id="postcode" placeholder="우편번호">
-                    <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기">
+                    <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
                     <br>
                     <input type="text" id="address" placeholder="주소">
                     <br>

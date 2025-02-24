@@ -141,4 +141,9 @@ public class OwnerServiceImple implements OwnerService {
 		return ownerMapper.activateOwner(ownerId);
 	}
 
+	@Override
+	public String[] selectActivationRequestedOwners() {
+		return ownerMapper.selectActivationRequestedOwners();
+	}
+
 }

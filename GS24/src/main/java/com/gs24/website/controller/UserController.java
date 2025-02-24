@@ -219,4 +219,16 @@ public class UserController {
 
 	}
 
+	@GetMapping("/terms")
+	public void termsGET() {
+	}
+
+	@GetMapping("/privacy-policy")
+	public void privacypolicyGET() {
+	}
+
+	@GetMapping("/customer-service")
+	public void customerservice() {
+	}
+
 }

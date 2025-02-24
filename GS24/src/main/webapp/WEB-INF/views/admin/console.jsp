@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>관리자 Console</title>
 <style>
     /* 콘솔 페이지 스타일 */
@@ -76,7 +77,8 @@
         <button class="button-activate" type="button" onclick='location.href="../foodlist/list"'>식품 창고</button>
         <button class="button-remain" type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 발행</button>
         <button class="button-activate" type="button" onclick='location.href="../orders/list"'>발주 승인</button>
-        <button class="button-remain" type="button" onclick='location.href="../admin/activate"'>비활성화 해제 승인</button>
+        <button class="button-remain" type="button" onclick='location.href="../admin/activate"'>계정 재활성화 승인</button>
+        <button class="button-activate" type="button" onclick='location.href="../notice/list"'>공지사항</button>
         <form action="../auth/logout" method="post">
         	<input id="logout" type="submit" value="로그아웃">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

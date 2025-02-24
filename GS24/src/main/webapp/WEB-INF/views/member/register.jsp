@@ -139,13 +139,23 @@
 
         function checkPhone() {
             let phone = $('#phone').val();
+            
+            phone = phone.replace(/[^0-9]/g, '');
+            if (phone.length === 11) {
+                phone = phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+            } else if (phone.length === 10) {
+                phone = phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+            }
+            
+            $('#phone').val(phone);
+            
             if (!phone) {
                 $('#phoneMessage').text("전화번호를 입력해주세요.").css('color', 'red');
                 return;
             }
 
             if (!phoneRegex.test(phone)) {
-                $('#phoneMessage').text("전화번호는 하이픈(-)을 포함한 010, 011, 016, 017, 018, 019 형식이어야 합니다.").css('color', 'red');
+                $('#phoneMessage').text("전화번호는 010, 011, 016, 017, 018, 019 형식이어야 합니다.").css('color', 'red');
                 return;
             }
 

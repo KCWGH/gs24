@@ -2,85 +2,116 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <style>
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* 헤더 전체 스타일 */
+.header-wrapper {
+    position: relative;
     width: 100%;
-    background-color: #f8f9fa;
-    z-index: 1000;
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
 }
 
+header {
+    position: fixed !important;  /* 항상 최상단 고정 */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background-color: #f8f9fa !important;
+    z-index: 1000 !important;
+    border-bottom: 1px solid #ccc !important;
+    padding: 10px 0 !important;
+}
+
+/* 헤더 내부 컨테이너 스타일 */
 .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
 }
 
+/* 왼쪽 섹션 (로고) */
 .header-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
 }
 
+/* 오른쪽 버튼 영역 */
 .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: auto;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-left: auto !important;
 }
 
+/* 헤더 내부 링크 스타일 */
 header a {
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
+    color: #333 !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
 }
 
 header a:hover {
-    color: #555;
+    color: #555 !important;
 }
 
+/* 버튼 기본 스타일 */
 header button,
 header input[type="submit"] {
-    background-color: #ddd;
-    color: #333;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    background-color: #ddd !important;
+    color: #333 !important;
+    border: none !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    transition: background-color 0.3s ease !important;
 }
 
 header button:hover,
 header input[type="submit"]:hover {
-    background-color: #bbb;
+    background-color: #bbb !important;
 }
 
-header span {
-    color: #666;
-    font-size: 14px;
-}
-
-.logout-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-}
-
-.content {
-    margin-top: 70px;
-}
+/* 로그아웃 버튼 스타일 */
 #logout {
-	background-color: #ff6666;
-	color: white;
+    background-color: #ff6666 !important;
+    color: white !important;
 }
+
 #logout:hover {
-	background: #ff4d4d;
+    background: #ff4d4d !important;
+}
+
+/* 텍스트 스타일 */
+header span {
+    color: #666 !important;
+    font-size: 14px !important;
+}
+
+/* 로그아웃 폼 스타일 */
+.logout-form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+}
+
+/* 헤더 아래의 본문 내용이 가려지지 않도록 여백 추가 */
+.content {
+    margin-top: 70px !important;
+}
+
+/* 관리자 콘솔 페이지에서 header 스타일 덮어쓰지 않도록 */
+.console-page header {
+    all: unset !important;  /* 관리자 콘솔의 스타일 영향을 받지 않도록 초기화 */
+    display: block !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background-color: #f8f9fa !important;
+    z-index: 1000 !important;
+    border-bottom: 1px solid #ccc !important;
+    padding: 10px 0 !important;
 }
 </style>
 <header>
@@ -128,14 +159,14 @@ header span {
                 <button type="button" onclick='location.href="../preorder/list"'>예약 식품 목록</button>
                 <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')">기프트카드</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
-                <button type="button" onclick='location.href="../question/list"'>문의사항(QnA)</button>
+                <button type="button" onclick='location.href="../question/list"'>문의사항(Q&amp;A)</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">
                 <button type="button" onclick='location.href="../preorder/update?convenienceId=${FoodList[0].convenienceId}"'>예약 상품 수령 확인</button>
                 <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
-                <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(QnA)</button>
+                <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(Q&amp;A)</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">

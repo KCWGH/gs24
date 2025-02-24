@@ -10,6 +10,29 @@
     <title>쿠폰 발행</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
+    	function checkByteLimit(input, maxBytes) {
+        	let str = input.value;
+        	let totalBytes = 0;
+        	let truncatedStr = "";
+
+        	for (let i = 0; i < str.length; i++) {
+            	let char = str.charAt(i);
+            	let charCode = char.charCodeAt(0);
+            	let charBytes = (charCode > 127) ? 3 : 1;
+
+            	if (totalBytes + charBytes > maxBytes) {
+                	alert("입력 가능한 최대 글자 수를 초과했습니다! (한글 약 33자, 영문 100자)");
+                	input.value = truncatedStr;
+                	return;
+            	}
+
+            	totalBytes += charBytes;
+            	truncatedStr += char;
+        	}
+
+        	input.value = str;
+    	}
+    
         function setCouponAmount(value) {
             $("input[name='couponAmount']").val(value);
         }
@@ -68,7 +91,6 @@
         /* 전체 페이지 스타일 */
         body {
             margin: 0;
-            padding: 15px;
             background-color: #f8f9fa;
             text-align: center;
         }
@@ -171,7 +193,7 @@
             <table>
                 <tr>
                     <th><label for="couponName">쿠폰 이름</label></th>
-                    <td><input type="text" id="couponName" name="couponName"></td>
+                    <td><input type="text" id="couponName" name="couponName" oninput="checkByteLimit(this, 100)"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><span style="color:gray">쿠폰 이름을 적지 않으면 기본 쿠폰 이름으로 제공됩니다.<br>예) 음료 1000원 할인권</span></td>

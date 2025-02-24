@@ -36,6 +36,8 @@ public interface OwnerService {
 
 	List<OwnerVO> getOwnerListByUsername(String ownerId);
 
+	String[] selectActivationRequestedOwners();
+
 	int requestActivationOwner(String ownerId);
 
 	int reActivateOwner(String ownerId);

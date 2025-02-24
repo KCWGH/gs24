@@ -1,5 +1,7 @@
 package com.gs24.website.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.AdminVO;
 import com.gs24.website.service.AdminService;
 import com.gs24.website.service.ConvenienceService;
+import com.gs24.website.service.OwnerService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -24,6 +28,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+
+	@Autowired
+	private OwnerService ownerService;
 
 	@Autowired
 	private ConvenienceService convenienceService;
@@ -61,7 +68,19 @@ public class AdminController {
 	}
 
 	@GetMapping("/activate")
-	public String activateGET() {
+	public String activateGET(Model model) {
+		String[] ownerIds = ownerService.selectActivationRequestedOwners();
+
+		model.addAttribute("ownerIds", ownerIds);
+
 		return "/admin/activate";
+	}
+
+	@PostMapping("/activate")
+	public void activatePOST(@RequestBody Map<String, String[]> requestBody) {
+		String[] ownerIds = requestBody.get("ownerIds");
+		for (String ownerId : ownerIds) {
+			ownerService.reActivateOwner(ownerId);
+		}
 	}
 }

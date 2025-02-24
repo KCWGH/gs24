@@ -102,6 +102,29 @@ button:hover {
         function setBalance(value) {
             $("input[name='balance']").val(value);
         }
+        
+        function checkByteLimit(input, maxBytes) {
+            let str = input.value;
+            let totalBytes = 0;
+            let truncatedStr = "";
+
+            for (let i = 0; i < str.length; i++) {
+                let char = str.charAt(i);
+                let charCode = char.charCodeAt(0);
+                let charBytes = (charCode > 127) ? 3 : 1;
+
+                if (totalBytes + charBytes > maxBytes) {
+                    alert("입력 가능한 최대 글자 수를 초과했습니다! (한글 약 33자, 영문 100자)");
+                    input.value = truncatedStr;
+                    return;
+                }
+
+                totalBytes += charBytes;
+                truncatedStr += char;
+            }
+
+            input.value = str;
+        }
 
         $(document).ready(function() {
             let currentDate = new Date();
@@ -196,7 +219,7 @@ button:hover {
         <table>
             <tr>
                 <th><label for="giftCardName">카드<br>이름</label></th>
-                <td><input type="text" id="giftCardName" name="giftCardName"></td>
+                <td><input type="text" id="giftCardName" name="giftCardName" oninput="checkByteLimit(this, 100)"></td>
             </tr>
             <tr>
                 <td colspan="2">
