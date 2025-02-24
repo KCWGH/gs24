@@ -1,5 +1,9 @@
 package com.gs24.website.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,8 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonElement;
 import com.gs24.website.service.ConvenienceService;
+import com.gs24.website.util.KakaoLoginUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -49,5 +56,30 @@ public class AuthController {
 		return "/auth/login";
 
 	}
-
+	
+	@GetMapping("/kakao")
+	public void kakaoLoginGET(Model model,String code,String error,String error_description, String state) {
+			log.info("code : " + code);
+			log.info("error code : " + error);
+			log.info("error message : " + error_description);
+			log.info("state : " + state);
+			Map<String, String> headers = KakaoLoginUtil.createMapData("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+			String[] keys = {"code","redirect_uri","client_id","grant_type"};
+			Object[] values = {code,"http://localhost:8080/website/auth/kakao","c5a22c59eb21bd81c32d6836ae978da9","authorization_code"};
+			Map<String, String> parameter = KakaoLoginUtil.createMapData(keys, values);
+			
+			log.info("토큰 가져오기");
+		try {
+			JsonElement element = KakaoLoginUtil.requestKakao("POST", "https://kauth.kakao.com/oauth/token", headers, parameter);
+			String accessToken = KakaoLoginUtil.getElementProperty(element, "access_token");
+			
+			//headers.put("Authorization", "Bearer " + accessToken);
+			//element = KakaoLoginUtil.requestKakao("GET", "https://kapi.kakao.com/v2/user/me	", headers, null);
+			
+			model.addAttribute("accessToken", accessToken);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

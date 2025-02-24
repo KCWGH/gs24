@@ -99,6 +99,12 @@ $(document).ready(function() {
             });
         });
     });
+    
+    $("#kakao").click(function(event){
+    	event.preventDefault();
+    	console.log("클릭");
+    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c5a22c59eb21bd81c32d6836ae978da9&redirect_uri=http://localhost:8080/website/auth/kakao";
+    });
 });
 </script>
 <body>
@@ -136,6 +142,7 @@ $(document).ready(function() {
             <a href="../user/find-id">아이디 찾기</a>
             <a href="../user/find-pw">비밀번호 찾기</a>
             <a href="../user/register">회원가입</a>
+            <a href="../user/kakao" id="kakao">카카오 로그인</a>
         </div>
 
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
