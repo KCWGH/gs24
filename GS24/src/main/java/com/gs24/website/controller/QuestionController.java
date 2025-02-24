@@ -185,30 +185,29 @@ public class QuestionController {
 	@GetMapping("/ownerList")
 	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
-		String userId = auth.getName(); // 로그인한 사용자의 아이디
-		model.addAttribute("userId", userId);
-
+		pagination.setPageSize(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(questionService.getTotalCount());
 		if (auth != null) {
-			String username = auth.getName();
+			String userId = auth.getName(); // 로그인한 사용자의 아이디
+			model.addAttribute("userId", userId);
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(userId);
 				model.addAttribute("convenienceId", convenienceId);
+				List<OwnerVO> ownerIdList = ownerService.getOwnerListByUsername(userId);
+				List<QuestionVO> myQuestionList = new ArrayList<>();
+				for (OwnerVO ownerVO : ownerIdList) {
+					List<QuestionVO> questions = questionService.getPagedQuestionListByOwnerId(ownerVO.getOwnerId(),
+							pagination);
+					myQuestionList.addAll(questions); // 게시글 리스트에 추가
+				}
+				log.info("해당 owner가 볼 수 있는 게시글 목록: " + myQuestionList);
+				model.addAttribute("pageMaker", pageMaker);
+				model.addAttribute("ownerIdList", ownerIdList); // 매장 목록 추가
+				model.addAttribute("myQuestionList", myQuestionList); // 해당 owner가 볼 수 있는 게시글 목록 추가
 			}
 		}
-
-		List<OwnerVO> ownerIdList = ownerService.getOwnerListByUsername(userId);
-
-		List<QuestionVO> myQuestionList = new ArrayList<>();
-		for (OwnerVO owner : ownerIdList) {
-			List<QuestionVO> questions = questionService.getQuestionListByOwnerId(owner.getOwnerId());
-			myQuestionList.addAll(questions); // 게시글 리스트에 추가
-		}
-
-		log.info("해당 owner가 볼 수 있는 게시글 목록: " + myQuestionList);
-
-		model.addAttribute("ownerIdList", ownerIdList); // 매장 목록 추가
-		model.addAttribute("myQuestionList", myQuestionList); // 해당 owner가 볼 수 있는 게시글 목록 추가
-		model.addAttribute("username", userId); // 로그인한 사용자 정보 추가
 
 	}
 

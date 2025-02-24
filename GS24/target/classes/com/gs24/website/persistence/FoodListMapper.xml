@@ -23,8 +23,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(FOOD_SEQ.NEXTVAL, #{foodType}, #{foodName}, #{foodPrice}, #{foodProtein},#{foodFat},#{foodCarb}, #{foodStock}, #{isSelling})
 	</insert>
 	
-	<select id="selectAllFood" resultMap="foodListResultMap">
-		SELECT * FROM FOOD_LIST ORDER BY FOOD_ID DESC
+	<select id="selectAllFoodByPagination" resultMap="foodListResultMap">
+		SELECT * FROM
+    		(
+    		SELECT ROW_NUMBER() OVER (ORDER BY FOOD_ID DESC) AS RN, FOOD_LIST.*
+    		FROM FOOD_LIST
+    		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countTotalFood" resultType="Integer">
+		SELECT COUNT (*) FROM FOOD_LIST
 	</select>
 	
 	<select id="selectFoodById" resultMap="foodListResultMap">

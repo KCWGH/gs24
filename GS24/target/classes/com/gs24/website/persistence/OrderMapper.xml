@@ -15,9 +15,13 @@
         VALUES (ORDERS_SEQ.NEXTVAL, #{foodId}, #{orderAmount}, SYSDATE, #{ownerId})
     </insert>
 
-    <select id="selectAllOrders" resultMap="orderResultMap">
-        SELECT ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID, APPROVAL_STATUS 
-        FROM ORDERS ORDER BY ORDER_DATE_CREATED DESC
+    <select id="selectAllPagedOrders" resultMap="orderResultMap">
+        SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY ORDER_DATE_CREATED DESC)
+		AS RN, ORDERS.* FROM ORDERS
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
     </select>
     
     <select id="selectOrdersByOwnerId" parameterType="string" resultMap="orderResultMap">
@@ -29,6 +33,10 @@
     <select id="selectOrderById" parameterType="int" resultMap="orderResultMap">
         SELECT ORDER_ID, FOOD_ID, ORDER_AMOUNT, ORDER_DATE_CREATED, OWNER_ID, APPROVAL_STATUS 
         FROM ORDERS WHERE ORDER_ID = #{orderId}
+    </select>
+    
+    <select id="countTotalOrders" resultType="Integer">
+    	SELECT COUNT (*) FROM ORDERS
     </select>
 
     <update id="updateApprovalStatus">

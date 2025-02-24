@@ -94,6 +94,34 @@
         text-align: right;
         margin-bottom: 10px;
     }
+    ul {
+    	display: flex;
+    	justify-content: center; /* 가운데 정렬 */
+    	padding: 0;
+    	margin: 20px 0; /* 위아래 간격 */
+    	list-style-type: none;
+	}
+	
+    .pagination_button {
+        display: inline-block;
+        margin: 5px;
+        text-align: center;
+    }
+
+    .pagination_button a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: black;
+    }
+
+    .pagination_button a:hover {
+        background: #bbb;
+    }
+    .pagination_button.current a {
+    background: #333;
+    color: white;
+	} 
 </style>
 </head>
 <body>
@@ -155,6 +183,25 @@
         </c:forEach>
     </tbody>
 </table>
+<form id="listForm" action="list" method="get">
+        <input type="hidden" name="pageNum">
+        <input type="hidden" name="pageSize">
+    </form>
+
+    <!-- 페이징 처리 -->
+    <ul>
+        <c:if test="${pageMaker.isPrev()}">
+            <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
+        </c:if>
+        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+    		<li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
+        		<a href="${num}">${num}</a>
+    		</li>
+		</c:forEach>
+        <c:if test="${pageMaker.isNext()}">
+            <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
+        </c:if>
+    </ul>
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -232,6 +279,18 @@ $(document).ready(function () {
                 alert("삭제 확인에 실패했습니다.");
             }
         });
+    });
+    
+    $(".pagination_button a").on("click", function(e) {
+        var listForm = $("#listForm");
+        e.preventDefault();
+
+        var pageNum = $(this).attr("href");
+        var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+
+        listForm.find("input[name='pageNum']").val(pageNum);
+        listForm.find("input[name='pageSize']").val(pageSize);
+        listForm.submit();
     });
 });
 </script>

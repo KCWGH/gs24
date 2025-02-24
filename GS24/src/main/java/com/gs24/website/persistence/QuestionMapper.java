@@ -3,9 +3,11 @@ package com.gs24.website.persistence;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.util.Pagination;
+
 @Mapper
 public interface QuestionMapper {
 	int insertQuestion(QuestionVO questionVO); // 게시글 등록
@@ -23,7 +25,7 @@ public interface QuestionMapper {
 	int selectQuestionTotalCount();
 
 	int updateIsAnswered(int questionId); // 답변 상태 1으로 변경
-	
+
 	int deleteIsAnswered(int questionId); // 답변 상태 0으로 변경
 
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
@@ -32,5 +34,5 @@ public interface QuestionMapper {
 
 	int countQuestionListByMemberId(String memeberId);
 
-	List<QuestionVO> selectQuestionListByOwnerId(String ownerId);
+	List<QuestionVO> selectPagedQuestionListByOwnerId(@Param("ownerId") String ownerId, Pagination pagination);
 }

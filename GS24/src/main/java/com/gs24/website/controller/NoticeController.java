@@ -28,33 +28,34 @@ public class NoticeController {
 
 	@Autowired
 	private NoticeService noticeService;
-	
+
 	@Autowired
 	private ConvenienceService convenienceService;
 
-	 @GetMapping("/list")
-	    public void list(Authentication auth, Model model, Pagination pagination) {
-		 	log.info("list()");
-		 	log.info("pagination" + pagination);
-	        List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);
-	        
-	        if (auth != null) {
-				String username = auth.getName();
-				if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-					int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
-					model.addAttribute("convenienceId", convenienceId);
-				}
+	@GetMapping("/list")
+	public void list(Authentication auth, Model model, Pagination pagination) {
+		log.info("list()");
+		log.info("pagination" + pagination);
+		pagination.setPageSize(10);
+		List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);
+
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
+				model.addAttribute("convenienceId", convenienceId);
 			}
+		}
 
-	        PageMaker pageMaker = new PageMaker();
-	        pageMaker.setPagination(pagination);
-	        pageMaker.setTotalCount(noticeService.getTotalCount(pagination));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(noticeService.getTotalCount(pagination));
 
-	        log.info(pageMaker);
-	        model.addAttribute("pageMaker", pageMaker);
-	        model.addAttribute("noticeList", noticeList);
+		log.info(pageMaker);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("noticeList", noticeList);
 
-	    }
+	}
 
 	@GetMapping("/register")
 	public void registerGET() {
@@ -73,7 +74,7 @@ public class NoticeController {
 	@GetMapping("/detail")
 	public void detail(Model model, Integer noticeId, @ModelAttribute("pagination") Pagination pagination) {
 		log.info("detail()");
-		
+
 		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
 		model.addAttribute("noticeVO", noticeVO);
 	}
@@ -86,11 +87,11 @@ public class NoticeController {
 	}
 
 	@PostMapping("/modify")
-	public String modifyPOST(NoticeVO noticeVO,  Pagination pagination, RedirectAttributes reAttr) {
+	public String modifyPOST(NoticeVO noticeVO, Pagination pagination, RedirectAttributes reAttr) {
 		log.info("modifyPOST()");
 		int result = noticeService.updateNotice(noticeVO);
 		log.info(result + "건 수정");
-		
+
 		reAttr.addAttribute("pageNum", pagination.getPageNum());
 		reAttr.addAttribute("pageSize", pagination.getPageSize());
 		reAttr.addAttribute("type", pagination.getType());

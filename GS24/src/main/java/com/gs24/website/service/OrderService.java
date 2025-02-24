@@ -1,6 +1,7 @@
 package com.gs24.website.service;
 
 import com.gs24.website.domain.OrderVO;
+import com.gs24.website.util.Pagination;
 
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface OrderService {
     
     void insertOrder(OrderVO order);
     
-    List<OrderVO> getAllOrders();
+    List<OrderVO> getAllPagedOrders(Pagination pagination);
+    
+    int countTotalOrders();
 
     List<OrderVO> getOrdersByOwnerId(String ownerId);
 

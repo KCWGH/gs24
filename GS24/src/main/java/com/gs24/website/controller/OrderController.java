@@ -5,47 +5,57 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.OrderVO;
-
 import com.gs24.website.service.OrderService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Controller
-@RequestMapping("/orders")	
+@RequestMapping("/orders")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+	@Autowired
+	private OrderService orderService;
 
-    @GetMapping("/list")
-    public String getAllOrders(Model model) {
-    	log.info("getAllOrders");
-        List<OrderVO> orderList = orderService.getAllOrders();
-        model.addAttribute("orderList", orderList);
-        return "orders/list";  
-    }
+	@GetMapping("/list")
+	public String getAllOrders(Model model, Pagination pagination) {
+		log.info("getAllOrders");
+		pagination.setPageSize(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(orderService.countTotalOrders());
+		List<OrderVO> orderList = orderService.getAllPagedOrders(pagination);
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("pageMaker", pageMaker);
+		return "orders/list";
+	}
 
-    @PostMapping("/approve")
-    @ResponseBody
-    public String approveOrder(@RequestParam("orderId") int orderId) {
-        log.info("approveOrder - 주문 승인: " + orderId);
-        
-        orderService.approveOrder(orderId);
+	@PostMapping("/approve")
+	@ResponseBody
+	public String approveOrder(@RequestParam("orderId") int orderId) {
+		log.info("approveOrder - 주문 승인: " + orderId);
 
-        return "success";
-    }
+		orderService.approveOrder(orderId);
 
-    @PostMapping("/reject")
-    @ResponseBody
-    public String rejectOrder(@RequestParam int orderId) {
-        log.info("rejectOrder 요청, orderId: " + orderId);
-        
-        orderService.rejectOrder(orderId);
-        return "success"; 
-    }
+		return "success";
+	}
+
+	@PostMapping("/reject")
+	@ResponseBody
+	public String rejectOrder(@RequestParam int orderId) {
+		log.info("rejectOrder 요청, orderId: " + orderId);
+
+		orderService.rejectOrder(orderId);
+		return "success";
+	}
 
 }

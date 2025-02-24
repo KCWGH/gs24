@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.FoodListService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -31,7 +33,7 @@ public class FoodListController {
 	private ConvenienceService convenienceService;
 
 	@GetMapping("/list")
-	public void listGET(Authentication auth, Model model) {
+	public void listGET(Authentication auth, Model model, Pagination pagination) {
 
 		if (auth != null) {
 			String username = auth.getName();
@@ -42,11 +44,15 @@ public class FoodListController {
 		}
 
 		log.info("listGET()");
-		List<FoodListVO> foodListVO = foodListService.getAllFood();
-
+		pagination.setPageSize(10);
+		List<FoodListVO> foodListVO = foodListService.getAllFood(pagination);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(foodListService.countTotalFood());
 		log.info(foodListVO);
 
 		model.addAttribute("foodList", foodListVO);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 
 	@GetMapping("/delete")

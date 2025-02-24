@@ -64,7 +64,7 @@
 				</when>	
 			</choose>	   
 			) 
-			WHERE RN BETWEEN #{start} AND #{end}
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="selectTotalCount" resultType="Integer">

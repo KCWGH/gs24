@@ -165,8 +165,6 @@
     <form id="listForm" action="list" method="get">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
-        <input type="hidden" name="type" value="${param.type}">
-        <input type="hidden" name="keyword" value="${param.keyword}">
     </form>
 
     <!-- 페이징 처리 -->

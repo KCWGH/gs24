@@ -5,17 +5,19 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gs24.website.domain.OrderVO;
+import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface OrderMapper {
-    void insertOrder(OrderVO order);
-    
-    List<OrderVO> selectAllOrders();
+	void insertOrder(OrderVO order);
 
-    List<OrderVO> selectOrdersByOwnerId(String ownerId);
+	List<OrderVO> selectAllPagedOrders(Pagination pagination);
 
-    // 주문 승인 상태 업데이트
-    void updateApprovalStatus(OrderVO order);
-    
-    OrderVO selectOrderById(int orderId);
+	List<OrderVO> selectOrdersByOwnerId(String ownerId);
+
+	int countTotalOrders();
+
+	void updateApprovalStatus(OrderVO order);
+
+	OrderVO selectOrderById(int orderId);
 }

@@ -85,6 +85,11 @@
 </head>
 <script>
 $(document).ready(function() {
+$("#kakao").click(function(event){
+    	event.preventDefault();
+    	console.log("클릭");
+    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c5a22c59eb21bd81c32d6836ae978da9&redirect_uri=http://localhost:8080/website/auth/kakao";
+    });
     // 로그인 폼 제출 시 처리
     $('#loginForm').on('submit', function(event) {
         event.preventDefault();  // 폼의 기본 제출 동작을 막음
@@ -98,12 +103,6 @@ $(document).ready(function() {
                 $('#loginForm')[0].submit();
             });
         });
-    });
-    
-    $("#kakao").click(function(event){
-    	event.preventDefault();
-    	console.log("클릭");
-    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c5a22c59eb21bd81c32d6836ae978da9&redirect_uri=http://localhost:8080/website/auth/kakao";
     });
 });
 </script>

@@ -86,9 +86,14 @@
 		SET IS_ANSWERED = 0
 		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 1
 	</update>
-	
-	<select id="selectQuestionListByOwnerId" resultMap="questionResultMap">
-    SELECT * FROM QUESTION WHERE OWNER_ID = #{ownerId}
+
+	<select id="selectPagedQuestionListByOwnerId" resultMap="questionResultMap">
+    	SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
+		AS RN, QUESTION.* FROM QUESTION WHERE OWNER_ID = #{ownerId}
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
 </mapper>
