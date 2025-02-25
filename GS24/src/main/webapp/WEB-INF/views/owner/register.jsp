@@ -37,6 +37,50 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        td {
+            font-size: 14px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 50%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 13px;
+        }
+        button {
+            padding: 7px 10px;
+            font-size: 13px;
+            border: none;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #bbb;
+        }
     </style>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -359,7 +403,7 @@
                 <th><label for="address">주소</label></th>
                 <td>
                     <input type="text" id="postcode" placeholder="우편번호">
-                    <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기">
+                    <button type="button" onclick="execDaumPostcode()">주소 찾기</button>
                     <br>
                     <input type="text" id="address" placeholder="주소">
                     <br>
@@ -372,14 +416,9 @@
                     <input type="text" id="integratedAddress" name="address" hidden="hidden">
                 </td>
             </tr>
-            <tr>
-                <td></td>
-                <td>
+        </table>
                     <button type="submit" id="btnRegister" disabled>회원가입</button>
                     <a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
-                </td>
-            </tr>
-        </table>
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>

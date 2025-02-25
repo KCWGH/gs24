@@ -1,11 +1,9 @@
 package com.gs24.website.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,17 +52,17 @@ public class QuestionController {
 		log.info("list()");
 		log.info("pagination = " + pagination);
 		if (auth != null) {
-			String userId = auth.getName();
-			model.addAttribute("userId", userId);
+			String username = auth.getName();
+			model.addAttribute("userId", username);
 
 			// 1. memberId 확인
-			MemberVO memberVO = memberService.getMember(userId);
+			MemberVO memberVO = memberService.getMember(username);
 			if (memberVO != null) {
 				model.addAttribute("memberVO", memberVO);
 			}
 			// 2. ownerId 확인
 			else {
-				OwnerVO ownerVO = ownerService.getOwner(userId);
+				OwnerVO ownerVO = ownerService.getOwner(username);
 				if (ownerVO != null) {
 					model.addAttribute("ownerVO", ownerVO);
 				}
@@ -72,7 +70,7 @@ public class QuestionController {
 		}
 
 		// 질문 목록 조회
-		List<QuestionVO> questionList = questionService.getPagingQuestions(pagination);
+		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
 		log.info("QuestionVOList = " + questionList);
 
 		// 페이징 처리
@@ -102,7 +100,7 @@ public class QuestionController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof CustomUser) {
 			CustomUser customUser = (CustomUser) principal;
-			String memberId = customUser.getUsername();
+			String memberId = customUser.getUsername(); // CustomUser의 username
 
 			// 회원 정보 가져오기
 			MemberVO memberVO = memberService.getMember(memberId);
@@ -113,7 +111,6 @@ public class QuestionController {
 		}
 	}
 
-	// 게시글 데이터를 form-data를 전송받아 QuestionService로 전송
 	@PostMapping("/register")
 	public String registerPOST(QuestionVO questionVO, RedirectAttributes reAttr) {
 		log.info("registerPOST()");
@@ -126,8 +123,6 @@ public class QuestionController {
 		return "redirect:/question/list";
 	}
 
-	// list.jsp에서 선택된 게시글 번호를 바탕으로 게시글 상세 조회
-	// 조회된 게시글 데이터를 detail.jsp로 전송
 	@GetMapping("/detail")
 	public void detail(Model model, Integer questionId) {
 		log.info("detail()");
@@ -185,32 +180,18 @@ public class QuestionController {
 	@GetMapping("/ownerList")
 	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
-		if (auth != null) {
-			String userId = auth.getName(); // 로그인한 사용자의 아이디
-			model.addAttribute("userId", userId);
-			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				int convenienceId = convenienceService.getConvenienceIdByOwnerId(userId);
-				model.addAttribute("convenienceId", convenienceId);
-				List<OwnerVO> ownerIdList = ownerService.getOwnerListByUsername(userId);
-				List<QuestionVO> myQuestionList = new ArrayList<>();
-				for (OwnerVO ownerVO : ownerIdList) {
-					List<QuestionVO> questions = questionService.getPagedQuestionListByOwnerId(ownerVO.getOwnerId(),
-							pagination);
-					myQuestionList.addAll(questions); // 게시글 리스트에 추가
-				}
-				log.info("해당 owner가 볼 수 있는 게시글 목록: " + myQuestionList);
-				
-				pagination.setPageSize(10);
-				PageMaker pageMaker = new PageMaker();
-				pageMaker.setPagination(pagination);
-				pageMaker.setTotalCount(questionService.getTotalCount());
-				
-				model.addAttribute("pageMaker", pageMaker);
-				model.addAttribute("ownerIdList", ownerIdList); // 매장 목록 추가
-				model.addAttribute("myQuestionList", myQuestionList); // 해당 owner가 볼 수 있는 게시글 목록 추가
-			}
-		}
+		pagination.setPageSize(10);
+		String ownerId = auth.getName();
+		pagination.setOwnerVO(ownerService.getOwner(ownerId));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(questionService.getTotalCountByOwnerId(ownerId));
+		int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
+		List<QuestionVO> questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination);
 
+		model.addAttribute("convenienceId", convenienceId);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("questionList", questionList);
 	}
 
 }

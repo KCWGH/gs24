@@ -62,16 +62,33 @@
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
+
+	<select id="selectPagedQuestionListByOwnerId" resultMap="questionResultMap">
+    	SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
+		AS RN, QUESTION.* FROM QUESTION WHERE OWNER_ID = #{ownerId}
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
 	
 	<select id="countQuestionListByMemberId" resultType="Integer">
 		SELECT COUNT(*) FROM QUESTION WHERE MEMBER_ID = #{memberId} ORDER BY QUESTION_ID DESC
 	</select>
+	
+	<select id="countQuestionListByOwnerId" resultType="Integer">
+		SELECT COUNT(*) FROM QUESTION WHERE OWNER_ID = #{ownerId} ORDER BY QUESTION_ID DESC
+	</select>
 	 
 	<select id="selectQuestionTotalCount" resultType="Integer">
 		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION
-	 </select>
+	</select>
+	
+	<select id="countTotalQuestionByOwnerId" resultType="Integer">
+		SELECT COUNT(*) TOTAL_COUNT FROM QUESTION WHERE OWNER_ID = #{ownerId}
+	</select>
 	 
-	 <update id="updateIsAnswered" parameterType="int">
+	 <update id="updateIsAnswered" parameterType="Integer">
 		UPDATE QUESTION
 		SET IS_ANSWERED = 1
 		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 0
@@ -86,14 +103,5 @@
 		SET IS_ANSWERED = 0
 		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 1
 	</update>
-
-	<select id="selectPagedQuestionListByOwnerId" resultMap="questionResultMap">
-    	SELECT * FROM
-		(
-		SELECT ROW_NUMBER() OVER (ORDER BY QUESTION_ID DESC)
-		AS RN, QUESTION.* FROM QUESTION WHERE OWNER_ID = #{ownerId}
-		)
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
 
 </mapper>

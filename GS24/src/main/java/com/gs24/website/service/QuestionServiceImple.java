@@ -121,11 +121,11 @@ public class QuestionServiceImple implements QuestionService {
 	} // end deleteQuestion()
 
 	@Override
-	public List<QuestionVO> getPagingQuestions(Pagination pagination) {
-		log.info("getPagingQuestion()");
+	public List<QuestionVO> getPagedQuestions(Pagination pagination) {
+		log.info("getPagedQuestion()");
 		List<QuestionVO> list = questionMapper.selectQuestionListByPagination(pagination);
 		return list;
-	} // end getPagingQuestions()
+	} // end getPagedQuestions()
 
 	@Override
 	public int getTotalCount() {
@@ -152,7 +152,12 @@ public class QuestionServiceImple implements QuestionService {
 
 	@Override
 	public List<QuestionVO> getPagedQuestionListByOwnerId(String ownerId, Pagination pagination) {
-		return questionMapper.selectPagedQuestionListByOwnerId(ownerId, pagination);
+		return questionMapper.selectPagedQuestionListByOwnerId(pagination);
+	}
+
+	@Override
+	public int getTotalCountByOwnerId(String ownerId) {
+		return questionMapper.countTotalQuestionByOwnerId(ownerId);
 	}
 
 }

@@ -17,10 +17,11 @@
     <title>${questionVO.questionTitle }</title>
     <%@ include file="../common/header.jsp" %>
 </head>
+<style></style>
 <body>
     <h2>글 보기</h2>
     <div>
-        <p>글 번호 : ${questionVO.questionId }</p>
+        <p hidden="hidden">글 번호 : ${questionVO.questionId }</p>
     </div>
     <div>
         <p>제목 : ${questionVO.questionTitle }</p>
@@ -37,9 +38,13 @@
     <div>
         <textarea rows="20" cols="120" readonly>${questionVO.questionContent }</textarea>
     </div>
-
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
     <button onclick="location.href='list'">글 목록</button>
-
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_OWNER')">
+	<button onclick="location.href='ownerList'">글 목록</button>
+	</sec:authorize>
+	
     <!-- 게시글 작성자일 때 글 수정, 삭제 가능 -->
     <sec:authentication property="principal" var="user"/>
     <sec:authorize access="isAuthenticated()">
@@ -103,8 +108,6 @@
     </div>
 
     <script type="text/javascript">
-        //ajaxSend() : AJAX 요청이 전송되려고 할 때 실행할 함수를 지정
-        // ajax 요청을 보낼 때마다 CSRF 토큰을 요청 헤더에 추가하는 코드
         $(document).ajaxSend(function(e, xhr, opt){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");

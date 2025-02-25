@@ -17,7 +17,7 @@ public interface NoticeService {
     
     int deleteNotice(int noticeId);
     
-    List<NoticeVO> getPagingNotices(Pagination pagination);
+    List<NoticeVO> getPagedNotices(Pagination pagination);
     
     int getTotalCount(Pagination pagination);
        

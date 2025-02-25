@@ -34,16 +34,17 @@
     }
 
     .conveni {
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        width: 300px;
-        margin: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s;
-        position: relative;
-    }
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: 100%;  /* 모바일에서 너무 작지 않게 설정 */
+    max-width: 300px; /* PC에서 너무 커지지 않도록 */
+    margin: 15px auto; /* 가운데 정렬 */
+    padding: 25px; /* 내부 여백 증가 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    position: relative;
+}
 
     .conveni:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -72,6 +73,7 @@
         object-fit: cover;
         z-index: 1;
         cursor: pointer;
+        object-fit: cover;
     }
 
     .small-map {
@@ -199,6 +201,10 @@
             listForm.find("input[name='type']").val(type);
             listForm.find("input[name='keyword']").val(keyword);
             listForm.submit();
+            
+            setTimeout(function() {
+                $("#conveniList").css('display', 'none').fadeIn(300);
+            }, 300);
         });
     	
         $("#conveniList").on("click", ".setDestination", function () {

@@ -16,9 +16,11 @@ public interface QuestionService {
 
 	int deleteQuestion(int questionId); // 특정 게시글 삭제
 
-	List<QuestionVO> getPagingQuestions(Pagination pagination); // 전체 게시글 페이징 처리
+	List<QuestionVO> getPagedQuestions(Pagination pagination); // 전체 게시글 페이징 처리
 
 	int getTotalCount();
+	
+	int getTotalCountByOwnerId(String ownerId);
 
 	List<QuestionVO> getQuestionListByMemberId(String memberId); // 개인이 작성한 게시글
 

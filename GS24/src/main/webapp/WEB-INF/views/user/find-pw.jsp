@@ -34,9 +34,52 @@
         }
         .verification-container {
         display: flex;
-        gap: 10px; /* Optional: Add some space between the input and button */
-        align-items: center; /* Vertically align elements in the center */
+        gap: 10px;
+        align-items: center;
     	}
+    	table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        td {
+            font-size: 14px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 50%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 13px;
+        }
+        button {
+            padding: 7px 10px;
+            font-size: 13px;
+            border: none;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #bbb;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
@@ -55,8 +98,8 @@
                 $("#username").val(username);
             }
             
-            let timerInterval; // 타이머 인터벌 변수
-            let remainingTime = 2 * 60; // 2분(120초)
+            let timerInterval;
+            let remainingTime = 2 * 60;
         	
             function checkPw() {
                 let password = $('#password').val();
@@ -92,15 +135,13 @@
                     return;
                 }
 
-                // 인증번호 전송 버튼 비활성화
                 $("#btnSendVerificationCode").prop("disabled", true);
 
-                // 기존 타이머를 초기화
                 if (timerInterval) {
-                    clearInterval(timerInterval); // 기존 타이머 정지
+                    clearInterval(timerInterval);
                 }
-                remainingTime = 2 * 60; // 타이머를 2분으로 초기화
-                
+                remainingTime = 2 * 60;
+
                 $("#verificationCode").prop("disabled", false);
 
                 $.ajax({
@@ -109,8 +150,24 @@
                     data: { username: username, email: email },
                     success: function(response) {
                         $("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
-                        $("#sendResult, #verificationText, #verificationCode, #btnVerifyCode").show();
-                        startTimer(); // 타이머 시작
+                        $("#sendResult").show();
+
+                        var verificationRow = 
+                            '<tr id="verificationRow">' +
+                                '<th>인증번호</th>' +
+                                '<td>' +
+                                    '<div class="verification-container">' +
+                                        '<input type="text" id="verificationCode" name="verificationCode" required>' +
+                                        '<button id="btnVerifyCode">인증번호 확인</button>' +
+                                    '</div>' +
+                                        '<div id="timer"></div>' +
+                                        '<div id="findResult"></div>' +
+                                '</td>' +
+                            '</tr>';
+
+                        $("table").append(verificationRow);
+
+                        startTimer();
                         $("#timer").show();
                     },
                     error: function(xhr, status, error) {
@@ -124,46 +181,58 @@
                 });
             });
 
-
             $("#btnUpdatePw").prop('disabled', true);
-            $('#password').on('input', checkPw);
-            $('#passwordConfirm').on('input', checkPw);
+            $(document).on('input', '#password, #passwordConfirm', checkPw);
 
-            $("#btnVerifyCode").click(function(event){
-            	event.preventDefault();
-            	let username = $("#username").val();
-    			let email = $("#email").val();
-    			let code = $("#verificationCode").val();
-    			code = code.replace(/\s+/g, '').replace(/\D/g, '');
-    			
-    			$.ajax({
-    			    url: 'verifyCode-PW',
-    			    type: 'POST',
-    			    contentType: 'application/json',  // 데이터를 JSON 형식으로 전송
-    			    data: JSON.stringify({
-    			        email: email,
-    			        code: code
-    			    }),
-    			    success: function (response) {
-    			        // 인증 성공 시 메시지 출력 및 비밀번호 입력 섹션 표시
-    			        $("#findResult").html("인증번호가 일치합니다.");
-    			        $("#findResult").show();
-    			        $("#divPassword").show();
-    			        $("#timer").hide();
-    			    },
-    			    error: function (xhr, status, error) {
-    			    	if (xhr.status === 400) {
-    			        $("#findResult").html("인증번호가 일치하지 않습니다.");
-    			        $("#findResult").show();
-    			        } else {
-    			            alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
-    			        }
-    			    }
-    			});
+            $(document).on("click", "#btnVerifyCode", function() {
+                event.preventDefault();
+                let username = $("#username").val();
+                let email = $("#email").val();
+                let code = $("#verificationCode").val();
+                code = code.replace(/\s+/g, '').replace(/\D/g, '');
 
+                $.ajax({
+                    url: 'verifyCode-PW',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        email: email,
+                        code: code
+                    }),
+                    success: function (response) {
+                        var passwordFormHtml = 
+                                    '<tr>' +
+                                        '<th>비밀번호</th>' +
+                                        '<td>' +
+                                            '<span style="color:green;">비밀번호를 재설정합니다.</span><br><input type="password" id="password" name="password" required>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<th>비밀번호<br>확인</th>' +
+                                        '<td>' +
+                                            '<input type="password" id="passwordConfirm" name="passwordConfirm" required>' +
+                                            '<button type="button" onclick="checkPw()" hidden="hidden">비밀번호 확인</button>' +
+                                            '<button id="btnUpdatePw" disabled>비밀번호 변경</button><br><span id="passwordMatchMessage"></span> <span id="updateResult"></span><br><div id="message"></div>' +
+                                        '</td>' +
+                                    '</tr>' +
+                            '</div>';
+                        $("table").append(passwordFormHtml);
+                        $("#findResult").html("인증번호가 일치합니다.");
+                        $("#findResult").show();
+                        $("#timer").hide();
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 400) {
+                            $("#findResult").html("인증번호가 일치하지 않습니다.");
+                            $("#findResult").show();
+                        } else {
+                            alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
+                        }
+                    }
+                });
             });
 
-            $("#btnUpdatePw").click(function(event){
+            $(document).on("click", "#btnUpdatePw", function() {
             	event.preventDefault();
             	let username = $("#username").val();
             	let password = $("#password").val();
@@ -185,9 +254,7 @@
         		}); 
             });
             
-         // 타이머 시작 함수
             function startTimer() {
-                // 2분 타이머를 1초마다 갱신
                 timerInterval = setInterval(function() {
                     let minutes = Math.floor(remainingTime / 60);
                     let seconds = remainingTime % 60;
@@ -195,9 +262,9 @@
                     remainingTime--;
 
                     if (remainingTime < 0) {
-                        clearInterval(timerInterval);  // 타이머 멈추기
+                        clearInterval(timerInterval);
                         $("#timer").text("인증번호가 만료되었습니다.");
-                        $("#verificationCode").prop("disabled", true);  // 인증번호 입력 불가
+                        $("#verificationCode").prop("disabled", true);
                         $("#btnSendVerificationCode").prop("disabled", false);
                     }
                 }, 1000);
@@ -221,65 +288,16 @@
             <th>이메일</th>
             <td>
                 <input type="email" id="email" name="email" required>
-                <button id="btnSendVerificationCode">인증번호 전송</button>
+                <button id="btnSendVerificationCode">인증번호 전송</button><br>
+                <div id="sendResult" hidden="hidden"></div>
             </td>
         </tr>
-        <tr>
-        	<th></th>
-        	<td>
-        		<div id="sendResult" hidden="hidden"></div>
-        	</td>
-        </tr>
-        <tr>
-        	<th><span id="verificationText" hidden="hidden">인증번호</span></th>
-        	<td>
-        	<div class="verification-container">
-        	<input type="text" id="verificationCode" name="verificationCode" required hidden="hidden">
-        	<button id="btnVerifyCode" hidden="hidden">인증번호 확인</button>
-        	</div>
-        	</td>
-        </tr>
-        <tr>
-        	<th></th>
-        	<td>
-        		<div id="timer" hidden="hidden"></div>
-    			<div id="findResult" hidden="hidden"></div>
-        	</td>
-        </tr>
-        <tr>
-        	<th></th>
-        	<td>
-        		<a href="find-id"><button type="button">아이디 찾기</button></a>
-    			<a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
-        	</td>
-        </tr>
     </table>
-    
-    <div id="divPassword" hidden="hidden">
-    	<p>비밀번호를 재설정합니다.</p>
-    	<table>
-    		<tr>
-    			<th>비밀번호</th>
-    			<td>
-    				<input type="password" id="password" name="password" required>
-    			</td>
-    		</tr>
-    		<tr>
-    			<th>비밀번호<br>확인</th>
-    			<td>
-    				<input type="password" id="passwordConfirm" name="passwordConfirm" required >
-    				<button type="button" onclick="checkPw()" hidden="hidden">비밀번호 확인</button>
-    				<button id="btnUpdatePw" disabled>비밀번호 변경</button>
-    			</td>
-    		</tr>
-			<tr>
-				<td colspan="2"><span id="passwordMatchMessage"></span> <span id="updateResult"></span></td>
-			</tr>
-		</table>     
-    </div>
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-
-    <div id="message"></div>
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+        <a href="find-id"><button type="button">아이디 찾기</button></a>
+    	<a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
+    </div>
 </div>
 </body>
 </html>

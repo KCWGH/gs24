@@ -21,6 +21,7 @@
 .image-list{
 	display: none;
 }
+
 </style>
 <title>새 식품 등록</title>
 </head>
@@ -60,8 +61,8 @@
 	<div class="ThumnailVO"></div>
 	<div class="ImgVOList"></div>
 	
-	<button class="cancel">사진 초기화</button>
 	<button class="insertImage" disabled="disabled">세부 사진 추가</button>
+	<button class="cancel">세부사진 초기화</button>
 	<button class="submit">등록</button>
 	<button class="cancel" value="cancel">취소</button>
 	
@@ -156,6 +157,8 @@
 			
 			$(".insertImage").click(function(){
 				$(".image-drop").show();
+			});
+			$(".image-drop").on('drop',function(event){
 				$(".image-list").show();
 			});
 			

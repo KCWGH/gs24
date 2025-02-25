@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>아이디 찾기</title>
@@ -35,6 +36,49 @@
         gap: 10px; /* Optional: Add some space between the input and button */
         align-items: center; /* Vertically align elements in the center */
     	}
+    	table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        td {
+            font-size: 14px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 50%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 13px;
+        }
+        button {
+            padding: 7px 10px;
+            font-size: 13px;
+            border: none;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #bbb;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
@@ -54,22 +98,33 @@
                     alert("이메일을 입력해주세요.");
                     return;
                 }
-                $("#btnSendVerificationCode").prop("disabled", true);
                 
                 if (timerInterval) {
-                    clearInterval(timerInterval); // 기존 타이머 정지
+                    clearInterval(timerInterval);
                 }
-                remainingTime = 2 * 60; // 타이머를 2분으로 초기화
-                
-                $("#verificationCode").prop("disabled", false);
-                
+                remainingTime = 2 * 60;
+
                 $.ajax({
                     url: 'find-id',
                     type: 'POST',
                     data: { email: email },
                     success: function(response) {
+                        $("#btnSendVerificationCode").prop("disabled", true);
+                        $("#verificationCode").prop("disabled", false);
                         $("#sendResult").html("해당 이메일로 인증 코드를 보냈습니다.");
                         $("#sendResult").show();
+                        var verificationRow = '<tr>' +
+                            '<th>인증번호</th>' +
+                            '<td>' +
+                            '<div class="verification-container">' +
+                            '<input type="text" id="verificationCode" name="verificationCode" required>' +
+                            '<button id="btnFindId">아이디 찾기</button>' +
+                            '</div>' +
+                            '<div id="findResult" hidden="hidden"></div><div id="timer" hidden="hidden"></div>'
+                            '</td>' +
+                            '</tr>';
+                        $("table").append(verificationRow);
+                        
                         $("#verificationText").show();
                         $("#verificationCode").show();
                         $("#btnFindId").show();
@@ -88,7 +143,7 @@
                 });
             });
 
-            $("#btnFindId").click(function() {
+            $(document).on("click", "#btnFindId", function() {
                 let email = $("#email").val();
                 let code = $("#verificationCode").val();
                 code = code.replace(/\s+/g, '').replace(/\D/g, '');
@@ -149,38 +204,18 @@
             <th>이메일</th>
             <td>
                 <input type="email" id="email" name="email" required>
-                <button id="btnSendVerificationCode">인증번호 전송</button>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
+                <button id="btnSendVerificationCode">인증번호 전송</button><br>
                 <div id="sendResult" hidden="hidden"></div>
             </td>
         </tr>
-        <tr>
-            <th><span id="verificationText" hidden="hidden">인증번호</span></th>
-            <td>
-           		<div class="verification-container">
-                <input type="text" id="verificationCode" name="verificationCode" required hidden="hidden"><button id="btnFindId" hidden="hidden">아이디 찾기</button>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
-                <div id="findResult" hidden="hidden"></div>
-                <div id="timer" hidden="hidden"></div>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
-                <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    			<button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button><a href="../auth/login"><button type="button">로그인 창으로 돌아가기</button></a>
-            </td>
-        </tr>
     </table>
+    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+        <button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button>
+        <a href="../auth/login">
+            <button type="button">로그인 창으로 돌아가기</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>

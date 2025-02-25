@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,7 +36,7 @@ public class NoticeController {
 		log.info("list()");
 		log.info("pagination" + pagination);
 		pagination.setPageSize(10);
-		List<NoticeVO> noticeList = noticeService.getPagingNotices(pagination);
+		List<NoticeVO> noticeList = noticeService.getPagedNotices(pagination);
 
 		if (auth != null) {
 			String username = auth.getName();
@@ -72,15 +71,21 @@ public class NoticeController {
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, Integer noticeId, @ModelAttribute("pagination") Pagination pagination) {
+	public void detail(Authentication auth, Model model, Integer noticeId) {
 		log.info("detail()");
-
+		if (auth != null) {
+			String username = auth.getName();
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
 		model.addAttribute("noticeVO", noticeVO);
 	}
 
 	@GetMapping("/modify")
-	public void modifyGET(Model model, Integer noticeId, @ModelAttribute("pagination") Pagination pagination) {
+	public void modifyGET(Model model, Integer noticeId) {
 		log.info("modifyGET()");
 		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
 		model.addAttribute("noticeVO", noticeVO);

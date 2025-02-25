@@ -5,34 +5,68 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <head>
-<style type="text/css">
-table, th, td {
-    border-style: solid;
-    border-width: 1px;
-    text-align: center;
-}
+<style>
+    /* 전체 페이지 스타일 */
+    body {
+        margin: 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        text-align: center;
+    }
 
-ul {
-    list-style-type: none;
-    text-align: center;
-}
+    /* 제목 스타일 */
+    h1, h2 {
+        color: #333;
+    }
 
-li {
-    display: inline-block;
-}
-ul {
-    	display: flex;
-    	justify-content: center; /* 가운데 정렬 */
-    	padding: 0;
-    	margin: 20px 0; /* 위아래 간격 */
-    	list-style-type: none;
-	}
-	
+    /* 테이블 스타일 */
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    th {
+        background-color: #f1f1f1;
+        color: #555;
+    }
+
+    /* 버튼 스타일 */
+    button, input[type="button"] {
+        background: #ddd;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover, input[type="button"]:hover {
+        background: #bbb;
+    }
+
+    /* 검색 폼 스타일 */
+    #searchForm {
+        margin-top: 10px;
+    }
+    
+    .title {
+    	color: black;
+    }
+
+    /* 페이징 스타일 */
     .pagination_button {
         display: inline-block;
         margin: 5px;
-        text-align: center;
     }
 
     .pagination_button a {
@@ -44,6 +78,12 @@ ul {
 
     .pagination_button a:hover {
         background: #bbb;
+    }
+
+    /* 글 작성 버튼 컨테이너 */
+    .button-container {
+        text-align: right;
+        margin-bottom: 10px;
     }
     .pagination_button.current a {
     background: #333;
@@ -59,7 +99,6 @@ ul {
 <sec:authentication property="principal" var="user"/> 
 <h1>매장 질문 목록</h1>
 
-<hr>
 <table>
     <thead>
         <tr>
@@ -72,7 +111,7 @@ ul {
         </tr>
     </thead>
     <tbody>
-        <c:forEach var="QuestionVO" items="${myQuestionList}">
+        <c:forEach var="QuestionVO" items="${questionList}">
             <tr>
                 <td>${QuestionVO.questionId}</td>
                 <td>${QuestionVO.foodType}</td>
@@ -99,7 +138,7 @@ ul {
         </c:forEach>
     </tbody>
 </table>
-<form id="listForm" action="list" method="get">
+	<form id="listForm" action="ownerList" method="get">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
     </form>

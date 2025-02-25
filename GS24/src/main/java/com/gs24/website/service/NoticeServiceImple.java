@@ -15,51 +15,49 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class NoticeServiceImple implements NoticeService {
 
-    @Autowired
-    private NoticeMapper noticeMapper;
+	@Autowired
+	private NoticeMapper noticeMapper;
 
-    @Override
-    public int createNotice(NoticeVO vo) {
-        log.info("createNotice()");
-        return noticeMapper.insertNotice(vo);
-    }
+	@Override
+	public int createNotice(NoticeVO vo) {
+		log.info("createNotice()");
+		return noticeMapper.insertNotice(vo);
+	}
 
-    @Override
-    public List<NoticeVO> getAllNotice() {
-        log.info("getAllNotice()");
-        return noticeMapper.getAllNotice();
-    }
+	@Override
+	public List<NoticeVO> getAllNotice() {
+		log.info("getAllNotice()");
+		return noticeMapper.getAllNotice();
+	}
 
-    @Override
-    public NoticeVO getNoticeById(int noticeId) {
-        log.info("getNoticeById()");
-        return noticeMapper.selectOneByNotice(noticeId);
-    }
+	@Override
+	public NoticeVO getNoticeById(int noticeId) {
+		log.info("getNoticeById()");
+		return noticeMapper.selectOneByNotice(noticeId);
+	}
 
-    @Override
-    public int updateNotice(NoticeVO noticeVO) {
-        log.info("updateNotice()");
-        return noticeMapper.updateNotice(noticeVO);
-    }
+	@Override
+	public int updateNotice(NoticeVO noticeVO) {
+		log.info("updateNotice()");
+		return noticeMapper.updateNotice(noticeVO);
+	}
 
-    @Override
-    public int deleteNotice(int noticeId) {
-        log.info("deleteNotice()");
-        return noticeMapper.deleteNotice(noticeId);
-    }
+	@Override
+	public int deleteNotice(int noticeId) {
+		log.info("deleteNotice()");
+		return noticeMapper.deleteNotice(noticeId);
+	}
 
-    @Override
-    public List<NoticeVO> getPagingNotices(Pagination pagination) {
-        log.info("getPagingNotices()");
-        return noticeMapper.selectListByPagination(pagination);
-    }
+	@Override
+	public List<NoticeVO> getPagedNotices(Pagination pagination) {
+		log.info("getPagedNotices()");
+		return noticeMapper.selectListByPagination(pagination);
+	}
 
-    @Override
-    public int getTotalCount(Pagination pagination) {
-        log.info("getTotalCount()");
-        return noticeMapper.selectTotalCount(pagination);
-    }
-
-   
+	@Override
+	public int getTotalCount(Pagination pagination) {
+		log.info("getTotalCount()");
+		return noticeMapper.selectTotalCount(pagination);
+	}
 
 }
