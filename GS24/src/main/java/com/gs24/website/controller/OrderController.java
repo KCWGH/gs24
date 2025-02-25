@@ -3,6 +3,7 @@ package com.gs24.website.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,7 @@ public class OrderController {
 	@PostMapping("/approve")
 	@ResponseBody
 	public String approveOrder(@RequestParam("orderId") int orderId) {
-		log.info("approveOrder - 주문 승인: " + orderId);
+		log.info("approveOrder - 발주 승인: " + orderId);
 
 		orderService.approveOrder(orderId);
 
@@ -52,10 +53,34 @@ public class OrderController {
 	@PostMapping("/reject")
 	@ResponseBody
 	public String rejectOrder(@RequestParam int orderId) {
-		log.info("rejectOrder 요청, orderId: " + orderId);
+		log.info("rejectOrder - 발주 거절: " + orderId);
 
 		orderService.rejectOrder(orderId);
 		return "success";
 	}
+	
+	@GetMapping("/ownerList")
+	public String getOrdersByOwner(Authentication auth, Model model, Pagination pagination) {               
+	    String ownerId = auth.getName();	    
+	    log.info("getOrdersByOwner() - 점주별 발주 조회: ownerId=" + ownerId);
+	    
+	    pagination.setPageSize(10); // 한 페이지당 10개씩 설정
+	    PageMaker pageMaker = new PageMaker();
+	    pageMaker.setPagination(pagination);
+	    pageMaker.setTotalCount(orderService.countOrdersByOwner(ownerId));
+
+	    List<OrderVO> ordersByOwner = orderService.getPagedOrdersByOwnerId(ownerId, pagination);
+	    log.info("ordersByOwner size: " + ordersByOwner.size());
+	    log.info("Start Num: " + pageMaker.getStartNum());
+	    log.info("End Num: " + pageMaker.getEndNum());
+	    log.info("Pagination Start: " + pagination.getStart());
+	    log.info("Pagination End: " + pagination.getEnd());
+	    
+	    model.addAttribute("ordersByOwner", ordersByOwner);
+	    model.addAttribute("pageMaker", pageMaker);
+
+	    return "orders/ownerList"; 
+	}
+
 
 }

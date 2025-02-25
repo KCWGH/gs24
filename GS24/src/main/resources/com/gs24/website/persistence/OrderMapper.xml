@@ -38,6 +38,20 @@
     <select id="countTotalOrders" resultType="Integer">
     	SELECT COUNT (*) FROM ORDERS
     </select>
+    
+  	<select id="selectPagedOrdersByOwnerId" resultMap="orderResultMap">
+    SELECT * FROM ORDERS
+    WHERE OWNER_ID = #{ownerId}
+    AND ORDER_ID BETWEEN #{pagination.start} AND #{pagination.end}
+    ORDER BY ORDER_DATE_CREATED DESC
+	</select>
+
+
+	<select id="countOrdersByOwner" parameterType="string" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM ORDERS
+	    WHERE OWNER_ID = #{ownerId}
+	</select>
 
     <update id="updateApprovalStatus">
         UPDATE ORDERS

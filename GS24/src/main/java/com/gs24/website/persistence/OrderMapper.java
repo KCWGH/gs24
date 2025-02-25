@@ -3,6 +3,7 @@ package com.gs24.website.persistence;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.OrderVO;
 import com.gs24.website.util.Pagination;
@@ -20,4 +21,9 @@ public interface OrderMapper {
 	void updateApprovalStatus(OrderVO order);
 
 	OrderVO selectOrderById(int orderId);
+	
+	int countOrdersByOwner(String ownerId);
+	
+	List<OrderVO> selectPagedOrdersByOwnerId(@Param("ownerId") String ownerId, @Param("pagination") Pagination pagination);
+
 }

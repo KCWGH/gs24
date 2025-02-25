@@ -63,12 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         .antMatchers(
         	"/food/register", "/food/update", "/preorder/update", 
-        	"/preorder/check", "/question/ownerList"
+        	"/preorder/check", "/question/ownerList", "/orders/ownerList"
         ).access("hasRole('ROLE_OWNER')")
         
         .antMatchers(
             "/coupon/**", "/notice/modify", "/notice/register", 
-            "/notice/delete", "/orders/**", "/admin/console", 
+            "/notice/delete", "/orders/list", "/admin/console", 
             "/admin/activate", "/foodlist/register", "/foodlist/modify"
         ).access("hasRole('ROLE_ADMIN')")
     	

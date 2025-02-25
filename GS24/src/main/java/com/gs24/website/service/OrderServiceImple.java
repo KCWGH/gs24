@@ -33,32 +33,27 @@ public class OrderServiceImple implements OrderService {
 
 	@Override
 	public void approveOrder(int orderId) {
-		// 주문 정보 가져오기
 		OrderVO order = orderMapper.selectOrderById(orderId);
 		if (order == null) {
-			throw new IllegalArgumentException("해당 주문을 찾을 수 없습니다: " + orderId);
+			throw new IllegalArgumentException("해당 발주를 찾을 수 없습니다: " + orderId);
 		}
 
-		// 승인 처리
 		order.setApprovalStatus(1);
 		orderMapper.updateApprovalStatus(order);
 
-		// 승인된 주문을 convenienceFood에 추가
 		convenienceFoodService.createConvenienceFood(order.getFoodId(), order.getOrderAmount(), order.getOwnerId());
 	}
 
 	@Override
 	public void rejectOrder(int orderId) {
-		// 주문 정보 가져오기
 		OrderVO order = orderMapper.selectOrderById(orderId);
 		if (order == null) {
-			throw new IllegalArgumentException("해당 주문을 찾을 수 없습니다: " + orderId);
+			throw new IllegalArgumentException("해당 발주를 찾을 수 없습니다: " + orderId);
 		}
 
-		// 거절 처리
-		order.setApprovalStatus(2); // 거절 상태
+		order.setApprovalStatus(2); 
 		orderMapper.updateApprovalStatus(order);
-		log.info("주문 거절 처리 완료, 주문 ID: " + orderId);
+		log.info("발주 거절 처리 완료, 발주 ID: " + orderId);
 	}
 
 	@Override
@@ -82,5 +77,15 @@ public class OrderServiceImple implements OrderService {
 	@Override
 	public int countTotalOrders() {
 		return orderMapper.countTotalOrders();
+	}
+
+	@Override
+	public int countOrdersByOwner(String ownerId) {
+	    return orderMapper.countOrdersByOwner(ownerId);
+	}
+	
+	@Override
+	public List<OrderVO> getPagedOrdersByOwnerId(String ownerId, Pagination pagination) {
+	    return orderMapper.selectPagedOrdersByOwnerId(ownerId, pagination);
 	}
 }

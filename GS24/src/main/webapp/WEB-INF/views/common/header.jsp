@@ -165,6 +165,7 @@ header span {
             <sec:authorize access="hasRole('ROLE_OWNER')">
                 <button type="button" onclick='location.href="../preorder/update?convenienceId=${FoodList[0].convenienceId}"'>예약 상품 수령 확인</button>
                 <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
+                <button type="button" onclick='location.href="../orders/ownerList"'>발주내역</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
                 <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(Q&amp;A)</button>
             </sec:authorize>

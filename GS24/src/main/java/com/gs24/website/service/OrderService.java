@@ -27,5 +27,9 @@ public interface OrderService {
     
     // 주문 ID로 주문 정보 가져오기
     OrderVO getOrderById(int orderId);
+
+	int countOrdersByOwner(String ownerId);
+
+	List<OrderVO> getPagedOrdersByOwnerId(String ownerId, Pagination pagination);
 }
 

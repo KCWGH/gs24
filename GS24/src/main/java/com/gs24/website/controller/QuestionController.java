@@ -102,7 +102,7 @@ public class QuestionController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof CustomUser) {
 			CustomUser customUser = (CustomUser) principal;
-			String memberId = customUser.getUsername(); // CustomUser의 username
+			String memberId = customUser.getUsername();
 
 			// 회원 정보 가져오기
 			MemberVO memberVO = memberService.getMember(memberId);
@@ -185,10 +185,6 @@ public class QuestionController {
 	@GetMapping("/ownerList")
 	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
-		pagination.setPageSize(10);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(questionService.getTotalCount());
 		if (auth != null) {
 			String userId = auth.getName(); // 로그인한 사용자의 아이디
 			model.addAttribute("userId", userId);
@@ -203,6 +199,12 @@ public class QuestionController {
 					myQuestionList.addAll(questions); // 게시글 리스트에 추가
 				}
 				log.info("해당 owner가 볼 수 있는 게시글 목록: " + myQuestionList);
+				
+				pagination.setPageSize(10);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setPagination(pagination);
+				pageMaker.setTotalCount(questionService.getTotalCount());
+				
 				model.addAttribute("pageMaker", pageMaker);
 				model.addAttribute("ownerIdList", ownerIdList); // 매장 목록 추가
 				model.addAttribute("myQuestionList", myQuestionList); // 해당 owner가 볼 수 있는 게시글 목록 추가
