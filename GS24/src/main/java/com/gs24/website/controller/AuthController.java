@@ -1,6 +1,7 @@
 package com.gs24.website.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AuthController {
 
 	@Autowired
 	private ConvenienceService convenienceService;
+	
+	@Autowired
+	private KakaoLoginUtil kakaoLoginUtil;
 
 	@GetMapping("/accessDenied")
 	public void accessDenied(Authentication auth, Model model) {
@@ -56,32 +60,15 @@ public class AuthController {
 	}
 
 	@GetMapping("/kakao")
-	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state) {
+	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state) throws URISyntaxException {
 		log.info("code : " + code);
 		log.info("error code : " + error);
 		log.info("error message : " + error_description);
 		log.info("state : " + state);
-		Map<String, String> headers = KakaoLoginUtil.createMapData("Content-Type",
-				"application/x-www-form-urlencoded;charset=utf-8");
-
-		String[] keys = { "code", "redirect_uri", "client_id", "grant_type" };
-		Object[] values = { code, "http://localhost:8080/website/auth/kakao", "c5a22c59eb21bd81c32d6836ae978da9",
-				"authorization_code" };
-		Map<String, String> parameter = KakaoLoginUtil.createMapData(keys, values);
-
-		log.info("토큰 가져오기");
-		try {
-			JsonElement element = KakaoLoginUtil.requestKakao("POST", "https://kauth.kakao.com/oauth/token", headers,
-					parameter);
-			String accessToken = KakaoLoginUtil.getElementProperty(element, "access_token");
-
-			// headers.put("Authorization", "Bearer " + accessToken);
-			// element = KakaoLoginUtil.requestKakao("GET",
-			// "https://kapi.kakao.com/v2/user/me ", headers, null);
-
-			model.addAttribute("accessToken", accessToken);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		String accessToken = kakaoLoginUtil.getElementProperty(kakaoLoginUtil.sendCode(code), "access_token");
+		log.info(accessToken);
+		
+		kakaoLoginUtil.getUserInfo(accessToken);
 	}
 }

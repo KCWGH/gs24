@@ -15,17 +15,18 @@
 		
 		console.log(Kakao.isInitialized());
 		
-		Kakao.Auth.setAccessToken('${accessToken}');
+		let code = "${code}";
 		
-		Kakao.API.request({
-			  url: '/v2/user/me',
-			})
-			  .then(function(response) {
-			    console.log(response);
-			  })
-			  .catch(function(error) {
-			    console.log(error);
-			  });
+		$.ajax({
+			type : "POST",
+			url : "https://kauth.kakao.com/oauth/token",
+			contentType : "application/x-www-form-urlencoded;charset=utf-8",
+			data : {"grant_type" : "authorization_code" , "client_id" : "c5a22c59eb21bd81c32d6836ae978da9" ,
+					"redirect_uri" : "http://localhost:8080/website/auth/kakao", "code" : code},
+			success : function(result){
+				console.log(result);
+			}
+		});
 	</script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import com.gs24.website.util.KakaoLoginUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -67,5 +68,9 @@ public class RootConfig {
 	public RecaptchaConfig recaptchaConfig() {
 		return new RecaptchaConfig();
 	}
-
+	
+	@Bean
+	public KakaoLoginUtil kakaoLoginUtil() {
+		return new KakaoLoginUtil();
+	}
 } // end RootConfig
