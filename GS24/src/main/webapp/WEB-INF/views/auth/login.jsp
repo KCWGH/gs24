@@ -88,7 +88,7 @@ $(document).ready(function() {
 $("#kakao").click(function(event){
     	event.preventDefault();
     	console.log("클릭");
-    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bedb40cfc8674f74e50967f723dadd18&redirect_uri=http://192.168.0.161:8080/website/auth/kakao";
+    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=37a993700004ae9f4806d2f6830189c6&redirect_uri=http://localhost:8080/website/auth/kakao";
     });
     // 로그인 폼 제출 시 처리
     $('#loginForm').on('submit', function(event) {
@@ -141,7 +141,7 @@ $("#kakao").click(function(event){
             <a href="../user/find-id">아이디 찾기</a>
             <a href="../user/find-pw">비밀번호 찾기</a>
             <a href="../user/register">회원가입</a>
-            <a href="../user/kakao" id="kakao">카카오 로그인</a>
+            <a href="../user/kakao" id="kakao">카카오로 시작하기</a>
         </div>
 
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">

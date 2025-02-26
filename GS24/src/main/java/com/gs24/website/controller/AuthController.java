@@ -1,6 +1,8 @@
 package com.gs24.website.controller;
 
 import java.net.URISyntaxException;
+import java.sql.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.ConvenienceService;
+import com.gs24.website.service.MemberService;
 import com.gs24.website.util.KakaoLoginUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -22,6 +26,9 @@ public class AuthController {
 
 	@Autowired
 	private ConvenienceService convenienceService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	@Autowired
 	private KakaoLoginUtil kakaoLoginUtil;
@@ -50,8 +57,6 @@ public class AuthController {
 				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
-			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-				return "redirect:/admin/console";
 			}
 		}
 		return "/auth/login";
@@ -65,9 +70,16 @@ public class AuthController {
 		log.info("error message : " + error_description);
 		log.info("state : " + state);
 		
-		String accessToken = kakaoLoginUtil.getElementProperty(kakaoLoginUtil.sendCode(code), "access_token");
-		log.info(accessToken);
+		Map<String,String> accessToken = kakaoLoginUtil.sendCode(code);
 		
-		kakaoLoginUtil.getUserInfo(accessToken);
+		Map<String,Object> userInfo =  kakaoLoginUtil.getUserInfo(accessToken.get("access_token"));
+		
+		if(memberService.getMember(userInfo.get("nickname").toString()) == null) {
+			log.info("DB에 없습니다. 새로 생성합니다.");
+			MemberVO memberVO = new MemberVO(userInfo.get("nickname").toString(),userInfo.get("nickname").toString(),userInfo.get("email").toString(),userInfo.get("phoneNumber").toString(),(Date)userInfo.get("birthday"),1);
+			memberService.registerMember(memberVO);
+		}
+		
+		model.addAttribute("nickname", userInfo.get("nickname").toString());
 	}
 }
