@@ -17,42 +17,167 @@
     <title>${questionVO.questionTitle }</title>
     <%@ include file="../common/header.jsp" %>
 </head>
-<style></style>
+<style>
+	  /* 전체 페이지 스타일 */
+    body {
+        margin: 0;
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        height: 100vh;
+        text-align: center;
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+    
+    h3 {
+    	color: #333;
+    	margin-bottom: 20px;
+    	font-size: 24px;
+    }
+
+    /* 게시글 컨테이너 */
+    .question-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 20px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        box-sizing: border-box;
+    }
+
+    .question-container p {
+        font-size: 16px;
+        color: #444;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
+    .question-container p strong {
+        color: #333;
+    }
+
+    .question-content {
+        width: 100%;
+        height: 300px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #f9f9f9;
+        font-size: 16px;
+        line-height: 1.5;
+        resize: none;
+        box-sizing: border-box; /* 부모 요소 너비를 넘지 않도록 설정 */
+        overflow-y: auto; /* 스크롤 가능하게 */
+        word-wrap: break-word; /* 긴 단어가 잘리지 않도록 */
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* 버튼 컨테이너 */
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    /* 버튼 스타일 */
+    button {
+        background: #ddd;
+        color: black;
+        padding: 10px 18px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        background: #bbb;
+    }
+
+    /* '글 수정' 및 '글 목록' 버튼 스타일 */
+    .button-container button:not(#deleteQuestion) {
+        background-color: #ddd;
+    }
+
+    .button-container button:not(#deleteQuestion):hover {
+        background-color: #bbb;
+    }
+
+    /* '글 삭제' 버튼 스타일 */
+    .button-container button#deleteQuestion {
+        background-color: #dc3545;
+        color: white;
+    }
+    .button-container button#deleteQuestion:hover {
+            background-color: #c82333;
+        }
+
+    /* 첨부 파일 영역 */
+    .questionAttach-upload {
+        margin-top: 10px;
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .questionAttach-view {
+        margin-bottom: 30px;
+    }
+
+    .questionAttach-list {
+        margin-top: 10px;
+    }
+
+    .questionAttach_item {
+        margin: 5px 0;
+    }
+
+</style>
 <body>
-    <h2>글 보기</h2>
-    <div>
-        <p hidden="hidden">글 번호 : ${questionVO.questionId }</p>
-    </div>
-    <div>
-        <p>제목 : ${questionVO.questionTitle }</p>
-    </div>
-    <div>
+<div class="question-container">
+    <h2>게시글 상세보기</h2>
+    
+        <p hidden="hidden">글 번호 : ${questionVO.questionId }</p>      
+        <p>제목 : ${questionVO.questionTitle }</p>  
         <p>식품 : ${questionVO.foodType }</p>
-    </div>
-    <div>
         <p>작성자 : ${questionVO.memberId }</p>
+        
         <!-- questionDateCreated 데이터 포멧 변경 -->
-        <fmt:formatDate value="${questionVO.questionDateCreated }" pattern="yyyy-MM-dd HH:mm:ss" var="questionDateCreated"/>
+        <fmt:formatDate value="${questionVO.questionDateCreated }" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated"/>
         <p>작성일 : ${questionDateCreated }</p>
-    </div>
-    <div>
-        <textarea rows="20" cols="120" readonly>${questionVO.questionContent }</textarea>
-    </div>
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-    <button onclick="location.href='list'">글 목록</button>
-	</sec:authorize>
-	<sec:authorize access="hasRole('ROLE_OWNER')">
-	<button onclick="location.href='ownerList'">글 목록</button>
-	</sec:authorize>
-	
-    <!-- 게시글 작성자일 때 글 수정, 삭제 가능 -->
-    <sec:authentication property="principal" var="user"/>
-    <sec:authorize access="isAuthenticated()">
-        <c:if test="${user.username == questionVO.memberId}">
-            <button id="modifyQuestion">글 수정</button>
-            <button id="deleteQuestion">글 삭제</button>
-        </c:if>
-    </sec:authorize>
+ 
+        <textarea class="question-content" readonly>${questionVO.questionContent }</textarea>
+	        
+		<div class="button-container">
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
+	    <button onclick="location.href='list'">글 목록</button>
+		</sec:authorize>
+		<sec:authorize access="hasRole('ROLE_OWNER')">
+		<button onclick="location.href='ownerList'">글 목록</button>
+		</sec:authorize>
+		
+	    <sec:authentication property="principal" var="user"/>
+	    <sec:authorize access="isAuthenticated()">
+	        <c:if test="${user.username == questionVO.memberId}">
+	            <button id="modifyQuestion">글 수정</button>
+	            <button id="deleteQuestion">글 삭제</button>
+	        </c:if>
+	    </sec:authorize>
+	    </div>
+
 
     <form id="modifyForm" action="modify" method="GET">
         <input type="hidden" name="questionId">    
@@ -68,7 +193,7 @@
     <!-- 첨부 파일 영역 -->
     <div class="questionAttach-upload">
         <div class="questionAttach-view">
-            <h2>첨부 파일 리스트</h2>
+            <h3>첨부 파일 리스트</h3>
             <div class="questionAttach-list">
                 <c:forEach var="questionAttach" items="${questionAttachList}">
                     <c:if test="${not (questionAttach.questionAttachExtension eq 'jpg' or 
@@ -85,15 +210,14 @@
         </div>
     </div>
 
-    <hr>
-
+	<div class="answer-item">
     <sec:authentication property="principal" var="user"/>
     <sec:authorize access="hasRole('ROLE_OWNER')">
         <c:if test="${user.username == questionVO.ownerId}">
             <c:if test="${questionVO.isAnswered == 0}">
                 <div style="text-align: left;">  
                     <input type="hidden" id="memberId" value="${user.username}">
-                    <textarea id="answerContent"  rows="5" cols="120"></textarea>
+                    <textarea id="answerContent"  rows="12" cols="71"></textarea>
                     <button id="btnAdd">작성</button>
                 </div>
             </c:if>
@@ -102,11 +226,11 @@
             </c:if>
         </c:if>
     </sec:authorize>
-
+	</div>
     <div style="text-align: left;">
         <div id="answer"></div>
     </div>
-
+</div>
     <script type="text/javascript">
         $(document).ajaxSend(function(e, xhr, opt){
             var token = $("meta[name='_csrf']").attr("content");
@@ -203,9 +327,11 @@
                             + '<pre>'
                             + '<input type="hidden" id="answerId" value="'+ this.answerId +'">'
                             + "관리자"
-                            + '&nbsp;&nbsp;' // 공백
-                            + '<textarea readonly rows="5" cols="120">' + this.answerContent + '</textarea>'
-                            + '&nbsp;&nbsp;'
+                            + '<br>'
+                            + '<br>'
+                            + '<textarea readonly rows="12" cols="71">' + this.answerContent + '</textarea>'
+                            + '<br>'
+                            + '<br>'
                             + answerDateCreated
                             + '&nbsp;&nbsp;'
                             + '<sec:authorize access="hasRole(\'ROLE_OWNER\')">'

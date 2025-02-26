@@ -138,6 +138,9 @@ public class QuestionController {
 
 		List<String> foodType = convenienceFoodService.getFoodTypeList();
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
+		
+		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
+		model.addAttribute("ownerVOList", ownerVOList);
 
 		log.info("modifyGET() - 조회된 questionVO = " + questionVO);
 		model.addAttribute("questionVO", questionVO);
@@ -148,7 +151,11 @@ public class QuestionController {
 	public String modifyPOST(QuestionVO questionVO) {
 		log.info("modifyPOST()");
 		log.info("questionVO = " + questionVO);
-
+		
+		if (questionVO.getQuestionId() == 0) {
+	        log.error("🚨 questionId가 0입니다! 업데이트를 실행하지 않습니다.");
+	        return "redirect:/question/list"; 
+	    }
 		int result = questionService.modifyQuestion(questionVO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";

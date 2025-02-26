@@ -40,12 +40,21 @@
     </select>
     
   	<select id="selectPagedOrdersByOwnerId" resultMap="orderResultMap">
+<<<<<<< Updated upstream
     SELECT * FROM
 		(
 		SELECT ROW_NUMBER() OVER (ORDER BY ORDER_ID DESC) AS RN, ORDERS.*
 		FROM ORDERS WHERE OWNER_ID = #{ownerId}
 		) 
 		WHERE RN BETWEEN #{start} AND #{end}
+=======
+	   SELECT * FROM
+			(
+			SELECT ROW_NUMBER() OVER (ORDER BY ORDER_ID DESC)
+			AS RN, ORDERS.* FROM ORDERS WHERE OWNER_ID = #{ownerId}
+			)
+			WHERE RN BETWEEN #{start} AND #{end}
+>>>>>>> Stashed changes
 	</select>
 
 	<select id="countOrdersByOwner" parameterType="string" resultType="int">

@@ -1,5 +1,6 @@
 package com.gs24.website.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,4 +25,11 @@ public class QuestionVO {
 	boolean questionSecret; // QUESTION_SECRET
 	
 	List<QuestionAttach> questionAttachList; // QUESTION_ATTACH_LIST
+	
+	public List<QuestionAttach> getQuestionAttachList() {
+        if (questionAttachList == null) {
+            questionAttachList = new ArrayList<>(); // 빈 리스트로 초기화
+        }
+        return questionAttachList;
+    }
 }

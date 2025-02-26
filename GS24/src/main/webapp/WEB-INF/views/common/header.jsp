@@ -163,7 +163,11 @@ header span {
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">
+<<<<<<< Updated upstream
                 <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"'>결제 및 지급</button>
+=======
+                <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"'>예약 식품 수령 확인</button>
+>>>>>>> Stashed changes
                 <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
                 <button type="button" onclick='location.href="../orders/ownerList"'>발주 이력</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
@@ -174,7 +178,11 @@ header span {
                 <button type="button" onclick='location.href="../foodlist/list"'>음식 창고</button>
                 <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 발행</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
+<<<<<<< Updated upstream
                 <button type="button" onclick='location.href="../orders/list"'>발주 승인</button>
+=======
+                <button type="button" onclick='location.href="../orders/list"'>발주목록</button>
+>>>>>>> Stashed changes
                 <button type="button" onclick='location.href="../admin/activate"'>비활성화 해제 승인</button>
             </sec:authorize>
         </div>

@@ -127,7 +127,7 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<h1>음식 리스트</h1>
+<h1>식품 리스트</h1>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
 	<div class="button-container">
     	<button id="insert" onclick='location.href="register"'>음식 추가</button>
@@ -137,10 +137,10 @@
 <table id="foodTable">
     <thead>
         <tr>
-            <th>음식ID</th>
-            <th>음식 유형</th>
-            <th>음식 이름</th>
-            <th>음식 가격</th>
+            <th>식품ID</th>
+            <th>식품 유형</th>
+            <th>식품 이름</th>
+            <th>식품 가격</th>
             <th>단백질 양</th>
             <th>지방 양</th>
             <th>탄수화물 양</th>
@@ -219,7 +219,7 @@ $(document).ready(function () {
         var isSelling = $(this).parents().prevAll('.isSelling').text();
 
         if (isSelling != '발주 진행') {
-            alert("발주 진행 중인 상품이 아닙니다.");
+            alert("발주 진행 중인 식품이 아닙니다.");
             return;
         }
 
@@ -234,7 +234,6 @@ $(document).ready(function () {
                     } else {
                         alert("발주 처리에 실패했습니다.");
                     }
-                    location.reload();
                 },
                 error: function () {
                     alert("발주 처리에 실패했습니다.");
@@ -251,7 +250,7 @@ $(document).ready(function () {
         var isSelling = $(this).prevAll('.isSelling').text();
 
         if(isSelling != '발주 중지'){
-            alert("발주 중지 중인 상품이 아닙니다.");
+            alert("발주 중지 중인 식품이 아닙니다.");
             return;
         }
 

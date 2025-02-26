@@ -23,6 +23,10 @@ public interface OrderMapper {
 	
 	int countOrdersByOwner(String ownerId);
 	
+<<<<<<< Updated upstream
 	List<OrderVO> selectPagedOrdersByOwnerId(Pagination pagination);
+=======
+	List<OrderVO> selectPagedOrdersByOwnerId(@Param("ownerId") String ownerId, @Param("start") int start, @Param("end") int end);
+>>>>>>> Stashed changes
 
 }

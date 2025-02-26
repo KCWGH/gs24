@@ -43,7 +43,7 @@
 		</li>
 		<li>
 			<div class="Food">
-				음식 순
+				식품 순
 			</div>
 		</li>
 		<li>
@@ -187,7 +187,7 @@
         									pg: 'kakaopay',
         									pay_method: 'card',
         			 						merchant_uid: 'order_' + new Date().getTime(),
-        									name: '편의점 음식 PICKUP',
+        									name: '편의점 식품 PICKUP',
         			                        amount: totalPrice
         			                    }, function(rsp) {
         			                        if (rsp.success) {

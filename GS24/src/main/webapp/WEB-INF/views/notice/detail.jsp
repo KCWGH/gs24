@@ -81,17 +81,18 @@
             gap: 12px;
         }
 
-        /* 공통 버튼 스타일 */
-        button {
-            background: #ddd;
-            color: black;
-            padding: 10px 18px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
+       /* 버튼 스타일 */
+		button {
+		    background: #ddd;
+		    color: black;
+		    padding: 10px 18px;
+		    border-radius: 5px;
+		    border: none;
+		    cursor: pointer;
+		    font-size: 14px;
+		    transition: background 0.3s;
+		    margin-right: 10px;
+		}
 
         button:hover {
             background: #bbb;

@@ -16,16 +16,126 @@
     <title>글 작성 페이지</title>
     <%@ include file="../common/header.jsp" %>
 </head>
+
+<style>
+        /* 전체 페이지 스타일 */
+        body {
+            margin: 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 수정 폼 스타일 */
+        .form-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .form-container p {
+            font-size: 16px;
+            color: #444;
+            margin: 10px 0 5px;
+        }
+        
+        .form-container checkbox-label {
+            font-size: 16px;
+            color: #444;
+            margin: 10px 0 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box; /* 부모 요소 넘지 않도록 */
+            background: #f9f9f9;
+        }
+
+        .form-container textarea {
+            height: 200px;
+            resize: none;
+            background: #f9f9f9;
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
+
+        /* 버튼 스타일 */
+        .button-container {
+            display: flex;
+            justify-content: right;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .button-container-file {
+            display: flex;
+            justify-content: left;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background: #ddd;
+            color: black;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .button-container-file button {
+            background: #ddd;
+            color: black;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button-container button:hover {
+            background: #bbb;
+        }
+        
+         .button-container-file button:hover {
+            background: #bbb;
+        }
+        
+        select {
+   		 	display: block;
+   			width: 100%; /* 선택박스를 새 줄에 맞게 확장 */
+    		margin-bottom: 10px; /* 간격 추가 */
+		}
+    </style>
 <body>
+
     <h2>글 작성 페이지</h2>
+    
+    <div class="form-container">
     <form id="registerForm" action="register" method="POST">
-        <div>
+
             <!-- 비밀글 체크박스 -->
             <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
             <label for="secret" class="form-check-label">비밀글 설정</label>
-        </div>
-
-		  <div>
+			<br>
+			<br>
 		    <label for="ownerAddress">매장 선택</label>	    
 		    <select id="ownerId" name="ownerId">
     			<option value="" selected disabled>선택하세요</option>   			
@@ -33,31 +143,25 @@
         				<option value="${owner.ownerId}">${owner.address}</option>
     				</c:forEach>
 			</select>		          
-		</div>
-
-        <div>                
-             <label for="foodType">음식 종류</label>
+              
+             <label for="foodType">식품 종류</label>
                 <select id="foodType" name="foodType" required>
                     <option value="" selected disabled>선택하세요</option>
                     <c:forEach var="food" items="${foodTypeList}">
                         <option value="${food}">${food}</option>
                     </c:forEach>
                 </select>                              
-        </div>  
-        <div>
-            <p>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></p>
-        </div>
-        <div>
-            <p>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></p>   
-        </div>
-        <div>
-            <p>내용 :</p>
+
+            <p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></strong></p>
+
+            <p><strong>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></strong></p>   
+
+
+            <p><strong>내용 : </strong></p>
             <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" ></textarea>
-        </div>
-        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    </form>
-    
-    <hr>
+
+       		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+    </form>   
     
 	<div class="questionAttach-upload">
 		<h2>첨부 파일 업로드</h2>
@@ -69,9 +173,13 @@
 	</div>
 	
 	<div class="questionAttachFile-list"></div>
-        
+	
+	
+    <div class="button-container">
 		<button id="registerQuestion">등록</button>
-        
+	</div>
+		
+	</div>
         <script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
         
         <script>
@@ -104,7 +212,7 @@
 		            return;
 		        }
 		        if (!foodType) { 
-		            alert("음식 종류를 선택해주세요.");
+		            alert("식품 종류를 선택해주세요.");
 		            return;
 		        }
 		        if (!owner) {

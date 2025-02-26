@@ -2,6 +2,7 @@ package com.gs24.website.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,11 @@ public class OrderServiceImple implements OrderService {
 
 	@Override
 	public List<OrderVO> getPagedOrdersByOwnerId(String ownerId, Pagination pagination) {
+<<<<<<< Updated upstream
 		return orderMapper.selectPagedOrdersByOwnerId(pagination);
+=======
+	    return orderMapper.selectPagedOrdersByOwnerId(ownerId, pagination.getStart(), pagination.getEnd());
+>>>>>>> Stashed changes
 	}
+
 }
