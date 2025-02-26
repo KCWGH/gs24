@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.FavoritesVO;
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.persistence.FavoritesMapper;
+import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.util.Pagination;
 
 @Service
@@ -15,6 +17,9 @@ public class FavoritesServiceImple implements FavoritesService {
 	@Autowired
 	private FavoritesMapper favoritesMapper;
 
+	@Autowired
+	private MemberMapper memberMapper;
+
 	@Override
 	public int addFavorites(FavoritesVO favoritesVO) {
 		return favoritesMapper.insertFavorites(favoritesVO);
@@ -22,6 +27,9 @@ public class FavoritesServiceImple implements FavoritesService {
 
 	@Override
 	public List<FavoritesVO> getPagedFavoritesByMemberId(String memberId, Pagination pagination) {
+		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
+		pagination.setMemberVO(memberVO);
+		pagination.setPageSize(4);
 		return favoritesMapper.selectFavoritesListByPagination(pagination);
 	}
 

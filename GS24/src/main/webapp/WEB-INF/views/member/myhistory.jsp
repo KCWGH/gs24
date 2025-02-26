@@ -84,11 +84,11 @@
                                 postHTML += '<a href="../question/detail?questionId=' + questionVO.questionId + '" class="link-in-child">';
                                 postHTML += questionVO.questionTitle;
                                 postHTML += '</a>';
-                                postHTML += '</td><td>';
+                                postHTML += '</td><td';
                                 if (questionVO.isAnswered == 1) {
-                                    postHTML += '답변됨';
+                                    postHTML += ' style="color:green;">답변됨';
                                 } else {
-                                    postHTML += '미답변';
+                                    postHTML += ' style="color:red;">미답변';
                                 }
                                 postHTML += '</td></tr>';
                             });
@@ -121,8 +121,13 @@
                                                 postHTML += '<td>' + formatDate(preorderVO.pickupDate, true) + '</td>';
                                                 postHTML += '<td><a href="../preorder/list?preorderId=' + preorderVO.preorderId + '" class="link-in-child">' + foodNames[preorderVO.foodId] + '</a></td>';
                                                 postHTML += '<td>' + preorderVO.preorderAmount + '</td>';
-                                                postHTML += '<td>' + (preorderVO.isPickUp === 1 ? '수령' : '미수령') + '</td>';
-                                                postHTML += '<td>' + (preorderVO.isExpiredOrder === 1 ? '만료됨' : '유효함') + '</td>';
+                                                postHTML += '<td' + (preorderVO.isPickUp === 1 ? ' style="color:green;">수령' : ' style="color:gray;">미수령') + '</td>';
+
+                                                if (preorderVO.isPickUp === 1 && preorderVO.isExpiredOrder === 0) {
+                                                    postHTML += '<td style="color:blue;">예약 종료</td>';
+                                                } else {
+                                                    postHTML += '<td' + (preorderVO.isExpiredOrder === 1 ? ' style="color:red;">예약 취소' : ' style="color:gray;">예약중') + '</td>';
+                                                }
                                                 postHTML += '</tr>';
                                             });
                                             postHTML += '</tbody></table>';
@@ -162,19 +167,19 @@
 
             function updatePagination(pageMaker, choice, pageNum) {
                 let paginationHtml = '';
-                currentPage = pageNum; // 클릭된 페이지를 currentPage로 업데이트
+                currentPage = pageNum;
 
                 if (pageMaker.isPrev) {
                     paginationHtml += '<li><a href="#" data-page="' + (pageMaker.startNum - 1) + '">이전</a></li>';
                 }
                 for (let num = pageMaker.startNum; num <= pageMaker.endNum; num++) {
-                    const activeClass = num === currentPage ? 'active' : ''; // 현재 페이지에 active 클래스 추가
+                    const activeClass = num === currentPage ? 'active' : '';
                     paginationHtml += '<li class="' + activeClass + '"><a href="#" data-page="' + num + '">' + num + '</a></li>';
                 }
                 if (pageMaker.isNext) {
                     paginationHtml += '<li><a href="#" data-page="' + (pageMaker.endNum + 1) + '">다음</a></li>';
                 }
-                $(".pagination").html(paginationHtml); // 페이지네이션 내용 업데이트
+                $(".pagination").html(paginationHtml);
             }
 
             fetchPostList('myFavorites', 1);

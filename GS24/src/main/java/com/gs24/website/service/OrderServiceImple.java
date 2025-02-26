@@ -51,7 +51,7 @@ public class OrderServiceImple implements OrderService {
 			throw new IllegalArgumentException("해당 발주를 찾을 수 없습니다: " + orderId);
 		}
 
-		order.setApprovalStatus(2); 
+		order.setApprovalStatus(2);
 		orderMapper.updateApprovalStatus(order);
 		log.info("발주 거절 처리 완료, 발주 ID: " + orderId);
 	}
@@ -80,12 +80,12 @@ public class OrderServiceImple implements OrderService {
 	}
 
 	@Override
-	public int countOrdersByOwner(String ownerId) {
-	    return orderMapper.countOrdersByOwner(ownerId);
+	public int countOrdersByOwnerId(String ownerId) {
+		return orderMapper.countOrdersByOwner(ownerId);
 	}
-	
+
 	@Override
 	public List<OrderVO> getPagedOrdersByOwnerId(String ownerId, Pagination pagination) {
-	    return orderMapper.selectPagedOrdersByOwnerId(ownerId, pagination);
+		return orderMapper.selectPagedOrdersByOwnerId(pagination);
 	}
 }

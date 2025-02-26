@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,9 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <title>주문 목록</title>
+    
+    <sec:authorize access="hasRole('ROLE_OWNER')"><title>발주 이력</title></sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')"><title>발주 승인</title></sec:authorize>
     <style>
         /* 전체 페이지 스타일 */
         body {
@@ -91,8 +94,8 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-
-    <h1>주문 목록</h1>
+	<sec:authorize access="hasRole('ROLE_OWNER')"><h1>발주 이력</h1></sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')"><h1>발주 승인</h1></sec:authorize>
 
     <table>
         <thead>
@@ -111,18 +114,18 @@
                     <td>${order.orderId}</td>
                     <td>${order.foodId}</td>
                     <td>${order.orderAmount}</td>
-                    <td>${order.orderDateCreated}</td>
+                    <td><fmt:formatDate value="${order.orderDateCreated}" pattern="yyyy-MM-dd HH:mm"/></td>
                     <td>
                         <c:choose>
-                            <c:when test="${order.approvalStatus == 0}">대기</c:when>
-                            <c:when test="${order.approvalStatus == 1}">승인</c:when>
-                            <c:when test="${order.approvalStatus == 2}">거절</c:when>
+                            <c:when test="${order.approvalStatus == 0}"><span>대기</span></c:when>
+                            <c:when test="${order.approvalStatus == 1}"><span style="color:green;">승인</span></c:when>
+                            <c:when test="${order.approvalStatus == 2}"><span style="color:red;">거절</span></c:when>
                         </c:choose>
                     </td>
                     <td>
                         <c:if test="${order.approvalStatus == 0}">
-                            <button onclick="approveOrder(${order.orderId})">승인</button>
-                            <button onclick="rejectOrder(${order.orderId})">거절</button>
+                            <button style="background: #d4edda;" onclick="approveOrder(${order.orderId})">승인</button>
+                            <button style="background: #f8d7da;" onclick="rejectOrder(${order.orderId})">거절</button>
                         </c:if>
                     </td>
                 </tr>

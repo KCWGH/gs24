@@ -63,15 +63,15 @@
                             }
                         list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
                                 + '<div><img src="../image/foodThumnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
-                                + '<div>예약 수량: '+this.preorderAmount+'개</div>'
-                                + '<div>수령 기한: '+ StringDate+'</div>'
+                                + '<div><strong>'+ StringDate+'</strong>까지 수령</div>'
+                                + '<div>'+this.preorderAmount+'개</div>'
                                 + '<div>'+isPickUp+'</div>'
                                 + '<div class="isExpriedOrder">'+isExpiredOrder+'</div>'
-                                + '</div>';
-                                if(this.writeReview == 0 && this.isPickUp == 1){
+                                if (this.writeReview == 0 && this.isPickUp == 1) {
                                 	let onclick = '\"location.href=\'../review/register?foodId='+foodId+'&convenienceId='+convenienceId+'&preorderId='+preorderNO+'\'\"';
-                                	list += '<button onclick='+onclick+'>리뷰 작성</button>';
+                                	list += '<button onclick=' + onclick + '>리뷰 작성</button>';
                                 }
+                        list += '</div>';
                     });
                     $('#list').html(list);
                 });
@@ -160,7 +160,7 @@
 
         });
     </script>
-    <title>예약 식품 목록</title>
+    <title>예약 내역</title>
 
     <style>/* 전체 페이지 스타일 */
 body {
@@ -246,7 +246,7 @@ button:hover, input[type="button"]:hover {
 </head>
 <%@ include file="../common/header.jsp" %>
 <body>
-    <h1>예약된 식품 목록</h1>
+    <h1>예약 내역</h1>
     <div id="list"></div>
     <br>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

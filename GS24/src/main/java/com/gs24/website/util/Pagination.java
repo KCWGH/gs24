@@ -31,7 +31,7 @@ public class Pagination {
 	}
 
 	public String getOwnerId() {
-		return ownerVO.getOwnerId();
+		return (ownerVO != null) ? ownerVO.getOwnerId() : null;
 	}
 
 	public Pagination(int page, int pageSize) {

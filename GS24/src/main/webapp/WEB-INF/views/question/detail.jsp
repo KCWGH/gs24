@@ -237,7 +237,7 @@
                     headers : {
                         'Content-Type' : 'application/json'
                     },
-                    data : answerContent,
+                    data: JSON.stringify({ answerContent: answerContent }),
                     success : function(result) {
                         console.log(result);
                         if (result == 1) {

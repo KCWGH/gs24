@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.OrderVO;
+import com.gs24.website.domain.OwnerVO;
+import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.OrderService;
+import com.gs24.website.service.OwnerService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
@@ -26,6 +29,12 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private OwnerService ownerService;
+	
+	@Autowired
+	private ConvenienceService convenienceService;
 
 	@GetMapping("/list")
 	public String getAllOrders(Model model, Pagination pagination) {
@@ -62,12 +71,15 @@ public class OrderController {
 	@GetMapping("/ownerList")
 	public String getOrdersByOwner(Authentication auth, Model model, Pagination pagination) {               
 	    String ownerId = auth.getName();	    
+	    int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
 	    log.info("getOrdersByOwner() - 점주별 발주 조회: ownerId=" + ownerId);
+	    OwnerVO ownerVO = ownerService.getOwner(ownerId);
 	    
-	    pagination.setPageSize(10); // 한 페이지당 10개씩 설정
 	    PageMaker pageMaker = new PageMaker();
+	    pagination.setPageSize(10); // 한 페이지당 10개씩 설정
+	    pagination.setOwnerVO(ownerVO);
+	    pageMaker.setTotalCount(orderService.countOrdersByOwnerId(ownerId));
 	    pageMaker.setPagination(pagination);
-	    pageMaker.setTotalCount(orderService.countOrdersByOwner(ownerId));
 
 	    List<OrderVO> ordersByOwner = orderService.getPagedOrdersByOwnerId(ownerId, pagination);
 	    log.info("ordersByOwner size: " + ordersByOwner.size());
@@ -76,6 +88,7 @@ public class OrderController {
 	    log.info("Pagination Start: " + pagination.getStart());
 	    log.info("Pagination End: " + pagination.getEnd());
 	    
+	    model.addAttribute("convenienceId",convenienceId);
 	    model.addAttribute("ordersByOwner", ordersByOwner);
 	    model.addAttribute("pageMaker", pageMaker);
 

@@ -40,7 +40,7 @@ public class ReviewController {
 	}
 
 	@GetMapping("/register")
-	public void registerGET(Model model, int foodId, int convenienceId, int preorderId) {
+	public void registerGET(Model model, int foodId, int convenienceId, Integer preorderId) {
 		log.info("registerGET()");
 		log.info("foodId : " + foodId + " convenienceId : " + convenienceId + " preorderId : " + preorderId);
 		model.addAttribute("foodId", foodId);

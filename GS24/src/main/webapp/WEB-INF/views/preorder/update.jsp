@@ -156,6 +156,24 @@
 					var preorderId = $(this).find(".preorderId").text();
 					console.log(preorderId);
 					var totalPrice = $(this).find(".totalPrice").text();
+					if (totalPrice == 0){
+						$("#updateForm").submit();
+						location.reload();
+						$.ajax({
+    						type : "post",
+    						url : "../preorder/check",
+    						data : {"preorderId" : preorderId},
+    						success : function(result){
+    							console.log(result);
+    							if(result == 1){
+    								
+    							} else {
+    								alert("예약이 취소되어 결제가 취소되었습니다.");
+    								location.reload();
+    							}
+    						}
+    					});
+					}
                             $.ajax({
         						type : "post",
         						url : "../preorder/check",

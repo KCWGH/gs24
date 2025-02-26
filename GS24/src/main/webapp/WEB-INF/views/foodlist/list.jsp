@@ -70,6 +70,7 @@
         padding: 5px 10px;
         border-radius: 5px;
         text-decoration: none;
+        border: none;
         margin: 5px;
     }
 
@@ -167,9 +168,9 @@
             <td>${foodListVO.foodCarb}</td>
             <td class="foodStock">${foodListVO.foodStock}</td>
             <c:choose>
-                <c:when test="${foodListVO.isSelling == 0}"> <td class="isSelling">발주 중지</td> </c:when>
-                <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling">발주 진행</td> </c:when>
-                <c:when test="${foodListVO.isSelling == 2}"> <td class="isSelling">발주 준비</td> </c:when>
+                <c:when test="${foodListVO.isSelling == 0}"> <td class="isSelling" style="color:red;">발주 중지</td> </c:when>
+                <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 진행</td> </c:when>
+                <c:when test="${foodListVO.isSelling == 2}"> <td class="isSelling" style="color:blue;">발주 준비</td> </c:when>
             </c:choose>
             <td><a href="../image/foodThumnail?foodId=${foodListVO.foodId}" target="_blank">썸네일 보기</a></td>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -229,7 +230,6 @@ $(document).ready(function () {
                 data: { foodId: foodId, foodAmount: foodAmount },
                 success: function (result) {
                     if(result == 1){
-                        loadOrderHistory();
                         alert("발주 처리에 성공했습니다.");
                     } else {
                         alert("발주 처리에 실패했습니다.");

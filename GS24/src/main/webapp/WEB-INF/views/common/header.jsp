@@ -156,16 +156,16 @@ header span {
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_MEMBER')">
-                <button type="button" onclick='location.href="../preorder/list"'>예약 식품 목록</button>
+                <button type="button" onclick='location.href="../preorder/list"'>예약 내역</button>
                 <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')">기프트카드</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
                 <button type="button" onclick='location.href="../question/list"'>문의사항(Q&amp;A)</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"'>예약 상품 수령 확인</button>
+                <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"'>결제 및 지급</button>
                 <button type="button" onclick='location.href="../foodlist/list"'>발주하기</button>
-                <button type="button" onclick='location.href="../orders/ownerList"'>발주내역</button>
+                <button type="button" onclick='location.href="../orders/ownerList"'>발주 이력</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
                 <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(Q&amp;A)</button>
             </sec:authorize>
@@ -174,7 +174,7 @@ header span {
                 <button type="button" onclick='location.href="../foodlist/list"'>음식 창고</button>
                 <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 발행</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항</button>
-                <button type="button" onclick='location.href="../orders/list"'>발주내역</button>
+                <button type="button" onclick='location.href="../orders/list"'>발주 승인</button>
                 <button type="button" onclick='location.href="../admin/activate"'>비활성화 해제 승인</button>
             </sec:authorize>
         </div>

@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gs24.website.domain.FoodListVO;
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.FoodListService;
-import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
 import com.gs24.website.service.QuestionService;
 import com.gs24.website.util.PageMaker;
@@ -29,9 +27,6 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping(value = "/member")
 @Log4j
 public class MemberRESTController {
-
-	@Autowired
-	private MemberService memberService;
 
 	@Autowired
 	private QuestionService questionService;
@@ -64,17 +59,9 @@ public class MemberRESTController {
 		log.info("postListGET()");
 		String memberId = auth.getName();
 		Map<String, Object> response = new HashMap<>();
-		MemberVO memberVO = memberService.getMember(memberId);
-		memberVO.setPassword(null);
-		memberVO.setPhone(null);
-		memberVO.setEmail(null);
-		memberVO.setBirthday(null);
-		pagination.setMemberVO(memberVO);
-		pagination.setPageSize(5);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		List<?> postList = null;
-
 		switch (type) {
 		case "myQuestions":
 			postList = questionService.getPagedQuestionsByMemberId(memberId, pagination);
@@ -85,7 +72,6 @@ public class MemberRESTController {
 			pageMaker.setTotalCount(preorderService.countPreorderByMemberId(memberId));
 			break;
 		case "myFavorites":
-			pagination.setPageSize(4);
 			postList = favoritesService.getPagedFavoritesByMemberId(memberId, pagination);
 			pageMaker.setTotalCount(favoritesService.countFavoritesByMemberId(memberId));
 			break;

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.QuestionAttach;
 import com.gs24.website.domain.QuestionVO;
+import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.QuestionAttachMapper;
 import com.gs24.website.persistence.QuestionMapper;
 import com.gs24.website.util.Pagination;
@@ -18,6 +20,9 @@ import lombok.extern.log4j.Log4j;
 @Service
 @Log4j
 public class QuestionServiceImple implements QuestionService {
+
+	@Autowired
+	private MemberMapper memberMapper;
 
 	@Autowired
 	private QuestionMapper questionMapper;
@@ -146,7 +151,9 @@ public class QuestionServiceImple implements QuestionService {
 
 	@Override
 	public List<QuestionVO> getPagedQuestionsByMemberId(String memberId, Pagination pagination) {
-
+		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
+		pagination.setMemberVO(memberVO);
+		pagination.setPageSize(10);
 		return questionMapper.selectQuestionListByPaginationBymemberId(pagination);
 	}
 

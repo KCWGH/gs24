@@ -122,16 +122,13 @@
                     
                 <td>${QuestionVO.memberId}</td>
                 
-                <!-- questionDateCreated 데이터 포맷 변경 -->
-                <fmt:formatDate value="${QuestionVO.questionDateCreated }"
-                    pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
-                <td>${questionDateCreated }</td>
+                <td><fmt:formatDate value="${QuestionVO.questionDateCreated }" pattern="yyyy-MM-dd HH:mm"/></td>
                 
                 <td><c:if test="${QuestionVO.isAnswered == 0}">
                         답변대기
                     </c:if> 
                     <c:if test="${QuestionVO.isAnswered == 1}">
-                        답변완료
+                        <span style="color:green;">답변완료</span>
                     </c:if>
                 </td>
             </tr>

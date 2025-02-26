@@ -9,7 +9,7 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <title>주문 목록</title>
+    <title>발주 이력</title>
     <style>
         /* 전체 페이지 스타일 */
         body {
@@ -60,12 +60,38 @@
         button:hover {
             background: #bbb;
         }
+            /* 페이징 스타일 */
+    .pagination_button {
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .pagination_button a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: black;
+    }
+
+    .pagination_button a:hover {
+        background: #bbb;
+    }
+
+    /* 글 작성 버튼 컨테이너 */
+    .button-container {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+    .pagination_button.current a {
+    background: #333;
+    color: white;
+	}
     </style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 
-    <h1>발주 목록</h1>
+    <h1>발주 이력</h1>
 
     <table>
         <thead>
@@ -99,6 +125,12 @@
             </c:forEach>
         </tbody>
     </table>
+    <form id="listForm" action="ownerList" method="get">
+        <input type="hidden" name="pageNum">
+        <input type="hidden" name="pageSize">
+        <input type="hidden" name="type" value="${param.type}">
+        <input type="hidden" name="keyword" value="${param.keyword}">
+    </form>
 <ul>
         <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
@@ -112,6 +144,23 @@
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
         </c:if>
     </ul>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".pagination_button a").on("click", function(e) {
+        var listForm = $("#listForm");
+        e.preventDefault();
+
+        var pageNum = $(this).attr("href");
+        var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+        var type = "<c:out value='${pageMaker.pagination.type }' />";
+        var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
+
+        listForm.find("input[name='pageNum']").val(pageNum);
+        listForm.find("input[name='pageSize']").val(pageSize);
+        listForm.submit();
+    });
+});
+</script>
 <%@ include file="../common/footer.jsp" %>
 </body>
 </html>

@@ -13,13 +13,21 @@
 </script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <title>리뷰 수정</title>
+<style>
+.image-drop{
+	display: none;
+}
+.image-list{
+	display: none;
+}
+</style>
 </head>
 <body>
 	<input type="hidden" class="foreignId" value=${reviewVO.reviewId }>
 	<input type="hidden" class="type" value="review">
 	<form action="../review/update" id="updateForm" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<p>리뷰 아이디</p><input type="number" name="reviewId" class="reviewId" value="${reviewVO.reviewId }">
+		<input type="hidden" name="reviewId" class="reviewId" value="${reviewVO.reviewId }">
 		<p>식품 아이디</p><input type="number" name="foodId" value="${reviewVO.foodId }">
 		<sec:authentication property="principal" var="user"/>	
 		<sec:authorize access="isAuthenticated()">

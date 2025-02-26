@@ -38,7 +38,6 @@ public class FoodListController {
 		if (auth != null) {
 			String username = auth.getName();
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				System.out.println("여기로 왔습니다.");
 				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
 				model.addAttribute("convenienceId", convenienceId);
 			}

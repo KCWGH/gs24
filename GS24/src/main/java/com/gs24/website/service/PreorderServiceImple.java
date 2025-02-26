@@ -12,11 +12,13 @@ import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.CouponQueueVO;
 import com.gs24.website.domain.CouponVO;
 import com.gs24.website.domain.GiftCardVO;
+import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.GiftCardMapper;
+import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.MembershipMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -46,6 +48,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private CouponQueueMapper couponQueueMapper;
+	
+	@Autowired
+	private MemberMapper memberMapper;
 
 	@Autowired
 	private MembershipMapper membershipMapper;
@@ -255,6 +260,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	public List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination) {
+		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
+		pagination.setMemberVO(memberVO);
+		pagination.setPageSize(10);
 		return preorderMapper.selectPreorderBymemberIdPagination(pagination);
 	}
 

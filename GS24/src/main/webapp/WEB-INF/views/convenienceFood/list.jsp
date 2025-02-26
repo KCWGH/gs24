@@ -12,67 +12,111 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>${convenienceId}호점</title>
 <style>
-	body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
-    h1 {
-        text-align: center;
-        margin-top: 20px;
-    }
-   .food_box {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center; /* Center horizontally */
-      align-items: flex-start; /* Align items to the top */
-      gap: 20px; /* Space between items */
-      padding: 20px;
-      list-style-type: none; /* Remove bullets from list */
-      margin: 0; /* Remove default margin from list */
-   }
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
 
-   /* Style individual list items */
-   .food_box .List {
-      width: 250px; /* Set a fixed width for each item */
-      text-align: center; /* Center text inside each item */
-      border: 1px solid #ddd; /* Add a border around each item */
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-      transition: box-shadow 0.3s ease-in-out;
-   }
+h1 {
+	text-align: center;
+	margin-top: 20px;
+}
 
-   .image-item img {
-      width: 100%; /* Make the image fill the container */
-      height: auto;
-      border-radius: 4px;
-      cursor: pointer;
-   }
+.food_box {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center; /* Center horizontally */
+	align-items: flex-start; /* Align items to the top */
+	gap: 20px; /* Space between items */
+	padding: 20px;
+	list-style-type: none; /* Remove bullets from list */
+	margin: 0; /* Remove default margin from list */
+}
 
-   .button-container button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      border-radius: 4px;
-      border: none;
-      background-color: #ddd;
-      color: black;
-      cursor: pointer;
-      font-size: 14px;
-   }
+/* Style individual list items */
+.food_box .List {
+	width: 250px; /* Set a fixed width for each item */
+	text-align: center; /* Center text inside each item */
+	border: 1px solid #ddd; /* Add a border around each item */
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	transition: box-shadow 0.3s ease-in-out;
+}
 
-   .button-container button:hover {
-      background-color: #bbb;
-   }
+.image-item img {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.button-container button {
+	margin-top: 10px;
+	padding: 10px 20px;
+	border-radius: 4px;
+	border: none;
+	background-color: #ddd;
+	color: black;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.button-container button:hover {
+	background-color: #bbb;
+}
+
+.foodAvgRating {
+	color: gold;
+	font-size: 18px;
+}
+
+.foodAvgRating::before {
+	content: "★★★★★";
+	letter-spacing: 3px;
+}
+
+.foodAvgRating[data-rating="5"]::before {
+	content: "★★★★★";
+}
+
+.foodAvgRating[data-rating="4"]::before {
+	content: "★★★★☆";
+}
+
+.foodAvgRating[data-rating="3"]::before {
+	content: "★★★☆☆";
+}
+
+.foodAvgRating[data-rating="2"]::before {
+	content: "★★☆☆☆";
+}
+
+.foodAvgRating[data-rating="1"]::before {
+	content: "★☆☆☆☆";
+}
+
+.foodAvgRating[data-rating="0"]::before {
+	content: "☆☆☆☆☆";
+}
+
+.food-info p {
+	line-height: 1.0;
+}
+
+.food-info span {
+	line-height: 0.6;
+}
 </style>
 </head>
 <body>
 <c:if test="${not empty message}">
         <script type="text/javascript">
-            alert("${message}");
-        </script>
+									alert("${message}");
+								</script>
     </c:if>
     <%@ include file="../common/header.jsp" %>
     
@@ -101,10 +145,11 @@
                     <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
                 </a>
             </div>
-            <p>${FoodVO.foodType}</p>
+            <div class="food-info">
             <p>${FoodVO.foodName}</p>
-            <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
-            <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
+            <p><strong style="font-size:1.5em;">${FoodVO.foodPrice}</strong><strong>원</strong></p>
+            <span class="foodAvgRating" data-rating="${FoodVO.foodAvgRating}"></span><span style="color:brown; font-size:0.9em;"><strong>(${FoodVO.foodReviewCnt })</strong></span>
+            </div>
                 <div class="button-container">
                     <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
                     <c:choose>
@@ -130,10 +175,11 @@
                     <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
                 </a>
             </div>
-            <p>${FoodVO.foodType}</p>
+            <div class="food-info">
             <p>${FoodVO.foodName}</p>
-            <p>재고 ${FoodVO.foodAmount}개 / ${FoodVO.foodPrice}원</p>
-            <p>평점 ${FoodVO.foodAvgRating }점 / 리뷰 ${FoodVO.foodReviewCnt }개</p>
+            <p><strong style="font-size:1.5em;">${FoodVO.foodPrice}</strong><strong>원</strong></p>
+            <span class="foodAvgRating" data-rating="${FoodVO.foodAvgRating}"></span><span style="color:brown; font-size:0.9em;"><strong>(${FoodVO.foodReviewCnt })</strong></span>
+            </div>
             <div class="button-container">
             	<c:if test="${FoodVO.showStatus == 1}">
 	   				<button class="HideFood">식품 숨기기</button>

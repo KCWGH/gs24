@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.domain.QuestionVO;
@@ -69,7 +68,7 @@ public class QuestionController {
 			}
 		}
 
-		// 질문 목록 조회
+		pagination.setPageSize(10);
 		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
 		log.info("QuestionVOList = " + questionList);
 
@@ -85,7 +84,7 @@ public class QuestionController {
 
 	// register.jsp 호출
 	@GetMapping("/register")
-	public void registerGET(Model model) {
+	public void registerGET(Authentication auth, Model model) {
 		log.info("registerGET()");
 
 		List<String> foodType = convenienceFoodService.getFoodTypeList();
@@ -96,18 +95,10 @@ public class QuestionController {
 		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList(); // 변경 필요
 		model.addAttribute("ownerVOList", ownerVOList);
 
-		// 로그인한 사용자 정보 가져오기
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof CustomUser) {
-			CustomUser customUser = (CustomUser) principal;
-			String memberId = customUser.getUsername(); // CustomUser의 username
-
-			// 회원 정보 가져오기
-			MemberVO memberVO = memberService.getMember(memberId);
-			model.addAttribute("memberId", memberId);
+		if (auth != null) {
+			MemberVO memberVO = memberService.getMember(auth.getName());
+			model.addAttribute("memberId", auth.getName());
 			model.addAttribute("memberVO", memberVO);
-		} else {
-			log.info("registerGET() - 인증되지 않은 사용자");
 		}
 	}
 
@@ -124,8 +115,16 @@ public class QuestionController {
 	}
 
 	@GetMapping("/detail")
-	public void detail(Model model, Integer questionId) {
+	public void detail(Authentication auth, Model model, Integer questionId) {
 		log.info("detail()");
+
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				String ownerId = auth.getName();
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 
 		// 게시글 정보 조회
 		QuestionVO questionVO = questionService.getQuestionById(questionId);

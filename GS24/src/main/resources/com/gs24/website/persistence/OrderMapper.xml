@@ -40,12 +40,13 @@
     </select>
     
   	<select id="selectPagedOrdersByOwnerId" resultMap="orderResultMap">
-    SELECT * FROM ORDERS
-    WHERE OWNER_ID = #{ownerId}
-    AND ORDER_ID BETWEEN #{pagination.start} AND #{pagination.end}
-    ORDER BY ORDER_DATE_CREATED DESC
+    SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY ORDER_ID DESC) AS RN, ORDERS.*
+		FROM ORDERS WHERE OWNER_ID = #{ownerId}
+		) 
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-
 
 	<select id="countOrdersByOwner" parameterType="string" resultType="int">
 	    SELECT COUNT(*) 

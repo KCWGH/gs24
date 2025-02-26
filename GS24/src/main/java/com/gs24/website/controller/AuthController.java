@@ -1,8 +1,6 @@
 package com.gs24.website.controller;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.gson.JsonElement;
 import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.util.KakaoLoginUtil;
 
@@ -53,6 +50,8 @@ public class AuthController {
 				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+				return "redirect:/admin/console";
 			}
 		}
 		return "/auth/login";

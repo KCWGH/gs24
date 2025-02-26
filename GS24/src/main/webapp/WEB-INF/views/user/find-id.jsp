@@ -160,7 +160,10 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ email: email, code: code }),
                     success: function(response) {
-                        $("#findResult").html("인증번호가 일치합니다.<br>아이디는 " + response + " 입니다.");
+                        $("#findResult").html(
+                                "인증번호가 일치합니다.<br>" +
+                                "아이디는 <span style='color: green;'>" + response + "</span> 입니다."
+                            );
                         $("#findResult").show();
                         let findPwUrl = 'find-pw?username=' + encodeURIComponent(response);
                         $("#btnFindPw").attr("onclick", "location.href='" + findPwUrl + "'");

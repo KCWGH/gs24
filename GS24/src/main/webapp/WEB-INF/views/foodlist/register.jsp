@@ -40,9 +40,9 @@
 		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
 		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
 		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
-		판매 진행
+		<span style="color:green;">발주 진행</span>
 		<input type="radio" name="isSelling" value="1">
-		판매 대기
+		<span style="color:red;">발주 중지</span>
 		<input type="radio" name="isSelling" value="2">
 	</form>
 	

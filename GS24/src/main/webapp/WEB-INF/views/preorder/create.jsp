@@ -301,11 +301,13 @@
                     		$('#buyPrice').text(0 + '원');
                     		$('#latestBalance').text((balance - appliedPrice) + '원');
                     		$('#latestBalanceToggle').show();
+                    		$('#totalPrice').val(0);
                     	} else { // 잔고보다 결제 금액이 더 많다면
                     		$('#totalPrice').val(balance);
                     		$('#latestBalance').text(0 + '원');
                     		$('#buyPrice').text((appliedPrice - balance) + '원');
                     		$('#latestBalanceToggle').show();
+                    		$('#totalPrice').val(appliedPrice - balance);
                     	}
                     } else { // 쿠폰을 선택하지 않고 기프트카드만 선택했다면
                     	if (balance >= originalPrice) { // 기프트카드만이고 잔고가 가격보다 더 많다면
@@ -313,11 +315,13 @@
                     		$('#buyPrice').text(0 + '원');
                     		$('#latestBalance').text((balance - originalPrice) + '원');
                     		$('#latestBalanceToggle').show();
+                    		$('#totalPrice').val(0);
                     	} else { // 잔고보다 결제 금액이 더 많다면
                     		$('#totalPrice').val(balance);
                     		$('#latestBalance').text(0 + '원');
                     		$('#buyPrice').text((originalPrice - balance) + '원');
                     		$('#latestBalanceToggle').show();
+                    		$('#totalPrice').val(originalPrice - balance);
                     	}
                     }
 

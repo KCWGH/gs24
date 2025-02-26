@@ -43,10 +43,9 @@ public class ReviewServiceImple implements ReviewService {
 				imgReviewMapper.insertImgReview(vo);
 			}
 		}
+		preorderMapper.updateWriteReview(preorderId);
 
 		int result = reviewMapper.insertReview(reviewVO);
-		
-		preorderMapper.updateWriteReview(preorderId);
 		
 		ReviewRatingVO reviewRatingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(reviewVO.getFoodId());
 		
