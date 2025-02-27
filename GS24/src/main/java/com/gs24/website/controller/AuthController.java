@@ -64,22 +64,18 @@ public class AuthController {
 	}
 
 	@GetMapping("/kakao")
-	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state) throws URISyntaxException {
+	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state) throws Exception {
 		log.info("code : " + code);
 		log.info("error code : " + error);
 		log.info("error message : " + error_description);
 		log.info("state : " + state);
 		
-		Map<String,String> accessToken = kakaoLoginUtil.sendCode(code);
+		Map<String,Object> accessToken = kakaoLoginUtil.sendCode(code);
 		
-		Map<String,Object> userInfo =  kakaoLoginUtil.getUserInfo(accessToken.get("access_token"));
+		log.info(accessToken);
 		
-		if(memberService.getMember(userInfo.get("nickname").toString()) == null) {
-			log.info("DB에 없습니다. 새로 생성합니다.");
-			MemberVO memberVO = new MemberVO(userInfo.get("nickname").toString(),userInfo.get("nickname").toString(),userInfo.get("email").toString(),userInfo.get("phoneNumber").toString(),(Date)userInfo.get("birthday"),1);
-			memberService.registerMember(memberVO);
-		}
+		Map<String, Object> userInfo = kakaoLoginUtil.getUserInfo(accessToken.get("access_token").toString());
 		
-		model.addAttribute("nickname", userInfo.get("nickname").toString());
+		log.info(userInfo);
 	}
 }

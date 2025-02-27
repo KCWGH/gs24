@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -33,38 +34,18 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class KakaoLoginUtil {
 	
+	@Autowired
+	private HttpUtil httpUtil;
+	
 	private String clientId = "37a993700004ae9f4806d2f6830189c6";
 	private String redirectUri = "http://localhost:8080/website/auth/kakao";
 	private String adminKey = "d7ee430e236ccd79d4b99b65bba3ff16";
-	
-	public String getCode() throws URISyntaxException {
-		
-		Map<String, String> parameter = new HashMap<String, String>();
-		parameter.put("client_id", clientId);
-		parameter.put("redirect_uri", redirectUri);
-		parameter.put("response_type", "code");
-		
-		String url = "https://kauth.kakao.com/oauth/authorize" + mapToParameter(parameter);
-		
-		URI uri = new URI(url);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		
-		ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
-		
-		return responseEntity.getBody();
-	}
-	
 	/**
 	 * 카카오 로그인 API access_token 정보를 가져오기 위한 인가코드 전송 메소드
 	 * @param code 카카오 로그인 API 인가코드 받기를 통해 가져온 코드 값
 	 * @return Map<String,String> 변수로 반환
 	 */
-	public Map<String,String> sendCode(String code) throws URISyntaxException {
-		
-		// 요청보낼 url 설정
-        URI uri = new URI("https://kauth.kakao.com/oauth/token");
-		
+	public Map<String,Object> sendCode(String code) throws Exception {
         // 헤더 설정을 담는 변수 선언
         HttpHeaders headers = new HttpHeaders();
         // Content-Type: application/x-www-form-urlencoded; 설정 추가
@@ -76,37 +57,8 @@ public class KakaoLoginUtil {
         body.add("client_id", clientId);
         body.add("redirect_uri", redirectUri);
         body.add("code", code);
-
-        // 실제 요청을 보낼 데이터 생성 (헤더와 바디(파라미터) 포함)
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
         
-        // 요청을 보내는 변수 선언
-        RestTemplate restTemplate = new RestTemplate();
-        
-        //TODO 오류 발생시 처리 코드 작성 필요
-        // API 호출
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(uri, requestEntity, String.class);
-
-        // 응답 데이터 확인
-        log.info("Response: " + responseEntity.getBody());
-        
-        // Json데이터를 특정 변수로 변환시켜주는 ObjectMapper 선언
-        ObjectMapper objectMapper = new ObjectMapper();
-        // ObejctMapper를 통해 변환시킬 변수 타입 지정 (TypeReference를 통해서만 변환 가능)
-        TypeReference<Map<String,String>> typeReference = new TypeReference<Map<String,String>>() {};
-        // 변환된 데이터를 담는 변수
-        Map<String, String> result = new HashMap<String, String>();
-        try {
-        	// Json 데이터를 Map<String,String>형태로 변환
-        	result = objectMapper.readValue(responseEntity.getBody(),typeReference);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-        
-        // 변환된 값 확인
-        log.info("result : " + result);
+        Map<String,Object> result = httpUtil.Post(headers, body, "https://kauth.kakao.com/oauth/token");
         
         return result;
     }
@@ -116,9 +68,7 @@ public class KakaoLoginUtil {
 	 * @param accessToken 카카오 로그인 API를 통해 가져온 access_token 값
 	 * @return Map<String, Object> 변수로 반환
 	 */
-	public Map<String,Object> getUserInfo(String accessToken) throws URISyntaxException {
-		// 요청보낼 url 설정
-		URI uri = new URI("https://kapi.kakao.com/v2/user/me");
+	public Map<String,Object> getUserInfo(String accessToken) throws Exception {
 		
 		// 헤더 설정을 담는 변수 선언
 		HttpHeaders headers = new HttpHeaders();
@@ -126,34 +76,9 @@ public class KakaoLoginUtil {
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		// Authorization: Bearer ${ACCESS_TOKEN} 설정 추가
 		headers.setBearerAuth(accessToken);
-		
-		// 실제 요청을 실행할 데이터 선언(헤더만 설정)
-		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(headers);
-		
-		// 요청을 보내주는 변수 선언
-		RestTemplate restTemplate = new RestTemplate();
-		
-		// API 호출
-		ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
-		
-		// 응답 데이터 확인
-		log.info(responseEntity.getBody());
-		
-		// Json데이터를 특정 변수로 변환시켜주는 ObjectMapper 선언
-		ObjectMapper objectMapper = new ObjectMapper();
-		// ObejctMapper를 통해 변환시킬 변수 타입 지정 (TypeReference를 통해서만 변환 가능)
-        TypeReference<Map<String,Object>> typeReference = new TypeReference<Map<String,Object>>() {};
-        
         // 변환된 데이터를 담는 변수 선언
-        Map<String, Object> result = new HashMap<String, Object>();
-        try {
-        	// Json 데이터를 Map 타입으로 변환 후 저장
-        	result = objectMapper.readValue(responseEntity.getBody(),typeReference);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		
+        Map<String, Object> result = httpUtil.Post(headers, "https://kapi.kakao.com/v2/user/me");
         
         result = refactorKakaoAccount(result);
         
@@ -218,20 +143,6 @@ public class KakaoLoginUtil {
 		result.put("birthday", date);
         
         kakaoAccount.clear();
-		
-		return result;
-	}
-	
-	private String mapToParameter(Map<String,String> map) {
-		String result = "?";
-		
-		Iterator<String> iterator = map.keySet().iterator();
-		while(iterator.hasNext()) {
-			String key = iterator.next();
-			result += key + "=" + map.get(key);
-			if(iterator.hasNext())
-				result += "&";
-		}
 		
 		return result;
 	}
