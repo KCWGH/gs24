@@ -14,6 +14,7 @@ import com.gs24.website.persistence.FoodListMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -100,10 +101,9 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public List<ReviewVO> getReviewsByFoodId(int foodId) {
+	public List<ReviewVO> getReviewsByFoodId(int foodId, Pagination pagination) {
 		log.info("getReviewsByFoodId()");
-
-		List<ReviewVO> list = reviewMapper.selectReviewByFoodId(foodId);
+		List<ReviewVO> list = reviewMapper.selectReviewPagination(foodId, pagination.getStart(), pagination.getEnd());
 
 		for (ReviewVO reviewVO : list) {
 			reviewVO.setImgList(imgReviewMapper.selectImgReviewByReviewId(reviewVO.getReviewId()));
@@ -124,6 +124,11 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		log.info("updateShowStatus");
 		int result = convenienceFoodMapper.updateShowStatus(foodId, convenienceId);
 		return result;
+	}
+
+	@Override
+	public int countReviewsByFoodId(int foodId) {
+		return reviewMapper.selectTotalCountByFoodId(foodId);
 	}
 
 }

@@ -54,7 +54,6 @@
             padding: 5px 10px;
             border-radius: 5px;
             text-decoration: none;
-            margin: 5px;
             border: none;
             cursor: pointer;
         }
@@ -94,22 +93,17 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<<<<<<< Updated upstream
 	<sec:authorize access="hasRole('ROLE_OWNER')"><h1>발주 이력</h1></sec:authorize>
     <sec:authorize access="hasRole('ROLE_ADMIN')"><h1>발주 승인</h1></sec:authorize>
-=======
-
-    <h1>발주 목록</h1>
->>>>>>> Stashed changes
 
     <table>
         <thead>
             <tr>
-                <th>발주 ID</th>
+                <th>주문 ID</th>
                 <th>식품 ID</th>
-                <th>발주 수량</th>
-                <th>발주 날짜</th>
-                <th>발주 상태</th>
+                <th>주문 수량</th>
+                <th>주문 날짜</th>
+                <th>주문 상태</th>
                 <th>승인/거절</th>
             </tr>
         </thead>

@@ -23,28 +23,28 @@
 
     h1 {
         text-align: center;
-        margin-top: 20px;
+        margin-top: 100px;
     }
 
     #conveniList {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        margin: 50px;
+        margin: 30px;
     }
 
     .conveni {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 12px;
-    width: 100%;  /* 모바일에서 너무 작지 않게 설정 */
-    max-width: 300px; /* PC에서 너무 커지지 않도록 */
-    margin: 15px auto; /* 가운데 정렬 */
-    padding: 25px; /* 내부 여백 증가 */
+    width: 100%;
+    max-width: 300px;
+    margin: 50px auto;
+    padding: 25px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
     position: relative;
-}
+	}
 
     .conveni:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -103,9 +103,9 @@
 	
 	ul {
     	display: flex;
-    	justify-content: center; /* 가운데 정렬 */
+    	justify-content: center;
     	padding: 0;
-    	margin: 20px 0; /* 위아래 간격 */
+    	margin: 20px 0;
     	list-style-type: none;
 	}
 	
@@ -117,16 +117,10 @@
 
     .pagination_button a {
         text-decoration: none;
-        padding: 5px 10px;
         border-radius: 5px;
         color: black;
     }
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
-
-    /* 글 작성 버튼 컨테이너 */
     .button-container {
         text-align: right;
         margin-bottom: 10px;
@@ -134,7 +128,11 @@
     .pagination_button.current a {
     background: #333;
     color: white;
-	} 
+	}
+	.pagination_button span {
+	color:#444;
+    font-size: 30px;
+	}
 </style>
 </head>
 <body>
@@ -170,19 +168,32 @@
     </form>
 
     <!-- 페이징 처리 -->
-    <ul>
-        <c:if test="${pageMaker.isPrev()}">
-            <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
-        </c:if>
-        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
-    		<li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
-        		<a href="${num}">${num}</a>
-    		</li>
-		</c:forEach>
-        <c:if test="${pageMaker.isNext()}">
-            <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
-        </c:if>
-    </ul>
+	<ul>
+    	<c:if test="${pageMaker.isPrev()}">
+        	<li class="pagination_button">
+            	<a href="${pageMaker.startNum - 1}">이전</a>
+        	</li>
+    	</c:if>
+
+    	<c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+        	<li class="pagination_button">
+            	<c:choose>
+                	<c:when test="${num == pageMaker.pagination.pageNum}">
+                    	<span>●</span>
+                	</c:when>
+                	<c:otherwise>
+                    	<a href="${num}"><span>○</span></a>
+                	</c:otherwise>
+            	</c:choose>
+        	</li>
+    	</c:forEach>
+
+    	<c:if test="${pageMaker.isNext()}">
+        	<li class="pagination_button">
+            	<a href="${pageMaker.endNum + 1}">다음</a>
+        	</li>
+    	</c:if>
+	</ul>
 
     <script type="text/javascript">
     $(document).ready(function () {

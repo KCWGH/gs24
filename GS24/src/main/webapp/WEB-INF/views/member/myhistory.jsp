@@ -74,7 +74,7 @@
                                 postHTML += '<br>내가 작성한 질문이 없습니다.';
                                 break;
                             }
-                            postHTML += '<table><thead><tr><th>작성일시</th><th>음식 종류</th><th>질문 제목</th><th>답변여부</th></tr></thead><tbody>';
+                            postHTML += '<table><thead><tr><th>작성일시</th><th>식품 종류</th><th>질문 제목</th><th>답변여부</th></tr></thead><tbody>';
                             postList.forEach(function(questionVO) {
                                 postHTML += '<tr><td>';
                                 postHTML += formatDate(questionVO.questionDateCreated);

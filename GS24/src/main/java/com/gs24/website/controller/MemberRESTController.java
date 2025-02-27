@@ -85,7 +85,7 @@ public class MemberRESTController {
 	@RequestMapping(value = "/get-food-name", method = RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String getFoodName(int foodId) {
 		FoodListVO foodVO = foodListService.getFoodById(foodId);
-		return foodVO != null ? foodVO.getFoodName() : "음식 정보 없음";
+		return foodVO != null ? foodVO.getFoodName() : "식품 정보 없음";
 	}
 
 }

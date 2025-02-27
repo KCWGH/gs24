@@ -56,7 +56,7 @@
         box-sizing: border-box;
     }
 
-    button {
+    .container button {
         width: 100%;
         padding: 10px;
         background-color: #999;
@@ -67,39 +67,45 @@
         cursor: pointer;
     }
 
-    button:hover {
+    .container button:hover {
         background-color: #777;
     }
 
-    a {
+    .container a {
         display: inline-block;
         margin: 10px 5px;
         color: #333;
         text-decoration: none;
     }
 
-    a:hover {
+    .container a:hover {
         text-decoration: underline;
     }
+    #kakao {
+    all: unset; /* 모든 스타일 초기화 */
+    cursor: pointer;
+    display: inline-block; /* 필요에 따라 조정 */
+	}
+    #kakao img {
+    border-radius: 8px; /* 원하는 둥글기 정도 */
+    width: 100%; /* 부모 요소 크기에 맞추기 */
+    max-width: 200px; /* 적절한 크기 제한 */
+    display: block; /* 인라인 요소 간격 제거 */
+    margin: 10px auto; /* 가운데 정렬 */
+	}  
 </style>
 </head>
 <script>
 $(document).ready(function() {
-$("#kakao").click(function(event){
+	$("#kakao").click(function(event){
     	event.preventDefault();
-    	console.log("클릭");
     	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=37a993700004ae9f4806d2f6830189c6&redirect_uri=http://localhost:8080/website/auth/kakao";
     });
-    // 로그인 폼 제출 시 처리
     $('#loginForm').on('submit', function(event) {
-        event.preventDefault();  // 폼의 기본 제출 동작을 막음
-
-        // reCAPTCHA 토큰을 가져와서 hidden input에 설정
+        event.preventDefault();
         grecaptcha.ready(function() {
             grecaptcha.execute('6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR', { action: 'login' }).then(function(token) {
-                // 토큰을 hidden input에 설정
                 $('#recaptchaToken').val(token);
-                // 폼 제출
                 $('#loginForm')[0].submit();
             });
         });
@@ -141,7 +147,7 @@ $("#kakao").click(function(event){
             <a href="../user/find-id">아이디 찾기</a>
             <a href="../user/find-pw">비밀번호 찾기</a>
             <a href="../user/register">회원가입</a>
-            <a href="../user/kakao" id="kakao">카카오로 시작하기</a>
+        	<button id="kakao"><img src="../resources/images/kakao/kakaosync.png"></button>
         </div>
 
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">

@@ -259,21 +259,20 @@ input[type="radio"] {
     gap: 10px; /* 버튼 간격 */
 }
 
-/* 오른쪽 정렬 버튼 */
 .right-button {
-    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+    margin-left: auto;
 }
 .radio-group {
     display: flex;
-    justify-content: space-between; /* 3등분 자동 배치 */
-    width: 100%; /* 부모 컨테이너 너비 */
-    max-width: 500px; /* 500px 기준으로 정렬 */
-    margin: 10px auto; /* 중앙 정렬 */
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    margin: 10px auto;
 }
 
 .radio-group label {
-    flex: 1; /* 각 라벨을 동일한 너비로 설정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
+    flex: 1;
+    text-align: center;
 }
 </style>
 </head>

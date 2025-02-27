@@ -23,6 +23,8 @@ import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -71,24 +73,26 @@ public class ConvenienceFoodController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth) {
+	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth, Pagination pagination) {
 		log.info("detailGET()");
 
 		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodService.getDetailConvenienceFoodByFoodId(foodId,
 				convenienceId);
-		List<ReviewVO> reviewList = convenienceFoodService.getReviewsByFoodId(foodId);
-
+		List<ReviewVO> reviewList = convenienceFoodService.getReviewsByFoodId(foodId, pagination);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setTotalCount(convenienceFoodService.countReviewsByFoodId(foodId));
+		pageMaker.setPagination(pagination);
+		
 		log.info(convenienceFoodVO);
 		log.info(reviewList);
 
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				model.addAttribute("memberId", auth.getName());
-			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				model.addAttribute("convenienceId", convenienceId);
 			}
 		}
-
+		model.addAttribute("convenienceId", convenienceId);
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
 	}

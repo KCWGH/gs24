@@ -216,7 +216,7 @@ button:hover {
                     <button type="button" onclick="checkId(event)">아이디 체크</button></td>
             </tr>
             <tr hidden="hidden">
-                <th><label for="foodType">음식 종류</label></th>
+                <th><label for="foodType">식품 종류</label></th>
                 <td><input id="foodType" name="foodType" required></td>
             </tr>
             <tr>

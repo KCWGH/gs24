@@ -99,7 +99,7 @@ public class PreorderController {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			redirectAttributes.addFlashAttribute("message",
-					"잘못된 값이 입력되었거나, 이 품목에 이미 사용한 쿠폰입니다.\\n다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.\\n예약이 실패했습니다.");
+					"잘못된 값이 입력되었거나, 이 품목에 이미 사용한 쿠폰입니다.\\n다른 식품을 선택하거나 다른 쿠폰을 선택해 주세요.\\n예약이 실패했습니다.");
 			return "redirect:/convenienceFood/list?convenienceId=" + preorderVO.getConvenienceId();
 		}
 	}

@@ -305,9 +305,11 @@
 
 <div class="card">
     <h2>회원가입</h2>
-    <p>※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</p>
     <form action="register" method="POST">
         <table>
+        	<tr>
+        		<td colspan="2">※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</td>
+        	</tr>
             <tr>
                 <th><label for="memberId">아이디</label></th>
                 <td><input type="text" id="memberId" name="memberId" required>

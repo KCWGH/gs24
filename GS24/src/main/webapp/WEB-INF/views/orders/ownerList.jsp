@@ -9,75 +9,58 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<<<<<<< Updated upstream
     <title>발주 이력</title>
-=======
-    <title>발주 목록</title>
->>>>>>> Stashed changes
     <style>
-         /* 전체 페이지 스타일 */
-    body {
-        margin: 0;
-        padding: 15px;
-        background-color: #f8f9fa;
-        text-align: center;
-    }
+        /* 전체 페이지 스타일 */
+        body {
+            margin: 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
 
-    /* 제목 스타일 */
-    h1, h2 {
-        color: #333;
-    }
+        /* 제목 스타일 */
+        h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
 
-    /* 테이블 스타일 */
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        text-align: center;
-    }
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            text-align: center;
+        }
 
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-    }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
 
-    th {
-        background-color: #f1f1f1;
-        color: #555;
-    }
+        th {
+            background-color: #f1f1f1;
+            color: #555;
+        }
 
-    /* 버튼 스타일 */
-    button, input[type="button"] {
-        background: #ddd;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-    }
+        /* 버튼 스타일 */
+        button {
+            background: #ddd;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
 
-<<<<<<< Updated upstream
         button:hover {
             background: #bbb;
         }
             /* 페이징 스타일 */
-=======
-    button:hover, input[type="button"]:hover {
-        background: #bbb;
-    }
-
-    /* 검색 폼 스타일 */
-    #searchForm {
-        margin-top: 10px;
-    }
-    
-    .title {
-    	color: black;
-    }
-
-    /* 페이징 스타일 */
->>>>>>> Stashed changes
     .pagination_button {
         display: inline-block;
         margin: 5px;
@@ -102,11 +85,7 @@
     .pagination_button.current a {
     background: #333;
     color: white;
-<<<<<<< Updated upstream
 	}
-=======
-	} 
->>>>>>> Stashed changes
     </style>
 </head>
 <body>
@@ -118,7 +97,7 @@
         <thead>
             <tr>
             	<th>점주 ID</th>
-                <th>발주 ID</th>
+                <th>주문 ID</th>
                 <th>식품 ID</th>
                 <th>발주 수량</th>
                 <th>발주 날짜</th>
@@ -149,16 +128,10 @@
     <form id="listForm" action="ownerList" method="get">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
-<<<<<<< Updated upstream
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="keyword" value="${param.keyword}">
     </form>
 <ul>
-=======
-    </form>
-<!-- 페이징 처리 -->
-    <ul>
->>>>>>> Stashed changes
         <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
         </c:if>
@@ -171,7 +144,6 @@
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
         </c:if>
     </ul>
-<<<<<<< Updated upstream
 <script type="text/javascript">
 $(document).ready(function() {
     $(".pagination_button a").on("click", function(e) {
@@ -187,20 +159,6 @@ $(document).ready(function() {
         listForm.find("input[name='pageSize']").val(pageSize);
         listForm.submit();
     });
-=======
-    
-    <script type="text/javascript">
-$(".pagination_button a").on("click", function(e) {
-    var listForm = $("#listForm");
-    e.preventDefault();
-
-    var pageNum = $(this).attr("href");
-    var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
-
-    listForm.find("input[name='pageNum']").val(pageNum);
-    listForm.find("input[name='pageSize']").val(pageSize);
-    listForm.submit();
->>>>>>> Stashed changes
 });
 </script>
 <%@ include file="../common/footer.jsp" %>

@@ -110,7 +110,7 @@ $(document).ready(function() {
 		<td><input type="text" id="memberId" name="memberId" required><button type="button" onclick="checkId(event)">아이디 체크</button></td>
 	</tr>
 	<tr>
-		<th><label for="foodType">음식 종류</label></th>
+		<th><label for="foodType">식품 종류</label></th>
 		<td><select id="foodType" name="foodType" required>
     <option value="" selected disabled >선택하세요</option>
       <c:forEach var="food" items="${foodTypeList}">

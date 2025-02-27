@@ -98,10 +98,10 @@ public class PreorderServiceImple implements PreorderService {
 			if (giftCardVO == null || couponVO == null) {
 				return "존재하지 않는 기프트카드 ID 또는 쿠폰 ID입니다.";
 			} else if (dupCheck != 0) {
-				return "이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.";
+				return "이 품목에 이미 사용한 쿠폰입니다. 다른 식품을 선택하거나 다른 쿠폰을 선택해 주세요.";
 			} else {
 				int result = createPreorder(preorderVO, giftCardId, couponId);
-				return result == 1 ? "기프트카드, 쿠폰을 적용해 예약했습니다." : "음식 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
+				return result == 1 ? "기프트카드, 쿠폰을 적용해 예약했습니다." : "식품 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
 			}
 		} else if (useGiftCard) { // 기프트카드만 사용했다면
 			giftCardId = Integer.parseInt(giftCardIdString);
@@ -110,7 +110,7 @@ public class PreorderServiceImple implements PreorderService {
 				return "존재하지 않는 기프트카드 ID입니다.";
 			} else {
 				int result = createPreorderWithGiftCard(preorderVO, giftCardId);
-				return result == 1 ? "기프트카드를 사용해 예약했습니다." : "음식 재고가 부족합니다. 예약이 실패했습니다.";
+				return result == 1 ? "기프트카드를 사용해 예약했습니다." : "식품 재고가 부족합니다. 예약이 실패했습니다.";
 			}
 		} else if (useCoupon) { // 쿠폰만 사용했다면
 			couponId = Integer.parseInt(couponIdString);
@@ -120,14 +120,14 @@ public class PreorderServiceImple implements PreorderService {
 			if (couponVO == null) {
 				return "존재하지 않는 쿠폰 ID입니다.";
 			} else if (dupCheck != 0) {
-				return "이 품목에 이미 사용한 쿠폰입니다. 다른 음식을 선택하거나 다른 쿠폰을 선택해 주세요.";
+				return "이 품목에 이미 사용한 쿠폰입니다. 다른 식품을 선택하거나 다른 쿠폰을 선택해 주세요.";
 			} else {
 				int result = createPreorderWithCoupon(preorderVO, couponId);
-				return result == 1 ? "쿠폰을 사용해 예약했습니다." : "음식 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
+				return result == 1 ? "쿠폰을 사용해 예약했습니다." : "식품 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
 			}
 		} else { // 기프트카드와 쿠폰을 모두 사용하지 않았다면
 			int result = createPreorder(preorderVO);
-			return result == 1 ? "예약에 성공했습니다." : "음식 재고가 부족합니다. 예약이 실패했습니다.";
+			return result == 1 ? "예약에 성공했습니다." : "식품 재고가 부족합니다. 예약이 실패했습니다.";
 		}
 	}
 

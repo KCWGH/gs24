@@ -199,7 +199,7 @@
                     <td colspan="2"><span style="color:gray">쿠폰 이름을 적지 않으면 기본 쿠폰 이름으로 제공됩니다.<br>예) 음료 1000원 할인권</span></td>
                 </tr>
                 <tr>
-                    <th><label for="foodType">음식 종류</label></th>
+                    <th><label for="foodType">식품 종류</label></th>
                     <td>
                         <select id="foodType" name="foodType" required>
                             <option value="" selected disabled>선택하세요</option>
@@ -210,7 +210,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span style="color:gray">현재 존재하는 음식 종류만 표시됩니다.</span></td>
+                    <td colspan="2"><span style="color:gray">현재 존재하는 식품 종류만 표시됩니다.</span></td>
                 </tr>
                 <tr>
                     <th><label for="discountType">쿠폰 종류</label></th>

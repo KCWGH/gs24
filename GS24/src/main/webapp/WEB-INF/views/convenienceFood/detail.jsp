@@ -101,23 +101,32 @@ body {
 	padding: 0;
 }
 
-.pagination_button a {
-	padding: 5px 10px;
-	margin: 0 5px;
-	text-decoration: none;
-	background-color: #f0f0f0;
-	border-radius: 5px;
-	color: #333;
-}
+    /* 페이징 스타일 */
+    .pagination_button {
+        display: inline-block;
+        margin: 5px;
+    }
 
-.pagination_button a:hover {
-	background-color: #d0d0d0;
-}
+    .pagination_button a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: black;
+    }
 
-.pagination_button .active {
-	background-color: #c0c0c0;
-}
+    .pagination_button a:hover {
+        background: #bbb;
+    }
 
+    /* 글 작성 버튼 컨테이너 */
+    .button-container {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+    .pagination_button.current a {
+    background: #333;
+    color: white;
+	}
 .reviewRegister {
 	display: none;
 }
@@ -301,24 +310,22 @@ body {
     </div>
     
     <form id="detailForm" action="detail" method="GET">
+    	<input type="hidden" name="convenienceId" value="${convenienceId }">
         <input type="hidden" name="foodId" value="${FoodVO.foodId }">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
-        <input type="hidden" name="type">
-        <input type="hidden" name="keyword">
     </form>
     
     <ul id="paginationList">
-        <!-- 이전 버튼 생성을 위한 조건문 -->
-        <c:if test="${pageMaker.isPrev() }">
+        <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
         </c:if>
-        <!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
-        <c:forEach begin="${pageMaker.startNum }" end="${pageMaker.endNum }" var="num">
-            <li class="pagination_button"><a href="${num }">●</a></li>
-        </c:forEach>
-        <!-- 다음 버튼 생성을 위한 조건문 -->
-        <c:if test="${pageMaker.isNext() }">
+        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+    		<li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
+        		<a href="${num}">${num}</a>
+    		</li>
+		</c:forEach>
+        <c:if test="${pageMaker.isNext()}">
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
         </c:if>
     </ul>
