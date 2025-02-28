@@ -49,9 +49,9 @@ public class ConvenienceMapperTest {
 		log.info(convenienceFoodMapper.checkHasFood(85, 5));
 	}
 	
-	void selectFood() {
-		log.info(convenienceFoodMapper.selectConvenienceFoodByConvenienceId(1));
-	}
+//	void selectFood() {
+//		log.info(convenienceFoodMapper.selectConvenienceFoodByConvenienceId(1));
+//	}
 	
 	void getId() {
 		log.info(convenienceMapper.selectConvenienceIdByOwnerId("testpjm2002"));

@@ -133,6 +133,11 @@
 	color:#444;
     font-size: 30px;
 	}
+		@media screen and (max-width: 768px) {
+		.pagination_button span {
+    		font-size: 15px;
+		}
+	}
 </style>
 </head>
 <body>

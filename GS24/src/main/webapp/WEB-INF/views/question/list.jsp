@@ -23,12 +23,14 @@
         }
 
         /* 테이블 스타일 */
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            text-align: center;
-        }
+	table {
+    	max-width: 1200px;
+    	margin: 20px auto;
+    	width: 100%;
+    	border-collapse: collapse;
+    	text-align: center;
+    	background-color: white;
+	}
 
         th, td {
             border: 1px solid #ccc;
@@ -97,16 +99,12 @@
 <h1>Q&amp;A 게시판</h1>
 <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 
-<!-- 글 작성 버튼 (회원만 보이도록) -->
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-    <div class="button-container">
-        <a href="register"><input type="button" value="글 작성"></a>
-    </div>
-</sec:authorize>
-
 <!-- QnA 목록 -->
 <table>
     <thead>
+    <sec:authorize access="hasRole('ROLE_MEMBER')">
+        <a href="register"><input type="button" value="글 작성"></a>
+	</sec:authorize>
         <tr>
             <th style="width: 60px">번호</th>
             <th style="width: 80px">식품</th>

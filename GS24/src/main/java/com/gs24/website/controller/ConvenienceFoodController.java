@@ -46,10 +46,10 @@ public class ConvenienceFoodController {
 	private OrderService orderService;
 
 	@GetMapping("/list")
-	public void listGET(Authentication auth, Model model, int convenienceId) {
+	public void listGET(Authentication auth, Model model, Integer convenienceId, Pagination pagination) {
 		log.info("listGET()");
-
-		List<ConvenienceFoodVO> list = convenienceFoodService.getConvenienceFoodByConvenienceId(convenienceId);
+		pagination.setPageSize(12);
+		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId, pagination);
 
 		if (auth != null) {
 			String username = auth.getName();
@@ -67,7 +67,11 @@ public class ConvenienceFoodController {
 				}
 			}
 		}
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId));
 
+		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("FoodList", list);
 	}

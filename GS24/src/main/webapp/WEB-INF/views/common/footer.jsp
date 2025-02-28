@@ -25,8 +25,8 @@ footer {
     border-top: 1px solid #ccc;
     padding: 10px 0;
     text-align: center;
-    background-color: #fff; /* Add a solid background color (white in this case) */
-    z-index: 1000; /* Ensures footer appears above other content */
+    background-color: white;
+    z-index: 1000;
 }
 
 .footer-container {

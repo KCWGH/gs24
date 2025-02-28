@@ -200,10 +200,9 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public List<PreorderVO> getPreorderBymemberId(String memberId) {
+	public List<PreorderVO> getPreorderByMemberId(String memberId) {
 		log.info("getPreorderByMemberId()");
 		List<PreorderVO> list = preorderMapper.selectPreoderByMemberId(memberId);
-		log.info(list);
 		return list;
 	}
 
@@ -263,7 +262,7 @@ public class PreorderServiceImple implements PreorderService {
 		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
 		pagination.setMemberVO(memberVO);
 		pagination.setPageSize(10);
-		return preorderMapper.selectPreorderBymemberIdPagination(pagination);
+		return preorderMapper.selectPagedPreordersByMemberId(pagination);
 	}
 
 	@Override

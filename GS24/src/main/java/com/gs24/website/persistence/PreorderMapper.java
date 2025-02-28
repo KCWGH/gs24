@@ -22,7 +22,7 @@ public interface PreorderMapper {
 	
 	int deletePreorderByPreorderId(int preorderId);
 	
-	List<PreorderVO> selectPreorderBymemberIdPagination(Pagination pagination);
+	List<PreorderVO> selectPagedPreordersByMemberId(Pagination pagination);
 	
 	int countPreorderByMemberId(String memberId);
 	

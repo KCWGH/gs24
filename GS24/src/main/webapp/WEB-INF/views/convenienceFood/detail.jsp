@@ -32,13 +32,6 @@ body {
 	flex-direction: column;
 	align-items: center;
 }
-.imageList img{
-	width: 150px;
-	height: 150px;
-	margin: 5px;
-	cursor: pointer;
-	object-fit: cover;
-}
 
 .image-scroll {
 	margin-top: 10px;
@@ -136,6 +129,14 @@ body {
 	}
 .reviewRegister {
 	display: none;
+}
+
+.imageList img{
+	width: 150px;
+	height: 150px;
+	margin: 5px;
+	cursor: pointer;
+	object-fit: cover;
 }
 
 @media ( max-width : 768px) {
@@ -312,8 +313,8 @@ body {
                     </c:if>
                 </sec:authorize>
             </div>
-        <hr>
         </c:forEach>
+        <hr>
     </div>
     
     <form id="detailForm" action="detail" method="GET">
@@ -351,9 +352,9 @@ body {
             });
             pieChartDraw();
             
-            $("#reviewList").on('click','#reviewDelete', function(){
+            $("#reviewList").on('click','.reviewItems #reviewDelete', function(){
                 var path = $(".imageList").find('.image_path').val();
-                var reviewId = $(this).closest(".reviewItems").find(".reviewId").val();
+                var reviewId = $(this).prevAll(".reviewId").val();
                 var foodId = ${FoodVO.foodId };
                 var convenienceId = ${FoodVO.convenienceId}
                 console.log("path : " + path);
@@ -415,6 +416,8 @@ body {
             		}
             	});
             }); // end on()
+            
+      
         });
         
         let protein = ${FoodVO.foodProtein};

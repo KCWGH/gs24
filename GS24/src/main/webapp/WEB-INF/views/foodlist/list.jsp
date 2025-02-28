@@ -7,30 +7,30 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>식품 창고</title>
 <style type="text/css">
-    /* 전체 페이지 스타일 */
     body {
         margin: 0;
         padding: 15px;
-        background-color: #f8f9fa;
         text-align: center;
+        background-color: #f8f9fa;
     }
 
-    /* 제목 스타일 */
     h2 {
         color: #333;
         margin-bottom: 5px;
     }
 
-    /* 기프트카드 리스트 스타일 */
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        text-align: center;
-    }
+	table {
+    	max-width: 1200px;
+    	margin: 20px auto;
+    	width: 100%;
+    	border-collapse: collapse;
+    	text-align: center;
+    	background-color: white;
+	}
 
     th, td {
         border: 1px solid #ccc;
@@ -85,21 +85,18 @@
         border-radius: 5px;
         border: none;
         cursor: pointer;
+        
     }
     
     #insert:hover {
     	background: #bbb;
     }
-    
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
+
     ul {
     	display: flex;
-    	justify-content: center; /* 가운데 정렬 */
+    	justify-content: center;
     	padding: 0;
-    	margin: 20px 0; /* 위아래 간격 */
+    	margin: 20px 0;
     	list-style-type: none;
 	}
 	
@@ -128,13 +125,12 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <h1>식품 리스트</h1>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<div class="button-container">
-    	<button id="insert" onclick='location.href="register"'>식품 추가</button>
-    </div>
-</sec:authorize>
+
 
 <table id="foodTable">
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    	<button id="insert" onclick='location.href="register"'>식품 추가</button>
+</sec:authorize>
     <thead>
         <tr>
             <th>식품ID</th>

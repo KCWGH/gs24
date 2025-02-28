@@ -70,10 +70,10 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public List<ConvenienceFoodVO> getConvenienceFoodByConvenienceId(int convenienceId) {
+	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination) {
 		log.info("getConvenienceFoodByConvenienceId()");
 
-		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectConvenienceFoodByConvenienceId(convenienceId);
+		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination);
 
 		return list;
 	}
@@ -129,6 +129,11 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	@Override
 	public int countReviewsByFoodId(int foodId) {
 		return reviewMapper.selectTotalCountByFoodId(foodId);
+	}
+
+	@Override
+	public int getTotalCountByConvenienceId(int convenienceId) {
+		return convenienceFoodMapper.countTotalFoodsByConvenienceId(convenienceId);
 	}
 
 }

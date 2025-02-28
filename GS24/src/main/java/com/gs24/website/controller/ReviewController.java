@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,18 +32,18 @@ public class ReviewController {
 
 	@PostMapping("/list")
 	@ResponseBody
-	public List<ReviewVO> listGET(int foodId,int pageNum,int pageSize) {
+	public List<ReviewVO> listGET(int foodId, int pageNum, int pageSize) {
 		log.info("listGET()");
-		
+
 		Pagination pagination = new Pagination();
 		pagination.setPageNum(pageNum);
 		pagination.setPageSize(pageSize);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(reviewService.getReviewCountByFoodId(foodId));
-		
+
 		List<ReviewVO> reviewList = reviewService.getReviewPaginationByFoodId(foodId, pagination);
-		
+
 		return reviewList;
 	}
 

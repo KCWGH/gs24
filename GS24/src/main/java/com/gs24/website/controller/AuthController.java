@@ -1,7 +1,5 @@
 package com.gs24.website.controller;
 
-import java.net.URISyntaxException;
-import java.sql.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.ConvenienceService;
-import com.gs24.website.service.MemberService;
 import com.gs24.website.util.KakaoLoginUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -28,14 +24,10 @@ public class AuthController {
 	private ConvenienceService convenienceService;
 	
 	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
 	private KakaoLoginUtil kakaoLoginUtil;
 
 	@GetMapping("/accessDenied")
 	public void accessDenied(Authentication auth, Model model) {
-		// Authentication : 현재 사용자의 인증 정보를 갖고 있음
 		log.info("accessDenied()");
 		model.addAttribute("msg", "권한이 없습니다.");
 	}

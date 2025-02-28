@@ -34,7 +34,7 @@
 		SELECT * FROM PREORDER WHERE MEMBER_ID = #{memberId} ORDER BY PREORDER_ID DESC
 	</select>
 	
-	<select id="selectPreorderBymemberIdPagination" resultMap="PreorderResultMap">
+	<select id="selectPagedPreordersByMemberId" resultMap="PreorderResultMap">
       SELECT * FROM
       (
       SELECT ROW_NUMBER() OVER (ORDER BY PREORDER_ID DESC)

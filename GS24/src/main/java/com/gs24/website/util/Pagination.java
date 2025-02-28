@@ -20,6 +20,7 @@ public class Pagination {
 	private String topPrice;
 	private MemberVO memberVO;
 	private OwnerVO ownerVO;
+	private int convenienceId;
 
 	public Pagination() {
 		this.pageNum = 1;

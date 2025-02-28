@@ -16,7 +16,7 @@ public interface PreorderService {
 
 	int createPreorder(PreorderVO preorderVO, int giftCardId, int couponId);
 
-	List<PreorderVO> getPreorderBymemberId(String memberId);
+	List<PreorderVO> getPreorderByMemberId(String memberId);
 
 	PreorderVO getPreorderOneById(int preorderId);
 
