@@ -56,7 +56,7 @@
         }
 
         /* 검색 폼 스타일 */
-        #searchForm {
+        #filterForm {
             margin-top: 10px;
         }
 
@@ -174,6 +174,17 @@
         </c:forEach>
     </tbody>
 </table>
+
+	<form id="filterForm" action="list" method="get">
+    <label for="foodType">식품 유형 선택:</label>
+    <select id="foodType" name="foodType">
+        <option value="">전체</option>
+        <c:forEach var="type" items="${foodTypeList}">
+            <option value="${type}" <c:if test="${type eq selectedFoodType}">selected</c:if>>${type}</option>
+        </c:forEach>
+    </select>
+    <button type="submit">필터 적용</button>
+	</form>
 
 <!-- 페이징 처리 -->
 <ul>
