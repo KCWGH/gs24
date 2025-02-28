@@ -143,7 +143,7 @@
             <option value="${type}" <c:if test="${type eq selectedFoodType}">selected</c:if>>${type}</option>
         </c:forEach>
     </select>
-    <button type="submit">필터 적용</button>
+    <button type="submit">적용</button>
 	</form>
 	
 	<form id="listForm" action="ownerList" method="get">
