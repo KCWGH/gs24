@@ -32,6 +32,13 @@ body {
 	flex-direction: column;
 	align-items: center;
 }
+.imageList img{
+	width: 150px;
+	height: 150px;
+	margin: 5px;
+	cursor: pointer;
+	object-fit: cover;
+}
 
 .image-scroll {
 	margin-top: 10px;
@@ -305,8 +312,8 @@ body {
                     </c:if>
                 </sec:authorize>
             </div>
-        </c:forEach>
         <hr>
+        </c:forEach>
     </div>
     
     <form id="detailForm" action="detail" method="GET">
@@ -344,9 +351,9 @@ body {
             });
             pieChartDraw();
             
-            $("#reviewList").on('click','.reviewItems #reviewDelete', function(){
+            $("#reviewList").on('click','#reviewDelete', function(){
                 var path = $(".imageList").find('.image_path').val();
-                var reviewId = $(this).prevAll(".reviewId").val();
+                var reviewId = $(this).closest(".reviewItems").find(".reviewId").val();
                 var foodId = ${FoodVO.foodId };
                 var convenienceId = ${FoodVO.convenienceId}
                 console.log("path : " + path);
@@ -376,11 +383,38 @@ body {
                 detailForm.find("input[name='pageNum']").val(pageNum);
                 // 선택된 옵션 값을 input name='pageSize' 값으로 적용
                 detailForm.find("input[name='pageSize']").val(pageSize);
+				
                 
-                detailForm.submit();
+                $.ajax({
+            		type : "POST",
+            		url : "../review/list",
+            		data : {"foodId" : ${FoodVO.foodId} , "pageNum" : pageNum, "pageSize" : pageSize},
+            		success : function(result){
+		                let list = '';
+            			$(result).each(function(){
+            				list += '<div class="reviewItems">'
+            					  + '<hr>'
+            					  + '<input type="hidden" class="reviewId" value="'+ this.reviewId +'"/>'
+            					  + '<p><strong>'+ this.memberId +'</strong></p>'
+            					  + '<p class="reviewRating" data-rating="'+ this.reviewRating +'"></p>'
+            					  + '<div class="imageList">';
+            					  
+            					  $(this.imgList).each(function(){
+            						 list += '<input type="hidden" class="image_path" value="'+this.imgPath+'">'
+            						 	   + '<img src="../image/reviewImage?imgId='+ this.imgId +'">';
+            					  });
+            				list += '</div>'
+            					  + '<p><strong>'+this.reviewTitle+'</strong></p>'
+            					  + '<p>'+this.reviewContent+'</p>'
+            					  + '</div>'
+            					  + '<hr>'
+            					  + '</div>';
+            					  
+            			});
+            			$('#reviewList').html(list);                
+            		}
+            	});
             }); // end on()
-            
-      
         });
         
         let protein = ${FoodVO.foodProtein};

@@ -36,6 +36,8 @@ public class ReviewServiceImple implements ReviewService {
 	public int createReview(ReviewVO reviewVO, int preorderId) {
 		log.info("createReview()");
 
+		int result = reviewMapper.insertReview(reviewVO);
+
 		List<ImgVO> imgList = reviewVO.getImgList();
 				
 		if(imgList != null) {
@@ -45,8 +47,6 @@ public class ReviewServiceImple implements ReviewService {
 		}
 		preorderMapper.updateWriteReview(preorderId);
 
-		int result = reviewMapper.insertReview(reviewVO);
-		
 		ReviewRatingVO reviewRatingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(reviewVO.getFoodId());
 		
 		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(reviewRatingVO.getAvgRating(), reviewRatingVO.getReviewCnt(), reviewVO.getFoodId());
@@ -134,6 +134,9 @@ public class ReviewServiceImple implements ReviewService {
 	public List<ReviewVO> getReviewPaginationByFoodId(int foodId, Pagination pagination) {
 		log.info("getReviewPaginationByFoodId()");
 		List<ReviewVO> list = reviewMapper.selectReviewPagination(foodId, pagination.getStart(), pagination.getEnd());
+		for(ReviewVO vo : list) {
+			vo.setImgList(imgReviewMapper.selectImgReviewByReviewId(vo.getReviewId()));
+		}
 		return list;
 	}
 

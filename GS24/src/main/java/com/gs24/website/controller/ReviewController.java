@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gs24.website.check.CheckReviewData;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ReviewService;
+import com.gs24.website.util.PageMaker;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -31,11 +33,18 @@ public class ReviewController {
 
 	@PostMapping("/list")
 	@ResponseBody
-	public List<ReviewVO> listGET(@RequestBody int foodId) {
+	public List<ReviewVO> listGET(int foodId,int pageNum,int pageSize) {
 		log.info("listGET()");
-
-		List<ReviewVO> reviewList = reviewService.getAllReviewByFoodId(foodId);
-
+		
+		Pagination pagination = new Pagination();
+		pagination.setPageNum(pageNum);
+		pagination.setPageSize(pageSize);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(reviewService.getReviewCountByFoodId(foodId));
+		
+		List<ReviewVO> reviewList = reviewService.getReviewPaginationByFoodId(foodId, pagination);
+		
 		return reviewList;
 	}
 

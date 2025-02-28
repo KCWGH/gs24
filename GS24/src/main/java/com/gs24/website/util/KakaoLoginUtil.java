@@ -50,7 +50,7 @@ public class KakaoLoginUtil {
         HttpHeaders headers = new HttpHeaders();
         // Content-Type: application/x-www-form-urlencoded; 설정 추가
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
+        
         // 바디(파라미터) 설정
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
