@@ -85,21 +85,18 @@
         border-radius: 5px;
         border: none;
         cursor: pointer;
+        
     }
     
     #insert:hover {
     	background: #bbb;
     }
-    
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
+
     ul {
     	display: flex;
-    	justify-content: center; /* 가운데 정렬 */
+    	justify-content: center;
     	padding: 0;
-    	margin: 20px 0; /* 위아래 간격 */
+    	margin: 20px 0;
     	list-style-type: none;
 	}
 	
@@ -128,13 +125,12 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <h1>식품 리스트</h1>
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<div class="button-container">
-    	<button id="insert" onclick='location.href="register"'>식품 추가</button>
-    </div>
-</sec:authorize>
+
 
 <table id="foodTable">
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    	<button id="insert" onclick='location.href="register"'>식품 추가</button>
+</sec:authorize>
     <thead>
         <tr>
             <th>식품ID</th>

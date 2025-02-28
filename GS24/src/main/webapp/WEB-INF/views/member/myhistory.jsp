@@ -205,6 +205,10 @@ p {
     color: #888;
     margin-bottom: 10px;
 }
+
+a {
+	color: black;
+}
 /* 라디오 버튼과 텍스트에 마우스를 올리면 손가락 모양으로 변경 */
 input[type="radio"]:hover,
 label:hover {

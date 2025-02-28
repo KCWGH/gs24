@@ -29,11 +29,13 @@
 
         /* 테이블 스타일 */
         table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            text-align: center;
-        }
+    		max-width: 1000px; /* 테이블 최대 너비 설정 */
+    		margin: 20px auto; /* 중앙 정렬 */
+    		width: 100%;
+    		border-collapse: collapse;
+    		text-align: center;
+    		background-color: white;
+		}
 
         th, td {
             border: 1px solid #ccc;

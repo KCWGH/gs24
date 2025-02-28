@@ -104,15 +104,11 @@
     <h1>공지사항</h1>
     <h2>GS24의 새로운 소식을 전해 드립니다.</h2>
 
-    <!-- 글 작성 버튼 (관리자만 보이도록) -->
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <div class="button-container">
-            <a href="register"><input type="button" value="글 작성"></a>
-        </div>
-    </sec:authorize>
-
     <!-- 공지사항 목록 -->
     <table>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <a href="register"><input type="button" value="글 작성"></a>
+    	</sec:authorize>
         <thead>
             <tr>
                 <th style="width: 60px">번호</th>

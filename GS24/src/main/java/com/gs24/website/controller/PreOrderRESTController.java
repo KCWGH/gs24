@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gs24.website.domain.CustomUser;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.MemberService;
@@ -34,17 +32,15 @@ public class PreOrderRESTController {
 	private MemberService memberService;
 
 	@GetMapping("/all/{memberId}")
-	public ResponseEntity<List<PreorderVO>> getAllPreOrder(@AuthenticationPrincipal CustomUser customUser,
-			Model model) {
+	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model) {
 		log.info("getAllPreOrder()");
 		log.info("mypageGET()");
-		String memberId = customUser.getUsername(); // CustomUser의 username
+		String memberId = auth.getName();
 
 		// 회원 정보 가져오기
 		MemberVO memberVO = memberService.getMember(memberId);
 		model.addAttribute("memberVO", memberVO);
-		List<PreorderVO> list = preorderService.getPreorderBymemberId(memberId);
-		log.info(list);
+		List<PreorderVO> list = preorderService.getPreorderByMemberId(memberId);
 		return new ResponseEntity<List<PreorderVO>>(list, HttpStatus.OK);
 	}
 
@@ -88,7 +84,7 @@ public class PreOrderRESTController {
 	public ResponseEntity<Boolean> pickedUp(Authentication auth, int foodId) {
 		log.info("pickedUp");
 		Boolean isPickedUp = false;
-		if (auth != null) {			
+		if (auth != null) {
 			String memberId = auth.getName();
 			isPickedUp = preorderService.getPickedUpFoodIdByMemberId(memberId, foodId);
 			log.info(isPickedUp);
