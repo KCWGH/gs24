@@ -51,8 +51,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INNER JOIN IMG_THUMNAIL ON IMG_THUMNAIL.FOOD_ID = FOOD_LIST.FOOD_ID
 	</select>
 	
-	<select id="selectConvenienceFoodByConvenienceId" resultMap="ConvenienceFoodResultMap">
-	SELECT DISTINCT
+	<select id="selectPagedConvenienceFoodByConvenienceId" resultMap="ConvenienceFoodResultMap">
+        SELECT * FROM (
+        SELECT 
+        		ROW_NUMBER() OVER (ORDER BY CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID DESC) AS RN,
 		CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID,
 		CONVENIENCE_FOOD.CONVENIENCE_ID,
 		FOOD_LIST.FOOD_ID,
@@ -67,7 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMNAIL ON IMG_THUMNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		WHERE CONVENIENCE_ID = #{convenienceId} ORDER BY CONVENIENCE_FOOD_ID DESC
+		WHERE CONVENIENCE_ID = #{convenienceId}) 
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="selectConvenienceFoodByFoodIdAndConvenienceId" resultMap="ConvenienceFoodResultMap">
@@ -87,6 +90,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMNAIL ON IMG_THUMNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId} AND CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
+	</select>
+	
+	<select id="countTotalFoodsByConvenienceId" resultType="Integer">
+		SELECT COUNT(*)
+		FROM CONVENIENCE_FOOD
+		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
+		INNER JOIN IMG_THUMNAIL ON IMG_THUMNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
+		WHERE CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
 	</select>
 	
 	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceDetailFoodResultMap">

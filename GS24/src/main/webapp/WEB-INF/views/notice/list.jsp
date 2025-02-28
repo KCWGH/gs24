@@ -7,6 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <title>공지사항</title>
 </head>
@@ -15,8 +16,9 @@
     body {
         margin: 0;
         padding: 15px;
-        background-color: #f8f9fa;
+        padding-top: 0px;
         text-align: center;
+        background-color: #f8f9fa;
     }
 
     /* 제목 스타일 */
@@ -25,18 +27,21 @@
     }
 
     /* 테이블 스타일 */
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        text-align: center;
-    }
+	table {
+    	max-width: 1000px; /* 테이블 최대 너비 설정 */
+    	margin: 20px auto; /* 중앙 정렬 */
+    	width: 100%;
+    	border-collapse: collapse;
+    	text-align: center;
+    	background-color: white;
+	}
 
     th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-    }
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+    word-wrap: break-word; /* 긴 단어 줄바꿈 */
+	}
 
     th {
         background-color: #f1f1f1;

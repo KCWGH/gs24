@@ -1,7 +1,5 @@
 package com.gs24.website.controller;
 
-import java.net.URISyntaxException;
-import java.sql.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.ConvenienceService;
-import com.gs24.website.service.MemberService;
 import com.gs24.website.util.KakaoLoginUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -26,9 +22,6 @@ public class AuthController {
 
 	@Autowired
 	private ConvenienceService convenienceService;
-	
-	@Autowired
-	private MemberService memberService;
 	
 	@Autowired
 	private KakaoLoginUtil kakaoLoginUtil;

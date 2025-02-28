@@ -13,7 +13,7 @@ header {
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    background-color: #f8f9fa !important;
+    background-color: white;
     z-index: 1000 !important;
     border-bottom: 1px solid #ccc !important;
     padding: 10px 0 !important;
@@ -86,7 +86,10 @@ header span {
     color: #666 !important;
     font-size: 14px !important;
 }
-
+#login {
+	background-color: #4CAF50 !important;
+	color: white !important;
+}
 /* 로그아웃 폼 스타일 */
 .logout-form {
     display: flex !important;
@@ -131,7 +134,7 @@ header span {
         <div class="header-right">
             <!-- 로그인 버튼 -->
             <sec:authorize access="isAnonymous()">
-                <button onclick='location.href="../auth/login"'>로그인 ✔️</button>
+                <button id="login" onclick='location.href="../auth/login"'>로그인 🔑</button>
                 <button type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
             </sec:authorize>
 

@@ -27,19 +27,18 @@ h1 {
 .food_box {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center; /* Center horizontally */
-	align-items: flex-start; /* Align items to the top */
-	gap: 20px; /* Space between items */
+	justify-content: center;
+	align-items: flex-start;
+	gap: 20px;
 	padding: 20px;
-	list-style-type: none; /* Remove bullets from list */
-	margin: 0; /* Remove default margin from list */
+	list-style-type: none;
+	margin: 0;
 }
 
-/* Style individual list items */
 .food_box .List {
-	width: 250px; /* Set a fixed width for each item */
-	text-align: center; /* Center text inside each item */
-	border: 1px solid #ddd; /* Add a border around each item */
+	width: 250px;
+	text-align: center;
+	border: 1px solid #ddd;
 	padding: 10px;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -54,6 +53,13 @@ h1 {
 	cursor: pointer;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .button-container button {
 	margin-top: 10px;
 	padding: 10px 20px;
@@ -63,6 +69,7 @@ h1 {
 	color: black;
 	cursor: pointer;
 	font-size: 14px;
+	text-align: center;
 }
 
 .button-container button:hover {
@@ -109,6 +116,47 @@ h1 {
 
 .food-info span {
 	line-height: 0.6;
+}
+
+ul {
+	display: flex;
+	justify-content: center;
+	padding: 0;
+	margin: 20px 0;
+	list-style-type: none;
+}
+
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+	text-align: center;
+}
+
+.pagination_button a {
+	text-decoration: none;
+	border-radius: 5px;
+	color: black;
+}
+
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+
+.pagination_button span {
+	color: #444;
+	font-size: 30px;
+}
+
+@media screen and (max-width: 768px) {
+	.pagination_button span {
+		font-size: 15px;
+	}
 }
 </style>
 </head>
@@ -204,6 +252,7 @@ h1 {
    </form>
    
    <form id="listForm" action="list" method="GET">
+      <input type="hidden" name="convenienceId">
       <input type="hidden" name="pageNum">
       <input type="hidden" name="pageSize">
       <input type="hidden" name="type">
@@ -213,20 +262,32 @@ h1 {
       <input type="hidden" name="topPrice">
    </form>
    
-   <!-- 
-   <ul id="paginationList">
-         <c:if test="${pageMaker.isPrev() }">
-            <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
-         </c:if>
-         <c:forEach begin="${pageMaker.startNum }"
-            end="${pageMaker.endNum }" var="num">
-            <li class="pagination_button"><a href="${num }">●</a></li>
-         </c:forEach>
-         <c:if test="${pageMaker.isNext() }">
-            <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
-         </c:if>
-   </ul>
-    -->
+	<ul>
+    	<c:if test="${pageMaker.isPrev()}">
+        	<li class="pagination_button">
+            	<a href="${pageMaker.startNum - 1}">이전</a>
+        	</li>
+    	</c:if>
+
+    	<c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+        	<li class="pagination_button">
+            	<c:choose>
+                	<c:when test="${num == pageMaker.pagination.pageNum}">
+                    	<span>●</span>
+                	</c:when>
+                	<c:otherwise>
+                    	<a href="${num}"><span>○</span></a>
+                	</c:otherwise>
+            	</c:choose>
+        	</li>
+    	</c:forEach>
+
+    	<c:if test="${pageMaker.isNext()}">
+        	<li class="pagination_button">
+            	<a href="${pageMaker.endNum + 1}">다음</a>
+        	</li>
+    	</c:if>
+	</ul>
 </body>
 
 <script type="text/javascript">
@@ -334,6 +395,7 @@ h1 {
          var listForm = $("#listForm"); // form 객체 참조
          e.preventDefault(); // a 태그 이벤트 방지
       
+         var convenienceId = '${convenienceId}';
          var pageNum = $(this).attr("href"); // a태그의 href 값 저장
          // 현재 페이지 사이즈값 저장
          var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
@@ -344,6 +406,7 @@ h1 {
          var topPrice = "<c:out value='${pageMaker.pagination.topPrice}' />";
           
          // 페이지 번호를 input name='pageNum' 값으로 적용
+         listForm.find("input[name='convenienceId']").val(convenienceId);
          listForm.find("input[name='pageNum']").val(pageNum);
          // 선택된 옵션 값을 input name='pageSize' 값으로 적용
          listForm.find("input[name='pageSize']").val(pageSize);

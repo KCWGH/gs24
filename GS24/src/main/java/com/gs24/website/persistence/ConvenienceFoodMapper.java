@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
+import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface ConvenienceFoodMapper {
@@ -15,7 +16,9 @@ public interface ConvenienceFoodMapper {
 
 	List<ConvenienceFoodVO> selectAllConvenienceFood();
 
-	List<ConvenienceFoodVO> selectConvenienceFoodByConvenienceId(int convenienceId);
+	List<ConvenienceFoodVO> selectPagedConvenienceFoodByConvenienceId(Pagination pagination);
+	
+	int countTotalFoodsByConvenienceId(int convenienceId);
 
 	ConvenienceFoodVO selectConvenienceFoodByFoodIdAndConvenienceId(@Param("foodId") int foodId,
 			@Param("convenienceId") int convenienceId);

@@ -7,30 +7,30 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>식품 창고</title>
 <style type="text/css">
-    /* 전체 페이지 스타일 */
     body {
         margin: 0;
         padding: 15px;
-        background-color: #f8f9fa;
         text-align: center;
+        background-color: #f8f9fa;
     }
 
-    /* 제목 스타일 */
     h2 {
         color: #333;
         margin-bottom: 5px;
     }
 
-    /* 기프트카드 리스트 스타일 */
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        text-align: center;
-    }
+	table {
+    	max-width: 1200px;
+    	margin: 20px auto;
+    	width: 100%;
+    	border-collapse: collapse;
+    	text-align: center;
+    	background-color: white;
+	}
 
     th, td {
         border: 1px solid #ccc;
