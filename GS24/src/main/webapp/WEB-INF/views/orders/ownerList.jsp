@@ -11,85 +11,72 @@
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <title>발주 이력</title>
-    <style>
-        /* 전체 페이지 스타일 */
-        body {
-            margin: 0;
-            padding: 15px;
-            text-align: center;
-            background-color: #f8f9fa;
-        }
+<style>
+body {
+	margin: 0;
+	padding: 15px;
+	text-align: center;
+	background-color: #f8f9fa;
+}
 
-        /* 제목 스타일 */
-        h2 {
-            color: #333;
-            margin-bottom: 5px;
-        }
+h2 {
+	color: #333;
+	margin-bottom: 5px;
+}
 
-        /* 테이블 스타일 */
-		table {
-    		max-width: 1000px; /* 테이블 최대 너비 설정 */
-    		margin: 20px auto; /* 중앙 정렬 */
-    		width: 100%;
-    		border-collapse: collapse;
-    		text-align: center;
-    		background-color: white;
-		}
+table {
+	max-width: 1000px;
+	margin: 20px auto;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	background-color: white;
+}
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 14px;
-            text-align: center;
-        }
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	font-size: 14px;
+	text-align: center;
+}
 
-        th {
-            background-color: #f1f1f1;
-            color: #555;
-        }
+th {
+	background-color: #f1f1f1;
+	color: #555;
+}
 
-        /* 버튼 스타일 */
-        button {
-            background: #ddd;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 5px;
-            border: none;
-            cursor: pointer;
-        }
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+}
 
-        button:hover {
-            background: #bbb;
-        }
-            /* 페이징 스타일 */
-    .pagination_button {
-        display: inline-block;
-        margin: 5px;
-    }
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
 
-    .pagination_button a {
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: black;
-    }
+.pagination_button a:hover {
+	background: #bbb;
+}
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
 
-    /* 글 작성 버튼 컨테이너 */
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    .pagination_button.current a {
-    background: #333;
-    color: white;
-	}
-    </style>
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+</style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -119,9 +106,9 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${order.approvalStatus == 0}">대기</c:when>
-                            <c:when test="${order.approvalStatus == 1}">승인</c:when>
-                            <c:when test="${order.approvalStatus == 2}">거절</c:when>
+                            <c:when test="${order.approvalStatus == 0}"><span style="color: blue;">대기</span></c:when>
+                            <c:when test="${order.approvalStatus == 1}"><span style="color: green;">승인</span></c:when>
+                            <c:when test="${order.approvalStatus == 2}"><span style="color: red;">거절</span></c:when>
                         </c:choose>
                     </td>
                 </tr>

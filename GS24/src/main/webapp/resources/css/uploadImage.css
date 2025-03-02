@@ -40,7 +40,7 @@
 	border-color: blue;
 	border-style: solid;
 }
-.thumnail-drop {
+.thumbnail-drop {
     width: 200px;
     height: 200px;
     border: 2px dashed maroon;
@@ -50,7 +50,7 @@
     font-size: 16px;
     color: maroon;
 }
-.thumnail-image{
+.thumbnail-image{
 	margin-top: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;

@@ -23,11 +23,11 @@ public class HttpUtil {
 	
 	//파라미터가 없냐
 	public Map<String, Object> Get(HttpHeaders headers, String url) throws Exception{
-		URI uri = new URI(url);
+//		URI uri = new URI(url);
+//		
+//		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
 		
-		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
-		
-		ResponseEntity<String> resonesEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
+//		ResponseEntity<String> resonesEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
 		
 		return null;
 	}

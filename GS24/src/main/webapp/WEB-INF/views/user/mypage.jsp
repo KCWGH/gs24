@@ -11,7 +11,6 @@
 <title>마이페이지</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <style type="text/css">
-/* 전체 페이지 스타일 */
 body {
     margin: 0;
     padding: 60px 15px 15px 15px;
@@ -19,7 +18,6 @@ body {
     text-align: center;
 }
 
-/* 컨테이너 스타일 */
 .container {
     max-width: 100%;
     padding: 10px;
@@ -29,13 +27,11 @@ body {
     text-align: center;
 }
 
-/* 제목 스타일 */
 h2 {
     color: #333;
     margin-bottom: 10px;
 }
 
-/* 테이블 스타일 */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -59,7 +55,6 @@ td {
     font-size: 14px;
 }
 
-/* 입력 필드 스타일 */
 input[type="text"], input[type="email"] {
     width: 60%;
     padding: 5px;
@@ -69,7 +64,6 @@ input[type="text"], input[type="email"] {
     font-size: 13px;
 }
 
-/* 버튼 스타일 */
 button {
     padding: 7px 10px;
     font-size: 13px;
@@ -84,34 +78,31 @@ button:hover {
     background: #bbb;
 }
 
-/* 버튼 크기 통일 */
 .btn-container button {
-    width: 120px; /* 모든 버튼의 너비를 동일하게 */
-    padding: 10px; /* 패딩을 조정하여 크기 균일화 */
-    font-size: 14px; /* 글자 크기 통일 */
+    width: 120px;
+    padding: 10px;
+    font-size: 14px;
     text-align: center;
 }
 
-/* 삭제 확인 문구 */
 #textDelete {
     font-size: 13px;
     color: red;
     margin-bottom: 5px;
 }
 
-/* 결과 메시지 */
 #updateEmailResult, #updatePhoneResult, #deleteResult {
     font-size: 12px;
     margin-top: 5px;
     color: red;
 }
 #btnDelete {
-    background: #ff6666; /* 연붉은색 */
+    background: #ff6666;
     color: white;
 }
 
 #btnDelete:hover {
-    background: #ff4d4d; /* 좀 더 진한 붉은색 */
+    background: #ff4d4d;
 }
 </style>
 <script>

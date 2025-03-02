@@ -88,14 +88,12 @@
         });
     </script>
     <style>
-        /* 전체 페이지 스타일 */
         body {
             margin: 0;
             background-color: #f8f9fa;
             text-align: center;
         }
 
-        /* 컨테이너 스타일 */
         .container {
             max-width: 100%;
             padding: 10px;
@@ -105,13 +103,11 @@
             text-align: center;
         }
 
-        /* 제목 스타일 */
         h2 {
             color: #333;
             margin-bottom: 10px;
         }
 
-        /* 테이블 스타일 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -135,7 +131,6 @@
             font-size: 14px;
         }
 
-        /* 입력 필드 스타일 */
         input[type="text"], input[type="email"], input[type="number"], input[type="datetime-local"] {
             width: 60%;
             padding: 5px;
@@ -154,9 +149,8 @@
             font-size: 13px;
         }
 
-        /* 버튼 스타일 */
         button {
-            padding: 7px 10px;
+            padding: 7px;
             font-size: 13px;
             border: none;
             background: #ddd;
@@ -169,11 +163,10 @@
             background: #bbb;
         }
 
-        /* 버튼 크기 통일 */
         .btn-container button {
-            width: 120px; /* 모든 버튼의 너비를 동일하게 */
-            padding: 10px; /* 패딩을 조정하여 크기 균일화 */
-            font-size: 14px; /* 글자 크기 통일 */
+            width: 120px;
+            padding: 10px;
+            font-size: 14px;
             text-align: center;
         }
     </style>

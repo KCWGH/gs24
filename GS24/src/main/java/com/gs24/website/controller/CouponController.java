@@ -15,11 +15,8 @@ import com.gs24.website.domain.CouponVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.CouponService;
 
-import lombok.extern.log4j.Log4j;
-
-@Controller // @Component
+@Controller
 @RequestMapping(value = "/coupon")
-@Log4j
 public class CouponController {
 
 	@Autowired
@@ -30,7 +27,6 @@ public class CouponController {
 
 	@GetMapping("/publish")
 	public void publishGET(Model model) {
-		log.info("publishGET()");
 		List<String> foodType = convenienceFoodService.getFoodTypeList();
 		model.addAttribute("foodTypeList", foodType);
 	}
@@ -41,7 +37,6 @@ public class CouponController {
 		int result = couponService.validateAndPublishCoupon(couponVO);
 
 		if (result == 1) {
-			log.info("쿠폰 발행에 성공했습니다.");
 			redirectAttributes.addFlashAttribute("message", "쿠폰 발행에 성공했습니다 :)");
 		} else {
 			String errorMessage = "";

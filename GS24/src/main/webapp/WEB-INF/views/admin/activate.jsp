@@ -8,15 +8,24 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>재활성화 승인</title>
+    <title>비활성화 해제 승인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
+body {
+	margin: 0;
+	padding: 15px;
+	text-align: center;
+	background-color: #f8f9fa;
+}
+
 .container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 30px;
-	margin-top: 250px;
+	margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    height: 100%;
 }
 
 .left-panel, .right-panel {
@@ -26,8 +35,8 @@
 	padding: 15px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	background: #f9f9f9;
 	overflow-y: auto;
+	background: white;
 }
 
 #update {
@@ -128,6 +137,7 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
+<h1>비활성화 해제 승인</h1>
 <div class="container">
     <div class="left-panel">
     <h2>재활성화 요청 점주 목록</h2>

@@ -11,115 +11,113 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>식품 창고</title>
 <style type="text/css">
-    body {
-        margin: 0;
-        padding: 15px;
-        text-align: center;
-        background-color: #f8f9fa;
-    }
+body {
+	margin: 0;
+	padding: 15px;
+	text-align: center;
+	background-color: #f8f9fa;
+}
 
-    h2 {
-        color: #333;
-        margin-bottom: 5px;
-    }
+h2 {
+	color: #333;
+	margin-bottom: 5px;
+}
 
-	table {
-    	max-width: 1200px;
-    	margin: 20px auto;
-    	width: 100%;
-    	border-collapse: collapse;
-    	text-align: center;
-    	background-color: white;
-	}
+table {
+	max-width: 1200px;
+	margin: 20px auto;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	background-color: white;
+}
 
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-        text-align: center;
-    }
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	font-size: 14px;
+	text-align: center;
+}
 
-    th {
-        background-color: #f1f1f1;
-        color: #555;
-    }
+th {
+	background-color: #f1f1f1;
+	color: #555;
+}
 
-    td a {
-        color: #007bff;
-        text-decoration: none;
-        font-size: 14px;
-    }
+td a {
+	color: #007bff;
+	text-decoration: none;
+	font-size: 14px;
+}
 
-    td a:hover {
-        text-decoration: underline;
-    }
+td a:hover {
+	text-decoration: underline;
+}
 
-    /* 상태별 텍스트 스타일 */
-    .status-text {
-        font-size: 13px;
-        font-weight: bold;
-        display: inline-block;
-        padding: 3px 8px;
-        border-radius: 5px;
-    }
+.status-text {
+	font-size: 13px;
+	font-weight: bold;
+	display: inline-block;
+	padding: 3px 8px;
+	border-radius: 5px;
+}
 
-    /* 수정, 삭제, 발주 버튼 스타일 */
-    .foodRow td a, .foodRow td .insert {
-        background: #ddd;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        text-decoration: none;
-        border: none;
-        margin: 5px;
-    }
+.foodRow td a, .foodRow td .insert {
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	text-decoration: none;
+	border: none;
+	margin: 5px;
+}
 
-    .foodRow td a:hover, .foodRow td .insert:hover {
-        background: #bbb;
-    }
-    
-    #insert {
-    	background: #ddd;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        
-    }
-    
-    #insert:hover {
-    	background: #bbb;
-    }
+.foodRow td a:hover, .foodRow td .insert:hover {
+	background: #bbb;
+}
 
-    ul {
-    	display: flex;
-    	justify-content: center;
-    	padding: 0;
-    	margin: 20px 0;
-    	list-style-type: none;
-	}
-	
-    .pagination_button {
-        display: inline-block;
-        margin: 5px;
-        text-align: center;
-    }
+#insert {
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
 
-    .pagination_button a {
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: black;
-    }
+#insert:hover {
+	background: #bbb;
+}
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
-    .pagination_button.current a {
-    background: #333;
-    color: white;
-	} 
+ul {
+	display: flex;
+	justify-content: center;
+	padding: 0;
+	margin: 20px 0;
+	list-style-type: none;
+}
+
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+	text-align: center;
+}
+
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
+
+.pagination_button a:hover {
+	background: #bbb;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -165,10 +163,10 @@
             <td class="foodStock">${foodListVO.foodStock}</td>
             <c:choose>
                 <c:when test="${foodListVO.isSelling == 0}"> <td class="isSelling" style="color:red;">발주 중지</td> </c:when>
-                <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 진행</td> </c:when>
+                <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 가능</td> </c:when>
                 <c:when test="${foodListVO.isSelling == 2}"> <td class="isSelling" style="color:blue;">발주 준비</td> </c:when>
             </c:choose>
-            <td><a href="../image/foodThumnail?foodId=${foodListVO.foodId}" target="_blank">썸네일 보기</a></td>
+            <td><a href="../image/foodThumbnail?foodId=${foodListVO.foodId}" target="_blank">썸네일 보기</a></td>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <td><a href="update?foodId=${foodListVO.foodId}">수정</a></td>
                 <td class="delete"><a href="delete?foodId=${foodListVO.foodId}">삭제</a></td>
@@ -214,8 +212,8 @@ $(document).ready(function () {
         var foodStock = $(this).parents().prevAll('.foodStock').text();
         var isSelling = $(this).parents().prevAll('.isSelling').text();
 
-        if (isSelling != '발주 진행') {
-            alert("발주 진행 중인 상품이 아닙니다.");
+        if (isSelling != '발주 가능') {
+            alert("발주 가능한 상품이 아닙니다.");
             return;
         }
 

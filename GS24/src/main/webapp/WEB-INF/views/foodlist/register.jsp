@@ -12,7 +12,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <style>
-.thumnail-image {
+.thumbnail-image {
     display: none;
 }
 .image-drop{
@@ -46,11 +46,11 @@
 		<input type="radio" name="isSelling" value="2">
 	</form>
 	
-	<div class="thumnail-drop">
+	<div class="thumbnail-drop">
 		대표 사진 드래그로 등록
 	</div>
 	
-	<div class="thumnail-image"></div>
+	<div class="thumbnail-image"></div>
 		
 	<div class="image-drop">
 		세부 사진 드래그로 등록
@@ -58,7 +58,7 @@
 	
 	<div class="image-list"></div>
 	
-	<div class="ThumnailVO"></div>
+	<div class="ThumbnailVO"></div>
 	<div class="ImgVOList"></div>
 	
 	<button class="insertImage" disabled="disabled">세부 사진 추가</button>
@@ -75,7 +75,7 @@
 		        xhr.setRequestHeader(header, token);
 		     });
 		$(document).ready(function() {
-			function checkThumnail(file){
+			function checkThumbnail(file){
 				
 				var checkExtension = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 				var checkFileSize = 1 * 1024 * 1024;
@@ -100,12 +100,12 @@
 				return true;
 			}
 			
-			$(".thumnail-drop").on('dragenter dragover',function(event){				
+			$(".thumbnail-drop").on('dragenter dragover',function(event){				
 				event.preventDefault();
 				console.log("드래그 중");
 			});
 			
-			$(".thumnail-drop").on('drop',function(event){
+			$(".thumbnail-drop").on('drop',function(event){
 				event.preventDefault();
 				console.log("사진 떨어뜨림");
 				
@@ -121,10 +121,10 @@
 				}
 				formData.append('foreignId',foodId);
 				
-				if(checkThumnail(file)){
+				if(checkThumbnail(file)){
 					$.ajax({
 						type : 'post',
-						url : '../image/thumnail',
+						url : '../image/thumbnail',
 						processData : false,
 						contentType : false,
 						data : formData,
@@ -136,9 +136,9 @@
 							var input = $('<input>').attr('type','hidden').attr('name','ImgVO').attr('data-chgName',data.imgChgName);
 							input.val(JSON.stringify(data));
 							
-							$(".ThumnailVO").append(input);
+							$(".ThumbnailVO").append(input);
 							
-							list += '<div class="thumnail-item">'
+							list += '<div class="thumbnail-item">'
 								 +	'<pre>'
 								 +	'<input type="hidden" id="thumanilPath" value='+data.imgPath+'>'
 								 +	'<input type="hidden" id="thumanilChgName value='+data.imgChgName+'>'
@@ -147,8 +147,8 @@
 								 +	'</pre>'
 								 +	'</pre>'
 								 + 	'</div>';
-								 $(".thumnail-image").html(list);
-								 $(".thumnail-image").show();
+								 $(".thumbnail-image").html(list);
+								 $(".thumbnail-image").show();
 								 $(".insertImage").attr('disabled',false);
 						}
 					});
@@ -186,7 +186,7 @@
 			
 			$(".submit").click(function(){
 				
-				if($(".thumnail-item").length < 1){
+				if($(".thumbnail-item").length < 1){
 					alert("대표 사진을 등록해야 합니다.");
 					return;
 				}
@@ -206,16 +206,16 @@
 					return;
 				}
 				
-				$(".ThumnailVO input").each(function(){
+				$(".ThumbnailVO input").each(function(){
 					var ImgVO = JSON.parse($(this).val());
 					
 					console.log(ImgVO);
 					
-					var foodId		= $('<input>').attr('type','hidden').attr('name','imgThumnail.foreignId').attr('value',ImgVO.foreignId);
-					var realName	= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgRealName').attr('value',ImgVO.imgRealName);
-					var chgName		= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgChgName').attr('value',ImgVO.imgChgName);
-					var extension	= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgExtension').attr('value',ImgVO.imgExtension);
-					var path		= $('<input>').attr('type','hidden').attr('name','imgThumnail.ImgPath').attr('value',ImgVO.imgPath);
+					var foodId		= $('<input>').attr('type','hidden').attr('name','imgThumbnail.foreignId').attr('value',ImgVO.foreignId);
+					var realName	= $('<input>').attr('type','hidden').attr('name','imgThumbnail.ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('name','imgThumbnail.ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('name','imgThumbnail.ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('name','imgThumbnail.ImgPath').attr('value',ImgVO.imgPath);
 					
 					registerForm.append(foodId);
 					registerForm.append(realName);

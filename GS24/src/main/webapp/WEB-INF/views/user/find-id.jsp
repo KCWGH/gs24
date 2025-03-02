@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
-	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>아이디 찾기</title>
     <style>
-        /* Body의 전체를 중앙 정렬 */
         body {
             display: flex;
             justify-content: center;
@@ -18,7 +17,6 @@
             background-color: #f4f4f4;
         }
 
-        /* Card 스타일 */
         .card {
             display: flex;
             flex-direction: column;
@@ -31,12 +29,14 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+
         .verification-container {
-        display: flex;
-        gap: 10px; /* Optional: Add some space between the input and button */
-        align-items: center; /* Vertically align elements in the center */
-    	}
-    	table {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
@@ -58,6 +58,7 @@
         td {
             font-size: 14px;
         }
+
         input[type="text"], input[type="password"], input[type="email"] {
             width: 50%;
             padding: 5px;
@@ -66,6 +67,7 @@
             text-align: center;
             font-size: 13px;
         }
+
         button {
             padding: 7px 10px;
             font-size: 13px;
@@ -82,12 +84,13 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
-    $(document).ajaxSend(function(e, xhr, opt){
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        
-        xhr.setRequestHeader(header, token);
-     });
+        $(document).ajaxSend(function(e, xhr, opt){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            xhr.setRequestHeader(header, token);
+        });
+
         $(document).ready(function() {
             let timerInterval;
             let remainingTime = 2 * 60;
@@ -98,7 +101,7 @@
                     alert("이메일을 입력해주세요.");
                     return;
                 }
-                
+
                 if (timerInterval) {
                     clearInterval(timerInterval);
                 }
@@ -120,11 +123,11 @@
                             '<input type="text" id="verificationCode" name="verificationCode" required>' +
                             '<button id="btnFindId">아이디 찾기</button>' +
                             '</div>' +
-                            '<div id="findResult" hidden="hidden"></div><div id="timer" hidden="hidden"></div>'
+                            '<div id="findResult" hidden="hidden"></div><div id="timer" hidden="hidden"></div>' +
                             '</td>' +
                             '</tr>';
                         $("table").append(verificationRow);
-                        
+
                         $("#verificationText").show();
                         $("#verificationCode").show();
                         $("#btnFindId").show();
@@ -147,13 +150,13 @@
                 let email = $("#email").val();
                 let code = $("#verificationCode").val();
                 code = code.replace(/\s+/g, '').replace(/\D/g, '');
-                
+
                 if (code.length !== 6) {
                     $("#findResult").html("인증번호 6자리를 정확히 입력해 주세요.");
                     $("#findResult").show();
                     return;
                 }
-                
+
                 $.ajax({
                     url: 'verifyCode-ID',
                     type: 'POST',
@@ -161,9 +164,9 @@
                     data: JSON.stringify({ email: email, code: code }),
                     success: function(response) {
                         $("#findResult").html(
-                                "인증번호가 일치합니다.<br>" +
-                                "아이디는 <span style='color: green;'>" + response + "</span> 입니다."
-                            );
+                            "인증번호가 일치합니다.<br>" +
+                            "아이디는 <span style='color: green;'>" + response + "</span> 입니다."
+                        );
                         $("#findResult").show();
                         let findPwUrl = 'find-pw?username=' + encodeURIComponent(response);
                         $("#btnFindPw").attr("onclick", "location.href='" + findPwUrl + "'");
@@ -199,26 +202,26 @@
     </script>
 </head>
 <body>
-<div class="card">
-    <h2>아이디 찾기</h2>
-    <p>회원가입 시 등록된 이메일로 인증번호를 전송합니다.</p>
-    <table>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <input type="email" id="email" name="email" required>
-                <button id="btnSendVerificationCode">인증번호 전송</button><br>
-                <div id="sendResult" hidden="hidden"></div>
-            </td>
-        </tr>
-    </table>
-    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-        <button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button>
-        <a href="../auth/login">
-            <button type="button">로그인 창으로 돌아가기</button>
-        </a>
+    <div class="card">
+        <h2>아이디 찾기</h2>
+        <p>회원가입 시 등록된 이메일로 인증번호를 전송합니다.</p>
+        <table>
+            <tr>
+                <th>이메일</th>
+                <td>
+                    <input type="email" id="email" name="email" required>
+                    <button id="btnSendVerificationCode">인증번호 전송</button><br>
+                    <div id="sendResult" hidden="hidden"></div>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button id="btnFindPw" onclick='location.href="find-pw"'>비밀번호 찾기</button>
+            <a href="../auth/login">
+                <button type="button">로그인 창으로 돌아가기</button>
+            </a>
+        </div>
     </div>
-</div>
 </body>
 </html>

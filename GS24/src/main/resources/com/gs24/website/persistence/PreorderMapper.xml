@@ -71,14 +71,8 @@
    		</choose>
    	</select>
    
-   	<select id="countNotPickUpPreorderByPagination" resultType="int">
-   		SELECT COUNT(*) FROM PREORDER WHERE 
-   		<choose>
-   			<when test="keyword == null"></when>
-   			<when test="keyword == ''"></when>
-   			<otherwise>MEMBER_ID = #{keyword} AND</otherwise>
-   		</choose>
-   		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
+   	<select id="countNotPickUpPreordersByConvenienceId" resultType="int">
+   		SELECT COUNT(*) FROM PREORDER WHERE CONVENIENCE_ID = #{convenienceId } AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
    	</select>
    
    	<select id="selectPickedUpFoodIdByMemberId" resultType="Integer">

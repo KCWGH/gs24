@@ -12,91 +12,97 @@
     <title>공지사항</title>
 </head>
 <style>
-    /* 전체 페이지 스타일 */
-    body {
-        margin: 0;
-        padding: 15px;
-        padding-top: 0px;
-        text-align: center;
-        background-color: #f8f9fa;
-    }
+/* 전체 페이지 스타일 */
+body {
+	margin: 0;
+	padding: 15px;
+	background-color: #f8f9fa;
+	text-align: center;
+}
 
-    /* 제목 스타일 */
-    h1, h2 {
-        color: #333;
-    }
+/* 제목 스타일 */
+h1, h2 {
+	color: #333;
+}
 
-    /* 테이블 스타일 */
-	table {
-    	max-width: 1000px; /* 테이블 최대 너비 설정 */
-    	margin: 20px auto; /* 중앙 정렬 */
-    	width: 100%;
-    	border-collapse: collapse;
-    	text-align: center;
-    	background-color: white;
-	}
+/* 테이블 스타일 */
+table {
+	max-width: 1000px; /* 테이블 최대 너비 설정 */
+	margin: 20px auto; /* 중앙 정렬 */
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	background-color: white;
+}
 
-    th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    font-size: 14px;
-    word-wrap: break-word; /* 긴 단어 줄바꿈 */
-	}
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	font-size: 14px;
+	word-wrap: break-word; /* 긴 단어 줄바꿈 */
+}
 
-    th {
-        background-color: #f1f1f1;
-        color: #555;
-    }
+th {
+	background-color: #f1f1f1;
+	color: #555;
+}
 
-    /* 버튼 스타일 */
-    button, input[type="button"] {
-        background: #ddd;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-    }
+/* 버튼 스타일 */
+button, input[type="button"] {
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
 
-    button:hover, input[type="button"]:hover {
-        background: #bbb;
-    }
+button:hover, input[type="button"]:hover {
+	background: #bbb;
+}
 
-    /* 검색 폼 스타일 */
-    #searchForm {
-        margin-top: 10px;
-    }
-    
-    .title {
-    	color: black;
-    }
+/* 검색 폼 스타일 */
+#searchForm {
+	margin-top: 10px;
+}
 
-    /* 페이징 스타일 */
-    .pagination_button {
-        display: inline-block;
-        margin: 5px;
-    }
+.title {
+	color: black;
+}
 
-    .pagination_button a {
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: black;
-    }
+/* 페이징 스타일 */
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+}
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
 
-    /* 글 작성 버튼 컨테이너 */
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    .pagination_button.current a {
-    background: #333;
-    color: white;
-	}
+.pagination_button a:hover {
+	background: #bbb;
+}
+
+/* 글 작성 버튼 컨테이너 */
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
 </style>
 <body>
     <%@ include file="../common/header.jsp" %>

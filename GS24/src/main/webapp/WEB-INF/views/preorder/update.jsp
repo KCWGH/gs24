@@ -9,80 +9,188 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>예약 식품 확인</title>
 </head>
 <style>
-	ul {
-		list-style-type: none;	
-	}
-	li {
-		margin-bottom: 40px;
-		width: 100px;
-		display: inline-block;
-	}
-	li div:hover {
-		background-color: silver;
-	}
-	.preorder-item:hover{
-		border-style: dotted;
-		border-color: aqua;
-		margin-bottom: 20px;
-	}
+body {
+	margin: 0;
+	padding: 15px;
+	background-color: #f8f9fa;
+	text-align: center;
+}
+
+.preorder-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 15px;
+}
+
+
+.preorder-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    max-width: 450px;
+	margin: 20px auto;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	background-color: white;
+	border-radius: 30px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preorder-item:hover {
+    border: 2px solid #4CAF50;
+	cursor: pointer;
+}
+
+.preorder-image {
+    margin-right: 20px;
+}
+
+li {
+	width: 100px;
+	cursor: pointer;
+	display: inline-block;
+}
+
+li div:hover {
+	background-color: silver;
+	border-radius: 5px;
+}
+
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+}
+
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
+
+.pagination_button a:hover {
+	background: #bbb;
+}
+
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+}
+
+button, input[type="button"] {
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #bbb;
+}
+
+input[type="text"] {
+    width: 15%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.preorderId {
+	font-size: 40px;
+	padding: 20px;
 }
 </style>
 <body>
 <%@ include file="../common/header.jsp"%>
-	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력">
+
+<h1>결제 및 지급</h1>
 	<ul class="preorder">
 		<li>
 			<div class="Order">
-				예약 순
+				최근예약순
 			</div>
 		</li>
 		<li>
 			<div class="Food">
-				식품 순
+				식품종류순
 			</div>
 		</li>
 		<li>
 			<div class="Date">
-				날짜 순
+				수령기한순
 			</div>
 		</li>
 	</ul>
+	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력">
+<div class="container">
+<div class="preorder-list">
+	<c:forEach var="preorderVO" items="${preorderList}">
+		<div class="preorder-item">
+			<strong class="preorderId">${preorderVO.preorderId }</strong>
+			<img class="preorder-image" src="../image/foodThumbnail?foodId=${preorderVO.foodId }" width="80px" height="80px">
+			<table>
+				<tr>
+					<th>회원명</th>
+					<td><span class="memberId">${preorderVO.memberId }</span></td>
+				</tr>
+				<tr>
+					<th>결제액</th>
+					<td><span class="totalPrice">${preorderVO.totalPrice }</span>원</td>
+				</tr>
+				<tr>
+					<th>수령기한</th>
+					<fmt:formatDate value="${preorderVO.pickupDate }" pattern="yyyy년 MM월 dd일" var="pickupDate" />
+					<td><span class="pickupDate">${pickupDate }</span></td>
+				</tr>
+			</table>
+		</div>
+	</c:forEach>
+</div>
+</div>
 	
-	<div class="preorder-list">
-		<c:forEach var="preorderVO" items="${preorderList}">
-			<div class="preorder-item">
-				<p class="preorderId">${preorderVO.preorderId }</p>
-				<img src="../image/foodThumnail?foodId=${preorderVO.foodId }" width="100px" height="100px">
-				<p class="pickupDate">${preorderVO.pickupDate }</p>
-				<p class="memberId">${preorderVO.memberId }</p>
-				<p class="totalPrice">${preorderVO.totalPrice }</p>
-			</div>
-		</c:forEach>
-	</div>
-	
-	<button type="button" onclick='location.href="../convenienceFood/list?convenienceId=${convenienceId }"'>돌아가기</button>
 	 <ul id="paginationList">
-         <!-- 이전 버튼 생성을 위한 조건문 -->
-         <c:if test="${pageMaker.isPrev() }">
+        <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
-         </c:if>
-         <!-- 반복문으로 시작 번호부터 끝 번호까지 생성 -->
-         <c:forEach begin="${pageMaker.startNum }"
-            end="${pageMaker.endNum }" var="num">
-            <li class="pagination_button"><a href="${num }">●</a></li>
-         </c:forEach>
-         <!-- 다음 버튼 생성을 위한 조건문 -->
-         <c:if test="${pageMaker.isNext() }">
+        </c:if>
+        <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
+    		<li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
+        		<a href="${num}">${num}</a>
+    		</li>
+		</c:forEach>
+        <c:if test="${pageMaker.isNext()}">
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
-         </c:if>
-   </ul>
+        </c:if>
+    </ul>
+	<button type="button" onclick='location.href="../convenienceFood/list?convenienceId=${convenienceId }"'>돌아가기</button>
 	
 	<form action="update" method="get" id="updateForm">
+		<input type="hidden" name="convenienceId">
 		<input type="hidden" name="pageSize">
 		<input type="hidden" name="pageNum">
 		<input type="hidden" name="sortType">
@@ -100,12 +208,13 @@
 		$(document).ready(function(){
 			$(".preorder").on('click','li div',function(){
 				var updateForm = $("#updateForm");
-				
+				var convenienceId = '${convenienceId}';
 				var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
 				var sortType = $(this).attr('class');
 				var keyword = "<c:out value='${pageMaker.pagination.keyword}' />";
 				
+				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				updateForm.find("input[name=pageNum]").val(pageNum);
 				updateForm.find("input[name=pageSize]").val(pageSize);
 				updateForm.find("input[name=sortType]").val(sortType);
@@ -117,14 +226,15 @@
 			 $(".pagination_button a").on("click", function(e){
 		         var updateForm = $("#updateForm"); // form 객체 참조
 		         e.preventDefault(); // a 태그 이벤트 방지
-		      
+		         var convenienceId = '${convenienceId}';
 		         var pageNum = $(this).attr("href"); // a태그의 href 값 저장
 		         // 현재 페이지 사이즈값 저장
 		         var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
 		         var type = "<c:out value='${pageMaker.pagination.type }' />";
 		         var keyword = "<c:out value='${pageMaker.pagination.keyword }' />";
 		         var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
-		          
+		         
+		         updateForm.find("input[name=convenienceId]").val(convenienceId);
 		         updateForm.find("input[name='pageNum']").val(pageNum);
 		         updateForm.find("input[name='pageSize']").val(pageSize);
 		         updateForm.find("input[name='keyword']").val(keyword);
@@ -135,12 +245,13 @@
 			
 			$(".searchMemberId").change(function(){
 				var updateForm = $("#updateForm");
-				
+				var convenienceId = '${convenienceId}';
 				var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
 				var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
 				var keyword = $(".searchMemberId").val();
 				
+				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				updateForm.find('input[name=pageNum]').val(pageNum);
 				updateForm.find('input[name=pageSize]').val(pageSize);
 				updateForm.find('input[name=sortType]').val(sortType);

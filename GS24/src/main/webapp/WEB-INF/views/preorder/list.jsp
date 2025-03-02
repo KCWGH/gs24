@@ -62,7 +62,7 @@
                                 list += '<input type="checkbox" class="check-box">';
                             }
                         list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
-                                + '<div><img src="../image/foodThumnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
+                                + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
                                 + '<div><strong>'+ StringDate+'</strong>까지 수령</div>'
                                 + '<div>'+this.preorderAmount+'개</div>'
                                 + '<div>'+isPickUp+'</div>'

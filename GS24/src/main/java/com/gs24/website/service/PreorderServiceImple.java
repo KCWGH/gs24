@@ -291,9 +291,8 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public int getCountNotPickedUpPreorderByPagination(Pagination pagination) {
-		log.info("getCountNotPickUpPreorderByPagination()");
-		int result = preorderMapper.countNotPickUpPreorderByPagination(pagination);
+	public int countTotalNotPickedUpPreordersByConvenienceId(int convenienceId) {
+		int result = preorderMapper.countNotPickUpPreordersByConvenienceId(convenienceId);
 		return result;
 	}
 

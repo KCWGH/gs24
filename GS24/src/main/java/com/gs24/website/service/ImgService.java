@@ -17,5 +17,5 @@ public interface ImgService {
 	
 	List<ImgVO> getFoodImgListByFoodId(int foodId);
 	
-	ImgVO getThumnailByFoodId(int foodId);
+	ImgVO getThumbnailByFoodId(int foodId);
 }

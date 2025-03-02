@@ -9,7 +9,7 @@ import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
-import com.gs24.website.persistence.ImgThumnailMapper;
+import com.gs24.website.persistence.ImgThumbnailMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -27,7 +27,7 @@ public class ImgServiceImple implements ImgService{
 	private ImgReviewMapper imgReviewMapper;
 	
 	@Autowired
-	private ImgThumnailMapper imgThumnailMapper;
+	private ImgThumbnailMapper imgThumbnailMapper;
 	
 	@Override
 	public int getNextReviewId() {
@@ -68,10 +68,10 @@ public class ImgServiceImple implements ImgService{
 	}
 
 	@Override
-	public ImgVO getThumnailByFoodId(int foodId) {
-		log.info("getThumnailByFoodId()");
+	public ImgVO getThumbnailByFoodId(int foodId) {
+		log.info("getThumbnailByFoodId()");
 		
-		ImgVO imgVO = imgThumnailMapper.selectImgThumnailByFoodId(foodId);
+		ImgVO imgVO = imgThumbnailMapper.selectImgThumbnailByFoodId(foodId);
 		return imgVO;
 	}
 	

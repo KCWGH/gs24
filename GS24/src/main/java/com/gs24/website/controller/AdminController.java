@@ -19,9 +19,6 @@ import com.gs24.website.service.AdminService;
 import com.gs24.website.service.ConvenienceService;
 import com.gs24.website.service.OwnerService;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 @RequestMapping(value = "/admin")
 @Controller
 public class AdminController {
@@ -42,7 +39,6 @@ public class AdminController {
 				return "redirect:/convenience/list";
 			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
-				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}
@@ -54,7 +50,6 @@ public class AdminController {
 	public String registerAdminPOST(@ModelAttribute AdminVO adminVO, RedirectAttributes redirectAttributes) {
 		int result = adminService.registerAdmin(adminVO);
 		if (result == 1) {
-			log.info("registerMemberPOST()");
 			redirectAttributes.addFlashAttribute("message", "관리자 계정 등록 완료.\\n가입한 아이디와 비밀번호로 로그인하세요.");
 			return "redirect:/auth/login";
 		}

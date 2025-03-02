@@ -13,24 +13,35 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
-    <title>식품 상세 정보</title>
+    <title>${FoodVO.foodName }</title>
 <style>
 body {
 	font-family: Arial, sans-serif;
 }
 
+h1 {
+	color: #333;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
 .content-container {
-	display: flex;
-	justify-content: space-between;
-	padding: 20px;
-	flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+        margin-bottom: 30px;
 }
 
 .image-list {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .image-scroll {
@@ -53,30 +64,34 @@ body {
 }
 
 .food-details {
-	flex: 1;
-	margin-left: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+    flex: 4;
+    vertical-align: middle;
+    margin-top: 50px;
 }
 
 .food-details table {
-	width: 100%;
-	margin-bottom: 20px;
+	width: 70%;
 }
 
 .food-details th, .food-details td {
 	padding: 10px;
-	text-align: left;
-}
-
-.food-details th {
-	width: 150px;
 	text-align: center;
 }
 
-.food-details canvas {
-	margin-top: 10px;
+.food-details th {
+	width: 40%;
+	text-align: center;
+}
+
+.food-details td {
+	width: 40%;
+	text-align: center;
+    vertical-align: middle;
+}
+
+.food-details td canvas {
+    display: block;
+    margin: 0 auto;
 }
 
 .subImage {
@@ -101,37 +116,38 @@ body {
 	padding: 0;
 }
 
-    /* 페이징 스타일 */
-    .pagination_button {
-        display: inline-block;
-        margin: 5px;
-    }
+/* 페이징 스타일 */
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+}
 
-    .pagination_button a {
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: black;
-    }
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
+.pagination_button a:hover {
+	background: #bbb;
+}
 
-    /* 글 작성 버튼 컨테이너 */
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    .pagination_button.current a {
-    background: #333;
-    color: white;
-	}
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+
 .reviewRegister {
 	display: none;
 }
 
-.imageList img{
+.imageList img {
 	width: 150px;
 	height: 150px;
 	margin: 5px;
@@ -139,31 +155,43 @@ body {
 	object-fit: cover;
 }
 
-@media ( max-width : 768px) {
-	.content-container {
-		flex-direction: column;
-		align-items: center;
-	}
-	.food-details {
-		margin-left: 0;
-		margin-top: 20px;
-	}
-	.image-list, .food-details {
-		width: 100%;
-		align-items: center;
-	}
-	.mainImage {
-		width: 80%;
-		height: auto;
-	}
-	.subImage {
-		width: 50px;
-		height: 50px;
-	}
-	.food-details table th, .food-details table td {
-		font-size: 14px;
-		padding: 8px;
-	}
+@media (max-width: 992px) {
+    .content-container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .food-details {
+        width: 80%;
+    }
+
+    .mainImage {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .image-scroll {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .subImage {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* 차트 크기 조정 */
+    #diagram {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+    }
+
+    .food-details table {
+        width: 100%;
+    }
 }
 
 .reviewItems .reviewRating {
@@ -200,11 +228,12 @@ body {
 	content: "☆☆☆☆☆";
 }
 
-.function-Buttons {
-    text-align: center; /* 버튼을 수평 중앙 정렬 */
+.function {
+    text-align: center;
 }
 
-.function-Buttons button {
+.function button {
+    display: inline-block;
     margin: 10px;
     padding: 10px 20px;
     border-radius: 4px;
@@ -213,37 +242,157 @@ body {
     color: black;
     cursor: pointer;
     font-size: 14px;
-    display: inline-block;
 }
 
-.function-Buttons button:hover {
-	background-color: #bbb;
+.function button:hover {
+    background-color: #bbb;
 }
 
 .review-buttons button {
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: none;
-    background-color: #ddd;
-    color: black;
-    cursor: pointer;
-    font-size: 12px;
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: none;
+	background-color: #ddd;
+	color: black;
+	cursor: pointer;
+	font-size: 12px;
 }
 
 .review-buttons button:hover {
 	background-color: #bbb;
 }
+
+#preorder {
+    padding: 10px 30px;
+	background-color: #4CAF50 !important;
+	color: white !important;
+}
+
+#preorder:hover {
+	background: #388E3C !important;
+}
 </style>
+
+<script type="text/javascript">
+    $(document).ajaxSend(function (e, xhr, opt) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        xhr.setRequestHeader(header, token);
+    });
+
+    $(document).ready(function () {
+        $(".subImage").on("click", function () {
+            let newSrc = $(this).attr("src");
+            $("#mainImage").attr("src", newSrc);
+        });
+
+        pieChartDraw();
+
+        $("#reviewList").on("click", ".reviewItems #reviewDelete", function () {
+            var path = $(".imageList").find(".image_path").val();
+            var reviewId = $(this).prevAll(".reviewId").val();
+            var foodId = ${FoodVO.foodId};
+            var convenienceId = ${FoodVO.convenienceId};
+
+            $.ajax({
+                type: "post",
+                url: "../image/remove",
+                data: { "path": path },
+                success: function (result) {
+                    location.href = "../review/delete?reviewId=" + reviewId + "&foodId=" + foodId + "&convenienceId=" + convenienceId;
+                }
+            });
+        });
+
+        $(".pagination_button a").on("click", function (e) {
+            var detailForm = $("#detailForm");
+            e.preventDefault();
+
+            var pageNum = $(this).attr("href");
+            var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+            var type = "<c:out value='${pageMaker.pagination.type }' />";
+
+            detailForm.find("input[name='pageNum']").val(pageNum);
+            detailForm.find("input[name='pageSize']").val(pageSize);
+
+            $.ajax({
+                type: "POST",
+                url: "../review/list",
+                data: { "foodId": ${FoodVO.foodId}, "pageNum": pageNum, "pageSize": pageSize },
+                success: function (result) {
+                    let list = "<hr>";
+                    $(result).each(function () {
+                        list += "<div class='reviewItems'>"
+                            + "<input type='hidden' class='reviewId' value='" + this.reviewId + "'/>"
+                            + "<p><strong>" + this.memberId + "</strong></p>"
+                            + "<p class='reviewRating' data-rating='" + this.reviewRating + "'></p>"
+                            + "<div class='imageList'>";
+
+                        $(this.imgList).each(function () {
+                            list += "<input type='hidden' class='image_path' value='" + this.imgPath + "'>"
+                                + "<img src='../image/reviewImage?imgId=" + this.imgId + "'>";
+                        });
+
+                        list += "</div>"
+                            + "<p><strong>" + this.reviewTitle + "</strong></p>"
+                            + "<p>" + this.reviewContent + "</p>"
+                            + "</div>"
+                            + "</div>"
+                            + "<hr>";
+                    });
+
+                    $("#reviewList").html(list);
+                }
+            });
+        });
+    });
+
+    let protein = ${FoodVO.foodProtein};
+    let fat = ${FoodVO.foodFat};
+    let carb = ${FoodVO.foodCarb};
+
+    function pieChartDraw() {
+        let ctx = document.getElementById("diagram").getContext("2d");
+
+        let chart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["단백질(g)", "지방(g)", "탄수화물(g)"],
+                datasets: [{
+                    data: [protein, fat, carb],
+                    backgroundColor: ["rgba(54, 162, 235, 0.6)", "rgba(255, 99, 132, 0.6)", "rgba(255, 206, 86, 0.6)"],
+                    borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)", "rgba(255, 206, 86, 1)"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+    }
+</script>
+
 </head>
 <body>
     <%@ include file="../common/header.jsp"%>
+    <h1>${FoodVO.foodName }</h1>
     <div class="content-container">
         <div class="image-list">
-            <img id="mainImage" class="mainImage" src="../image/foodThumnail?foodId=${FoodVO.foodId}">
+            <img id="mainImage" class="mainImage" src="../image/foodThumbnail?foodId=${FoodVO.foodId}">
             <div class="image-scroll">
                 <ol>
                     <li>
-                        <img class="subImage" src="../image/foodThumnail?foodId=${FoodVO.foodId}">
+                        <img class="subImage" src="../image/foodThumbnail?foodId=${FoodVO.foodId}">
                     </li>
                     <c:forEach var="ImgVO" items="${FoodVO.imgList}">
                         <li>
@@ -260,10 +409,6 @@ body {
         		<td>${FoodVO.foodType }</td>
         	</tr>
         	<tr>
-        		<th>식품 이름</th>
-        		<td>${FoodVO.foodName }</td>
-        	</tr>
-        	<tr>
         		<th>재고량</th>
         		<td>${FoodVO.foodAmount }개</td>
         	</tr>
@@ -272,26 +417,25 @@ body {
         		<td>${FoodVO.foodPrice }원</td>
         	</tr>
         	<tr>
-        		<th>영양정보</th>
-        		<td><canvas id="diagram" width="300px" height="300px"></canvas>
+        		<td colspan="2">
         		</td>
         	</tr>
 				<tr>
-					<td colspan="2" class="function-Buttons">
-						<button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+					<td colspan="2" class="function" style="text-align: center;">
+					<strong>영양정보</strong><br><br><canvas id="diagram" width="300px" height="300px"></canvas><br>
+						<button id="preorder" onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
 						<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
 					</td>
 				</tr>
 			</table>
-            <sec:authorize access="isAnonymous() or hasRole('ROLE_MEMBER')">
-    </sec:authorize>
     	</div>
     </div>
     
+    
     <div id="reviewList">
+    <hr>
         <c:forEach var="reviewVO" items="${reviewList }">
             <div class="reviewItems">
-                <hr>
                 <input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
                 <p><strong>${reviewVO.memberId }</strong></p>
                 <p class="reviewRating" data-rating="${reviewVO.reviewRating}"></p>
@@ -313,8 +457,8 @@ body {
                     </c:if>
                 </sec:authorize>
             </div>
-        </c:forEach>
         <hr>
+        </c:forEach>
     </div>
     
     <form id="detailForm" action="detail" method="GET">
@@ -337,123 +481,6 @@ body {
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
         </c:if>
     </ul>
-
-    <script type="text/javascript">
-        $(document).ajaxSend(function(e, xhr, opt){
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            xhr.setRequestHeader(header, token);
-        });
-        
-        $(document).ready(function () {
-            $(".subImage").on("click", function () {
-                let newSrc = $(this).attr("src");
-                $("#mainImage").attr("src", newSrc);
-            });
-            pieChartDraw();
-            
-            $("#reviewList").on('click','.reviewItems #reviewDelete', function(){
-                var path = $(".imageList").find('.image_path').val();
-                var reviewId = $(this).prevAll(".reviewId").val();
-                var foodId = ${FoodVO.foodId };
-                var convenienceId = ${FoodVO.convenienceId}
-                console.log("path : " + path);
-                console.log("reviewId : " + reviewId);
-                console.log("foodId : " + foodId);
-                
-                $.ajax({
-                    type : 'post',
-                    url : '../image/remove',
-                    data : {"path" : path},
-                    success : function(result){
-                        location.href='../review/delete?reviewId='+reviewId+'&foodId=' + foodId + '&convenienceId=' + convenienceId;
-                    }
-                });
-            });
-            
-            $(".pagination_button a").on("click", function(e){
-                var detailForm = $("#detailForm"); // form 객체 참조
-                e.preventDefault(); // a 태그 이벤트 방지
-                
-                var pageNum = $(this).attr("href"); // a태그의 href 값 저장
-                // 현재 페이지 사이즈값 저장
-                var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
-                var type = "<c:out value='${pageMaker.pagination.type }' />";
-                
-                // 페이지 번호를 input name='pageNum' 값으로 적용
-                detailForm.find("input[name='pageNum']").val(pageNum);
-                // 선택된 옵션 값을 input name='pageSize' 값으로 적용
-                detailForm.find("input[name='pageSize']").val(pageSize);
-				
-                
-                $.ajax({
-            		type : "POST",
-            		url : "../review/list",
-            		data : {"foodId" : ${FoodVO.foodId} , "pageNum" : pageNum, "pageSize" : pageSize},
-            		success : function(result){
-		                let list = '';
-            			$(result).each(function(){
-            				list += '<div class="reviewItems">'
-            					  + '<hr>'
-            					  + '<input type="hidden" class="reviewId" value="'+ this.reviewId +'"/>'
-            					  + '<p><strong>'+ this.memberId +'</strong></p>'
-            					  + '<p class="reviewRating" data-rating="'+ this.reviewRating +'"></p>'
-            					  + '<div class="imageList">';
-            					  
-            					  $(this.imgList).each(function(){
-            						 list += '<input type="hidden" class="image_path" value="'+this.imgPath+'">'
-            						 	   + '<img src="../image/reviewImage?imgId='+ this.imgId +'">';
-            					  });
-            				list += '</div>'
-            					  + '<p><strong>'+this.reviewTitle+'</strong></p>'
-            					  + '<p>'+this.reviewContent+'</p>'
-            					  + '</div>'
-            					  + '<hr>'
-            					  + '</div>';
-            					  
-            			});
-            			$('#reviewList').html(list);                
-            		}
-            	});
-            }); // end on()
-            
-      
-        });
-        
-        let protein = ${FoodVO.foodProtein};
-        let fat = ${FoodVO.foodFat};
-        let carb = ${FoodVO.foodCarb};
-        
-        function pieChartDraw() {
-            let ctx = document.getElementById('diagram').getContext('2d');
-    
-            let chart = new Chart(ctx, {
-                type: 'bar', // 세로 막대 그래프
-                data: {
-                    labels: ['단백질(g)', '지방(g)', '탄수화물(g)'], // 항목 이름
-                    datasets: [{
-                        data: [protein, fat, carb], // 값
-                        backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6)'],
-                        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: false,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true // 0부터 시작
-                            }
-                        }]
-                    },
-                    legend: {
-                        display: false // 범례 제거
-                    }
-                }
-            });
-        }
-    </script>
     <%@ include file="../common/footer.jsp"%>
 </body>
 </html>

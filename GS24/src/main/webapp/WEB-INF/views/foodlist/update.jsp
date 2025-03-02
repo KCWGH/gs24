@@ -37,10 +37,10 @@
 		판매 대기
 		<input type="radio" name="isSelling" id="val2" value="2">
 		
-		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgRealName" value="${FoodVO.imgThumnail.imgRealName }">
-		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgChgName" value="${FoodVO.imgThumnail.imgChgName }">
-		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgExtension" value="${FoodVO.imgThumnail.imgExtension }">
-		<input type="hidden" class="input-thumnail-image" name="imgThumnail.ImgPath" value="${FoodVO.imgThumnail.imgPath }">
+		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgRealName" value="${FoodVO.imgThumbnail.imgRealName }">
+		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgChgName" value="${FoodVO.imgThumbnail.imgChgName }">
+		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgExtension" value="${FoodVO.imgThumbnail.imgExtension }">
+		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgPath" value="${FoodVO.imgThumbnail.imgPath }">
 		
 		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">	
 			<c:if test="${not fn:startsWith(ImgVO.imgChgName,'t_') }">
@@ -53,16 +53,16 @@
 	</form>
 	
 	
-	<div class="thumnail-drop" style="display: none;">
+	<div class="thumbnail-drop" style="display: none;">
 		대표 사진 드래그로 등록
 	</div>
 	
-	<div class="thumnail-image">
-		<div class="thumnail-item">
-			<img src="../image/foodThumnail?foodId=${FoodVO.foodId }" width="200px" height="200px">
+	<div class="thumbnail-image">
+		<div class="thumbnail-item">
+			<img src="../image/foodThumbnail?foodId=${FoodVO.foodId }" width="200px" height="200px">
 		</div>
 	</div>
-	<button class="update-thumnail">대표 사진 수정</button>
+	<button class="update-thumbnail">대표 사진 수정</button>
 	
 		
 	<div class="image-drop" style="display: none">
@@ -77,7 +77,7 @@
 		</c:forEach>
 	</div>
 	
-	<div class="ThumnailVO"></div>
+	<div class="ThumbnailVO"></div>
 	<div class="ImgVOList"></div>
 	
 	<button class="update-image">세부 사진 수정</button>
@@ -99,7 +99,7 @@
 			
 			$("#val"+isSelling).prop("checked",true);
 			
-			function checkThumnail(file){
+			function checkThumbnail(file){
 				
 				var checkExtension = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 				var checkFileSize = 1 * 1024 * 1024;
@@ -124,12 +124,12 @@
 				return true;
 			}
 			
-			$(".thumnail-drop").on('dragenter dragover',function(event){				
+			$(".thumbnail-drop").on('dragenter dragover',function(event){				
 				event.preventDefault();
 				console.log("드래그 중");
 			});
 			
-			$(".thumnail-drop").on('drop',function(event){
+			$(".thumbnail-drop").on('drop',function(event){
 				event.preventDefault();
 				console.log("사진 떨어뜨림");
 				
@@ -145,10 +145,10 @@
 				}
 				formData.append('foreignId',foodId);
 				
-				if(checkThumnail(file)){
+				if(checkThumbnail(file)){
 					$.ajax({
 						type : 'post',
-						url : '../image/thumnail',
+						url : '../image/thumbnail',
 						processData : false,
 						contentType : false,
 						data : formData,
@@ -160,9 +160,9 @@
 							var input = $('<input>').attr('type','hidden').attr('name','ImgVO').attr('data-chgName',data.imgChgName);
 							input.val(JSON.stringify(data));
 							
-							$(".ThumnailVO").append(input);
+							$(".ThumbnailVO").append(input);
 							
-							list += '<div class="thumnail-item">'
+							list += '<div class="thumbnail-item">'
 								 +	'<pre>'
 								 +	'<input type="hidden" id="thumanilPath" value='+data.imgPath+'>'
 								 +	'<input type="hidden" id="thumanilChgName value='+data.imgChgName+'>'
@@ -172,7 +172,7 @@
 								 +	'</pre>'
 								 + 	'</div>';
 								 
-								 $(".thumnail-image").html(list);
+								 $(".thumbnail-image").html(list);
 								 $(".insertImage").attr('disabled',false);
 						}
 					});
@@ -200,11 +200,11 @@
 				}
 			});
 			
-			$(".update-thumnail").click(function(){
-				$(".thumnail-drop").show();
-				$(".thumnail-image").empty();
+			$(".update-thumbnail").click(function(){
+				$(".thumbnail-drop").show();
+				$(".thumbnail-image").empty();
 				
-				$("#updateForm .input-thumnail-image").each(function(){
+				$("#updateForm .input-thumbnail-image").each(function(){
 					console.log(this);
 					$(this).remove();
 				});
@@ -212,7 +212,7 @@
 			
 			$(".submit").click(function(){
 				
-				if($(".thumnail-item").length < 1){
+				if($(".thumbnail-item").length < 1){
 					alert("대표 사진을 등록해야 합니다.");
 					return;
 				}
@@ -232,13 +232,13 @@
 					return;
 				}
 				
-				$(".ThumnailVO input").each(function(){
+				$(".ThumbnailVO input").each(function(){
 					var ImgVO = JSON.parse($(this).val());
 						
-					var realName 	= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgRealName').attr('value',ImgVO.imgRealName);
-					var chgName		= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgChgName').attr('value',ImgVO.imgChgName);
-					var extension	= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgExtension').attr('value',ImgVO.imgExtension);
-					var path		= $('<input>').attr('type','hidden').attr('class','input-thumnail-image').attr('name','imgThumnail.ImgPath').attr('value',ImgVO.imgPath);
+					var realName 	= $('<input>').attr('type','hidden').attr('class','input-thumbnail-image').attr('name','imgThumbnail.ImgRealName').attr('value',ImgVO.imgRealName);
+					var chgName		= $('<input>').attr('type','hidden').attr('class','input-thumbnail-image').attr('name','imgThumbnail.ImgChgName').attr('value',ImgVO.imgChgName);
+					var extension	= $('<input>').attr('type','hidden').attr('class','input-thumbnail-image').attr('name','imgThumbnail.ImgExtension').attr('value',ImgVO.imgExtension);
+					var path		= $('<input>').attr('type','hidden').attr('class','input-thumbnail-image').attr('name','imgThumbnail.ImgPath').attr('value',ImgVO.imgPath);
 					
 					updateForm.append(realName);
 					updateForm.append(chgName);

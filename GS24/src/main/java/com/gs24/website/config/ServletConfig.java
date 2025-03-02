@@ -40,9 +40,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	public String uploadPath() {
 		return "\\images";
 	}
-	@Bean 
+
+	@Bean
 	public String attachUploadPath() {
 		return "\\attachs";
 	}
-	
+
 }

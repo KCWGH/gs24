@@ -64,8 +64,6 @@ public class PreorderController {
 				convenienceDetailFoodVO.getFoodType());
 		model.addAttribute("couponList", couponList);
 		model.addAttribute("giftCardList", giftCardList);
-		log.info("getCouponList()");
-		log.info("getGiftCardList()");
 		return "/preorder/create";
 	}
 
@@ -114,16 +112,13 @@ public class PreorderController {
 	}
 
 	@GetMapping("/update")
-	public void updateGET(Model model, Pagination pagination, int convenienceId) {
-		log.info("updateGET()");
-
+	public void updateGET(Model model, String memberId, Pagination pagination, int convenienceId) {
 		PageMaker pageMaker = new PageMaker();
+		pagination.setPageSize(10);
 		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(preorderService.getCountNotPickedUpPreorderByPagination(pagination));
+		pageMaker.setTotalCount(preorderService.countTotalNotPickedUpPreordersByConvenienceId(convenienceId));
 
 		List<PreorderVO> list = preorderService.getNotPickedUpPreorder(pagination, convenienceId);
-
-		log.info(list);
 
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", pageMaker);

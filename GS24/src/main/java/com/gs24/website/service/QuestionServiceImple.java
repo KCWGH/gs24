@@ -2,7 +2,6 @@ package com.gs24.website.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -167,19 +166,5 @@ public class QuestionServiceImple implements QuestionService {
 	public int getTotalCountByOwnerId(String ownerId) {
 		return questionMapper.countTotalQuestionByOwnerId(ownerId);
 	}
-	
-	@Override
-	public List<QuestionVO> getQuestionsByFoodType(String foodType) {
-	    log.info("getQuestionsByFoodType() - foodType: " + foodType);
-	    
-	    // 모든 질문 가져오기
-	    List<QuestionVO> list = questionMapper.selectQuestionList();
-	    
-	    // foodType으로 필터링
-	    list = list.stream()
-	               .filter(q -> q.getFoodType().equals(foodType))
-	               .collect(Collectors.toList());
 
-	    return list;
-	}
 }

@@ -17,11 +17,8 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.MemberService;
 
-import lombok.extern.log4j.Log4j;
-
 @Controller // @Component
 @RequestMapping(value = "/giftcard")
-@Log4j
 public class GiftCardController {
 
 	@Autowired
@@ -32,14 +29,12 @@ public class GiftCardController {
 
 	@GetMapping("/grant")
 	public void grantGET(Authentication auth, Model model) {
-		log.info("grantGET()");
 		String memberId = auth.getName();
 		model.addAttribute("memberId", memberId);
 	}
 
 	@GetMapping("/purchase")
 	public void purchaseGET(Authentication auth, Model model) {
-		log.info("purchaseGET()");
 		String memberId = auth.getName();
 		model.addAttribute("memberId", memberId);
 	}
@@ -47,8 +42,6 @@ public class GiftCardController {
 	@PostMapping("/purchase")
 	public String purchasePOST(@ModelAttribute GiftCardVO giftCardVO, Model model,
 			RedirectAttributes redirectAttributes) {
-		log.info("purchasePOST()");
-		log.info(giftCardVO);
 		if (giftCardVO.getGiftCardName().equals("")) { // 이름을 따로 입력하지 않았으면
 			String value = giftCardVO.getBalance() + "원";
 			giftCardVO.setGiftCardName(value + " 금액권");
@@ -58,8 +51,7 @@ public class GiftCardController {
 		}
 		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000
 				&& giftCardVO.getBalance() <= 30000) {
-			int result = giftCardService.grantGiftCard(giftCardVO);
-			log.info(result + "개 기프트카드 제공 완료");
+			giftCardService.grantGiftCard(giftCardVO);
 		} else if (giftCardVO.getBalance() < 1000 || giftCardVO.getBalance() > 30000) {
 			redirectAttributes.addFlashAttribute("message", "기프트카드 금액은 1000원 이상 30000원 이하여야 합니다.");
 			return "redirect:/giftcard/purchase";
@@ -74,8 +66,6 @@ public class GiftCardController {
 
 	@PostMapping("/grant")
 	public String grantPOST(@ModelAttribute GiftCardVO giftCardVO, Model model, RedirectAttributes redirectAttributes) {
-		log.info("grantPOST()");
-		log.info(giftCardVO);
 		if (giftCardVO.getGiftCardName().equals("")) { // 이름을 따로 입력하지 않았으면
 			String value = giftCardVO.getBalance() + "원";
 			giftCardVO.setGiftCardName(value + " 금액권");
@@ -85,8 +75,7 @@ public class GiftCardController {
 		}
 		if (memberService.dupCheckMemberId(giftCardVO.getMemberId()) == 1 && giftCardVO.getBalance() >= 1000
 				&& giftCardVO.getBalance() <= 30000) {
-			int result = giftCardService.grantGiftCard(giftCardVO);
-			log.info(result + "개 기프트카드 제공 완료");
+			giftCardService.grantGiftCard(giftCardVO);
 		} else if (giftCardVO.getBalance() < 1000 || giftCardVO.getBalance() > 30000) {
 			redirectAttributes.addFlashAttribute("message", "기프트카드 금액은 1000원 이상 30000원 이하여야 합니다.");
 			return "redirect:/giftcard/grant";
@@ -101,7 +90,6 @@ public class GiftCardController {
 
 	@GetMapping("/list")
 	public String list(Model model, Authentication auth) {
-		log.info("list()");
 		String memberId = auth.getName();
 		if (memberId != null) {
 			MemberVO memberVO = memberService.getMember(memberId);
@@ -113,7 +101,6 @@ public class GiftCardController {
 
 	@GetMapping("/detail")
 	public void detailGET(Authentication auth, Model model, int giftCardId) {
-		log.info("detailGET()");
 		String memberId = auth.getName();
 		if (memberId != null) {
 			MemberVO memberVO = memberService.getMember(memberId);

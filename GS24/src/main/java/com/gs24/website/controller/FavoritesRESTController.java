@@ -10,11 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gs24.website.domain.FavoritesVO;
 import com.gs24.website.service.FavoritesService;
 
-import lombok.extern.log4j.Log4j;
-
 @RestController
 @RequestMapping(value = "/favorites")
-@Log4j
 public class FavoritesRESTController {
 
 	@Autowired

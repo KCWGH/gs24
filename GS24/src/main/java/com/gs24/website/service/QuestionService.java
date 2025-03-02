@@ -29,7 +29,5 @@ public interface QuestionService {
 	int countQuestionByMemberId(String memberId);
 
 	List<QuestionVO> getPagedQuestionListByOwnerId(String ownerId, Pagination pagination);
-	
-	List<QuestionVO> getQuestionsByFoodType(String foodType);
 
 }

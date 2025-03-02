@@ -71,10 +71,8 @@ public class ImgRESTController {
 		return new ResponseEntity<List<ImgVO>>(entity, HttpStatus.OK);
 		
 	}
-	@PostMapping("/thumnail")
-	public ResponseEntity<ImgVO> createThumnail(MultipartFile file, int foreignId){
-		log.info("createTumnail()");
-		
+	@PostMapping("/thumbnail")
+	public ResponseEntity<ImgVO> createThumbnail(MultipartFile file, int foreignId){
 		if(foreignId == 0) {
 			foreignId = imgService.getNextFoodId();
 		}
@@ -153,7 +151,7 @@ public class ImgRESTController {
 	public ResponseEntity<Integer> remove(int foreignId){
 		log.info("remove2()");
 		
-		ImgVO vo = imgService.getThumnailByFoodId(foreignId);
+		ImgVO vo = imgService.getThumbnailByFoodId(foreignId);
 		
 		String fullPath = uploadPath + File.separator + vo.getImgPath();
 		
@@ -203,11 +201,11 @@ public class ImgRESTController {
 		return entity;
 	}
 	
-	@GetMapping("/foodThumnail")
-	public ResponseEntity<byte[]> getFoodThumnail(int foodId){
-		log.info("getFoodThumnail()");
+	@GetMapping("/foodThumbnail")
+	public ResponseEntity<byte[]> getFoodThumbnail(int foodId){
+		log.info("getFoodThumbnail()");
 		
-		ImgVO imgVO = imgService.getThumnailByFoodId(foodId);
+		ImgVO imgVO = imgService.getThumbnailByFoodId(foodId);
 		log.info(imgVO);
 		String fullPath = uploadPath + File.separator + imgVO.getImgPath() + imgVO.getImgChgName() + "." + imgVO.getImgExtension();
 		

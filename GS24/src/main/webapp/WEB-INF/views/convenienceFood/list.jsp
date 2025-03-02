@@ -21,7 +21,7 @@ body {
 
 h1 {
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 100px;
 }
 
 .food_box {
@@ -190,7 +190,7 @@ ul {
             <div class="image-item">
                 <input type="hidden" class="path" value="${FoodVO.imgPath }">
                 <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'">
-                    <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+                    <img src="../image/foodThumbnail?foodId=${FoodVO.foodId }">
                 </a>
             </div>
             <div class="food-info">
@@ -220,7 +220,7 @@ ul {
             <div class="image-item">
                 <input type="hidden" class="path" value="${FoodVO.imgPath }">
                 <a onclick="location.href='detail?foodId=${FoodVO.foodId}&convenienceId=${FoodVO.convenienceId }'">
-                    <img src="../image/foodThumnail?foodId=${FoodVO.foodId }">
+                    <img src="../image/foodThumbnail?foodId=${FoodVO.foodId }">
                 </a>
             </div>
             <div class="food-info">

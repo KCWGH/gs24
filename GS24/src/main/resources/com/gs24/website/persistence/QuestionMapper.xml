@@ -103,10 +103,5 @@
 		SET IS_ANSWERED = 0
 		WHERE QUESTION_ID = #{questionId} AND IS_ANSWERED = 1
 	</update>
-	
-	<select id="selectQuestionListByFoodType" resultMap="questionResultMap">
-    SELECT * FROM QUESTION WHERE FOOD_TYPE = #{foodType} ORDER BY QUESTION_ID DESC
-	</select>
-	
 
 </mapper>

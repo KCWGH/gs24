@@ -8,87 +8,89 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <head>
 <style>
-    /* 전체 페이지 스타일 */
-    body {
-        margin: 0;
-        padding: 15px;
-        background-color: #f8f9fa;
-        text-align: center;
-    }
+body {
+	margin: 0;
+	padding: 15px;
+	background-color: #f8f9fa;
+	text-align: center;
+}
 
-    /* 제목 스타일 */
-    h1, h2 {
-        color: #333;
-    }
+h1, h2 {
+	color: #333;
+}
 
-    /* 테이블 스타일 */
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        text-align: center;
-    }
+table {
+	max-width: 1000px;
+	margin: 20px auto;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	background-color: white;
+}
 
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-    }
+th, td {
+	border: 1px solid #ccc;
+	padding: 10px;
+	font-size: 14px;
+}
 
-    th {
-        background-color: #f1f1f1;
-        color: #555;
-    }
+th {
+	background-color: #f1f1f1;
+	color: #555;
+}
 
-    /* 버튼 스타일 */
-    button, input[type="button"] {
-        background: #ddd;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-    }
+button, input[type="button"] {
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
 
-    button:hover, input[type="button"]:hover {
-        background: #bbb;
-    }
+button:hover, input[type="button"]:hover {
+	background: #bbb;
+}
 
-    /* 검색 폼 스타일 */
-    #filterForm {
-        margin-top: 10px;
-    }
-    
-    .title {
-    	color: black;
-    }
+#searchForm {
+	margin-top: 10px;
+}
 
-    /* 페이징 스타일 */
-    .pagination_button {
-        display: inline-block;
-        margin: 5px;
-    }
+.title {
+	color: black;
+}
 
-    .pagination_button a {
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: black;
-    }
+.pagination_button {
+	display: inline-block;
+	margin: 5px;
+}
 
-    .pagination_button a:hover {
-        background: #bbb;
-    }
+.pagination_button a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
+}
 
-    /* 글 작성 버튼 컨테이너 */
-    .button-container {
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    .pagination_button.current a {
-    background: #333;
-    color: white;
-	} 
+.pagination_button a:hover {
+	background: #bbb;
+}
+
+.button-container {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
 </style>
 
 <meta charset="UTF-8">
@@ -135,17 +137,6 @@
         </c:forEach>
     </tbody>
 </table>
-	<form id="filterForm" action="ownerList" method="get">
-    <label for="foodType">식품 유형 선택:</label>
-    <select id="foodType" name="foodType">
-        <option value="">전체</option>
-        <c:forEach var="type" items="${foodTypeList}">
-            <option value="${type}" <c:if test="${type eq selectedFoodType}">selected</c:if>>${type}</option>
-        </c:forEach>
-    </select>
-    <button type="submit">적용</button>
-	</form>
-	
 	<form id="listForm" action="ownerList" method="get">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">

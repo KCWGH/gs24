@@ -1,7 +1,5 @@
 package com.gs24.website.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,30 +9,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gs24.website.service.ConvenienceService;
-import com.gs24.website.util.KakaoLoginUtil;
-
-import lombok.extern.log4j.Log4j;
 
 @Controller // @Component
 @RequestMapping(value = "/auth")
-@Log4j
 public class AuthController {
 
 	@Autowired
 	private ConvenienceService convenienceService;
-	
-	@Autowired
-	private KakaoLoginUtil kakaoLoginUtil;
+
+//	@Autowired
+//	private KakaoLoginUtil kakaoLoginUtil;
 
 	@GetMapping("/accessDenied")
 	public void accessDenied(Authentication auth, Model model) {
-		log.info("accessDenied()");
 		model.addAttribute("msg", "권한이 없습니다.");
 	}
 
 	@GetMapping("/login")
 	public String loginGET(Authentication auth, String error, String expired, Model model) {
-		log.info("loginGET()");
 		if (error != null) {
 			model.addAttribute("errorMsg", "아이디 또는 비밀번호가 잘못되었습니다.\\n아이디와 비밀번호를 정확히 입력해 주세요.");
 		}
@@ -46,7 +38,6 @@ public class AuthController {
 				return "redirect:/convenience/list";
 			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
-				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}
@@ -56,14 +47,12 @@ public class AuthController {
 	}
 
 	@GetMapping("/kakao")
-	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state) throws Exception {
-		log.info("error code : " + error);
-		log.info("error message : " + error_description);
-		log.info("state : " + state);
-		
-		Map<String,Object> accessToken = kakaoLoginUtil.sendCode(code);
-		
-		Map<String, Object> userInfo = kakaoLoginUtil.getUserInfo(accessToken.get("access_token").toString());
-		
+	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state)
+			throws Exception {
+
+//		Map<String,Object> accessToken = kakaoLoginUtil.sendCode(code);
+//		
+//		Map<String, Object> userInfo = kakaoLoginUtil.getUserInfo(accessToken.get("access_token").toString());
+
 	}
 }

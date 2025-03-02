@@ -20,11 +20,8 @@ import com.gs24.website.service.OwnerService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
-import lombok.extern.log4j.Log4j;
-
 @RestController
 @RequestMapping(value = "/giftcard")
-@Log4j
 public class GiftCardRESTController {
 
 	@Autowired
@@ -38,7 +35,6 @@ public class GiftCardRESTController {
 
 	@PostMapping("/dup-check-id")
 	public ResponseEntity<String> dupcheckIdPOST(String memberId) {
-		log.info("dupcheckIdPOST()");
 		if (memberService.dupCheckMemberId(memberId) != 1 && ownerService.dupCheckOwnerId(memberId) == 1) {
 			return ResponseEntity.ok("2");
 		} else if (memberService.dupCheckMemberId(memberId) == 1) {
@@ -68,45 +64,35 @@ public class GiftCardRESTController {
 	}
 
 	private ResponseEntity<Map<String, Object>> getCouponList(String type, Pagination pagination, Authentication auth) {
-		log.info("getCouponList()");
 		String memberId = auth.getName();
 		Map<String, Object> response = new HashMap<>();
+		MemberVO memberVO = memberService.getMember(memberId);
+		pagination.setMemberVO(memberVO);
+		pagination.setPageSize(3);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		List<GiftCardVO> giftCardList = null;
 
-		if (memberId != null) {
-			MemberVO memberVO = memberService.getMember(memberId);
-			memberVO.setPassword(null);
-			memberVO.setPhone(null);
-			memberVO.setEmail(null);
-			memberVO.setBirthday(null);
-			pagination.setMemberVO(memberVO);
-			pagination.setPageSize(3);
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setPagination(pagination);
-			List<GiftCardVO> giftCardList = null;
-
-			switch (type) {
-			case "unused":
-				giftCardList = giftCardService.getPagedUnusedGiftCards(memberId, pagination);
-				pageMaker.setTotalCount(giftCardService.getAvailableCount(memberId));
-				break;
-			case "expired":
-				giftCardList = giftCardService.getPagedExpiredGiftCards(memberId, pagination);
-				pageMaker.setTotalCount(giftCardService.getExpiredCount(memberId));
-				break;
-			case "used":
-				giftCardList = giftCardService.getPagedUsedGiftCards(memberId, pagination);
-				pageMaker.setTotalCount(giftCardService.getUsedCount(memberId));
-				break;
-			case "all":
-				giftCardList = giftCardService.getPagedAllGiftCards(memberId, pagination);
-				pageMaker.setTotalCount(giftCardService.getAllCount(memberId));
-				break;
-			}
-			response.put("pageMaker", pageMaker);
-			response.put("giftCardList", giftCardList);
-		} else {
-			response.put("message", "Member not found");
+		switch (type) {
+		case "unused":
+			giftCardList = giftCardService.getPagedUnusedGiftCards(memberId, pagination);
+			pageMaker.setTotalCount(giftCardService.getAvailableCount(memberId));
+			break;
+		case "expired":
+			giftCardList = giftCardService.getPagedExpiredGiftCards(memberId, pagination);
+			pageMaker.setTotalCount(giftCardService.getExpiredCount(memberId));
+			break;
+		case "used":
+			giftCardList = giftCardService.getPagedUsedGiftCards(memberId, pagination);
+			pageMaker.setTotalCount(giftCardService.getUsedCount(memberId));
+			break;
+		case "all":
+			giftCardList = giftCardService.getPagedAllGiftCards(memberId, pagination);
+			pageMaker.setTotalCount(giftCardService.getAllCount(memberId));
+			break;
 		}
+		response.put("pageMaker", pageMaker);
+		response.put("giftCardList", giftCardList);
 
 		return ResponseEntity.ok(response);
 	}

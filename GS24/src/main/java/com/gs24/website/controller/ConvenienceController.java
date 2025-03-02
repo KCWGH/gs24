@@ -16,11 +16,8 @@ import com.gs24.website.service.GiftCardService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
-import lombok.extern.log4j.Log4j;
-
 @Controller
 @RequestMapping("/convenience")
-@Log4j
 public class ConvenienceController {
 
 	@Autowired
@@ -31,7 +28,6 @@ public class ConvenienceController {
 
 	@GetMapping("/list")
 	public String listGET(Authentication auth, Model model, Pagination pagination) {
-		log.info("listGET()");
 
 		List<ConvenienceVO> list = convenienceService.getAllConvenience(pagination);
 		PageMaker pageMaker = new PageMaker();
@@ -45,7 +41,6 @@ public class ConvenienceController {
 				}
 			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
-				log.info(checkConvenienceId);
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}

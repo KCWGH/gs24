@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
-import com.gs24.website.persistence.ImgThumnailMapper;
+import com.gs24.website.persistence.ImgThumbnailMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -27,11 +27,11 @@ public class ImageCheckTask {
 	private ImgReviewMapper imgReviewMapper;
 
 	@Autowired
-	private ImgThumnailMapper imgThumnailMapper;
+	private ImgThumbnailMapper imgThumbnailMapper;
 
 	@Scheduled(cron = "40 14 16 * * *")
 	public void checkTask() {
-		deleteThumnailImage();
+		deleteThumbnailImage();
 		deleteFoodImage();
 		deleteReviewImage();
 	}
@@ -100,14 +100,14 @@ public class ImageCheckTask {
 		log.warn("---------------------------");
 	}
 
-	public void deleteThumnailImage() {
+	public void deleteThumbnailImage() {
 		log.warn("-------------------------");
-		log.warn("deleteThumnailImage()");
+		log.warn("deleteThumbnailImage()");
 
-		List<ImgVO> imgList = imgThumnailMapper.selectOldThumnail();
+		List<ImgVO> imgList = imgThumbnailMapper.selectOldThumbnail();
 
 		if (imgList.size() == 0) {
-			log.warn("delete thumnail image task exit");
+			log.warn("delete thumbnail image task exit");
 			return;
 		}
 
@@ -121,14 +121,14 @@ public class ImageCheckTask {
 
 		log.info("isFile : " + targetDir.isFile());
 
-		File[] thumnailFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
+		File[] thumbnailFiles = targetDir.listFiles(file -> savedList.contains(file.getName()) == false);
 
-		for (int i = 0; i < thumnailFiles.length; i++) {
-			log.info("delete " + i + "th file : " + thumnailFiles[i].getName());
-			thumnailFiles[i].delete();
+		for (int i = 0; i < thumbnailFiles.length; i++) {
+			log.info("delete " + i + "th file : " + thumbnailFiles[i].getName());
+			thumbnailFiles[i].delete();
 		}
 
-		log.warn("delete thumnail image task finish");
+		log.warn("delete thumbnail image task finish");
 		log.warn("---------------------------");
 	}
 

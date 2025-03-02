@@ -26,6 +26,6 @@ public class FoodListVO {
 	private int foodAvgRating;
 	private int foodReviewCnt;
 	
-	private ImgVO imgThumnail;
+	private ImgVO imgThumbnail;
 	private List<ImgVO> imgList;
 }

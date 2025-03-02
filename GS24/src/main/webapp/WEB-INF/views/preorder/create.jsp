@@ -66,16 +66,12 @@
 </head>
 <body>
 <%@ include file="../common/header.jsp"%>
-    <h1>식품 예약 페이지</h1>
+    <h1>${foodVO.foodName}</h1>
     <form action="create" method="POST">
         <table>
             <tr>
                 <th>식품 종류</th>
                 <td>${foodVO.foodType}</td>
-            </tr>
-            <tr>
-                <th>식품 이름</th>
-                <td>${foodVO.foodName}</td>
             </tr>
             <tr>
                 <th>식품 가격</th>

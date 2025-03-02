@@ -38,7 +38,7 @@ public interface PreorderService {
 
 	List<PreorderVO> getNotPickedUpPreorder(Pagination pagination, int convenienceId);
 
-	int getCountNotPickedUpPreorderByPagination(Pagination pagination);
+	int countTotalNotPickedUpPreordersByConvenienceId(int convenienceId);
 
 	boolean getPickedUpFoodIdByMemberId(String memberId, int foodId);
 

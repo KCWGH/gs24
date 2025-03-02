@@ -25,48 +25,44 @@ import lombok.extern.log4j.Log4j;
 public class AnswerRESTController {
 	@Autowired
 	private AnswerService answerService;
-	
-	@PostMapping 
+
+	@PostMapping
 	public ResponseEntity<Integer> createAnswer(@RequestBody AnswerVO answerVO) {
 		log.info("createAnswer()");
-		
+
 		int result = answerService.createAnswer(answerVO);
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
-	
-	@GetMapping("/all/{questionId}") 
-	public ResponseEntity<List<AnswerVO>> readAllAnswer(
-			@PathVariable("questionId") int questionId) {
+
+	@GetMapping("/all/{questionId}")
+	public ResponseEntity<List<AnswerVO>> readAllAnswer(@PathVariable("questionId") int questionId) {
 		// @pathVariable("questionId") : {questionId} 값을 설정된 변수에 저장
 		log.info("readAllAnswer()");
 		log.info("questionId = " + questionId);
-		
+
 		List<AnswerVO> list = answerService.getAllAnswer(questionId);
 		// ResponseEntity<T> : T의 타입은 프론트 side로 전송될 데이터의 타입으로 선언
 		return new ResponseEntity<List<AnswerVO>>(list, HttpStatus.OK);
 	}
-	
-	 @PutMapping("/{answerId}") 
-	   public ResponseEntity<Integer> updateAnswer(
-	         @PathVariable("answerId") int answerId,
-	         @RequestBody String answerContent
-	         ){
-	      log.info("updateAnswer()");
-	      log.info("answerId = " + answerId);
-	      int result = answerService.updateAnswer(answerId, answerContent);
-	      return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	   }
-	   
-	   @DeleteMapping("/{answerId}/{questionId}") 
-	   public ResponseEntity<Integer> deleteAnswer(
-	         @PathVariable("answerId") int answerId, 
-	         @PathVariable("questionId") int questionId) {
-	      log.info("deleteAnswer()");
-	      log.info("answerId = " + answerId);
-	      
-	      int result = answerService.deleteAnswer(answerId, questionId);
-	      
-	      return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	   }
-	
+
+	@PutMapping("/{answerId}")
+	public ResponseEntity<Integer> updateAnswer(@PathVariable("answerId") int answerId,
+			@RequestBody String answerContent) {
+		log.info("updateAnswer()");
+		log.info("answerId = " + answerId);
+		int result = answerService.updateAnswer(answerId, answerContent);
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{answerId}/{questionId}")
+	public ResponseEntity<Integer> deleteAnswer(@PathVariable("answerId") int answerId,
+			@PathVariable("questionId") int questionId) {
+		log.info("deleteAnswer()");
+		log.info("answerId = " + answerId);
+
+		int result = answerService.deleteAnswer(answerId, questionId);
+
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+
 }

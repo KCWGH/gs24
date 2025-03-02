@@ -150,7 +150,7 @@
                         	postList.forEach(function(favoritesVO) {  
                         	    postHTML += '<div class="favorites-item">';
                         	    
-                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '" class="link-in-child">' + '<img src="../image/foodThumnail?foodId=' + favoritesVO.foodId + '"></a>';
+                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '" class="link-in-child">' + '<img src="../image/foodThumbnail?foodId=' + favoritesVO.foodId + '"></a>';
                         	    postHTML += '</div>';
                         	});
                         	postHTML += '</div>';

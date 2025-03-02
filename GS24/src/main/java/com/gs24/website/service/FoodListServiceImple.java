@@ -9,7 +9,7 @@ import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.persistence.FoodListMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
-import com.gs24.website.persistence.ImgThumnailMapper;
+import com.gs24.website.persistence.ImgThumbnailMapper;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -25,14 +25,14 @@ public class FoodListServiceImple implements FoodListService {
 	private ImgFoodMapper imgFoodMapper;
 
 	@Autowired
-	private ImgThumnailMapper imgThumnailMapper;
+	private ImgThumbnailMapper imgThumbnailMapper;
 
 	@Override
 	public int createFood(FoodListVO foodListVO) {
 		log.info("createFood()");
 		int result = foodListMapper.insertFood(foodListVO);
 
-		imgThumnailMapper.insertImgThumnail(foodListVO.getImgThumnail());
+		imgThumbnailMapper.insertImgThumbnail(foodListVO.getImgThumbnail());
 		if (foodListVO.getImgList() != null) {
 			for (ImgVO vo : foodListVO.getImgList()) {
 				imgFoodMapper.insertImgFood(vo);
@@ -52,10 +52,10 @@ public class FoodListServiceImple implements FoodListService {
 		log.info("getFoodById()");
 		FoodListVO foodListVO = foodListMapper.selectFoodById(foodId);
 
-		ImgVO imgVO = imgThumnailMapper.selectImgThumnailByFoodId(foodId);
+		ImgVO imgVO = imgThumbnailMapper.selectImgThumbnailByFoodId(foodId);
 		List<ImgVO> list = imgFoodMapper.selectImgFoodByFoodId(foodId);
 
-		foodListVO.setImgThumnail(imgVO);
+		foodListVO.setImgThumbnail(imgVO);
 		foodListVO.setImgList(list);
 
 		return foodListVO;
@@ -67,11 +67,11 @@ public class FoodListServiceImple implements FoodListService {
 
 		int result = foodListMapper.updateFoodById(foodListVO);
 
-		imgThumnailMapper.deleteImgThumnail(foodListVO.getFoodId());
+		imgThumbnailMapper.deleteImgThumbnail(foodListVO.getFoodId());
 		imgFoodMapper.deleteImgFood(foodListVO.getFoodId());
 
-		foodListVO.getImgThumnail().setForeignId(foodListVO.getFoodId());
-		imgThumnailMapper.insertImgThumnail(foodListVO.getImgThumnail());
+		foodListVO.getImgThumbnail().setForeignId(foodListVO.getFoodId());
+		imgThumbnailMapper.insertImgThumbnail(foodListVO.getImgThumbnail());
 
 		List<ImgVO> list = foodListVO.getImgList();
 

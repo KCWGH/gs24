@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gs24.website.domain.MemberVO;
@@ -48,54 +47,39 @@ public class QuestionController {
 
 	// 전체 게시글 데이터를 list.jsp 페이지로 전송
 	@GetMapping("/list")
-	public void list(@RequestParam(required = false) String foodType, Authentication auth, Model model, Pagination pagination) {
-	    log.info("list()");
-	    
-	    // 페이지 크기 설정
-	    pagination.setPageSize(10);
-	    
-	    if (auth != null) {
-	        String username = auth.getName();
-	        model.addAttribute("userId", username);
+	public void list(Authentication auth, Model model, Pagination pagination) {
+		log.info("list()");
+		log.info("pagination = " + pagination);
+		if (auth != null) {
+			String username = auth.getName();
+			model.addAttribute("userId", username);
 
-	        // 1. memberId 확인
-	        MemberVO memberVO = memberService.getMember(username);
-	        if (memberVO != null) {
-	            model.addAttribute("memberVO", memberVO);
-	        }
-	        // 2. ownerId 확인
-	        else {
-	            OwnerVO ownerVO = ownerService.getOwner(username);
-	            if (ownerVO != null) {
-	                model.addAttribute("ownerVO", ownerVO);
-	            }
-	        }
+			// 1. memberId 확인
+			MemberVO memberVO = memberService.getMember(username);
+			if (memberVO != null) {
+				model.addAttribute("memberVO", memberVO);
+			}
+			// 2. ownerId 확인
+			else {
+				OwnerVO ownerVO = ownerService.getOwner(username);
+				if (ownerVO != null) {
+					model.addAttribute("ownerVO", ownerVO);
+				}
+			}
+		}
 
-	        // 질문 리스트 가져오기
-	        List<QuestionVO> questionList;
-	        if (foodType != null && !foodType.isEmpty()) {
-	            questionList = questionService.getQuestionsByFoodType(foodType);
-	        } else {
-	        	questionList = questionService.getPagedQuestions(pagination);
-	        }
+		pagination.setPageSize(10);
+		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
+		log.info("QuestionVOList = " + questionList);
 
-	        // 음식 종류 리스트 가져오기
-	        List<String> foodTypeList = convenienceFoodService.getFoodTypeList();
-	        model.addAttribute("foodTypeList", foodTypeList);
+		// 페이징 처리
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(questionService.getTotalCount());
 
-	        // 페이징 처리
-	        PageMaker pageMaker = new PageMaker();
-	        pageMaker.setPagination(pagination);
-	        pageMaker.setTotalCount(questionService.getTotalCount());
-	        
-	        // 모델에 데이터 추가
-	        model.addAttribute("pageMaker", pageMaker);
-	        model.addAttribute("questionList", questionList);
-	        
-	        log.info("QuestionVOList = " + questionList);
-	    } else {
-	       
-	    }
+		// 모델에 데이터 추가
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("questionList", questionList);
 	}
 
 	// register.jsp 호출
@@ -120,9 +104,13 @@ public class QuestionController {
 
 	@PostMapping("/register")
 	public String registerPOST(QuestionVO questionVO, RedirectAttributes reAttr) {
+		log.info("registerPOST()");
+		log.info(questionVO.toString());
+
 		int result = questionService.createQuestion(questionVO);
 		log.info(result + "행 등록 ");
 
+		// 저장 후 리스트 페이지로 리다이렉트
 		return "redirect:/question/list";
 	}
 
@@ -138,7 +126,7 @@ public class QuestionController {
 			}
 		}
 
-
+		// 게시글 정보 조회
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("questionAttachList", questionVO.getQuestionAttachList());
@@ -162,7 +150,12 @@ public class QuestionController {
 	@PostMapping("/modify")
 	public String modifyPOST(QuestionVO questionVO) {
 		log.info("modifyPOST()");
+		log.info("questionVO = " + questionVO);
 		
+		if (questionVO.getQuestionId() == 0) {
+	        log.error("🚨 questionId가 0입니다! 업데이트를 실행하지 않습니다.");
+	        return "redirect:/question/list"; 
+	    }
 		int result = questionService.modifyQuestion(questionVO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";
@@ -191,32 +184,20 @@ public class QuestionController {
 	}
 
 	@GetMapping("/ownerList")
-	public void ownerListGET(@RequestParam(required = false) String foodType, Authentication auth, Model model, Pagination pagination) {
+	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
 		pagination.setPageSize(10);
 		String ownerId = auth.getName();
 		pagination.setOwnerVO(ownerService.getOwner(ownerId));
-			
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(questionService.getTotalCountByOwnerId(ownerId));
-		
 		int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
-		
+		List<QuestionVO> questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination);
 
-	    List<QuestionVO> questionList;
-	    if (foodType != null && !foodType.isEmpty()) {
-	        questionList = questionService.getQuestionsByFoodType(foodType);
-	    } else {
-	        questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination); 
-	    }
-	    
-	    List<String> foodTypeList = convenienceFoodService.getFoodTypeList();
-
-	    model.addAttribute("foodTypeList", foodTypeList);
-	    model.addAttribute("convenienceId", convenienceId);
-	    model.addAttribute("pageMaker", pageMaker);
-	    model.addAttribute("questionList", questionList);
+		model.addAttribute("convenienceId", convenienceId);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("questionList", questionList);
 	}
 
 }
