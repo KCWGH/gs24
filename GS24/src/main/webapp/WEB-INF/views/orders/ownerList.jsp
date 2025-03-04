@@ -89,6 +89,7 @@ ul {
             	<th>점주 ID</th>
                 <th>주문 ID</th>
                 <th>식품 ID</th>
+                <th>식품명</th>
                 <th>발주 수량</th>
                 <th>발주 날짜</th>
                 <th>발주 상태</th>
@@ -100,6 +101,8 @@ ul {
                 	<td>${order.ownerId}</td>
                     <td>${order.orderId}</td>
                     <td>${order.foodId}</td>
+                    <td>${order.foodName}</td>
+
                     <td>${order.orderAmount}</td>
                     <td>
                         <fmt:formatDate value="${order.orderDateCreated}" pattern="yyyy-MM-dd HH:mm" />

@@ -60,4 +60,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT CASE WHEN SUM(FOOD_AMOUNT) > 0 THEN 1 ELSE 0 END AS RESULT
         FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId}
     </select>
+    
+    <select id="getFoodNameByFoodId" resultType="String">
+		SELECT FOOD_NAME FROM FOOD_LIST WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	<select id="getFoodStock" resultType="Integer">
+    SELECT FOOD_STOCK 
+    FROM FOOD_LIST 
+    WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	
+	
 </mapper>

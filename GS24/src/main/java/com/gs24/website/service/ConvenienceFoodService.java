@@ -28,5 +28,5 @@ public interface ConvenienceFoodService {
 	List<String> getFoodTypeList();
 
 	int updateShowStatus(int foodId, int convenienceId);
-
+	
 }

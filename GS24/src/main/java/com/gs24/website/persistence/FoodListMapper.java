@@ -28,4 +28,9 @@ public interface FoodListMapper {
 			@Param("foodId") int foodId);
 
 	int checkFoodAmountStatus(int foodId);
+	
+	String getFoodNameByFoodId(int fooId);
+	
+	int getFoodStock(int foodId);
+	
 }

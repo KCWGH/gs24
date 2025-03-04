@@ -12,8 +12,9 @@ import lombok.ToString;
 public class OrderVO {
 	private int orderId;
     private int foodId;
+    private String foodName;
     private int orderAmount;
     private Date orderDateCreated;
     private String ownerId;
-    private int approvalStatus; // 0:대기 1:승인 2:거절
+    private int approvalStatus; /* 0:대기 1:승인 2:거절 */
 }

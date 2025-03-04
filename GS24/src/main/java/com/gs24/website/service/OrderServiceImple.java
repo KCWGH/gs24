@@ -20,10 +20,22 @@ public class OrderServiceImple implements OrderService {
 
 	@Autowired
 	private ConvenienceFoodService convenienceFoodService;
+	
+	@Autowired
+	private FoodListService foodListService;
 
 	@Override
 	public void insertOrder(OrderVO order) {
-		orderMapper.insertOrder(order);
+        int currentStock = foodListService.getFoodStock(order.getFoodId());
+        if (currentStock < order.getOrderAmount()) {
+            throw new IllegalArgumentException("재고가 부족합니다. 현재 재고: " + currentStock);
+        }
+        
+        // 재고 차감
+        foodListService.updateFoodStockByFoodAmount(order.getFoodId(), order.getOrderAmount());
+
+        // 발주 내역 DB에 저장
+        orderMapper.insertOrder(order);
 	}
 
 	@Override

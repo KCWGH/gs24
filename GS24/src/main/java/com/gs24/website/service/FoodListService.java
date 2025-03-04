@@ -22,4 +22,8 @@ public interface FoodListService {
 
 	// foodId 값과 같은 모든 데이터를(다른 테이블 포함) 삭제해도 되는지 확인하는 쿼리
 	int checkFoodAmountStatus(int foodId);
+	
+	String getFoodNameByFoodId(int foodId);
+	
+	int getFoodStock(int foodId);
 }

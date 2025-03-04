@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.service.ConvenienceService;
+import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.OrderService;
 import com.gs24.website.service.OwnerService;
 import com.gs24.website.util.PageMaker;
@@ -35,6 +36,9 @@ public class OrderController {
 	
 	@Autowired
 	private ConvenienceService convenienceService;
+	
+	@Autowired
+	private FoodListService foodListService;
 
 	@GetMapping("/list")
 	public String getAllOrders(Model model, Pagination pagination) {
@@ -44,6 +48,12 @@ public class OrderController {
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(orderService.countTotalOrders());
 		List<OrderVO> orderList = orderService.getAllPagedOrders(pagination);
+		
+		for (OrderVO order : orderList) {
+		        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
+		        order.setFoodName(foodName);
+		    }
+		 
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageMaker", pageMaker);
 		return "orders/list";
@@ -72,21 +82,20 @@ public class OrderController {
 	public String getOrdersByOwner(Authentication auth, Model model, Pagination pagination) {               
 	    String ownerId = auth.getName();	    
 	    int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
-	    log.info("getOrdersByOwner() - 점주별 발주 조회: ownerId=" + ownerId);
 	    OwnerVO ownerVO = ownerService.getOwner(ownerId);
 	    
 	    PageMaker pageMaker = new PageMaker();
-	    pagination.setPageSize(10); // 한 페이지당 10개씩 설정
+	    pagination.setPageSize(10); 
 	    pagination.setOwnerVO(ownerVO);
 	    pageMaker.setTotalCount(orderService.countOrdersByOwnerId(ownerId));
 	    pageMaker.setPagination(pagination);
 
 	    List<OrderVO> ordersByOwner = orderService.getPagedOrdersByOwnerId(ownerId, pagination);
-	    log.info("ordersByOwner size: " + ordersByOwner.size());
-	    log.info("Start Num: " + pageMaker.getStartNum());
-	    log.info("End Num: " + pageMaker.getEndNum());
-	    log.info("Pagination Start: " + pagination.getStart());
-	    log.info("Pagination End: " + pagination.getEnd());
+	    
+	    for (OrderVO order : ordersByOwner) {
+	        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
+	        order.setFoodName(foodName);
+	    }
 	    
 	    model.addAttribute("convenienceId",convenienceId);
 	    model.addAttribute("ordersByOwner", ordersByOwner);

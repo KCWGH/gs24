@@ -115,4 +115,15 @@ public class FoodListServiceImple implements FoodListService {
 	public int countTotalFood() {
 		return foodListMapper.countTotalFood();
 	}
+
+	@Override
+	public String getFoodNameByFoodId(int foodId) {
+		 return foodListMapper.getFoodNameByFoodId(foodId);
+	}
+
+	@Override
+	public int getFoodStock(int foodId) {
+		return foodListMapper.getFoodStock(foodId);
+	}
+
 }

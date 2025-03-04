@@ -21,6 +21,7 @@ import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
+import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderService;
 import com.gs24.website.util.PageMaker;
@@ -104,20 +105,21 @@ public class ConvenienceFoodController {
 	@GetMapping("/register")
 	@ResponseBody
 	public ResponseEntity<Integer> registerGET(Authentication auth, int foodId, int foodAmount) {
-		log.info("registerGET");
-
-		log.info("foodId : " + foodId + ", foodAmount : " + foodAmount);
 		String ownerId = auth.getName();
-
+		
 		OrderVO order = new OrderVO();
 		order.setFoodId(foodId);
 		order.setOrderAmount(foodAmount);
 		order.setOwnerId(ownerId);
-		order.setApprovalStatus(0); // 대기 상태
+		order.setApprovalStatus(0);
 
-		orderService.insertOrder(order);
+		try {
+	        orderService.insertOrder(order);
+	    } catch (IllegalArgumentException e) {
+	        return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+	    }
 
-		return new ResponseEntity<>(1, HttpStatus.OK);
+	    return new ResponseEntity<>(1, HttpStatus.OK);
 	}
 
 	@GetMapping("/updateShowStatus")
