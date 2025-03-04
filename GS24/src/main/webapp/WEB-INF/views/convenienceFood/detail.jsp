@@ -12,18 +12,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
-    <link rel="stylesheet" href="../resources/css/fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
     <title>${FoodVO.foodName }</title>
 <style>
 body {
-	font-family: 'Pretendard-Regular', sans-serif;
-	padding: 15px;
-	font-size: 18px;
+	font-family: Arial, sans-serif;
 }
 
 h1 {
 	color: #333;
+	margin-bottom: 5px;
 	text-align: center;
 }
 
@@ -36,7 +34,7 @@ h1 {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    margin-bottom: 30px;
+        margin-bottom: 30px;
 }
 
 .image-list {
@@ -47,22 +45,22 @@ h1 {
 }
 
 .image-scroll {
-    margin-top: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
+	margin-top: 10px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	overflow-x: auto;
 }
 
 .image-scroll ol {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
 }
 
 .image-scroll li {
-    margin-right: 10px;
+	margin-right: 10px;
 }
 
 .food-details {
@@ -72,20 +70,22 @@ h1 {
 }
 
 .food-details table {
-    width: 70%;
+	width: 70%;
 }
 
 .food-details th, .food-details td {
-    padding: 10px;
-    text-align: center;
+	padding: 10px;
+	text-align: center;
 }
 
 .food-details th {
-    width: 40%;
+	width: 40%;
+	text-align: center;
 }
 
 .food-details td {
-    width: 40%;
+	width: 40%;
+	text-align: center;
     vertical-align: middle;
 }
 
@@ -116,6 +116,7 @@ h1 {
 	padding: 0;
 }
 
+/* 페이징 스타일 */
 .pagination_button {
 	display: inline-block;
 	margin: 5px;
@@ -173,7 +174,7 @@ h1 {
 
     .image-scroll {
         width: 100%;
-        overflow-x: hidden;
+        overflow-x: scroll;
     }
 
     .subImage {
@@ -181,6 +182,7 @@ h1 {
         height: 80px;
     }
 
+    /* 차트 크기 조정 */
     #diagram {
         width: 100%;
         max-width: 300px;
@@ -231,7 +233,6 @@ h1 {
 }
 
 .function button {
-	font-family: 'Pretendard-Regular', sans-serif;
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
@@ -240,7 +241,7 @@ h1 {
     background-color: #ddd;
     color: black;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .function button:hover {
@@ -248,8 +249,6 @@ h1 {
 }
 
 .review-buttons button {
-	font-family: 'Pretendard-Regular', sans-serif;
-	padding: 5px 10px;
 	border-radius: 4px;
 	border: none;
 	background-color: #ddd;
@@ -263,7 +262,6 @@ h1 {
 }
 
 #preorder {
-	font-family: 'Pretendard-Regular', sans-serif;
     padding: 10px 30px;
 	background-color: #4CAF50 !important;
 	color: white !important;
@@ -271,11 +269,6 @@ h1 {
 
 #preorder:hover {
 	background: #388E3C !important;
-}
-hr {
-    border: none;
-    height: 2px;
-    background-color: #ccc;
 }
 </style>
 
@@ -320,6 +313,18 @@ hr {
 
             detailForm.find("input[name='pageNum']").val(pageNum);
             detailForm.find("input[name='pageSize']").val(pageSize);
+            
+            var loginUser = "";
+            var convenienceId = ${FoodVO.convenienceId};
+            
+            $.ajax({
+            	type : "POST",
+            	url : "../review/user",
+            	success : function(result){
+            		if(result != null)
+            			loginUser = result;
+            	}
+            });
 
             $.ajax({
                 type: "POST",
@@ -328,22 +333,29 @@ hr {
                 success: function (result) {
                     let list = "<hr>";
                     $(result).each(function () {
-                        list += "<div class='reviewItems'>"
+                        list+= "<div class='reviewItems'>"
                             + "<input type='hidden' class='reviewId' value='" + this.reviewId + "'/>"
                             + "<p><strong>" + this.memberId + "</strong></p>"
                             + "<p class='reviewRating' data-rating='" + this.reviewRating + "'></p>"
                             + "<div class='imageList'>";
 
                         $(this.imgList).each(function () {
-                            list += "<input type='hidden' class='image_path' value='" + this.imgPath + "'>"
+                            list+= "<input type='hidden' class='image_path' value='" + this.imgPath + "'>"
                                 + "<img src='../image/reviewImage?imgId=" + this.imgId + "'>";
                         });
 
-                        list += "</div>"
+                        list+= "</div>"
                             + "<p><strong>" + this.reviewTitle + "</strong></p>"
-                            + "<p>" + this.reviewContent + "</p>"
-                            + "</div>"
-                            + "</div>"
+                            + "<p>" + this.reviewContent + "</p>";
+                        
+                            if(this.memberId == loginUser && loginUser != ""){
+                            	list += "<div class=review-buttons>" 
+                            		 + "<button onclick=\"location.href=\'../review/update?reviewId="+this.reviewId+"&convenienceId="+convenienceId+"\"\'>수정</button>"
+                            		 + "<button id='reviewDelete'>삭제</button>"
+                            		 + "</div>";
+                            }
+                            
+                        list+= "</div>"
                             + "<hr>";
                     });
 

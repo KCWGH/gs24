@@ -9,50 +9,48 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>${convenienceId}호점</title>
 <style>
 body {
-	font-family: 'Pretendard-Regular', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    font-size: 18px;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
 }
 
 h1 {
-    text-align: center;
-    margin-top: 100px;
+	text-align: center;
+	margin-top: 100px;
 }
 
 .food_box {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 20px;
-    list-style-type: none;
-    margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 20px;
+	padding: 20px;
+	list-style-type: none;
+	margin: 0;
 }
 
 .food_box .List {
-    width: 250px;
-    text-align: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    transition: box-shadow 0.3s ease-in-out;
+	width: 250px;
+	text-align: center;
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	transition: box-shadow 0.3s ease-in-out;
 }
 
 .image-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    cursor: pointer;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 .button-container {
@@ -63,127 +61,179 @@ h1 {
 }
 
 .button-container button {
-	font-family: 'Pretendard-Regular', sans-serif;
-    margin-top: 10px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    border: none;
-    background-color: #ddd;
-    color: black;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
+	margin-top: 10px;
+	padding: 10px 20px;
+	border-radius: 4px;
+	border: none;
+	background-color: #ddd;
+	color: black;
+	cursor: pointer;
+	font-size: 14px;
+	text-align: center;
 }
 
 .button-container button:hover {
-    background-color: #bbb;
+	background-color: #bbb;
 }
 
 .foodAvgRating {
-    color: gold;
-    font-size: 18px;
+	color: gold;
+	font-size: 18px;
 }
 
 .foodAvgRating::before {
-    content: "★★★★★";
-    letter-spacing: 3px;
+	content: "★★★★★";
+	letter-spacing: 3px;
 }
 
 .foodAvgRating[data-rating="5"]::before {
-    content: "★★★★★";
+	content: "★★★★★";
 }
 
 .foodAvgRating[data-rating="4"]::before {
-    content: "★★★★☆";
+	content: "★★★★☆";
 }
 
 .foodAvgRating[data-rating="3"]::before {
-    content: "★★★☆☆";
+	content: "★★★☆☆";
 }
 
 .foodAvgRating[data-rating="2"]::before {
-    content: "★★☆☆☆";
+	content: "★★☆☆☆";
 }
 
 .foodAvgRating[data-rating="1"]::before {
-    content: "★☆☆☆☆";
+	content: "★☆☆☆☆";
 }
 
 .foodAvgRating[data-rating="0"]::before {
-    content: "☆☆☆☆☆";
+	content: "☆☆☆☆☆";
 }
 
 .food-info p {
-    line-height: 1.0;
+	line-height: 1.0;
 }
 
 .food-info span {
-    line-height: 0.6;
+	line-height: 0.6;
 }
 
 ul {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 20px 0;
-    list-style-type: none;
+	display: flex;
+	justify-content: center;
+	padding: 0;
+	margin: 20px 0;
+	list-style-type: none;
 }
 
 .pagination_button {
-    display: inline-block;
-    margin: 5px;
-    text-align: center;
+	display: inline-block;
+	margin: 5px;
+	text-align: center;
 }
 
 .pagination_button a {
-    text-decoration: none;
-    border-radius: 5px;
-    color: black;
+	text-decoration: none;
+	border-radius: 5px;
+	color: black;
 }
 
 .button-container {
-    text-align: right;
-    margin-bottom: 10px;
+	text-align: right;
+	margin-bottom: 10px;
 }
 
 .pagination_button.current a {
-    background: #333;
-    color: white;
+	background: #333;
+	color: white;
 }
 
 .pagination_button span {
-    color: #444;
-    font-size: 20px;
+	color: #444;
+	font-size: 30px;
+}
+.searchList li {
+	width: 100px;
+	cursor: pointer;
+	display: inline-block;
+	text-align: center;
+}
+.searchList li:hover {
+	background-color: silver;
+	border-radius: 5px;
+}
+.searchPrice,
+.searchName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
 
+.searchPrice input,
+.searchName input {
+    padding: 8px;
+    font-size: 14px;
+    width: 120px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.searchPrice input:focus,
+.searchName input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.searchPrice button,
+.searchName button {
+    padding: 8px 16px;
+    background-color: silver;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.searchPrice button:hover,
+.searchName button:hover {
+    background-color: #0056b3;
+}
 @media screen and (max-width: 768px) {
-    .pagination_button span {
-        font-size: 15px;
-    }
+	.pagination_button span {
+		font-size: 15px;
+	}
 }
 </style>
-
 </head>
 <body>
-	<c:if test="${not empty message}">
-		<script type="text/javascript">
-			alert("${message}");
-		</script>
-	</c:if>
-	<%@ include file="../common/header.jsp"%>
-
-	<h1>${convenienceId}호점 식품 리스트</h1>
-   <!-- 
-      <input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
-   <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
-   <button class="search">검색</button>
+<c:if test="${not empty message}">
+    <script type="text/javascript">alert("${message}");</script>
+</c:if>
+    <%@ include file="../common/header.jsp" %>
+    
+   <h1>${convenienceId}호점 식품 리스트</h1>
+   
+   <div class="searchPrice">
+   		<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~
+   		<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원
+   		<button id="priceSearch">검색</button>
+   </div>
+   <div class="searchName">
+   		<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
+		<button class="search">검색</button>
+   </div>
    <ul class="searchList">
       <li>전체</li>
-      <li>최신등록순</li>
       <li>낮은가격순</li>
       <li>높은가격순</li>
    </ul>
-    -->
 
    <ul class="food_box">
     <c:forEach var="FoodVO" items="${FoodList}">
@@ -246,6 +296,7 @@ ul {
 </ul>
    <!-- 실제 controller로 데이터를 전송해주는 form -->
    <form id="searchForm" action="list" method="GET">
+   	  <input type="hidden" name="convenienceId">
       <input type="hidden" name="pageNum">
       <input type="hidden" name="pageSize">
       <input type="hidden" name="type">
@@ -277,7 +328,7 @@ ul {
         	<li class="pagination_button">
             	<c:choose>
                 	<c:when test="${num == pageMaker.pagination.pageNum}">
-                    	<span>●</span>
+                    	<a href="${num}"><span>●</span></a>
                 	</c:when>
                 	<c:otherwise>
                     	<a href="${num}"><span>○</span></a>
@@ -428,6 +479,8 @@ ul {
          let optionType = $(this).text();
          console.log("optionType : " + optionType);
          let searchForm = $("#searchForm");
+         var convenienceId = '${convenienceId}';
+         searchForm.find("input[name='convenienceId']").val(convenienceId);
          if(optionType=="전체"){
             searchForm.find("input[name='sortType']").val("All");
             var pageNum = 1; // 검색 후 1페이지로 고정
@@ -475,6 +528,8 @@ ul {
          
          let searchFoodName = $(".searchFoodName").val();
          let searchForm = $("#searchForm");
+         var convenienceId = '${convenienceId}';
+         searchForm.find("input[name='convenienceId']").val(convenienceId);
          console.log("검색어 : " + searchFoodName);
          
          if(searchFoodName == ""){
@@ -507,6 +562,8 @@ ul {
          e.preventDefault(); // a 태그 이벤트 방지
          
          let searchForm = $("#searchForm");
+         var convenienceId = '${convenienceId}';
+         searchForm.find("input[name='convenienceId']").val(convenienceId);
          
          searchForm.find("input[name='type']").val("price");
          
@@ -519,11 +576,6 @@ ul {
          } else if(topPrice == ''){
         	 //topPrice가 입력되지 않은 경우 쿼리문에서 FOOD테이블에서 FOOD_PRICE가 가장 큰 값으로 검색
         	 
-         } else if(bottomPrice > topPrice){
-        	 //bottomPrice 가 topPrice보다 클 경우
-        	 var temp = topPrice;
-        	 topPrice = bottomPrice;
-        	 bottomPrice = temp;
          }
          
          searchForm.find("input[name='bottomPrice']").val(bottomPrice);

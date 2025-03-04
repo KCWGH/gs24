@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
@@ -20,6 +21,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
+@Transactional(value = "transactionManager")
 public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 
 	@Autowired

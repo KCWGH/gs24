@@ -54,7 +54,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectPagedConvenienceFoodByConvenienceId" resultMap="ConvenienceFoodResultMap">
         SELECT * FROM (
         SELECT 
-        		ROW_NUMBER() OVER (ORDER BY CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID DESC) AS RN,
+        		ROW_NUMBER() OVER (
+        		<choose>
+					<when test="sortType == 'rowPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE ASC</when>
+					<when test="sortType == 'topPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE DESC</when>
+					<otherwise>ORDER BY FOOD_LIST.FOOD_ID DESC</otherwise>
+				</choose>
+        		) AS RN,
 		CONVENIENCE_FOOD.CONVENIENCE_FOOD_ID,
 		CONVENIENCE_FOOD.CONVENIENCE_ID,
 		FOOD_LIST.FOOD_ID,
@@ -69,7 +75,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMBNAIL ON IMG_THUMBNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		WHERE CONVENIENCE_ID = #{convenienceId}) 
+		WHERE CONVENIENCE_ID = #{convenienceId} 
+			<choose>
+				<when test="type == 'name'.toString()">AND FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
+				<when test="type == 'price'.toString()">AND (FOOD_PRICE BETWEEN #{bottomPrice} AND
+					<choose>
+						<when test="topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{topPrice})</otherwise>
+						</choose>
+				</when>
+			</choose>
+		)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
@@ -141,5 +157,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CONVENIENCE_FOOD SET SHOW_STATUS = CASE  WHEN SHOW_STATUS = 1 THEN 0 WHEN SHOW_STATUS = 0 THEN 1 END
 		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</update>
-	
 </mapper>
