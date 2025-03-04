@@ -6,9 +6,10 @@
     <title>개인정보 처리방침</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Pretendard-Regular', sans-serif;
             line-height: 1.6;
             padding: 20px;
+            background: #f9f9f9;
         }
         h2 {
             text-align: center;
@@ -21,7 +22,7 @@
             padding: 20px;
             height: 300px;
             overflow-y: scroll;
-            background: #f9f9f9;
+            background: white;
         }
         .button-container {
             margin-top: 20px;

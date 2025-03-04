@@ -38,7 +38,7 @@ body {
     justify-content: center;
     border: 1px solid #ddd;
     margin-bottom: 20px;
-    max-width: 450px;
+    max-width: 500px;
 	margin: 20px auto;
 	width: 100%;
 	border-collapse: collapse;

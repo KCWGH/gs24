@@ -13,44 +13,45 @@
 <title>${convenienceId}호점</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f4f4f4;
+	font-family: 'Pretendard-Regular', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-size: 18px;
+    text-align: center;
 }
 
 h1 {
-	text-align: center;
-	margin-top: 100px;
+    margin-top: 100px;
 }
 
 .food_box {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 20px;
-	padding: 20px;
-	list-style-type: none;
-	margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    list-style-type: none;
+    margin: 0;
 }
 
 .food_box .List {
-	width: 250px;
-	text-align: center;
-	border: 1px solid #ddd;
-	padding: 10px;
-	border-radius: 8px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	background-color: #fff;
-	transition: box-shadow 0.3s ease-in-out;
+    width: 250px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 .image-item img {
-	width: 100%;
-	height: auto;
-	border-radius: 4px;
-	cursor: pointer;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .button-container {
@@ -61,161 +62,131 @@ h1 {
 }
 
 .button-container button {
-	margin-top: 10px;
-	padding: 10px 20px;
-	border-radius: 4px;
-	border: none;
-	background-color: #ddd;
-	color: black;
-	cursor: pointer;
-	font-size: 14px;
-	text-align: center;
+	font-family: 'Pretendard-Regular', sans-serif;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #ddd;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
 }
 
 .button-container button:hover {
-	background-color: #bbb;
+    background-color: #bbb;
 }
 
 .foodAvgRating {
-	color: gold;
-	font-size: 18px;
+    color: gold;
+    font-size: 18px;
 }
 
 .foodAvgRating::before {
-	content: "★★★★★";
-	letter-spacing: 3px;
+    content: "★★★★★";
+    letter-spacing: 3px;
 }
 
 .foodAvgRating[data-rating="5"]::before {
-	content: "★★★★★";
+    content: "★★★★★";
 }
 
 .foodAvgRating[data-rating="4"]::before {
-	content: "★★★★☆";
+    content: "★★★★☆";
 }
 
 .foodAvgRating[data-rating="3"]::before {
-	content: "★★★☆☆";
+    content: "★★★☆☆";
 }
 
 .foodAvgRating[data-rating="2"]::before {
-	content: "★★☆☆☆";
+    content: "★★☆☆☆";
 }
 
 .foodAvgRating[data-rating="1"]::before {
-	content: "★☆☆☆☆";
+    content: "★☆☆☆☆";
 }
 
 .foodAvgRating[data-rating="0"]::before {
-	content: "☆☆☆☆☆";
+    content: "☆☆☆☆☆";
 }
 
 .food-info p {
-	line-height: 1.0;
+    line-height: 1.0;
 }
 
 .food-info span {
-	line-height: 0.6;
+    line-height: 0.6;
 }
 
-ul {
-	display: flex;
-	justify-content: center;
-	padding: 0;
-	margin: 20px 0;
-	list-style-type: none;
-}
-
-.pagination_button {
-	display: inline-block;
-	margin: 5px;
-	text-align: center;
-}
-
-.pagination_button a {
-	text-decoration: none;
-	border-radius: 5px;
-	color: black;
-}
-
-.button-container {
-	text-align: right;
-	margin-bottom: 10px;
-}
-
-.pagination_button.current a {
-	background: #333;
-	color: white;
-}
-
-.pagination_button span {
-	color: #444;
-	font-size: 30px;
-}
 .searchList li {
 	width: 100px;
 	cursor: pointer;
 	display: inline-block;
-	text-align: center;
 }
+
 .searchList li:hover {
 	background-color: silver;
 	border-radius: 5px;
 }
-.searchPrice,
-.searchName {
+
+ul {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    padding: 0;
+    margin: 20px 0;
+    list-style-type: none;
 }
 
-.searchPrice input,
-.searchName input {
-    padding: 8px;
-    font-size: 14px;
-    width: 120px;
+.pagination_button {
+    display: inline-block;
+    margin: 5px;
+    text-align: center;
+}
+
+.pagination_button a {
+    text-decoration: none;
     border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-right: 10px;
-    transition: border-color 0.3s ease;
-}
-
-.searchPrice input:focus,
-.searchName input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.searchPrice button,
-.searchName button {
-    padding: 8px 16px;
-    background-color: silver;
     color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 14px;
 }
 
-.searchPrice button:hover,
-.searchName button:hover {
-    background-color: #0056b3;
+.button-container {
+    text-align: right;
+    margin-bottom: 10px;
 }
+
+.pagination_button.current a {
+    background: #333;
+    color: white;
+}
+
+.pagination_button span {
+    color: #444;
+    font-size: 20px;
+}
+
 @media screen and (max-width: 768px) {
-	.pagination_button span {
-		font-size: 15px;
-	}
+    .pagination_button span {
+        font-size: 15px;
+    }
 }
 </style>
 </head>
 <body>
 <c:if test="${not empty message}">
-    <script type="text/javascript">alert("${message}");</script>
+    <script type="text/javascript">
+        alert("${message}");
+
+        var closeWindow = "${closeWindow}";
+        if (closeWindow === 'true') {
+            window.close();
+        }
+        
+        window.opener.location.reload();
+    </script>
 </c:if>
+
     <%@ include file="../common/header.jsp" %>
     
    <h1>${convenienceId}호점 식품 리스트</h1>
@@ -230,7 +201,7 @@ ul {
 		<button class="search">검색</button>
    </div>
    <ul class="searchList">
-      <li>전체</li>
+      <li>최근등록순</li>
       <li>낮은가격순</li>
       <li>높은가격순</li>
    </ul>
@@ -253,7 +224,12 @@ ul {
             <span class="foodAvgRating" data-rating="${FoodVO.foodAvgRating}"></span><span style="color:brown; font-size:0.9em;"><strong>(${FoodVO.foodReviewCnt })</strong></span>
             </div>
                 <div class="button-container">
-                    <button onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+                    <sec:authorize access="isAnonymous()">
+                		<button id="needLogin">예약하기</button>
+                	</sec:authorize>
+                	<sec:authorize access="hasRole('ROLE_MEMBER')">
+                    <button onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=700,top=100,left=200')">예약하기</button>
+                	</sec:authorize>
                     <c:choose>
                         <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
                             <button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
@@ -353,6 +329,10 @@ ul {
 	        
 	        xhr.setRequestHeader(header, token);
 	     });
+	   
+	   $(document).on('click', '#needLogin', function(event) {
+		   alert('예약하시려면 로그인해주세요');
+	   });
 	   
 	   $(document).on('click', '.addFavorites', function(event) {
 		    let memberId = '${memberId}';

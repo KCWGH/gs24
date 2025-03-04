@@ -87,8 +87,8 @@ ul {
     <table>
         <thead>
             <tr>
-            	<th>점주 ID</th>
                 <th>주문 ID</th>
+            	<th>점주 ID</th>
                 <th>식품 ID</th>
                 <th>식품명</th>
                 <th>발주 수량</th>
@@ -99,8 +99,8 @@ ul {
         <tbody>
             <c:forEach var="order" items="${ordersByOwner}">
                 <tr>
-                	<td>${order.ownerId}</td>
                     <td>${order.orderId}</td>
+                	<td>${order.ownerId}</td>
                     <td>${order.foodId}</td>
                     <td>${order.foodName}</td>
                     <td>${order.orderAmount}</td>

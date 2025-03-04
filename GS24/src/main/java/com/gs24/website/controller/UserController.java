@@ -220,15 +220,33 @@ public class UserController {
 	}
 
 	@GetMapping("/terms")
-	public void termsGET() {
+	public void termsGET(Authentication auth, Model model) {
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 	}
 
 	@GetMapping("/privacy-policy")
-	public void privacypolicyGET() {
+	public void privacypolicyGET(Authentication auth, Model model) {
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 	}
 
 	@GetMapping("/customer-service")
-	public void customerservice() {
+	public void customerservice(Authentication auth, Model model) {
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				model.addAttribute("convenienceId", convenienceId);
+			}
+		}
 	}
 
 }

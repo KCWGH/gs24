@@ -16,12 +16,13 @@
     <title>${FoodVO.foodName }</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
+	font-family: 'Pretendard-Regular', sans-serif;
+	padding: 15px;
+	font-size: 18px;
 }
 
 h1 {
 	color: #333;
-	margin-bottom: 5px;
 	text-align: center;
 }
 
@@ -34,7 +35,7 @@ h1 {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-        margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .image-list {
@@ -45,22 +46,22 @@ h1 {
 }
 
 .image-scroll {
-	margin-top: 10px;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	overflow-x: auto;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
 }
 
 .image-scroll ol {
-	display: flex;
-	padding: 0;
-	margin: 0;
-	list-style-type: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
 .image-scroll li {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 .food-details {
@@ -70,22 +71,20 @@ h1 {
 }
 
 .food-details table {
-	width: 70%;
+    width: 70%;
 }
 
 .food-details th, .food-details td {
-	padding: 10px;
-	text-align: center;
+    padding: 10px;
+    text-align: center;
 }
 
 .food-details th {
-	width: 40%;
-	text-align: center;
+    width: 40%;
 }
 
 .food-details td {
-	width: 40%;
-	text-align: center;
+    width: 40%;
     vertical-align: middle;
 }
 
@@ -116,7 +115,6 @@ h1 {
 	padding: 0;
 }
 
-/* 페이징 스타일 */
 .pagination_button {
 	display: inline-block;
 	margin: 5px;
@@ -174,7 +172,7 @@ h1 {
 
     .image-scroll {
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: hidden;
     }
 
     .subImage {
@@ -182,7 +180,6 @@ h1 {
         height: 80px;
     }
 
-    /* 차트 크기 조정 */
     #diagram {
         width: 100%;
         max-width: 300px;
@@ -233,6 +230,7 @@ h1 {
 }
 
 .function button {
+	font-family: 'Pretendard-Regular', sans-serif;
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
@@ -241,7 +239,7 @@ h1 {
     background-color: #ddd;
     color: black;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .function button:hover {
@@ -249,6 +247,8 @@ h1 {
 }
 
 .review-buttons button {
+	font-family: 'Pretendard-Regular', sans-serif;
+	padding: 5px 10px;
 	border-radius: 4px;
 	border: none;
 	background-color: #ddd;
@@ -261,14 +261,21 @@ h1 {
 	background-color: #bbb;
 }
 
-#preorder {
+#preorder, #needLogin {
+	font-family: 'Pretendard-Regular', sans-serif;
     padding: 10px 30px;
 	background-color: #4CAF50 !important;
 	color: white !important;
 }
 
-#preorder:hover {
+#preorder:hover, #needLogin:hover {
 	background: #388E3C !important;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: #ccc;
 }
 </style>
 
@@ -280,6 +287,10 @@ h1 {
     });
 
     $(document).ready(function () {
+        $(document).on('click', '#needLogin', function(event) {
+        	alert('예약하시려면 로그인해주세요');
+     	});
+    	
         $(".subImage").on("click", function () {
             let newSrc = $(this).attr("src");
             $("#mainImage").attr("src", newSrc);
@@ -441,7 +452,12 @@ h1 {
 				<tr>
 					<td colspan="2" class="function" style="text-align: center;">
 					<strong>영양정보</strong><br><br><canvas id="diagram" width="300px" height="300px"></canvas><br>
-						<button id="preorder" onclick='location.href="../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }"'>예약하기</button>
+						<sec:authorize access="isAnonymous()">
+                		<button id="needLogin">예약하기</button>
+                	</sec:authorize>
+                	<sec:authorize access="hasRole('ROLE_MEMBER')">
+						<button id="preorder" onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=700,top=100,left=200')">예약하기</button>
+					</sec:authorize>
 						<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
 					</td>
 				</tr>

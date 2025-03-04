@@ -6,16 +6,17 @@
     <title>고객센터</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Pretendard-Regular', sans-serif;
             line-height: 1.6;
             padding: 20px;
+            background: #f9f9f9;
         }
         .service-container {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ddd;
-            background-color: #f9f9f9;
+            background-color: white;
             border-radius: 8px;
         }
         h2 {

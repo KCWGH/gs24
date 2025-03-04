@@ -11,6 +11,7 @@
 <style type="text/css">
 /* 전체 페이지 스타일 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	background-color: #f8f9fa;
@@ -35,7 +36,6 @@ table {
 th, td {
 	border: 1px solid #ccc;
 	padding: 10px;
-	font-size: 14px;
 }
 
 th {
@@ -45,6 +45,7 @@ th {
 
 /* 버튼 스타일 */
 button, input[type="button"] {
+	font-family: 'Pretendard-Regular', sans-serif;
 	background: #ddd;
 	color: black;
 	padding: 5px 10px;

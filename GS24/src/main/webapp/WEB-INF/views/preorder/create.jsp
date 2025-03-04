@@ -10,11 +10,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>편의점 식품 예약</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     
     <style>
+    	body {
+			font-family: 'Pretendard-Regular', sans-serif;
+			padding: 15px;
+			font-size: 16px;
+			background-color: #f4f4f4;
+		}
+		
+		.card {
+			font-family: 'Pretendard-Regular', sans-serif;
+    		max-width: 100%;
+    		padding: 10px;
+    		background: white;
+    		border-radius: 10px;
+    		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    		text-align: center;
+        }
+
+		h1 {
+			color: #333;
+			text-align: center;
+		}
+    	
         .modal {
             display: none;
             position: fixed;
@@ -30,14 +53,13 @@
             background-color: #fefefe;
             margin: 15% auto;
             padding: 20px;
-            width: 50%;
+            width: 80%;
             max-width: 600px;
             max-height: 80%;
             overflow-y: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* 모달 안의 특정 테이블에만 스타일 적용 */
         .modal-table {
             width: 100%;
             border-collapse: collapse;
@@ -62,11 +84,25 @@
         .close:hover {
             color: black;
         }
+        
+        button {
+        	font-family: 'Pretendard-Regular', sans-serif;
+        }
+        
+        input {
+        	text-align: center;
+        }
     </style>
 </head>
 <body>
-<%@ include file="../common/header.jsp"%>
+<c:if test="${not empty message}">
+    <script type="text/javascript">
+        alert("${message}");
+        window.opener.location.reload();
+    </script>
+</c:if>
     <h1>${foodVO.foodName}</h1>
+    <div class="card">
     <form action="create" method="POST">
         <table>
             <tr>
@@ -74,12 +110,12 @@
                 <td>${foodVO.foodType}</td>
             </tr>
             <tr>
-                <th>식품 가격</th>
-                <td>${foodVO.foodPrice}원</td>
+                <th>재고 수량</th>
+                <td>${foodVO.foodAmount}개</td>
             </tr>
             <tr>
-                <th>총 재고량</th>
-                <td>${foodVO.foodAmount}개</td>
+                <th>식품 가격</th>
+                <td>${foodVO.foodPrice}원</td>
             </tr>
             <tr>
                 <th>예약 일자</th>
@@ -96,19 +132,19 @@
                 <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰 및 기프트카드가 초기화됩니다.<br><br></td>
             </tr>
             <tr>
-                <th>적용된 쿠폰</th>
+                <th>적용된<br>쿠폰</th>
                 <td><button type="button" id="openCouponModal">쿠폰 변경</button> <span id="selectedCoupon">없음</span> <button type="button" id="doNotApplyCoupon" >쿠폰 사용하지 않기</button><button type="button" id="selectCoupon" hidden="hidden">선택하기</button></td>
             </tr>
             <tr id="giftCardToggle" hidden="hidden">
-                <th>사용할 기프트카드</th>
+                <th>사용할<br>기프트카드</th>
                 <td><span id="selectedGiftCard">없음</span> <button type="button" id="openGiftCardModal">기프트카드 변경</button></td>
             </tr>
             <tr id="latestBalanceToggle" hidden="hidden">
-                <th>기프트카드 잔액</th>
+                <th>기프트카드<br>잔액</th>
                 <td><span id="latestBalance"></span></td>
             </tr>
             <tr id="priceToggle" hidden="hidden">
-                <th>별도 결제 금액</th>
+                <th>별도<br>결제금액</th>
                 <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="submit" id="createPreorder" value="예약하기" disabled></td>
             </tr>
         </table>
@@ -203,11 +239,10 @@
         </div>
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
-
-    <button onclick="location.href='../convenienceFood/list?convenienceId=${foodVO.convenienceId }'">돌아가기</button>
-
+	</div>
     <script>
         $(document).ready(function() {
+        	
         	let convenienceId = '${foodVO.convenienceId}';
         	let foodId = '${foodVO.foodId}';
         	let memberId = '${memberId}';
@@ -222,7 +257,7 @@
             initializeCouponModals();
             initializeGiftCardModals();
             updatePrice();
-
+            
             function initializeDatePicker() {
                 $("#pickupDateContainer").datepicker({
                     dateFormat: "yy-mm-dd",
@@ -482,6 +517,5 @@
             });
         });
     </script>
-    <%@ include file="../common/footer.jsp"%>
 </body>
 </html>

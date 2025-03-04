@@ -60,7 +60,7 @@
    		<choose>
    			<when test="keyword == null"></when>
    			<when test="keyword == ''"></when>
-   			<otherwise>MEMBER_ID = #{keyword} AND</otherwise>
+   			<otherwise>MEMBER_ID LIKE '%'||#{keyword}||'%' AND</otherwise>
    		</choose>
    		IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0 AND CONVENIENCE_ID = #{convenienceId}
    		<choose>

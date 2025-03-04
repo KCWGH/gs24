@@ -21,7 +21,6 @@ import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
-import com.gs24.website.service.FoodListService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderService;
 import com.gs24.website.util.PageMaker;

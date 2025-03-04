@@ -55,6 +55,7 @@ public class PreorderController {
 		ConvenienceFoodVO convenienceDetailFoodVO = convenienceFoodService.getConvenienceFoodByFoodId(foodId,
 				convenienceId);
 		if (convenienceDetailFoodVO.getFoodAmount() <= 0) {
+			redirectAttributes.addFlashAttribute("closeWindow", true);
 			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
 			return "redirect:/convenienceFood/list?convenienceId=" + convenienceDetailFoodVO.getConvenienceId();
 		}
@@ -92,13 +93,12 @@ public class PreorderController {
 			String message = preorderService.handlePreorderWithDiscounts(preorderVO, giftCardIdString, couponIdString);
 
 			redirectAttributes.addFlashAttribute("message", message);
-			return "redirect:/convenienceFood/list?convenienceId=" + preorderVO.getConvenienceId();
-
+			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId=" + preorderVO.getConvenienceId();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			redirectAttributes.addFlashAttribute("message",
 					"잘못된 값이 입력되었거나, 이 품목에 이미 사용한 쿠폰입니다.\\n다른 식품을 선택하거나 다른 쿠폰을 선택해 주세요.\\n예약이 실패했습니다.");
-			return "redirect:/convenienceFood/list?convenienceId=" + preorderVO.getConvenienceId();
+			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId=" + preorderVO.getConvenienceId();
 		}
 	}
 
@@ -114,7 +114,7 @@ public class PreorderController {
 	@GetMapping("/update")
 	public void updateGET(Model model, String memberId, Pagination pagination, int convenienceId) {
 		PageMaker pageMaker = new PageMaker();
-		pagination.setPageSize(10);
+		pagination.setPageSize(12);
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(preorderService.countTotalNotPickedUpPreordersByConvenienceId(convenienceId));
 
