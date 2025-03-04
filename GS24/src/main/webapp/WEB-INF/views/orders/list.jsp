@@ -9,12 +9,13 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <sec:authorize access="hasRole('ROLE_OWNER')"><title>발주 이력</title></sec:authorize>
     <sec:authorize access="hasRole('ROLE_ADMIN')"><title>발주 승인</title></sec:authorize>
     <style>
         /* 전체 페이지 스타일 */
         body {
+        	font-family: 'Pretendard-Regular', sans-serif;
             margin: 0;
             padding: 15px;
             background-color: #f8f9fa;
@@ -40,7 +41,6 @@
         th, td {
             border: 1px solid #ccc;
             padding: 10px;
-            font-size: 14px;
             text-align: center;
         }
 
@@ -51,6 +51,7 @@
 
         /* 버튼 스타일 */
         button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             background: #ddd;
             color: black;
             padding: 5px 10px;

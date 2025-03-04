@@ -8,10 +8,12 @@
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <title>마이페이지</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <style type="text/css">
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 60px 15px 15px 15px;
     background-color: #f8f9fa;
@@ -19,6 +21,7 @@ body {
 }
 
 .container {
+	font-family: 'Pretendard-Regular', sans-serif;
     max-width: 100%;
     padding: 10px;
     background: white;
@@ -42,20 +45,17 @@ th, td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-size: 18px;
 }
 
 th {
     background-color: #f1f1f1;
     color: #333;
-    font-size: 14px;
     text-align: center;
 }
 
-td {
-    font-size: 14px;
-}
-
 input[type="text"], input[type="email"] {
+	font-family: 'Pretendard-Regular', sans-serif;
     width: 60%;
     padding: 5px;
     border: 1px solid #ddd;
@@ -65,8 +65,9 @@ input[type="text"], input[type="email"] {
 }
 
 button {
+	font-family: 'Pretendard-Regular', sans-serif;
     padding: 7px 10px;
-    font-size: 13px;
+    font-size: 15px;
     border: none;
     background: #ddd;
     border-radius: 5px;
@@ -81,18 +82,18 @@ button:hover {
 .btn-container button {
     width: 120px;
     padding: 10px;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
 }
 
 #textDelete {
-    font-size: 13px;
+    font-size: 16px;
     color: red;
     margin-bottom: 5px;
 }
 
 #updateEmailResult, #updatePhoneResult, #deleteResult {
-    font-size: 12px;
+    font-size: 16px;
     margin-top: 5px;
     color: red;
 }
@@ -349,9 +350,9 @@ $(document).ready(function() {
 		<div class="btn-container">
 			<button id="btnUpdate">회원정보 수정</button><button id="btnUpdateEnd" hidden="hidden">수정 마치기</button><button id="btnDelete">회원 탈퇴</button>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 멤버십 내역은 삭제되며, 활동 내역(작성 게시글 및 댓글)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
+			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 활동 내역(작성 게시글 및 댓글)은<br>삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<sec:authorize access="hasRole('ROLE_OWNER')">
-			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은 삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
+			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은<br>삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<button id="btnDeleteConfirm" hidden="hidden">네</button><button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			<p id="deleteResult" hidden="hidden"></p>
 		</div>

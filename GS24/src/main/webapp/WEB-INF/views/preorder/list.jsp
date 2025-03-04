@@ -43,30 +43,30 @@
                         
                         let convenienceId = this.convenienceId;
                         
-                        let isPickUp = '미수령';
+                        let isPickUp = ' style="color:gray;">미수령';
                         
-                        let isExpiredOrder = '예약 중';
+                        let isExpiredOrder = ' style="color:gray;">예약 중';
                         
                         if(this.isPickUp == 1){
-                            isPickUp = '수령 완료';
-                            isExpiredOrder = '예약 종료';
+                            isPickUp = ' style="color:green;">수령 완료';
+                            isExpiredOrder = ' style="color:gray;">예약 종료';
                         }
                         
                         if(this.isExpiredOrder == 1){
-                            isPickUp = '수령 취소';
-                            isExpiredOrder = '예약 취소';
+                            isPickUp = ' style="color:red;">수령 취소';
+                            isExpiredOrder = ' style="color:red;">예약 취소';
                         }
                         
                         list += '<div class="preorderList">';
-                            if(isExpiredOrder == '예약 중'){
+                            if(isExpiredOrder == ' style="color:gray;">예약 중'){
                                 list += '<input type="checkbox" class="check-box">';
                             }
                         list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
                                 + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
-                                + '<div><strong>'+ StringDate+'</strong>까지 수령</div>'
-                                + '<div>'+this.preorderAmount+'개</div>'
-                                + '<div>'+isPickUp+'</div>'
-                                + '<div class="isExpriedOrder">'+isExpiredOrder+'</div>'
+                                + '<div>수령기한 : <strong>'+ StringDate+'</strong></div>'
+                                + '<div>예약수량 : '+this.preorderAmount+'개</div>'
+                                + '<div'+isPickUp+'</div>'
+                                + '<div class="isExpriedOrder"'+isExpiredOrder+'</div>'
                                 if (this.writeReview == 0 && this.isPickUp == 1) {
                                 	let onclick = '\"location.href=\'../review/register?foodId='+foodId+'&convenienceId='+convenienceId+'&preorderId='+preorderNO+'\'\"';
                                 	list += '<button onclick=' + onclick + '>리뷰 작성</button>';
@@ -162,28 +162,26 @@
     </script>
     <title>예약 내역</title>
 
-    <style>/* 전체 페이지 스타일 */
+    <style>
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 15px;
     background-color: #f8f9fa;
     text-align: center;
 }
 
-/* 제목 스타일 */
 h1, h2 {
     color: #333;
 }
 
-/* 예약 목록 스타일 */
 #list {
     display: flex;
-    flex-wrap: wrap; /* 여러 행으로 배치 */
-    justify-content: center; /* 가운데 정렬 */
-    gap: 20px; /* 카드 간 간격 */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
-/* 각 예약 항목 카드 스타일 */
 .preorderList {
     width: 250px;
     height: auto;
@@ -192,8 +190,15 @@ h1, h2 {
     background-color: #fff;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
-    transition: transform 0.3s, box-shadow 0.3s; /* 호버 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.preorderList input[type="checkbox"] {
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 .preorderList img {
@@ -205,10 +210,19 @@ h1, h2 {
 
 .preorderList div {
     margin-bottom: 10px;
+    position: relative;
 }
 
-/* 버튼 스타일 */
+.preorderList .pickup-info, 
+.preorderList .quantity-info, 
+.preorderList .status-info {
+    position: relative;
+    margin-bottom: 10px;
+}
+
 button, input[type="button"] {
+    font-family: 'Pretendard-Regular', sans-serif;
+    font-size: 16px;
     background: #ddd;
     color: black;
     padding: 5px 10px;
@@ -221,7 +235,6 @@ button:hover, input[type="button"]:hover {
     background: #bbb;
 }
 
-/* 버튼 그룹 */
 .button-container {
     text-align: center;
     margin-top: 15px;

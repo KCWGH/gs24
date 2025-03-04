@@ -12,10 +12,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <title>예약 식품 확인</title>
 </head>
 <style>
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	background-color: #f8f9fa;
@@ -100,6 +102,7 @@ ul {
 }
 
 button, input[type="button"] {
+	font-family: 'Pretendard-Regular', sans-serif;
 	background: #ddd;
 	color: black;
 	padding: 5px 10px;
@@ -113,17 +116,30 @@ button:hover {
 }
 
 input[type="text"] {
+	font-family: 'Pretendard-Regular', sans-serif;
     width: 15%;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: center;
-    font-size: 13px;
+    font-size: 18px;
 }
 
 .preorderId {
 	font-size: 40px;
 	padding: 20px;
+}
+
+.Order span{
+	font-size: 20px;
+}
+
+.Food span{
+	font-size: 20px;
+}
+
+.Date span{
+	font-size: 20px;
 }
 </style>
 <body>
@@ -133,17 +149,17 @@ input[type="text"] {
 	<ul class="preorder">
 		<li>
 			<div class="Order">
-				최근예약순
+				<span>최근예약순</span>
 			</div>
 		</li>
 		<li>
 			<div class="Food">
-				식품종류순
+				<span>식품종류순</span>
 			</div>
 		</li>
 		<li>
 			<div class="Date">
-				수령기한순
+				<span>수령기한순</span>
 			</div>
 		</li>
 	</ul>

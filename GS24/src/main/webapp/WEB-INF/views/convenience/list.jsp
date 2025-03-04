@@ -9,16 +9,18 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=162837f6bcd2201d2b2c36b8cf8c9d57&libraries=services"></script>
 <title>편의점 목록</title>
 
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Pretendard-Regular', sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f4f4f4;
+        font-size: 18px;
     }
 
     h1 {
@@ -131,7 +133,7 @@
 	}
 	.pagination_button span {
 	color:#444;
-    font-size: 30px;
+    font-size: 20px;
 	}
 		@media screen and (max-width: 768px) {
 		.pagination_button span {

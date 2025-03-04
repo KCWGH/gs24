@@ -4,10 +4,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <title>회원유형 선택</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Pretendard-Regular', sans-serif;
         background-color: #f4f4f4;
         color: #333;
         margin: 0;
@@ -28,33 +29,34 @@
     }
 
     h1 {
-        font-size: 24px;
         margin-bottom: 20px;
+        font-size: 25px;
         color: #333;
     }
 
     button {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         padding: 15px;
         margin: 10px 0;
-        border: 1px solid #ccc; /* 테두리 추가 */
+        border: 1px solid #ccc;
         border-radius: 5px;
-        font-size: 16px;
+        font-size: 18px;
         cursor: pointer;
-        background-color: transparent; /* 배경색 제거 */
-        transition: color 0.3s; /* 글씨 색 변화 애니메이션 */
+        background-color: transparent;
+        transition: color 0.3s;
     }
 
     button:hover {
-        filter: brightness(0.9); /* 호버 시 어두운 효과 */
+        filter: brightness(0.9);
     }
 
     .button-general {
-        color: #4CAF50; /* 일반회원 연두색 글씨 */
+        color: #4CAF50;
     }
 
     .button-owner {
-        color: #D84B16; /* 점주 주홍색 글씨 */
+        color: #D84B16;
     }
 
     a {

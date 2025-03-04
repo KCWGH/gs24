@@ -8,10 +8,12 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>식품 창고</title>
 <style type="text/css">
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	text-align: center;
@@ -35,7 +37,6 @@ table {
 th, td {
 	border: 1px solid #ccc;
 	padding: 10px;
-	font-size: 14px;
 	text-align: center;
 }
 
@@ -47,7 +48,6 @@ th {
 td a {
 	color: #007bff;
 	text-decoration: none;
-	font-size: 14px;
 }
 
 td a:hover {
@@ -55,7 +55,6 @@ td a:hover {
 }
 
 .status-text {
-	font-size: 13px;
 	font-weight: bold;
 	display: inline-block;
 	padding: 3px 8px;
@@ -63,6 +62,7 @@ td a:hover {
 }
 
 .foodRow td a, .foodRow td .insert {
+	font-family: 'Pretendard-Regular', sans-serif;
 	background: #ddd;
 	color: black;
 	padding: 5px 10px;
@@ -77,6 +77,7 @@ td a:hover {
 }
 
 #insert {
+	font-family: 'Pretendard-Regular', sans-serif;
 	background: #ddd;
 	color: black;
 	padding: 5px 10px;
@@ -166,7 +167,7 @@ ul {
                 <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 가능</td> </c:when>
                 <c:when test="${foodListVO.isSelling == 2}"> <td class="isSelling" style="color:blue;">발주 준비</td> </c:when>
             </c:choose>
-            <td><a href="../image/foodThumbnail?foodId=${foodListVO.foodId}" target="_blank">썸네일 보기</a></td>
+            <td><a href="../image/foodThumbnail?foodId=${foodListVO.foodId}" target="_blank">대표 사진 보기</a></td>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <td><a href="update?foodId=${foodListVO.foodId}">수정</a></td>
                 <td class="delete"><a href="delete?foodId=${foodListVO.foodId}">삭제</a></td>

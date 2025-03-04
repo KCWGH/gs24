@@ -8,10 +8,12 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <title>비활성화 해제 승인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	text-align: center;
@@ -55,6 +57,7 @@ body {
 }
 
 .approve-btn {
+	font-family: 'Pretendard-Regular', sans-serif;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -84,6 +87,7 @@ body {
 }
 
 .remove-btn {
+	font-family: 'Pretendard-Regular', sans-serif;
 	cursor: pointer;
 	color: red;
 	border: none;
@@ -92,6 +96,7 @@ body {
 }
 
 #reset-approved {
+	font-family: 'Pretendard-Regular', sans-serif;
 	position: absolute;
 	bottom: 15px;
 	left: 20%;
@@ -107,16 +112,16 @@ body {
 }
 
 #select-all-btn {
+	font-family: 'Pretendard-Regular', sans-serif;
 	display: block;
 	margin-bottom: 10px;
 	width: 100px;
-	height: 30px;
+	height: 40px;
 	background: #d4edda;
 	color: #155724;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	font-size: 14px;
 	text-align: center;
 	line-height: 30px;
 	padding: 0;
@@ -140,7 +145,7 @@ body {
 <h1>비활성화 해제 승인</h1>
 <div class="container">
     <div class="left-panel">
-    <h2>재활성화 요청 점주 목록</h2>
+    <h2>요청 점주 목록</h2>
     <div id="request-list">
     <c:choose>
         <c:when test="${not empty ownerIds}">
@@ -153,7 +158,7 @@ body {
             </c:forEach>
         </c:when>
         <c:otherwise>
-            <p id="noRequests">재활성화 요청이 없습니다.</p>
+            <p id="noRequests">요청이 없습니다.</p>
         </c:otherwise>
     </c:choose>
 	</div>

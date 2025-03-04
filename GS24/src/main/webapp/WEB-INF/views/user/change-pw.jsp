@@ -8,6 +8,7 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>비밀번호 변경</title>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
 <script type="text/javascript">
@@ -18,12 +19,12 @@ $(document).ajaxSend(function(e, xhr, opt){
 });
 
 $(document).ready(function() {
-    $("#btnUpdatePw").prop('disabled', true);
     $('#password').on('input', checkPw);
     $('#passwordConfirm').on('input', checkPw);
     
     $('form').submit(function (event) {
         event.preventDefault();
+        
         grecaptcha.ready(function() {
             grecaptcha.execute('6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR', { action: 'password_change' }).then(function(token) {
                 $('#recaptchaToken').val(token);
@@ -65,7 +66,7 @@ function checkPw() {
 
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Pretendard-Regular', sans-serif;
         background-color: #f4f4f4;
         color: #333;
         margin: 0;
@@ -99,6 +100,7 @@ function checkPw() {
 
     input[type="password"],
     input[type="text"] {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
@@ -108,6 +110,7 @@ function checkPw() {
     }
 
     button {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         padding: 10px;
         background-color: #999;
@@ -174,7 +177,7 @@ function checkPw() {
             </div>
 
             <div class="btn-container">
-                <button type="submit" id="btnUpdatePw" disabled>비밀번호 변경</button>
+                <button type="submit" id="btnUpdatePw">비밀번호 변경</button>
                 <button type="button" onclick='location.href="mypage"'>마이페이지로 돌아가기</button>
             </div>
 

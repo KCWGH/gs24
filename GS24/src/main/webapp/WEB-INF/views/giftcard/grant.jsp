@@ -5,6 +5,7 @@
 <style>
 /* 전체 페이지 스타일 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 15px;
     background-color: #f8f9fa;
@@ -43,28 +44,23 @@ th, td {
 th {
     background-color: #f1f1f1;
     color: #333;
-    font-size: 14px;
     text-align: center;
-}
-
-td {
-    font-size: 14px;
 }
 
 /* 입력 필드 스타일 */
 input[type="text"], input[type="email"], input[type="number"] {
+	font-family: 'Pretendard-Regular', sans-serif;
     width: 60%;
-    padding: 5px;
+    padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: center;
-    font-size: 13px;
 }
 
 /* 버튼 스타일 */
 button {
+	font-family: 'Pretendard-Regular', sans-serif;
     padding: 7px 10px;
-    font-size: 13px;
     border: none;
     background: #ddd;
     border-radius: 5px;
@@ -89,6 +85,7 @@ button:hover {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <title>기프트카드 선물하기</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>

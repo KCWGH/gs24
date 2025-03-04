@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <style>
 .header-wrapper {
     position: relative;
@@ -38,9 +39,20 @@ header {
     margin-left: auto !important;
 }
 
+.header-right span {
+	font-family: 'Pretendard-Regular', sans-serif;
+	font-size: 16px !important;
+}
+
+.header-section a {
+	font-size: 20px !important;
+}
+
 header a {
+	font-family: 'Pretendard-Regular', sans-serif;
     color: #333 !important;
     text-decoration: none !important;
+    font-size: 16px !important;
     font-weight: bold !important;
 }
 
@@ -50,13 +62,14 @@ header a:hover {
 
 header button,
 header input[type="submit"] {
+	font-family: 'Pretendard-Regular', sans-serif;
     background-color: #ddd !important;
     color: #333 !important;
     border: none !important;
     padding: 8px 12px !important;
     border-radius: 4px !important;
     cursor: pointer !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     transition: background-color 0.3s ease !important;
 }
 
@@ -112,17 +125,35 @@ header span {
     padding: 10px 0 !important;
 }
 </style>
+<script>
+document.addEventListener("keydown", function(event) {
+	if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
+        return;
+    }
+	
+    if (event.key >= "1" && event.key <= "6" && !event.target.closest("#searchForm")) {
+    	
+        let key = event.key;
+        
+        let button = document.querySelector("[data-key='" + key + "']");
+        
+        if (button) {
+            button.click();
+        }
+    }
+});
+</script>
 <header>
     <div class="header-container">
         <div class="header-section">
             <sec:authorize access="isAnonymous() or hasRole('ROLE_MEMBER')">
-                <a href="../convenience/list">GS24</a>
+                <a href="../convenience/list" data-key="1">GS24</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <a href="../convenienceFood/list?convenienceId=${convenienceId }">GS24</a>
+                <a href="../convenienceFood/list?convenienceId=${convenienceId }" data-key="1">GS24</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <a href="../admin/console">GS24</a>
+                <a href="../admin/console" data-key="1">GS24</a>
             </sec:authorize>
         </div>
 
@@ -152,26 +183,26 @@ header span {
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_MEMBER')">
-                <button type="button" onclick='location.href="../preorder/list"'>예약 내역 📋</button>
-                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')">기프트카드 🎁</button>
-                <button type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
-                <button type="button" onclick='location.href="../question/list"'>문의사항(Q&amp;A) 🙋‍♂️</button>
+                <button type="button" onclick='location.href="../preorder/list"' data-key="2">예약 내역 📋</button>
+                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')" data-key="3">기프트카드 🎁</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="4">공지사항 📌</button>
+                <button type="button" onclick='location.href="../question/list"' data-key="5">문의사항(Q&amp;A) 🙋‍♂️</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"'>결제 및 지급 💳</button>
-                <button type="button" onclick='location.href="../foodlist/list"'>발주하기 🚚</button>
-                <button type="button" onclick='location.href="../orders/ownerList"'>발주 이력 📋</button>
-                <button type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
-                <button type="button" onclick='location.href="../question/ownerList"'>매장 문의사항(Q&amp;A) 🙋‍♂️</button>
+                <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"' data-key="2">결제 및 지급 💳</button>
+                <button type="button" onclick='location.href="../foodlist/list"' data-key="3">발주하기 🚚</button>
+                <button type="button" onclick='location.href="../orders/ownerList"' data-key="4">발주 이력 📋</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📌</button>
+                <button type="button" onclick='location.href="../question/ownerList"' data-key="6">매장 문의사항(Q&amp;A) 🙋‍♂️</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <button type="button" onclick='location.href="../foodlist/list"'>식품 창고 🏢</button>
-                <button type="button" onclick='location.href="../orders/list"'>발주 승인 ✔️</button>
-                <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 발행 😄</button>
-                <button type="button" onclick='location.href="../admin/activate"'>비활성화 해제 승인 ✔️</button>
-                <button type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
+                <button type="button" onclick='location.href="../foodlist/list"' data-key="2">식품 창고 🏢</button>
+                <button type="button" onclick='location.href="../orders/list"' data-key="3">발주 승인 ✔️</button>
+                <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')" data-key="4">쿠폰 발행 😄</button>
+                <button type="button" onclick='location.href="../admin/activate"' data-key="5">비활성화 해제 승인 ✔️</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="6">공지사항 📌</button>
             </sec:authorize>
         </div>
     </div>

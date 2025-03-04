@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <title>쿠폰 발행</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
@@ -89,6 +90,7 @@
     </script>
     <style>
         body {
+        	font-family: 'Pretendard-Regular', sans-serif;
             margin: 0;
             background-color: #f8f9fa;
             text-align: center;
@@ -132,6 +134,7 @@
         }
 
         input[type="text"], input[type="email"], input[type="number"], input[type="datetime-local"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 60%;
             padding: 5px;
             border: 1px solid #ddd;
@@ -141,6 +144,7 @@
         }
 
         select {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 60%;
             padding: 5px;
             border: 1px solid #ddd;
@@ -150,6 +154,7 @@
         }
 
         button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             padding: 7px;
             font-size: 13px;
             border: none;

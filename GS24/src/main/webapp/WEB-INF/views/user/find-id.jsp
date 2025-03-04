@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <title>아이디 찾기</title>
     <style>
         body {
+        	font-family: 'Pretendard-Regular', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,15 +53,11 @@
         th {
             background-color: #f1f1f1;
             color: #333;
-            font-size: 14px;
             text-align: center;
         }
 
-        td {
-            font-size: 14px;
-        }
-
         input[type="text"], input[type="password"], input[type="email"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 50%;
             padding: 5px;
             border: 1px solid #ddd;
@@ -69,8 +67,9 @@
         }
 
         button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             padding: 7px 10px;
-            font-size: 13px;
+            font-size: 16px;
             border: none;
             background: #ddd;
             border-radius: 5px;

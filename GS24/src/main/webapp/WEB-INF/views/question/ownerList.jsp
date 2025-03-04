@@ -9,6 +9,7 @@
 <head>
 <style>
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	background-color: #f8f9fa;
@@ -20,7 +21,7 @@ h1, h2 {
 }
 
 table {
-	max-width: 1000px;
+	max-width: 1200px;
 	margin: 20px auto;
 	width: 100%;
 	border-collapse: collapse;
@@ -29,9 +30,9 @@ table {
 }
 
 th, td {
+	font-family: 'Pretendard-Regular', sans-serif;
 	border: 1px solid #ccc;
 	padding: 10px;
-	font-size: 14px;
 }
 
 th {

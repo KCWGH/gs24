@@ -7,6 +7,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../resources/css/fonts.css">
     <title>기프트카드 리스트</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
@@ -125,6 +126,7 @@
 <style>
 /* 전체 페이지 스타일 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 15px;
     background-color: #f8f9fa;
@@ -182,6 +184,7 @@ input[type="radio"] {
 }
 
 .giftCard-item td {
+	line-height: 1.4;
     padding: 5px;
 }
 
@@ -214,7 +217,6 @@ input[type="radio"] {
 .pagination a {
     text-decoration: none;
     color: black;
-    font-size: 14px;
     padding: 3px 6px;
     border-radius: 5px;
     transition: background 0.3s;
@@ -225,7 +227,7 @@ input[type="radio"] {
     color: white;
 }
 
-/* 하단 버튼 스타일 */
+
 .fixed-buttons {
     display: flex;
     justify-content: space-between;
@@ -233,10 +235,10 @@ input[type="radio"] {
 }
 
 .fixed-buttons button {
+	font-family: 'Pretendard-Regular', sans-serif;
     flex: 1;
     margin: 0 5px;
     padding: 8px;
-    font-size: 13px;
     border: none;
     background: #ddd;
     border-radius: 5px;

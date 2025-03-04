@@ -10,9 +10,11 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <title>발주 이력</title>
 <style>
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	margin: 0;
 	padding: 15px;
 	text-align: center;
@@ -36,7 +38,6 @@ table {
 th, td {
 	border: 1px solid #ccc;
 	padding: 10px;
-	font-size: 14px;
 	text-align: center;
 }
 
@@ -102,7 +103,6 @@ ul {
                     <td>${order.orderId}</td>
                     <td>${order.foodId}</td>
                     <td>${order.foodName}</td>
-
                     <td>${order.orderAmount}</td>
                     <td>
                         <fmt:formatDate value="${order.orderDateCreated}" pattern="yyyy-MM-dd HH:mm" />

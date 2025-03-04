@@ -9,16 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
-
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script
-	src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
 /* Body의 전체를 중앙 정렬 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,6 +47,7 @@ table {
 }
 
 th, td {
+	font-size: 16px;
 	padding: 8px;
 	text-align: left;
 	border-bottom: 1px solid #ddd;
@@ -56,26 +56,21 @@ th, td {
 th {
 	background-color: #f1f1f1;
 	color: #333;
-	font-size: 14px;
 	text-align: center;
 }
 
-td {
-	font-size: 14px;
-}
-
 input[type="text"], input[type="password"], input[type="email"] {
+	font-family: 'Pretendard-Regular', sans-serif;
 	width: 50%;
 	padding: 5px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	text-align: center;
-	font-size: 13px;
 }
 
 button {
+	font-family: 'Pretendard-Regular', sans-serif;
 	padding: 7px 10px;
-	font-size: 13px;
 	border: none;
 	background: #ddd;
 	border-radius: 5px;

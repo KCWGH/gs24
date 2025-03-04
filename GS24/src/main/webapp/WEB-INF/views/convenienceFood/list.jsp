@@ -9,48 +9,50 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <title>${convenienceId}호점</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f4f4f4;
+	font-family: 'Pretendard-Regular', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-size: 18px;
 }
 
 h1 {
-	text-align: center;
-	margin-top: 100px;
+    text-align: center;
+    margin-top: 100px;
 }
 
 .food_box {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 20px;
-	padding: 20px;
-	list-style-type: none;
-	margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    list-style-type: none;
+    margin: 0;
 }
 
 .food_box .List {
-	width: 250px;
-	text-align: center;
-	border: 1px solid #ddd;
-	padding: 10px;
-	border-radius: 8px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	background-color: #fff;
-	transition: box-shadow 0.3s ease-in-out;
+    width: 250px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 .image-item img {
-	width: 100%;
-	height: auto;
-	border-radius: 4px;
-	cursor: pointer;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .button-container {
@@ -61,114 +63,116 @@ h1 {
 }
 
 .button-container button {
-	margin-top: 10px;
-	padding: 10px 20px;
-	border-radius: 4px;
-	border: none;
-	background-color: #ddd;
-	color: black;
-	cursor: pointer;
-	font-size: 14px;
-	text-align: center;
+	font-family: 'Pretendard-Regular', sans-serif;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #ddd;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
 }
 
 .button-container button:hover {
-	background-color: #bbb;
+    background-color: #bbb;
 }
 
 .foodAvgRating {
-	color: gold;
-	font-size: 18px;
+    color: gold;
+    font-size: 18px;
 }
 
 .foodAvgRating::before {
-	content: "★★★★★";
-	letter-spacing: 3px;
+    content: "★★★★★";
+    letter-spacing: 3px;
 }
 
 .foodAvgRating[data-rating="5"]::before {
-	content: "★★★★★";
+    content: "★★★★★";
 }
 
 .foodAvgRating[data-rating="4"]::before {
-	content: "★★★★☆";
+    content: "★★★★☆";
 }
 
 .foodAvgRating[data-rating="3"]::before {
-	content: "★★★☆☆";
+    content: "★★★☆☆";
 }
 
 .foodAvgRating[data-rating="2"]::before {
-	content: "★★☆☆☆";
+    content: "★★☆☆☆";
 }
 
 .foodAvgRating[data-rating="1"]::before {
-	content: "★☆☆☆☆";
+    content: "★☆☆☆☆";
 }
 
 .foodAvgRating[data-rating="0"]::before {
-	content: "☆☆☆☆☆";
+    content: "☆☆☆☆☆";
 }
 
 .food-info p {
-	line-height: 1.0;
+    line-height: 1.0;
 }
 
 .food-info span {
-	line-height: 0.6;
+    line-height: 0.6;
 }
 
 ul {
-	display: flex;
-	justify-content: center;
-	padding: 0;
-	margin: 20px 0;
-	list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 20px 0;
+    list-style-type: none;
 }
 
 .pagination_button {
-	display: inline-block;
-	margin: 5px;
-	text-align: center;
+    display: inline-block;
+    margin: 5px;
+    text-align: center;
 }
 
 .pagination_button a {
-	text-decoration: none;
-	border-radius: 5px;
-	color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    color: black;
 }
 
 .button-container {
-	text-align: right;
-	margin-bottom: 10px;
+    text-align: right;
+    margin-bottom: 10px;
 }
 
 .pagination_button.current a {
-	background: #333;
-	color: white;
+    background: #333;
+    color: white;
 }
 
 .pagination_button span {
-	color: #444;
-	font-size: 30px;
+    color: #444;
+    font-size: 20px;
 }
 
 @media screen and (max-width: 768px) {
-	.pagination_button span {
-		font-size: 15px;
-	}
+    .pagination_button span {
+        font-size: 15px;
+    }
 }
 </style>
+
 </head>
 <body>
-<c:if test="${not empty message}">
-        <script type="text/javascript">
-									alert("${message}");
-								</script>
-    </c:if>
-    <%@ include file="../common/header.jsp" %>
-    
-   <h1>${convenienceId}호점 식품 리스트</h1>
+	<c:if test="${not empty message}">
+		<script type="text/javascript">
+			alert("${message}");
+		</script>
+	</c:if>
+	<%@ include file="../common/header.jsp"%>
+
+	<h1>${convenienceId}호점 식품 리스트</h1>
    <!-- 
       <input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원 <button id="priceSearch">검색</button><br>
    <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">

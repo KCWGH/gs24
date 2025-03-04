@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<link rel="stylesheet" href="../resources/css/fonts.css">
     <title>내 활동</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
@@ -188,6 +189,7 @@
 <style>
 /* 전체 페이지 스타일 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 15px;
     background-color: #f8f9fa;
@@ -209,29 +211,28 @@ p {
 a {
 	color: black;
 }
-/* 라디오 버튼과 텍스트에 마우스를 올리면 손가락 모양으로 변경 */
+
 input[type="radio"]:hover,
 label:hover {
     cursor: pointer;
 }
 .radio-group {
     display: flex;
-    justify-content: space-between; /* 3등분 자동 배치 */
-    width: 100%; /* 부모 컨테이너 너비 */
-    max-width: 500px; /* 500px 기준으로 정렬 */
-    margin: 10px auto; /* 중앙 정렬 */
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    margin: 10px auto;
 }
 
 .radio-group label {
-    flex: 1; /* 각 라벨을 동일한 너비로 설정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
+    flex: 1;
+    text-align: center;
 }
 
-/* 내 찜 목록을 2x2 형태로 배치 */
 .favorites-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2개의 열로 배치 */
-    gap: 15px; /* 아이템 간 간격 */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
     margin-top: 15px;
 }
 
@@ -248,7 +249,7 @@ label:hover {
     height: auto;
     border-radius: 5px;
 }
-/* 페이지네이션 */
+
 .pagination {
 	list-style: none;
 	padding: 0;
@@ -265,7 +266,6 @@ label:hover {
 .pagination a {
 	text-decoration: none;
 	color: black;
-	font-size: 14px;
 	padding: 3px 6px;
 	border-radius: 5px;
 	transition: background 0.3s;
@@ -275,17 +275,17 @@ label:hover {
 	background: #555;
 	color: white;
 }
-/* 하단 버튼 스타일 */
+
 .fixed-buttons {
     display: flex;
     justify-content: space-between;
 }
 
 .fixed-buttons button {
+	font-family: 'Pretendard-Regular', sans-serif;
     flex: 1;
     margin: 0 5px;
     padding: 8px;
-    font-size: 13px;
     border: none;
     background: #ddd;
     border-radius: 5px;
@@ -296,15 +296,15 @@ label:hover {
     background: #bbb;
 }
 
-/* 왼쪽 정렬 버튼 */
+
 .left-buttons {
     display: flex;
-    gap: 10px; /* 버튼 간격 */
+    gap: 10px;
 }
 
-/* 오른쪽 정렬 버튼 */
+
 .right-button {
-    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+    margin-left: auto;
 }
 table {
     width: 100%;

@@ -18,7 +18,6 @@
             padding: 15px;
             background-color: #f8f9fa;
             text-align: center;
-            font-family: 'Arial', sans-serif;
         }
 
         h2 {
@@ -28,6 +27,7 @@
 
         /* 수정 폼 스타일 */
         .form-container {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 80%;
             max-width: 600px;
             margin: 0 auto;
@@ -93,12 +93,13 @@
         <form action="modify" method="POST">
             <p hidden="hidden"><strong>글 번호 :</strong> ${noticeVO.noticeId }</p>
             
-            <p><strong>제목 :</strong></p>
+            <p><strong>제목</strong></p>
             <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="20" value="${noticeVO.noticeTitle }" required>
 
-            <p><strong>작성자 :</strong> ${noticeVO.memberId}</p>
+            <p><strong>작성자</strong></p>
+            ${noticeVO.memberId}
 
-            <p><strong>내용 :</strong></p>
+            <p><strong>내용</strong></p>
             <textarea name="noticeContent" placeholder="내용 입력" maxlength="300" required>${noticeVO.noticeContent }</textarea>
 
             <div class="button-container">

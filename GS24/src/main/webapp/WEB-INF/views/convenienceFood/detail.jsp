@@ -12,16 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
     <title>${FoodVO.foodName }</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
+	font-family: 'Pretendard-Regular', sans-serif;
+	padding: 15px;
+	font-size: 18px;
 }
 
 h1 {
 	color: #333;
-	margin-bottom: 5px;
 	text-align: center;
 }
 
@@ -34,7 +36,7 @@ h1 {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-        margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .image-list {
@@ -45,22 +47,22 @@ h1 {
 }
 
 .image-scroll {
-	margin-top: 10px;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	overflow-x: auto;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
 }
 
 .image-scroll ol {
-	display: flex;
-	padding: 0;
-	margin: 0;
-	list-style-type: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
 .image-scroll li {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 .food-details {
@@ -70,22 +72,20 @@ h1 {
 }
 
 .food-details table {
-	width: 70%;
+    width: 70%;
 }
 
 .food-details th, .food-details td {
-	padding: 10px;
-	text-align: center;
+    padding: 10px;
+    text-align: center;
 }
 
 .food-details th {
-	width: 40%;
-	text-align: center;
+    width: 40%;
 }
 
 .food-details td {
-	width: 40%;
-	text-align: center;
+    width: 40%;
     vertical-align: middle;
 }
 
@@ -116,7 +116,6 @@ h1 {
 	padding: 0;
 }
 
-/* 페이징 스타일 */
 .pagination_button {
 	display: inline-block;
 	margin: 5px;
@@ -174,7 +173,7 @@ h1 {
 
     .image-scroll {
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: hidden;
     }
 
     .subImage {
@@ -182,7 +181,6 @@ h1 {
         height: 80px;
     }
 
-    /* 차트 크기 조정 */
     #diagram {
         width: 100%;
         max-width: 300px;
@@ -233,6 +231,7 @@ h1 {
 }
 
 .function button {
+	font-family: 'Pretendard-Regular', sans-serif;
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
@@ -241,7 +240,7 @@ h1 {
     background-color: #ddd;
     color: black;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .function button:hover {
@@ -249,6 +248,7 @@ h1 {
 }
 
 .review-buttons button {
+	font-family: 'Pretendard-Regular', sans-serif;
 	padding: 5px 10px;
 	border-radius: 4px;
 	border: none;
@@ -263,6 +263,7 @@ h1 {
 }
 
 #preorder {
+	font-family: 'Pretendard-Regular', sans-serif;
     padding: 10px 30px;
 	background-color: #4CAF50 !important;
 	color: white !important;
@@ -270,6 +271,11 @@ h1 {
 
 #preorder:hover {
 	background: #388E3C !important;
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #ccc;
 }
 </style>
 

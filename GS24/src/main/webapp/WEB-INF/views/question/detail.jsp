@@ -10,7 +10,6 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <!-- css 파일 불러오기 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
-
     <!-- jquery 라이브러리 import -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <meta charset="UTF-8">
@@ -20,6 +19,7 @@
 <style>
 	  /* 전체 페이지 스타일 */
     body {
+    	font-family: 'Pretendard-Regular', sans-serif;
         margin: 0;
         background-color: #f8f9fa;
         font-family: 'Arial', sans-serif;
@@ -45,6 +45,7 @@
 
     /* 게시글 컨테이너 */
     .question-container {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         max-width: 800px;
         margin: 20px;
@@ -68,6 +69,7 @@
     }
 
     .question-content {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         height: 300px;
         padding: 12px;
@@ -93,13 +95,14 @@
 
     /* 버튼 스타일 */
     button {
+    	font-family: 'Pretendard-Regular', sans-serif;
         background: #ddd;
         color: black;
         padding: 10px 18px;
         border-radius: 5px;
         border: none;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
         transition: background 0.3s;
         margin-right: 10px;
     }
@@ -138,13 +141,86 @@
     }
 
     .questionAttach-list {
+    	font-family: 'Pretendard-Regular', sans-serif;
         margin-top: 10px;
     }
 
     .questionAttach_item {
         margin: 5px 0;
     }
+    
+        /* 답변 컨테이너 */
+    .answer-container {
+        font-family: 'Pretendard-Regular', sans-serif;
+        width: 100%;
+        max-width: 800px;
+        margin: 20px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        box-sizing: border-box;
+    }
 
+    .answer-container p {
+        font-size: 16px;
+        color: #444;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
+
+    /* 답변 입력 텍스트 박스 */
+    .answer-content {
+        width: 100%;
+        height: 200px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #f9f9f9;
+        font-size: 16px;
+        line-height: 1.5;
+        resize: none;
+        box-sizing: border-box;
+        overflow-y: auto;
+        word-wrap: break-word;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* 버튼 정렬 */
+    .answer-button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    /* 버튼 공통 스타일 */
+    .answer-button-container button {
+        background: #ddd;
+        color: black;
+        padding: 10px 18px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    .answer-button-container button:hover {
+        background: #bbb;
+    }
+
+    /* 수정 및 삭제 버튼 */
+    .answer-button-container button.btn_delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .answer-button-container button.btn_delete:hover {
+        background-color: #c82333;
+    }
 </style>
 <body>
 <div class="question-container">
@@ -221,15 +297,15 @@
                     <button id="btnAdd">작성</button>
                 </div>
             </c:if>
-            <c:if test="${questionVO.isAnswered == 1}">
-                <p style="color: gray;">이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.</p>
-            </c:if>
         </c:if>
     </sec:authorize>
 	</div>
     <div style="text-align: left;">
         <div id="answer"></div>
     </div>
+            <c:if test="${questionVO.isAnswered == 1}">
+                <p style="color: gray;">이 게시글에는 이미 답변이 작성되었습니다. 추가 답변을 작성할 수 없습니다.</p>
+            </c:if>
 </div>
     <script type="text/javascript">
         $(document).ajaxSend(function(e, xhr, opt){

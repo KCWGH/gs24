@@ -8,102 +8,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <title>공지사항</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+        	font-family: 'Pretendard-Regular', sans-serif;
+            margin: 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            max-width: 1000px;
+            margin: 20px auto;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        /* 버튼 스타일 */
+        button, input[type="button"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
+            background: #ddd;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover, input[type="button"]:hover {
+            background: #bbb;
+        }
+
+        /* 페이징 스타일 */
+        .pagination_button {
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .pagination_button a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: black;
+        }
+
+        .pagination_button a:hover {
+            background: #bbb;
+        }
+
+        .pagination_button.current a {
+            background: #333;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
-<style>
-/* 전체 페이지 스타일 */
-body {
-	margin: 0;
-	padding: 15px;
-	background-color: #f8f9fa;
-	text-align: center;
-}
-
-/* 제목 스타일 */
-h1, h2 {
-	color: #333;
-}
-
-/* 테이블 스타일 */
-table {
-	max-width: 1000px; /* 테이블 최대 너비 설정 */
-	margin: 20px auto; /* 중앙 정렬 */
-	width: 100%;
-	border-collapse: collapse;
-	text-align: center;
-	background-color: white;
-}
-
-th, td {
-	border: 1px solid #ccc;
-	padding: 10px;
-	font-size: 14px;
-	word-wrap: break-word; /* 긴 단어 줄바꿈 */
-}
-
-th {
-	background-color: #f1f1f1;
-	color: #555;
-}
-
-/* 버튼 스타일 */
-button, input[type="button"] {
-	background: #ddd;
-	color: black;
-	padding: 5px 10px;
-	border-radius: 5px;
-	border: none;
-	cursor: pointer;
-}
-
-button:hover, input[type="button"]:hover {
-	background: #bbb;
-}
-
-/* 검색 폼 스타일 */
-#searchForm {
-	margin-top: 10px;
-}
-
-.title {
-	color: black;
-}
-
-/* 페이징 스타일 */
-.pagination_button {
-	display: inline-block;
-	margin: 5px;
-}
-
-.pagination_button a {
-	text-decoration: none;
-	padding: 5px 10px;
-	border-radius: 5px;
-	color: black;
-}
-
-.pagination_button a:hover {
-	background: #bbb;
-}
-
-/* 글 작성 버튼 컨테이너 */
-.button-container {
-	text-align: right;
-	margin-bottom: 10px;
-}
-
-.pagination_button.current a {
-	background: #333;
-	color: white;
-}
-ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-</style>
 <body>
     <%@ include file="../common/header.jsp" %>
 
@@ -114,7 +96,7 @@ ul {
     <table>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <a href="register"><input type="button" value="글 작성"></a>
-    	</sec:authorize>
+        </sec:authorize>
         <thead>
             <tr>
                 <th style="width: 60px">번호</th>
@@ -173,10 +155,10 @@ ul {
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
         </c:if>
         <c:forEach begin="${pageMaker.startNum}" end="${pageMaker.endNum}" var="num">
-    		<li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
-        		<a href="${num}">${num}</a>
-    		</li>
-		</c:forEach>
+            <li class="pagination_button <c:if test='${num == pageMaker.pagination.pageNum}'>current</c:if>">
+                <a href="${num}">${num}</a>
+            </li>
+        </c:forEach>
         <c:if test="${pageMaker.isNext()}">
             <li class="pagination_button"><a href="${pageMaker.endNum + 1}">다음</a></li>
         </c:if>

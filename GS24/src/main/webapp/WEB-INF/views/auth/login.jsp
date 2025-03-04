@@ -9,12 +9,13 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GS24</title>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR"></script>
 
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Pretendard-Regular', sans-serif;
         background-color: #f4f4f4;
         color: #333;
         margin: 0;
@@ -48,6 +49,7 @@
 
     input[type="text"],
     input[type="password"] {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
@@ -57,6 +59,7 @@
     }
 
     .container button {
+    	font-family: 'Pretendard-Regular', sans-serif;
         width: 100%;
         padding: 10px;
         background-color: #999;

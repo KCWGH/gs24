@@ -5,12 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <title>기프트카드 상세 보기</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 <style>
 /* 전체 페이지 스타일 */
 body {
+	font-family: 'Pretendard-Regular', sans-serif;
     margin: 0;
     padding: 15px;
     background-color: #f8f9fa;
@@ -43,6 +45,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    text-align: center;
+    background-color: white;
 }
 
 th, td {
@@ -54,27 +58,12 @@ th, td {
 th {
     background-color: #f1f1f1;
     color: #333;
-    font-size: 14px;
-}
-
-td {
-    font-size: 14px;
-}
-
-/* 입력 필드 스타일 */
-input[type="text"], input[type="email"], input[type="number"] {
-    width: 60%;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 13px;
 }
 
 /* 버튼 스타일 */
 button {
+	font-family: 'Pretendard-Regular', sans-serif;
     padding: 7px 10px;
-    font-size: 13px;
     border: none;
     background: #ddd;
     border-radius: 5px;
@@ -99,25 +88,21 @@ button:hover {
 
     <h2>기프트카드 상세 정보</h2>
     <div>
-        <table>
-            <tr>
-                <td colspan="2" style="text-align: center;">
-                    <c:choose>
-                        <c:when test="${giftCardVO.isUsed == 1 && giftCardVO.balance != 0 && sysDate < giftCardVO.giftCardExpiredDate}">
-                            <img src="${pageContext.request.contextPath}/resources/images/giftCard/usedGiftCard.png"
-                                alt="Used GiftCard" />
-                        </c:when>
-                        <c:when test="${sysDate < giftCardVO.giftCardExpiredDate && giftCardVO.isUsed == 0}">
-                            <img src="${pageContext.request.contextPath}/resources/images/giftCard/giftCard.png"
-                                alt="GiftCard" />
-                        </c:when>
-                        <c:when test="${sysDate >= giftCardVO.giftCardExpiredDate || giftCardVO.balance == 0}">
-                            <img src="${pageContext.request.contextPath}/resources/images/giftCard/expiredGiftCard.png"
-                                alt="Expired GiftCard" />
-                        </c:when>
-                    </c:choose>
-                </td>
-            </tr>
+		<c:choose>
+			<c:when
+				test="${giftCardVO.isUsed == 1 && giftCardVO.balance != 0 && sysDate < giftCardVO.giftCardExpiredDate}">
+				<img src="${pageContext.request.contextPath}/resources/images/giftCard/usedGiftCard.png" alt="Used GiftCard" />
+			</c:when>
+			<c:when
+				test="${sysDate < giftCardVO.giftCardExpiredDate && giftCardVO.isUsed == 0}">
+				<img src="${pageContext.request.contextPath}/resources/images/giftCard/giftCard.png" alt="GiftCard" />
+			</c:when>
+			<c:when
+				test="${sysDate >= giftCardVO.giftCardExpiredDate || giftCardVO.balance == 0}">
+				<img src="${pageContext.request.contextPath}/resources/images/giftCard/expiredGiftCard.png" alt="Expired GiftCard" />
+			</c:when>
+		</c:choose>
+		<table>
             <tr>
                 <td class="bold">기프트카드 이름</td>
                 <td>${giftCardVO.giftCardName}</td>
