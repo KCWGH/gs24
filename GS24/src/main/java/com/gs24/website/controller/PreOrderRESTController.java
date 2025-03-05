@@ -17,6 +17,7 @@ import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.service.MemberService;
 import com.gs24.website.service.PreorderService;
+import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
@@ -32,15 +33,21 @@ public class PreOrderRESTController {
 	private MemberService memberService;
 
 	@GetMapping("/all/{memberId}")
-	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model) {
+	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model, int pageNum, int pageSize) {
 		log.info("getAllPreOrder()");
 		log.info("mypageGET()");
 		String memberId = auth.getName();
-
+		
 		// 회원 정보 가져오기
 		MemberVO memberVO = memberService.getMember(memberId);
 		model.addAttribute("memberVO", memberVO);
-		List<PreorderVO> list = preorderService.getPreorderByMemberId(memberId);
+		
+		Pagination pagination = new Pagination();
+		pagination.setPageNum(pageNum);
+		pagination.setPageSize(pageSize);
+
+		List<PreorderVO> list = preorderService.getPagedPreordersByMemberId(memberId, pagination);
+		
 		return new ResponseEntity<List<PreorderVO>>(list, HttpStatus.OK);
 	}
 
@@ -65,7 +72,7 @@ public class PreOrderRESTController {
 
 		for (int preorderId : canceledPreorderIds) {
 			log.info(preorderId);
-			result = preorderService.deletePreorder(preorderId);
+			result = preorderService.updateShowStatus(preorderId);
 		}
 
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);

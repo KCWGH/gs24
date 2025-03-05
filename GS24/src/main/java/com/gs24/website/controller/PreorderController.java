@@ -107,8 +107,15 @@ public class PreorderController {
 		log.info("listGET");
 
 		String memberId = auth.getName();
+		
+		Pagination pagination = new Pagination();
+		pagination.setPageSize(12);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(preorderService.countPreorderByMemberId(auth.getName()));
 
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 
 	@GetMapping("/update")

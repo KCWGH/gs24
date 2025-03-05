@@ -171,6 +171,95 @@ ul {
         font-size: 15px;
     }
 }
+
+#search {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    border-radius: 8px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.price-range {
+    display: flex;
+    gap: 10px;
+}
+
+.price-input {
+    width: 120px;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.price-input:focus {
+    border-color: #888;
+}
+
+.search-name {
+    flex-grow: 1;
+}
+
+.searchFoodName {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.searchFoodName:focus {
+    border-color: #888;
+}
+
+.searchButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ddd;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.searchButton:hover {
+    background-color: #bbb;
+}
+
+.sort-options {
+    margin-top: 20px;
+}
+
+.sort-options ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sort-options li {
+    cursor: pointer;
+    padding: 8px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sort-options li:hover {
+    background-color: #ffffff;
+}
 </style>
 </head>
 <body>
@@ -191,20 +280,33 @@ ul {
     
    <h1>${convenienceId}호점 식품 리스트</h1>
    
-   <div class="searchPrice">
-   		<input id="bottomPrice" type="text" value="${pageMaker.pagination.bottomPrice }">원 ~
-   		<input id="topPrice" type="text" value="${pageMaker.pagination.topPrice }">원
-   		<button id="priceSearch">검색</button>
-   </div>
-   <div class="searchName">
-   		<input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
-		<button class="search">검색</button>
-   </div>
-   <ul class="searchList">
-      <li>최근등록순</li>
-      <li>낮은가격순</li>
-      <li>높은가격순</li>
-   </ul>
+   <div id="search">
+    <div class="search-box">
+        <!-- 가격 범위 입력 -->
+        <div class="price-range">
+   			<input id="bottomPrice" type="text" class="price-input" value="${pageMaker.pagination.bottomPrice }">원 ~
+   			<input id="topPrice" type="text" class="price-input" value="${pageMaker.pagination.topPrice }">원
+   		</div>
+        </div>
+
+        <!-- 식품 이름 검색 -->
+        <div class="search-name">
+            <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
+        </div>
+
+        <!-- 검색 버튼 -->
+        <button class="searchButton">검색</button>
+    </div>
+
+    <!-- 정렬 기준 선택 -->
+    <div class="sort-options">
+        <ul>
+            <li>최근등록순</li>
+            <li>낮은가격순</li>
+            <li>높은가격순</li>
+        </ul>
+    </div>
+</div>
 
    <ul class="food_box">
     <c:forEach var="FoodVO" items="${FoodList}">
@@ -401,30 +503,6 @@ ul {
 		        }
 		    });
 		});
-
-
-      
-      $("#searchForm button").on("click", function(e){
-         var searchForm = $("#searchForm");
-         e.preventDefault(); // a 태그 이벤트 방지
-         
-         var keywordVal = searchForm.find("input[name='keyword']").val();
-         console.log(keywordVal);
-         if(keywordVal == '') {
-            alert('검색 내용을 입력하세요.');
-            return;
-         }
-         
-         var pageNum = 1; // 검색 후 1페이지로 고정
-         // 현재 페이지 사이즈값 저장
-         var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
-          
-         // 페이지 번호를 input name='pageNum' 값으로 적용
-         searchForm.find("input[name='pageNum']").val(pageNum);
-         // 선택된 옵션 값을 input name='pageSize' 값으로 적용
-         searchForm.find("input[name='pageSize']").val(pageSize);
-         searchForm.submit(); // form 전송
-      }); // end on()
       
       $(".pagination_button a").on("click", function(e){
          var listForm = $("#listForm"); // form 객체 참조
@@ -503,27 +581,23 @@ ul {
          searchForm.submit(); // form 전송
       });
       
-      $(".search").click(function(e){
+      $(".searchButton").click(function(e){
          e.preventDefault(); // a 태그 이벤트 방지
          
-         let searchFoodName = $(".searchFoodName").val();
          let searchForm = $("#searchForm");
+
+         let searchFoodName = $(".searchFoodName").val();
+         
+         var bottomPrice = $("#bottomPrice").val();
+         var topPrice = $("#topPrice").val();
+         
          var convenienceId = '${convenienceId}';
          searchForm.find("input[name='convenienceId']").val(convenienceId);
-         console.log("검색어 : " + searchFoodName);
          
-         if(searchFoodName == ""){
-            alert("검색할 단어를 입력해 주십시오.");
-            return;
-         }
-         
-         searchForm.find("input[name='type']").val("name");
          searchForm.find("input[name='keyword']").val(searchFoodName);
-         
-         
-         var keywordVal = searchForm.find("input[name='keyword']").val();
-         console.log(keywordVal);
-         
+         searchForm.find("input[name='topPrice']").val(topPrice);
+         searchForm.find("input[name='bottomPrice']").val(bottomPrice);
+               
          var pageNum = 1; // 검색 후 1페이지로 고정
          // 현재 페이지 사이즈값 저장
          var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
@@ -535,42 +609,6 @@ ul {
          searchForm.find("input[name='pageSize']").val(pageSize);
          searchForm.find("input[name='sortType']").val(sortType);
 
-         searchForm.submit(); // form 전송
-      });
-      
-      $("#priceSearch").click(function(e){
-         e.preventDefault(); // a 태그 이벤트 방지
-         
-         let searchForm = $("#searchForm");
-         var convenienceId = '${convenienceId}';
-         searchForm.find("input[name='convenienceId']").val(convenienceId);
-         
-         searchForm.find("input[name='type']").val("price");
-         
-         var bottomPrice = $("#bottomPrice").val();
-         var topPrice = $("#topPrice").val();
-         
-         if(bottomPrice == ''){
-        	 //bottomPrice가 입력되지 않은 경우
-        	 bottomPrice = 0;
-         } else if(topPrice == ''){
-        	 //topPrice가 입력되지 않은 경우 쿼리문에서 FOOD테이블에서 FOOD_PRICE가 가장 큰 값으로 검색
-        	 
-         }
-         
-         searchForm.find("input[name='bottomPrice']").val(bottomPrice);
-         searchForm.find("input[name='topPrice']").val(topPrice);
-         
-         var pageNum = 1; // 검색 후 1페이지로 고정
-         // 현재 페이지 사이즈값 저장
-         var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
-         var sortType = "<c:out value='${pageMaker.pagination.sortType }' />";
-          
-         // 페이지 번호를 input name='pageNum' 값으로 적용
-         searchForm.find("input[name='pageNum']").val(pageNum);
-         // 선택된 옵션 값을 input name='pageSize' 값으로 적용
-         searchForm.find("input[name='pageSize']").val(pageSize);
-         searchForm.find("input[name='sortType']").val(sortType);
          searchForm.submit(); // form 전송
       });
       

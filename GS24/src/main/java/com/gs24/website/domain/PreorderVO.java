@@ -29,5 +29,6 @@ public class PreorderVO {
 	int appliedGiftCardId;
 	int appliedCouponId;
 	int writeReview; // 1 : 작성됨 | 0 : 작성 안됨
+	int showStatus;
 	
 }

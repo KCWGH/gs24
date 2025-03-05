@@ -15,6 +15,7 @@
 		<result property="appliedCouponId" column="APPLIED_COUPON_ID"/>
 		<result property="convenienceId" column="CONVENIENCE_ID"/>
 		<result property="writeReview" column="WRITE_REVIEW"/>
+		<result property="showStatus" column="SHOW_STATUS"/>
 	</resultMap>
 	
 	<insert id="insertPreorder" useGeneratedKeys="true" keyProperty="preorderId">
@@ -38,13 +39,13 @@
       SELECT * FROM
       (
       SELECT ROW_NUMBER() OVER (ORDER BY PREORDER_ID DESC)
-      AS RN, PREORDER.* FROM PREORDER WHERE MEMBER_ID = #{memberId}
+      AS RN, PREORDER.* FROM PREORDER WHERE MEMBER_ID = #{memberId} AND SHOW_STATUS = 1
       )
       WHERE RN BETWEEN #{start} AND #{end}
    </select>
    
    <select id="countPreorderByMemberId" resultType="Integer">
-      SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} ORDER BY PREORDER_ID DESC
+      SELECT COUNT(*) FROM PREORDER WHERE MEMBER_ID = #{memberId} AND SHOW_STATUS = 1 ORDER BY PREORDER_ID DESC
    </select>
    
    <select id="selectAlreadyPreorderByFoodId" resultMap="PreorderResultMap">
@@ -101,5 +102,9 @@
 	
 	<update id="updateWriteReview">
 		UPDATE PREORDER SET WRITE_REVIEW = 1 WHERE PREORDER_ID = #{preorderId}
+	</update>
+	
+	<update id="updateShowStatus">
+		UPDATE PREORDER SET SHOW_STATUS = 0 WHERE PREORDER_ID = #{preorderId}
 	</update>
 </mapper>

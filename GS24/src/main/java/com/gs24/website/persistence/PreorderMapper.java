@@ -41,4 +41,6 @@ public interface PreorderMapper {
 	int updatePreorderByOverPickupDate(int preorderId);
 	
 	int updateWriteReview(int preorderId);
+	
+	int updateShowStatus(int preorderId);
 }

@@ -47,4 +47,6 @@ public interface PreorderService {
 	boolean validatePreorderAmount(int preorderAmount, int foodAmount);
 
 	String handlePreorderWithDiscounts(PreorderVO preorderVO, String giftCardIdString, String couponIdString);
+	
+	int updateShowStatus(int preorderId);
 }

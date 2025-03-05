@@ -40,9 +40,6 @@ public class ReviewController {
 		Pagination pagination = new Pagination();
 		pagination.setPageNum(pageNum);
 		pagination.setPageSize(pageSize);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(reviewService.getReviewCountByFoodId(foodId));
 
 		List<ReviewVO> reviewList = reviewService.getReviewPaginationByFoodId(foodId, pagination);
 

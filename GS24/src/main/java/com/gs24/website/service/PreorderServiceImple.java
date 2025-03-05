@@ -261,7 +261,6 @@ public class PreorderServiceImple implements PreorderService {
 	public List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination) {
 		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
 		pagination.setMemberVO(memberVO);
-		pagination.setPageSize(10);
 		return preorderMapper.selectPagedPreordersByMemberId(pagination);
 	}
 
@@ -309,5 +308,11 @@ public class PreorderServiceImple implements PreorderService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public int updateShowStatus(int preorderId) {
+		log.info("upateShowStatus");
+		return preorderMapper.updateShowStatus(preorderId);
 	}
 }
