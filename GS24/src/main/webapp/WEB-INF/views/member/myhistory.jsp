@@ -100,7 +100,7 @@
                                 postHTML += '<br>내 예약 내역이 없습니다.';
                                 break;
                             }
-                            postHTML += '<table><thead><tr><th>수령예정일</th><th>품목명</th><th>수량</th><th>수령여부</th><th>유효여부</th></tr></thead><tbody>';
+                            postHTML += '<table><thead><tr><th>예약번호</th><th>품목명</th><th>수량</th><th>수령예정일</th><th>수령여부</th><th>유효여부</th></tr></thead><tbody>';
                             completedRequests = 0;
                             foodNames = {};
                             postList.forEach(function(preorderVO) {
@@ -119,9 +119,10 @@
                                         if (completedRequests === postList.length) {
                                             postList.forEach(function(preorderVO) {
                                                 postHTML += '<tr>';
-                                                postHTML += '<td>' + formatDate(preorderVO.pickupDate, true) + '</td>';
+                                                postHTML += '<td>' + preorderVO.preorderId + '</td>';
                                                 postHTML += '<td><a href="../preorder/list?preorderId=' + preorderVO.preorderId + '" class="link-in-child">' + foodNames[preorderVO.foodId] + '</a></td>';
                                                 postHTML += '<td>' + preorderVO.preorderAmount + '</td>';
+                                                postHTML += '<td>' + formatDate(preorderVO.pickupDate, true) + '</td>';
                                                 postHTML += '<td' + (preorderVO.isPickUp === 1 ? ' style="color:green;">수령' : ' style="color:gray;">미수령') + '</td>';
 
                                                 if (preorderVO.isPickUp === 1 && preorderVO.isExpiredOrder === 0) {
@@ -151,7 +152,7 @@
                         	postList.forEach(function(favoritesVO) {  
                         	    postHTML += '<div class="favorites-item">';
                         	    
-                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '" class="link-in-child">' + '<img src="../image/foodThumbnail?foodId=' + favoritesVO.foodId + '"></a>';
+                        	    postHTML += '<a href="../preorder/create?foodId=' + favoritesVO.foodId + '&convenienceId=' + favoritesVO.convenienceId + '">' + '<img src="../image/foodThumbnail?foodId=' + favoritesVO.foodId + '"></a>';
                         	    postHTML += '</div>';
                         	});
                         	postHTML += '</div>';

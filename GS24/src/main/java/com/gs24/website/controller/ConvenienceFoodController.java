@@ -48,9 +48,8 @@ public class ConvenienceFoodController {
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, Integer convenienceId, Pagination pagination) {
 		log.info("listGET()");
-		pagination.setPageSize(12);
 		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId, pagination);
-
+		String address = convenienceFoodService.getAddress(convenienceId);
 		if (auth != null) {
 			String username = auth.getName();
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
@@ -61,7 +60,7 @@ public class ConvenienceFoodController {
 					isAddedMap.put(convenienceFoodVO.getFoodId(), isAdded);
 					model.addAttribute("isAddedMap", isAddedMap);
 				}
-				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
+				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant(auth);
 				if (birthdayMessage != null) {
 					model.addAttribute("message", birthdayMessage);
 				}
@@ -71,6 +70,7 @@ public class ConvenienceFoodController {
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId));
 
+		model.addAttribute("address", address);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("FoodList", list);

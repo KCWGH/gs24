@@ -20,7 +20,8 @@ public class PreorderVO {
 	int preorderAmount;
 	int totalPrice;
 	int convenienceId;
-
+	int refundVal;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date pickupDate;
 
@@ -30,5 +31,4 @@ public class PreorderVO {
 	int appliedCouponId;
 	int writeReview; // 1 : 작성됨 | 0 : 작성 안됨
 	int showStatus;
-	
 }

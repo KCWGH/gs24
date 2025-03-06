@@ -47,31 +47,32 @@ public class PreorderController {
 	@GetMapping("/create")
 	public String createGET(Model model, int convenienceId, int foodId, Authentication auth,
 			RedirectAttributes redirectAttributes) {
-		log.info("createGET()");
 		String memberId = auth.getName();
 
 		model.addAttribute("memberId", memberId);
 
-		ConvenienceFoodVO convenienceDetailFoodVO = convenienceFoodService.getConvenienceFoodByFoodId(foodId,
-				convenienceId);
+		ConvenienceFoodVO convenienceDetailFoodVO = convenienceFoodService.getConvenienceFoodByFoodId(foodId, convenienceId);
+		String address = convenienceFoodService.getAddress(convenienceId);
 		if (convenienceDetailFoodVO.getFoodAmount() <= 0) {
 			redirectAttributes.addFlashAttribute("closeWindow", true);
 			redirectAttributes.addFlashAttribute("message", "재고가 없어 예약할 수 없어요!");
 			return "redirect:/convenienceFood/list?convenienceId=" + convenienceDetailFoodVO.getConvenienceId();
 		}
+		model.addAttribute("address", address);
 		model.addAttribute("foodVO", convenienceDetailFoodVO);
 		List<CouponVO> couponList = couponService.getCouponListByFoodType(convenienceDetailFoodVO.getFoodType());
-		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId,
-				convenienceDetailFoodVO.getFoodType());
+		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId, convenienceDetailFoodVO.getFoodType());
 		model.addAttribute("couponList", couponList);
 		model.addAttribute("giftCardList", giftCardList);
 		return "/preorder/create";
 	}
 
 	@PostMapping("/create")
-	public String createPOST(PreorderVO preorderVO, @RequestParam("pickupDate") String pickupDateString,
-			@RequestParam("giftCardId") String giftCardIdString, @RequestParam("couponId") String couponIdString,
-			RedirectAttributes redirectAttributes) {
+	public String createPOST(PreorderVO preorderVO,
+							@RequestParam("pickupDate") String pickupDateString,
+							@RequestParam("giftCardId") String giftCardIdString,
+							@RequestParam("couponId") String couponIdString,
+							RedirectAttributes redirectAttributes) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date pickupDate = sdf.parse(pickupDateString);
@@ -102,7 +103,7 @@ public class PreorderController {
 		}
 	}
 
-	@GetMapping("/list")
+		@GetMapping("/list")
 	public void listGET(Authentication auth, Model model) {
 		log.info("listGET");
 

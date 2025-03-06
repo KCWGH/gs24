@@ -420,6 +420,9 @@ ul {
         	</li>
     	</c:if>
 	</ul>
+		    <c:if test="${not empty address}">
+    	<span style="color: gray; font-size: 15px">${address}</span>
+    </c:if>
 </body>
 
 <script type="text/javascript">
@@ -532,7 +535,7 @@ ul {
          listForm.submit(); // form 전송
       }); // end on()
       
-      $(".sort-options").on("click", "li", function(e){
+      $(".searchList").on("click", "li", function(e){
          let optionType = $(this).text();
          console.log("optionType : " + optionType);
          let searchForm = $("#searchForm");

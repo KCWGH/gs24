@@ -111,7 +111,7 @@ ul {
 <table>
     <thead>
     <sec:authorize access="hasRole('ROLE_MEMBER')">
-        <a href="register"><input type="button" value="글 작성"></a>
+        <a href="register"><input type="button" value="문의하기"></a>
 	</sec:authorize>
         <tr>
             <th style="width: 60px">번호</th>

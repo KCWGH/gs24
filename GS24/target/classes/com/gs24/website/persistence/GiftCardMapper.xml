@@ -143,38 +143,18 @@
 	</select>
 
 	<update id="useGiftCard">
-		UPDATE GIFTCARD GC
-    	SET GC.BALANCE = GC.BALANCE - (
-        SELECT P.TOTAL_PRICE
-        FROM PREORDER P
-        WHERE P.PREORDER_ID = #{preorderId}
-        AND P.MEMBER_ID = GC.MEMBER_ID
-   	 	),
-    	GC.IS_USED = '1' 
-    	WHERE GC.GIFTCARD_ID = #{giftCardId}
-    	AND EXISTS (
-        SELECT 1
-        FROM PREORDER P
-        WHERE P.PREORDER_ID = #{preorderId}
-        AND P.MEMBER_ID = GC.MEMBER_ID
-        AND GC.BALANCE >= P.TOTAL_PRICE)
+		UPDATE GIFTCARD
+			SET BALANCE = CASE 
+                WHEN BALANCE >= #{refundVal} THEN BALANCE - #{refundVal}
+                ELSE 0
+              END
+			WHERE GIFTCARD_ID = #{giftCardId}
 	</update>
 	
 	<update id="refundGiftCard">
-		UPDATE GIFTCARD GC
-    	SET GC.BALANCE = GC.BALANCE + (
-        SELECT P.TOTAL_PRICE
-        FROM PREORDER P
-        WHERE P.PREORDER_ID = #{preorderId}
-        AND P.MEMBER_ID = GC.MEMBER_ID
-   	 	),
-    	GC.IS_USED = '1' 
-    	WHERE GC.GIFTCARD_ID = #{giftCardId}
-    	AND EXISTS (
-        SELECT 1
-        FROM PREORDER P
-        WHERE P.PREORDER_ID = #{preorderId}
-        AND P.MEMBER_ID = GC.MEMBER_ID)
+		UPDATE GIFTCARD
+		SET BALANCE = BALANCE + #{refundVal}
+		WHERE GIFTCARD_ID = #{giftCardId}
 	</update>
 	
 	<delete id="deleteExpiredGiftCards">

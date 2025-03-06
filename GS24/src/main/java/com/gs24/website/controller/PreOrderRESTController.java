@@ -33,21 +33,20 @@ public class PreOrderRESTController {
 	private MemberService memberService;
 
 	@GetMapping("/all/{memberId}")
-	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model, int pageNum, int pageSize) {
+	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model, int pageNum,
+			int pageSize) {
 		log.info("getAllPreOrder()");
 		log.info("mypageGET()");
 		String memberId = auth.getName();
-		
+
 		// 회원 정보 가져오기
 		MemberVO memberVO = memberService.getMember(memberId);
 		model.addAttribute("memberVO", memberVO);
-		
 		Pagination pagination = new Pagination();
 		pagination.setPageNum(pageNum);
 		pagination.setPageSize(pageSize);
 
 		List<PreorderVO> list = preorderService.getPagedPreordersByMemberId(memberId, pagination);
-		
 		return new ResponseEntity<List<PreorderVO>>(list, HttpStatus.OK);
 	}
 
@@ -56,11 +55,9 @@ public class PreOrderRESTController {
 		log.info("cancelPreOrder()");
 		Integer result = 0;
 		for (int preorderId : selectedPreorderIds) {
-			log.info(preorderId);
 			PreorderVO preorderVO = preorderService.getPreorderOneById(preorderId);
-			log.info(preorderVO);
 			result = preorderService.cancelPreorder(preorderVO.getPreorderId(), preorderVO.getFoodId(),
-					preorderVO.getPreorderAmount());
+					preorderVO.getPreorderAmount(), preorderVO.getRefundVal());
 		}
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}

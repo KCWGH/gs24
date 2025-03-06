@@ -227,98 +227,110 @@
     </script>
     <title>예약 내역</title>
 
-    <style>
+<style>
 body {
 	font-family: 'Pretendard-Regular', sans-serif;
-    margin: 0;
-    padding: 15px;
-    background-color: #f8f9fa;
-    text-align: center;
+	margin: 0;
+	padding: 15px;
+	background-color: #f8f9fa;
+	text-align: center;
 }
 
 h1, h2 {
-    color: #333;
+	color: #333;
 }
 
 #list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
 }
 
 .preorderList {
-    width: 250px;
-    height: auto;
-    border: 1px solid #ccc;
-    padding: 15px;
-    background-color: #fff;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
+	width: 250px;
+	height: auto;
+	border: 1px solid #ccc;
+	padding: 15px;
+	background-color: #fff;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s, box-shadow 0.3s;
+	position: relative;
 }
 
 .preorderList input[type="checkbox"] {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
 }
 
 .preorderList img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	margin-bottom: 10px;
 }
 
 .preorderList div {
-    margin-bottom: 10px;
-    position: relative;
+	margin-bottom: 10px;
+	position: relative;
 }
 
-.preorderList .pickup-info, 
-.preorderList .quantity-info, 
-.preorderList .status-info {
-    position: relative;
-    margin-bottom: 10px;
+.preorderList .pickup-info, .preorderList .quantity-info, .preorderList .status-info
+	{
+	position: relative;
+	margin-bottom: 10px;
 }
 
 button, input[type="button"] {
-    font-family: 'Pretendard-Regular', sans-serif;
-    font-size: 16px;
-    background: #ddd;
-    color: black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
+	font-family: 'Pretendard-Regular', sans-serif;
+	font-size: 16px;
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
 }
 
 button:hover, input[type="button"]:hover {
-    background: #bbb;
+	background: #bbb;
 }
 
 .button-container {
-    text-align: center;
-    margin-top: 15px;
+	text-align: center;
+	margin-top: 15px;
 }
 
+/* 페이징 스타일 */
 .pagination_button {
-    display: inline-block;
-    margin: 5px;
+	display: inline-block;
+	margin: 5px;
 }
 
 .pagination_button a {
-    text-decoration: none;
-    padding: 5px 10px;
-    background: #ddd;
-    border-radius: 5px;
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: black;
 }
 
 .pagination_button a:hover {
-    background: #bbb;
+	background: #bbb;
+}
+
+.pagination_button.current a {
+	background: #333;
+	color: white;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
 }
 </style>
 </head>

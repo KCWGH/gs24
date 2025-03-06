@@ -24,8 +24,6 @@ public interface PreorderService {
 
 	int updateIsPickUp(int preorderId, int isPickUp);
 
-	int cancelPreorder(int preorderId, int foodId, int preorderAmount);
-
 	int deletePreorder(int preorderId);
 
 	List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination);
@@ -47,6 +45,9 @@ public interface PreorderService {
 	boolean validatePreorderAmount(int preorderAmount, int foodAmount);
 
 	String handlePreorderWithDiscounts(PreorderVO preorderVO, String giftCardIdString, String couponIdString);
-	
+
 	int updateShowStatus(int preorderId);
+
+	int cancelPreorder(int preorderId, int foodId, int preorderAmount, int refundVal);
+
 }

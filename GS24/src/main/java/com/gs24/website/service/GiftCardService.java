@@ -2,6 +2,8 @@ package com.gs24.website.service;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
 import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.util.Pagination;
 
@@ -13,7 +15,7 @@ public interface GiftCardService {
 
 	GiftCardVO getGiftCardDetail(int giftCardId);
 
-	String birthdayGiftCardDupCheckAndGrant();
+	String birthdayGiftCardDupCheckAndGrant(Authentication auth);
 
 	int dupCheckGiftCardNameAndMemberId(String GiftCardName, String memberId);
 
@@ -33,9 +35,10 @@ public interface GiftCardService {
 
 	int getUsedCount(String memberId);
 
-	int useGiftCard(int giftCardId, int preorderId);
+	int useGiftCard(int giftCardId, int refundVal);
 
 	void deleteExpiredGiftCards();
-	
+
 	void deleteTotallyUsedGiftCards();
+
 }

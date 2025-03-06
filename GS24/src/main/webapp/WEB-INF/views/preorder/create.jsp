@@ -8,17 +8,20 @@
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>편의점 식품 예약</title>
+    <title>식품 예약</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="../resources/css/fonts.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/i18n/datepicker-ko.js"></script>
     
     <style>
     	body {
+    		padding-top: 0px;
+    		margin-top: 0px;
 			font-family: 'Pretendard-Regular', sans-serif;
-			padding: 15px;
+			padding: 5px;
 			font-size: 16px;
 			background-color: #f4f4f4;
 		}
@@ -50,6 +53,7 @@
         }
 
         .modal-content {
+        	font-size: 14px;
             background-color: #fefefe;
             margin: 15% auto;
             padding: 20px;
@@ -58,6 +62,7 @@
             max-height: 80%;
             overflow-y: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
 
         .modal-table {
@@ -67,7 +72,6 @@
 
         .modal-table td, .modal-table th {
             padding: 10px;
-            text-align: left;
         }
 
         .modal-table th {
@@ -85,26 +89,101 @@
             color: black;
         }
         
+        #pickupDateContainer {
+    		justify-self: center;
+		}
+		
+		.main th {
+    		width: 23%;
+    		padding: 10px;
+		}
+		
+		.main td {
+    		text-align: center;
+    		vertical-align: middle;
+		}
+
         button {
         	font-family: 'Pretendard-Regular', sans-serif;
+    		padding: 7px 10px;
+    		border: none;
+    		background: #ddd;
+    		border-radius: 5px;
+    		cursor: pointer;
+    		margin: 5px;
         }
         
-        input {
-        	text-align: center;
+        button:hover {
+    		background: #bbb;
+		}
+        
+        input[type="number"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
+    		width: 15%;
+    		padding: 7px;
+    		border: 1px solid #ddd;
+    		border-radius: 5px;
+    		text-align: center;
         }
+        
+        input[type="submit"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
+    		padding: 10px 20px;
+    		border: transparent;
+    		border-radius: 5px;
+    		text-align: center;
+    		background: #4CAF50;
+    		color: white;
+    		cursor: pointer;
+        }
+        
+        input[type="submit"]:hover {
+        	background: #388E3C;
+        }
+        
+        #selectCoupon {
+        	color: white;
+        	background: #4CAF50;
+        }
+        
+        #selectCoupon:hover {
+        	background: #388E3C;
+        }
+        
+        #doNotApplyCoupon {
+        	color: white;
+        	background: #ff6666;
+        }
+        
+        #buyPrice, #latestBalance {
+        	font-size: 20px;
+        }
+        
+        #return {
+   			display: block;
+    		margin-left: auto;
+    		margin-botton: 0px;
+		}
+
     </style>
 </head>
 <body>
 <c:if test="${not empty message}">
     <script type="text/javascript">
         alert("${message}");
-        window.opener.location.reload();
+        if (window.opener && window.opener.location.href.includes("/convenienceFood/detail")) {
+            window.opener.location.reload();
+        }
     </script>
 </c:if>
     <h1>${foodVO.foodName}</h1>
     <div class="card">
     <form action="create" method="POST">
-        <table>
+        <table class="main">
+        	<tr>
+                <th>수령 장소</th>
+                <td>${address}</td>
+            </tr>
             <tr>
                 <th>식품 종류</th>
                 <td>${foodVO.foodType}</td>
@@ -119,17 +198,13 @@
             </tr>
             <tr>
                 <th>예약 일자</th>
-                <td><div id="pickupDateContainer"></div></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="color:gray">※ 오늘을 기준으로 2일 후부터 2주 이내까지 선택 가능합니다.<br><br></td>
+                <td><div id="pickupDateContainer"></div>
+                <span style="color:gray">※ 2일 후부터 2주 이내까지 선택 가능합니다.</span></td>
             </tr>
             <tr>
                 <th>예약 수량</th>
-                <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개 <button type="button" id=reset>쿠폰, 기프트카드 초기화</button></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="color:gray">※ 예약 수량을 변경하면 적용된 쿠폰 및 기프트카드가 초기화됩니다.<br><br></td>
+                <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개 <button type="button" id=reset>쿠폰, 기프트카드 초기화</button><br>
+                <span style="color:gray">※ 변경시 적용된 쿠폰과 기프트카드가 초기화됩니다.</span></td>
             </tr>
             <tr>
                 <th>적용된<br>쿠폰</th>
@@ -141,14 +216,14 @@
             </tr>
             <tr id="latestBalanceToggle" hidden="hidden">
                 <th>기프트카드<br>잔액</th>
-                <td><span id="latestBalance"></span></td>
+                <td><strong id="latestBalance"></strong> 원</td>
             </tr>
             <tr id="priceToggle" hidden="hidden">
                 <th>별도<br>결제금액</th>
-                <td><span id="buyPrice">${foodVO.foodPrice}원</span> <input type="submit" id="createPreorder" value="예약하기" disabled></td>
+                <td><strong id="buyPrice">${foodVO.foodPrice}</strong> 원</td>
             </tr>
         </table>
-        
+        <input type="submit" id="createPreorder" value="예약하기" hidden="hidden" disabled>
         <input type="hidden" name="convenienceId" id="convenienceId">
         <input type="hidden" name="foodId" id="foodId">
         <input type="hidden" name="memberId" id="memberId">
@@ -156,6 +231,7 @@
         <input type="hidden" name="couponId" id="couponId">
         <input type="hidden" name="giftCardId" id="giftCardId">
         <input type="hidden" name="totalPrice" id="totalPrice">
+        <input type="hidden" name="refundVal" id="refundVal" placeholder="refundVal">
 
         <div id="couponModal" class="modal">
             <div class="modal-content">
@@ -216,10 +292,10 @@
                                     <tr>
                                         <td hidden="hidden">${giftCardVO.giftCardId}</td>
                                         <td>
-                                            ${giftCardVO.giftCardName}<br>
-                                            <fmt:formatDate value="${giftCardVO.giftCardExpiredDate}" pattern="yyyy-MM-dd HH:mm" />까지 사용가능
+                                            <strong>${giftCardVO.giftCardName}</strong><br>
+                                            <fmt:formatDate value="${giftCardVO.giftCardExpiredDate}" pattern="yyyy-MM-dd HH:mm"/><br>까지 사용가능
                                         </td>
-                                        <td><span style="color:green">잔액: ${giftCardVO.balance}원</span></td>
+                                        <td><span style="color:green">잔액<br>${giftCardVO.balance}원</span></td>
                                         <td>
                                             <button class="applyGiftCard"
                                                     data-giftCard-id="${giftCardVO.giftCardId}"
@@ -240,6 +316,7 @@
         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     </form>
 	</div>
+	<button id="return" onclick='location.href="../member/myhistory"'>내 찜 목록</button>
     <script>
         $(document).ready(function() {
         	
@@ -299,9 +376,6 @@
                     let originalPrice = parseInt(${foodVO.foodPrice} * preorderAmount); // 쿠폰 적용 전 가격
                     let couponId = parseInt($('#couponId').val(), 10); // couponId 값 가져오기
 
-                    console.log('appliedPrice : '+appliedPrice);
-                    console.log('originalPrice : '+originalPrice);
-
                     if (balance <= 0) {
                         alert('잔액이 없는 기프트카드입니다.');
                         return;
@@ -318,7 +392,7 @@
                         $('#giftCardId').val(""); // 기존 기프트카드 ID 제거
                         $('#selectedGiftCard').text("없음"); // 선택된 기프트카드 표시 초기화
                         currentlyAppliedGiftCardId = null;
-                        $('#buyPrice').text(appliedPrice + '원'); // 초기 가격으로 리셋
+                        $('#buyPrice').text(appliedPrice); // 초기 가격으로 리셋
                         $('#totalPrice').val(appliedPrice);  // 초기 가격으로 리셋
                     }
 
@@ -329,30 +403,34 @@
                     if (!isNaN(couponId)) { // 쿠폰을 이미 선택했다면
                     	if (balance >= appliedPrice) { // 쿠폰, 기프트카드 적용이고 잔고가 더 많다면
                     		$('#totalPrice').val(appliedPrice);
-                    		$('#buyPrice').text(0 + '원');
-                    		$('#latestBalance').text((balance - appliedPrice) + '원');
+                    		$('#buyPrice').text(0);
+                    		$('#latestBalance').text(balance - appliedPrice);
                     		$('#latestBalanceToggle').show();
+                    		$('#refundVal').val(appliedPrice);
                     		$('#totalPrice').val(0);
                     	} else { // 잔고보다 결제 금액이 더 많다면
                     		$('#totalPrice').val(balance);
-                    		$('#latestBalance').text(0 + '원');
-                    		$('#buyPrice').text((appliedPrice - balance) + '원');
+                    		$('#latestBalance').text(0);
+                    		$('#buyPrice').text(appliedPrice - balance);
                     		$('#latestBalanceToggle').show();
+                    		$('#refundVal').val(balance);
                     		$('#totalPrice').val(appliedPrice - balance);
                     	}
                     } else { // 쿠폰을 선택하지 않고 기프트카드만 선택했다면
                     	if (balance >= originalPrice) { // 기프트카드만이고 잔고가 가격보다 더 많다면
                     		$('#totalPrice').val(originalPrice);
-                    		$('#buyPrice').text(0 + '원');
-                    		$('#latestBalance').text((balance - originalPrice) + '원');
+                    		$('#buyPrice').text(0);
+                    		$('#latestBalance').text(balance - originalPrice);
                     		$('#latestBalanceToggle').show();
                     		$('#totalPrice').val(0);
+                    		$('#refundVal').val(originalPrice);
                     	} else { // 잔고보다 결제 금액이 더 많다면
                     		$('#totalPrice').val(balance);
-                    		$('#latestBalance').text(0 + '원');
-                    		$('#buyPrice').text((originalPrice - balance) + '원');
+                    		$('#latestBalance').text(0);
+                    		$('#buyPrice').text(originalPrice - balance);
                     		$('#latestBalanceToggle').show();
                     		$('#totalPrice').val(originalPrice - balance);
+                    		$('#refundVal').val(balance);
                     	}
                     }
 
@@ -407,7 +485,7 @@
                     	 $('#giftCardId').val(""); // 기존 기프트카드 ID 제거
                          $('#selectedGiftCard').text("없음"); // 선택된 기프트카드 표시 초기화
                          currentlyAppliedGiftCardId = null;
-                         $('#buyPrice').text(currentPrice + '원'); // 초기 가격으로 리셋
+                         $('#buyPrice').text(currentPrice); // 초기 가격으로 리셋
                          $('#totalPrice').val(0);  // 초기 가격으로 리셋
                     }
 
@@ -424,7 +502,7 @@
                     currentlyAppliedCouponId = couponId;
                     $('#couponId').val(couponId);
                     $('#selectedCoupon').text(couponName);
-                    $('#buyPrice').text(discountedPrice + "원");
+                    $('#buyPrice').text(discountedPrice);
                     $('#totalPrice').val(discountedPrice);  // 쿠폰 적용 후 가격을 totalPrice에 설정
 
                     $(this).text("적용중");
@@ -463,7 +541,7 @@
                     let amount = Math.max(1, Math.min(${foodVO.foodAmount}, $('#preorderAmount').val()));
                     $('#preorderAmount').val(amount);
                     let originalPrice = ${foodVO.foodPrice} * amount;
-                    $('#buyPrice').text(originalPrice + "원");
+                    $('#buyPrice').text(originalPrice);
                     $('#totalPrice').val(originalPrice);
 
                     // 기프트카드와 쿠폰 초기화
@@ -478,6 +556,7 @@
                     $('#createPreorder').prop("disabled", true);
                     $('#doNotApplyCoupon').show();
                     $('#priceToggle').hide();
+                    $('#createPreorder').hide();
                     $('#selectCoupon').hide();
 
                     $(".applyCoupon").each(function() {
@@ -498,6 +577,7 @@
             	$(this).hide();
             	$('#openCouponModal').hide();
             	$('#priceToggle').show();
+            	$('#createPreorder').show();
             	$('#giftCardToggle').show();
             	$('#createPreorder').prop("disabled", false);
             });
@@ -508,12 +588,14 @@
             	console.log(isDuplicateAllowed)
             	if (isDuplicateAllowed == 0) { // 중복 불가능이면
                     $('#giftCardToggle').hide(); // 기프트카드 행 숨기기
+                    
                 } else {
                     $('#giftCardToggle').show(); // 기프트카드 행 보이기
                 }
                 $('#openCouponModal').hide();
                 $(this).hide();
                 $('#createPreorder').prop("disabled", false);
+                $('#createPreorder').show();
             });
         });
     </script>

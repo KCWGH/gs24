@@ -27,7 +27,7 @@ import com.gs24.website.util.Pagination;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@Transactional("transactionManager")
+@Transactional(value = "transactionManager")
 @Log4j
 public class PreorderServiceImple implements PreorderService {
 
@@ -36,7 +36,7 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
-	
+
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
 
@@ -48,7 +48,7 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private CouponQueueMapper couponQueueMapper;
-	
+
 	@Autowired
 	private MemberMapper memberMapper;
 
@@ -57,18 +57,19 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	public boolean validatePickupDate(Date pickupDate) {
-		// 오늘 날짜와 2일 후, 2주 후 날짜 계산
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 
-		calendar.add(Calendar.DATE, 2);
-		Date twoDaysLater = calendar.getTime();
+		Calendar minDateCal = (Calendar) calendar.clone();
+		minDateCal.add(Calendar.DATE, 2);
+		Date twoDaysLater = minDateCal.getTime();
 
-		calendar.add(Calendar.DATE, 14);
-		Date twoWeeksLater = calendar.getTime();
+		Calendar maxDateCal = (Calendar) calendar.clone();
+		maxDateCal.add(Calendar.DATE, 14);
+		Date twoWeeksLater = maxDateCal.getTime();
 
 		return !pickupDate.before(twoDaysLater) && !pickupDate.after(twoWeeksLater);
 	}
@@ -82,6 +83,7 @@ public class PreorderServiceImple implements PreorderService {
 	public String handlePreorderWithDiscounts(PreorderVO preorderVO, String giftCardIdString, String couponIdString) {
 		int giftCardId = 0;
 		int couponId = 0;
+		int refundVal = 0;
 
 		boolean useGiftCard = !giftCardIdString.isEmpty();
 		boolean useCoupon = !couponIdString.isEmpty();
@@ -89,7 +91,7 @@ public class PreorderServiceImple implements PreorderService {
 		if (useGiftCard && useCoupon) { // 둘 다 사용했다면
 			giftCardId = Integer.parseInt(giftCardIdString);
 			couponId = Integer.parseInt(couponIdString);
-
+			
 			GiftCardVO giftCardVO = giftCardMapper.selectDetailByGiftCardId(giftCardId);
 			CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
 
@@ -114,6 +116,7 @@ public class PreorderServiceImple implements PreorderService {
 			}
 		} else if (useCoupon) { // 쿠폰만 사용했다면
 			couponId = Integer.parseInt(couponIdString);
+			preorderVO.setRefundVal(refundVal);
 			CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
 			int dupCheck = couponQueueMapper.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
 					preorderVO.getFoodId());
@@ -126,6 +129,7 @@ public class PreorderServiceImple implements PreorderService {
 				return result == 1 ? "쿠폰을 사용해 예약했습니다." : "식품 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
 			}
 		} else { // 기프트카드와 쿠폰을 모두 사용하지 않았다면
+			preorderVO.setRefundVal(refundVal);
 			int result = createPreorder(preorderVO);
 			return result == 1 ? "예약에 성공했습니다." : "식품 재고가 부족합니다. 예약이 실패했습니다.";
 		}
@@ -150,11 +154,8 @@ public class PreorderServiceImple implements PreorderService {
 	@Override
 	public int createPreorderWithGiftCard(PreorderVO preorderVO, int giftCardId) {
 		preorderVO.setAppliedGiftCardId(giftCardId);
-		int createResult = createPreorder(preorderVO);
-		int result = 0;
-		if (createResult == 1) {
-			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
-		}
+		createPreorder(preorderVO);
+		int result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getRefundVal());
 		return result;
 	}
 
@@ -194,7 +195,7 @@ public class PreorderServiceImple implements PreorderService {
 		int createResult = createPreorderWithCoupon(preorderVO, couponId);
 		int result = 0;
 		if (createResult == 1) {
-			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getPreorderId());
+			result = giftCardMapper.useGiftCard(giftCardId, preorderVO.getRefundVal());
 		}
 		return result;
 	}
@@ -231,17 +232,17 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public int cancelPreorder(int preorderId, int foodId, int preorderAmount) {
+	public int cancelPreorder(int preorderId, int foodId, int preorderAmount, int refundVal) {
 		log.info("cancelPreorder()");
 		PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
 		convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(), preorderAmount * -1,
 				preorderVO.getConvenienceId());
 		if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() != 0) { // 기프트카드, 쿠폰 둘 다 적용
-			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), refundVal);
 			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
 			couponQueueMapper.deleteQueue(preorderVO.getAppliedCouponId(), preorderVO.getMemberId());
 		} else if (preorderVO.getAppliedGiftCardId() != 0 && preorderVO.getAppliedCouponId() == 0) { // 기프트카드만 적용
-			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderId);
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), refundVal);
 		} else if (preorderVO.getAppliedGiftCardId() == 0 && preorderVO.getAppliedCouponId() != 0) { // 쿠폰만 적용
 			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
 			couponQueueMapper.deleteQueue(preorderVO.getAppliedCouponId(), preorderVO.getMemberId());
@@ -261,6 +262,7 @@ public class PreorderServiceImple implements PreorderService {
 	public List<PreorderVO> getPagedPreordersByMemberId(String memberId, Pagination pagination) {
 		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
 		pagination.setMemberVO(memberVO);
+		pagination.setPageSize(10);
 		return preorderMapper.selectPagedPreordersByMemberId(pagination);
 	}
 
@@ -299,8 +301,8 @@ public class PreorderServiceImple implements PreorderService {
 	public boolean getPickedUpFoodIdByMemberId(String memberId, int foodId) {
 		log.info("getPickedUpFoodIDByMemberId()");
 		List<Integer> list = preorderMapper.selectPickedUpFoodIdByMemberId(memberId);
-		if(list.contains(foodId)) {
-			if(reviewMapper.hasReview(memberId, foodId) == 0) {
+		if (list.contains(foodId)) {
+			if (reviewMapper.hasReview(memberId, foodId) == 0) {
 				return true;
 			} else {
 				return false;
@@ -309,10 +311,10 @@ public class PreorderServiceImple implements PreorderService {
 			return false;
 		}
 	}
-
 	@Override
 	public int updateShowStatus(int preorderId) {
 		log.info("upateShowStatus");
 		return preorderMapper.updateShowStatus(preorderId);
 	}
+
 }

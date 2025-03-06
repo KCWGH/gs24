@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.GiftCardVO;
@@ -91,9 +90,8 @@ public class GiftCardServiceImple implements GiftCardService {
 	}
 
 	@Override
-	public String birthdayGiftCardDupCheckAndGrant() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String memberId = authentication.getName();
+	public String birthdayGiftCardDupCheckAndGrant(Authentication auth) {
+		String memberId = auth.getName();
 		int dupCheck = giftCardMapper.birthdayGiftCardDupCheck(memberId);
 		if (dupCheck != 1) {
 			int checkGranted = birthdayGiftCard(memberId);
@@ -138,8 +136,8 @@ public class GiftCardServiceImple implements GiftCardService {
 	}
 
 	@Override
-	public int useGiftCard(int giftCardId, int preorderId) {
-		return giftCardMapper.useGiftCard(giftCardId, preorderId);
+	public int useGiftCard(int giftCardId, int refundVal) {
+		return giftCardMapper.useGiftCard(giftCardId, refundVal);
 	}
 
 	@Override

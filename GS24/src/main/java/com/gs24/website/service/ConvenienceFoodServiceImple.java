@@ -73,13 +73,10 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 
 	@Override
 	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination) {
-		log.info("getConvenienceFoodByConvenienceId()");
-		
 		if(pagination.getKeyword() == null)
 			pagination.setKeyword("");
 		if(pagination.getBottomPrice() == null)
 			pagination.setBottomPrice("");
-		
 		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination);
 
 		return list;
@@ -141,6 +138,11 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	@Override
 	public int getTotalCountByConvenienceId(int convenienceId) {
 		return convenienceFoodMapper.countTotalFoodsByConvenienceId(convenienceId);
+	}
+
+	@Override
+	public String getAddress(int convenienceId) {
+		return convenienceFoodMapper.selectAddress(convenienceId);
 	}
 
 }

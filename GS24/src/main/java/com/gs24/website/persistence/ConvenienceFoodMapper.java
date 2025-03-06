@@ -37,5 +37,6 @@ public interface ConvenienceFoodMapper {
 	List<String> selectFoodType();
 	
 	int updateShowStatus(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
-
+	
+	String selectAddress(int convenienceId);
 }

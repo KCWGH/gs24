@@ -35,7 +35,7 @@ public class ConvenienceController {
 		pageMaker.setTotalCount(convenienceService.countAllEnabledConvenience());
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
-				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant();
+				String birthdayMessage = giftCardService.birthdayGiftCardDupCheckAndGrant(auth);
 				if (birthdayMessage != null) {
 					model.addAttribute("message", birthdayMessage);
 				}

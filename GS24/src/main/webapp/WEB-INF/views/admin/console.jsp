@@ -74,15 +74,30 @@
 <body class="console-page">
     <div class="console-container">
         <h1>관리자 Console</h1>
-        <button class="button-activate" type="button" onclick='location.href="../foodlist/list"'>식품 창고 🏢</button>
-        <button class="button-remain" type="button" onclick='location.href="../orders/list"'>발주 승인 ✔️</button>
-        <button class="button-activate" type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 발행 😄</button>
-        <button class="button-remain" type="button" onclick='location.href="../admin/activate"'>계정 재활성화 승인 ✔️</button>
-        <button class="button-activate" type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
-        <form action="../auth/logout" method="post">
+        <button class="button-activate" type="button" onclick='location.href="../foodlist/list"' data-key="1">식품 창고 🏢</button>
+        <button class="button-remain" type="button" onclick='location.href="../orders/list"' data-key="2">발주 승인 ✔️</button>
+        <button class="button-activate" type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')" data-key="3">쿠폰 발행 😄</button>
+        <button class="button-remain" type="button" onclick='location.href="../admin/activate"' data-key="4">계정 재활성화 승인 ✔️</button>
+        <button class="button-activate" type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📌</button>
+        <form action="../auth/logout" method="POST">
         	<input id="logout" type="submit" value="로그아웃 🔑">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         </form>
     </div>
+    
+    <script type="text/javascript">
+    document.addEventListener("keydown", function(event) {
+    	if (event.key >= "1" && event.key <= "5") {
+        	
+            let key = event.key;
+            
+            let button = document.querySelector("[data-key='" + key + "']");
+            
+            if (button) {
+                button.click();
+            }
+        }
+    });
+    </script>
 </body>
 </html>

@@ -46,7 +46,7 @@ public class PreorderCheckTask {
 			convenienceFoodMapper.updateFoodAmountByPreorder(preorderVO.getFoodId(),
 					preorderVO.getPreorderAmount() * -1, preorderVO.getConvenienceId());
 			couponMapper.refundCoupon(preorderVO.getAppliedCouponId());
-			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderVO.getPreorderId());
+			giftCardMapper.refundGiftCard(preorderVO.getAppliedGiftCardId(), preorderVO.getRefundVal());
 
 		}
 

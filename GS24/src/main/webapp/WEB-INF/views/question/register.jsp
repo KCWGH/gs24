@@ -11,260 +11,207 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- css 파일 불러오기 -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
     <title>글 작성 페이지</title>
     <%@ include file="../common/header.jsp" %>
 </head>
-
 <style>
-        /* 전체 페이지 스타일 */
-        body {
-            margin: 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-        }
+    /* 전체 페이지 스타일 */
+    body {
+        margin: 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        text-align: center;
+        font-family: 'Pretendard-Regular', sans-serif;
+    }
 
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
 
-        /* 수정 폼 스타일 */
-        .form-container {
-            width: 80%;
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
+    /* 폼 컨테이너 */
+    .form-container {
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
 
-        .form-container p {
-            font-size: 16px;
-            color: #444;
-            margin: 10px 0 5px;
-        }
-        
-        .form-container checkbox-label {
-            font-size: 16px;
-            color: #444;
-            margin: 10px 0 5px;
-        }
+    .form-container label {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 5px;
+        display: block;
+        font-weight: bold;
+    }
 
-        .form-container input[type="text"],
-        .form-container textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box; /* 부모 요소 넘지 않도록 */
-            background: #f9f9f9;
-        }
+    .form-container input[type="text"],
+    .form-container select,
+    .form-container textarea {
+        font-family: 'Pretendard-Regular', sans-serif;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background: #f9f9f9;
+        margin-bottom: 10px;
+    }
 
-        .form-container textarea {
-            height: 200px;
-            resize: none;
-            background: #f9f9f9;
-            overflow-y: auto;
-            word-wrap: break-word;
-        }
+    .form-container textarea {
+        height: 150px;
+        resize: vertical;
+        overflow-y: auto;
+        word-wrap: break-word;
+    }
 
-        /* 버튼 스타일 */
-        .button-container {
-            display: flex;
-            justify-content: right;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .button-container-file {
-            display: flex;
-            justify-content: left;
-            gap: 10px;
-            margin-top: 20px;
-        }
+    /* 체크박스 스타일 */
+    .form-check-input {
+        margin-right: 5px;
+    }
 
-        .button-container button {
-            background: #ddd;
-            color: black;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .button-container-file button {
-            background: #ddd;
-            color: black;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    /* 버튼 스타일 */
+    .button-container {
+        display: flex;
+        justify-content: right;
+        gap: 10px;
+        margin-top: 20px;
+    }
 
-        .button-container button:hover {
-            background: #bbb;
-        }
-        
-         .button-container-file button:hover {
-            background: #bbb;
-        }
-        
-        select {
-   		 	display: block;
-   			width: 100%; /* 선택박스를 새 줄에 맞게 확장 */
-    		margin-bottom: 10px; /* 간격 추가 */
-		}
-    </style>
+    .button-container button {
+        background: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .button-container button:hover {
+        background: #45a049;
+    }
+
+    /* 파일 업로드 영역 */
+    .questionAttach-upload {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .questionAttach-upload input[type="file"] {
+        margin-top: 10px;
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        background: #fff;
+    }
+
+</style>
+
 <body>
 
-    <h2>글 작성 페이지</h2>
-    
+    <h2>문의사항 작성</h2>
+
     <div class="form-container">
-    <form id="registerForm" action="register" method="POST">
+        <form id="registerForm" action="register" method="POST">
+            <label>
+                <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
+                비밀글 설정
+            </label><br>
 
-            <!-- 비밀글 체크박스 -->
-            <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
-            <label for="secret" class="form-check-label">비밀글 설정</label>
-			<br>
-			<br>
-		    <label for="ownerAddress">매장 선택</label>	    
-		    <select id="ownerId" name="ownerId">
-    			<option value="" selected disabled>선택하세요</option>   			
-    				<c:forEach var="owner" items="${ownerVOList}">
-        				<option value="${owner.ownerId}">${owner.address}</option>
-    				</c:forEach>
-			</select>		          
-              
-             <label for="foodType">식품 종류</label>
-                <select id="foodType" name="foodType" required>
-                    <option value="" selected disabled>선택하세요</option>
-                    <c:forEach var="food" items="${foodTypeList}">
-                        <option value="${food}">${food}</option>
-                    </c:forEach>
-                </select>                              
+            <label for="ownerId">매장 선택</label>
+            <select id="ownerId" name="ownerId">
+                <option value="" selected disabled>선택하세요</option>
+                <c:forEach var="owner" items="${ownerVOList}">
+                    <option value="${owner.ownerId}">${owner.address}</option>
+                </c:forEach>
+            </select>
 
-            <p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></strong></p>
+            <label for="foodType">식품 종류</label>
+            <select id="foodType" name="foodType" required>
+                <option value="" selected disabled>선택하세요</option>
+                <c:forEach var="food" items="${foodTypeList}">
+                    <option value="${food}">${food}</option>
+                </c:forEach>
+            </select>
 
-            <p><strong>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></strong></p>   
+            <label for="questionTitle">제목</label>
+            <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20">
 
+            <label for="memberId">작성자</label>
+            <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly>
 
-            <p><strong>내용 : </strong></p>
-            <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" ></textarea>
+            <label for="questionContent">내용</label>
+            <textarea name="questionContent" placeholder="내용 입력" maxlength="300"></textarea>
 
-       		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-    </form>   
-    
-	<div class="questionAttach-upload">
-		<h2>첨부 파일 업로드</h2>
-		<p>* 첨부 파일은 최대 3개까지 가능합니다.</p>
-		<p>* 최대 용량은 10MB 입니다.</p>
-		<input type="file" id="questionAttachInput" name="files" multiple="multiple"><br>
-		<h2>선택한 첨부 파일 정보 :</h2>
-		<div class="questionAttach-list"></div>
-	</div>
-	
-	<div class="questionAttachFile-list"></div>
-	
-	
-    <div class="button-container">
-		<button id="registerQuestion">등록</button>
-	</div>
-		
-	</div>
-        <script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
-        
-        <script>
-    	 // ajaxSend() : AJAX 요청이 전송되려고 할 때 실행할 함수를 지정
-		// ajax 요청을 보낼 때마다 CSRF 토큰을 요청 헤더에 추가하는 코드
-		$(document).ajaxSend(function(e, xhr, opt){
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			
-			xhr.setRequestHeader(header, token);
-		});
-			
-		$(document).ready(function() {
-			let questionAttach;
-			// regsiterForm 데이터 전송
-			$('#registerQuestion').click(function() {
-				event.preventDefault();  //  기본 제출 동작 방지
+            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        </form>
 
-		        var title = $('input[name="questionTitle"]').val();
-		        var content = $('textarea[name="questionContent"]').val();
-		        var foodType = $('select[name="foodType"]').val();
-		        var owner = $('select[name="ownerId"]').val();
+        <div class="questionAttach-upload">
+            <h2>첨부 파일 업로드</h2>
+            <p>* 첨부 파일은 최대 3개까지 가능합니다.</p>
+            <p>* 최대 용량은 10MB 입니다.</p>
+            <input type="file" id="questionAttachInput" name="files" multiple="multiple">
+        </div>
 
-		        if (title.trim() === '') {
-		            alert("제목을 입력해주세요.");
-		            return;
-		        }
-		        if (content.trim() === '') {
-		            alert("내용을 입력해주세요.");
-		            return;
-		        }
-		        if (!foodType) { 
-		            alert("식품 종류를 선택해주세요.");
-		            return;
-		        }
-		        if (!owner) {
-		        	alert("매장을 선택해주세요.");
-		        	return;
-		        }
-	            
-				// form 객체 참조
-				var registerForm = $('#registerForm');
-				
-				var i = 0;
-							
-				// questionAttachFile-list의 각 input 태그 접근
-				$('.questionAttachFile-list input[name="questionAttach"]').each(function(){
-					console.log(this);
-					// JSON questionAttach 데이터를 object 변경
-					questionAttach = JSON.parse($(this).val());
-					
-					// attachPath input 생성
-					var inputPath = $('<input>').attr('type', 'hidden')
-							.attr('name', 'questionAttachList[' + i + '].questionAttachPath');
-					inputPath.val(questionAttach.questionAttachPath);
-					
-					// attachRealName input 생성
-					var inputRealName = $('<input>').attr('type', 'hidden')
-							.attr('name', 'questionAttachList[' + i + '].questionAttachRealName');
-					inputRealName.val(questionAttach.questionAttachRealName);
-					
-					// attachChgName input 생성
-					var inputChgName = $('<input>').attr('type', 'hidden')
-							.attr('name', 'questionAttachList[' + i + '].questionAttachChgName');
-					inputChgName.val(questionAttach.questionAttachChgName);
-					
-					// attachExtension input 생성
-					var inputExtension = $('<input>').attr('type', 'hidden')
-							.attr('name', 'questionAttachList[' + i + '].questionAttachExtension');
-					inputExtension.val(questionAttach.questionAttachExtension);
-					
-					// form에 태그 추가
-					registerForm.append(inputPath);
-					registerForm.append(inputRealName);
-					registerForm.append(inputChgName);
-					registerForm.append(inputExtension);
-					
-					i++;
-				});
-				registerForm.submit();
-			});
+        <div class="button-container">
+            <button id="registerQuestion">등록</button>
+        </div>
+    </div>
 
-		});
-		
-		
-	</script>
+    <script src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
+
+    <script>
+        $(document).ajaxSend(function(e, xhr, opt) {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            xhr.setRequestHeader(header, token);
+        });
+
+        $(document).ready(function() {
+            $('#registerQuestion').click(function(event) {
+                event.preventDefault();
+
+                var title = $('input[name="questionTitle"]').val().trim();
+                var content = $('textarea[name="questionContent"]').val().trim();
+                var foodType = $('select[name="foodType"]').val();
+                var owner = $('select[name="ownerId"]').val();
+
+                if (!title) {
+                    alert("제목을 입력해주세요.");
+                    return;
+                }
+                if (!content) {
+                    alert("내용을 입력해주세요.");
+                    return;
+                }
+                if (!foodType) {
+                    alert("식품 종류를 선택해주세요.");
+                    return;
+                }
+                if (!owner) {
+                    alert("매장을 선택해주세요.");
+                    return;
+                }
+
+                $('#registerForm').submit();
+            });
+        });
+    </script>
+
 </body>
 </html>

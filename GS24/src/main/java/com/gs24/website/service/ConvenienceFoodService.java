@@ -29,4 +29,6 @@ public interface ConvenienceFoodService {
 
 	int updateShowStatus(int foodId, int convenienceId);
 	
+	String getAddress(int convenienceId);
+	
 }

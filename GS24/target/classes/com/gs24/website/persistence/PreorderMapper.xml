@@ -16,6 +16,7 @@
 		<result property="convenienceId" column="CONVENIENCE_ID"/>
 		<result property="writeReview" column="WRITE_REVIEW"/>
 		<result property="showStatus" column="SHOW_STATUS"/>
+		<result property="refundVal" column="REFUND_VAL"/>
 	</resultMap>
 	
 	<insert id="insertPreorder" useGeneratedKeys="true" keyProperty="preorderId">
@@ -23,8 +24,8 @@
         SELECT PREORDER_SEQ.NEXTVAL FROM DUAL
     </selectKey>
 		INSERT INTO PREORDER
-		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER, TOTAL_PRICE, APPLIED_GIFTCARD_ID, APPLIED_COUPON_ID, CONVENIENCE_ID)
-		VALUES(#{preorderId}, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder}, #{totalPrice}, #{appliedGiftCardId}, #{appliedCouponId}, #{convenienceId})
+		(PREORDER_ID, FOOD_ID, MEMBER_ID, PREORDER_AMOUNT, PICKUP_DATE, IS_PICK_UP, IS_EXPIRED_ORDER, TOTAL_PRICE, APPLIED_GIFTCARD_ID, APPLIED_COUPON_ID, CONVENIENCE_ID, REFUND_VAL)
+		VALUES(#{preorderId}, #{foodId}, #{memberId}, #{preorderAmount}, #{pickupDate}, #{isPickUp}, #{isExpiredOrder}, #{totalPrice}, #{appliedGiftCardId}, #{appliedCouponId}, #{convenienceId}, #{refundVal})
 	</insert>
 	
 	<select id="selectPreorderOneById" resultMap="PreorderResultMap">
@@ -103,7 +104,7 @@
 	<update id="updateWriteReview">
 		UPDATE PREORDER SET WRITE_REVIEW = 1 WHERE PREORDER_ID = #{preorderId}
 	</update>
-	
+
 	<update id="updateShowStatus">
 		UPDATE PREORDER SET SHOW_STATUS = 0 WHERE PREORDER_ID = #{preorderId}
 	</update>
