@@ -306,7 +306,6 @@ ul {
             <li>높은가격순</li>
         </ul>
     </div>
-</div>
 
    <ul class="food_box">
     <c:forEach var="FoodVO" items="${FoodList}">
@@ -533,7 +532,7 @@ ul {
          listForm.submit(); // form 전송
       }); // end on()
       
-      $(".searchList").on("click", "li", function(e){
+      $(".sort-options").on("click", "li", function(e){
          let optionType = $(this).text();
          console.log("optionType : " + optionType);
          let searchForm = $("#searchForm");
