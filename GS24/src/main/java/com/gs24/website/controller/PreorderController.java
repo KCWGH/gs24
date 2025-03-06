@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,7 +69,7 @@ public class PreorderController {
 	}
 
 	@PostMapping("/create")
-	public String createPOST(PreorderVO preorderVO,
+	public String createPOST(@ModelAttribute PreorderVO preorderVO,
 							@RequestParam("pickupDate") String pickupDateString,
 							@RequestParam("giftCardId") String giftCardIdString,
 							@RequestParam("couponId") String couponIdString,
@@ -88,7 +89,7 @@ public class PreorderController {
 			if (!isValidAmount) {
 				throw new Exception("예약 수량은 1보다 작거나 총 재고량보다 많을 수 없습니다.");
 			}
-
+			
 			preorderVO.setPickupDate(pickupDate);
 
 			String message = preorderService.handlePreorderWithDiscounts(preorderVO, giftCardIdString, couponIdString);

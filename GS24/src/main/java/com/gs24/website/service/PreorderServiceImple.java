@@ -83,7 +83,6 @@ public class PreorderServiceImple implements PreorderService {
 	public String handlePreorderWithDiscounts(PreorderVO preorderVO, String giftCardIdString, String couponIdString) {
 		int giftCardId = 0;
 		int couponId = 0;
-		int refundVal = 0;
 
 		boolean useGiftCard = !giftCardIdString.isEmpty();
 		boolean useCoupon = !couponIdString.isEmpty();
@@ -91,7 +90,6 @@ public class PreorderServiceImple implements PreorderService {
 		if (useGiftCard && useCoupon) { // 둘 다 사용했다면
 			giftCardId = Integer.parseInt(giftCardIdString);
 			couponId = Integer.parseInt(couponIdString);
-			
 			GiftCardVO giftCardVO = giftCardMapper.selectDetailByGiftCardId(giftCardId);
 			CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
 
@@ -115,8 +113,8 @@ public class PreorderServiceImple implements PreorderService {
 				return result == 1 ? "기프트카드를 사용해 예약했습니다." : "식품 재고가 부족합니다. 예약이 실패했습니다.";
 			}
 		} else if (useCoupon) { // 쿠폰만 사용했다면
+			preorderVO.setRefundVal(0);
 			couponId = Integer.parseInt(couponIdString);
-			preorderVO.setRefundVal(refundVal);
 			CouponVO couponVO = couponMapper.selectCouponByCouponId(couponId);
 			int dupCheck = couponQueueMapper.dupCheckQueueByMemberId(couponId, preorderVO.getMemberId(),
 					preorderVO.getFoodId());
@@ -129,7 +127,7 @@ public class PreorderServiceImple implements PreorderService {
 				return result == 1 ? "쿠폰을 사용해 예약했습니다." : "식품 재고 또는 쿠폰 수량이 부족합니다. 예약이 실패했습니다.";
 			}
 		} else { // 기프트카드와 쿠폰을 모두 사용하지 않았다면
-			preorderVO.setRefundVal(refundVal);
+			preorderVO.setRefundVal(0);
 			int result = createPreorder(preorderVO);
 			return result == 1 ? "예약에 성공했습니다." : "식품 재고가 부족합니다. 예약이 실패했습니다.";
 		}
@@ -137,7 +135,6 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Override
 	public int createPreorder(PreorderVO preorderVO) {
-		log.info("createPreorder()");
 		int foodAmount = convenienceFoodMapper
 				.selectDetailConvenienceFoodByFoodId(preorderVO.getFoodId(), preorderVO.getConvenienceId())
 				.getFoodAmount();

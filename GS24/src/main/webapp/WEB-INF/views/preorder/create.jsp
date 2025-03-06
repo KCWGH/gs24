@@ -231,8 +231,8 @@
         <input type="hidden" name="couponId" id="couponId">
         <input type="hidden" name="giftCardId" id="giftCardId">
         <input type="hidden" name="totalPrice" id="totalPrice">
-        <input type="hidden" name="refundVal" id="refundVal" placeholder="refundVal">
-
+		<input type="hidden" name="refundVal" id="refundVal">
+		
         <div id="couponModal" class="modal">
             <div class="modal-content">
                 <span class="close" id="closeCouponModal">&times;</span>
@@ -319,6 +319,18 @@
 	<button id="return" onclick='location.href="../member/myhistory"'>내 찜 목록</button>
     <script>
         $(document).ready(function() {
+        	
+        	$('#createPreorder').click(function(e) {
+        	    e.preventDefault();
+        	    
+        	    let refundVal = $('#refundVal').val();
+        	    console.log(refundVal);
+        	    if (!refundVal) {
+        	    	$('#refundVal').val(0);
+        	    }
+        	    $(this).closest('form').submit();
+        	});
+
         	
         	let convenienceId = '${foodVO.convenienceId}';
         	let foodId = '${foodVO.foodId}';

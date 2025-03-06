@@ -36,7 +36,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     margin-bottom: 20px;
     max-width: 500px;
 	margin: 20px auto;
