@@ -8,7 +8,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="../resources/css/fonts.css">
-    <title>쿠폰 발행</title>
+    <title>쿠폰 수정</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
     	function checkByteLimit(input, maxBytes) {
@@ -186,15 +186,16 @@
     </script>
 </c:if>
     
-    <h2>쿠폰 발행</h2>
+    <h2>쿠폰 수정</h2>
     <p>유효기간 이후 30일이 경과한 쿠폰은 자동 삭제됩니다.</p>
 
-    <form action="publish" method="POST">
+    <form action="modify" method="POST">
         <div class="container">
+        	<input type="hidden" name="couponId" value="${couponVO.couponId }">
             <table>
                 <tr>
                     <th><label for="couponName">쿠폰 이름</label></th>
-                    <td><input type="text" id="couponName" name="couponName" oninput="checkByteLimit(this, 100)"></td>
+                    <td><input type="text" id="couponName" name="couponName" oninput="checkByteLimit(this, 100)" value="${couponVO.couponName }"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><span style="color:gray">쿠폰 이름을 적지 않으면 기본 쿠폰 이름으로 제공됩니다.<br>예) 음료 1000원 할인권</span></td>
@@ -203,11 +204,14 @@
                     <th><label for="foodType">식품 종류</label></th>
                     <td>
                         <select id="foodType" name="foodType" required>
-                            <option value="" selected disabled>선택하세요</option>
-                            <c:forEach var="food" items="${foodTypeList}">
-                                <option value="${food}">${food}</option>
-                            </c:forEach>
-                        </select>
+    						<option value="" selected disabled>선택하세요</option>
+    						<c:forEach var="food" items="${foodTypeList}">
+        						<option value="${food}" 
+                						<c:if test="${food == couponVO.foodType}">selected</c:if>>
+            						${food}
+        						</option>
+    						</c:forEach>
+						</select>
                     </td>
                 </tr>
                 <tr>
@@ -241,7 +245,7 @@
                 </tr>
                 <tr>
                     <th><label for="couponAmount">수량</label></th>
-                    <td><input type="number" name="couponAmount" required min=5 max=500> 매<br>
+                    <td><input type="number" name="couponAmount" required min=5 max=500 value="${couponVO.couponAmount }"> 매<br>
                     	<button type="button" onclick="setCouponAmount(5)">5매</button>
                         <button type="button" onclick="setCouponAmount(10)">10매</button>
                         <button type="button" onclick="setCouponAmount(50)">50매</button>
@@ -264,12 +268,20 @@
                     <td colspan="2"><span style="color:gray">유효기간을 지정하지 않으면 모두 소진될 때까지 제공됩니다.</span></td>
                 </tr>
                 <tr>
-                	<th><label for="isDuplicateAllowed">기프트카드<br>중복 사용<br>가능 여부</label></th>
-                	<td><label><input type="radio" name="isDuplicateAllowed" value="1" required> 예</label>
-                <label><input type="radio" name="isDuplicateAllowed" value="0"> 아니오</label></td>
-                </tr>      
+    				<th><label for="isDuplicateAllowed">기프트카드<br>중복 사용<br>가능 여부</label></th>
+    				<td>
+        				<label>
+            				<input type="radio" name="isDuplicateAllowed" value="1" 
+                				<c:if test="${couponVO.isDuplicateAllowed == 1}">checked</c:if> required> 예
+        				</label>
+        				<label>
+            				<input type="radio" name="isDuplicateAllowed" value="0"
+                				<c:if test="${couponVO.isDuplicateAllowed == 0}">checked</c:if>> 아니오
+        				</label>
+    				</td>
+				</tr>
             </table>
-            <button type="submit" id="btnPublish">쿠폰 발행</button>
+            <button type="submit" id="btnPublish">쿠폰 수정</button>
         </div>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
     </form>

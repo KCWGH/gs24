@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gs24.website.domain.CouponVO;
+import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface CouponMapper {
@@ -15,10 +16,18 @@ public interface CouponMapper {
 	int refundCoupon(int couponId);
 
 	List<CouponVO> selectList();
+	
+	List<CouponVO> selectPagedCoupons(Pagination pagination);
 
 	CouponVO selectCouponByCouponId(int couponId);
 
 	List<CouponVO> selectListByFoodType(String foodType);
+	
+	int selectTotalCount();
+	
+	int updateCoupon(CouponVO couponVO);
+	
+	int deleteCoupon(int couponId);
 
 	int deleteExpiredCoupons();
 }

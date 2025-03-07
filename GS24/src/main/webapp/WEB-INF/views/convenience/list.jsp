@@ -36,16 +36,17 @@
     }
 
     .conveni {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 300px;
-    margin: 50px auto;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-    position: relative;
+    	background-color: white;
+    	border: 1px solid #ddd;
+    	border-radius: 12px;
+    	width: 100%;
+    	max-width: 300px;
+    	margin: 50px auto;
+    	padding: 25px;
+    	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    	transition: box-shadow 0.3s;
+    	position: relative;
+    	height: 400px;
 	}
 
     .conveni:hover {
@@ -88,21 +89,52 @@
         z-index: 2;
         display: none;
     }
+    
+    #closeMap {
+    	font-family: 'Pretendard-Regular', sans-serif;
+    	position: absolute;
+    	top: 10px;
+    	right: 10px;
+    	font-size: 22px;
+    	color: #333;
+    	background-color: white;
+    	border-radius: 8px;
+    	border: 1px solid #ddd;
+    	padding: 3px 9px;
+    	cursor: pointer;
+    	z-index: 3;
+
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+	}
+
+	#closeMap:hover {
+    	background-color: #444;
+    	color: white;
+	}
+    
     #convenienceId, .address {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
     }
-    .setDestination {
+    
+	.setDestination {
     	align-items: center;
     	display: flex;
     	justify-content: center;
     	text-align: center;
+    	position: absolute;
+    	bottom: 10px;
+    	left: 0;
+    	right: 0;
+    	width: 100%;
     	display: none;
     	cursor: pointer;
 	}
-	
+
 	ul {
     	display: flex;
     	justify-content: center;
@@ -128,12 +160,12 @@
         margin-bottom: 10px;
     }
     .pagination_button.current a {
-    background: #333;
-    color: white;
+    	background: #333;
+    	color: white;
 	}
 	.pagination_button span {
-	color:#444;
-    font-size: 20px;
+		color:#444;
+    	font-size: 20px;
 	}
 		@media screen and (max-width: 768px) {
 		.pagination_button span {
@@ -162,7 +194,7 @@
                         <img class="redirect" src="${pageContext.request.contextPath}/resources/images/convenienceStore/convenienceStore.jpg" alt="ConvenienceStore" />
                         <p class="address">${conveniVO.address}</p>
                         <p hidden="hidden">${conveniVO.isEnabled}</p>
-                        <div class="small-map" id="map_${conveniVO.convenienceId}"></div>
+                        <div class="small-map" id="map_${conveniVO.convenienceId}"><span class="close" id="closeMap">&times;</span></div>
                         <p class="setDestination"></p>
                     </c:if>
                 </sec:authorize>
@@ -204,6 +236,20 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
+        $("#conveniList").on("click", "#closeMap", function () {
+            var closestConveni = $(this).closest(".conveni");
+            var smallMap = closestConveni.find(".small-map");
+            
+            smallMap.hide();
+            
+            closestConveni.find(".setDestination").hide();
+            
+            var address = closestConveni.data("address");
+            closestConveni.find(".address").text(address).css({
+                "color": closestConveni.find(".address").data("original-color"),
+                "font-weight": closestConveni.find(".address").data("original-font-weight")
+            });
+        });
     	
     	$(".pagination_button a").on("click", function(e) {
             var listForm = $("#listForm");
@@ -322,13 +368,18 @@
                 });
             }
         });
-
-        $("#conveniList").on("mouseleave", ".conveni", function () {
-            var conveniId = $(this).find("#convenienceNum").text();
-            $("#map_" + conveniId).hide();
-        	$(this).find(".setDestination").hide();
-        });
         
+        $("#conveniList").on("mouseleave", ".conveni", function () {
+            let address = $(this).find(".address");
+            let originalColor = address.data("original-color");
+            let originalFontWeight = address.data("original-font-weight");
+
+            address.text(address.closest(".conveni").data("address")).css({
+                "color": originalColor,
+                "font-weight": originalFontWeight
+            });
+            $(this).find(".setDestination").hide();
+        });
     });
     </script>
 

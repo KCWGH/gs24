@@ -279,13 +279,11 @@ input[type="text"] {
 			$(".preorder-list").on("click","div",function(){
 				console.log(this);
 				var isCheck = confirm("수락하시겠습니까?");
-				if(isCheck){
+				if (isCheck) {
 					var preorderId = $(this).find(".preorderId").text();
 					console.log(preorderId);
 					var totalPrice = $(this).find(".totalPrice").text();
 					if (totalPrice == 0){
-						$("#updateForm").submit();
-						location.reload();
 						$.ajax({
     						type : "post",
     						url : "../preorder/check",
@@ -293,10 +291,9 @@ input[type="text"] {
     						success : function(result){
     							console.log(result);
     							if(result == 1){
-    								
+    								$("#updateForm").submit();
     							} else {
     								alert("예약이 취소되어 결제가 취소되었습니다.");
-    								location.reload();
     							}
     						}
     					});
@@ -339,7 +336,7 @@ input[type="text"] {
         			                    });
         								
         							} else {
-        								alert("예약이 취소 되어 결제가 취소되었습니다.");
+        								alert("예약이 취소되어 결제가 취소되었습니다.");
         								location.reload();
         							}
         						}

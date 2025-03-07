@@ -6,7 +6,6 @@
 		id="CouponResultMap">
 		<id property="couponId" column="COUPON_ID" />
 		<result property="foodType" column="FOOD_TYPE" />
-		<result property="memberId" column="MEMBER_ID" />
 		<result property="couponName" column="COUPON_NAME" />
 		<result property="couponAmount" column="COUPON_AMOUNT" />
 		<result property="discountType" column="DISCOUNT_TYPE" />
@@ -53,6 +52,17 @@
 		WHERE COUPON_ID = #{couponId}
 	</update>
 	
+	<select id="selectPagedCoupons" resultMap="CouponResultMap">
+		SELECT * FROM
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY COUPON_ID ASC)
+		AS RN,
+		COUPON.* FROM COUPON
+		)
+		WHERE RN BETWEEN
+		#{start} AND #{end}
+	</select>
+	
 	<select id="selectList" resultMap="CouponResultMap">
 		SELECT * FROM COUPON
 		ORDER BY COUPON_ID DESC
@@ -69,6 +79,21 @@
 		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체')
 		ORDER BY COUPON_ID DESC
 	</select>
+	
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*) FROM COUPON
+	</select>
+	
+	<update id="updateCoupon">
+		UPDATE COUPON SET
+		COUPON_NAME = #{couponName}, FOOD_TYPE = #{foodType}, COUPON_AMOUNT = #{couponAmount},
+		DISCOUNT_TYPE = #{discountType}, PERCENTAGE = #{percentage}, AMOUNT = #{amount}, COUPON_EXPIRED_DATE = #{couponExpiredDate}, IS_DUPLICATE_ALLOWED = #{isDuplicateAllowed}
+		WHERE COUPON_ID = #{couponId}
+	</update>
+	
+	<delete id="deleteCoupon">
+		DELETE FROM COUPON WHERE COUPON_ID = #{couponId}
+	</delete>
 	
 	<delete id="deleteExpiredCoupons">
         DELETE FROM COUPON 

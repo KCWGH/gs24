@@ -119,6 +119,15 @@ ul {
 	background: #333;
 	color: white;
 }
+
+input[type="number"] {
+    font-family: 'Pretendard-Regular', sans-serif;
+    width: 50%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
 </style>
 </head>
 <body>
@@ -132,7 +141,7 @@ ul {
 </sec:authorize>
     <thead>
         <tr>
-            <th>식품ID</th>
+            <th>식품번호</th>
             <th>식품 유형</th>
             <th>식품 이름</th>
             <th>식품 가격</th>
@@ -142,10 +151,10 @@ ul {
             <th>재고량</th>
             <th>상태</th>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <th colspan="3">기타</th>
+                <th colspan="3">Action</th>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <th colspan="1">기타</th>
+                <th colspan="1">Action</th>
                 <th>발주</th>
             </sec:authorize>
         </tr>
@@ -173,7 +182,7 @@ ul {
                 <td class="delete"><a href="delete?foodId=${foodListVO.foodId}">삭제</a></td>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <td><input class="foodAmount" type="number"><button class="insert">발주</button></td>
+                <td><input class="foodAmount" type="number" min="1" max="${foodListVO.foodStock}"><button class="insert">발주</button></td>
             </sec:authorize>
         </tr>
         </c:forEach>
@@ -184,7 +193,6 @@ ul {
         <input type="hidden" name="pageSize">
     </form>
 
-    <!-- 페이징 처리 -->
     <ul>
         <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
@@ -218,26 +226,32 @@ $(document).ready(function () {
             return;
         }
 
-        if (foodStock - foodAmount >= 0) {
-            $.ajax({
-                type: 'GET',
-                url: "../convenienceFood/register",  
-                data: { foodId: foodId, foodAmount: foodAmount },
-                success: function (result) {
-                    if(result == 1){
-                        alert("발주 처리에 성공했습니다.");
-                    } else {
-                        alert("발주 처리에 실패했습니다.");
-                    }
-                    location.reload();
-                },
-                error: function () {
+        if (foodAmount.trim() === "" || isNaN(foodAmount) || foodAmount <= 0) {
+            alert("발주 수량은 0보다 큰 숫자를 입력해주세요.");
+            return;
+        }
+
+        if (Number(foodAmount) > Number(foodStock)) {
+            alert("재고량보다 발주량이 많습니다.");
+            return;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "../convenienceFood/register",
+            data: { foodId: foodId, foodAmount: foodAmount },
+            success: function (result) {
+                if (result == 1) {
+                    alert("발주 처리에 성공했습니다.");
+                } else {
                     alert("발주 처리에 실패했습니다.");
                 }
-            });
-        } else {
-            alert("재고량보다 발주량이 많습니다.");
-        }
+                location.reload();
+            },
+            error: function () {
+                alert("발주 처리에 실패했습니다.");
+            }
+        });
     });
 
     $(".foodRow").on('click','.delete',function(e){

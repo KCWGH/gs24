@@ -33,6 +33,10 @@
 		SELECT COUNT(*) FROM COUPON_QUEUE WHERE MEMBER_ID = #{memberId} AND COUPON_ID = #{couponId} AND FOOD_ID = #{foodId}
 	</select>
 	
+	<delete id="deleteEachQueues">
+        DELETE FROM COUPON_QUEUE WHERE COUPON_ID = #{couponId}
+    </delete>
+	
 	<delete id="deleteQueue">
 		DELETE FROM COUPON_QUEUE WHERE COUPON_ID = #{couponId} AND MEMBER_ID = #{memberId}
 	</delete>

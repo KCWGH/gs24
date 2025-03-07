@@ -12,5 +12,8 @@ public interface CouponQueueMapper {
 	int dupCheckQueueByMemberId(@Param("couponId") int couponId, @Param("memberId") String memberId,
 			@Param("foodId") int foodId);
 
+	int deleteEachQueues(int couponId);
+
 	int deleteQueue(@Param("couponId") int couponId, @Param("memberId") String memberId);
+
 }
