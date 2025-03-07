@@ -103,7 +103,9 @@
         <thead>
             <tr>
                 <th>주문번호</th>
+                <th>점주 ID</th>
                 <th>식품번호</th>
+                <th>식품종류</th>
                 <th>식품명</th>
                 <th>주문 수량</th>
                 <th>주문 날짜</th>
@@ -115,7 +117,9 @@
             <c:forEach var="order" items="${orderList}">
                 <tr>
                     <td>${order.orderId}</td>
-                    <td>${order.foodId}</td>
+                    <td>${order.ownerId}</td>
+                    <td>${order.foodId}</td>  
+                    <td>${order.foodType}</td>
                     <td>${order.foodName}</td>
                     <td>${order.orderAmount}</td>
                     <td><fmt:formatDate value="${order.orderDateCreated}" pattern="yyyy-MM-dd HH:mm"/></td>

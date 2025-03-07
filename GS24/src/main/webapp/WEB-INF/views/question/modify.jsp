@@ -132,25 +132,25 @@
 			 
 			<p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionVO.questionTitle }" required></strong></p>	
 				       
-		    <label for="ownerAddress">매장 선택 : </label>	    
-		    <select id="ownerId" name="ownerId" required>
-			    <option value="" selected disabled>선택하세요</option>   
-			    <c:forEach var="owner" items="${ownerVOList}">
-			        <option value="${owner.ownerId}" <c:if test="${owner.ownerId eq questionVO.ownerId}">selected</c:if>>
-			            ${owner.address}
-			        </option>
+		    <label for="ownerId">매장 선택</label>	    
+			<select id="convenienceSelect" name="ownerId" onchange="updateFoodTypeList()">
+			    <option value="" selected disabled>선택하세요</option>   			
+			    <c:forEach var="convenience" items="${convenienceList}">
+			        <c:forEach var="owner" items="${ownerVOList}">
+			            <c:if test="${convenience.ownerId == owner.ownerId}">
+			                <option value="${owner.ownerId}" data-convenience-id="${convenience.convenienceId}">
+			                    ${owner.address} (${convenience.convenienceId}호점)
+			                </option>
+			            </c:if>
+			        </c:forEach>
 			    </c:forEach>
-			</select>          	       
+			</select>     	       
 				       
-            <label for="foodType">식품 종류 : </label>
-			<select id="foodType" name="foodType" required>
+           
+			<label for="foodType">식품 종류</label>
+			<select id="foodTypeSelect" name="foodType" required>
 			    <option value="" selected disabled>선택하세요</option>
-			    <c:forEach var="food" items="${foodTypeList}">
-			        <option value="${food}" <c:if test="${food eq questionVO.foodType}">selected</c:if>>
-			            ${food}
-			        </option>
-			    </c:forEach>
-			</select>
+			</select>    
 
                                     
 			<p><strong>작성자 : ${questionVO.memberId}</strong></p>	
@@ -214,15 +214,48 @@
 	</div>
 	<script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
 	
-	<script>
-	 // ajaxSend() : AJAX 요청이 전송되려고 할 때 실행할 함수를 지정
-	// ajax 요청을 보낼 때마다 CSRF 토큰을 요청 헤더에 추가하는 코드
+	<script type="text/javascript">
+
 	$(document).ajaxSend(function(e, xhr, opt){
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		
 		xhr.setRequestHeader(header, token);
 	});
+	
+	function updateFoodTypeList() {
+        var selectBox = document.getElementById("convenienceSelect");
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+        var convenienceId = selectedOption.getAttribute("data-convenience-id");
+
+        console.log("선택된 convenienceId: " + convenienceId);
+
+        
+        if (!convenienceId) {
+            return;
+        }
+
+        fetch("/website/question/getFoodTypeList?convenienceId=" + convenienceId)
+            .then(response => response.json())
+            .then(data => {
+                var foodTypeSelect = document.getElementById("foodTypeSelect");
+                foodTypeSelect.innerHTML = ""; // 기존 옵션 제거
+
+                var defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.text = "선택하세요";
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                foodTypeSelect.appendChild(defaultOption);
+
+                data.forEach(function(foodType) {
+                    var option = document.createElement("option");
+                    option.value = foodType;
+                    option.text = foodType;
+                    foodTypeSelect.appendChild(option);
+                });
+            });
+    } 
 	
 	$(document).ready(function(){
     	var questionAttach;

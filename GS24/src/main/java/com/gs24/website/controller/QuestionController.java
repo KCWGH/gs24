@@ -1,8 +1,10 @@
 package com.gs24.website.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gs24.website.domain.ConvenienceVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.domain.QuestionVO;
@@ -82,19 +87,23 @@ public class QuestionController {
 		model.addAttribute("questionList", questionList);
 	}
 
-	// register.jsp 호출
 	@GetMapping("/register")
-	public void registerGET(Authentication auth, Model model) {
+	public void registerGET(Authentication auth, Model model, 
+			  @RequestParam(value = "convenienceId", required = false) Integer convenienceId, Pagination pagination) {
 		log.info("registerGET()");
+		
+		List<String> foodTypeList = (convenienceId != null) 
+		        ? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId) 
+		        : Collections.emptyList(); 
 
-		List<String> foodType = convenienceFoodService.getFoodTypeList();
-		log.info(foodType);
-		model.addAttribute("foodTypeList", foodType);
+		    model.addAttribute("foodTypeList", foodTypeList);
 
-		// OwnerVO 리스트 가져오기
-		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList(); // 변경 필요
+		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
 		model.addAttribute("ownerVOList", ownerVOList);
-
+		
+		List<ConvenienceVO> convenienceList = convenienceService.getAllConvenience(pagination);
+		model.addAttribute("convenienceList", convenienceList);
+		
 		if (auth != null) {
 			MemberVO memberVO = memberService.getMember(auth.getName());
 			model.addAttribute("memberId", auth.getName());
@@ -105,12 +114,10 @@ public class QuestionController {
 	@PostMapping("/register")
 	public String registerPOST(QuestionVO questionVO, RedirectAttributes reAttr) {
 		log.info("registerPOST()");
-		log.info(questionVO.toString());
 
 		int result = questionService.createQuestion(questionVO);
 		log.info(result + "행 등록 ");
 
-		// 저장 후 리스트 페이지로 리다이렉트
 		return "redirect:/question/list";
 	}
 
@@ -133,10 +140,17 @@ public class QuestionController {
 	}
 
 	@GetMapping("/modify")
-	public void modifyGET(Model model, Integer questionId) {
-		log.info("modifyGET() - questionId = " + questionId);
+	public void modifyGET(Model model, @RequestParam(value = "convenienceId", required = false) Integer convenienceId,
+							Pagination pagination, Integer questionId) {
 
-		List<String> foodType = convenienceFoodService.getFoodTypeList();
+		List<String> foodTypeList = (convenienceId != null) 
+	            ? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId) 
+	            : Collections.emptyList();
+	    model.addAttribute("foodTypeList", foodTypeList);
+	    
+	    List<ConvenienceVO> convenienceList = convenienceService.getAllConvenience(pagination);
+	    model.addAttribute("convenienceList", convenienceList);
+	    
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
 		
 		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
@@ -144,18 +158,13 @@ public class QuestionController {
 
 		log.info("modifyGET() - 조회된 questionVO = " + questionVO);
 		model.addAttribute("questionVO", questionVO);
-		model.addAttribute("foodTypeList", foodType);
+		model.addAttribute("foodTypeList", foodTypeList);
 	}
 
 	@PostMapping("/modify")
 	public String modifyPOST(QuestionVO questionVO) {
 		log.info("modifyPOST()");
-		log.info("questionVO = " + questionVO);
 		
-		if (questionVO.getQuestionId() == 0) {
-	        log.error("🚨 questionId가 0입니다! 업데이트를 실행하지 않습니다.");
-	        return "redirect:/question/list"; 
-	    }
 		int result = questionService.modifyQuestion(questionVO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";
@@ -199,5 +208,11 @@ public class QuestionController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("questionList", questionList);
 	}
-
+	
+	@GetMapping("/getFoodTypeList")
+    @ResponseBody
+    public ResponseEntity<List<String>> getFoodTypeList(@RequestParam("convenienceId") int convenienceId) {
+        List<String> foodTypeList = convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId);
+        return ResponseEntity.ok(foodTypeList);
+    }
 }

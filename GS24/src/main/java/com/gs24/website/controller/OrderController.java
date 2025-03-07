@@ -53,6 +53,11 @@ public class OrderController {
 		        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
 		        order.setFoodName(foodName);
 		    }
+		
+		for (OrderVO order : orderList) {
+		    	String foodType = foodListService.getFoodTypeByFoodId(order.getFoodId());
+		    	order.setFoodType(foodType);
+		    }
 		 
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageMaker", pageMaker);
@@ -95,6 +100,11 @@ public class OrderController {
 	    for (OrderVO order : ordersByOwner) {
 	        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
 	        order.setFoodName(foodName);
+	    }
+	    
+	    for (OrderVO order : ordersByOwner) {
+	    	String foodType = foodListService.getFoodTypeByFoodId(order.getFoodId());
+	    	order.setFoodType(foodType);
 	    }
 	    
 	    model.addAttribute("convenienceId",convenienceId);

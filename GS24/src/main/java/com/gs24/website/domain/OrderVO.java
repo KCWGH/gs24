@@ -13,6 +13,7 @@ public class OrderVO {
 	private int orderId;
     private int foodId;
     private String foodName;
+    private String foodType;
     private int orderAmount;
     private Date orderDateCreated;
     private String ownerId;

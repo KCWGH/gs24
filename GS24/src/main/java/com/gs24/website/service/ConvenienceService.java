@@ -3,6 +3,7 @@ package com.gs24.website.service;
 import java.util.List;
 
 import com.gs24.website.domain.ConvenienceVO;
+import com.gs24.website.domain.FoodListVO;
 import com.gs24.website.util.Pagination;
 
 public interface ConvenienceService {
@@ -13,4 +14,6 @@ public interface ConvenienceService {
 	int countAllEnabledConvenience();
 	
 	int getConvenienceIdByOwnerId(String ownerId);
+	
+	List<FoodListVO> getFoodDetailsByOwnerId(String ownerId);
 }

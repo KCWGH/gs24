@@ -33,4 +33,6 @@ public interface FoodListMapper {
 	
 	int getFoodStock(int foodId);
 	
+	String getFoodTypeByFoodId(int fooId);
+	
 }

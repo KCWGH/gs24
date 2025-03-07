@@ -39,4 +39,8 @@ public interface ConvenienceFoodMapper {
 	int updateShowStatus(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 	
 	String selectAddress(int convenienceId);
+	
+	List<ConvenienceFoodVO> selectFoodsByConvenienceId(int convenienceId);
+	
+	List<String> selectFoodTypeListByConvenienceId(int convenienceId);
 }

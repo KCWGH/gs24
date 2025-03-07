@@ -16,4 +16,6 @@ public interface ConvenienceMapper {
 	int countAllEnabledConvenience();
 
 	int selectConvenienceIdByOwnerId(String ownerId);
+	
+	ConvenienceVO selectConvenienceByOwnerId(String ownerId);
 }

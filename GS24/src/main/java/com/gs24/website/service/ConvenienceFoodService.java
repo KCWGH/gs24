@@ -31,4 +31,6 @@ public interface ConvenienceFoodService {
 	
 	String getAddress(int convenienceId);
 	
+	List<String> getFoodTypeListByConvenienceId(int convenienceId);
+	
 }

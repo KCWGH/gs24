@@ -144,5 +144,10 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	public String getAddress(int convenienceId) {
 		return convenienceFoodMapper.selectAddress(convenienceId);
 	}
+	
+	@Override
+	public List<String> getFoodTypeListByConvenienceId(int convenienceId) {
+	    return convenienceFoodMapper.selectFoodTypeListByConvenienceId(convenienceId);
+	}
 
 }

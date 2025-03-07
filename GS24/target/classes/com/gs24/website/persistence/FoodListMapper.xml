@@ -71,6 +71,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE FOOD_ID = #{foodId}
 	</select>
 	
-	
+	<select id="getFoodTypeByFoodId" resultType="String">
+		 SELECT FOOD_TYPE 
+		 FROM FOOD_LIST 
+		 WHERE FOOD_ID = #{foodId} 
+	 </select>
 	
 </mapper>

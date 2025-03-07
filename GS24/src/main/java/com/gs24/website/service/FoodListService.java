@@ -26,4 +26,7 @@ public interface FoodListService {
 	String getFoodNameByFoodId(int foodId);
 	
 	int getFoodStock(int foodId);
+	
+	String getFoodTypeByFoodId(int foodId);
+
 }

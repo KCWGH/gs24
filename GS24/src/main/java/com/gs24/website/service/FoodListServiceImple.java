@@ -125,5 +125,11 @@ public class FoodListServiceImple implements FoodListService {
 	public int getFoodStock(int foodId) {
 		return foodListMapper.getFoodStock(foodId);
 	}
+	
+	@Override
+	public String getFoodTypeByFoodId(int foodId) {
+		return foodListMapper.getFoodTypeByFoodId(foodId);
+	}
+
 
 }
