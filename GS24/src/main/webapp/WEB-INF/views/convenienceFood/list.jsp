@@ -173,49 +173,47 @@ ul {
 }
 
 #search {
-    padding: 20px;
+    padding: 10px;
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
     border-radius: 8px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin-top: 10px;
 }
 
 .search-box {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 20px;
-    margin-bottom: 20px;
+    width: auto;
 }
 
-.price-range {
-    display: flex;
-    gap: 10px;
-}
-
-.price-input {
-    width: 120px;
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    outline: none;
-}
-
-.price-input:focus {
-    border-color: #888;
-}
-
-.search-name {
+.search-name, .price-range {
     flex-grow: 1;
 }
 
+.search-name {
+	margin-top: 5px;
+}
+
 .searchFoodName {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
+	font-family: 'Pretendard-Regular', sans-serif;
+    width: 71%;
+    padding: 5px;
     border: 1px solid #ddd;
-    outline: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.price-input {
+	font-family: 'Pretendard-Regular', sans-serif;
+    width: 41%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
 }
 
 .searchFoodName:focus {
@@ -223,7 +221,8 @@ ul {
 }
 
 .searchButton {
-    padding: 10px 20px;
+    padding: 7px 10px;
+    font-family: 'Pretendard-Regular', sans-serif;
     font-size: 16px;
     background-color: #ddd;
     color: black;
@@ -233,8 +232,24 @@ ul {
     transition: background-color 0.3s;
 }
 
+.initialize {
+    padding: 7px 10px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    font-size: 16px;
+    background-color: #ff6666;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .searchButton:hover {
     background-color: #bbb;
+}
+
+.initialize:hover {
+    background: #ff4d4d;
 }
 
 .sort-options {
@@ -251,14 +266,15 @@ ul {
 }
 
 .sort-options li {
-    cursor: pointer;
-    padding: 8px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+	width: 120px;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 20px;
+	border-radius: 5px;
 }
 
 .sort-options li:hover {
-    background-color: #ffffff;
+    background-color: silver;
 }
 </style>
 </head>
@@ -280,32 +296,32 @@ ul {
     
    <h1>${convenienceId}호점 식품 리스트</h1>
    
-   <div id="search">
+	<!-- 정렬 기준 선택 -->
+    <div class="sort-options">
+        <ul>
+            <li>최근등록순✨</li>
+            <li>낮은가격순🔻</li>
+            <li>높은가격순🔺</li>
+            <li class="detailed-search-link">상세검색🔎</li>
+        </ul>
+    </div>
+    
+    
+    
+    <div id="search" style="display: none;">
     <div class="search-box">
         <!-- 가격 범위 입력 -->
         <div class="price-range">
-   			<input id="bottomPrice" type="text" class="price-input" value="${pageMaker.pagination.bottomPrice }">원 ~
-   			<input id="topPrice" type="text" class="price-input" value="${pageMaker.pagination.topPrice }">원
-   		</div>
+            <input id="bottomPrice" type="text" class="price-input" value="${pageMaker.pagination.bottomPrice }"> 원 ~
+            <input id="topPrice" type="text" class="price-input" value="${pageMaker.pagination.topPrice }"> 원
         </div>
-
-        <!-- 식품 이름 검색 -->
-        <div class="search-name">
-            <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }">
-        </div>
-
-        <!-- 검색 버튼 -->
-        <button class="searchButton">검색</button>
     </div>
 
-    <!-- 정렬 기준 선택 -->
-    <div class="sort-options">
-        <ul>
-            <li>최근등록순</li>
-            <li>낮은가격순</li>
-            <li>높은가격순</li>
-        </ul>
+    <!-- 식품 이름 검색 -->
+    <div class="search-name">
+        <input class="searchFoodName" type="text" placeholder="식품 이름 검색" value="${pageMaker.pagination.keyword }"> <button class="initialize">초기화</button> <button class="searchButton">검색</button>
     </div>
+	</div>
 
    <ul class="food_box">
     <c:forEach var="FoodVO" items="${FoodList}">
@@ -393,7 +409,9 @@ ul {
       <input type="hidden" name="bottomPrice">
       <input type="hidden" name="topPrice">
    </form>
-   
+	<c:if test="${not empty address}">
+    	<span style="color: gray; font-size: 15px">${address}</span>
+    </c:if>   
 	<ul>
     	<c:if test="${pageMaker.isPrev()}">
         	<li class="pagination_button">
@@ -405,7 +423,7 @@ ul {
         	<li class="pagination_button">
             	<c:choose>
                 	<c:when test="${num == pageMaker.pagination.pageNum}">
-                    	<a href="${num}"><span>●</span></a>
+                    	<span>●</span>
                 	</c:when>
                 	<c:otherwise>
                     	<a href="${num}"><span>○</span></a>
@@ -420,9 +438,7 @@ ul {
         	</li>
     	</c:if>
 	</ul>
-		    <c:if test="${not empty address}">
-    	<span style="color: gray; font-size: 15px">${address}</span>
-    </c:if>
+
 </body>
 
 <script type="text/javascript">
@@ -535,7 +551,7 @@ ul {
          listForm.submit(); // form 전송
       }); // end on()
       
-      $(".searchList").on("click", "li", function(e){
+      $(".sort-options").on("click", "li", function(e){
          let optionType = $(this).text();
          console.log("optionType : " + optionType);
          let searchForm = $("#searchForm");
@@ -554,11 +570,11 @@ ul {
             searchForm.find("input[name='keyword']").val("");
             searchForm.submit(); // form 전송
             return;
-         } else if(optionType == "최신등록순"){
+         } else if(optionType == "최근등록순✨"){
             searchForm.find("input[name='sortType']").val("recentRegist");
-         } else if(optionType == "낮은가격순"){
+         } else if(optionType == "낮은가격순🔻"){
             searchForm.find("input[name='sortType']").val("rowPrice");
-         } else if(optionType == "높은가격순"){
+         } else if(optionType == "높은가격순🔺"){
             searchForm.find("input[name='sortType']").val("topPrice");
          }
          
@@ -621,6 +637,32 @@ ul {
     	  console.log(convenienceId);
     	  
     	  location.href="updateShowStatus?foodId=" + foodId + "&convenienceId=" + convenienceId;
+      });
+      
+      $(".detailed-search-link").click(function(event) {
+    	    event.stopPropagation();
+
+    	    $("#search").toggle();
+
+    	    var currentText = $(this).text();
+    	    if (currentText === '상세검색🔎' || currentText === '상세검색📘') {
+    	        $(this).text('상세검색📖');
+    	    } else {
+    	        $(this).text('상세검색📘');
+    	    }
+    	});
+      
+      $(".searchFoodName").keypress(function(e) {
+          if (e.which == 13) {
+              e.preventDefault();
+              $(".searchButton").click();
+          }
+      });
+      
+      $(document).on('click', '.initialize', function(event) {
+          $("#bottomPrice").val('');
+          $("#topPrice").val('');
+          $(".searchFoodName").val('');
       });
    });
 </script>

@@ -9,7 +9,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/css/fonts.css">
-    <title>비활성화 해제 승인</title>
+    <title>계정 재활성화 승인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 body {
@@ -142,7 +142,7 @@ body {
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<h1>비활성화 해제 승인</h1>
+<h1>계정 재활성화 승인</h1>
 <div class="container">
     <div class="left-panel">
     <h2>요청 점주 목록</h2>

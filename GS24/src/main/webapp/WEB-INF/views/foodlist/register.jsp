@@ -37,9 +37,9 @@
 		<input type="text" name="foodName" placeholder="식품명 입력" required="required"><br>
 		<input type="number" name="foodStock" placeholder="재고량 입력"  required="required"><br>
 		<input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required"><br>
-		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
-		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
 		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
+		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
+		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
 		<span style="color:green;">발주 진행</span>
 		<input type="radio" name="isSelling" value="1">
 		<span style="color:red;">발주 중지</span>

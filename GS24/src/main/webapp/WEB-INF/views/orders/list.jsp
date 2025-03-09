@@ -102,7 +102,7 @@
     <table>
         <thead>
             <tr>
-                <th>주문번호</th>
+                <th>발주번호</th>
                 <th>점주 ID</th>
                 <th>식품번호</th>
                 <th>식품종류</th>

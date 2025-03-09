@@ -42,7 +42,7 @@
         }
 
         /* 버튼 스타일 */
-        button, input[type="button"] {
+        button {
         	font-family: 'Pretendard-Regular', sans-serif;
             background: #ddd;
             color: black;
@@ -50,10 +50,22 @@
             border-radius: 5px;
             border: none;
             cursor: pointer;
+            font-size: 18px;
         }
 
         button:hover, input[type="button"]:hover {
             background: #bbb;
+        }
+        
+        #register {
+        	font-family: 'Pretendard-Regular', sans-serif;
+    		background: #ddd;
+    		color: black;
+    		padding: 5px 10px;
+    		border-radius: 5px;
+    		border: none;
+    		cursor: pointer;
+    		white-space: nowrap;
         }
 
         /* 페이징 스타일 */
@@ -84,6 +96,24 @@
             display: flex;
             justify-content: center;
         }
+        
+        input[type="text"] {
+			font-family: 'Pretendard-Regular', sans-serif;
+    		width: 10%;
+    		padding: 5px;
+    		border: 1px solid #ddd;
+    		border-radius: 5px;
+    		text-align: center;
+    		font-size: 18px;
+		}
+		
+		select {
+			font-family: 'Pretendard-Regular', sans-serif;
+    		padding: 4px;
+    		border: 1px solid #ddd;
+    		border-radius: 5px;
+    		font-size: 18px;
+		}
     </style>
 </head>
 <body>
@@ -95,7 +125,7 @@
     <!-- 공지사항 목록 -->
     <table>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <a href="register"><input type="button" value="글 작성"></a>
+            <a href="register"><input id="register" type="button" value="글 작성"></a>
         </sec:authorize>
         <thead>
             <tr>

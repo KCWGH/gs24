@@ -143,13 +143,19 @@
 	</select>
 
 	<update id="useGiftCard">
-		UPDATE GIFTCARD
-			SET BALANCE = CASE 
-                WHEN BALANCE >= #{refundVal} THEN BALANCE - #{refundVal}
-                ELSE 0
-              END
-			WHERE GIFTCARD_ID = #{giftCardId}
+    	UPDATE GIFTCARD
+    	SET 
+        	BALANCE = CASE 
+            	WHEN BALANCE >= #{refundVal} THEN BALANCE - #{refundVal}
+            	ELSE 0
+        	END,
+        	IS_USED = CASE
+            	WHEN IS_USED = 0 THEN 1
+            	ELSE IS_USED
+        	END
+    	WHERE GIFTCARD_ID = #{giftCardId}
 	</update>
+
 	
 	<update id="refundGiftCard">
 		UPDATE GIFTCARD
