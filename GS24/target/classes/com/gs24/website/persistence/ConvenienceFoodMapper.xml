@@ -118,6 +118,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMBNAIL ON IMG_THUMBNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		WHERE CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
+		<if test="keyword != ''">AND FOOD_NAME LIKE '%'||#{keyword}||'%'</if>
+				<if test="bottomPrice != ''">AND (FOOD_PRICE BETWEEN #{bottomPrice} AND
+					<choose>
+						<when test="topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{topPrice})</otherwise>
+					</choose>
+				</if>
+				<if test="bottomPrice == ''">AND (FOOD_PRICE BETWEEN 0 AND
+					<choose>
+						<when test="topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{topPrice})</otherwise>
+					</choose>
+				</if>
 	</select>
 	
 	<select id="selectDetailConvenienceFoodByFoodId" resultMap="ConvenienceDetailFoodResultMap">

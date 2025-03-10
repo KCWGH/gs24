@@ -68,7 +68,7 @@ public class ConvenienceFoodController {
 		}
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId));
+		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId, pagination));
 
 		model.addAttribute("address", address);
 		model.addAttribute("pageMaker", pageMaker);

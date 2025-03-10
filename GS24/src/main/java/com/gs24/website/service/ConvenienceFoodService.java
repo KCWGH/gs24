@@ -15,7 +15,7 @@ public interface ConvenienceFoodService {
 
 	List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination);
 	
-	int getTotalCountByConvenienceId(int convenienceId);
+	int getTotalCountByConvenienceId(int convenienceId, Pagination pagination);
 	
 	int countReviewsByFoodId(int foodId);
 
