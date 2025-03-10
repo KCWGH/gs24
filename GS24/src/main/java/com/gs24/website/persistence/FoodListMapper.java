@@ -35,4 +35,5 @@ public interface FoodListMapper {
 	
 	String getFoodTypeByFoodId(int fooId);
 	
+	void restoreFoodStock(@Param("foodId") int foodId, @Param("amount") int amount);
 }

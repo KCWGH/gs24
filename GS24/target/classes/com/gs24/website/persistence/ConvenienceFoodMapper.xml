@@ -181,4 +181,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CONVENIENCE_FOOD SET SHOW_STATUS = CASE  WHEN SHOW_STATUS = 1 THEN 0 WHEN SHOW_STATUS = 0 THEN 1 END
 		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</update>
+	
+	<select id="selectFoodTypeListByConvenienceId" resultType="java.lang.String">
+		 SELECT DISTINCT food_type 
+		 FROM food_list fl JOIN convenience_food cf ON fl.food_id = cf.food_id 
+		 WHERE cf.convenience_id = #{convenienceId} 
+	</select>
 </mapper>

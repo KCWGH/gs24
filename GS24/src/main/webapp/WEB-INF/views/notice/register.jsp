@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,22 +113,17 @@
                 <input type="hidden" name="noticeType" id="noticeType" value="0">
             </div>
 
-            <!-- 제목 입력 -->
             <p>제목</p>
-            <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="300" required>
+            <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="20" required>
 
-            <!-- 작성자 입력 -->
             <p>작성자</p>
-            <input type="text" name="memberId" value="관리자" maxlength="10" readonly required>
+            <input type="text" name="memberId" value="관리자" readonly required>
 
-            <!-- 내용 입력 -->
             <p>내용</p>
             <textarea name="noticeContent" placeholder="내용 입력" maxlength="300" required></textarea>
 
-            <!-- 제출 버튼 -->
             <input type="submit" value="등록">
 
-            <!-- CSRF 토큰 -->
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         </form>
     </div>

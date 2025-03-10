@@ -34,7 +34,6 @@ public class QuestionServiceImple implements QuestionService {
 	@Override
 	public int createQuestion(QuestionVO questionVO) {
 		log.info("createQuestion()");
-		log.info("questionVO = " + questionVO);
 		int insertQuestionResult = questionMapper.insertQuestion(questionVO);
 		log.info(insertQuestionResult + "행 게시글 등록");
 
@@ -68,7 +67,6 @@ public class QuestionServiceImple implements QuestionService {
 
 		List<QuestionAttach> list = questionAttachMapper.selectByQuestionId(questionId);
 		questionVO.setQuestionAttachList(list);
-		log.info(questionVO);
 
 		return questionVO;
 	} // end getQuestionById()
@@ -77,7 +75,6 @@ public class QuestionServiceImple implements QuestionService {
 	@Override
 	public int modifyQuestion(QuestionVO questionVO) {
 		log.info("updateQuestion()");
-		log.info("QuestionVO 내용: " + questionVO);
 
 		try {
 			// 1. 기존 질문 내용 업데이트
@@ -117,7 +114,6 @@ public class QuestionServiceImple implements QuestionService {
 	@Override
 	public int deleteQuestion(int questionId) {
 		log.info("getNoticeById()");
-		log.info("questionId" + questionId);
 		int deleteQuestionResult = questionMapper.deleteQuestion(questionId);
 		log.info(deleteQuestionResult + "행 게시글 정보 삭제");
 		int deleteQuestionAttachResult = questionAttachMapper.deleteQuestionAttach(questionId);

@@ -1,4 +1,4 @@
-package com.gs24.website.util;
+package com.gs24.website.task;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -31,7 +31,7 @@ public class QuestionAttachCheckTask {
 //	}
 
 	// 현재 날짜에서 1일 전 파일 정보에 저장되지 않은 파일 목록을 삭제하는 메서드
-	@Scheduled(cron = "0 0 3 * * *") // 매일 03:00 마다 실행 
+	@Scheduled(cron = "0 0 15 * * *") // 매일 15:00 마다 실행 
 	public void deleteAttachs() {
 		log.warn("========================");
 		log.warn("Delete QuestionAttach Task Run");

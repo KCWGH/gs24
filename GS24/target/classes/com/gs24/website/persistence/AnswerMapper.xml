@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.gs24.website.persistence.AnswerMapper">
-   
+<mapper namespace="com.gs24.website.persistence.AnswerMapper">  
    <resultMap type="com.gs24.website.domain.AnswerVO" id="answerResultMap">
       <id property="answerId" column="ANSWER_ID" /> 
       <result property="questionId" column="QUESTION_ID" /> 
@@ -33,5 +31,4 @@
       WHERE ANSWER_ID = #{answerId}
    </delete>
    
-    
 </mapper>

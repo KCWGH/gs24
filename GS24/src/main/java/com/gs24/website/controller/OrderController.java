@@ -67,18 +67,13 @@ public class OrderController {
 	@PostMapping("/approve")
 	@ResponseBody
 	public String approveOrder(@RequestParam("orderId") int orderId) {
-		log.info("approveOrder - 발주 승인: " + orderId);
-
 		orderService.approveOrder(orderId);
-
 		return "success";
 	}
 
 	@PostMapping("/reject")
 	@ResponseBody
 	public String rejectOrder(@RequestParam int orderId) {
-		log.info("rejectOrder - 발주 거절: " + orderId);
-
 		orderService.rejectOrder(orderId);
 		return "success";
 	}

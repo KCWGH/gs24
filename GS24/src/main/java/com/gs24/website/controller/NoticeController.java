@@ -34,7 +34,6 @@ public class NoticeController {
 	@GetMapping("/list")
 	public void list(Authentication auth, Model model, Pagination pagination) {
 		log.info("list()");
-		log.info("pagination" + pagination);
 		pagination.setPageSize(10);
 		List<NoticeVO> noticeList = noticeService.getPagedNotices(pagination);
 
@@ -50,7 +49,6 @@ public class NoticeController {
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(noticeService.getTotalCount(pagination));
 
-		log.info(pageMaker);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("noticeList", noticeList);
 
@@ -64,7 +62,6 @@ public class NoticeController {
 	@PostMapping("/register")
 	public String registerPOST(NoticeVO noticeVO) {
 		log.info("registerPOST()");
-		log.info("noticeVO = " + noticeVO.toString());
 		int result = noticeService.createNotice(noticeVO);
 		log.info(result + "건 등록");
 		return "redirect:/notice/list";

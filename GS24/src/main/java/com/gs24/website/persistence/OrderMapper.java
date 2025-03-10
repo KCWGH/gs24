@@ -9,6 +9,7 @@ import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface OrderMapper {
+	
 	void insertOrder(OrderVO order);
 
 	List<OrderVO> selectAllPagedOrders(Pagination pagination);

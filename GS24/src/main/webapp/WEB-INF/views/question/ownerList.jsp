@@ -117,8 +117,8 @@ ul {
         <c:forEach var="QuestionVO" items="${questionList}">
             <tr>
                 <td>${QuestionVO.questionId}</td>
+                
                 <td>${QuestionVO.foodType}</td>
-
                 
                 <td><a href="detail?questionId=${QuestionVO.questionId}">
                     ${QuestionVO.questionTitle}</a></td>
@@ -138,12 +138,12 @@ ul {
         </c:forEach>
     </tbody>
 </table>
+
 	<form id="listForm" action="ownerList" method="get">
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
     </form>
 
-    <!-- 페이징 처리 -->
     <ul>
         <c:if test="${pageMaker.isPrev()}">
             <li class="pagination_button"><a href="${pageMaker.startNum - 1}">이전</a></li>
@@ -159,6 +159,7 @@ ul {
     </ul>
 
 </body>
+
 <script type="text/javascript">
 $(".pagination_button a").on("click", function(e) {
     var listForm = $("#listForm");

@@ -40,7 +40,7 @@
     </select>
     
   	<select id="selectPagedOrdersByOwnerId" resultMap="orderResultMap">
-    SELECT * FROM
+    	SELECT * FROM
 		(
 		SELECT ROW_NUMBER() OVER (ORDER BY ORDER_ID DESC) AS RN, ORDERS.*
 		FROM ORDERS WHERE OWNER_ID = #{ownerId}
@@ -59,4 +59,5 @@
         SET APPROVAL_STATUS = #{approvalStatus}
         WHERE ORDER_ID = #{orderId}
     </update>
+    
 </mapper>

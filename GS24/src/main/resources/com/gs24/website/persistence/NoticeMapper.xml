@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- Mapper XML 설정 태그 -->
 
-<!-- namespace : 연결할 Mapper 인터페이스 경로 및 이름 -->
 <mapper namespace="com.gs24.website.persistence.NoticeMapper">
-	<!-- <resultMap> : DB 쿼리 반환 데이터와 Entity(VO) 클래스의 멤버 변수 매핑을 정의하는 태그 -->
-	<resultMap type="com.gs24.website.domain.NoticeVO"
-		id="noticeResultMap">
-		<!-- <id> : key 칼럼 매핑 태그 <result> : 일반 칼럼 매핑 태그 - 속성 : -->
+
+	<resultMap type="com.gs24.website.domain.NoticeVO" id="noticeResultMap">
 		<id property="noticeId" column="NOTICE_ID" />
 		<result property="memberId" column="MEMBER_ID" />
 		<result property="noticeTitle" column="NOTICE_TITLE" />
 		<result property="noticeContent" column="NOTICE_CONTENT" />
-		<result property="noticeDateCreated"
-			column="NOTICE_DATE_CREATED" />
+		<result property="noticeDateCreated" column="NOTICE_DATE_CREATED" />
 		<result property="noticeType" column="NOTICE_TYPE" />
 	</resultMap>
 

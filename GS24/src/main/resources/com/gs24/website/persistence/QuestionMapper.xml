@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.gs24.website.persistence.QuestionMapper">
-
 <resultMap type="com.gs24.website.domain.QuestionVO"
 		id="questionResultMap">
-		<!-- <id> : key 칼럼 매핑 태그 <result> : 일반 칼럼 매핑 태그 - 속성 : -->
 		<id property="questionId" column="QUESTION_ID" />
 		<result property="memberId" column="MEMBER_ID" />
 		<result property="ownerId" column="OWNER_ID" />
@@ -23,6 +20,7 @@
 		 VALUES (QUESTION_SEQ.NEXTVAL, #{memberId}, #{foodType}, #{ownerId}, #{questionTitle},
 		 #{questionContent}, #{questionSecret}, 0, SYSDATE)
 	</insert>
+	
 	<select id="selectQuestionList" resultMap="questionResultMap">
 		SELECT * FROM QUESTION ORDER BY QUESTION_ID DESC
 	</select>
@@ -95,7 +93,7 @@
 	</update>
 	
 	<select id="selectQuestionListByMemberId" resultMap="questionResultMap">
-    SELECT * FROM QUESTION WHERE MEMBER_ID = #{memberId}
+    	SELECT * FROM QUESTION WHERE MEMBER_ID = #{memberId}
 	</select>
 	
 	<update id="deleteIsAnswered" parameterType="int">

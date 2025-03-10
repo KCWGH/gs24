@@ -8,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <!-- css 파일 불러오기 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/questionAttach.css">
-    <!-- jquery 라이브러리 import -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <meta charset="UTF-8">
     <title>${questionVO.questionTitle }</title>
@@ -231,16 +229,17 @@
         <p>식품 : ${questionVO.foodType }</p>
         <p>작성자 : ${questionVO.memberId }</p>
         
-        <!-- questionDateCreated 데이터 포멧 변경 -->
         <fmt:formatDate value="${questionVO.questionDateCreated }" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated"/>
         <p>작성일 : ${questionDateCreated }</p>
  
         <textarea class="question-content" readonly>${questionVO.questionContent }</textarea>
 	        
 		<div class="button-container">
+		
 		<sec:authorize access="hasRole('ROLE_MEMBER')">
 	    <button onclick="location.href='list'">글 목록</button>
 		</sec:authorize>
+		
 		<sec:authorize access="hasRole('ROLE_OWNER')">
 		<button onclick="location.href='ownerList'">글 목록</button>
 		</sec:authorize>
@@ -254,7 +253,6 @@
 	    </sec:authorize>
 	    </div>
 
-
     <form id="modifyForm" action="modify" method="GET">
         <input type="hidden" name="questionId">    
     </form>
@@ -266,7 +264,6 @@
 
     <input type="hidden" id="questionId" value="${questionVO.questionId }">
 
-    <!-- 첨부 파일 영역 -->
     <div class="questionAttach-upload">
         <div class="questionAttach-view">
             <h3>첨부 파일 리스트</h3>
@@ -316,29 +313,27 @@
         });
 
         $("#modifyQuestion").click(function(){
-            var modifyForm = $("#modifyForm"); // form 객체 참조
+            var modifyForm = $("#modifyForm");
 
             var questionId = "<c:out value='${questionVO.questionId}' />";
 
-            // 게시글 번호를 input name='questionId' 값으로 적용
             modifyForm.find("input[name='questionId']").val(questionId);                
 
-            modifyForm.submit(); // form 전송
+            modifyForm.submit();
         }); // end click()
 
         $('#deleteQuestion').click(function() {
-            // deleteForm 제출
+
             $('#deleteForm').submit();
         });
 
         $(document).ready(function() {
-            getAllAnswer(); // 함수 호출        
+            getAllAnswer();     
 
-            // 댓글 작성 기능
             $('#btnAdd').click(function() {
-                var questionId = $('#questionId').val(); // 게시판 번호 데이터
-                var memberId = $('#memberId').val(); // 작성자 데이터
-                var answerContent = $('#answerContent').val(); // 댓글 내용
+                var questionId = $('#questionId').val(); 
+                var memberId = $('#memberId').val();
+                var answerContent = $('#answerContent').val(); 
                 var isAnswered = ${questionVO.isAnswered};
                 
                 if (isAnswered === 1) {
@@ -350,8 +345,7 @@
                     alert('내용을 입력해 주세요.');
                     return;
                 }
-                
-                // javascript 객체 생성
+
                 var obj = {
                     'questionId' : questionId,
                     'memberId' : memberId,

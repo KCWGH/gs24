@@ -9,17 +9,17 @@ import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface QuestionMapper {
-	int insertQuestion(QuestionVO questionVO); // 게시글 등록
+	int insertQuestion(QuestionVO questionVO); 
 
-	List<QuestionVO> selectQuestionList(); // 전체 게시글 조회
+	List<QuestionVO> selectQuestionList(); 
 
-	QuestionVO selectQuestionOne(int noticeId); // 특정 게시글 조회
+	QuestionVO selectQuestionOne(int noticeId); 
 
-	int updateQuestion(QuestionVO questionVO); // 특정 게시글 수정
+	int updateQuestion(QuestionVO questionVO); 
 
-	int deleteQuestion(int noticeId); // 특정 게시글 삭제
+	int deleteQuestion(int noticeId); 
 
-	List<QuestionVO> selectQuestionListByPagination(Pagination pagination); // 전체 게시글 페이징 처리
+	List<QuestionVO> selectQuestionListByPagination(Pagination pagination); 
 
 	List<QuestionVO> selectPagedQuestionListByOwnerId(Pagination pagination);
 
@@ -27,10 +27,10 @@ public interface QuestionMapper {
 
 	int countTotalQuestionByOwnerId(String ownerId);
 
-	int updateIsAnswered(int questionId); // 답변 상태 1으로 변경
+	int updateIsAnswered(int questionId); 
 
-	int deleteIsAnswered(int questionId); // 답변 상태 0으로 변경
-
+	int deleteIsAnswered(int questionId); 
+	
 	List<QuestionVO> selectQuestionListByMemberId(String memberId);
 
 	List<QuestionVO> selectQuestionListByPaginationBymemberId(Pagination pagination);

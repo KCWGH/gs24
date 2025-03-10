@@ -77,4 +77,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE FOOD_ID = #{foodId} 
 	 </select>
 	
+	<update id="restoreFoodStock">
+	    UPDATE FOOD_LIST
+	    SET FOOD_STOCK = FOOD_STOCK + #{amount}
+	    WHERE FOOD_ID = #{foodId}
+	</update>
+	
 </mapper>

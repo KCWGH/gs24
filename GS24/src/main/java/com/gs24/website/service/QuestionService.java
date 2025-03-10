@@ -6,23 +6,23 @@ import com.gs24.website.domain.QuestionVO;
 import com.gs24.website.util.Pagination;
 
 public interface QuestionService {
-	int createQuestion(QuestionVO questionVO); // 게시글 등록
+	int createQuestion(QuestionVO questionVO);
 
-	List<QuestionVO> getAllQuestion(); // 전체 게시글 조회
+	List<QuestionVO> getAllQuestion();
 
-	QuestionVO getQuestionById(int questionId); // 특정 게시글 조회
+	QuestionVO getQuestionById(int questionId);
 
-	int modifyQuestion(QuestionVO questionVO); // 특정 게시글 수정
+	int modifyQuestion(QuestionVO questionVO);
 
-	int deleteQuestion(int questionId); // 특정 게시글 삭제
+	int deleteQuestion(int questionId);
 
-	List<QuestionVO> getPagedQuestions(Pagination pagination); // 전체 게시글 페이징 처리
+	List<QuestionVO> getPagedQuestions(Pagination pagination);
 
 	int getTotalCount();
 	
 	int getTotalCountByOwnerId(String ownerId);
 
-	List<QuestionVO> getQuestionListByMemberId(String memberId); // 개인이 작성한 게시글
+	List<QuestionVO> getQuestionListByMemberId(String memberId);
 
 	List<QuestionVO> getPagedQuestionsByMemberId(String memberId, Pagination pagination);
 

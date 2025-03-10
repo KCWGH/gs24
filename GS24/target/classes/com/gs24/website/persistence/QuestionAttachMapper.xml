@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gs24.website.persistence.QuestionAttachMapper">
-
-	<resultMap type="com.gs24.website.domain.QuestionAttach"
-		id="questionAttachResultMap">
-		
+	<resultMap type="com.gs24.website.domain.QuestionAttach" id="questionAttachResultMap">
 		<id property="questionAttachId" column="QUESTION_ATTACH_ID" /> 
 		<result property="questionId" column="QUESTION_ID" />
 		<result property="questionAttachPath" column="QUESTION_ATTACH_PATH" />
@@ -50,7 +44,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE QUESTION_ATTACH_PATH = TO_CHAR(SYSDATE -1, 'yyyy\MM\dd')
 	</select>
 	
-
 </mapper>
 
 

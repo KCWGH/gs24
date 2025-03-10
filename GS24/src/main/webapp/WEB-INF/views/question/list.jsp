@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- jQuery 라이브러리 로드 -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style type="text/css">
@@ -107,7 +107,6 @@ ul {
 <h1>Q&amp;A 게시판</h1>
 <h2>고객의 궁금증을 빠르게 해결해 드립니다.</h2>
 
-<!-- QnA 목록 -->
 <table>
     <thead>
     <sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -122,6 +121,7 @@ ul {
             <th style="width: 100px">상태</th>
         </tr>
     </thead>
+    
     <tbody>
         <c:forEach var="QuestionVO" items="${questionList}">
             <tr>
@@ -155,6 +155,7 @@ ul {
                             ${QuestionVO.questionTitle} 
                         </a>
                     </sec:authorize>
+                    
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <a href="detail?questionId=${QuestionVO.questionId}">
                             ${QuestionVO.questionTitle} 
@@ -165,6 +166,7 @@ ul {
                         ${QuestionVO.questionTitle}  
                     </sec:authorize>
                 </td>
+                
                 <td>${QuestionVO.memberId}</td>
                 <fmt:formatDate value="${QuestionVO.questionDateCreated}" pattern="yyyy-MM-dd HH:mm" var="questionDateCreated" />
                 <td>${questionDateCreated}</td>
@@ -181,7 +183,6 @@ ul {
     </tbody>
 </table>
 
-<!-- 페이징 처리 -->
 <ul>
     <c:if test="${pageMaker.isPrev()}">
         <li class="pagination_button"><a href="list?pageNum=${pageMaker.startNum - 1}">이전</a></li>

@@ -50,21 +50,18 @@ public class QuestionController {
 	@Autowired
 	private OwnerService ownerService;
 
-	// 전체 게시글 데이터를 list.jsp 페이지로 전송
 	@GetMapping("/list")
 	public void list(Authentication auth, Model model, Pagination pagination) {
 		log.info("list()");
-		log.info("pagination = " + pagination);
+		
 		if (auth != null) {
 			String username = auth.getName();
 			model.addAttribute("userId", username);
 
-			// 1. memberId 확인
 			MemberVO memberVO = memberService.getMember(username);
 			if (memberVO != null) {
 				model.addAttribute("memberVO", memberVO);
 			}
-			// 2. ownerId 확인
 			else {
 				OwnerVO ownerVO = ownerService.getOwner(username);
 				if (ownerVO != null) {
@@ -75,14 +72,11 @@ public class QuestionController {
 
 		pagination.setPageSize(10);
 		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
-		log.info("QuestionVOList = " + questionList);
 
-		// 페이징 처리
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(questionService.getTotalCount());
 
-		// 모델에 데이터 추가
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("questionList", questionList);
 	}
@@ -114,10 +108,8 @@ public class QuestionController {
 	@PostMapping("/register")
 	public String registerPOST(QuestionVO questionVO, RedirectAttributes reAttr) {
 		log.info("registerPOST()");
-
 		int result = questionService.createQuestion(questionVO);
 		log.info(result + "행 등록 ");
-
 		return "redirect:/question/list";
 	}
 
@@ -133,7 +125,6 @@ public class QuestionController {
 			}
 		}
 
-		// 게시글 정보 조회
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("questionAttachList", questionVO.getQuestionAttachList());
@@ -154,17 +145,15 @@ public class QuestionController {
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
 		
 		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
+		
 		model.addAttribute("ownerVOList", ownerVOList);
-
-		log.info("modifyGET() - 조회된 questionVO = " + questionVO);
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("foodTypeList", foodTypeList);
 	}
 
 	@PostMapping("/modify")
 	public String modifyPOST(QuestionVO questionVO) {
-		log.info("modifyPOST()");
-		
+		log.info("modifyPOST()");	
 		int result = questionService.modifyQuestion(questionVO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";
@@ -181,14 +170,12 @@ public class QuestionController {
 	@GetMapping("/myList")
 	public void myListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("myListGET()");
-		String username = auth.getName(); // 로그인한 사용자의 아이디
+		String username = auth.getName(); 
 
-		// 로그인한 사용자의 ID를 기준으로 질문 목록을 가져오기
 		List<QuestionVO> myQuestionList = questionService.getQuestionListByMemberId(username);
-		log.info(myQuestionList);
 
-		model.addAttribute("myQuestionList", myQuestionList); // 사용자가 작성한 질문 목록
-		model.addAttribute("username", username); // 로그인한 사용자 정보를 모델에 추가
+		model.addAttribute("myQuestionList", myQuestionList); 
+		model.addAttribute("username", username); 
 
 	}
 
@@ -196,11 +183,14 @@ public class QuestionController {
 	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
 		pagination.setPageSize(10);
+		
 		String ownerId = auth.getName();
 		pagination.setOwnerVO(ownerService.getOwner(ownerId));
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(questionService.getTotalCountByOwnerId(ownerId));
+		
 		int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
 		List<QuestionVO> questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination);
 

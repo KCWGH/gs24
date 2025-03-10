@@ -19,9 +19,9 @@ public class NoticeServiceImple implements NoticeService {
 	private NoticeMapper noticeMapper;
 
 	@Override
-	public int createNotice(NoticeVO vo) {
+	public int createNotice(NoticeVO noticeVO) {
 		log.info("createNotice()");
-		return noticeMapper.insertNotice(vo);
+		return noticeMapper.insertNotice(noticeVO);
 	}
 
 	@Override

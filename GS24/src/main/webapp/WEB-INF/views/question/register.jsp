@@ -129,13 +129,14 @@
     <h2>글 작성 페이지</h2>
     
     <div class="form-container">
+    
     <form id="registerForm" action="register" method="POST">
 
-            <!-- 비밀글 체크박스 -->
-            <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
             <label for="secret" class="form-check-label">비밀글 설정</label>
+            <input class="form-check-input" type="checkbox" name="questionSecret" id="secret">
 			<br>
-			<br>	    
+			<br>
+				    
 			<label for="ownerId">매장 선택</label>	    
 			<select id="convenienceSelect" name="ownerId" onchange="updateFoodTypeList()">
 			    <option value="" selected disabled>선택하세요</option>   			
@@ -157,8 +158,7 @@
 
             <p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></strong></p>
 
-            <p><strong>작성자 : <input type="text" name="memberId" value="${memberId}" maxlength="10" readonly></strong></p>   
-
+            <p><strong>작성자 : <input type="text" name="memberId" value="${memberId}" readonly></strong></p>   
 
             <p><strong>내용 : </strong></p>
             <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" ></textarea>
@@ -177,12 +177,12 @@
 	
 	<div class="questionAttachFile-list"></div>
 	
-	
     <div class="button-container">
 		<button id="registerQuestion">등록</button>
 	</div>
 		
 	</div>
+	
         <script	src="${pageContext.request.contextPath }/resources/js/questionAttach.js"></script>
         
         <script type="text/javascript">
@@ -199,8 +199,7 @@
 		        var convenienceId = selectedOption.getAttribute("data-convenience-id");
 
 		        console.log("선택된 convenienceId: " + convenienceId);
-
-		        
+	        
 		        if (!convenienceId) {
 		            return;
 		        }
@@ -209,7 +208,7 @@
 		            .then(response => response.json())
 		            .then(data => {
 		                var foodTypeSelect = document.getElementById("foodTypeSelect");
-		                foodTypeSelect.innerHTML = ""; // 기존 옵션 제거
+		                foodTypeSelect.innerHTML = ""; 
 
 		                var defaultOption = document.createElement("option");
 		                defaultOption.value = "";
@@ -229,9 +228,9 @@
 			
 		$(document).ready(function() {
 			let questionAttach;
-			// regsiterForm 데이터 전송
+
 			$('#registerQuestion').click(function() {
-				event.preventDefault();  //  기본 제출 동작 방지
+				event.preventDefault(); 
 
 		        var title = $('input[name="questionTitle"]').val();
 		        var content = $('textarea[name="questionContent"]').val();
@@ -255,37 +254,30 @@
 		        	return;
 		        }
 	            
-				// form 객체 참조
 				var registerForm = $('#registerForm');
 				var i = 0;
 							
-				// questionAttachFile-list의 각 input 태그 접근
 				$('.questionAttachFile-list input[name="questionAttach"]').each(function(){
 					console.log(this);
-					// JSON questionAttach 데이터를 object 변경
+
 					questionAttach = JSON.parse($(this).val());
 					
-					// attachPath input 생성
 					var inputPath = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachPath');
 					inputPath.val(questionAttach.questionAttachPath);
 					
-					// attachRealName input 생성
 					var inputRealName = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachRealName');
 					inputRealName.val(questionAttach.questionAttachRealName);
 					
-					// attachChgName input 생성
 					var inputChgName = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachChgName');
 					inputChgName.val(questionAttach.questionAttachChgName);
 					
-					// attachExtension input 생성
 					var inputExtension = $('<input>').attr('type', 'hidden')
 							.attr('name', 'questionAttachList[' + i + '].questionAttachExtension');
 					inputExtension.val(questionAttach.questionAttachExtension);
 					
-					// form에 태그 추가
 					registerForm.append(inputPath);
 					registerForm.append(inputRealName);
 					registerForm.append(inputChgName);
@@ -297,8 +289,7 @@
 			});
 
 		});
-		
-		
+				
 	</script>
 </body>
 </html>

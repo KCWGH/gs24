@@ -126,12 +126,12 @@
 	<h2>게시글 수정</h2>
 	
 	<div class="form-container">
+	
 	<form id="modifyForm" action="modify" method="POST">
+	
 			<p hidden="hidden"><strong>글 번호 :</strong> ${questionVO.questionId }</p>
 			<input type="hidden" name="questionId" value="${questionVO.questionId}">
-			 
-			<p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionVO.questionTitle }" required></strong></p>	
-				       
+			 				       
 		    <label for="ownerId">매장 선택</label>	    
 			<select id="convenienceSelect" name="ownerId" onchange="updateFoodTypeList()">
 			    <option value="" selected disabled>선택하세요</option>   			
@@ -145,13 +145,13 @@
 			        </c:forEach>
 			    </c:forEach>
 			</select>     	       
-				       
-           
+				                
 			<label for="foodType">식품 종류</label>
 			<select id="foodTypeSelect" name="foodType" required>
 			    <option value="" selected disabled>선택하세요</option>
 			</select>    
 
+			<p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" value="${questionVO.questionTitle }" required></strong></p>	
                                     
 			<p><strong>작성자 : ${questionVO.memberId}</strong></p>	
 			<input type="hidden" name="memberId" value="${questionVO.memberId}">
@@ -239,7 +239,7 @@
             .then(response => response.json())
             .then(data => {
                 var foodTypeSelect = document.getElementById("foodTypeSelect");
-                foodTypeSelect.innerHTML = ""; // 기존 옵션 제거
+                foodTypeSelect.innerHTML = "";
 
                 var defaultOption = document.createElement("option");
                 defaultOption.value = "";
@@ -259,23 +259,22 @@
 	
 	$(document).ready(function(){
     	var questionAttach;
-	    // 파일 변경 버튼 클릭 시
+    	
 	    $('#change-upload').click(function(){
 	    	if(!confirm('기존에 업로드 파일들은 삭제됩니다. 계속 하시겠습니까?')){
 	    		return;
 	    	}
 	        $('.questionAttach-modify').show();
 	        $('.questionAttach-view').hide();
-	        $('.input-questionAttach-list').remove(); // input-questionAttach-list 삭제
+	        $('.input-questionAttach-list').remove(); 
 	    });
 	
-	 // modifyForm 데이터 전송
 	    $('#modifyQuestion').click(function() {
 
 	        event.preventDefault();
 	        
 	        var title = $('input[name="questionTitle"]').val();
-	        var content = $('textarea[name="questionContent"]').val();  // textarea의 name 속성 사용
+	        var content = $('textarea[name="questionContent"]').val(); 
 	        var foodType = $('select[name="foodType"]').val();
 
 	        if (title.trim() === '') {
@@ -291,10 +290,8 @@
 	            return;
 	        }
 	        
-	        // form 객체 참조
 	        var modifyForm = $('#modifyForm');
 	        
-	        // questionAttachFile-list의 각 input 태그 접근
 	        var i = 0;
 
 	        $('.questionAttachFile-list input[name="questionAttach"]').each(function() {
