@@ -16,9 +16,9 @@ public interface ConvenienceFoodMapper {
 
 	List<ConvenienceFoodVO> selectAllConvenienceFood();
 
-	List<ConvenienceFoodVO> selectPagedConvenienceFoodByConvenienceId(Pagination pagination);
+	List<ConvenienceFoodVO> selectPagedConvenienceFoodByConvenienceId(@Param("pagination") Pagination pagination,@Param("isOwner") int isOwner);
 	
-	int countTotalFoodsByConvenienceId(@Param("convenienceId") int convenienceId, @Param("keyword") String keyword,@Param("bottomPrice") String bottomPrice,@Param("topPrice") String topPrice);
+	int countTotalFoodsByConvenienceId(@Param("pagination") Pagination pagination, @Param("isOwner") int isOwner);
 
 	ConvenienceFoodVO selectConvenienceFoodByFoodIdAndConvenienceId(@Param("foodId") int foodId,
 			@Param("convenienceId") int convenienceId);

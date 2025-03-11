@@ -3,6 +3,8 @@ package com.gs24.website.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,14 +74,19 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination) {
+	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination, Authentication auth) {
 		if(pagination.getKeyword() == null)
 			pagination.setKeyword("");
 		if(pagination.getBottomPrice() == null)
 			pagination.setBottomPrice("");
 		if(pagination.getTopPrice() == null)
 			pagination.setTopPrice("");
-		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination);
+		pagination.setConvenienceId(convenienceId);
+		int isOwner = 0;
+		if(auth != null)
+			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
+				isOwner = 1;
+		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination, isOwner);
 
 		return list;
 	}
@@ -138,8 +145,13 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public int getTotalCountByConvenienceId(int convenienceId, Pagination pagination) {
-		return convenienceFoodMapper.countTotalFoodsByConvenienceId(convenienceId, pagination.getKeyword(), pagination.getBottomPrice(), pagination.getTopPrice());
+	public int getTotalCountByConvenienceId(int convenienceId, Pagination pagination, Authentication auth) {
+		pagination.setConvenienceId(convenienceId);
+		int isOwner = 0;
+		if(auth != null)
+			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
+				isOwner = 1;
+		return convenienceFoodMapper.countTotalFoodsByConvenienceId(pagination,isOwner);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class ConvenienceFoodController {
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, Integer convenienceId, Pagination pagination) {
 		log.info("listGET()");
-		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId, pagination);
+		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId, pagination, auth);
 		String address = convenienceFoodService.getAddress(convenienceId);
 		if (auth != null) {
 			String username = auth.getName();
@@ -68,7 +68,7 @@ public class ConvenienceFoodController {
 		}
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId, pagination));
+		pageMaker.setTotalCount(convenienceFoodService.getTotalCountByConvenienceId(convenienceId, pagination, auth));
 
 		model.addAttribute("address", address);
 		model.addAttribute("pageMaker", pageMaker);

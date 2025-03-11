@@ -2,6 +2,8 @@ package com.gs24.website.service;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ReviewVO;
@@ -13,9 +15,9 @@ public interface ConvenienceFoodService {
 
 	List<ConvenienceFoodVO> getAllConvenienceFood();
 
-	List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination);
+	List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination, Authentication auth);
 	
-	int getTotalCountByConvenienceId(int convenienceId, Pagination pagination);
+	int getTotalCountByConvenienceId(int convenienceId, Pagination pagination, Authentication auth);
 	
 	int countReviewsByFoodId(int foodId);
 

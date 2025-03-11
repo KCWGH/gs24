@@ -56,8 +56,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT 
         		ROW_NUMBER() OVER (
         		<choose>
-					<when test="sortType == 'rowPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE ASC</when>
-					<when test="sortType == 'topPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE DESC</when>
+					<when test="pagination.sortType == 'rowPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE ASC</when>
+					<when test="pagination.sortType == 'topPrice'.toString()">ORDER BY FOOD_LIST.FOOD_PRICE DESC</when>
 					<otherwise>ORDER BY FOOD_LIST.FOOD_ID DESC</otherwise>
 				</choose>
         		) AS RN,
@@ -75,22 +75,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMBNAIL ON IMG_THUMBNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		WHERE CONVENIENCE_ID = #{convenienceId}
-				<if test="keyword != ''">AND FOOD_NAME LIKE '%'||#{keyword}||'%'</if>
-				<if test="bottomPrice != ''">AND (FOOD_PRICE BETWEEN #{bottomPrice} AND
+		WHERE CONVENIENCE_ID = #{pagination.convenienceId}
+				<if test="isOwner == 0">AND SHOW_STATUS = 1</if>
+				<if test="pagination.keyword != ''">AND FOOD_NAME LIKE '%'||#{pagination.keyword}||'%'</if>
+				<if test="pagination.bottomPrice != ''">AND (FOOD_PRICE BETWEEN #{pagination.bottomPrice} AND
 					<choose>
-						<when test="topPrice == '' or topPrice == null"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
-						<otherwise> #{topPrice})</otherwise>
+						<when test="pagination.topPrice == '' or pagination.topPrice == null"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{pagination.topPrice})</otherwise>
 					</choose>
 				</if>
-				<if test="bottomPrice == ''">AND (FOOD_PRICE BETWEEN 0 AND
+				<if test="pagination.bottomPrice == ''">AND (FOOD_PRICE BETWEEN 0 AND
 					<choose>
-						<when test="topPrice == '' or topPrice == null"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
-						<otherwise> #{topPrice})</otherwise>
+						<when test="pagination.topPrice == '' or pagination.topPrice == null"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{pagination.topPrice})</otherwise>
 					</choose>
 				</if>
 		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		WHERE RN BETWEEN #{pagination.start} AND #{pagination.end}
 	</select>
 	
 	<select id="selectConvenienceFoodByFoodIdAndConvenienceId" resultMap="ConvenienceFoodResultMap">
@@ -117,18 +118,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CONVENIENCE_FOOD
 		INNER JOIN FOOD_LIST ON FOOD_LIST.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
 		INNER JOIN IMG_THUMBNAIL ON IMG_THUMBNAIL.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
-		WHERE CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId}
-		<if test="keyword != ''">AND FOOD_NAME LIKE '%'||#{keyword}||'%'</if>
-				<if test="bottomPrice != ''">AND (FOOD_PRICE BETWEEN #{bottomPrice} AND
+		WHERE CONVENIENCE_FOOD.CONVENIENCE_ID = #{pagination.convenienceId}
+		<if test="isOwner == 0">AND SHOW_STATUS = 1</if>
+		<if test="pagination.keyword != ''">AND FOOD_NAME LIKE '%'||#{pagination.keyword}||'%'</if>
+				<if test="pagination.bottomPrice != ''">AND (FOOD_PRICE BETWEEN #{pagination.bottomPrice} AND
 					<choose>
-						<when test="topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
-						<otherwise> #{topPrice})</otherwise>
+						<when test="pagination.topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{pagination.topPrice})</otherwise>
 					</choose>
 				</if>
-				<if test="bottomPrice == ''">AND (FOOD_PRICE BETWEEN 0 AND
+				<if test="pagination.bottomPrice == ''">AND (FOOD_PRICE BETWEEN 0 AND
 					<choose>
-						<when test="topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
-						<otherwise> #{topPrice})</otherwise>
+						<when test="pagination.topPrice == ''"> (SELECT MAX(FOOD_PRICE) FROM CONVENIENCE_FOOD))</when>
+						<otherwise> #{pagination.topPrice})</otherwise>
 					</choose>
 				</if>
 	</select>
