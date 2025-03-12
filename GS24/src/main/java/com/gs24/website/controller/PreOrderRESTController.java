@@ -36,7 +36,6 @@ public class PreOrderRESTController {
 	public ResponseEntity<List<PreorderVO>> getAllPreOrder(Authentication auth, Model model, int pageNum,
 			int pageSize) {
 		log.info("getAllPreOrder()");
-		log.info("mypageGET()");
 		String memberId = auth.getName();
 
 		// 회원 정보 가져오기

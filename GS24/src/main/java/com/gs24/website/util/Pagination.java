@@ -36,6 +36,14 @@ public class Pagination {
 		return (ownerVO != null) ? ownerVO.getOwnerId() : null;
 	}
 
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
 	public Pagination(int page, int pageSize) {
 		this.pageNum = page;
 		this.pageSize = pageSize;
@@ -48,12 +56,5 @@ public class Pagination {
 	public int getEnd() {
 		return this.pageNum * this.pageSize;
 	}
-	
-	public String getUserRole() {
-	    return userRole;
-	}
 
-	public void setUserRole(String userRole) {
-	    this.userRole = userRole;
-	}
 }

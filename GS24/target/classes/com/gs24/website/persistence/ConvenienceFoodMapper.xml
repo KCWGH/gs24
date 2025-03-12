@@ -184,7 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
 	</update>
 	
-	<select id="selectFoodTypeListByConvenienceId" resultType="java.lang.String">
+	<select id="selectFoodTypeListByConvenienceId" resultType="String">
 		 SELECT DISTINCT FOOD_TYPE 
 		 FROM FOOD fl JOIN CONVENIENCE_FOOD cf ON fl.FOOD_ID = cf.FOOD_ID 
 		 WHERE cf.CONVENIENCE_ID = #{convenienceId} 

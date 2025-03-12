@@ -241,14 +241,16 @@ h1, h2 {
 }
 
 #list {
+	max-width: 1400px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 20px;
+	margin: 0 auto;
 }
 
 .preorderList {
-	width: 250px;
+	width: 200px;
 	height: auto;
 	border: 1px solid #ccc;
 	padding: 15px;

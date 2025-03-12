@@ -144,7 +144,7 @@
             <div class="form-group">
                 <p>사진 등록</p>
                 <div class="image-drop">
-                    <p>사진을 클릭&드래그로 등록</p>
+                    <p>사진을 클릭&amp;드래그로 등록</p>
                 </div>
                 <input type="file" id="image-click" style="display: none;" multiple="multiple"/>
                 <div class="image-list"></div>

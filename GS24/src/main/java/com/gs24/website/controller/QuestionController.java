@@ -52,12 +52,12 @@ public class QuestionController {
 	@GetMapping("/list")
 	public void list(Authentication auth, Model model, Pagination pagination) {
 		log.info("list()");
-		
+
 		if (auth != null) {
-	        String username = auth.getName();
-	        model.addAttribute("userId", username);
-	        model.addAttribute("userVO", getUserInfo(username)); 
-	    }
+			String username = auth.getName();
+			model.addAttribute("userId", username);
+			model.addAttribute("userVO", getUserInfo(username));
+		}
 
 		pagination.setPageSize(10);
 		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
@@ -66,22 +66,22 @@ public class QuestionController {
 	}
 
 	@GetMapping("/register")
-	public void registerGET(Authentication auth, Model model, 
-			  @RequestParam(value = "convenienceId", required = false) Integer convenienceId, Pagination pagination) {
+	public void registerGET(Authentication auth, Model model,
+			@RequestParam(value = "convenienceId", required = false) Integer convenienceId, Pagination pagination) {
 		log.info("registerGET()");
-		
-		List<String> foodTypeList = (convenienceId != null) 
-		        ? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId) 
-		        : Collections.emptyList(); 
 
-		    model.addAttribute("foodTypeList", foodTypeList);
+		List<String> foodTypeList = (convenienceId != null)
+				? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId)
+				: Collections.emptyList();
+
+		model.addAttribute("foodTypeList", foodTypeList);
 
 		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
 		model.addAttribute("ownerVOList", ownerVOList);
-		
+
 		List<ConvenienceVO> convenienceList = convenienceService.getAllConvenience(pagination);
 		model.addAttribute("convenienceList", convenienceList);
-		
+
 		if (auth != null) {
 			MemberVO memberVO = memberService.getMember(auth.getName());
 			model.addAttribute("memberId", auth.getName());
@@ -116,20 +116,20 @@ public class QuestionController {
 
 	@GetMapping("/modify")
 	public void modifyGET(Model model, @RequestParam(value = "convenienceId", required = false) Integer convenienceId,
-							Pagination pagination, Integer questionId) {
+			Pagination pagination, Integer questionId) {
 
-		List<String> foodTypeList = (convenienceId != null) 
-	            ? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId) 
-	            : Collections.emptyList();
-	    model.addAttribute("foodTypeList", foodTypeList);
-	    
-	    List<ConvenienceVO> convenienceList = convenienceService.getAllConvenience(pagination);
-	    model.addAttribute("convenienceList", convenienceList);
-	    
+		List<String> foodTypeList = (convenienceId != null)
+				? convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId)
+				: Collections.emptyList();
+		model.addAttribute("foodTypeList", foodTypeList);
+
+		List<ConvenienceVO> convenienceList = convenienceService.getAllConvenience(pagination);
+		model.addAttribute("convenienceList", convenienceList);
+
 		QuestionVO questionVO = questionService.getQuestionById(questionId);
-		
+
 		List<OwnerVO> ownerVOList = ownerService.getOwnerVOList();
-		
+
 		model.addAttribute("ownerVOList", ownerVOList);
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("foodTypeList", foodTypeList);
@@ -137,7 +137,7 @@ public class QuestionController {
 
 	@PostMapping("/modify")
 	public String modifyPOST(QuestionVO questionVO) {
-		log.info("modifyPOST()");	
+		log.info("modifyPOST()");
 		int result = questionService.modifyQuestion(questionVO);
 		log.info(result + "행 수정");
 		return "redirect:/question/list";
@@ -154,45 +154,45 @@ public class QuestionController {
 	@GetMapping("/myList")
 	public void myListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("myListGET()");
-		String username = auth.getName(); 
+		String username = auth.getName();
 
 		List<QuestionVO> myQuestionList = questionService.getQuestionListByMemberId(username);
 
-		model.addAttribute("myQuestionList", myQuestionList); 
-		model.addAttribute("username", username); 
+		model.addAttribute("myQuestionList", myQuestionList);
+		model.addAttribute("username", username);
 	}
 
 	@GetMapping("/ownerList")
 	public void ownerListGET(Authentication auth, Model model, Pagination pagination) {
 		log.info("ownerListGET()");
 		pagination.setPageSize(10);
-		
+
 		String ownerId = auth.getName();
 		pagination.setOwnerVO(ownerService.getOwner(ownerId));
-		
+
 		int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
 		List<QuestionVO> questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination);
 
-		model.addAttribute("convenienceId", convenienceId);		
+		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", createPageMaker(pagination, questionService.getTotalCountByOwnerId(ownerId)));
 		model.addAttribute("questionList", questionList);
 	}
-	
+
 	@GetMapping("/getFoodTypeList")
 	@ResponseBody
 	public List<String> getFoodTypeList(@RequestParam("convenienceId") int convenienceId) {
-	    return convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId);
+		return convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId);
 	}
-	
+
 	private PageMaker createPageMaker(Pagination pagination, int totalCount) {
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setPagination(pagination);
-        pageMaker.setTotalCount(totalCount);
-        return pageMaker;
-    }
-	
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setPagination(pagination);
+		pageMaker.setTotalCount(totalCount);
+		return pageMaker;
+	}
+
 	private Object getUserInfo(String username) {
-	    MemberVO memberVO = memberService.getMember(username);
-	    return (memberVO != null) ? memberVO : ownerService.getOwner(username);
+		MemberVO memberVO = memberService.getMember(username);
+		return (memberVO != null) ? memberVO : ownerService.getOwner(username);
 	}
 }

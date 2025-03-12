@@ -24,7 +24,8 @@
             padding: 15px;
             background-color: #f8f9fa;
             text-align: center;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Pretendard-Regular', sans-serif;
+            font-size: 18px;
         }
 
         h2 {
@@ -58,6 +59,7 @@
 
         .form-container input[type="text"],
         .form-container textarea {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -65,6 +67,10 @@
             font-size: 16px;
             box-sizing: border-box; /* 부모 요소 넘지 않도록 */
             background: #f9f9f9;
+        }
+        
+        input[type="file"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
         }
 
         .form-container textarea {
@@ -91,6 +97,7 @@
         }
 
         .button-container button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             background: #ddd;
             color: black;
             padding: 8px 15px;
@@ -101,6 +108,7 @@
         }
         
         .button-container-file button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             background: #ddd;
             color: black;
             padding: 8px 15px;
@@ -119,10 +127,16 @@
         }
         
         select {
-   		 	display: block;
-   			width: 100%; /* 선택박스를 새 줄에 맞게 확장 */
-    		margin-bottom: 10px; /* 간격 추가 */
-		}
+         	font-family: 'Pretendard-Regular', sans-serif;
+    		display: block;
+    		width: 100%;
+     		margin-bottom: 10px;
+    		width: 100%;
+     		margin-bottom: 10px;
+     		padding: 4px;
+     		border: 1px solid #ddd;
+     		border-radius: 5px;
+ 		}
     </style>
 <body>
 
@@ -137,30 +151,30 @@
 			<br>
 			<br>
 				    
-			<label for="ownerId">매장 선택</label>	    
+			<p><strong>매장 선택</strong></p>
 			<select id="convenienceSelect" name="ownerId" onchange="updateFoodTypeList()">
 			    <option value="" selected disabled>선택하세요</option>   			
 			    <c:forEach var="convenience" items="${convenienceList}">
 			        <c:forEach var="owner" items="${ownerVOList}">
 			            <c:if test="${convenience.ownerId == owner.ownerId}">
 			                <option value="${owner.ownerId}" data-convenience-id="${convenience.convenienceId}">
-			                    ${owner.address} (${convenience.convenienceId}호점)
+			                    ${convenience.convenienceId}호점 (${owner.address})
 			                </option>
 			            </c:if>
 			        </c:forEach>
 			    </c:forEach>
 			</select> 
 			
-			<label for="foodType">식품 종류</label>
+			<p><strong>식품 종류</strong></p>
 			<select id="foodTypeSelect" name="foodType" required>
 			    <option value="" selected disabled>선택하세요</option>
 			</select>     
 
-            <p><strong>제목 : <input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></strong></p>
+            <p><strong>제목<input type="text" name="questionTitle" placeholder="제목 입력" maxlength="20" ></strong></p>
 
-            <p><strong>작성자 : <input type="text" name="memberId" value="${memberId}" readonly></strong></p>   
+            <p><strong>작성자<input type="text" name="memberId" value="${memberId}" readonly></strong></p>   
 
-            <p><strong>내용 : </strong></p>
+            <p><strong>내용</strong></p>
             <textarea rows="20" cols="120" name="questionContent" placeholder="내용 입력" maxlength="300" ></textarea>
 
        		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -171,7 +185,7 @@
 		<p>* 첨부 파일은 최대 3개까지 가능합니다.</p>
 		<p>* 최대 용량은 10MB 입니다.</p>
 		<input type="file" id="questionAttachInput" name="files" multiple="multiple"><br>
-		<h2>선택한 첨부 파일 정보 :</h2>
+		<h2>선택한 첨부 파일 정보</h2>
 		<div class="questionAttach-list"></div>
 	</div>
 	
@@ -204,7 +218,7 @@
 		            return;
 		        }
 
-		        fetch("/website/question/getFoodTypeList?convenienceId=" + convenienceId)
+		        fetch("/gs24/question/getFoodTypeList?convenienceId=" + convenienceId)
 		            .then(response => response.json())
 		            .then(data => {
 		                var foodTypeSelect = document.getElementById("foodTypeSelect");

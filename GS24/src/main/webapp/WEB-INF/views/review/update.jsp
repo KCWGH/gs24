@@ -10,11 +10,12 @@
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="../resources/css/fonts.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
     <title>리뷰 수정</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Pretendard-Regular', sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f4f7f6;
@@ -42,14 +43,28 @@
             display: block;
         }
 
-        input[type="text"], input[type="number"], textarea {
+        input[type="text"], input[type="number"] {
+        	font-family: 'Pretendard-Regular', sans-serif;
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 14px;
+            box-sizing: border-box;
         }
+        
+        textarea {
+    		font-family: 'Pretendard-Regular', sans-serif;
+    		width: 100%;
+    		padding: 10px;
+    		margin-top: 5px;
+    		border: 1px solid #ddd;
+    		border-radius: 4px;
+    		font-size: 14px;
+    		box-sizing: border-box;
+    		resize: none;
+		}
 
         input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
             border-color: #007bff;
@@ -77,6 +92,7 @@
         }
 
         button {
+        	font-family: 'Pretendard-Regular', sans-serif;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
@@ -91,6 +107,7 @@
             background-color: #ccc;
         }
         .cancel {
+        	color: white;
             background-color: #f44336;
         }
 
@@ -98,6 +115,7 @@
             background-color: #d32f2f;
         }
         .update {
+        	color: white;
             background-color: #4CAF50;
         }
 
@@ -110,6 +128,12 @@
         input[type="number"]{
         	width: 60px;
         }
+        .image-drop {
+    		display: flex;
+    		justify-content: center;
+    		align-items: center;
+    		text-align: center;
+		}        
     </style>
 </head>
 <body>
@@ -124,7 +148,7 @@
         <input type="hidden" name="reviewId" class="reviewId" value="${reviewVO.reviewId}" />
 
         <label for="foodId">식품 아이디</label>
-        <input type="number" name="foodId" value="${reviewVO.foodId}" />
+        <input type="number" name="foodId" value="${reviewVO.foodId}" disabled/>
 
         <sec:authentication property="principal" var="user" />
         <sec:authorize access="isAuthenticated()">
@@ -151,7 +175,7 @@
         </c:forEach>
 
         <div class="image-drop">
-        	<p>사진을 클릭&드래그</p>
+        	<p>사진을 클릭&amp;드래그</p>
         </div>
 		
         <div class="image-list">
