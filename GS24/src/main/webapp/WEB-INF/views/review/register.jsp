@@ -143,6 +143,8 @@
 </style>
 </head>
 <body>
+	<input type="hidden" class="foreignId" value=0>
+ 	<input type="hidden" class="type" value="review">
     <div class="container">
         <h1>리뷰 작성</h1>
         <form action="../review/register" method="post" id="registForm">
@@ -186,11 +188,13 @@
             	</div>
 
 	            <div class="button-group">
-    	            <button type="submit" class="submit">등록</button>
+    	            <button type="button" class="submit">등록</button>
         	    </div>
 			</div>
         </form>
     </div>
+	
+	<div class="ImgVOList"></div>
 
     <script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
     <script type="text/javascript">

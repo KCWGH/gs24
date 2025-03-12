@@ -300,7 +300,7 @@ hr {
 
         $("#reviewList").on("click", ".reviewItems #reviewDelete", function () {
             var path = $(".imageList").find(".image_path").val();
-            var reviewId = $(this).prevAll(".reviewId").val();
+            var reviewId = $(this).closest('.reviewItems').find('.reviewId').val();
             var foodId = ${FoodVO.foodId};
             var convenienceId = ${FoodVO.convenienceId};
 

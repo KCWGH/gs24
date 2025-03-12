@@ -80,6 +80,7 @@ public class ReviewController {
 	public void updateGET(Model model, int reviewId, int convenienceId) {
 		log.info("updateGET()");
 		ReviewVO reviewVO = reviewService.getReviewByReviewId(reviewId);
+		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("reviewVO", reviewVO);
 	}
 

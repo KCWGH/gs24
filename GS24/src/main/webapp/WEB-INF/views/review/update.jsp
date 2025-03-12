@@ -121,7 +121,10 @@
     </style>
 </head>
 <body>
-
+	
+	<input type="hidden" class="foreignId" value=${reviewVO.reviewId }>
+ 	<input type="hidden" class="type" value="review">
+	
     <h1>리뷰 수정</h1>
 
     <form action="../review/update" id="updateForm" method="post">
@@ -172,7 +175,7 @@
         <div class="button-container">
             <button type="button" class="insert-image">사진 추가</button>
             <button type="button" class="update-image">사진 수정</button>
-            <button type="submit" class="update">리뷰 수정</button>
+            <button type="button" class="update">리뷰 수정</button>
             <button type="button" class="cancel-button" onclick="history.back()">취소</button>
         </div>
     </form>
@@ -203,7 +206,9 @@
             });
 
             $(".update").click(function(){
-                var updateForm = $("#updateForm");
+            	var updateForm = $("#updateForm");
+                var convenienceId = ${convenienceId };
+                var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
 
                 var isInputEmpty = false;
                 updateForm.find('input, textarea').each(function(){
@@ -216,8 +221,27 @@
                     alert("값이 빈 곳이 존재합니다.");
                     return;
                 }
-
-                updateForm.submit();
+				
+                var i = $("#updateForm").children(".input-image-list").length / 4;
+     			console.log(i);
+     			
+     			$(".ImgVOList input").each(function(){
+     				var ImgVO = JSON.parse($(this).val());
+     				
+     				var realName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
+     				var chgName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
+     				var extension =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
+     				var path =		$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
+     				
+     				updateForm.append(realName);
+     				updateForm.append(chgName);
+     				updateForm.append(extension);
+     				updateForm.append(path);
+     				
+     				i++;
+     			});
+     			updateForm.append(inputConvenienceId);
+     			updateForm.submit();
             });
         });
     </script>
