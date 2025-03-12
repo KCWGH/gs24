@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.gs24.website.domain.ImgVO;
 import com.gs24.website.domain.ReviewRatingVO;
 import com.gs24.website.domain.ReviewVO;
-import com.gs24.website.persistence.FoodListMapper;
+import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.PreorderMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -30,7 +30,7 @@ public class ReviewServiceImple implements ReviewService {
 	private ImgReviewMapper imgReviewMapper;
 	
 	@Autowired
-	private FoodListMapper foodListMapper;
+	private FoodMapper foodMapper;
 
 	@Override
 	public int createReview(ReviewVO reviewVO, int preorderId) {
@@ -49,7 +49,7 @@ public class ReviewServiceImple implements ReviewService {
 
 		ReviewRatingVO reviewRatingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(reviewVO.getFoodId());
 		
-		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(reviewRatingVO.getAvgRating(), reviewRatingVO.getReviewCnt(), reviewVO.getFoodId());
+		foodMapper.updateFoodTotalRatingFoodReviewCntByFoodId(reviewRatingVO.getAvgRating(), reviewRatingVO.getReviewCnt(), reviewVO.getFoodId());
 		return result;
 	}
 
@@ -100,7 +100,7 @@ public class ReviewServiceImple implements ReviewService {
 		int foodId = reviewVO.getFoodId();
 		ReviewRatingVO ratingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(foodId);
 		
-		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
+		foodMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
 
 		return result;
 	}
@@ -113,7 +113,7 @@ public class ReviewServiceImple implements ReviewService {
 		imgReviewMapper.deleteImgReviewByReviewId(reviewId);
 		
 		ReviewRatingVO ratingVO = reviewMapper.selectTotalRatingReviewCntByFoodId(foodId);
-		foodListMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
+		foodMapper.updateFoodTotalRatingFoodReviewCntByFoodId(ratingVO.getAvgRating(), ratingVO.getReviewCnt(), foodId);
 		
 		return result;
 	}

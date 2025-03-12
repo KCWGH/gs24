@@ -132,7 +132,7 @@ ul {
 
 <table id="couponTable">
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-    	<button id="publish" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')">쿠폰 추가</button>
+    	<button id="publish" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=710,top=100,left=200')">쿠폰 추가</button>
 </sec:authorize>
     <thead>
         <tr>
@@ -213,7 +213,7 @@ $(document).ready(function () {
     
     $(".edit-btn").on("click", function(e) {
     	let couponId = $(this).parents().prevAll('.couponId').text();
-    	window.open('../coupon/modify?couponId=' + couponId, '_blank', 'width=500,height=700,top=100,left=200');
+    	window.open('../coupon/modify?couponId=' + couponId, '_blank', 'width=500,height=710,top=100,left=200');
     });
     
     $(".delete-btn").on("click", function(e) {

@@ -13,16 +13,16 @@
                 <form action="../auth/logout" method="post" style="display: flex; align-items: center; gap: 10px; margin: 0;">
                     <span>환영합니다, <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
                         <a href="javascript:void(0);" 
-                           onclick="window.open('../user/mypage', '_blank', 'width=500,height=700');">
+                           onclick="window.open('../user/mypage', '_blank', 'width=500,height=710');">
                            <sec:authentication property="principal.username" /></a>님
                     </span>
                     <input type="submit" value="로그아웃">
                     <sec:authorize access="hasRole('ROLE_MEMBER')">
                     <button type="button" onclick='location.href="../preorder/list"'>예약 식품 목록</button>
-                    <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700')">기프트카드</button>
+                    <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=710')">기프트카드</button>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_OWNER')">
-                    <button type="button" onclick="window.open('../giftcard/grant', '_blank', 'width=500,height=700')">기프트카드 제공</button>
+                    <button type="button" onclick="window.open('../giftcard/grant', '_blank', 'width=500,height=710')">기프트카드 제공</button>
                     </sec:authorize>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>

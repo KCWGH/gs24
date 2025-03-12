@@ -41,11 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
     	httpSecurity.authorizeRequests()
         .antMatchers(
-            "/auth/**", "/convenience/**", "/user/register", 
-            "/member/register", "/owner/register", 
-            "/food/detail", "/food/list", "/notice/list", 
-            "/notice/detail", "/review/list", "/question/detail", 
-            "/convenienceFood/detail"
+            "/auth/**", "/user/register", "/member/register", "/owner/register",
+            "user/find-id", "user/find-pw",
+            "/convenience/list", "/convenienceFood/list", "/convenienceFood/detail", "/review/list",
+            "/notice/list", "/notice/detail"
         ).permitAll()
         
         .antMatchers(
@@ -62,30 +61,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ).access("hasRole('ROLE_MEMBER')")
         
         .antMatchers(
-        	"/food/register", "/food/update", "/preorder/update", 
+        	"/preorder/update", 
         	"/preorder/check", "/question/ownerList", "/orders/ownerList"
         ).access("hasRole('ROLE_OWNER')")
         
         .antMatchers(
-            "/coupon/**", "/notice/modify", "/notice/register", 
-            "/notice/delete", "/orders/list", "/admin/console", 
-            "/admin/activate", "/foodlist/register", "/foodlist/modify"
+        	"/admin/console", 
+        	"/notice/register", "/notice/modify", "/notice/delete", 
+            "/coupon/**",
+            "/orders/list", 
+            "/admin/activate", "/food/register", "/food/update", "/food/checkdelete"
         ).access("hasRole('ROLE_ADMIN')")
     	
     	.antMatchers(
-    		"/foodlist/list"
+    		"/food/list"
         ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
     	
     	.antMatchers(
-        		"/member/activate"
+        	"/member/activate"
         ).access("hasRole('ROLE_DEACTIVATED_MEMBER')")
     	
     	.antMatchers(
-        		"/owner/activate", "/owner/request-activation"
+        	"/owner/activate", "/owner/request-activation"
         ).access("hasRole('ROLE_DEACTIVATED_OWNER')")
     	
     	.antMatchers(
-        		"/user/reactivate"
+        	"/user/reactivate"
         ).access("hasRole('ROLE_DEACTIVATED_OWNER') or hasRole('ROLE_DEACTIVATED_MEMBER')");
 
 

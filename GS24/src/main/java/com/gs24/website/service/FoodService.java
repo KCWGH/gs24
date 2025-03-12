@@ -2,19 +2,19 @@ package com.gs24.website.service;
 
 import java.util.List;
 
-import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.util.Pagination;
 
-public interface FoodListService {
-	int createFood(FoodListVO foodListVO);
+public interface FoodService {
+	int createFood(FoodVO foodVO);
 
-	List<FoodListVO> getAllFood(Pagination pagination);
+	List<FoodVO> getAllFood(Pagination pagination);
 
 	int countTotalFood();
 
-	FoodListVO getFoodById(int foodId);
+	FoodVO getFoodById(int foodId);
 
-	int updateFoodById(FoodListVO foodListVO);
+	int updateFoodById(FoodVO foodVO);
 
 	int deleteFoodById(int foodId);
 

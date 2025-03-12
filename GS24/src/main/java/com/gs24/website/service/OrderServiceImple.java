@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.OrderVO;
-import com.gs24.website.persistence.FoodListMapper;
+import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.OrderMapper;
 import com.gs24.website.util.Pagination;
 
@@ -23,20 +23,20 @@ public class OrderServiceImple implements OrderService {
 	private ConvenienceFoodService convenienceFoodService;
 	
 	@Autowired
-	private FoodListService foodListService;
+	private FoodService foodService;
 	
 	@Autowired
-	private FoodListMapper foodListMapper;
+	private FoodMapper foodMapper;
 
 	@Override
 	public void insertOrder(OrderVO order) {
-        int currentStock = foodListService.getFoodStock(order.getFoodId());
+        int currentStock = foodService.getFoodStock(order.getFoodId());
         if (currentStock < order.getOrderAmount()) {
             throw new IllegalArgumentException("재고가 부족합니다. 현재 재고: " + currentStock);
         }
         
         // 재고 차감
-        foodListService.updateFoodStockByFoodAmount(order.getFoodId(), order.getOrderAmount());
+        foodService.updateFoodStockByFoodAmount(order.getFoodId(), order.getOrderAmount());
 
         // 발주 내역 DB에 저장
         orderMapper.insertOrder(order);
@@ -71,7 +71,7 @@ public class OrderServiceImple implements OrderService {
 		orderMapper.updateApprovalStatus(order);
 		log.info("발주 거절 처리 완료, 발주 ID: " + orderId);
 		
-		foodListMapper.restoreFoodStock(order.getFoodId(), order.getOrderAmount());
+		foodMapper.restoreFoodStock(order.getFoodId(), order.getOrderAmount());
 
 	}
 

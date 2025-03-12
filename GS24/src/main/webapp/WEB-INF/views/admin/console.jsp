@@ -74,7 +74,7 @@
 <body class="console-page">
     <div class="console-container">
         <h1>관리자 Console</h1>
-        <button class="button-activate" type="button" onclick='location.href="../foodlist/list"' data-key="1">식품 창고 📦</button>
+        <button class="button-activate" type="button" onclick='location.href="../food/list"' data-key="1">식품 창고 📦</button>
         <button class="button-remain" type="button" onclick='location.href="../orders/list"' data-key="2">발주 승인 ✔️</button>
         <button class="button-activate" type="button" onclick='location.href="../coupon/list"' data-key="3">쿠폰 🏷️</button>
         <button class="button-remain" type="button" onclick='location.href="../admin/activate"' data-key="4">계정 재활성화 승인 👥</button>

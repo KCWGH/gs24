@@ -129,7 +129,7 @@
 			});//end ajax
 			
 			if(buttonValue == 'cancel'){
-				location.href="../foodlist/list";
+				location.href="../food/list";
 			}
 		});// end click
  });

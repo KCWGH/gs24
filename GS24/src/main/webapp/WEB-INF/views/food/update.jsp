@@ -83,7 +83,7 @@
 	<button class="update-image">세부 사진 수정</button>
 	<button class="insert-image">세부 사진 추가</button>
 	<button class="submit">수정</button>
-	<button onclick="location.href='../foodlist/list'">돌아가기</button>
+	<button onclick="location.href='../food/list'">돌아가기</button>
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script type="text/javascript">

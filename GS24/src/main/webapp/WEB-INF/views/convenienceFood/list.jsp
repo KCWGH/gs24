@@ -324,7 +324,7 @@ ul {
 	</div>
 
    <ul class="food_box">
-    <c:forEach var="FoodVO" items="${FoodList}">
+    <c:forEach var="FoodVO" items="${Food}">
     <sec:authorize access="hasRole('ROLE_MEMBER') or !isAuthenticated()">
     <c:if test="${FoodVO.showStatus == 1 }">
         <li class="List">
@@ -345,7 +345,7 @@ ul {
                 		<button id="needLogin">예약하기</button>
                 	</sec:authorize>
                 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-                    <button onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=700,top=100,left=200')">예약하기</button>
+                    <button onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=710,top=100,left=200')">예약하기</button>
                 	</sec:authorize>
                     <c:choose>
                         <c:when test="${isAddedMap[FoodVO.foodId] == 1}">

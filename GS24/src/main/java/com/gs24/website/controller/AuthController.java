@@ -40,6 +40,8 @@ public class AuthController {
 				int checkConvenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
 				model.addAttribute("checkConvenienceId", checkConvenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+				return "redirect:/admin/console";
 			}
 		}
 		return "/auth/login";

@@ -13,7 +13,7 @@ import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.ConvenienceMapper;
-import com.gs24.website.persistence.FoodListMapper;
+import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -33,7 +33,7 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	private ConvenienceMapper convenienceMapper;
 
 	@Autowired
-	private FoodListMapper foodListMapper;
+	private FoodMapper foodMapper;
 
 	@Autowired
 	private ImgFoodMapper imgFoodMapper;
@@ -51,7 +51,7 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		int result = 0;
 
 		int convenienceId = convenienceMapper.selectConvenienceIdByOwnerId(ownerId);
-		foodListMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
+		foodMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
 
 		if (convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1) {
 			log.info("기존 데이터가 있음!!");

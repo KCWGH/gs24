@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.service.ConvenienceService;
-import com.gs24.website.service.FoodListService;
+import com.gs24.website.service.FoodService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/foodlist")
+@RequestMapping("/food")
 @Log4j
-public class FoodListController {
+public class FoodController {
 
 	@Autowired
-	private FoodListService foodListService;
+	private FoodService foodService;
 
 	@Autowired
 	private ConvenienceService convenienceService;
@@ -42,16 +42,14 @@ public class FoodListController {
 				model.addAttribute("convenienceId", convenienceId);
 			}
 		}
-
-		log.info("listGET()");
 		pagination.setPageSize(10);
-		List<FoodListVO> foodListVO = foodListService.getAllFood(pagination);
+		List<FoodVO> foodVO = foodService.getAllFood(pagination);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(foodListService.countTotalFood());
-		log.info(foodListVO);
+		pageMaker.setTotalCount(foodService.countTotalFood());
+		log.info(foodVO);
 
-		model.addAttribute("foodList", foodListVO);
+		model.addAttribute("food", foodVO);
 		model.addAttribute("pageMaker", pageMaker);
 	}
 
@@ -59,9 +57,9 @@ public class FoodListController {
 	public String deleteGET(int foodId) {
 		log.info("deleteGET()");
 
-		foodListService.deleteFoodById(foodId);
+		foodService.deleteFoodById(foodId);
 
-		return "redirect:/foodlist/list";
+		return "redirect:/food/list";
 	}
 
 	@GetMapping("/register")
@@ -70,33 +68,30 @@ public class FoodListController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(FoodListVO foodListVO) {
-		log.info("registerPOST()");
+	public String registerPOST(FoodVO foodVO) {
+		foodService.createFood(foodVO);
 
-		log.info(foodListVO);
-		foodListService.createFood(foodListVO);
-
-		return "redirect:/foodlist/list";
+		return "redirect:/food/list";
 	}
 
 	@GetMapping("/update")
 	public void updateGET(Model model, int foodId) {
 		log.info("updateGET()");
 
-		FoodListVO foodListVO = foodListService.getFoodById(foodId);
+		FoodVO foodVO = foodService.getFoodById(foodId);
 
-		model.addAttribute("FoodVO", foodListVO);
+		model.addAttribute("FoodVO", foodVO);
 	}
 
 	@PostMapping("/update")
-	public String updatePOST(FoodListVO foodListVO) {
+	public String updatePOST(FoodVO foodVO) {
 		log.info("updatePOST()");
 
-		log.info(foodListVO);
+		log.info(foodVO);
 
-		foodListService.updateFoodById(foodListVO);
+		foodService.updateFoodById(foodVO);
 
-		return "redirect:/foodlist/list";
+		return "redirect:/food/list";
 	}
 
 	@PostMapping("/checkdelete")
@@ -104,7 +99,7 @@ public class FoodListController {
 	public String checkDelete(@RequestBody int foodId) {
 		log.info("checkDelete()");
 
-		int result = foodListService.checkFoodAmountStatus(foodId);
+		int result = foodService.checkFoodAmountStatus(foodId);
 
 		if (result > 0) {
 			return "failed";

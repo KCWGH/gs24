@@ -5,20 +5,20 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.util.Pagination;
 
 @Mapper
-public interface FoodListMapper {
-	int insertFood(FoodListVO foodListVO);
+public interface FoodMapper {
+	int insertFood(FoodVO foodVO);
 
-	List<FoodListVO> selectAllFoodByPagination(Pagination pagination);
+	List<FoodVO> selectAllFoodByPagination(Pagination pagination);
 
-	FoodListVO selectFoodById(int foodId);
+	FoodVO selectFoodById(int foodId);
 
 	int countTotalFood();
 
-	int updateFoodById(FoodListVO foodListVO);
+	int updateFoodById(FoodVO foodVO);
 
 	int deleteFoodById(int foodId);
 

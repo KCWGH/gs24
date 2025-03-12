@@ -456,7 +456,7 @@ hr {
                 		<button id="needLogin">예약하기</button>
                 	</sec:authorize>
                 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-						<button id="preorder" onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=700,top=100,left=200')">예약하기</button>
+						<button id="preorder" onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=710,top=100,left=200')">예약하기</button>
 					</sec:authorize>
 						<button onclick="location.href='../convenienceFood/list?convenienceId=${FoodVO.convenienceId}'">돌아가기</button>
 					</td>

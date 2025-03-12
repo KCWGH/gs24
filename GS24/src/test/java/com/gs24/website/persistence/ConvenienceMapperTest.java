@@ -24,7 +24,7 @@ public class ConvenienceMapperTest {
 	@Autowired ConvenienceFoodMapper convenienceFoodMapper;
 	
 	@Autowired
-	private FoodListMapper foodListMapper;
+	private FoodMapper foodMapper;
 	
 	@Test
 	public void test() {
@@ -58,6 +58,6 @@ public class ConvenienceMapperTest {
 	}
 	
 	void check() {
-		log.info(foodListMapper.checkFoodAmountStatus(10));
+		log.info(foodMapper.checkFoodAmountStatus(10));
 	}
 }

@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FoodListVO {
+public class FoodVO {
 	private int foodId;
 	private String foodType;
 	private String foodName;

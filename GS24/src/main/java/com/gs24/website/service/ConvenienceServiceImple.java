@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ConvenienceVO;
-import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.ConvenienceMapper;
-import com.gs24.website.persistence.FoodListMapper;
+import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -28,7 +28,7 @@ public class ConvenienceServiceImple implements ConvenienceService {
 	private ConvenienceFoodMapper convenienceFoodMapper;
 	 
 	@Autowired
-	private FoodListMapper foodListMapper;
+	private FoodMapper foodMapper;
 	 
 	@Override
 	public int createConvenience(ConvenienceVO convenienceVO) {
@@ -54,7 +54,7 @@ public class ConvenienceServiceImple implements ConvenienceService {
 	}
 	
 	@Override
-	public List<FoodListVO> getFoodDetailsByOwnerId(String ownerId) {
+	public List<FoodVO> getFoodDetailsByOwnerId(String ownerId) {
 		 // ownerId로 해당 편의점 정보 조회
         ConvenienceVO convenience = convenienceMapper.selectConvenienceByOwnerId(ownerId);
         if (convenience == null) {
@@ -63,11 +63,11 @@ public class ConvenienceServiceImple implements ConvenienceService {
 
         // convenienceId로 연결된 음식 목록 조회
         List<ConvenienceFoodVO> convenienceFoods = convenienceFoodMapper.selectFoodsByConvenienceId(convenience.getConvenienceId());
-        List<FoodListVO> foodDetails = new ArrayList<>();
+        List<FoodVO> foodDetails = new ArrayList<>();
 
         for (ConvenienceFoodVO convenienceFood : convenienceFoods) {
             // 각 음식에 대해 상세 정보 조회
-            FoodListVO food = foodListMapper.selectFoodById(convenienceFood.getFoodId());
+            FoodVO food = foodMapper.selectFoodById(convenienceFood.getFoodId());
             foodDetails.add(food);
         }
 

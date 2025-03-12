@@ -73,7 +73,7 @@ public class ConvenienceFoodController {
 		model.addAttribute("address", address);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("convenienceId", convenienceId);
-		model.addAttribute("FoodList", list);
+		model.addAttribute("Food", list);
 	}
 
 	@GetMapping("/detail")

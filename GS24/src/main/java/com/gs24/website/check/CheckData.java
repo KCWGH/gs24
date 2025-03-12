@@ -14,7 +14,7 @@ public class CheckData {
 //	private ConvenienceFoodMapper convenienceFoodMapper;
 //
 //	@Autowired
-//	private FoodListMapper foodListMapper;
+//	private FoodMapper foodMapper;
 //
 //	@Autowired
 //	private CheckReviewData checkReviewData;

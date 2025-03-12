@@ -4,139 +4,83 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gs24.website.persistence.FoodMapper">
-
-	<resultMap type="com.gs24.website.domain.FoodVO"
-		id="foodResultMap">
-		<id property="foodId" column="FOOD_ID" />
-		<result property="foodType" column="FOOD_TYPE" />
-		<result property="foodName" column="FOOD_NAME" />
-		<result property="foodStock" column="FOOD_STOCK" />
-		<result property="foodPrice" column="FOOD_PRICE" />
-		<result property="foodAvgRating" column="FOOD_AVG_RATING" />
-		<result property="foodProtein" column="FOOD_PROTEIN" />
-		<result property="foodFat" column="FOOD_FAT" />
-		<result property="foodCarb" column="FOOD_CARB" />
-		<result property="registeredDate" column="REGISTERED_DATE" />
+	<resultMap type="com.gs24.website.domain.FoodVO" id="foodResultMap">
+		<id property="foodId" column="FOOD_ID"/>
+		<result property="foodType" column="FOOD_TYPE"/>
+		<result property="foodName" column="FOOD_NAME"/>
+		<result property="foodPrice" column="FOOD_PRICE"/>
+		<result property="foodProtein" column="FOOD_PROTEIN"/>
+		<result property="foodFat" column="FOOD_FAT"/>
+		<result property="foodCarb" column="FOOD_CARB"/>
+		<result property="foodStock" column="FOOD_STOCK"/>
+		<result property="isSelling" column="IS_SELLING"/>
+		<result property="foodAvgRating" column="FOOD_AVG_RATING"/>
 		<result property="foodReviewCnt" column="FOOD_REVIEW_CNT"/>
 	</resultMap>
-
+	
 	<insert id="insertFood">
-		INSERT INTO FOOD
-		(FOOD_ID, FOOD_TYPE, FOOD_NAME
-		,FOOD_STOCK, FOOD_PRICE, FOOD_AVG_RATING, FOOD_PROTEIN, FOOD_FAT,
-		FOOD_CARB)
-		VALUES(FOOD_SEQ.NEXTVAL, #{foodType},#{foodName},
-		#{foodStock}, #{foodPrice}, #{foodAvgRating},
-		#{foodProtein},
-		#{foodFat}, #{foodCarb})
+		INSERT INTO FOOD(FOOD_ID,FOOD_TYPE, FOOD_NAME, FOOD_PRICE, FOOD_PROTEIN, FOOD_FAT, FOOD_CARB, FOOD_STOCK, IS_SELLING)
+		VALUES(FOOD_SEQ.NEXTVAL, #{foodType}, #{foodName}, #{foodPrice}, #{foodProtein},#{foodFat},#{foodCarb}, #{foodStock}, #{isSelling})
 	</insert>
-
+	
+	<select id="selectAllFoodByPagination" resultMap="foodResultMap">
+		SELECT * FROM
+    		(
+    		SELECT ROW_NUMBER() OVER (ORDER BY FOOD_ID DESC) AS RN, FOOD.*
+    		FROM FOOD
+    		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countTotalFood" resultType="Integer">
+		SELECT COUNT (*) FROM FOOD
+	</select>
+	
 	<select id="selectFoodById" resultMap="foodResultMap">
-		SELECT * FROM FOOD
-		WHERE
-		FOOD_ID = #{foodId}
+		SELECT * FROM FOOD WHERE FOOD_ID = #{foodId}
 	</select>
-
-	<select id="selectFoodList" resultMap="foodResultMap">
-		SELECT * FROM FOOD ORDER
-		BY FOOD_ID DESC
-	</select>
-
-	<select id="selectFirstFoodId" resultMap="foodResultMap">
-		SELECT *
-		FROM (SELECT * FROM FOOD ORDER BY FOOD_ID DESC)
-		WHERE ROWNUM = 1
-	</select>
-
-	<!-- 점주(관리자)가 식품의 수량, 가격, 영양소를 수정할 수 있도록 한다. -->
-	<update id="updateFood">
-		UPDATE FOOD SET FOOD_STOCK = #{foodStock}, FOOD_PRICE = #{foodPrice}, FOOD_PROTEIN = #{foodProtein}, FOOD_FAT = #{foodFat}, FOOD_CARB = #{foodCarb}, REGISTERED_DATE = SYSDATE 
-		WHERE FOOD_ID = #{foodId}
-	</update>
-
-	<!-- * 점주(관리자)가 식품의 수량을 수정할 수 있도록 한다. -->
-	<update id="updateFoodStock">
-		UPDATE FOOD SET FOOD_STOCK = #{foodStock}
-		WHERE
-		FOOD_ID = #{foodId}
-	</update>
-
-	<!-- * 점주(관리자)가 식품의 가격을 수정할 수 있도록 한다. -->
-	<update id="updateFoodPrice">
-		UPDATE FOOD SET FOOD_PRICE = ${foodPrice}
-		WHERE
-		FOOD_ID = #{foodId}
-	</update>
-
-	<!-- * 점주(관리자)가 식품의 영양 정보(탄수화물, 단백질, 지방)를 수정할 수 있도록 한다. -->
-	<update id="updateFoodProteinFatCarb">
-		UPDATE FOOD SET FOOD_PROTEIN = #{foodProtein},
-		FOOD_FAT = #{foodFat}, FOOD_CARB = #{foodCarb}
-		WHERE FOOD_ID =
-		#{foodId}
-	</update>
-
-	<!-- 상품을 예약하면 그에 맞춰 재고량을 줄이는 쿼리 -->
-	<update id="updateFoodAmountByPreorderAmount">
-		UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK - #{preorderAmount} WHERE FOOD_ID = #{foodId}
-	</update>
-
-	<update id="updateFoodAvgRatingByFoodId">
-		UPDATE FOOD SET FOOD_AVG_RATING = #{foodAvgRating} WHERE FOOD_ID = #{foodId}
+	
+	<update id="updateFoodById">
+		UPDATE FOOD SET FOOD_STOCK = #{foodStock}, FOOD_PRICE = #{foodPrice}, IS_SELLING = #{isSelling} WHERE FOOD_ID = #{foodId}
 	</update>
 	
-	<update id="updateFoodReviewCntByFoodId">
-		UPDATE FOOD SET FOOD_REVIEW_CNT = #{foodReviewCnt} WHERE FOOD_ID = #{foodId}
-	</update>
-	
-	<delete id="deleteFood">
+	<delete id="deleteFoodById">
 		DELETE FROM FOOD WHERE FOOD_ID = #{foodId}
 	</delete>
 	
-	<select id="selectFoodType" resultType="String">
-      	SELECT DISTINCT FOOD_TYPE
-      	FROM FOOD
-   	</select>
-   
-   <select id="selectFoodPagination" resultMap="foodResultMap">
-   		SELECT * FROM ( SELECT ROW_NUMBER() OVER (
-		<choose>
-   			<when test="sortType == 'recentRegist'.toString()">ORDER BY REGISTERED_DATE DESC</when>
-   			<when test="sortType == 'rowPrice'.toString()">ORDER BY FOOD_PRICE ASC</when>
-   			<when test="sortType == 'topPrice'.toString()">ORDER BY FOOD_PRICE DESC</when>
-   			<otherwise>ORDER BY FOOD_ID DESC</otherwise>
-   		</choose>
-		) AS RN, FOOD.* FROM FOOD
-   		<choose>
-   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
-   			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN #{bottomPrice} AND 
-   				<choose>
-   					<when test="topPrice == ''">
-   						(SELECT MAX(FOOD_PRICE) FROM FOOD)
-   					</when>
-   					<otherwise>
- 	  					#{topPrice}
-   					</otherwise>
-   				</choose>
-   			</when>
-   		</choose>
-   		) WHERE RN BETWEEN #{start} AND #{end}
-   </select>
+	<update id="updateFoodStockByFoodAmount">
+		UPDATE FOOD SET FOOD_STOCK = FOOD_STOCK - #{foodAmount} WHERE FOOD_ID = #{foodId}
+	</update>
 	
-	<select id="selectFoodTotalCount" resultType="int">
-		SELECT COUNT(*) TOTAL_COUNT FROM FOOD
-		<choose>
-   			<when test="type == 'name'.toString()">WHERE FOOD_NAME LIKE '%'||#{keyword}||'%'</when>
-   			<when test="type == 'price'.toString()">WHERE FOOD_PRICE BETWEEN #{bottomPrice} AND 
-   				<choose>
-   					<when test="topPrice == ''">
-   						(SELECT MAX(FOOD_PRICE) FROM FOOD)
-   					</when>
-   					<otherwise>
- 	  					#{topPrice}
-   					</otherwise>
-   				</choose>
-   			</when>
-   		</choose>
+	<update id="updateFoodTotalRatingFoodReviewCntByFoodId">
+		UPDATE FOOD SET FOOD_AVG_RATING = #{avgRating}, FOOD_REVIEW_CNT = #{reviewCnt} WHERE FOOD_ID = #{foodId}
+	</update>
+	
+	<select id="checkFoodAmountStatus" resultType="Integer">
+        SELECT CASE WHEN SUM(FOOD_AMOUNT) > 0 THEN 1 ELSE 0 END AS RESULT
+        FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId}
+    </select>
+    
+    <select id="getFoodNameByFoodId" resultType="String">
+		SELECT FOOD_NAME FROM FOOD WHERE FOOD_ID = #{foodId}
 	</select>
+	
+	<select id="getFoodStock" resultType="Integer">
+    SELECT FOOD_STOCK 
+    FROM FOOD 
+    WHERE FOOD_ID = #{foodId}
+	</select>
+	
+	<select id="getFoodTypeByFoodId" resultType="String">
+		 SELECT FOOD_TYPE 
+		 FROM FOOD 
+		 WHERE FOOD_ID = #{foodId} 
+	 </select>
+	
+	<update id="restoreFoodStock">
+	    UPDATE FOOD
+	    SET FOOD_STOCK = FOOD_STOCK + #{amount}
+	    WHERE FOOD_ID = #{foodId}
+	</update>
+	
 </mapper>

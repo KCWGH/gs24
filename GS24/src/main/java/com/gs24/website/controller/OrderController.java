@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.service.ConvenienceService;
-import com.gs24.website.service.FoodListService;
+import com.gs24.website.service.FoodService;
 import com.gs24.website.service.OrderService;
 import com.gs24.website.service.OwnerService;
 import com.gs24.website.util.PageMaker;
@@ -38,7 +38,7 @@ public class OrderController {
 	private ConvenienceService convenienceService;
 	
 	@Autowired
-	private FoodListService foodListService;
+	private FoodService foodService;
 
 	@GetMapping("/list")
 	public String getAllOrders(Model model, Pagination pagination) {
@@ -50,12 +50,12 @@ public class OrderController {
 		List<OrderVO> orderList = orderService.getAllPagedOrders(pagination);
 		
 		for (OrderVO order : orderList) {
-		        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
+		        String foodName = foodService.getFoodNameByFoodId(order.getFoodId());
 		        order.setFoodName(foodName);
 		    }
 		
 		for (OrderVO order : orderList) {
-		    	String foodType = foodListService.getFoodTypeByFoodId(order.getFoodId());
+		    	String foodType = foodService.getFoodTypeByFoodId(order.getFoodId());
 		    	order.setFoodType(foodType);
 		    }
 		 
@@ -93,12 +93,12 @@ public class OrderController {
 	    List<OrderVO> ordersByOwner = orderService.getPagedOrdersByOwnerId(ownerId, pagination);
 	    
 	    for (OrderVO order : ordersByOwner) {
-	        String foodName = foodListService.getFoodNameByFoodId(order.getFoodId());
+	        String foodName = foodService.getFoodNameByFoodId(order.getFoodId());
 	        order.setFoodName(foodName);
 	    }
 	    
 	    for (OrderVO order : ordersByOwner) {
-	    	String foodType = foodListService.getFoodTypeByFoodId(order.getFoodId());
+	    	String foodType = foodService.getFoodTypeByFoodId(order.getFoodId());
 	    	order.setFoodType(foodType);
 	    }
 	    

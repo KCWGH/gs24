@@ -151,38 +151,38 @@ input[type="number"] {
             <th>재고량</th>
             <th>상태</th>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <th colspan="3">Action</th>
+                <th colspan="3">작업</th>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <th colspan="1">Action</th>
+                <th colspan="1">작업</th>
                 <th>발주</th>
             </sec:authorize>
         </tr>
     </thead>
     
     <tbody class="foodBody">
-        <c:forEach var="foodListVO" items="${foodList}">
+        <c:forEach var="foodVO" items="${food}">
         <tr class="foodRow">
-            <td class="foodId">${foodListVO.foodId}</td>
-            <td>${foodListVO.foodType}</td>
-            <td>${foodListVO.foodName}</td>
-            <td>${foodListVO.foodPrice}</td>
-            <td>${foodListVO.foodProtein}</td>
-            <td>${foodListVO.foodFat}</td>
-            <td>${foodListVO.foodCarb}</td>
-            <td class="foodStock">${foodListVO.foodStock}</td>
+            <td class="foodId">${foodVO.foodId}</td>
+            <td>${foodVO.foodType}</td>
+            <td>${foodVO.foodName}</td>
+            <td>${foodVO.foodPrice}</td>
+            <td>${foodVO.foodProtein}</td>
+            <td>${foodVO.foodFat}</td>
+            <td>${foodVO.foodCarb}</td>
+            <td class="foodStock">${foodVO.foodStock}</td>
             <c:choose>
-                <c:when test="${foodListVO.isSelling == 0}"> <td class="isSelling" style="color:red;">발주 중지</td> </c:when>
-                <c:when test="${foodListVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 가능</td> </c:when>
-                <c:when test="${foodListVO.isSelling == 2}"> <td class="isSelling" style="color:blue;">발주 준비</td> </c:when>
+                <c:when test="${foodVO.isSelling == 0}"> <td class="isSelling" style="color:red;">발주 중지</td> </c:when>
+                <c:when test="${foodVO.isSelling == 1}"> <td class="isSelling" style="color:green;">발주 가능</td> </c:when>
+                <c:when test="${foodVO.isSelling == 2}"> <td class="isSelling" style="color:blue;">발주 준비</td> </c:when>
             </c:choose>
-            <td><a href="../image/foodThumbnail?foodId=${foodListVO.foodId}" target="_blank">대표 사진 보기</a></td>
+            <td><a href="../image/foodThumbnail?foodId=${foodVO.foodId}" target="_blank">대표 사진 보기</a></td>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <td><a href="update?foodId=${foodListVO.foodId}">수정</a></td>
-                <td class="delete"><a href="delete?foodId=${foodListVO.foodId}">삭제</a></td>
+                <td><a href="update?foodId=${foodVO.foodId}">수정</a></td>
+                <td class="delete"><a href="delete?foodId=${foodVO.foodId}">삭제</a></td>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_OWNER')">
-                <td><input class="foodAmount" type="number" min="1" max="${foodListVO.foodStock}"><button class="insert">발주</button></td>
+                <td><input class="foodAmount" type="number" min="1" max="${foodVO.foodStock}"><button class="insert">발주</button></td>
             </sec:authorize>
         </tr>
         </c:forEach>
@@ -276,7 +276,7 @@ $(document).ready(function () {
                         url : '../image/remove2',
                         data : {"foreignId" : foodId},
                         success : function(result){
-                            location.href='../foodlist/delete?foodId=' + foodId;
+                            location.href='../food/delete?foodId=' + foodId;
                         },
                         error: function(){
                             alert("이미지 삭제에 실패했습니다.");

@@ -70,6 +70,10 @@ public class UserController {
 			return "redirect:/convenienceFood/list?convenienceId=" + convenienceId;
 		}
 
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			return "redirect:/admin/console";
+		}
+
 		return defaultUrl;
 	}
 

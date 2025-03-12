@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gs24.website.domain.FoodListVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.service.FavoritesService;
-import com.gs24.website.service.FoodListService;
+import com.gs24.website.service.FoodService;
 import com.gs24.website.service.PreorderService;
 import com.gs24.website.service.QuestionService;
 import com.gs24.website.util.PageMaker;
@@ -35,7 +35,7 @@ public class MemberRESTController {
 	private PreorderService preorderService;
 
 	@Autowired
-	private FoodListService foodListService;
+	private FoodService foodService;
 
 	@Autowired
 	private FavoritesService favoritesService;
@@ -84,7 +84,7 @@ public class MemberRESTController {
 
 	@RequestMapping(value = "/get-food-name", method = RequestMethod.GET, produces = "text/plain; charset=UTF-8")
 	public @ResponseBody String getFoodName(int foodId) {
-		FoodListVO foodVO = foodListService.getFoodById(foodId);
+		FoodVO foodVO = foodService.getFoodById(foodId);
 		return foodVO != null ? foodVO.getFoodName() : "식품 정보 없음";
 	}
 

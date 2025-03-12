@@ -46,6 +46,8 @@ public class OwnerController {
 				int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
 				model.addAttribute("convenienceId", convenienceId);
 				return "redirect:/convenienceFood/list?convenienceId=" + convenienceId;
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+				return "redirect:/admin/console";
 			}
 		}
 		return "/owner/register";
