@@ -7,6 +7,154 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .image-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .image-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #ddd;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+		.submit {
+            background-color: #4CAF50;
+        }
+
+        .submit:hover {
+            background-color: #388E3C;
+        }
+        .cancel {
+            background-color: #f44336;
+        }
+
+        .cancel:hover {
+            background-color: #d32f2f;
+        }
+
+        .image-drop{
+            display: none;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border: 2px dashed #007bff;
+            border-radius: 4px;
+            background-color: #f1f9ff;
+            color: #007bff;
+        }
+
+        .image-drop p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .ImgVOList {
+            display: none;
+        }
+        .radio-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* 개별 라디오 버튼의 레이블 */
+.radio-group label {
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
+}
+
+/* 라디오 버튼이 선택된 상태일 때 */
+input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: white;
+}
+
+/* 라디오 버튼 비선택 상태 */
+input[type="radio"]:not(:checked) + label {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/* 라디오 버튼 숨기기 */
+input[type="radio"] {
+    display: none;
+}
+    </style>
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
@@ -20,22 +168,30 @@
 	<input type="hidden" class="type" value="food">
 
 	<h1>식품 정보 수정</h1>
-	<h2>${FoodVO.foodName }</h2>
 	<form action="update" method="post" id="updateForm">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<h1>${FoodVO.foodName }</h1>
 		<input type="hidden" name="foodId" value="${FoodVO.foodId }"><br>
-		<p>재고량</p>
+		<label>재고량</label>
 		<input type="number" name="foodStock" value="${FoodVO.foodStock }" required="required"><br>
-		<p>가격</p>
+		<label>가격</label>
 		<input type="number" name="foodPrice" value="${FoodVO.foodPrice }" required="required"><br>	
 		<!-- 판매 상태 직접 찝어서 설정해야한다 -->
 		<!-- 0 : 판매 중지 | 1 : 판매 진행 | 2 : 판매 대기 -->
-		판매 중지
-		<input type="radio" name="isSelling" id="val0" value="0">
-		판매 진행
-		<input type="radio" name="isSelling" id="val1" value="1">
-		판매 대기
-		<input type="radio" name="isSelling" id="val2" value="2">
+		<div class="radio-group">
+    <div>
+        <input type="radio" name="isSelling" id="val0" value="0">
+        <label for="val0">판매 중지</label>
+    </div>
+    <div>
+        <input type="radio" name="isSelling" id="val1" value="1">
+        <label for="val1">판매 진행</label>
+    </div>
+    <div>
+        <input type="radio" name="isSelling" id="val2" value="2">
+        <label for="val2">판매 대기</label>
+    </div>
+</div>
 		
 		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgRealName" value="${FoodVO.imgThumbnail.imgRealName }">
 		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgChgName" value="${FoodVO.imgThumbnail.imgChgName }">
@@ -50,40 +206,41 @@
 				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
 			</c:if>
 		</c:forEach>
-	</form>
-	
-	
-	<div class="thumbnail-drop" style="display: none;">
-		대표 사진 드래그로 등록
-	</div>
-	
-	<div class="thumbnail-image">
-		<div class="thumbnail-item">
-			<img src="../image/foodThumbnail?foodId=${FoodVO.foodId }" width="200px" height="200px">
-		</div>
-	</div>
-	<button class="update-thumbnail">대표 사진 수정</button>
-	
 		
-	<div class="image-drop" style="display: none">
-		사진을 드래그 하기
-	</div>
-	<div class="image-list">
-		<c:forEach var="ImgVO" items="${FoodVO.imgList }">
-			<div class="image-item">
-				<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
-				<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }" width="100px" height="100px">
+		<div class="thumbnail-drop" style="display: none;">
+			대표 사진 드래그로 등록
+		</div>
+	
+		<div class="thumbnail-image">
+			<div class="thumbnail-item">
+				<img src="../image/foodThumbnail?foodId=${FoodVO.foodId }" width="200px" height="200px">
 			</div>
-		</c:forEach>
+		</div>
+		<button type="button" class="update-thumbnail">대표 사진 수정</button>
+		
+		<div class="image-drop" style="display: none">
+			사진을 드래그 하기
+		</div>
+		<div class="image-list">
+			<c:forEach var="ImgVO" items="${FoodVO.imgList }">
+				<div class="image-item">
+					<input type="hidden" class="imgChgName" value="${ImgVO.imgChgName }">
+					<img src="../image/foodImage?imgFoodId=${ImgVO.imgId }" width="100px" height="100px">
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div class="button-container">
+			<button type="button" class="update-image">세부 사진 수정</button>
+			<button type="button" class="insert-image">세부 사진 추가</button>
+			<button type="button" class="submit">수정</button>
+			<button type="button" class="cancel" onclick="location.href='../food/list'">돌아가기</button>
 	</div>
+		
+	</form>
 	
 	<div class="ThumbnailVO"></div>
 	<div class="ImgVOList"></div>
-	
-	<button class="update-image">세부 사진 수정</button>
-	<button class="insert-image">세부 사진 추가</button>
-	<button class="submit">수정</button>
-	<button onclick="location.href='../food/list'">돌아가기</button>
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script type="text/javascript">

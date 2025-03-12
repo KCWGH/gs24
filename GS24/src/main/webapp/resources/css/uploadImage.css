@@ -1,14 +1,20 @@
 .image-drop {
     width: 200px;
     height: 200px;
-    border: 2px dashed grey;
-    margin-bottom: 20px;
-    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    border-radius: 8px;
     line-height: 200px;
     font-size: 16px;
     color: grey;
 }
-
+.image-drop p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
 .update-image-drop {
     width: 200px;
     height: 200px;

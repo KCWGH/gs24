@@ -90,33 +90,25 @@
         button:hover {
             background-color: #ccc;
         }
-
-        .cancel-button {
+        .cancel {
             background-color: #f44336;
         }
 
-        .cancel-button:hover {
+        .cancel:hover {
             background-color: #d32f2f;
         }
-
-        .image-drop{
-            display: none;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-            border: 2px dashed #007bff;
-            border-radius: 4px;
-            background-color: #f1f9ff;
-            color: #007bff;
+        .update {
+            background-color: #4CAF50;
         }
 
-        .image-drop p {
-            font-size: 18px;
-            font-weight: bold;
+        .update:hover {
+            background-color: #388E3C;
         }
-
         .ImgVOList {
             display: none;
+        }
+        input[type="number"]{
+        	width: 60px;
         }
     </style>
 </head>
@@ -159,7 +151,7 @@
         </c:forEach>
 
         <div class="image-drop">
-        	<p>사진을 클릭&드래그로 등록</p>
+        	<p>사진을 클릭&드래그</p>
         </div>
 		
         <div class="image-list">
@@ -177,7 +169,7 @@
             <button type="button" class="insert-image">사진 추가</button>
             <button type="button" class="update-image">사진 초기화</button>
             <button type="button" class="update">리뷰 수정</button>
-            <button type="button" class="cancel-button" onclick="history.back()">취소</button>
+            <button type="button" class="cancel" onclick="history.back()">취소</button>
         </div>
     </form>
 	
@@ -241,21 +233,24 @@
                     return;
                 }
 				
-                var i = $("#updateForm").children(".input-image-list").length / 4;
+                var i = $("#updateForm").children(".input-image-items").length;
      			console.log(i);
      			
      			$(".ImgVOList input").each(function(){
      				var ImgVO = JSON.parse($(this).val());
      				
+     				var div		 =	$('<div>').attr('class','input-image-items');
      				var realName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
      				var chgName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
      				var extension =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
      				var path =		$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
      				
-     				updateForm.append(realName);
-     				updateForm.append(chgName);
-     				updateForm.append(extension);
-     				updateForm.append(path);
+     				div.append(realName);
+     				div.append(chgName);
+     				div.append(extension);
+     				div.append(path);
+     				
+     				updateForm.append(div);
      				
      				i++;
      			});

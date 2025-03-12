@@ -55,20 +55,6 @@
     .form-group input[type="number"] {
         width: 60px;
     }
-    .image-drop {
-        padding: 20px;
-        border: 2px dashed #ccc;
-        text-align: center;
-        margin-bottom: 20px;
-        cursor: pointer;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-    }
-    .image-drop p {
-        margin: 0;
-        font-size: 16px;
-        color: #333;
-    }
     .button-container {
     	display: flex;
         justify-content: space-between;
