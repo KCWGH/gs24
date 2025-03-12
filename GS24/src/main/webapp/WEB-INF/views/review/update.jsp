@@ -99,7 +99,7 @@
             background-color: #d32f2f;
         }
 
-        .image-drop, .update-image-drop {
+        .image-drop{
             display: none;
             text-align: center;
             padding: 15px;
@@ -110,7 +110,7 @@
             color: #007bff;
         }
 
-        .image-drop p, .update-image-drop p {
+        .image-drop p {
             font-size: 18px;
             font-weight: bold;
         }
@@ -150,23 +150,24 @@
         <input type="number" name="reviewRating" value="${reviewVO.reviewRating}" min="1" max="5" />
 
         <c:forEach var="ImgVO" items="${reviewVO.imgList}" varStatus="status">
-            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgRealName" value="${ImgVO.imgRealName}">
-            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgChgName" value="${ImgVO.imgChgName}">
-            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgExtension" value="${ImgVO.imgExtension}">
-            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgPath" value="${ImgVO.imgPath}">
+        	<div class="input-image-items">
+	            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgRealName" value="${ImgVO.imgRealName}">
+    	        <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgChgName" value="${ImgVO.imgChgName}">
+        	    <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgExtension" value="${ImgVO.imgExtension}">
+            	<input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgPath" value="${ImgVO.imgPath}">
+        	</div>
         </c:forEach>
 
         <div class="image-drop">
-            <p>드래그 해서 사진을 추가</p>
+        	<p>사진을 클릭&드래그로 등록</p>
         </div>
-
-        <div class="update-image-drop">
-            <p>드래그 해서 사진 수정</p>
-        </div>
-
+		
         <div class="image-list">
             <c:forEach var="ImgVO" items="${reviewVO.imgList}">
                 <div class="image-item">
+                	<input type="hidden" id="ImgPath" value="${ImgVO.imgPath }">
+					<input type="hidden" id="ImgChgName" value="${ImgVO.imgChgName }">
+					<input type="hidden" id="ImgExtension" value="${ImgVO.imgExtension }">
                     <img src="../image/reviewImage?imgId=${ImgVO.imgId}" alt="Review Image" />
                 </div>
             </c:forEach>
@@ -174,15 +175,16 @@
 
         <div class="button-container">
             <button type="button" class="insert-image">사진 추가</button>
-            <button type="button" class="update-image">사진 수정</button>
+            <button type="button" class="update-image">사진 초기화</button>
             <button type="button" class="update">리뷰 수정</button>
             <button type="button" class="cancel-button" onclick="history.back()">취소</button>
         </div>
     </form>
-
-    <div class="ImgUpdateList"></div>
+	
+	<input type="file" id="image-click" style="display: none;" multiple="multiple"/>
+	
     <div class="ImgVOList"></div>
-
+	
     <script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -204,18 +206,35 @@
                     $(".image-drop").show();
                 }
             });
-
+			
+            $(".image-list").on('click','.image-item',function(){
+                $(this).remove();
+                var isDelete = confirm("삭제하시겠습니까?");
+                if(isDelete){
+                    var path = $(this).find('#ImgPath').val();
+                    var chgName = $(this).find('#ImgChgName').val();
+                    var extension = $(this).find('#ImgExtension').val();
+                    
+                    $(".input-image-list").each(function(){
+                    	if($(this).val() == chgName){
+                    		$(this).parent().remove();
+                    	}
+                    });
+                }
+            });
+            
             $(".update").click(function(){
             	var updateForm = $("#updateForm");
                 var convenienceId = ${convenienceId };
                 var inputConvenienceId = $('<input>').attr('type','hidden').attr('name','convenienceId').attr('value',convenienceId);
 
                 var isInputEmpty = false;
-                updateForm.find('input, textarea').each(function(){
-                    if ($(this).val() === '') {
-                        isInputEmpty = true;
-                    }
-                });
+                updateForm.find('input').each(function(){
+     				if($(this).val() == ''){
+     					console.log(this);
+     					isInputEmpty = true;
+     				}
+     			});
 
                 if (isInputEmpty) {
                     alert("값이 빈 곳이 존재합니다.");

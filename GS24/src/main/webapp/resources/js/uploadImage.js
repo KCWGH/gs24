@@ -37,38 +37,7 @@
 			return true; // 모든 조건을 만족하면 true 리턴
 		} // end validateImage()
 
-		
-		// 파일을 끌어다 놓을 때(drag&drop)
-		// 브라우저가 파일을 자동으로 열어주는 기능을 막음
-		$('.image-drop').on('dragenter dragover', function(event){
-			event.preventDefault();
-			console.log('drag 테스트');
-		}); 
-		
-		$('.image-drop').on('drop', function(event){
-			event.preventDefault();
-			console.log('drop 테스트');
-			console.log($(".image-item").length);
-							
-			// 드래그한 파일 정보를 갖고 있는 객체
-			var files = event.originalEvent.dataTransfer.files;
-			console.log(files);
-			
-			if(!validateImages(files)) { 
-				return;
-			}
-			
-			if($(".image-item").length > 3){
-				$('.image-list').empty(); // 기존 이미지 dto 초기화
-			}
-			
-			if((files.length + $(".image-item").length) > 3){
-				alert("출력할 수 있는 이미지는 최대 3개 입니다.");
-				return;
-			}
-			
-			// Ajax를 이용하여 서버로 파일을 업로드
-			// multipart/form-data 타입으로 파일을 업로드하는 객체
+		function saveImages(files){
 			var formData = new FormData();
 			for(var i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); 
@@ -110,6 +79,66 @@
 					$(".image-list").html(htmlList);
 				} // end success
 			}); // end $.ajax()
+		}
+		
+		// 파일을 끌어다 놓을 때(drag&drop)
+		// 브라우저가 파일을 자동으로 열어주는 기능을 막음
+		$('.image-drop').on('dragenter dragover', function(event){
+			event.preventDefault();
+			console.log('drag 테스트');
+		}); 
+		
+		$('.image-drop').click(function() {
+                // Trigger the click event on the hidden file input
+                $('#image-click').click();
+        });
+            
+            $('#image-click').change(function() {
+            	var files = [];
+                // Loop through all the selected files and get their names
+                $.each(this.files, function(index, file) {
+                    files.push(file);  // Get the file name
+                });
+                
+                console.log(files);
+                
+                if(!validateImages(files)){
+                	return;
+                }
+                if($(".image-item").length > 3){
+					$('.image-list').empty(); // 기존 이미지 dto 초기화
+				}
+				if((files.length + $(".image-item").length) > 3){
+					alert("출력할 수 있는 이미지는 최대 3개 입니다.");
+					return;
+				}
+				
+				saveImages(files);
+            });
+		
+		$('.image-drop').on('drop', function(event){
+			event.preventDefault();
+			console.log('drop 테스트');
+			console.log($(".image-item").length);
+							
+			// 드래그한 파일 정보를 갖고 있는 객체
+			var files = event.originalEvent.dataTransfer.files;
+			console.log(files);
+			
+			if(!validateImages(files)) { 
+				return;
+			}
+			
+			if($(".image-item").length > 3){
+				$('.image-list').empty(); // 기존 이미지 dto 초기화
+			}
+			
+			if((files.length + $(".image-item").length) > 3){
+				alert("출력할 수 있는 이미지는 최대 3개 입니다.");
+				return;
+			}
+			
+			saveImages(files);
 			
 		}); // end image-drop()
 		

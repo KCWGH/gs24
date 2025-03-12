@@ -112,24 +112,6 @@
         gap: 10px;
         margin-top: 20px;
     }
-    .image-item {
-        position: relative;
-        display: inline-block;
-        width: 120px;
-        height: 120px;
-        background-color: #eee;
-        border-radius: 8px;
-        overflow: hidden;
-        text-align: center;
-        line-height: 120px;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    .image-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
     .image-item .delete {
         position: absolute;
         top: 5px;
@@ -176,8 +158,9 @@
             <div class="form-group">
                 <p>사진 등록</p>
                 <div class="image-drop">
-                    <p>사진을 드래그해서 등록</p>
+                    <p>사진을 클릭&드래그로 등록</p>
                 </div>
+                <input type="file" id="image-click" style="display: none;" multiple="multiple"/>
                 <div class="image-list"></div>
             </div>
 			
