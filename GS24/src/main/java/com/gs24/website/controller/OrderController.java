@@ -43,21 +43,14 @@ public class OrderController {
 	@GetMapping("/list")
 	public String getAllOrders(Model model, Pagination pagination) {
 		log.info("getAllOrders");
+		
 		pagination.setPageSize(10);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(orderService.countTotalOrders());
+		
+		PageMaker pageMaker = createPageMaker(pagination, orderService.countTotalOrders());
+		
 		List<OrderVO> orderList = orderService.getAllPagedOrders(pagination);
 		
-		for (OrderVO order : orderList) {
-		        String foodName = foodService.getFoodNameByFoodId(order.getFoodId());
-		        order.setFoodName(foodName);
-		    }
-		
-		for (OrderVO order : orderList) {
-		    	String foodType = foodService.getFoodTypeByFoodId(order.getFoodId());
-		    	order.setFoodType(foodType);
-		    }
+		OrderWithFoodDetails(orderList);
 		 
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageMaker", pageMaker);
@@ -83,24 +76,15 @@ public class OrderController {
 	    String ownerId = auth.getName();	    
 	    int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
 	    OwnerVO ownerVO = ownerService.getOwner(ownerId);
-	    
-	    PageMaker pageMaker = new PageMaker();
+	        
 	    pagination.setPageSize(10); 
 	    pagination.setOwnerVO(ownerVO);
-	    pageMaker.setTotalCount(orderService.countOrdersByOwnerId(ownerId));
-	    pageMaker.setPagination(pagination);
-
+	    
+	    PageMaker pageMaker = createPageMaker(pagination, orderService.countOrdersByOwnerId(ownerId));
+	    
 	    List<OrderVO> ordersByOwner = orderService.getPagedOrdersByOwnerId(ownerId, pagination);
 	    
-	    for (OrderVO order : ordersByOwner) {
-	        String foodName = foodService.getFoodNameByFoodId(order.getFoodId());
-	        order.setFoodName(foodName);
-	    }
-	    
-	    for (OrderVO order : ordersByOwner) {
-	    	String foodType = foodService.getFoodTypeByFoodId(order.getFoodId());
-	    	order.setFoodType(foodType);
-	    }
+	    OrderWithFoodDetails(ordersByOwner);
 	    
 	    model.addAttribute("convenienceId",convenienceId);
 	    model.addAttribute("ordersByOwner", ordersByOwner);
@@ -108,6 +92,18 @@ public class OrderController {
 
 	    return "orders/ownerList"; 
 	}
-
-
+	
+	private void OrderWithFoodDetails(List<OrderVO> orderList) {
+        for (OrderVO order : orderList) {
+            order.setFoodName(foodService.getFoodNameByFoodId(order.getFoodId()));
+            order.setFoodType(foodService.getFoodTypeByFoodId(order.getFoodId()));
+        }
+    }
+	
+	private PageMaker createPageMaker(Pagination pagination, int totalCount) {
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setPagination(pagination);
+        pageMaker.setTotalCount(totalCount);
+        return pageMaker;
+    }
 }

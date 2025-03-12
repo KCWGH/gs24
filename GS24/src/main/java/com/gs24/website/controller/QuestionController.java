@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -55,29 +54,14 @@ public class QuestionController {
 		log.info("list()");
 		
 		if (auth != null) {
-			String username = auth.getName();
-			model.addAttribute("userId", username);
-
-			MemberVO memberVO = memberService.getMember(username);
-			if (memberVO != null) {
-				model.addAttribute("memberVO", memberVO);
-			}
-			else {
-				OwnerVO ownerVO = ownerService.getOwner(username);
-				if (ownerVO != null) {
-					model.addAttribute("ownerVO", ownerVO);
-				}
-			}
-		}
+	        String username = auth.getName();
+	        model.addAttribute("userId", username);
+	        model.addAttribute("userVO", getUserInfo(username)); 
+	    }
 
 		pagination.setPageSize(10);
 		List<QuestionVO> questionList = questionService.getPagedQuestions(pagination);
-
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(questionService.getTotalCount());
-
-		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("pageMaker", createPageMaker(pagination, questionService.getTotalCount()));
 		model.addAttribute("questionList", questionList);
 	}
 
@@ -176,7 +160,6 @@ public class QuestionController {
 
 		model.addAttribute("myQuestionList", myQuestionList); 
 		model.addAttribute("username", username); 
-
 	}
 
 	@GetMapping("/ownerList")
@@ -187,22 +170,29 @@ public class QuestionController {
 		String ownerId = auth.getName();
 		pagination.setOwnerVO(ownerService.getOwner(ownerId));
 		
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(questionService.getTotalCountByOwnerId(ownerId));
-		
 		int convenienceId = convenienceService.getConvenienceIdByOwnerId(ownerId);
 		List<QuestionVO> questionList = questionService.getPagedQuestionListByOwnerId(ownerId, pagination);
 
-		model.addAttribute("convenienceId", convenienceId);
-		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("convenienceId", convenienceId);		
+		model.addAttribute("pageMaker", createPageMaker(pagination, questionService.getTotalCountByOwnerId(ownerId)));
 		model.addAttribute("questionList", questionList);
 	}
 	
 	@GetMapping("/getFoodTypeList")
-    @ResponseBody
-    public ResponseEntity<List<String>> getFoodTypeList(@RequestParam("convenienceId") int convenienceId) {
-        List<String> foodTypeList = convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId);
-        return ResponseEntity.ok(foodTypeList);
+	@ResponseBody
+	public List<String> getFoodTypeList(@RequestParam("convenienceId") int convenienceId) {
+	    return convenienceFoodService.getFoodTypeListByConvenienceId(convenienceId);
+	}
+	
+	private PageMaker createPageMaker(Pagination pagination, int totalCount) {
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setPagination(pagination);
+        pageMaker.setTotalCount(totalCount);
+        return pageMaker;
     }
+	
+	private Object getUserInfo(String username) {
+	    MemberVO memberVO = memberService.getMember(username);
+	    return (memberVO != null) ? memberVO : ownerService.getOwner(username);
+	}
 }

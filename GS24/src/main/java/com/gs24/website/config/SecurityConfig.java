@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         .antMatchers(
             "/user/mypage", "/user/verify", "/user/change-pw", 
-            "/imgfood/register", "/question/list"
+            "/imgfood/register"
         ).authenticated()
         
         .antMatchers(
@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/giftcard/purchase", "/giftcard/grant", "/preorder/create", 
             "/preorder/list", "/preorder/all/**", "/preorder/pickedup", 
             "/preorder/cancel", "/preorder/delete", "/review/register", 
-            "/review/update", "/question/modify", "/question/register"
+            "/review/update", "/question/modify", "/question/register", "/question/list"
         ).access("hasRole('ROLE_MEMBER')")
         
         .antMatchers(

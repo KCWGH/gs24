@@ -21,6 +21,7 @@ public class Pagination {
 	private MemberVO memberVO;
 	private OwnerVO ownerVO;
 	private int convenienceId;
+	private String userRole;
 
 	public Pagination() {
 		this.pageNum = 1;
@@ -46,5 +47,13 @@ public class Pagination {
 
 	public int getEnd() {
 		return this.pageNum * this.pageSize;
+	}
+	
+	public String getUserRole() {
+	    return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+	    this.userRole = userRole;
 	}
 }

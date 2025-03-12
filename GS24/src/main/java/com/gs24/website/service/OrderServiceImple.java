@@ -35,10 +35,8 @@ public class OrderServiceImple implements OrderService {
             throw new IllegalArgumentException("재고가 부족합니다. 현재 재고: " + currentStock);
         }
         
-        // 재고 차감
         foodService.updateFoodStockByFoodAmount(order.getFoodId(), order.getOrderAmount());
 
-        // 발주 내역 DB에 저장
         orderMapper.insertOrder(order);
 	}
 

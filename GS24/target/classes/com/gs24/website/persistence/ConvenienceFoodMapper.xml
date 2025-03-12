@@ -185,8 +185,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="selectFoodTypeListByConvenienceId" resultType="java.lang.String">
-		 SELECT DISTINCT food_type 
-		 FROM food_list fl JOIN convenience_food cf ON fl.food_id = cf.food_id 
-		 WHERE cf.convenience_id = #{convenienceId} 
+		 SELECT DISTINCT FOOD_TYPE 
+		 FROM FOOD fl JOIN CONVENIENCE_FOOD cf ON fl.FOOD_ID = cf.FOOD_ID 
+		 WHERE cf.CONVENIENCE_ID = #{convenienceId} 
 	</select>
 </mapper>

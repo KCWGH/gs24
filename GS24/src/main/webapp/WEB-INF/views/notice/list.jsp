@@ -216,10 +216,10 @@
                 var searchForm = $("#searchForm");
                 e.preventDefault();
 
-                var keywordVal = searchForm.find("input[name='keyword']").val();
-                if (keywordVal == '') {
-                    alert('검색 내용을 입력하세요.');
-                    return;
+                var keywordVal = searchForm.find("input[name='keyword']").val().trim();
+
+                if (keywordVal === '') {
+                    searchForm.find("input[name='keyword']").remove();
                 }
 
                 var pageNum = 1;

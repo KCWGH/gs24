@@ -34,21 +34,17 @@ public class NoticeController {
 	@GetMapping("/list")
 	public void list(Authentication auth, Model model, Pagination pagination) {
 		log.info("list()");
+		
+		String userRole = getUserRole(auth);
+		pagination.setUserRole(userRole);
+		
 		pagination.setPageSize(10);
+        int totalCount = noticeService.getTotalCount(pagination);
+        PageMaker pageMaker = createPageMaker(pagination, totalCount);
+        
 		List<NoticeVO> noticeList = noticeService.getPagedNotices(pagination);
 
-		if (auth != null) {
-			String username = auth.getName();
-			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
-				model.addAttribute("convenienceId", convenienceId);
-			}
-		}
-
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setPagination(pagination);
-		pageMaker.setTotalCount(noticeService.getTotalCount(pagination));
-
+		model.addAttribute("convenienceId", getConvenienceIdIfOwner(auth));
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("noticeList", noticeList);
 
@@ -70,22 +66,15 @@ public class NoticeController {
 	@GetMapping("/detail")
 	public void detail(Authentication auth, Model model, Integer noticeId) {
 		log.info("detail()");
-		if (auth != null) {
-			String username = auth.getName();
-			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
-				int convenienceId = convenienceService.getConvenienceIdByOwnerId(username);
-				model.addAttribute("convenienceId", convenienceId);
-			}
-		}
 		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
+		model.addAttribute("convenienceId", getConvenienceIdIfOwner(auth));
 		model.addAttribute("noticeVO", noticeVO);
 	}
 
 	@GetMapping("/modify")
 	public void modifyGET(Model model, Integer noticeId) {
 		log.info("modifyGET()");
-		NoticeVO noticeVO = noticeService.getNoticeById(noticeId);
-		model.addAttribute("noticeVO", noticeVO);
+		model.addAttribute("noticeVO", noticeService.getNoticeById(noticeId));
 	}
 
 	@PostMapping("/modify")
@@ -108,4 +97,29 @@ public class NoticeController {
 		log.info(result + "건 삭제");
 		return "redirect:/notice/list";
 	}
+	
+	private PageMaker createPageMaker(Pagination pagination, int totalCount) {
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setPagination(pagination);
+        pageMaker.setTotalCount(totalCount);
+        return pageMaker;
+    }
+	
+	 private Integer getConvenienceIdIfOwner(Authentication auth) {
+	        if (auth != null && auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+	            return convenienceService.getConvenienceIdByOwnerId(auth.getName());
+	        }
+	        return null;
+	    }
+	 
+	 private String getUserRole(Authentication auth) {
+		    if (auth != null && auth.getAuthorities() != null) {
+		        if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+		            return "ROLE_ADMIN";
+		        } else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+		            return "ROLE_OWNER";
+		        }
+		    }
+		    return "ROLE_MEMBER"; 
+		}
 }

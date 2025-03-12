@@ -46,34 +46,57 @@
 	</delete>
 
 	<select id="selectListByPagination" resultMap="noticeResultMap">
-		SELECT * FROM
-		(
-		SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC) AS RN, NOTICE.*
-		FROM NOTICE	
-		<choose>
-				<when test="type == 'title'.toString()">
-					WHERE NOTICE_TITLE LIKE '%'||#{keyword}||'%'
-				</when>
-				<when test="type == 'content'.toString()">
-					WHERE NOTICE_CONTENT LIKE '%'||#{keyword}||'%'
-				</when>	
-			</choose>	   
-			) 
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
+        SELECT * FROM (
+            SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_ID DESC) AS RN, NOTICE.*
+            FROM NOTICE
+            <choose>
+                <when test="userRole == 'ROLE_ADMIN'">
+                </when>
+                <when test="userRole == 'ROLE_OWNER'">
+                    WHERE NOTICE_TYPE IN (0, 1)
+                </when>
+                <otherwise>
+                    WHERE NOTICE_TYPE = 0
+                </otherwise>
+            </choose>
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <when test="type == 'title'">
+                        AND NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="type == 'content'">
+                        AND NOTICE_CONTENT LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        ) WHERE RN BETWEEN #{start} AND #{end}
+    </select>
 
-	<select id="selectTotalCount" resultType="Integer">
-    SELECT COUNT(*) AS TOTAL_COUNT 
-    FROM NOTICE 
-    WHERE NOTICE_TYPE = 0
-    <choose>
-        <when test="type == 'title'">
-            AND NOTICE_TITLE LIKE '%'||#{keyword}||'%'
-        </when>
-        <when test="type == 'content'">
-            AND NOTICE_CONTENT LIKE '%'||#{keyword}||'%'
-        </when>
-    </choose>
-	</select>
+    <select id="selectTotalCount" resultType="Integer">
+        SELECT COUNT(*) AS TOTAL_COUNT 
+        FROM NOTICE
+        <choose>
+            <when test="userRole == 'ROLE_ADMIN'">
+            </when>
+            <when test="userRole == 'ROLE_OWNER'">
+                WHERE NOTICE_TYPE IN (0, 1)
+            </when>
+            <otherwise>
+                WHERE NOTICE_TYPE = 0
+            </otherwise>
+        </choose>
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="type == 'title'">
+                    AND NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="type == 'content'">
+                    AND NOTICE_CONTENT LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+    </select>
+
+
 
 </mapper>
