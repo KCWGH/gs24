@@ -87,6 +87,13 @@ public class PreorderServiceImple implements PreorderService {
 		boolean useGiftCard = !giftCardIdString.isEmpty();
 		boolean useCoupon = !couponIdString.isEmpty();
 
+		ConvenienceFoodVO convenienceFoodVO = convenienceFoodMapper
+				.selectConvenienceFoodByFoodIdAndConvenienceId(preorderVO.getFoodId(), preorderVO.getConvenienceId());
+
+		if (convenienceFoodVO.getShowStatus() == 0) {
+			return "판매 중지중인 상품입니다. 다른 상품을 예약해 주세요.";
+		}
+
 		if (useGiftCard && useCoupon) { // 둘 다 사용했다면
 			giftCardId = Integer.parseInt(giftCardIdString);
 			couponId = Integer.parseInt(couponIdString);
@@ -308,6 +315,7 @@ public class PreorderServiceImple implements PreorderService {
 			return false;
 		}
 	}
+
 	@Override
 	public int updateShowStatus(int preorderId) {
 		log.info("upateShowStatus");

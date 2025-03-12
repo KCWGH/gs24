@@ -3,7 +3,7 @@
     
     
     
-    <wb-module deploy-name="website-1.0.0-BUILD-SNAPSHOT">
+    <wb-module deploy-name="gs24-1.0.0-BUILD-SNAPSHOT">
                                         
         
         
@@ -28,7 +28,7 @@
         
         
         
-        <property name="context-root" value="website"/>
+        <property name="context-root" value="gs24"/>
                         
         
         <property name="java-output-path" value="/GS24/target/classes"/>

@@ -645,10 +645,10 @@ ul {
     	    $("#search").toggle();
 
     	    var currentText = $(this).text();
-    	    if (currentText === '상세검색🔎') {
+    	    if (currentText === '상세검색🔎' || currentText === '상세검색📘') {
     	        $(this).text('상세검색📖');
     	    } else {
-    	        $(this).text('상세검색🔎');
+    	        $(this).text('상세검색📘');
     	    }
     	});
       
