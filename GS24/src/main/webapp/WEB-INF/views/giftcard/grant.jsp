@@ -125,6 +125,7 @@ button:hover {
 
         $(document).ready(function() {
             let currentDate = new Date();
+            currentDate.setFullYear(currentDate.getFullYear() + 1);
             let year = currentDate.getFullYear();
             let month = String(currentDate.getMonth() + 1).padStart(2, '0');
             let day = String(currentDate.getDate()).padStart(2, '0');

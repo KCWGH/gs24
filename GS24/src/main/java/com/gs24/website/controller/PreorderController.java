@@ -61,8 +61,10 @@ public class PreorderController {
 		}
 		model.addAttribute("address", address);
 		model.addAttribute("foodVO", convenienceDetailFoodVO);
+		
 		List<CouponVO> couponList = couponService.getCouponListByFoodType(convenienceDetailFoodVO.getFoodType());
 		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId, convenienceDetailFoodVO.getFoodType());
+		
 		model.addAttribute("couponList", couponList);
 		model.addAttribute("giftCardList", giftCardList);
 		return "/preorder/create";

@@ -28,11 +28,11 @@
         #{couponId}, #{foodType}, #{couponName}, #{couponAmount}, 
         #{discountType}, 
         <choose>
-            <when test="discountType == 'A'">NULL</when> <!-- A일 경우 null, DB 기본값 적용 -->
+            <when test="discountType == 'A'">NULL</when>
             <otherwise>#{percentage}</otherwise>
         </choose>,
         <choose>
-            <when test="discountType == 'P'">NULL</when> <!-- P일 경우 null, DB 기본값 적용 -->
+            <when test="discountType == 'P'">NULL</when>
             <otherwise>#{amount}</otherwise>
         </choose>,
         #{couponExpiredDate}, #{isDuplicateAllowed}
@@ -76,7 +76,7 @@
 	<select id="selectListByFoodType" resultMap="CouponResultMap">
 		SELECT * 
 		FROM COUPON
-		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체')
+		WHERE (FOOD_TYPE = #{foodType} OR FOOD_TYPE = '전체') AND COUPON_EXPIRED_DATE >= SYSDATE
 		ORDER BY COUPON_ID DESC
 	</select>
 	

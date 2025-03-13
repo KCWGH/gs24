@@ -59,6 +59,7 @@ h1 {
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button-container button {
@@ -67,15 +68,15 @@ h1 {
     padding: 10px 20px;
     border-radius: 4px;
     border: none;
-    background-color: #ddd;
+    background-color: white;
     color: black;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 19px;
     text-align: center;
 }
 
 .button-container button:hover {
-    background-color: #bbb;
+    transform: scale(1.1);
 }
 
 .foodAvgRating {
@@ -149,11 +150,6 @@ ul {
     text-decoration: none;
     border-radius: 5px;
     color: black;
-}
-
-.button-container {
-    text-align: right;
-    margin-bottom: 10px;
 }
 
 .pagination_button.current a {
@@ -342,21 +338,22 @@ ul {
             </div>
                 <div class="button-container">
                     <sec:authorize access="isAnonymous()">
-                		<button id="needLogin">예약하기</button>
+                		<button id="needLogin"><strong>예약하기</strong></button>
                 	</sec:authorize>
                 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-                    <button onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=710,top=100,left=200')">예약하기</button>
-                	</sec:authorize>
+                    <button onclick="window.open('../preorder/create?foodId=${FoodVO.foodId }&convenienceId=${FoodVO.convenienceId }', '_blank', 'width=500,height=710,top=100,left=200')"><strong>예약하기</strong></button>
+
                     <c:choose>
                         <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
                             <button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
-                                data-convenienceId="${FoodVO.convenienceId }">찜 해제하기</button>
+                                data-convenienceId="${FoodVO.convenienceId }">❤️</button>
                         </c:when>
                         <c:otherwise>
                             <button class="addFavorites" data-foodId="${FoodVO.foodId}"
-                                data-convenienceId="${FoodVO.convenienceId }">찜하기</button>
+                                data-convenienceId="${FoodVO.convenienceId }">🤍</button>
                         </c:otherwise>
                     </c:choose>
+                	</sec:authorize>                    
                 </div>
         </li>
     </c:if>
@@ -479,7 +476,7 @@ ul {
 		            
 		            button.removeClass('addFavorites')
 		                  .addClass('deleteFavorites')
-		                  .text('찜 해제하기')
+		                  .text('❤️')
 		        },
 		        error: function(xhr, status, error) {
 		            let responseText = xhr.responseText;
@@ -511,7 +508,7 @@ ul {
 
 		            button.removeClass('deleteFavorites')
 		                  .addClass('addFavorites')
-		                  .text('찜하기')
+		                  .text('🤍')
 		        },
 		        error: function(xhr, status, error) {
 		            let responseText = xhr.responseText;
