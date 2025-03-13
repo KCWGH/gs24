@@ -25,7 +25,7 @@ public class KakaoLoginUtil {
 	private HttpUtil httpUtil;
 	
 	private String clientId = "37a993700004ae9f4806d2f6830189c6";
-	private String redirectUri = "http://localhost:8080/website/auth/kakao";
+	private String redirectUri = "http://localhost:8080/gs24/auth/kakao";
 	private String adminKey = "d7ee430e236ccd79d4b99b65bba3ff16";
 	/**
 	 * 카카오 로그인 API access_token 정보를 가져오기 위한 인가코드 전송 메소드

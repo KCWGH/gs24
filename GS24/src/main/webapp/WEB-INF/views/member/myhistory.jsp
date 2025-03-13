@@ -234,7 +234,8 @@ label:hover {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    margin-top: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .favorites-item {

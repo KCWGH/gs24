@@ -204,7 +204,7 @@ ${sessionScope.role}
 			</c:if>
 		</c:forEach>
 		<div class="thumbnail-drop" style="display: none;">
-			<p>대표 사진 클릭&드래그</p>
+			<p>대표 사진 클릭&amp;드래그</p>
 		</div>
 	
 		<div class="thumbnail-image">
@@ -215,7 +215,7 @@ ${sessionScope.role}
 		<button type="button" class="update-thumbnail">대표 사진 수정</button>
 		
 		<div class="image-drop" style="display: none">
-			<p>세부 사진 클릭&드래그</p>
+			<p>세부 사진 클릭&amp;드래그</p>
 		</div>
 		<div class="image-list">
 			<c:forEach var="ImgVO" items="${FoodVO.imgList }">

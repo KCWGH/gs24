@@ -35,8 +35,13 @@
 	</select>
 	
 	<select id="countFavoritesByMemberId" resultType="Integer">
-		SELECT COUNT(*)
-		TOTAL_COUNT FROM FAVORITES WHERE MEMBER_ID = #{memberId}
+		SELECT COUNT(*) 
+		FROM FAVORITES F
+		LEFT JOIN CONVENIENCE_FOOD CF 
+    		ON F.FOOD_ID = CF.FOOD_ID 
+    		AND F.CONVENIENCE_ID = CF.CONVENIENCE_ID
+		WHERE F.MEMBER_ID = #{memberId}
+		AND CF.SHOW_STATUS = 1
 	</select>
 	
 	<select id="countFavoritesByMemberIdAndFoodIdAndConvenienceId" resultType="Integer">

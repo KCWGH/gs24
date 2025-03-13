@@ -76,6 +76,7 @@ h1 {
 }
 
 .button-container button:hover {
+	color: green;
     transform: scale(1.1);
 }
 
@@ -272,6 +273,11 @@ ul {
 .sort-options li:hover {
     background-color: silver;
 }
+
+.favorite-icon {
+    width: 32px;
+    height: 32px;
+}
 </style>
 </head>
 <body>
@@ -346,11 +352,11 @@ ul {
                     <c:choose>
                         <c:when test="${isAddedMap[FoodVO.foodId] == 1}">
                             <button class="deleteFavorites" data-foodId="${FoodVO.foodId}"
-                                data-convenienceId="${FoodVO.convenienceId }">❤️</button>
+                                data-convenienceId="${FoodVO.convenienceId }"><img class="favorite-icon" src="${pageContext.request.contextPath}/resources/images/favorites/fullHeart.png" alt="added" /></button>
                         </c:when>
                         <c:otherwise>
                             <button class="addFavorites" data-foodId="${FoodVO.foodId}"
-                                data-convenienceId="${FoodVO.convenienceId }">🤍</button>
+                                data-convenienceId="${FoodVO.convenienceId }"><img class="favorite-icon" src="${pageContext.request.contextPath}/resources/images/favorites/emptyHeart.png" alt="unAdded" /></button>
                         </c:otherwise>
                     </c:choose>
                 	</sec:authorize>                    
@@ -451,73 +457,68 @@ ul {
 		   alert('예약하시려면 로그인해주세요');
 	   });
 	   
-	   $(document).on('click', '.addFavorites', function(event) {
-		    let memberId = '${memberId}';
-		    let foodId = $(this).data('foodid');
-		    let convenienceId = $(this).data('convenienceid');
+	   $(document).on("click", ".addFavorites", function (event) {
+	        let memberId = "${memberId}";
+	        let foodId = $(this).data("foodid");
+	        let convenienceId = $(this).data("convenienceid");
 
-		    if (memberId === '') {
-		        alert('찜하시려면 로그인해주세요');
-		        return;
-		    }
+	        if (memberId === "") {
+	            alert("찜하시려면 로그인해주세요");
+	            return;
+	        }
 
-		    $.ajax({
-		        url: '../favorites/add',
-		        type: 'POST',
-		        data: {
-		            memberId: memberId,
-		            foodId: foodId,
-		            convenienceId: convenienceId
-		        },
-		        success: function(response) {
-		            alert("찜 목록에 추가되었습니다");
+	        $.ajax({
+	            url: "../favorites/add",
+	            type: "POST",
+	            data: {
+	                memberId: memberId,
+	                foodId: foodId,
+	                convenienceId: convenienceId
+	            },
+	            success: function (response) {
+	                alert("찜 목록에 추가되었습니다");
 
-		            let button = $("button[data-foodid='" + foodId + "']");
-		            
-		            button.removeClass('addFavorites')
-		                  .addClass('deleteFavorites')
-		                  .text('❤️')
-		        },
-		        error: function(xhr, status, error) {
-		            let responseText = xhr.responseText;
-		            if (responseText == 0) {
-		                alert("찜 목록 추가에 실패했습니다");
-		            }
-		        }
-		    });
-		});
+	                let button = $("button[data-foodid='" + foodId + "']");
+	                button.removeClass("addFavorites").addClass("deleteFavorites");
+	                button.find("img").attr("src", "${pageContext.request.contextPath}/resources/images/favorites/fullHeart.png");
+	            },
+	            error: function (xhr, status, error) {
+	                let responseText = xhr.responseText;
+	                if (responseText == 0) {
+	                    alert("찜 목록 추가에 실패했습니다");
+	                }
+	            }
+	        });
+	    });
 
-		
-	   $(document).on('click', '.deleteFavorites', function(event) {
-		    let memberId = '${memberId}';
-		    let foodId = $(this).data('foodid');
-		    let convenienceId = $(this).data('convenienceid');
+	    $(document).on("click", ".deleteFavorites", function (event) {
+	        let memberId = "${memberId}";
+	        let foodId = $(this).data("foodid");
+	        let convenienceId = $(this).data("convenienceid");
 
-		    $.ajax({
-		        url: '../favorites/delete',
-		        type: 'POST',
-		        data: {
-		            memberId: memberId,
-		            foodId: foodId,
-		            convenienceId: convenienceId
-		        },
-		        success: function(response) {
-		            alert("찜 목록에서 삭제되었습니다");
+	        $.ajax({
+	            url: "../favorites/delete",
+	            type: "POST",
+	            data: {
+	                memberId: memberId,
+	                foodId: foodId,
+	                convenienceId: convenienceId
+	            },
+	            success: function (response) {
+	                alert("찜 목록에서 삭제되었습니다");
 
-		            let button = $("button[data-foodid='" + foodId + "']");
-
-		            button.removeClass('deleteFavorites')
-		                  .addClass('addFavorites')
-		                  .text('🤍')
-		        },
-		        error: function(xhr, status, error) {
-		            let responseText = xhr.responseText;
-		            if (responseText == 0) {
-		                alert("찜 목록 삭제에 실패했습니다");
-		            }
-		        }
-		    });
-		});
+	                let button = $("button[data-foodid='" + foodId + "']");
+	                button.removeClass("deleteFavorites").addClass("addFavorites");
+	                button.find("img").attr("src", "${pageContext.request.contextPath}/resources/images/favorites/emptyHeart.png");
+	            },
+	            error: function (xhr, status, error) {
+	                let responseText = xhr.responseText;
+	                if (responseText == 0) {
+	                    alert("찜 목록 삭제에 실패했습니다");
+	                }
+	            }
+	        });
+	    });
       
       $(".pagination_button a").on("click", function(e){
          var listForm = $("#listForm"); // form 객체 참조

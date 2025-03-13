@@ -3,6 +3,7 @@ package com.gs24.website.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.service.ConvenienceService;
+import com.gs24.website.service.FoodApiService;
 import com.gs24.website.service.FoodService;
 import com.gs24.website.util.PageMaker;
 import com.gs24.website.util.Pagination;
@@ -28,6 +31,9 @@ public class FoodController {
 
 	@Autowired
 	private FoodService foodService;
+
+	@Autowired
+	private FoodApiService foodApiService;
 
 	@Autowired
 	private ConvenienceService convenienceService;
@@ -106,6 +112,15 @@ public class FoodController {
 		} else {
 			return "success";
 		}
+	}
 
+	@GetMapping("/search")
+	public ResponseEntity<String> searchFood(@RequestParam("foodName") String foodName) {
+		try {
+			String result = foodApiService.searchFood(foodName);
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("{\"error\": \"서버 오류\"}");
+		}
 	}
 }
