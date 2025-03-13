@@ -137,7 +137,6 @@ public class ImgRESTController {
 		
 		File[] fileList = forder.listFiles();
 		
-		System.gc();
 		for(int i=0; i < fileList.length; i++) {
 			fileList[i].delete();
 		}

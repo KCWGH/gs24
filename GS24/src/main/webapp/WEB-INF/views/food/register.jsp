@@ -18,10 +18,148 @@
 .image-drop{
 	display: none;
 }
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .image-list,.thumnail-image {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .image-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+		
+		.thumbnail-item img{
+			width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #ddd;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+		.submit {
+            background-color: #4CAF50;
+        }
+
+        .submit:hover {
+            background-color: #388E3C;
+        }
+        .cancel {
+            background-color: #f44336;
+        }
+
+        .cancel:hover {
+            background-color: #d32f2f;
+        }
+        .ImgVOList {
+            display: none;
+        }
+        .radio-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+}
+/* 개별 라디오 버튼의 레이블 */
+.radio-group label {
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
+}
+
+/* 라디오 버튼이 선택된 상태일 때 */
+input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: white;
+}
+
+/* 라디오 버튼 비선택 상태 */
+input[type="radio"]:not(:checked) + label {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/* 라디오 버튼 숨기기 */
+input[type="radio"] {
+    display: none;
+}
+.thumnail-item{
+	border-style: solid;
+	border-color: black;
+}
 .image-list{
 	display: none;
 }
-
 </style>
 <title>새 식품 등록</title>
 </head>
@@ -30,7 +168,7 @@
 	<input type="hidden" class="type" value="food">
 
 	<h1>새 식품 등록</h1>
-	<!-- 나중에 여기에 식품 이미지도 같이 DB에 저장해야 한다. -->
+	
 	<form action="register" method="post" id="registerForm">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
 		<input type="text" name="foodType" placeholder="식품 유형 입력" required="required"><br>
@@ -40,12 +178,20 @@
 		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
 		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
 		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
-		<span style="color:green;">발주 진행</span>
-		<input type="radio" name="isSelling" value="1">
-		<span style="color:red;">발주 중지</span>
-		<input type="radio" name="isSelling" value="2">
-	</form>
-	
+		<div class="radio-group">
+    		<div>
+        		<input type="radio" name="isSelling" id="val0" value="0">
+        		<label for="val0">판매 중지</label>
+   			</div>
+    		<div>
+       			<input type="radio" name="isSelling" id="val1" value="1">
+        		<label for="val1">판매 진행</label>
+    		</div>
+    		<div>
+        		<input type="radio" name="isSelling" id="val2" value="2">
+        		<label for="val2">판매 대기</label>
+    		</div>
+		</div>
 	<div class="thumbnail-drop">
 		대표 사진 드래그로 등록
 	</div>
@@ -58,13 +204,19 @@
 	
 	<div class="image-list"></div>
 	
+	<div class="button-container">
+		<button type="button" class="insertImage" disabled="disabled">세부 사진 추가</button>
+		<button type="button" class="cancel" style="background-color: #ddd;">세부사진 초기화</button>
+		<button type="button" class="submit">등록</button>
+		<button type="button" class="cancel" value="cancel">취소</button>
+	</div>
+	</form>
+	
+	
 	<div class="ThumbnailVO"></div>
 	<div class="ImgVOList"></div>
-	
-	<button class="insertImage" disabled="disabled">세부 사진 추가</button>
-	<button class="cancel">세부사진 초기화</button>
-	<button class="submit">등록</button>
-	<button class="cancel" value="cancel">취소</button>
+	<input type="file" id="thumbnail-click" style="display: none;">
+	<input type="file" id="image-click" style="display: none;" multiple="multiple">
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script>
@@ -100,27 +252,15 @@
 				return true;
 			}
 			
-			$(".thumbnail-drop").on('dragenter dragover',function(event){				
-				event.preventDefault();
-				console.log("드래그 중");
-			});
-			
-			$(".thumbnail-drop").on('drop',function(event){
-				event.preventDefault();
-				console.log("사진 떨어뜨림");
-				
-				var file = event.originalEvent.dataTransfer.files;
-				console.log(file);
-				
+			function saveThumbnail(file){
 				var foodId = $(".foreignId").val();
-				console.log(foodId);
 				
 				var formData = new FormData();
 				for(var i = 0; i < file.length; i++) {
 					formData.append("file", file[i]); 
 				}
 				formData.append('foreignId',foodId);
-				
+			
 				if(checkThumbnail(file)){
 					$.ajax({
 						type : 'post',
@@ -128,7 +268,7 @@
 						processData : false,
 						contentType : false,
 						data : formData,
-						success : function(data){
+					success : function(data){
 							console.log(this);
 							var list = "";
 							var ImgPath = encodeURIComponent(data.imgPath);
@@ -139,20 +279,43 @@
 							$(".ThumbnailVO").append(input);
 							
 							list += '<div class="thumbnail-item">'
-								 +	'<pre>'
 								 +	'<input type="hidden" id="thumanilPath" value='+data.imgPath+'>'
 								 +	'<input type="hidden" id="thumanilChgName value='+data.imgChgName+'>'
 								 +	'<input type="hidden" id="thumanilExtension" value='+data.imgExtension+'>'
 								 +	'<img src="../image/display?path='+ImgPath+'&chgName='+data.imgChgName+'&extension='+data.imgExtension+'"width="200px" height="200px" />'
-								 +	'</pre>'
-								 +	'</pre>'
 								 + 	'</div>';
 								 $(".thumbnail-image").html(list);
 								 $(".thumbnail-image").show();
 								 $(".insertImage").attr('disabled',false);
-						}
-					});
+							}
+						});
+					}
 				}
+			
+			$(".thumbnail-drop").on('dragenter dragover',function(event){				
+				event.preventDefault();
+				console.log("드래그 중");
+			});
+			
+			$(".thumbnail-drop").click(function(){
+				console.log("클릭");
+				$("#thumbnail-click").click();
+			});
+			
+			$(".thumbnail-drop").on('drop',function(event){
+				event.preventDefault();
+				console.log("사진 떨어뜨림");
+				
+				var file = event.originalEvent.dataTransfer.files;
+				console.log(file);
+				
+				saveThumbnail(file);
+			});
+			
+			$("#thumbnail-click").change(function(){
+				var file = this.files;
+				
+				saveThumbnail(file);
 			});
 			
 			$(".insertImage").click(function(){

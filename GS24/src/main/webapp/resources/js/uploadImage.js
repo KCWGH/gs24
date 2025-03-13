@@ -147,6 +147,12 @@
 			console.log(path);
 			var buttonValue = $(this).val();
 			console.log(buttonValue);
+			
+			if(buttonValue == 'back'){
+				history.back();
+				return;
+			}
+			
 			$.ajax({
 				type : 'post',
 				url : '../image/remove',
@@ -158,7 +164,7 @@
 			});//end ajax
 			
 			if(buttonValue == 'cancel'){
-				location.href="../food/list";
+				history.back();
 			}
 		});// end click
  });

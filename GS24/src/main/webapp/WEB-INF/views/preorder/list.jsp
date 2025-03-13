@@ -223,6 +223,10 @@
                 return toStringDate;
             }
 
+	        $("#checkAllBox").click(function(){
+    	    	console.log("클릭");
+        		$('.check-box').prop('checked', true);
+       		});
         });
     </script>
     <title>예약 내역</title>
@@ -339,6 +343,7 @@ ul {
 <%@ include file="../common/header.jsp" %>
 <body>
     <h1>예약 내역</h1>
+    <button id="checkAllBox">전체 선택</button>
     <div id="list"></div>
     <br>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

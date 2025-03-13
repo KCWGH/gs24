@@ -85,11 +85,11 @@ public class ReviewController {
 	}
 
 	@PostMapping("/update")
-	public String updatePOST(ReviewVO reviewVO, int convenienceId) {
+	public String updatePOST(Authentication auth, ReviewVO reviewVO, int convenienceId) {
 		log.info("updatePOST()");
 		log.info(reviewVO);
 
-		if (checkReviewData.checkReviewData(null, reviewVO, convenienceId)) {
+		if (checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {
 			reviewService.updateReview(reviewVO);
 		}
 

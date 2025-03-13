@@ -148,7 +148,7 @@
         <input type="hidden" name="reviewId" class="reviewId" value="${reviewVO.reviewId}" />
 
         <label for="foodId">식품 아이디</label>
-        <input type="number" name="foodId" value="${reviewVO.foodId}" disabled/>
+        <input type="number" name="foodId" value="${reviewVO.foodId}" readonly="readonly"/>
 
         <sec:authentication property="principal" var="user" />
         <sec:authorize access="isAuthenticated()">
@@ -181,9 +181,9 @@
         <div class="image-list">
             <c:forEach var="ImgVO" items="${reviewVO.imgList}">
                 <div class="image-item">
-                	<input type="hidden" id="ImgPath" value="${ImgVO.imgPath }">
-					<input type="hidden" id="ImgChgName" value="${ImgVO.imgChgName }">
-					<input type="hidden" id="ImgExtension" value="${ImgVO.imgExtension }">
+                	<input type="hidden" class="ImgPath" value="${ImgVO.imgPath }">
+					<input type="hidden" class="ImgChgName" value="${ImgVO.imgChgName }">
+					<input type="hidden" class="ImgExtension" value="${ImgVO.imgExtension }">
                     <img src="../image/reviewImage?imgId=${ImgVO.imgId}" alt="Review Image" />
                 </div>
             </c:forEach>
@@ -193,7 +193,7 @@
             <button type="button" class="insert-image">사진 추가</button>
             <button type="button" class="update-image">사진 초기화</button>
             <button type="button" class="update">리뷰 수정</button>
-            <button type="button" class="cancel" onclick="history.back()">취소</button>
+            <button type="button" class="cancel" value="back">취소</button>
         </div>
     </form>
 	
@@ -224,17 +224,32 @@
             });
 			
             $(".image-list").on('click','.image-item',function(){
-                $(this).remove();
                 var isDelete = confirm("삭제하시겠습니까?");
                 if(isDelete){
-                    var path = $(this).find('#ImgPath').val();
-                    var chgName = $(this).find('#ImgChgName').val();
-                    var extension = $(this).find('#ImgExtension').val();
+	                $(this).remove();
+                    var path = $(this).find('.ImgPath').val();
+                    var chgName = $(this).find('.ImgChgName').val();
+                    var extension = $(this).find('.ImgExtension').val();
                     
                     $(".input-image-list").each(function(){
                     	if($(this).val() == chgName){
                     		$(this).parent().remove();
                     	}
+                    });
+                    
+                    var i = 0;
+                    $(".input-image-items").each(function(){
+                    	var realName	= $(this).children().eq(0).val();
+                    	var chgName		= $(this).children().eq(1).val();
+                    	var extension	= $(this).children().eq(2).val();
+                    	var path		= $(this).children().eq(3).val();
+                    	console.log(realName + " " + chgName + " " + extension + " " + path);
+                    	$(this).children().eq(0).attr("name","imgList["+i+"].ImgRealName");
+                    	$(this).children().eq(1).attr("name","imgList["+i+"].ImgChgName");
+                    	$(this).children().eq(2).attr("name","imgList["+i+"].ImgExtension");
+                    	$(this).children().eq(3).attr("name","imgList["+i+"].ImgPath");
+                    	
+                    	i++;
                     });
                 }
             });

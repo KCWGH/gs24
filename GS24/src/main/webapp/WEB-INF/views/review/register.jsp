@@ -92,12 +92,6 @@
     .button-group .submit:hover {
         background-color: #ddd;
     }
-    .image-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 20px;
-    }
     .image-item .delete {
         position: absolute;
         top: 5px;
@@ -153,12 +147,9 @@
 			<div class="button-container">
 	            <div class="button-group">
     	            <button type="button" class="cancel" value="reset">사진 초기화</button>
-        	        <button type="button" class="back" onclick="history.back()">취소</button>
-            	</div>
-
-	            <div class="button-group">
     	            <button type="button" class="submit">등록</button>
-        	    </div>
+        	        <button type="button" class="cancel" value="cancel">취소</button>
+            	</div>
 			</div>
         </form>
     </div>

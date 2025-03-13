@@ -1,4 +1,4 @@
-.image-drop {
+.image-drop,.thumbnail-drop {
     width: 200px;
     height: 200px;
     padding: 20px;
@@ -36,18 +36,34 @@
     width: 350px;
 }
 
-.image-item {
+.thumbnail-image{
+	margin-top: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 20px;
+    height: 205px;
+    width: 205px;
+}
+
+.image-list, .thumbnail-image {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+.image-item{
     position: relative;
     display: inline-block;
     width: 100px;
     height: 100px;
     background-color: #eee;
     border-radius: 8px;
-    overflow: hidden;
     text-align: center;
     line-height: 120px;
     font-size: 14px;
-    cursor: pointer;
+    border-style: solid 1px;
+    border-color: balck;
 }
 .image-item img {
     width: 100%;
@@ -58,22 +74,21 @@
 	border-color: blue;
 	border-style: solid;
 }
-.thumbnail-drop {
+.thumbnail-item{
+	position: relative;
+    display: inline-block;
     width: 200px;
     height: 200px;
-    border: 2px dashed maroon;
-    margin-bottom: 20px;
+    background-color: #eee;
+    border-radius: 15px;
     text-align: center;
-    line-height: 200px;
-    font-size: 16px;
-    color: maroon;
+    line-height: 120px;
+    font-size: 14px;
+    border-style: solid 1px;
+    border-color: balck;
 }
-.thumbnail-image{
-	margin-top: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 5px;
-    margin-bottom: 20px;
-    height: 210px;
-    width: 210px;
+.thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

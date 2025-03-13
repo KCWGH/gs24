@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,7 +52,7 @@
             outline: none;
         }
 
-        .image-list {
+        .image-list,.thumnail-image {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -66,7 +66,14 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
-
+		
+		.thumbnail-item img{
+			width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
         .button-container {
             text-align: center;
             margin-top: 20px;
@@ -100,23 +107,6 @@
         .cancel:hover {
             background-color: #d32f2f;
         }
-
-        .image-drop{
-            display: none;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-            border: 2px dashed #007bff;
-            border-radius: 4px;
-            background-color: #f1f9ff;
-            color: #007bff;
-        }
-
-        .image-drop p {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
         .ImgVOList {
             display: none;
         }
@@ -154,6 +144,10 @@ input[type="radio"]:not(:checked) + label {
 input[type="radio"] {
     display: none;
 }
+.thumnail-item{
+	border-style: solid;
+	border-color: black;
+}
     </style>
 <meta charset="UTF-8">
 <meta name="_csrf" content="${_csrf.token}"/>
@@ -164,6 +158,7 @@ input[type="radio"] {
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 </head>
 <body>
+${sessionScope.role}
 	<input type="hidden" class="foreignId" value=${FoodVO.foodId }>
 	<input type="hidden" class="type" value="food">
 
@@ -179,19 +174,19 @@ input[type="radio"] {
 		<!-- 판매 상태 직접 찝어서 설정해야한다 -->
 		<!-- 0 : 판매 중지 | 1 : 판매 진행 | 2 : 판매 대기 -->
 		<div class="radio-group">
-    <div>
-        <input type="radio" name="isSelling" id="val0" value="0">
-        <label for="val0">판매 중지</label>
-    </div>
-    <div>
-        <input type="radio" name="isSelling" id="val1" value="1">
-        <label for="val1">판매 진행</label>
-    </div>
-    <div>
-        <input type="radio" name="isSelling" id="val2" value="2">
-        <label for="val2">판매 대기</label>
-    </div>
-</div>
+    		<div>
+        		<input type="radio" name="isSelling" id="val0" value="0">
+        		<label for="val0">판매 중지</label>
+   			</div>
+    		<div>
+       			<input type="radio" name="isSelling" id="val1" value="1">
+        		<label for="val1">판매 진행</label>
+    		</div>
+    		<div>
+        		<input type="radio" name="isSelling" id="val2" value="2">
+        		<label for="val2">판매 대기</label>
+    		</div>
+		</div>
 		
 		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgRealName" value="${FoodVO.imgThumbnail.imgRealName }">
 		<input type="hidden" class="input-thumbnail-image" name="imgThumbnail.ImgChgName" value="${FoodVO.imgThumbnail.imgChgName }">
@@ -200,15 +195,16 @@ input[type="radio"] {
 		
 		<c:forEach var="ImgVO" items="${FoodVO.imgList }" varStatus="status">	
 			<c:if test="${not fn:startsWith(ImgVO.imgChgName,'t_') }">
-				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgRealName" value="${ImgVO.imgRealName }">
-				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgChgName" value="${ImgVO.imgChgName }">
-				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgExtension" value="${ImgVO.imgExtension }">
-				<input type="hidden" class="input-image-list" name="imgList[${status.index }].ImgPath" value="${ImgVO.imgPath }">
+			<div class="input-image-items">
+	            <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgRealName" value="${ImgVO.imgRealName}">
+    	        <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgChgName" value="${ImgVO.imgChgName}">
+        	    <input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgExtension" value="${ImgVO.imgExtension}">
+            	<input type="hidden" class="input-image-list" name="imgList[${status.index}].ImgPath" value="${ImgVO.imgPath}">
+        	</div>
 			</c:if>
 		</c:forEach>
-		
 		<div class="thumbnail-drop" style="display: none;">
-			대표 사진 드래그로 등록
+			<p>대표 사진 클릭&드래그</p>
 		</div>
 	
 		<div class="thumbnail-image">
@@ -219,7 +215,7 @@ input[type="radio"] {
 		<button type="button" class="update-thumbnail">대표 사진 수정</button>
 		
 		<div class="image-drop" style="display: none">
-			사진을 드래그 하기
+			<p>세부 사진 클릭&드래그</p>
 		</div>
 		<div class="image-list">
 			<c:forEach var="ImgVO" items="${FoodVO.imgList }">
@@ -234,13 +230,15 @@ input[type="radio"] {
 			<button type="button" class="update-image">세부 사진 수정</button>
 			<button type="button" class="insert-image">세부 사진 추가</button>
 			<button type="button" class="submit">수정</button>
-			<button type="button" class="cancel" onclick="location.href='../food/list'">돌아가기</button>
+			<button type="button" class="cancel" value="back">돌아가기</button>
 	</div>
 		
 	</form>
 	
 	<div class="ThumbnailVO"></div>
 	<div class="ImgVOList"></div>
+	<input type="file" id="thumbnail-click" style="display: none;">
+	<input type="file" id="image-click" style="display: none;" multiple="multiple">
 	
 	<script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
 	<script type="text/javascript">
@@ -281,20 +279,9 @@ input[type="radio"] {
 				return true;
 			}
 			
-			$(".thumbnail-drop").on('dragenter dragover',function(event){				
-				event.preventDefault();
-				console.log("드래그 중");
-			});
-			
-			$(".thumbnail-drop").on('drop',function(event){
-				event.preventDefault();
-				console.log("사진 떨어뜨림");
-				
-				var file = event.originalEvent.dataTransfer.files;
-				console.log(file);
+			function saveThumnail(file){
 				
 				var foodId = $(".foreignId").val();
-				console.log(foodId);
 				
 				var formData = new FormData();
 				for(var i = 0; i < file.length; i++) {
@@ -320,13 +307,7 @@ input[type="radio"] {
 							$(".ThumbnailVO").append(input);
 							
 							list += '<div class="thumbnail-item">'
-								 +	'<pre>'
-								 +	'<input type="hidden" id="thumanilPath" value='+data.imgPath+'>'
-								 +	'<input type="hidden" id="thumanilChgName value='+data.imgChgName+'>'
-								 +	'<input type="hidden" id="thumanilExtension" value='+data.imgExtension+'>'
 								 +	'<img src="../image/display?path='+ImgPath+'&chgName='+data.imgChgName+'&extension='+data.imgExtension+'"width="200px" height="200px" />'
-								 +	'</pre>'
-								 +	'</pre>'
 								 + 	'</div>';
 								 
 								 $(".thumbnail-image").html(list);
@@ -334,6 +315,32 @@ input[type="radio"] {
 						}
 					});
 				}
+			}
+			
+			$(".thumbnail-drop").on('dragenter dragover',function(event){				
+				event.preventDefault();
+				console.log("드래그 중");
+			});
+			
+			$(".thumbnail-drop").click(function(){
+				console.log("클릭함");
+				$("#thumbnail-click").click();
+			});
+			
+			$("#thumbnail-click").change(function(){
+				var file = this.files;
+				
+				saveThumnail(file);
+			})
+			
+			$(".thumbnail-drop").on('drop',function(event){
+				event.preventDefault();
+				console.log("사진 떨어뜨림");
+				
+				var file = event.originalEvent.dataTransfer.files;
+				console.log(file);
+				
+				saveThumnail(file);
 			});
 			
 			console.log($(".image-list .image-item").length);
@@ -356,6 +363,35 @@ input[type="radio"] {
 					$(".image-drop").show();
 				}
 			});
+			
+			$(".image-list").on('click','.image-item',function(){
+                var isDelete = confirm("삭제하시겠습니까?");
+                if(isDelete){
+	                $(this).remove();
+                    var chgName = $(this).find('.imgChgName').val();
+                    
+                    $(".input-image-list").each(function(){
+                    	if($(this).val() == chgName){
+                    		$(this).parent().remove();
+                    	}
+                    });
+                    
+                    var i = 0;
+                    $(".input-image-items").each(function(){
+                    	var realName	= $(this).children().eq(0).val();
+                    	var chgName		= $(this).children().eq(1).val();
+                    	var extension	= $(this).children().eq(2).val();
+                    	var path		= $(this).children().eq(3).val();
+                    	console.log(realName + " " + chgName + " " + extension + " " + path);
+                    	$(this).children().eq(0).attr("name","imgList["+i+"].ImgRealName");
+                    	$(this).children().eq(1).attr("name","imgList["+i+"].ImgChgName");
+                    	$(this).children().eq(2).attr("name","imgList["+i+"].ImgExtension");
+                    	$(this).children().eq(3).attr("name","imgList["+i+"].ImgPath");
+                    	
+                    	i++;
+                    });
+                }
+            });
 			
 			$(".update-thumbnail").click(function(){
 				$(".thumbnail-drop").show();
@@ -414,19 +450,20 @@ input[type="radio"] {
 					
 					var ImgVO = JSON.parse($(this).val());
 					
-					
+					var div		 =	$('<div>').attr('class','input-image-items');
 					var realName 	= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
 					var chgName		= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
 					var extension	= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
 					var path		= $('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
 					
-					updateForm.append(realName);
-					updateForm.append(chgName);
-					updateForm.append(extension);
-					updateForm.append(path);
+					div.append(realName);
+					div.append(chgName);
+					div.append(extension);
+					div.append(path);
 					
+					updateForm.append(div);
+
 					i++;
-					
 				});
 						
 				updateForm.submit();
