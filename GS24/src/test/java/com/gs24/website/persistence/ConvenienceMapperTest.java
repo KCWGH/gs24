@@ -28,13 +28,12 @@ public class ConvenienceMapperTest {
 	
 	@Test
 	public void test() {
-		check();
+		select();
 	}
 	
-//	void select() {
-//		List<ConvenienceVO> list = convenienceMapper.selectAllConvenience();
-//		log.info(list);
-//	}
+	void select() {
+		log.info(convenienceMapper.selectAddressByConvenienceId(1));
+	}
 	
 	void insert() {
 		ConvenienceVO convenienceVO = new ConvenienceVO();

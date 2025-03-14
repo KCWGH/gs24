@@ -91,10 +91,9 @@ public class ReviewServiceImple implements ReviewService {
 		
 		if(updateList != null) {			
 			for(ImgVO vo : updateList) {
-				log.info(vo);
 				vo.setForeignId(reviewVO.getReviewId());
-				imgReviewMapper.insertImgReview(vo);
 			}
+			imgReviewMapper.insertImgReviewList(updateList);
 		}
 		
 		int foodId = reviewVO.getFoodId();

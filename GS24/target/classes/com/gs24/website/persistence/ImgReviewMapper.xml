@@ -20,6 +20,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(IMG_REVIEW_SEQ.NEXTVAL, #{foreignId}, #{ImgRealName}, #{ImgChgName}, #{ImgExtension}, #{ImgPath})
 	</insert>
 	
+	<insert id="insertImgReviewList">
+		INSERT ALL
+		<foreach collection="list" item="ImgVO" index="index">
+			INTO IMG_REVIEW(IMG_REVIEW_ID, REVIEW_ID, IMG_REVIEW_REAL_NAME, IMG_REVIEW_CHG_NAME, IMG_REVIEW_EXTENSION, IMG_REVIEW_PATH)
+				VALUES(IMG_REVIEW_SEQ.NEXTVAL+#{index}, #{ImgVO.foreignId}, #{ImgVO.ImgRealName}, #{ImgVO.ImgChgName}, #{ImgVO.ImgExtension}, #{ImgVO.ImgPath})
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+	
 	<select id="selectImgReviewByReviewId" resultMap="ImgReviewResultMap">
 		SELECT * FROM IMG_REVIEW WHERE REVIEW_ID = #{foreignId}
 	</select>

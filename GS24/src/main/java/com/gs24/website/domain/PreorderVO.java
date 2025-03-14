@@ -20,6 +20,7 @@ public class PreorderVO {
 	int preorderAmount;
 	int totalPrice;
 	int convenienceId;
+	String address;
 	int refundVal;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

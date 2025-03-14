@@ -54,7 +54,6 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		foodMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
 
 		if (convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1) {
-			log.info("기존 데이터가 있음!!");
 			result = convenienceFoodMapper.updateFoodAmountByInsert(foodId, foodAmount, convenienceId);
 			return result;
 		}

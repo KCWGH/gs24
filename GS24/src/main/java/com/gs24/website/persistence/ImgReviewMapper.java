@@ -11,6 +11,8 @@ public interface ImgReviewMapper {
 	
 	int insertImgReview(ImgVO imgVO);
 	
+	int insertImgReviewList(List<ImgVO> ImgList);
+	
 	List<ImgVO> selectImgReviewByReviewId(int reviewId);
 	
 	ImgVO selectImgReviewById(int ImgReviewId);

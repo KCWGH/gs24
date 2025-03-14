@@ -59,5 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	SELECT CONVENIENCE_ID FROM CONVENIENCE WHERE OWNER_ID = #{ownerId}
     </select>
     
+    <select id="selectAddressByConvenienceId" resultType="String">
+    	SELECT ADDRESS FROM CONVENIENCE JOIN OWNER ON OWNER.OWNER_ID = CONVENIENCE.OWNER_ID WHERE CONVENIENCE_ID = #{convenienceId}
+    </select>
     
 </mapper>

@@ -20,12 +20,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(IMG_FOOD_SEQ.NEXTVAL, #{foreignId}, #{ImgPath}, #{ImgRealName}, #{ImgChgName}, #{ImgExtension} )
 	</insert>
 	
+	<insert id="insertImgFoodList">
+		INSERT ALL
+		<foreach collection="list" item="ImgVO" index="index">
+			INTO IMG_FOOD (IMG_FOOD_ID, FOOD_ID, IMG_FOOD_PATH, IMG_FOOD_REAL_NAME, IMG_FOOD_CHG_NAME, IMG_FOOD_EXTENSION)
+				VALUES(IMG_FOOD_SEQ.NEXTVAL+#{index},#{ImgVO.foreignId},#{ImgVO.ImgPath},#{ImgVO.ImgRealName},#{ImgVO.ImgChgName},#{ImgVO.ImgExtension})
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+	
 	<select id="selectImgFoodById" resultMap="ImgFoodResultMape">
 		SELECT * FROM IMG_FOOD WHERE IMG_FOOD_ID = #{ImgId}
 	</select>
 	
 	<select id="selectImgFoodByFoodId" resultMap="ImgFoodResultMape">
-		SELECT * FROM IMG_FOOD WHERE FOOD_ID = ${foreignId}
+		SELECT * FROM IMG_FOOD WHERE FOOD_ID = #{foreignId}
 	</select>
 	
 	<select id="selectAllImagFood" resultMap="ImgFoodResultMape">

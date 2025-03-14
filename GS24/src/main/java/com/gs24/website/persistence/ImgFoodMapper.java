@@ -11,6 +11,8 @@ import com.gs24.website.domain.ImgVO;
 public interface ImgFoodMapper {
 	int insertImgFood(ImgVO imgFoodVO);
 	
+	int insertImgFoodList(List<ImgVO> ImgList);
+	
 	ImgVO selectImgFoodById(int ImgId);
 	
 	List<ImgVO> selectImgFoodByFoodId(@RequestParam("foreignId") int foodId);

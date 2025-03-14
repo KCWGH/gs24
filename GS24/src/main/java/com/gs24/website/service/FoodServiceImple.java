@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.ImgVO;
@@ -16,6 +17,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
+@Transactional(value = "transactionManager")
 public class FoodServiceImple implements FoodService {
 
 	@Autowired
@@ -33,10 +35,8 @@ public class FoodServiceImple implements FoodService {
 		int result = foodMapper.insertFood(foodVO);
 
 		imgThumbnailMapper.insertImgThumbnail(foodVO.getImgThumbnail());
-		if (foodVO.getImgList() != null) {
-			for (ImgVO vo : foodVO.getImgList()) {
-				imgFoodMapper.insertImgFood(vo);
-			}
+		if(foodVO.getImgList() != null) {			
+			imgFoodMapper.insertImgFoodList(foodVO.getImgList());
 		}
 		return result;
 	}
@@ -73,13 +73,8 @@ public class FoodServiceImple implements FoodService {
 		foodVO.getImgThumbnail().setForeignId(foodVO.getFoodId());
 		imgThumbnailMapper.insertImgThumbnail(foodVO.getImgThumbnail());
 
-		List<ImgVO> list = foodVO.getImgList();
-
-		if (foodVO.getImgList() != null) {
-			for (ImgVO vo : list) {
-				vo.setForeignId(foodVO.getFoodId());
-				imgFoodMapper.insertImgFood(vo);
-			}
+		if(foodVO.getImgList() != null) {			
+			imgFoodMapper.insertImgFoodList(foodVO.getImgList());
 		}
 
 		return result;

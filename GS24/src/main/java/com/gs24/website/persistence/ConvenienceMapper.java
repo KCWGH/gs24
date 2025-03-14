@@ -18,4 +18,6 @@ public interface ConvenienceMapper {
 	int selectConvenienceIdByOwnerId(String ownerId);
 	
 	ConvenienceVO selectConvenienceByOwnerId(String ownerId);
+	
+	String selectAddressByConvenienceId(int convenienceId);
 }

@@ -15,6 +15,7 @@ import com.gs24.website.domain.GiftCardVO;
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.PreorderVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
+import com.gs24.website.persistence.ConvenienceMapper;
 import com.gs24.website.persistence.CouponMapper;
 import com.gs24.website.persistence.CouponQueueMapper;
 import com.gs24.website.persistence.GiftCardMapper;
@@ -54,6 +55,9 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private MembershipMapper membershipMapper;
+	
+	@Autowired
+	private ConvenienceMapper convenienceMapper;
 
 	@Override
 	public boolean validatePickupDate(Date pickupDate) {
@@ -208,6 +212,9 @@ public class PreorderServiceImple implements PreorderService {
 	public List<PreorderVO> getPreorderByMemberId(String memberId) {
 		log.info("getPreorderByMemberId()");
 		List<PreorderVO> list = preorderMapper.selectPreoderByMemberId(memberId);
+		for(PreorderVO vo : list) {
+			vo.setAddress(convenienceMapper.selectAddressByConvenienceId(vo.getConvenienceId()));
+		}
 		return list;
 	}
 
@@ -267,7 +274,11 @@ public class PreorderServiceImple implements PreorderService {
 		MemberVO memberVO = memberMapper.selectMemberByMemberId(memberId);
 		pagination.setMemberVO(memberVO);
 		pagination.setPageSize(10);
-		return preorderMapper.selectPagedPreordersByMemberId(pagination);
+		List<PreorderVO> list = preorderMapper.selectPagedPreordersByMemberId(pagination);
+		for(PreorderVO preorderVO : list) {
+			preorderVO.setAddress(convenienceMapper.selectAddressByConvenienceId(preorderVO.getConvenienceId()));
+		}
+		return list; 
 	}
 
 	@Override
