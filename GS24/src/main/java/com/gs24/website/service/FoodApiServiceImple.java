@@ -48,7 +48,7 @@ public class FoodApiServiceImple implements FoodApiService {
 	}
 
 	private URI buildUri(String foodName) throws Exception {
-		String baseUrl = "http://api.data.go.kr/openapi/tn_pubr_public_nutri_info_api";
+		String baseUrl = "http://api.data.go.kr/openapi/tn_pubr_public_nutri_process_info_api";
 
 		Map<String, String> params = new HashMap<>();
 		params.put("serviceKey", SERVICE_KEY);
@@ -56,6 +56,7 @@ public class FoodApiServiceImple implements FoodApiService {
 		params.put("numOfRows", "10");
 		params.put("type", "json");
 		params.put("foodNm", foodName);
+		params.put("insttCode", "1471000"); // 식품의약품안전처
 
 		StringBuilder query = new StringBuilder();
 		for (Map.Entry<String, String> entry : params.entrySet()) {

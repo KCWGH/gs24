@@ -1,7 +1,6 @@
 package com.gs24.website.persistence;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.gs24.website.config.RootConfig;
 import com.gs24.website.domain.ImgVO;
-import com.gs24.website.domain.PreorderVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,8 +23,8 @@ public class PreorderMapperTest {
 	@Autowired
 	private PreorderMapper preorderMapper;
 	
-	@Autowired
-	private ReviewMapper reviewMapper;
+//	@Autowired
+//	private ReviewMapper reviewMapper;
 	
 	@Autowired
 	private ImgFoodMapper  imgFoodMapper;

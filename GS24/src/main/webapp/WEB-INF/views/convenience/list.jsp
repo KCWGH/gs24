@@ -21,6 +21,7 @@
         padding: 0;
         background-color: #f4f4f4;
         font-size: 18px;
+        text-align: center;
     }
 
     h1 {
@@ -32,7 +33,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        margin: 30px;
+        margin: 15px;
     }
 
     .conveni {
@@ -41,7 +42,7 @@
     	border-radius: 12px;
     	width: 100%;
     	max-width: 300px;
-    	margin: 50px auto;
+    	margin: 10px auto;
     	padding: 25px;
     	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     	transition: box-shadow 0.3s;
@@ -55,7 +56,7 @@
 
     .conveni p {
         margin: 10px 0;
-        font-size: 16px;
+        font-size: 18px;
         color: #555;
     }
 
@@ -65,7 +66,7 @@
 
     .conveni .address {
         color: #777;
-        font-size: 16px;
+        font-size: 18px;
         cursor: pointer;
     }
 
@@ -164,7 +165,7 @@
     	color: white;
 	}
 	.pagination_button span {
-		color:#444;
+		color: #444;
     	font-size: 20px;
 	}
 		@media screen and (max-width: 768px) {
@@ -184,6 +185,7 @@
     <%@ include file="../common/header.jsp"%>
 
     <h1>지점 리스트</h1>
+    <span style="color: #444; font-size:20px;">식품을 예약할 지점을 선택해 주세요</span>
     <div id="conveniList">
         <c:forEach var="conveniVO" items="${conveniList}">
             <div class="conveni" data-address="${conveniVO.address}">
@@ -205,7 +207,7 @@
         <input type="hidden" name="pageNum">
         <input type="hidden" name="pageSize">
     </form>
-
+	<span style="color: #D84B16; font-size:18px;">'도착지로 설정' </span><span style="color: #444; font-size:18px;">버튼을 누르면, 해당 지점이 도착지로 설정된 카카오맵 페이지가 열립니다.</span>
     <!-- 페이징 처리 -->
 	<ul>
     	<c:if test="${pageMaker.isPrev()}">

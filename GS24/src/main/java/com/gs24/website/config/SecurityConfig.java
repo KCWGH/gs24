@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	"/notice/register", "/notice/modify", "/notice/delete", 
             "/coupon/**",
             "/orders/list", 
-            "/admin/activate", "/food/register", "/food/update", "/food/checkdelete"
+            "/admin/activate", "/food/register", "/food/update", "/food/checkdelete", "food/auto-nutrition-input", "food/search"
         ).access("hasRole('ROLE_ADMIN')")
     	
     	.antMatchers(

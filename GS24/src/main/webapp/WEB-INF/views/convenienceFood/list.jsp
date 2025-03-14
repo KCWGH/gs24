@@ -454,8 +454,11 @@ ul {
 	     });
 	   
 	   $(document).on('click', '#needLogin', function(event) {
-		   alert('예약하시려면 로그인해주세요');
-	   });
+		    var isConfirmed = confirm("예약하시려면 로그인이 필요합니다.\n로그인 페이지로 이동할까요?");
+		    if (isConfirmed) {
+		        window.location.href = '../auth/login';
+		    }
+		});
 	   
 	   $(document).on("click", ".addFavorites", function (event) {
 	        let memberId = "${memberId}";
@@ -555,20 +558,7 @@ ul {
          let searchForm = $("#searchForm");
          var convenienceId = '${convenienceId}';
          searchForm.find("input[name='convenienceId']").val(convenienceId);
-         if(optionType=="전체"){
-            searchForm.find("input[name='sortType']").val("All");
-            var pageNum = 1; // 검색 후 1페이지로 고정
-            // 현재 페이지 사이즈값 저장
-            var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
-            // 페이지 번호를 input name='pageNum' 값으로 적용
-            searchForm.find("input[name='pageNum']").val(pageNum);
-            // 선택된 옵션 값을 input name='pageSize' 값으로 적용
-            searchForm.find("input[name='pageSize']").val(pageSize);
-            searchForm.find("input[name='type']").val("");
-            searchForm.find("input[name='keyword']").val("");
-            searchForm.submit(); // form 전송
-            return;
-         } else if(optionType == "최근등록순✨"){
+         if (optionType == "최근등록순✨") {
             searchForm.find("input[name='sortType']").val("recentRegist");
          } else if(optionType == "낮은가격순🔻"){
             searchForm.find("input[name='sortType']").val("rowPrice");

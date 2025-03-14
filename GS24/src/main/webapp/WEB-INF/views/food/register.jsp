@@ -13,151 +13,160 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <style>
 .thumbnail-image {
-    display: none;
-}
-.image-drop{
 	display: none;
 }
- body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f7f6;
-        }
 
-        h1 {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.image-drop {
+	display: none;
+}
 
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
+	background-color: #f4f7f6;
+}
 
-        label {
-            font-size: 16px;
-            color: #333;
-            margin-top: 10px;
-            display: block;
-        }
+h1 {
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 20px;
+}
 
-        input[type="text"], input[type="number"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
+form {
+	max-width: 600px;
+	margin: 0 auto;
+	background: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-        input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
+label {
+	font-size: 16px;
+	color: #333;
+	margin-top: 10px;
+	display: block;
+}
 
-        .image-list,.thumnail-image {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+input[type="text"], input[type="number"], textarea {
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+}
 
-        .image-item img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-		
-		.thumbnail-item img{
-			width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-		}
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+	border-color: #007bff;
+	outline: none;
+}
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #ddd;
-            color: black;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 5px;
-        }
+.image-list, .thumnail-image {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-top: 20px;
+}
 
-        button:hover {
-            background-color: #ccc;
-        }
-		.submit {
-            background-color: #4CAF50;
-        }
+.image-item img {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 5px;
+	margin-right: 10px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-        .submit:hover {
-            background-color: #388E3C;
-        }
-        .cancel {
-            background-color: #f44336;
-        }
+.thumbnail-item img {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+	border-radius: 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-        .cancel:hover {
-            background-color: #d32f2f;
-        }
-        .ImgVOList {
-            display: none;
-        }
-        .radio-group {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin: 20px 0;
+.button-container {
+	text-align: center;
+	margin-top: 20px;
+}
+
+button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	background-color: #ddd;
+	color: black;
+	font-size: 16px;
+	cursor: pointer;
+	margin: 5px;
+}
+
+button:hover {
+	background-color: #ccc;
+}
+
+.submit {
+	background-color: #4CAF50;
+}
+
+.submit:hover {
+	background-color: #388E3C;
+}
+
+.cancel {
+	background-color: #f44336;
+}
+
+.cancel:hover {
+	background-color: #d32f2f;
+}
+
+.ImgVOList {
+	display: none;
+}
+
+.radio-group {
+	display: flex;
+	gap: 20px;
+	justify-content: center;
+	margin: 20px 0;
 }
 /* 개별 라디오 버튼의 레이블 */
 .radio-group label {
-    display: inline-block;
-    background-color: #f1f1f1;
-    padding: 15px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    text-align: center;
-    width: 100px;
+	display: inline-block;
+	background-color: #f1f1f1;
+	padding: 15px 30px;
+	border-radius: 50px;
+	cursor: pointer;
+	text-align: center;
+	width: 100px;
 }
 
 /* 라디오 버튼이 선택된 상태일 때 */
-input[type="radio"]:checked + label {
-    background-color: #007bff;
-    color: white;
+input[type="radio"]:checked+label {
+	background-color: #007bff;
+	color: white;
 }
 
 /* 라디오 버튼 비선택 상태 */
-input[type="radio"]:not(:checked) + label {
-    background-color: #f1f1f1;
-    color: #333;
+input[type="radio"]:not(:checked)+label {
+	background-color: #f1f1f1;
+	color: #333;
 }
 
 /* 라디오 버튼 숨기기 */
 input[type="radio"] {
-    display: none;
+	display: none;
 }
-.thumnail-item{
+
+.thumnail-item {
 	border-style: solid;
 	border-color: black;
 }
-.image-list{
+
+.image-list {
 	display: none;
 }
 </style>
@@ -168,16 +177,16 @@ input[type="radio"] {
 	<input type="hidden" class="type" value="food">
 
 	<h1>새 식품 등록</h1>
-	
 	<form action="register" method="post" id="registerForm">
+	<button type="button" onclick="openSearchPage()">식품 검색</button>
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
-		<input type="text" name="foodType" placeholder="식품 유형 입력" required="required"><br>
-		<input type="text" name="foodName" placeholder="식품명 입력" required="required"><br>
+		<input type="text" id="foodType" name="foodType" placeholder="식품 유형 입력" required="required"><br>
+		<input type="text" id="foodName" name="foodName" placeholder="식품명 입력" required="required"><br>
 		<input type="number" name="foodStock" placeholder="재고량 입력"  required="required"><br>
 		<input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required"><br>
-		<input type="number" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
-		<input type="number" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
-		<input type="number" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
+		<input type="number" id="foodCarb" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
+		<input type="number" id="foodProtein" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
+		<input type="number" id="foodFat" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
 		<div class="radio-group">
     		<div>
         		<input type="radio" name="isSelling" id="val0" value="0">
@@ -226,7 +235,21 @@ input[type="radio"] {
 		        
 		        xhr.setRequestHeader(header, token);
 		     });
+			
+			function fillForm(foodName, foodType, carbs, protein, fat) {
+			    $("#foodName").val(foodName);
+			    $("#foodType").val(foodType);
+			    $("#foodCarb").val(carbs);
+			    $("#foodProtein").val(protein);
+			    $("#foodFat").val(fat);
+			}
+			
+			function openSearchPage() {
+				window.open('../food/auto-nutrition-input', '_blank', 'width=500,height=710,top=100,left=200');
+			}
 		$(document).ready(function() {
+			
+			
 			function checkThumbnail(file){
 				
 				var checkExtension = /(\.jpg|\.jpeg|\.png|\.gif)$/i;

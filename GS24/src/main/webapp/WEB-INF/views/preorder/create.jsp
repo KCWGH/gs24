@@ -155,6 +155,10 @@
         	background: #ff6666;
         }
         
+        #doNotApplyCoupon:hover {
+			background: #ff4d4d;
+        }
+        
         #buyPrice, #latestBalance {
         	font-size: 20px;
         }
@@ -164,7 +168,16 @@
     		margin-left: auto;
     		margin-botton: 0px;
 		}
-
+		
+		#reset {
+			color: white;
+        	background: #ff6666;
+			padding: 10px 5px;
+		}
+		
+		#reset:hover {
+			background: #ff4d4d;
+		}
     </style>
 </head>
 <body>
@@ -203,7 +216,7 @@
             </tr>
             <tr>
                 <th>예약 수량</th>
-                <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개 <button type="button" id=reset>쿠폰, 기프트카드 초기화</button><br>
+                <td><input type="number" name="preorderAmount" id="preorderAmount" value="1" required> 개<br>
                 <span style="color:gray">※ 변경시 적용된 쿠폰과 기프트카드가 초기화됩니다.</span></td>
             </tr>
             <tr>
@@ -222,8 +235,11 @@
                 <th>별도<br>결제금액</th>
                 <td><strong id="buyPrice">${foodVO.foodPrice}</strong> 원</td>
             </tr>
+            <tr>
+            	<th></th>
+            	<td><input type="submit" id="createPreorder" value="예약하기" hidden="hidden" disabled><button type="button" id=reset hidden="hidden">쿠폰, 기프트카드 초기화</button></td>
+            </tr>
         </table>
-        <input type="submit" id="createPreorder" value="예약하기" hidden="hidden" disabled>
         <input type="hidden" name="convenienceId" id="convenienceId">
         <input type="hidden" name="foodId" id="foodId">
         <input type="hidden" name="memberId" id="memberId">
@@ -256,18 +272,25 @@
                                             </c:choose>
                                         </td>
                                         <td>${couponVO.couponAmount}개 남음</td>
-                                        <td>
-                                            <button class="applyCoupon"
-                                                    data-coupon-id="${couponVO.couponId}"
-                                                    data-coupon-name="${couponVO.couponName}"
-                                                    data-discount-type="${couponVO.discountType}"
-                                                    data-percentage="${couponVO.percentage}"
-                                                    data-amount="${couponVO.amount}"
-                                                    data-coupon-amount="${couponVO.couponAmount}"
-                                                    data-is-duplicate-allowed="${couponVO.isDuplicateAllowed}">
-                                                적용하기
-                                            </button>
-                                        </td>
+										<td>
+    										<c:choose>
+        										<c:when test="${couponVO.couponAmount == 0}">
+            										<span style="color: red;">적용불가</span>
+        										</c:when>
+        										<c:otherwise>
+            										<button class="applyCoupon"
+                    										data-coupon-id="${couponVO.couponId}"
+                    										data-coupon-name="${couponVO.couponName}"
+                    										data-discount-type="${couponVO.discountType}"
+                    										data-percentage="${couponVO.percentage}"
+                    										data-amount="${couponVO.amount}"
+                    										data-coupon-amount="${couponVO.couponAmount}"
+                    										data-is-duplicate-allowed="${couponVO.isDuplicateAllowed}">
+                										적용하기
+            										</button>
+        										</c:otherwise>
+    										</c:choose>
+										</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -296,15 +319,22 @@
                                             <fmt:formatDate value="${giftCardVO.giftCardExpiredDate}" pattern="yyyy-MM-dd HH:mm"/><br>까지 사용가능
                                         </td>
                                         <td><span style="color:green">잔액<br>${giftCardVO.balance}원</span></td>
-                                        <td>
-                                            <button class="applyGiftCard"
-                                                    data-giftCard-id="${giftCardVO.giftCardId}"
-                                                    data-giftCard-name="${giftCardVO.giftCardName}"
-                                                    data-balance="${giftCardVO.balance}"
-                                                    data-giftCard-expired-date="${giftCardVO.giftCardExpiredDate}">
-                                                사용하기
-                                            </button>
-                                        </td>
+										<td>
+    										<c:choose>
+        										<c:when test="${giftCardVO.balance == 0}">
+            										<span style="color: red;">사용불가</span>
+        										</c:when>
+        										<c:otherwise>
+            										<button class="applyGiftCard"
+                    										data-giftCard-id="${giftCardVO.giftCardId}"
+                    										data-giftCard-name="${giftCardVO.giftCardName}"
+                    										data-balance="${giftCardVO.balance}"
+                    										data-giftCard-expired-date="${giftCardVO.giftCardExpiredDate}">
+                										사용하기
+            										</button>
+        										</c:otherwise>
+    										</c:choose>
+										</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -569,6 +599,7 @@
                     $('#doNotApplyCoupon').show();
                     $('#priceToggle').hide();
                     $('#createPreorder').hide();
+                    $('#reset').hide();
                     $('#selectCoupon').hide();
 
                     $(".applyCoupon").each(function() {
@@ -590,6 +621,7 @@
             	$('#openCouponModal').hide();
             	$('#priceToggle').show();
             	$('#createPreorder').show();
+            	$('#reset').show();
             	$('#giftCardToggle').show();
             	$('#createPreorder').prop("disabled", false);
             });
@@ -608,6 +640,7 @@
                 $(this).hide();
                 $('#createPreorder').prop("disabled", false);
                 $('#createPreorder').show();
+                $('#reset').show();
             });
         });
     </script>

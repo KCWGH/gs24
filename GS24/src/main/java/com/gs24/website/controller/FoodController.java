@@ -114,6 +114,10 @@ public class FoodController {
 		}
 	}
 
+	@GetMapping("/auto-nutrition-input")
+	public void searchPageGET() {
+	}
+
 	@GetMapping("/search")
 	public ResponseEntity<String> searchFood(@RequestParam("foodName") String foodName) {
 		try {
