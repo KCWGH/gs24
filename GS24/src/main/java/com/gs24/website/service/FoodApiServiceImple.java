@@ -6,9 +6,16 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class FoodApiServiceImple implements FoodApiService {
@@ -21,7 +28,6 @@ public class FoodApiServiceImple implements FoodApiService {
 
 		try {
 			URI uri = buildUri(foodName);
-
 			HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-type", "application/json");
@@ -39,12 +45,41 @@ public class FoodApiServiceImple implements FoodApiService {
 			}
 			rd.close();
 			conn.disconnect();
+
+			return removeDuplicates(result.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{\"error\": \"API 호출 중 오류 발생\"}";
 		}
+	}
 
-		return result.toString();
+	public String removeDuplicates(String jsonResponse) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode root = objectMapper.readTree(jsonResponse);
+			JsonNode itemsNode = root.path("response").path("body").path("items");
+
+			if (!itemsNode.isArray()) {
+				return jsonResponse;
+			}
+
+			ArrayNode items = (ArrayNode) itemsNode;
+			Set<String> uniqueFoodCd = new HashSet<>();
+			ArrayNode filteredItems = objectMapper.createArrayNode();
+
+			for (JsonNode item : items) {
+				String foodCd = item.get("foodCd").asText();
+				if (uniqueFoodCd.add(foodCd)) {
+					filteredItems.add(item);
+				}
+			}
+
+			((ObjectNode) root.path("response").path("body")).set("items", filteredItems);
+			return objectMapper.writeValueAsString(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{\"error\": \"중복 제거 중 오류 발생\"}";
+		}
 	}
 
 	private URI buildUri(String foodName) throws Exception {
@@ -56,7 +91,7 @@ public class FoodApiServiceImple implements FoodApiService {
 		params.put("numOfRows", "10");
 		params.put("type", "json");
 		params.put("foodNm", foodName);
-		params.put("insttCode", "1471000"); // 식품의약품안전처
+		params.put("insttCode", "1471000");
 
 		StringBuilder query = new StringBuilder();
 		for (Map.Entry<String, String> entry : params.entrySet()) {

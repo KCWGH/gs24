@@ -77,9 +77,9 @@ button:hover {
 
 /* 버튼 크기 통일 */
 .btn-container button {
-    width: 120px; /* 모든 버튼의 너비를 동일하게 */
-    padding: 10px; /* 패딩을 조정하여 크기 균일화 */
-    font-size: 14px; /* 글자 크기 통일 */
+    width: 120px;
+    padding: 10px;
+    font-size: 14px;
     text-align: right;
 }
 </style>

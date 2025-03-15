@@ -10,164 +10,224 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="../resources/css/fonts.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/uploadImage.css">
 <style>
-.thumbnail-image {
-	display: none;
-}
-
-.image-drop {
+.image-drop, .image-list {
 	display: none;
 }
 
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 20px;
-	background-color: #f4f7f6;
+    font-family: 'Pretendard-Regular', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    text-align: center;
 }
 
 h1 {
-	font-size: 24px;
-	text-align: center;
-	margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 form {
-	max-width: 600px;
-	margin: 0 auto;
-	background: #ffffff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 label {
-	font-size: 16px;
-	color: #333;
-	margin-top: 10px;
-	display: block;
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+    display: block;
 }
 
-input[type="text"], input[type="number"], textarea {
-	width: 100%;
-	padding: 10px;
-	margin-top: 5px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	font-size: 14px;
+input[type="text"], 
+input[type="number"], 
+textarea {
+    font-family: 'Pretendard-Regular', sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
-	border-color: #007bff;
-	outline: none;
-}
-
-.image-list, .thumnail-image {
-	display: flex;
-	gap: 10px;
-	flex-wrap: wrap;
-	margin-top: 20px;
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .image-item img {
-	width: 100px;
-	height: 100px;
-	object-fit: cover;
-	border-radius: 5px;
-	margin-right: 10px;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail-item {
+	width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .thumbnail-item img {
-	width: 200px;
-	height: 200px;
-	object-fit: cover;
-	border-radius: 5px;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .button-container {
-	text-align: center;
-	margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    color: white;
+    padding: 10px 33px;
+    font-size: 20px;
 }
 
 button {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	background-color: #ddd;
-	color: black;
-	font-size: 16px;
-	cursor: pointer;
-	margin: 5px;
+    font-family: 'Pretendard-Regular', sans-serif;
+    background: #ddd;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover {
-	background-color: #ccc;
+    background-color: #ccc;
 }
 
 .submit {
-	background-color: #4CAF50;
+    background-color: #4CAF50;
 }
 
 .submit:hover {
-	background-color: #388E3C;
+    background-color: #388E3C;
 }
 
 .cancel {
-	background-color: #f44336;
+    background-color: #f44336;
 }
 
 .cancel:hover {
-	background-color: #d32f2f;
-}
-
-.ImgVOList {
-	display: none;
+    background-color: #d32f2f;
 }
 
 .radio-group {
-	display: flex;
-	gap: 20px;
-	justify-content: center;
-	margin: 20px 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
 }
-/* 개별 라디오 버튼의 레이블 */
+
 .radio-group label {
-	display: inline-block;
-	background-color: #f1f1f1;
-	padding: 15px 30px;
-	border-radius: 50px;
-	cursor: pointer;
-	text-align: center;
-	width: 100px;
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
 }
 
-/* 라디오 버튼이 선택된 상태일 때 */
-input[type="radio"]:checked+label {
-	background-color: #007bff;
-	color: white;
+input[type="radio"]#val2:checked + label {
+    background-color: #007bff;
+    color: white;
 }
 
-/* 라디오 버튼 비선택 상태 */
-input[type="radio"]:not(:checked)+label {
-	background-color: #f1f1f1;
-	color: #333;
+input[type="radio"]#val0:checked + label {
+    background-color: #f44336;
+    color: white;
 }
 
-/* 라디오 버튼 숨기기 */
+input[type="radio"]#val1:checked + label {
+    background-color: #4CAF50;
+    color: white;
+}
+
 input[type="radio"] {
-	display: none;
+    display: none;
 }
 
-.thumnail-item {
-	border-style: solid;
-	border-color: black;
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
 }
 
-.image-list {
-	display: none;
+.thumbnail-container {
+    height: 200px; /* 높이를 고정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.thumbnail-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background: #f9f9f9;
+    margin-bottom: 0px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.inputs {
+    width: 50%;
+    padding-left: 20px;
+}
+
+.inputs input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.thumbnail-item img,
+.image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail-drop {
+    width: auto;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    height: auto;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
 }
 </style>
 <title>새 식품 등록</title>
@@ -179,15 +239,28 @@ input[type="radio"] {
 	<h1>새 식품 등록</h1>
 	<form action="register" method="post" id="registerForm">
 	<button type="button" onclick="openSearchPage()">식품 검색</button>
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
-		<input type="text" id="foodType" name="foodType" placeholder="식품 유형 입력" required="required"><br>
-		<input type="text" id="foodName" name="foodName" placeholder="식품명 입력" required="required"><br>
-		<input type="number" name="foodStock" placeholder="재고량 입력"  required="required"><br>
-		<input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required"><br>
-		<input type="number" id="foodCarb" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
-		<input type="number" id="foodProtein" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
-		<input type="number" id="foodFat" name="foodFat" placeholder="지방 영양소 입력" required="required"><br>
+<div class="form-container">
+    <div class="thumbnail-container">
+        <div class="thumbnail-image"></div>
+    </div>
+
+    <div class="inputs">
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
+        <input type="text" id="foodType" name="foodType" placeholder="식품 유형 입력" required="required"><br>
+        <input type="text" id="foodName" name="foodName" placeholder="식품명 입력" required="required"><br>
+        <input type="number" id="foodCarb" name="foodCarb" placeholder="탄수화물 영양소 입력" required="required"><br>
+        <input type="number" id="foodProtein" name="foodProtein" placeholder="단백질 영양소 입력" required="required"><br>
+        <input type="number" id="foodFat" name="foodFat" placeholder="지방 영양소 입력" required="required">
+        <input type="number" name="foodStock" placeholder="재고량 입력"  required="required"><br>
+        <input type="number" name="foodPrice" placeholder="식품 가격 입력" required="required"><br>
+    </div>
+</div>
+
 		<div class="radio-group">
+    		<div>
+        		<input type="radio" name="isSelling" id="val2" value="2">
+        		<label for="val2">판매 대기</label>
+    		</div>
     		<div>
         		<input type="radio" name="isSelling" id="val0" value="0">
         		<label for="val0">판매 중지</label>
@@ -196,26 +269,21 @@ input[type="radio"] {
        			<input type="radio" name="isSelling" id="val1" value="1">
         		<label for="val1">판매 진행</label>
     		</div>
-    		<div>
-        		<input type="radio" name="isSelling" id="val2" value="2">
-        		<label for="val2">판매 대기</label>
-    		</div>
 		</div>
 	<div class="thumbnail-drop">
-		대표 사진 드래그로 등록
+		대표사진 - 클릭하여 파일을 직접 선택하거나 Drag&amp;Drop하세요
 	</div>
 	
-	<div class="thumbnail-image"></div>
 		
 	<div class="image-drop">
-		세부 사진 드래그로 등록
+		세부사진 - 클릭하여 파일을 직접 선택하거나 Drag&amp;Drop하세요
 	</div>
 	
 	<div class="image-list"></div>
 	
-	<div class="button-container">
 		<button type="button" class="insertImage" disabled="disabled">세부 사진 추가</button>
 		<button type="button" class="cancel" style="background-color: #ddd;">세부사진 초기화</button>
+	<div class="button-container">
 		<button type="button" class="submit">등록</button>
 		<button type="button" class="cancel" value="cancel">취소</button>
 	</div>

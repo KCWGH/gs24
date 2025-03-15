@@ -42,7 +42,6 @@ button:hover {
 	background: #bbb;
 }
 
-/* 제목 스타일 */
 h2 {
     color: #333;
     margin-bottom: 5px;
@@ -80,12 +79,16 @@ $(document).ready(function() {
     $(document).ajaxSend(function(e, xhr, opt) {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
-
         xhr.setRequestHeader(header, token);
     });
 
-    $("#searchBtn").click(function() {
+    function searchFood() {
         var foodName = $("#foodInput").val();
+        if (foodName.trim() === "") {
+            alert("식품명을 입력하세요.");
+            return;
+        }
+
         $.ajax({
             url: "search",
             type: "get",
@@ -110,7 +113,6 @@ $(document).ready(function() {
                     });
 
                     result += "</tbody></table>";
-                    result += "<p>출처 : 전국통합식품영양성분정보(가공식품)표준데이터</p>";
                     $("#result").html(result);
                 } else {
                     alert("검색 결과가 없습니다.");
@@ -120,6 +122,16 @@ $(document).ready(function() {
                 alert("검색 실패!");
             }
         });
+    }
+
+    $("#searchBtn").click(function() {
+        searchFood();
+    });
+
+    $("#foodInput").keydown(function(event) {
+        if (event.key === "Enter") {
+            searchFood();
+        }
     });
 
     $(document).on('click', '.resultRow', function() {
@@ -130,7 +142,6 @@ $(document).ready(function() {
         var fat = $(this).find('td').eq(4).text();
 
         window.opener.fillForm(foodName, foodType, carbs, protein, fat);
-
         window.close();
     });
 });
@@ -142,5 +153,6 @@ $(document).ready(function() {
 <button id="searchBtn">검색</button>
 
 <div id="result"></div>
+<p>출처 : 전국통합식품영양성분정보(가공식품)표준데이터</p>
 </body>
 </html>
