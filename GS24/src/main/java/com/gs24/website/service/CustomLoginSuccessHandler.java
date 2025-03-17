@@ -65,6 +65,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 				redirectURL = "../admin/console"; // 관리자 전용 페이지
 			} else if (role.equals("ROLE_DEACTIVATED_OWNER") || role.equals("ROLE_DEACTIVATED_MEMBER")) {
 				return "../user/reactivate"; // 비활성화된 계정 페이지 (즉시 리다이렉트)
+			} else if (role.equals("ROLE_UNAUTHERIZED_OWNER")) {
+				return "../owner/unauthorized";
 			}
 		}
 		return redirectURL;

@@ -201,7 +201,7 @@ document.addEventListener("keydown", function(event) {
                 <button type="button" onclick='location.href="../food/list"' data-key="2">식품 창고 📦</button>
                 <button type="button" onclick='location.href="../orders/list"' data-key="3">발주 승인 ✔️</button>
                 <button type="button" onclick='location.href="../coupon/list"' data-key="4">쿠폰 🏷️</button>
-                <button type="button" onclick='location.href="../admin/activate"' data-key="5">계정 재활성화 승인 👥</button>
+                <button type="button" onclick='location.href="../admin/auth-option"' data-key="5">점주 승인 👥</button>
                 <button type="button" onclick='location.href="../notice/list"' data-key="6">공지사항 📢</button>
             </sec:authorize>
         </div>

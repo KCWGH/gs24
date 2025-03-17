@@ -68,6 +68,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_ACTIVATION_REQUESTED_OWNER"));
 			return new CustomUser(ownerVO, authorities);
+		} else if (ownerVO != null && ownerVO.getIsEnabled() == -1) {
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_UNAUTHERIZED_OWNER"));
+			return new CustomUser(ownerVO, authorities);
 		}
 
 		AdminVO adminVO = adminMapper.selectAdminByAdminId(username);

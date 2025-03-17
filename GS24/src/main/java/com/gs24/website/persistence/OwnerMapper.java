@@ -47,4 +47,6 @@ public interface OwnerMapper {
 
 	int activateOwner(String ownerId);
 
+	String[] selectUnauthorizedOwners();
+
 }

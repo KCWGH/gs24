@@ -62,20 +62,40 @@ public class AdminController {
 		return "/admin/console";
 	}
 
+	@GetMapping("/authorize")
+	public String authorizeGET(Model model) {
+		String[] unAuthorizedOwnerIds = ownerService.selectUnauthorizedOwners();
+		model.addAttribute("unAuthorizedOwnerIds", unAuthorizedOwnerIds);
+
+		return "/admin/authorize";
+	}
+
+	@PostMapping("/authorize")
+	public void authorizePOST(@RequestBody Map<String, String[]> requestBody) {
+		String[] unAuthorizedOwnerIds = requestBody.get("unAuthorizedOwnerIds");
+		for (String ownerId : unAuthorizedOwnerIds) {
+			ownerService.reActivateOwner(ownerId);
+		}
+	}
+
 	@GetMapping("/activate")
 	public String activateGET(Model model) {
-		String[] ownerIds = ownerService.selectActivationRequestedOwners();
-
-		model.addAttribute("ownerIds", ownerIds);
+		String[] inActivatedOwnerIds = ownerService.selectActivationRequestedOwners();
+		model.addAttribute("inActivatedOwnerIds", inActivatedOwnerIds);
 
 		return "/admin/activate";
 	}
 
 	@PostMapping("/activate")
 	public void activatePOST(@RequestBody Map<String, String[]> requestBody) {
-		String[] ownerIds = requestBody.get("ownerIds");
-		for (String ownerId : ownerIds) {
+		String[] inActivatedOwnerIds = requestBody.get("inActivatedOwnerIds");
+		for (String ownerId : inActivatedOwnerIds) {
 			ownerService.reActivateOwner(ownerId);
 		}
+	}
+
+	@GetMapping("/auth-option")
+	public String authOptionGET() {
+		return "/admin/auth-option";
 	}
 }

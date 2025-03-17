@@ -13,7 +13,7 @@
 	<insert id="insertOwner">
 		INSERT INTO OWNER
 		(OWNER_ID, PASSWORD, EMAIL, PHONE, ADDRESS, IS_ENABLED) VALUES
-		(#{ownerId},#{password}, #{email}, #{phone}, #{address}, 1)
+		(#{ownerId},#{password}, #{email}, #{phone}, #{address}, -1)
 	</insert>
 
 	<select id="selectOwnerByOwnerId" resultMap="ownerResultMap">
@@ -51,6 +51,11 @@
 		SELECT COUNT(*)
 		FROM OWNER
 		WHERE OWNER_ID = #{ownerId} AND EMAIL = #{email}
+	</select>
+	
+	<select id="selectUnauthorizedOwners" resultType="String">
+		SELECT OWNER_ID FROM OWNER
+		WHERE IS_ENABLED = -1
 	</select>
 	
 	<select id="selectActivationRequestedOwners" resultType="String">

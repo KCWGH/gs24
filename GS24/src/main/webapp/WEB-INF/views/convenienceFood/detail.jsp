@@ -287,9 +287,12 @@ hr {
     });
 
     $(document).ready(function () {
-        $(document).on('click', '#needLogin', function(event) {
-        	alert('예약하시려면 로그인해주세요');
-     	});
+ 	   $(document).on('click', '#needLogin', function(event) {
+		    var isConfirmed = confirm("예약하시려면 로그인이 필요합니다.\n로그인 페이지로 이동할까요?");
+		    if (isConfirmed) {
+		        window.location.href = '../auth/login';
+		    }
+		});
     	
         $(".subImage").on("click", function () {
             let newSrc = $(this).attr("src");

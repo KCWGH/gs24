@@ -38,7 +38,7 @@ public class OwnerController {
 	private RecaptchaService recaptchaService;
 
 	@GetMapping("/register")
-	public String registerGET(Authentication auth, Model model, RedirectAttributes redirectAttributes) {
+	public String registerGET(Authentication auth, Model model) {
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				return "redirect:/convenience/list";
@@ -83,6 +83,27 @@ public class OwnerController {
 			request.getSession().invalidate();
 			redirectAttributes.addFlashAttribute("message", "관리자에게 계정 비활성화 해제를 요청했습니다.");
 		}
+		return "redirect:/auth/login";
+	}
+
+	@GetMapping("/unauthorized")
+	public String unauthorizedGET(Authentication auth, Model model, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, HttpServletResponse response) {
+		if (auth != null) {
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+				return "redirect:/convenience/list";
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
+				int convenienceId = convenienceService.getConvenienceIdByOwnerId(auth.getName());
+				model.addAttribute("convenienceId", convenienceId);
+				return "redirect:/convenienceFood/list?convenienceId=" + convenienceId;
+			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+				return "redirect:/admin/console";
+			}
+		}
+		new SecurityContextLogoutHandler().logout(request, response,
+				SecurityContextHolder.getContext().getAuthentication());
+		request.getSession().invalidate();
+		redirectAttributes.addFlashAttribute("message", "미승인된 점주입니다. 관리자에게 문의하세요.");
 		return "redirect:/auth/login";
 	}
 }

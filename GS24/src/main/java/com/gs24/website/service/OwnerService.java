@@ -42,4 +42,6 @@ public interface OwnerService {
 
 	int reActivateOwner(String ownerId);
 
+	String[] selectUnauthorizedOwners();
+
 }

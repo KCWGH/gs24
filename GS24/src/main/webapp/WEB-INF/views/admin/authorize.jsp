@@ -9,7 +9,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../resources/css/fonts.css">
-    <title>재입점 승인</title>
+    <title>입점 승인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 body {
@@ -142,15 +142,15 @@ body {
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
-<h1>재입점 승인</h1>
+<h1>입점 승인</h1>
 <div class="container">
     <div class="left-panel">
     <h2>요청 점주 목록</h2>
     <div id="request-list">
     <c:choose>
-        <c:when test="${not empty inActivatedOwnerIds}">
+        <c:when test="${not empty unAuthorizedOwnerIds}">
     <button id="select-all-btn" class="approve-btn">전체 선택</button> <!-- 텍스트 아래로 이동 -->
-            <c:forEach var="ownerId" items="${inActivatedOwnerIds}">
+            <c:forEach var="ownerId" items="${unAuthorizedOwnerIds}">
                 <div class="item">
                     <input type="checkbox" class="item-checkbox">
                     <span>${ownerId}</span>
@@ -264,10 +264,10 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: '../admin/activate',
+            url: '../admin/authorize',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ inActivatedOwnerIds: approvedIds }),
+            data: JSON.stringify({ unAuthorizedOwnerIds: approvedIds }),
             success: function(response) {
                 alert('승인 완료!');
                 $('#approved-list').empty();
