@@ -140,7 +140,6 @@
                 <div class="image-drop">
                     <p>사진을 클릭&amp;드래그로 등록</p>
                 </div>
-                <input type="file" id="image-click" style="display: none;" multiple="multiple"/>
                 <div class="image-list"></div>
             </div>
 			
@@ -155,7 +154,8 @@
     </div>
 	
 	<div class="ImgVOList"></div>
-
+	<input type="file" id="image-click" style="display: none;" multiple="multiple"/>
+	
     <script src="${pageContext.request.contextPath }/resources/js/uploadImage.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){

@@ -297,7 +297,7 @@ input[type="text"] {
     							}
     						}
     					});
-					}
+					} else{
                             $.ajax({
         						type : "post",
         						url : "../preorder/check",
