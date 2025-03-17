@@ -73,7 +73,11 @@ public class FoodServiceImple implements FoodService {
 		foodVO.getImgThumbnail().setForeignId(foodVO.getFoodId());
 		imgThumbnailMapper.insertImgThumbnail(foodVO.getImgThumbnail());
 
-		if(foodVO.getImgList() != null) {			
+		if(foodVO.getImgList() != null) {
+			for(ImgVO imgVO : foodVO.getImgList()) {
+				imgVO.setForeignId(foodVO.getFoodId());
+			}
+			log.info(foodVO.getImgList());
 			imgFoodMapper.insertImgFoodList(foodVO.getImgList());
 		}
 
