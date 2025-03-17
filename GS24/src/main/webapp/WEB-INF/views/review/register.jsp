@@ -110,7 +110,7 @@
     <div class="container">
         <h1>리뷰 작성</h1>
         <form action="../review/register" method="post" id="registForm">
-            <input type="hidden" name="foodId" value="${foodId }">
+            <input type="hidden" name="foodId" id="foodId" value="${foodId }">
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
             <sec:authentication property="principal" var="user"/>    
             <sec:authorize access="isAuthenticated()">
@@ -190,12 +190,12 @@
                     return;
                 }
                 
-                var reviewId = $(".reviewId").val();
-            	var foodId = $(".foodId").val();
-            	var memberId = $(".memberId").val();
-            	var reviewTitle = $(".reviewTitle").val();
-            	var reviewContent = $(".reviewContent").val();
-            	var reviewRating = $(".reviewRating").val();
+                var reviewId = 0;
+            	var foodId = $("#foodId").val();
+            	var memberId = $("#memberId").val();
+            	var reviewTitle = $("#reviewTitle").val();
+            	var reviewContent = $("#reviewContent").val();
+            	var reviewRating = $("#reviewRating").val();
             	
             	var formData = new FormData();
             	
