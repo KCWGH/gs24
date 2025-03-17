@@ -148,22 +148,22 @@
         <input type="hidden" name="reviewId" class="reviewId" value="${reviewVO.reviewId}" />
 
         <label for="foodId">식품 아이디</label>
-        <input type="number" name="foodId" value="${reviewVO.foodId}" readonly="readonly"/>
+        <input type="number" name="foodId" class="foodId" value="${reviewVO.foodId}" readonly="readonly"/>
 
         <sec:authentication property="principal" var="user" />
         <sec:authorize access="isAuthenticated()">
             <label for="memberId">회원 아이디</label>
-            <input type="text" name="memberId" value="${user.username}" readonly="readonly" />
+            <input type="text" name="memberId" class="memberId" value="${user.username}" readonly="readonly" />
         </sec:authorize>
 
         <label for="reviewTitle">리뷰 제목</label>
-        <input type="text" name="reviewTitle" value="${reviewVO.reviewTitle}" />
+        <input type="text" name="reviewTitle" class="reviewTitle" value="${reviewVO.reviewTitle}" />
 
         <label for="reviewContent">리뷰 내용</label>
-        <textarea rows="5" cols="30" name="reviewContent">${reviewVO.reviewContent}</textarea>
+        <textarea rows="5" cols="30" name="reviewContent" class="reviewContent">${reviewVO.reviewContent}</textarea>
 
         <label for="reviewRating">리뷰 별점</label>
-        <input type="number" name="reviewRating" value="${reviewVO.reviewRating}" min="1" max="5" />
+        <input type="number" name="reviewRating" class="reviewRating" value="${reviewVO.reviewRating}" min="1" max="5" />
 
         <c:forEach var="ImgVO" items="${reviewVO.imgList}" varStatus="status">
         	<div class="input-image-items">
@@ -209,7 +209,7 @@
                 var header = $("meta[name='_csrf_header']").attr("content");
                 xhr.setRequestHeader(header, token);
             });
-
+			
             $(".insert-image").click(function(){
                 $(".image-drop").show();
             });
@@ -272,29 +272,61 @@
                     return;
                 }
 				
-                var i = $("#updateForm").children(".input-image-items").length;
-     			console.log(i);
-     			
-     			$(".ImgVOList input").each(function(){
-     				var ImgVO = JSON.parse($(this).val());
-     				
-     				var div		 =	$('<div>').attr('class','input-image-items');
-     				var realName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
-     				var chgName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
-     				var extension =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
-     				var path =		$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
-     				
-     				div.append(realName);
-     				div.append(chgName);
-     				div.append(extension);
-     				div.append(path);
-     				
-     				updateForm.append(div);
-     				
-     				i++;
-     			});
-     			updateForm.append(inputConvenienceId);
-     			updateForm.submit();
+                var reviewId = $(".reviewId").val();
+            	var foodId = $(".foodId").val();
+            	var memberId = $(".memberId").val();
+            	var reviewTitle = $(".reviewTitle").val();
+            	var reviewContent = $(".reviewContent").val();
+            	var reviewRating = $(".reviewRating").val();
+            	
+            	var formData = new FormData();
+            	
+            	formData.append("reviewId",reviewId);
+            	formData.append("foodId",foodId);
+            	formData.append("memberId",memberId);
+            	formData.append("reviewTitle", reviewTitle);
+            	formData.append("reviewContent",reviewContent);
+            	formData.append("reviewRating",reviewRating);
+            	formData.append("convenienceId", convenienceId);
+
+            	$.ajax({
+            		type : "post",
+            		url : "../review/checkReview",
+            		data : formData,
+            		processData : false,
+    				contentType : false,
+            		success : function(result){
+            			if(result == 'false'){
+            				alert("리뷰 수정에 실패 했습니다. 리뷰 데이터를 다시 확인해 주십시오");
+            				check = false;
+            			} else {
+            				var i = $("#updateForm").children(".input-image-items").length;
+                  			console.log(i);
+                  			
+                  			$(".ImgVOList input").each(function(){
+                  				var ImgVO = JSON.parse($(this).val());
+                  				
+                  				var div		 =	$('<div>').attr('class','input-image-items');
+                  				var realName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
+                  				var chgName =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
+                  				var extension =	$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
+                  				var path =		$('<input>').attr('type','hidden').attr('class','input-image-list').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
+                  				
+                  				div.append(realName);
+                  				div.append(chgName);
+                  				div.append(extension);
+                  				div.append(path);
+                  				
+                  				updateForm.append(div);
+                  				
+                  				i++;
+                  			});
+                  			updateForm.append(inputConvenienceId);
+                  			updateForm.submit();
+            			}
+            		}
+            	});
+                
             });
         });
     </script>

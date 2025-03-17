@@ -103,4 +103,14 @@ public class ReviewController {
 			return new ResponseEntity<String>("", HttpStatus.OK);
 		return new ResponseEntity<String>(auth.getName(),HttpStatus.OK);
 	}
+	
+	@PostMapping("/checkReview")
+	@ResponseBody
+	public String checkReview(Authentication auth,ReviewVO reviewVO, int convenienceId) {
+		boolean check = checkReviewData.checkReviewData(auth, reviewVO, convenienceId);
+		if(check)
+			return "true";
+		else
+			return "false";
+	}
 }

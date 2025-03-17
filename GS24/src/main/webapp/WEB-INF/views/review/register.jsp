@@ -190,29 +190,60 @@
                     return;
                 }
                 
-                var i = 0;
-                $(".ImgVOList input").each(function(){
-                    var ImgVO = JSON.parse($(this).val());
-                    
-                    console.log(ImgVO);
-                    
-                    var foreignId = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].foreignId').attr('value',ImgVO.foreignId);
-                    var realName = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
-                    var chgName = $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
-                    var extension = $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
-                    var path = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
-                    
-                    registForm.append(foreignId);
-                    registForm.append(realName);
-                    registForm.append(chgName);
-                    registForm.append(extension);
-                    registForm.append(path);
-                    
-                    i++;
-                });
+                var reviewId = $(".reviewId").val();
+            	var foodId = $(".foodId").val();
+            	var memberId = $(".memberId").val();
+            	var reviewTitle = $(".reviewTitle").val();
+            	var reviewContent = $(".reviewContent").val();
+            	var reviewRating = $(".reviewRating").val();
+            	
+            	var formData = new FormData();
+            	
+            	formData.append("reviewId",reviewId);
+            	formData.append("foodId",foodId);
+            	formData.append("memberId",memberId);
+            	formData.append("reviewTitle", reviewTitle);
+            	formData.append("reviewContent",reviewContent);
+            	formData.append("reviewRating",reviewRating);
+            	formData.append("convenienceId", convenienceId);
 
-                registForm.append(inputConvenienceId);
-                registForm.submit();
+            	$.ajax({
+            		type : "post",
+            		url : "../review/checkReview",
+            		data : formData,
+            		processData : false,
+    				contentType : false,
+            		success : function(result){
+            			if(result == 'false'){
+            				alert("리뷰 수정에 실패 했습니다. 리뷰 데이터를 다시 확인해 주십시오");
+            				check = false;
+            			} else {
+            				var i = 0;
+                            $(".ImgVOList input").each(function(){
+                                var ImgVO = JSON.parse($(this).val());
+                                
+                                console.log(ImgVO);
+                                
+                                var foreignId = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].foreignId').attr('value',ImgVO.foreignId);
+                                var realName = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].ImgRealName').attr('value',ImgVO.imgRealName);
+                                var chgName = $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgChgName').attr('value',ImgVO.imgChgName);
+                                var extension = $('<input>').attr('type','hidden').attr('name','imgList['+i+'].ImgExtension').attr('value',ImgVO.imgExtension);
+                                var path = $("<input>").attr('type','hidden').attr('name','imgList['+i+'].ImgPath').attr('value',ImgVO.imgPath);
+                                
+                                registForm.append(foreignId);
+                                registForm.append(realName);
+                                registForm.append(chgName);
+                                registForm.append(extension);
+                                registForm.append(path);
+                                
+                                i++;
+                            });
+
+                            registForm.append(inputConvenienceId);
+                            registForm.submit();
+            			}
+            		}
+            	});
             });
 
             $(".image-list").on('click','.image-item',function(){
