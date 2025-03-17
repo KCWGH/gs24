@@ -29,7 +29,7 @@ public class PreorderCheckTask {
 	@Autowired
 	private GiftCardMapper giftCardMapper;
 
-	@Scheduled(cron = "30 34 16 * * *")
+	@Scheduled(cron = "0 0 9 * * *")
 	public void Task() {
 		log.warn("PreorderCheckTask");
 

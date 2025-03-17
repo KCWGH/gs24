@@ -18,16 +18,18 @@
         });
 
         $(document).ready(function(){
-            getAllPreorder();
+        	 var pageNum = "<c:out value='${pageMaker.pagination.pageNum }' />";
+             var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
+ 
+            getAllPreorder(pageNum,pageSize);
+        	
             checkToCheckBox();
             onCancellButton();
             onDeletePreorder();
 
             //회원이 예약한 식품들 불러오는 코드
-            function getAllPreorder(){
+            function getAllPreorder(pageNum, pageSize){
                 let url = "../preorder/all/"+ "${memberId}";
-                var pageNum = "<c:out value='${pageMaker.pagination.pageNum }' />";
-                var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
                 
                 console.log(pageNum);
                 
@@ -47,6 +49,8 @@
                              let preorderNO = this.preorderId;
                              
                              let convenienceId = this.convenienceId;
+                             
+                             let address = this.address;
                              
                              let isPickUp = ' style="color:gray;">미수령';
                              
@@ -68,6 +72,7 @@
                                  }
                              list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
                                      + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
+                                     + '<div>'+address+'</div>'
                                      + '<div>수령기한 : <strong>'+ StringDate+'</strong></div>'
                                      + '<div>예약수량 : '+this.preorderAmount+'개</div>'
                                      + '<div'+isPickUp+'</div>'
@@ -89,53 +94,10 @@
                 var pageNum = $(this).attr("href").split("=")[1];
                 var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
 
-                $.ajax({
-                    type: "get",
-                    url: "../preorder/all/" + "${memberId}",
-                    data: { "pageNum": pageNum, "pageSize": pageSize },
-                    success: function (data) {
-                        let list = '';
-                        $(data).each(function () {
-                            let pickUpDate = new Date(this.pickupDate);
-                            let StringDate = formatDate(pickUpDate);
-                            let foodId = this.foodId;
-                            let preorderNO = this.preorderId;
-                            let convenienceId = this.convenienceId;
-                            let isPickUp = ' style="color:gray;">미수령';
-                            let isExpiredOrder = ' style="color:gray;">예약 중';
-
-                            if (this.isPickUp == 1) {
-                                isPickUp = ' style="color:green;">수령 완료';
-                                isExpiredOrder = ' style="color:gray;">예약 종료';
-                            }
-                            if (this.isExpiredOrder == 1) {
-                                isPickUp = ' style="color:red;">수령 취소';
-                                isExpiredOrder = ' style="color:red;">예약 취소';
-                            }
-
-                            list += '<div class="preorderList">';
-                            if (isExpiredOrder == ' style="color:gray;">예약 중') {
-                                list += '<input type="checkbox" class="check-box">';
-                            }
-                            list += '<input type="hidden" class="preorderNO" value="' + preorderNO + '">'
-                                + '<div><img src="../image/foodThumbnail?foodId=' + foodId + '" style="width:150px; height=150px;"></div>'
-                                + '<div>수령기한 : <strong>' + StringDate + '</strong></div>'
-                                + '<div>예약수량 : ' + this.preorderAmount + '개</div>'
-                                + '<div' + isPickUp + '</div>'
-                                + '<div class="isExpriedOrder"' + isExpiredOrder + '</div>';
-                            if (this.writeReview == 0 && this.isPickUp == 1) {
-                                let onclick = '\"location.href=\'../review/register?foodId=' + foodId + '&convenienceId=' + convenienceId + '&preorderId=' + preorderNO + '\'\"';
-                                list += '<button onclick=' + onclick + '>리뷰 작성</button>';
-                            }
-                            list += '</div>';
-                        });
-
-                        $('#list').html(list);
-
-                        $(".pagination_button").removeClass("current");
-                        $(".pagination_button a[href='?pageNum=" + pageNum + "']").parent().addClass("current");
-                    }
-                });
+                getAllPreorder(pageNum,pageSize);
+                
+                $(".pagination_button").removeClass("current");
+                $(".pagination_button a[href='?pageNum=" + pageNum + "']").parent().addClass("current");
             });
 
             
