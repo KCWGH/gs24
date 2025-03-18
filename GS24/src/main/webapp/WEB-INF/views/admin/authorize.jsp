@@ -135,14 +135,30 @@ body {
 .right-panel h2 {
     text-align: center;
 }
+
 #noRequests {
 	text-align: center;
+}
+
+button {
+	font-family: 'Pretendard-Regular', sans-serif;
+	background: #ddd;
+	color: black;
+	padding: 5px 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #bbb;
 }
 </style>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
 <h1>입점 승인</h1>
+<span style="color: #444; font-size:20px;">새로 입점한 점주를 승인합니다.</span>
 <div class="container">
     <div class="left-panel">
     <h2>요청 점주 목록</h2>
@@ -175,6 +191,8 @@ body {
     	<button type="submit" id="update" class="approve-btn">승인</button>
 	</div>
 </div>
+<br><br>
+<a href="../admin/activate"><button>재입점 승인</button></a>
 
 <script>
 $(document).ready(function() {

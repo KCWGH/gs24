@@ -13,7 +13,6 @@ import com.gs24.website.domain.ConvenienceFoodVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
 import com.gs24.website.persistence.ConvenienceMapper;
-import com.gs24.website.persistence.FoodMapper;
 import com.gs24.website.persistence.ImgFoodMapper;
 import com.gs24.website.persistence.ImgReviewMapper;
 import com.gs24.website.persistence.ReviewMapper;
@@ -31,9 +30,6 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 
 	@Autowired
 	private ConvenienceMapper convenienceMapper;
-
-	@Autowired
-	private FoodMapper foodMapper;
 
 	@Autowired
 	private ImgFoodMapper imgFoodMapper;
@@ -72,19 +68,21 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	}
 
 	@Override
-	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination, Authentication auth) {
-		if(pagination.getKeyword() == null)
+	public List<ConvenienceFoodVO> getPagedConvenienceFoodsByConvenienceId(int convenienceId, Pagination pagination,
+			Authentication auth) {
+		if (pagination.getKeyword() == null)
 			pagination.setKeyword("");
-		if(pagination.getBottomPrice() == null)
+		if (pagination.getBottomPrice() == null)
 			pagination.setBottomPrice("");
-		if(pagination.getTopPrice() == null)
+		if (pagination.getTopPrice() == null)
 			pagination.setTopPrice("");
 		pagination.setConvenienceId(convenienceId);
 		int isOwner = 0;
-		if(auth != null)
-			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
+		if (auth != null)
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
 				isOwner = 1;
-		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination, isOwner);
+		List<ConvenienceFoodVO> list = convenienceFoodMapper.selectPagedConvenienceFoodByConvenienceId(pagination,
+				isOwner);
 
 		return list;
 	}
@@ -129,7 +127,7 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		list.add("전체");
 		return list;
 	}
-	
+
 	@Override
 	public int updateShowStatus(int foodId, int convenienceId) {
 		log.info("updateShowStatus");
@@ -146,20 +144,20 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 	public int getTotalCountByConvenienceId(int convenienceId, Pagination pagination, Authentication auth) {
 		pagination.setConvenienceId(convenienceId);
 		int isOwner = 0;
-		if(auth != null)
-			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
+		if (auth != null)
+			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER")))
 				isOwner = 1;
-		return convenienceFoodMapper.countTotalFoodsByConvenienceId(pagination,isOwner);
+		return convenienceFoodMapper.countTotalFoodsByConvenienceId(pagination, isOwner);
 	}
 
 	@Override
 	public String getAddress(int convenienceId) {
 		return convenienceFoodMapper.selectAddress(convenienceId);
 	}
-	
+
 	@Override
 	public List<String> getFoodTypeListByConvenienceId(int convenienceId) {
-	    return convenienceFoodMapper.selectFoodTypeListByConvenienceId(convenienceId);
+		return convenienceFoodMapper.selectFoodTypeListByConvenienceId(convenienceId);
 	}
 
 }

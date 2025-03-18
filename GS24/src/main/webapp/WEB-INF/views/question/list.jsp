@@ -113,8 +113,8 @@ ul {
         <a href="register"><input type="button" value="문의하기"></a>
 	</sec:authorize>
         <tr>
-            <th style="width: 60px">번호</th>
-            <th style="width: 80px">식품</th>
+            <th style="width: 60px">질문번호</th>
+            <th style="width: 80px">식품유형</th>
             <th style="width: 700px">제목</th>
             <th style="width: 120px">작성자</th>
             <th style="width: 100px">작성일</th>
@@ -172,10 +172,10 @@ ul {
                 <td>${questionDateCreated}</td>
                 <td>
                     <c:if test="${QuestionVO.isAnswered == 0}">
-                        답변대기
+                        <span style="color:red;">미답변</span>
                     </c:if>
                     <c:if test="${QuestionVO.isAnswered == 1}">
-                        답변완료
+                        <span style="color:green;">답변완료</span>
                     </c:if>
                 </td>
             </tr>        

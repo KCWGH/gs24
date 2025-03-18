@@ -85,16 +85,25 @@
         text-decoration: underline;
     }
     
-    #kakao {
+    #kakao, #naver, #apple {
     	all: unset;
     	cursor: pointer;
     	display: inline-block;
+    	width: 15%;
 	}
 	
-    #kakao img {
+	#naver {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	
+	#apple {
+		margin-left: 10px;
+	}
+	
+    #kakao img, #naver img, #apple img {
     	border-radius: 8px;
-    	width: 60%;
-    	max-width: 200px;
+    	width: 100%;
     	display: block;
     	margin: 10px auto;
 	}  
@@ -104,7 +113,7 @@
 $(document).ready(function() {
 	$("#kakao").click(function(event){
     	event.preventDefault();
-    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=37a993700004ae9f4806d2f6830189c6&redirect_uri=http://localhost:8080/website/auth/kakao";
+    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=37a993700004ae9f4806d2f6830189c6&redirect_uri=http://localhost:8080/gs24/login/oauth2/code/kakao";
     });
     $('#loginForm').on('submit', function(event) {
         event.preventDefault();
@@ -152,8 +161,10 @@ $(document).ready(function() {
             <a href="../user/find-id">아이디 찾기</a>
             <a href="../user/find-pw">비밀번호 찾기</a>
             <a href="../user/register">회원가입</a>
-        	<button id="kakao"><img src="../resources/images/kakao/kakaosync.png"></button>
         </div>
+        	<button id="kakao"><img src="../resources/images/kakao/sns-kakao.svg"></button>
+<!--         	<button id="naver"><img src="../resources/images/kakao/sns-naver.svg"></button>
+        	<button id="apple"><img src="../resources/images/kakao/sns-apple.svg"></button> -->
 
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

@@ -58,7 +58,7 @@
                              
                              if(this.isPickUp == 1){
                                  isPickUp = ' style="color:green;">수령 완료';
-                                 isExpiredOrder = ' style="color:gray;">예약 종료';
+                                 isExpiredOrder = ' style="color:blue;">예약 종료';
                              }
                              
                              if(this.isExpiredOrder == 1){
@@ -72,11 +72,11 @@
                                  }
                              list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
                                      + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
-                                     + '<div>'+address+'</div>'
-                                     + '<div>수령기한 : <strong>'+ StringDate+'</strong></div>'
-                                     + '<div>예약수량 : '+this.preorderAmount+'개</div>'
-                                     + '<div'+isPickUp+'</div>'
-                                     + '<div class="isExpriedOrder"'+isExpiredOrder+'</div>'
+                                     + '<div><strong style="font-size:18px;">'+ StringDate+'</strong><br>까지 수령</div>'
+                                     + '<div><span style="color:gray;">'+ address +'</span></div>'
+                                     + '<div>예약 수량 : '+this.preorderAmount+'개</div>'
+                                     + '<span'+isPickUp+', </span>'
+                                     + '<span class="isExpriedOrder"'+isExpiredOrder+'</span><br><br>'
                                      if (this.writeReview == 0 && this.isPickUp == 1) {
                                      	let onclick = '\"location.href=\'../review/register?foodId='+foodId+'&convenienceId='+convenienceId+'&preorderId='+preorderNO+'\'\"';
                                      	list += '<button onclick=' + onclick + '>리뷰 작성</button>';
@@ -148,7 +148,7 @@
                     let cancelledPreorderId = [];
                     console.log(this);
                     $(".preorderList").each(function(){
-                        if($(this).find(".isExpriedOrder").text() == "예약 취소"){
+                        if ($(this).find(".isExpriedOrder").text() == "예약 취소") {
                             let preorderNO = $(this).find(".preorderNO").val();
                             cancelledPreorderId.push(preorderNO);
                         }
@@ -310,7 +310,7 @@ ul {
     <br>
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     <div class="button-container">
-        <button id="cancel">미수령 예약 취소</button>
+        <button id="cancel">예약 취소</button>
         <button id="delete">예약 취소 목록 삭제</button>
         <button onclick="history.back()">돌아가기</button>
     </div>
