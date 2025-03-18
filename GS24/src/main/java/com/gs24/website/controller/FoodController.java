@@ -53,7 +53,6 @@ public class FoodController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(foodService.countTotalFood());
-		log.info(foodVO);
 
 		model.addAttribute("food", foodVO);
 		model.addAttribute("pageMaker", pageMaker);

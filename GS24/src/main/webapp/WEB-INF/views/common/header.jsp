@@ -153,7 +153,7 @@ document.addEventListener("keydown", function(event) {
                 <a href="../convenienceFood/list?convenienceId=${convenienceId }" data-key="1">GS24</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <a href="../admin/console" data-key="1">GS24</a>
+                <a href="../admin/console">GS24</a>
             </sec:authorize>
         </div>
 
@@ -198,11 +198,11 @@ document.addEventListener("keydown", function(event) {
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <button type="button" onclick='location.href="../food/list"' data-key="2">식품 창고 📦</button>
-                <button type="button" onclick='location.href="../orders/list"' data-key="3">발주 승인 ✔️</button>
-                <button type="button" onclick='location.href="../coupon/list"' data-key="4">쿠폰 🏷️</button>
-                <button type="button" onclick='location.href="../admin/auth-option"' data-key="5">점주 승인 👥</button>
-                <button type="button" onclick='location.href="../notice/list"' data-key="6">공지사항 📢</button>
+                <button type="button" onclick='location.href="../food/list"' data-key="1">식품 창고 📦</button>
+                <button type="button" onclick='location.href="../orders/list"' data-key="2">발주 승인 ✔️</button>
+                <button type="button" onclick='location.href="../coupon/list"' data-key="3">쿠폰 🏷️</button>
+                <button type="button" onclick='location.href="../admin/auth-option"' data-key="4">점주 승인 👥</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📢</button>
             </sec:authorize>
         </div>
     </div>

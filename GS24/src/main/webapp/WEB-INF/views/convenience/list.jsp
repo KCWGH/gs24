@@ -216,10 +216,10 @@ ul {
                         <p>${conveniVO.address}</p>
 						<div class="location-container">
     						<div class="location">
-        						<img src="${pageContext.request.contextPath}/resources/images/kakao/location.png" alt="location"><p>위치 보기</p>
+        						<img src="${pageContext.request.contextPath}/resources/images/kakao/location.png" alt="location"><p>지도 위치</p>
     						</div>
     						<div class="setDestination">
-        						<img alt="setDestination" src="${pageContext.request.contextPath}/resources/images/kakao/setDestination.png"><p>도착지 설정</p>
+        						<img alt="setDestination" src="${pageContext.request.contextPath}/resources/images/kakao/setDestination.png"><p>경로 보기</p>
     						</div>
 						</div>
 						<p hidden="hidden">${conveniVO.isEnabled}</p>
@@ -291,23 +291,46 @@ ul {
             }, 300);
         });
     	
-        $("#conveniList").on("click", ".setDestination", function () {
-            var closestConveni = $(this).closest(".conveni");
-            var address = closestConveni.data("location");
+    	$("#conveniList").on("click", ".setDestination", function () {
+    	    var closestConveni = $(this).closest(".conveni");
+    	    var address = closestConveni.data("location");
 
-            var geocoder = new kakao.maps.services.Geocoder();
-            geocoder.addressSearch(address, function (result, status) {
-                if (status === kakao.maps.services.Status.OK) {
-                    var destLat = result[0].y;
-                    var destLng = result[0].x;
+    	    function getCurrentLocation() {
+    	        if (navigator.geolocation) {
+    	            navigator.geolocation.getCurrentPosition(function (position) {
+    	                var currentLat = position.coords.latitude;
+    	                var currentLng = position.coords.longitude;
 
-                    var kakaoMapUrl = "https://map.kakao.com/link/to/" + address + "," + destLat + "," + destLng;
-                    window.open(kakaoMapUrl);
-                } else {
-                    alert("주소 변환에 실패했습니다.");
-                }
-            });
-        });
+    	                var geocoder = new kakao.maps.services.Geocoder();
+    	                var latLng = new kakao.maps.LatLng(currentLat, currentLng);
+    	                
+    	                geocoder.coord2Address(latLng.getLng(), latLng.getLat(), function(result, status) {
+    	                    if (status === kakao.maps.services.Status.OK) {
+    	                        var currentAddress = result[0].address.address_name;
+    	                        geocoder.addressSearch(address, function (result, status) {
+    	                            if (status === kakao.maps.services.Status.OK) {
+    	                                var destLat = result[0].y;
+    	                                var destLng = result[0].x;
+    	                                var kakaoMapUrl = "https://map.kakao.com/link/from/" + currentAddress + "," + currentLat + "," + currentLng +
+    	                                                  "/to/" + address + "," + destLat + "," + destLng;
+    	                                window.open(kakaoMapUrl);
+    	                            } else {
+    	                                alert("도착지 주소 변환에 실패했습니다.");
+    	                            }
+    	                        });
+    	                    } else {
+    	                        alert("현 위치 주소 변환에 실패했습니다.");
+    	                    }
+    	                });
+    	            }, function (error) {
+    	                alert("현재 위치를 가져오는 데 실패했습니다.");
+    	            });
+    	        } else {
+    	            alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+    	        }
+    	    }
+    	    getCurrentLocation();
+    	});
 
         $("#conveniList").on("click", ".redirect", function () {
             var closestConveni = $(this).closest(".conveni");

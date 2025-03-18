@@ -32,11 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private AdminMapper adminMapper;
 
-	// 전송된 username으로 사용자 정보를 조회하고, UserDetails에 저장하여 리턴하는 메서드
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		log.info("loadUserByUsername()");
-		log.info(username);
 
 		// 1. MEMBER 테이블에서 사용자 조회
 		MemberVO memberVO = memberMapper.selectMemberByMemberId(username);
@@ -44,11 +41,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (memberVO != null && memberVO.getIsEnabled() == 1) {
 			// 회원이 활성화된 경우
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER")); // ROLE_MEMBER 역할 부여
+			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER")); // 일반회원
 			return new CustomUser(memberVO, authorities);
 		} else if (memberVO != null && memberVO.getIsEnabled() == 0) {
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_MEMBER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_MEMBER")); // 삭제된 일반회원
 			return new CustomUser(memberVO, authorities);
 		}
 
@@ -56,21 +53,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 		OwnerVO ownerVO = ownerMapper.selectOwnerByOwnerId(username);
 
 		if (ownerVO != null && ownerVO.getIsEnabled() == 1) {
-			// 소유자가 활성화된 경우
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_OWNER")); // ROLE_OWNER 역할 부여
+			authorities.add(new SimpleGrantedAuthority("ROLE_OWNER")); // 점주
 			return new CustomUser(ownerVO, authorities);
 		} else if (ownerVO != null && ownerVO.getIsEnabled() == 0) {
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_OWNER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_DEACTIVATED_OWNER")); // 삭제된 점주
 			return new CustomUser(ownerVO, authorities);
 		} else if (ownerVO != null && ownerVO.getIsEnabled() == 2) {
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_ACTIVATION_REQUESTED_OWNER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_ACTIVATION_REQUESTED_OWNER")); // 재입점 요청한 점주
 			return new CustomUser(ownerVO, authorities);
 		} else if (ownerVO != null && ownerVO.getIsEnabled() == -1) {
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_UNAUTHERIZED_OWNER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_UNAUTHERIZED_OWNER")); // 입점 요청한 점주
 			return new CustomUser(ownerVO, authorities);
 		}
 
@@ -79,11 +75,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (adminVO != null) {
 			// 소유자가 활성화된 경우
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // ROLE_OWNER 역할 부여
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 			return new CustomUser(adminVO, authorities);
 		}
 
 		// 3. 회원 또는 소유자가 존재하지 않거나 활성화되지 않은 경우 예외 처리
-		throw new UsernameNotFoundException("Username is not found or User is not active");
+		throw new UsernameNotFoundException("Username is not found");
 	}
 }

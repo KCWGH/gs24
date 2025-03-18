@@ -84,17 +84,19 @@
     .container a:hover {
         text-decoration: underline;
     }
+    
     #kakao {
-    all: unset; /* 모든 스타일 초기화 */
-    cursor: pointer;
-    display: inline-block; /* 필요에 따라 조정 */
+    	all: unset;
+    	cursor: pointer;
+    	display: inline-block;
 	}
+	
     #kakao img {
-    border-radius: 8px; /* 원하는 둥글기 정도 */
-    width: 100%; /* 부모 요소 크기에 맞추기 */
-    max-width: 200px; /* 적절한 크기 제한 */
-    display: block; /* 인라인 요소 간격 제거 */
-    margin: 10px auto; /* 가운데 정렬 */
+    	border-radius: 8px;
+    	width: 60%;
+    	max-width: 200px;
+    	display: block;
+    	margin: 10px auto;
 	}  
 </style>
 </head>

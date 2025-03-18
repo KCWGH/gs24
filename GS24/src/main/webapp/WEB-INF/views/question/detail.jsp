@@ -83,6 +83,24 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+    
+    textarea {
+    	font-family: 'Pretendard-Regular', sans-serif;
+        width: 100%;
+        height: 300px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #f9f9f9;
+        font-size: 16px;
+        line-height: 1.5;
+        resize: none;
+        box-sizing: border-box; /* 부모 요소 너비를 넘지 않도록 설정 */
+        overflow-y: auto; /* 스크롤 가능하게 */
+        word-wrap: break-word; /* 긴 단어가 잘리지 않도록 */
+        margin-top: 20px;
+        margin-bottom: 20px;    
+    }
 
     /* 버튼 컨테이너 */
     .button-container {
