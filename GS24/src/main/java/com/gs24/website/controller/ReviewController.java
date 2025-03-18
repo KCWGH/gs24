@@ -2,6 +2,8 @@ package com.gs24.website.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,10 +57,10 @@ public class ReviewController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(Authentication auth, ReviewVO reviewVO, int convenienceId, int status, int preorderId) {
+	public String registerPOST(HttpServletRequest request,Authentication auth, ReviewVO reviewVO, int convenienceId, int status, int preorderId) {
 		log.info("registerPOST()");
 		log.info(reviewVO);
-
+		log.info(request.getHeader("Referer"));
 		// status :
 		if (status == 1 && checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {
 			reviewService.createReview(reviewVO, preorderId);

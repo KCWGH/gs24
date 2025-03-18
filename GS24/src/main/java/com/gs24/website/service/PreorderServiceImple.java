@@ -238,6 +238,12 @@ public class PreorderServiceImple implements PreorderService {
 		if (result == 1) {
 			PreorderVO preorderVO = preorderMapper.selectPreorderOneById(preorderId);
 			membershipMapper.addSpentAmount(preorderVO.getTotalPrice(), preorderVO.getMemberId());
+			int foodId = preorderVO.getFoodId();
+			int convenienceId = preorderVO.getConvenienceId();
+			Integer foodAmount = convenienceFoodMapper.selectFoodAmount(foodId, convenienceId);
+			if(foodAmount != null && foodAmount <= 0) {
+				convenienceFoodMapper.deleteConvenienceFood(foodId, convenienceId);
+			}
 		}
 		return result;
 	}

@@ -51,7 +51,6 @@ public class ConvenienceFoodServiceImple implements ConvenienceFoodService {
 		int result = 0;
 
 		int convenienceId = convenienceMapper.selectConvenienceIdByOwnerId(ownerId);
-		foodMapper.updateFoodStockByFoodAmount(foodId, foodAmount);
 
 		if (convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1) {
 			result = convenienceFoodMapper.updateFoodAmountByInsert(foodId, foodAmount, convenienceId);

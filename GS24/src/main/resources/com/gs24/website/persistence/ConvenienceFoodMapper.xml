@@ -154,8 +154,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkHasFood" resultType="Integer">
-		SELECT CASE WHEN EXISTS (SELECT 1 FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}) THEN 1 ELSE 0 END AS result
-		FROM DUAL
+		SELECT CASE WHEN EXISTS (
+		SELECT 1 FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+		) THEN 1 ELSE 0 END AS result FROM DUAL
+	</select>
+	
+	<select id="checkFoodOrder" resultType="Integer">
+		SELECT CASE WHEN EXISTS (
+		SELECT 1 FROM ORDERS JOIN CONVENIENCE ON ORDERS.OWNER_ID = CONVENIENCE.OWNER_ID
+        WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+		) THEN 1 ELSE 0 END AS result FROM DUAL
 	</select>
 	
 	<select id="selectAddress" resultType="String">
@@ -189,4 +197,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 FROM FOOD fl JOIN CONVENIENCE_FOOD cf ON fl.FOOD_ID = cf.FOOD_ID 
 		 WHERE cf.CONVENIENCE_ID = #{convenienceId} 
 	</select>
+	
+	<select id="selectFoodAmount" resultType="Integer">
+		SELECT CONVENIENCE_FOOD.FOOD_AMOUNT FROM CONVENIENCE_FOOD
+		JOIN FOOD ON FOOD.FOOD_ID = CONVENIENCE_FOOD.FOOD_ID
+		WHERE CONVENIENCE_FOOD.FOOD_ID = #{foodId} AND CONVENIENCE_FOOD.CONVENIENCE_ID = #{convenienceId} AND FOOD.IS_SELLING = 0
+	</select>
+	
+	<delete id="deleteConvenienceFood">
+		DELETE FROM CONVENIENCE_FOOD WHERE FOOD_ID = #{foodId} AND CONVENIENCE_ID = #{convenienceId}
+	</delete>
 </mapper>

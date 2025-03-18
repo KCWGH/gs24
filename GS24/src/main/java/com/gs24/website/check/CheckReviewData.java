@@ -3,6 +3,7 @@ package com.gs24.website.check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.persistence.ConvenienceFoodMapper;
@@ -11,6 +12,7 @@ import com.gs24.website.persistence.ReviewMapper;
 import lombok.extern.log4j.Log4j;
 
 @Component
+@Transactional(value = "transactionManager")
 @Log4j
 public class CheckReviewData {
 	
@@ -44,7 +46,7 @@ public class CheckReviewData {
 				log.info("신규 리뷰 입니다.");
 				check = check && CheckData.checkUserName(auth, reviewVO.getMemberId()); 
 			}
-			// 그 편의점이 갖고 있는 식품인지 확인하는 코드
+			// 그 편의점이 갖고 있는 식품인지 확인하는 코드 -> 실제 식품 인제 확인하는 코드
 			check = check && checkReviewFoodId(reviewVO.getFoodId(),convenienceId);
 			// 리뷰 내용이 500자 이상인지 확인하는 코드
 			check = check && checkReviewContent(reviewVO.getReviewContent());
@@ -103,7 +105,7 @@ public class CheckReviewData {
 		boolean check = false;
 		
 		try {
-			check = (convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1 ? true : false);
+			check = (convenienceFoodMapper.checkHasFood(foodId, convenienceId) == 1 ? true : false) || (convenienceFoodMapper.checkFoodOrder(foodId, convenienceId) == 1 ? true : false);
 		}catch (Exception e) {
 			log.info(e.getMessage());
 			log.info("checkReviewFoodId is Exception");

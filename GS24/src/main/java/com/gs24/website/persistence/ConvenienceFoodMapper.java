@@ -27,6 +27,8 @@ public interface ConvenienceFoodMapper {
 			@Param("convenienceId") int convenienceId);
 
 	int checkHasFood(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
+	
+	int checkFoodOrder(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 
 	int updateFoodAmountByInsert(@Param("foodId") int foodId, @Param("foodAmount") int foodAmount,
 			@Param("convenienceId") int convenienceId);
@@ -43,4 +45,8 @@ public interface ConvenienceFoodMapper {
 	List<ConvenienceFoodVO> selectFoodsByConvenienceId(int convenienceId);
 	
 	List<String> selectFoodTypeListByConvenienceId(int convenienceId);
+	
+	Integer selectFoodAmount(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
+	
+	int deleteConvenienceFood(@Param("foodId") int foodId, @Param("convenienceId") int convenienceId);
 }
