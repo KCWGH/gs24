@@ -187,6 +187,9 @@ h3 {
 	.food-details table {
 		width: 100%;
 	}
+	body {
+		padding: 15px;
+	}
 }
 
 .reviewItems .reviewRating {
@@ -287,7 +290,7 @@ hr {
 	justify-content: space-between;
 	flex-wrap: wrap;
 	gap: 20px;
-	padding: 10px 50px;
+	padding: 0px 50px;
 }
 
 .recommendedFoods {
@@ -297,8 +300,8 @@ hr {
 }
 
 .recommendedFoodImage {
-	width: 120px;
-	height: 120px;
+	width: 200px;
+	height: 200px;
 	object-fit: cover;
 }
 

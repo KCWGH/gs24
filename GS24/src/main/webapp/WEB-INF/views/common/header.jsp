@@ -168,12 +168,12 @@ document.addEventListener("keydown", function(event) {
                         <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">관리자 </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_MEMBER')">
-                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=700,top=100,left=200');">
+                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=710,top=100,left=200');">
                            	 <sec:authentication property="principal.nickname" />
                             </a>님
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_OWNER')">
-                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=700,top=100,left=200');">
+                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=710,top=100,left=200');">
                            	 <sec:authentication property="principal.username" />
                             </a>님
                         </sec:authorize>
@@ -188,7 +188,7 @@ document.addEventListener("keydown", function(event) {
 
             <sec:authorize access="hasRole('ROLE_MEMBER')">
                 <button type="button" onclick='location.href="../preorder/list"' data-key="2">예약 내역 📋</button>
-                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')" data-key="3">기프트카드 🎁</button>
+                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=710,top=100,left=200')" data-key="3">기프트카드 🎁</button>
                 <button type="button" onclick='location.href="../notice/list"' data-key="4">공지사항 📌</button>
                 <button type="button" onclick='location.href="../question/list"' data-key="5">문의사항(Q&amp;A) 🙋‍♂️</button>
             </sec:authorize>
@@ -204,7 +204,7 @@ document.addEventListener("keydown", function(event) {
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <button type="button" onclick='location.href="../foodlist/list"' data-key="2">식품 창고 🏢</button>
                 <button type="button" onclick='location.href="../orders/list"' data-key="3">발주 승인 ✔️</button>
-                <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')" data-key="4">쿠폰 발행 😄</button>
+                <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=710,top=100,left=200')" data-key="4">쿠폰 발행 😄</button>
                 <button type="button" onclick='location.href="../admin/activate"' data-key="5">비활성화 해제 승인 ✔️</button>
                 <button type="button" onclick='location.href="../notice/list"' data-key="6">공지사항 📌</button>
             </sec:authorize>

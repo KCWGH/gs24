@@ -1,12 +1,8 @@
 package com.gs24.website.config;
 
-import java.security.Provider;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,17 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationProvider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistration.ProviderDetails;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -34,7 +24,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import com.gs24.website.service.CustomLoginSuccessHandler;
 import com.gs24.website.service.CustomOauth2UserService;
 import com.gs24.website.service.CustomUserDetailsService;
-import com.gs24.website.service.CustomOauth2LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity(debug=true)
@@ -49,8 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLoginSuccessHandler customLoginSuccessHandler;
 
-    @Autowired
-    private CustomOauth2LoginSuccessHandler oauth2LoginSuccessHandler;
     
     @Bean
     public RequestCache requestCache() {
@@ -113,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.formLogin(login -> login.loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login")
-                .permitAll()
+                .successHandler(customLoginSuccessHandler)
         		);
         
         httpSecurity
@@ -172,7 +159,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
     			.scope("profile_nickname")
     			.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-    			.redirectUriTemplate("http://192.168.0.161:8080/gs24/login/oauth2/code/kakao")
+    			.redirectUriTemplate("http://localhost:8080/gs24/login/oauth2/code/kakao")
     			.authorizationUri("https://kauth.kakao.com/oauth/authorize")
     			.tokenUri("https://kauth.kakao.com/oauth/token")
     			.userInfoUri("https://kapi.kakao.com/v2/user/me")
