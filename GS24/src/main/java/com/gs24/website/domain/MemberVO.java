@@ -1,5 +1,6 @@
 package com.gs24.website.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
+public class MemberVO implements Serializable {
+	private static final long serialVersionUID = 2L;
 	String memberId;
 	String password;
 	String email;

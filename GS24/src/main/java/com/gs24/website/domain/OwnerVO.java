@@ -1,5 +1,7 @@
 package com.gs24.website.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OwnerVO {
+public class OwnerVO implements Serializable {
+	private static final long serialVersionUID = 3L;
 	String ownerId;
 	String password;
 	String email;

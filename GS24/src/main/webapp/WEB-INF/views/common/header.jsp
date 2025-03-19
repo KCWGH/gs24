@@ -126,6 +126,23 @@ header span {
 }
 </style>
 <script>
+/* window.onload = function() {
+    var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
+    if (username && username.trim() !== "") {
+        const eventSource = new EventSource('../sse/subscribe/' + username);
+        eventSource.onmessage = function(event) {
+            const message = event.data;
+            alert("새로운 메시지: " + message);
+        };
+        eventSource.onerror = function(error) {
+            console.error('SSE 연결에 오류가 발생했습니다:', error);
+            eventSource.close();
+        };
+    } else {
+        console.log("사용자가 로그인하지 않았습니다.");
+    }
+};
+ */
 document.addEventListener("keydown", function(event) {
 	if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
         return;
@@ -142,6 +159,53 @@ document.addEventListener("keydown", function(event) {
         }
     }
 });
+
+ function requestNotificationPermission() {
+     if (Notification.permission === 'granted') {
+         return;
+     } else if (Notification.permission !== 'denied') {
+         Notification.requestPermission().then(function(permission) {
+             if (permission === 'granted') {
+                 console.log('Notification permission granted.');
+             } else {
+                 console.log('Notification permission denied.');
+             }
+         });
+     }
+ }
+
+ function showNotification(message) {
+     if (Notification.permission === 'granted') {
+         new Notification('발주 승인 알림', {
+             body: message
+         });
+     } else {
+         console.log('알림 권한이 없습니다.');
+     }
+ }
+
+ window.onload = function() {
+     var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
+     
+     requestNotificationPermission();
+     
+     const eventSource = new EventSource('../sse/subscribe/' + username);
+
+     eventSource.onmessage = function(event) {
+         const message = event.data;
+         showNotification(message);
+     };
+
+     eventSource.onerror = function(error) {
+         console.error('SSE 연결에 오류가 발생했습니다:', error);
+         eventSource.close();
+     };
+
+     eventSource.onclose = function() {
+         console.log('SSE 연결이 종료되었습니다.');
+     };
+ };
+
 </script>
 <header>
     <div class="header-container">
