@@ -17,7 +17,7 @@
 <style>
 body {
 	font-family: 'Pretendard-Regular', sans-serif;
-	padding: 15px;
+	padding: 15px 300px;
 	font-size: 18px;
 }
 
@@ -26,71 +26,75 @@ h1 {
 	text-align: center;
 }
 
+h3 {
+	color: #333;
+}
+
 .content-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-bottom: 30px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	margin-bottom: 30px;
 }
 
 .image-list {
-    flex: 6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	flex: 6;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .image-scroll {
-    margin-top: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
+	margin-top: 10px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	overflow-x: hidden;
 }
 
 .image-scroll ol {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
 }
 
 .image-scroll li {
-    margin-right: 10px;
+	margin-right: 10px;
 }
 
 .food-details {
-    flex: 4;
-    vertical-align: middle;
-    margin-top: 50px;
+	flex: 4;
+	vertical-align: middle;
+	margin-top: 50px;
 }
 
 .food-details table {
-    width: 70%;
+	width: 70%;
 }
 
 .food-details th, .food-details td {
-    padding: 10px;
-    text-align: center;
+	padding: 10px;
+	text-align: center;
 }
 
 .food-details th {
-    width: 40%;
+	width: 40%;
 }
 
 .food-details td {
-    width: 40%;
-    vertical-align: middle;
+	width: 40%;
+	vertical-align: middle;
 }
 
 .food-details td canvas {
-    display: block;
-    margin: 0 auto;
+	display: block;
+	margin: 0 auto;
 }
 
 .subImage {
@@ -153,42 +157,36 @@ h1 {
 	object-fit: cover;
 }
 
-@media (max-width: 992px) {
-    .content-container {
-        flex-direction: column;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .food-details {
-        width: 80%;
-    }
-
-    .mainImage {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .image-scroll {
-        width: 100%;
-        overflow-x: hidden;
-    }
-
-    .subImage {
-        width: 80px;
-        height: 80px;
-    }
-
-    #diagram {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-    }
-
-    .food-details table {
-        width: 100%;
-    }
+@media ( max-width : 992px) {
+	.content-container {
+		flex-direction: column;
+		width: 100%;
+		max-width: 100%;
+	}
+	.food-details {
+		width: 80%;
+	}
+	.mainImage {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+	}
+	.image-scroll {
+		width: 100%;
+		overflow-x: hidden;
+	}
+	.subImage {
+		width: 80px;
+		height: 80px;
+	}
+	#diagram {
+		width: 100%;
+		max-width: 300px;
+		height: auto;
+	}
+	.food-details table {
+		width: 100%;
+	}
 }
 
 .reviewItems .reviewRating {
@@ -226,24 +224,24 @@ h1 {
 }
 
 .function {
-    text-align: center;
+	text-align: center;
 }
 
 .function button {
 	font-family: 'Pretendard-Regular', sans-serif;
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    border: none;
-    background-color: #ddd;
-    color: black;
-    cursor: pointer;
-    font-size: 18px;
+	display: inline-block;
+	margin: 10px;
+	padding: 10px 20px;
+	border-radius: 4px;
+	border: none;
+	background-color: #ddd;
+	color: black;
+	cursor: pointer;
+	font-size: 18px;
 }
 
 .function button:hover {
-    background-color: #bbb;
+	background-color: #bbb;
 }
 
 .review-buttons button {
@@ -263,7 +261,7 @@ h1 {
 
 #preorder, #needLogin {
 	font-family: 'Pretendard-Regular', sans-serif;
-    padding: 10px 30px;
+	padding: 10px 30px;
 	background-color: #4CAF50 !important;
 	color: white !important;
 }
@@ -273,9 +271,39 @@ h1 {
 }
 
 hr {
-    border: none;
-    height: 2px;
-    background-color: #ccc;
+	border: none;
+	height: 1px;
+	background-color: #ccc;
+}
+
+.recommendedFoodsContainer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.recommendedFoodsContainer {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 20px;
+	padding: 10px 50px;
+}
+
+.recommendedFoods {
+	flex: 0 1 200px;
+	text-align: center;
+	margin: 10px;
+}
+
+.recommendedFoodImage {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+}
+
+.recommendedFoodName {
+	font-size: 14px;
 }
 </style>
 
@@ -466,9 +494,25 @@ hr {
 				</tr>
 			</table>
     	</div>
-    </div>
-    
-    
+    </div>  
+    <hr>
+		<h3>이런 상품은 어떠세요?</h3>
+	<div class="recommendedFoodsContainer">
+	    <c:choose>
+	        <c:when test="${empty recommendation}">
+	            <p>추천 상품이 없습니다.</p>
+	        </c:when>
+	        <c:otherwise>
+	            <c:forEach var="recommendedFoodVO" items="${recommendation}">
+	                <div class="recommendedFoods">
+	                    <img class="recommendedFoodImage" src="../image/foodThumbnail?foodId=${recommendedFoodVO.foodId}">
+	                    <p class="recommendedFoodName">${recommendedFoodVO.foodName }</p>
+	                </div>
+	            </c:forEach>
+	        </c:otherwise>
+	    </c:choose>
+	</div>
+	
     <div id="reviewList">
     <hr>
         <c:forEach var="reviewVO" items="${reviewList }">

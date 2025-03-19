@@ -28,12 +28,13 @@ public interface FoodMapper {
 			@Param("foodId") int foodId);
 
 	int checkFoodAmountStatus(int foodId);
-	
+
 	String getFoodNameByFoodId(int fooId);
-	
+
 	int getFoodStock(int foodId);
-	
+
 	String getFoodTypeByFoodId(int fooId);
-	
+
 	void restoreFoodStock(@Param("foodId") int foodId, @Param("amount") int amount);
+
 }

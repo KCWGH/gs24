@@ -1,5 +1,6 @@
 package com.gs24.website.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gs24.website.domain.ConvenienceDetailFoodVO;
 import com.gs24.website.domain.ConvenienceFoodVO;
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.ReviewVO;
 import com.gs24.website.service.ConvenienceFoodService;
 import com.gs24.website.service.FavoritesService;
+import com.gs24.website.service.FoodRecommendationService;
 import com.gs24.website.service.GiftCardService;
 import com.gs24.website.service.OrderService;
 import com.gs24.website.util.PageMaker;
@@ -45,10 +48,14 @@ public class ConvenienceFoodController {
 	@Autowired
 	private OrderService orderService;
 
+	@Autowired
+	private FoodRecommendationService foodRecommendationService;
+
 	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model, Integer convenienceId, Pagination pagination) {
 		log.info("listGET()");
-		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId, pagination, auth);
+		List<ConvenienceFoodVO> list = convenienceFoodService.getPagedConvenienceFoodsByConvenienceId(convenienceId,
+				pagination, auth);
 		String address = convenienceFoodService.getAddress(convenienceId);
 		if (auth != null) {
 			String username = auth.getName();
@@ -77,7 +84,8 @@ public class ConvenienceFoodController {
 	}
 
 	@GetMapping("/detail")
-	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth, Pagination pagination) {
+	public void detailGET(Model model, int foodId, int convenienceId, Authentication auth, Pagination pagination)
+			throws IOException {
 		log.info("detailGET()");
 
 		ConvenienceDetailFoodVO convenienceFoodVO = convenienceFoodService.getDetailConvenienceFoodByFoodId(foodId,
@@ -86,26 +94,26 @@ public class ConvenienceFoodController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setTotalCount(convenienceFoodService.countReviewsByFoodId(foodId));
 		pageMaker.setPagination(pagination);
-		
-		log.info(convenienceFoodVO);
-		log.info(reviewList);
 
 		if (auth != null) {
 			if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 				model.addAttribute("memberId", auth.getName());
 			}
 		}
+		List<FoodVO> recommendedFoodVO = foodRecommendationService.getRecommendedFoodVOList(foodId);
+
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("FoodVO", convenienceFoodVO);
 		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("recommendation", recommendedFoodVO);
 	}
 
 	@GetMapping("/register")
 	@ResponseBody
 	public ResponseEntity<Integer> registerGET(Authentication auth, int foodId, int foodAmount) {
 		String ownerId = auth.getName();
-		
+
 		OrderVO order = new OrderVO();
 		order.setFoodId(foodId);
 		order.setOrderAmount(foodAmount);
@@ -113,12 +121,12 @@ public class ConvenienceFoodController {
 		order.setApprovalStatus(0);
 
 		try {
-	        orderService.insertOrder(order);
-	    } catch (IllegalArgumentException e) {
-	        return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
-	    }
+			orderService.insertOrder(order);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+		}
 
-	    return new ResponseEntity<>(1, HttpStatus.OK);
+		return new ResponseEntity<>(1, HttpStatus.OK);
 	}
 
 	@GetMapping("/updateShowStatus")

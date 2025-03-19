@@ -8,7 +8,7 @@ import com.gs24.website.util.Pagination;
 public interface FoodService {
 	int createFood(FoodVO foodVO);
 
-	List<FoodVO> getAllFood(Pagination pagination);
+	List<FoodVO> getPagedAllFood(Pagination pagination);
 
 	int countTotalFood();
 

@@ -49,7 +49,7 @@ public class FoodController {
 			}
 		}
 		pagination.setPageSize(10);
-		List<FoodVO> foodVO = foodService.getAllFood(pagination);
+		List<FoodVO> foodVO = foodService.getPagedAllFood(pagination);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setPagination(pagination);
 		pageMaker.setTotalCount(foodService.countTotalFood());

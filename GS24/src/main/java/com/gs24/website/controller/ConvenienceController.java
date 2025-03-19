@@ -45,6 +45,7 @@ public class ConvenienceController {
 				return "redirect:/convenienceFood/list?convenienceId=" + checkConvenienceId;
 			}
 		}
+
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("conveniList", list);
 		return "/convenience/list";

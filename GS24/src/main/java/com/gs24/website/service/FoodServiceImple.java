@@ -42,8 +42,8 @@ public class FoodServiceImple implements FoodService {
 	}
 
 	@Override
-	public List<FoodVO> getAllFood(Pagination pagination) {
-		log.info("getAllFood()");
+	public List<FoodVO> getPagedAllFood(Pagination pagination) {
+		log.info("getPagedAllFood()");
 		return foodMapper.selectAllFoodByPagination(pagination);
 	}
 
