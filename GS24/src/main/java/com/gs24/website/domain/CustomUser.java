@@ -1,9 +1,11 @@
 package com.gs24.website.domain;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Getter;
 
@@ -33,5 +35,12 @@ public class CustomUser extends User { // User 클래스 상속
 		super(adminVO.getAdminId(), adminVO.getPassword(), authorities);
 		this.adminVO = adminVO;
 	}
-
+	
+	public String getName() {
+		return memberVO.getMemberId();
+	}
+	
+	public String getNickname() {
+		return memberVO.getNickname();
+	}
 }

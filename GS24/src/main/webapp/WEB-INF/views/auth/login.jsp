@@ -113,7 +113,7 @@
 $(document).ready(function() {
 	$("#kakao").click(function(event){
     	event.preventDefault();
-    	location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=37a993700004ae9f4806d2f6830189c6&redirect_uri=http://localhost:8080/gs24/login/oauth2/code/kakao";
+    	location.href = "../oauth2/authorization/kakao";
     });
     $('#loginForm').on('submit', function(event) {
         event.preventDefault();

@@ -305,6 +305,13 @@
     <form action="register" method="POST">
         <table>
         	<tr>
+                <th><label for="nickname">닉네임</label></th>
+                <td>
+                    <input type="text" id="nickname" name="nickname" required>
+                    <br>
+                </td>
+            </tr>
+        	<tr>
         		<td colspan="2">※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</td>
         	</tr>
             <tr>

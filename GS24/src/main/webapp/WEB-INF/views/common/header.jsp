@@ -126,23 +126,6 @@ header span {
 }
 </style>
 <script>
-/* window.onload = function() {
-    var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
-    if (username && username.trim() !== "") {
-        const eventSource = new EventSource('../sse/subscribe/' + username);
-        eventSource.onmessage = function(event) {
-            const message = event.data;
-            alert("새로운 메시지: " + message);
-        };
-        eventSource.onerror = function(error) {
-            console.error('SSE 연결에 오류가 발생했습니다:', error);
-            eventSource.close();
-        };
-    } else {
-        console.log("사용자가 로그인하지 않았습니다.");
-    }
-};
- */
 document.addEventListener("keydown", function(event) {
 	if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
         return;
@@ -159,53 +142,6 @@ document.addEventListener("keydown", function(event) {
         }
     }
 });
-
- function requestNotificationPermission() {
-     if (Notification.permission === 'granted') {
-         return;
-     } else if (Notification.permission !== 'denied') {
-         Notification.requestPermission().then(function(permission) {
-             if (permission === 'granted') {
-                 console.log('Notification permission granted.');
-             } else {
-                 console.log('Notification permission denied.');
-             }
-         });
-     }
- }
-
- function showNotification(message) {
-     if (Notification.permission === 'granted') {
-         new Notification('발주 승인 알림', {
-             body: message
-         });
-     } else {
-         console.log('알림 권한이 없습니다.');
-     }
- }
-
- window.onload = function() {
-     var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
-     
-     requestNotificationPermission();
-     
-     const eventSource = new EventSource('../sse/subscribe/' + username);
-
-     eventSource.onmessage = function(event) {
-         const message = event.data;
-         showNotification(message);
-     };
-
-     eventSource.onerror = function(error) {
-         console.error('SSE 연결에 오류가 발생했습니다:', error);
-         eventSource.close();
-     };
-
-     eventSource.onclose = function() {
-         console.log('SSE 연결이 종료되었습니다.');
-     };
- };
-
 </script>
 <header>
     <div class="header-container">
@@ -217,56 +153,60 @@ document.addEventListener("keydown", function(event) {
                 <a href="../convenienceFood/list?convenienceId=${convenienceId }" data-key="1">GS24</a>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <a href="../admin/console">GS24</a>
+                <a href="../admin/console" data-key="1">GS24</a>
             </sec:authorize>
         </div>
 
         <div class="header-right">
             <sec:authorize access="isAnonymous()">
                 <button id="login" onclick='location.href="../auth/login"'>로그인 🔑</button>
-                <button type="button" onclick='location.href="../notice/list"'>공지사항 📢</button>
-            </sec:authorize>
-
+                <button type="button" onclick='location.href="../notice/list"'>공지사항 📌</button>
+            </sec:authorize>	
             <sec:authorize access="isAuthenticated()">
                 <form action="../auth/logout" method="post" class="logout-form">
-                    <span>환영합니다, 
+             <span>환영합니다, 
                         <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">관리자 </sec:authorize>
-                        <sec:authorize access="hasRole('ROLE_OWNER') or hasRole('ROLE_MEMBER')">
-                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=710,top=100,left=200');">
-                                <sec:authentication property="principal.username" />
+                        <sec:authorize access="hasRole('ROLE_MEMBER')">
+                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=700,top=100,left=200');">
+                           	 <sec:authentication property="principal.nickname" />
+                            </a>님
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_OWNER')">
+                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=700,top=100,left=200');">
+                           	 <sec:authentication property="principal.username" />
                             </a>님
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <sec:authentication property="principal.username" />님
                         </sec:authorize>
                     </span>
-                    <input id="logout" type="submit" value="로그아웃 🔑">
+                <input id="logout" type="submit" value="로그아웃 🔑">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 </form>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_MEMBER')">
                 <button type="button" onclick='location.href="../preorder/list"' data-key="2">예약 내역 📋</button>
-                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=710,top=100,left=200')" data-key="3">기프트카드 🎁</button>
-                <button type="button" onclick='location.href="../notice/list"' data-key="4">공지사항 📢</button>
-                <button type="button" onclick='location.href="../question/list"' data-key="5">문의사항(Q&amp;A) 💬</button>
+                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=700,top=100,left=200')" data-key="3">기프트카드 🎁</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="4">공지사항 📌</button>
+                <button type="button" onclick='location.href="../question/list"' data-key="5">문의사항(Q&amp;A) 🙋‍♂️</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">
                 <button type="button" onclick='location.href="../preorder/update?convenienceId=${convenienceId }"' data-key="2">결제 및 지급 💳</button>
-                <button type="button" onclick='location.href="../food/list"' data-key="3">발주하기 🚚</button>
+                <button type="button" onclick='location.href="../foodlist/list"' data-key="3">발주하기 🚚</button>
                 <button type="button" onclick='location.href="../orders/ownerList"' data-key="4">발주 이력 📋</button>
-                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📢</button>
-                <button type="button" onclick='location.href="../question/ownerList"' data-key="6">매장 문의사항(Q&amp;A) 💬</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📌</button>
+                <button type="button" onclick='location.href="../question/ownerList"' data-key="6">매장 문의사항(Q&amp;A) 🙋‍♂️</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <button type="button" onclick='location.href="../food/list"' data-key="1">식품 창고 📦</button>
-                <button type="button" onclick='location.href="../orders/list"' data-key="2">발주 승인 ✔️</button>
-                <button type="button" onclick='location.href="../coupon/list"' data-key="3">쿠폰 🏷️</button>
-                <button type="button" onclick='location.href="../admin/auth-option"' data-key="4">점주 승인 👥</button>
-                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📢</button>
+                <button type="button" onclick='location.href="../foodlist/list"' data-key="2">식품 창고 🏢</button>
+                <button type="button" onclick='location.href="../orders/list"' data-key="3">발주 승인 ✔️</button>
+                <button type="button" onclick="window.open('../coupon/publish', '_blank', 'width=500,height=700,top=100,left=200')" data-key="4">쿠폰 발행 😄</button>
+                <button type="button" onclick='location.href="../admin/activate"' data-key="5">비활성화 해제 승인 ✔️</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="6">공지사항 📌</button>
             </sec:authorize>
         </div>
     </div>

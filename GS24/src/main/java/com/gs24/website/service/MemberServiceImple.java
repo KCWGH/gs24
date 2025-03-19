@@ -45,8 +45,9 @@ public class MemberServiceImple implements MemberService {
 		String phone = memberVO.getPhone();
 		if (ownerMapper.countOwnerByOwnerId(memberId) == 0 && dupCheckMemberId(memberId) == 0
 				&& dupCheckMemberEmail(email) == 0 && dupCheckMemberPhone(phone) == 0) {
+			int result = memberMapper.insertMember(memberVO);
 			membershipMapper.insertMembership(memberId);
-			return memberMapper.insertMember(memberVO);
+			return result;
 		}
 		return 0;
 	}

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gs24</groupId>
-	<artifactId>gs24</artifactId>
+	<artifactId>website</artifactId>
 	<name>GS24</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -187,6 +187,19 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.2.2.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-client</artifactId>
+			<version>5.2.2.RELEASE</version>
+		</dependency>
+
+		<!-- Spring Security OAuth2 JOSE (for JWT handling) -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+			<version>5.2.2.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

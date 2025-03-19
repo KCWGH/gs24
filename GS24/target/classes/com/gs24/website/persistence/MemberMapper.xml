@@ -2,25 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gs24.website.persistence.MemberMapper">
 	<resultMap type="com.gs24.website.domain.MemberVO" id="memberResultMap">
-		<id property="memberId" column="MEMBER_ID" />
+		<id property="accountId" column="ACCOUNT_ID"/>
+		<result property="memberId" column="MEMBER_ID" />
 		<result property="password" column="PASSWORD" />
 		<result property="email" column="EMAIL" />
 		<result property="phone" column="PHONE" />
 		<result property="birthday" column="BIRTHDAY" />
 		<result property="address" column="ADDRESS"/>
 		<result property="isEnabled" column="IS_ENABLED" />
+		<result property="nickname" column="NICKNAME"/>
 	</resultMap>
 
 	<insert id="insertMember">
 		INSERT INTO MEMBER
 		(MEMBER_ID, PASSWORD, EMAIL, PHONE,
-		BIRTHDAY, IS_ENABLED) VALUES
+		BIRTHDAY, IS_ENABLED, ACCOUNT_ID, NICKNAME) VALUES
 		(#{memberId},#{password},
-		#{email}, #{phone}, #{birthday}, 1)
+		#{email}, #{phone}, #{birthday}, 1, MEMBER_SEQ.NEXTVAL, #{nickname})
 	</insert>
 
 	<select id="selectMemberByMemberId" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberByEmail" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 	
 	<select id="selectMemberIdByEmail" resultType="String">
@@ -94,4 +100,14 @@
 		SET IS_ENABLED = 1
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+	
+	<insert id="insertSocial">
+		INSERT INTO SOCIAL(ACCOUNT_ID, SOCIAL_ID, PROVIDER, EMAIL)
+		VALUES(#{accountId}, #{socialId}, #{provider}, #{email})
+	</insert>
+	
+	<select id="selectAccountId" resultType="int">
+		SELECT LAST_NUMBER
+		FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'MEMBER_SEQ'
+	</select>
 </mapper>

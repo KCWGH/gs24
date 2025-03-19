@@ -20,4 +20,6 @@ public class MemberVO {
 	String phone;
 	Date birthday;
 	int isEnabled;
+	int accountId;
+	String nickname;
 }

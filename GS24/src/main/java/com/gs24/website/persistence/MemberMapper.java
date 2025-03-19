@@ -11,6 +11,8 @@ public interface MemberMapper {
 
 	MemberVO selectMemberByMemberId(String memberId);
 
+	MemberVO selectMemberByEmail(String email);
+	
 	String selectMemberIdByEmail(String email);
 
 	String selectEmailByMemberId(String memberId);
@@ -38,5 +40,8 @@ public interface MemberMapper {
 	int deleteMemberByMemberId(String memberId);
 
 	int activateMember(String memberId);
-
+	
+	int insertSocial(@Param("accountId") int accountId,@Param("socialId") long socialId,@Param("provider") String provider,@Param("email") String email);
+	
+	int selectAccountId();
 }
