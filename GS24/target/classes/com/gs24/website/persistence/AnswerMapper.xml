@@ -31,4 +31,9 @@
       WHERE ANSWER_ID = #{answerId}
    </delete>
    
+    <select id="getQuestionCreatorId" resultType="String">
+        SELECT MEMBER_ID
+        FROM QUESTION
+        WHERE QUESTION_ID = #{questionId}
+    </select>
 </mapper>

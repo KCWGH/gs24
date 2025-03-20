@@ -69,7 +69,7 @@ public class OrderController {
 			return "fail";
 
 		orderService.approveOrder(orderId);
-		sseService.sendNotification(order.getOwnerId(), "Order no. " + orderId + " is allowed.");
+		sseService.sendNotification(order.getOwnerId(), "발주번호: " + orderId + " 승인");
 
 		return "success";
 	}
@@ -80,7 +80,7 @@ public class OrderController {
 		OrderVO order = orderService.getOrderById(orderId);
 		orderService.rejectOrder(orderId);
 
-		sseService.sendNotification(order.getOwnerId(), "Order no. " + orderId + " is rejected.");
+		sseService.sendNotification(order.getOwnerId(), "발주번호: " + orderId + " 거절");
 		return "success";
 	}
 

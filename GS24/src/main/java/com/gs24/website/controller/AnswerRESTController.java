@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gs24.website.domain.AnswerVO;
 import com.gs24.website.service.AnswerService;
+import com.gs24.website.service.SseService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,12 +26,21 @@ import lombok.extern.log4j.Log4j;
 public class AnswerRESTController {
 	@Autowired
 	private AnswerService answerService;
+	
+	@Autowired
+	private SseService sseService;
 
 	@PostMapping
 	public ResponseEntity<Integer> createAnswer(@RequestBody AnswerVO answerVO) {
 		log.info("createAnswer()");
 
 		int result = answerService.createAnswer(answerVO);
+		String questionCreatorId = answerService.getQuestionCreatorId(answerVO.getQuestionId());
+
+        if (questionCreatorId != null && !questionCreatorId.equals(answerVO.getMemberId())) {
+            // 질문 작성자에게 알림을 전송
+            sseService.sendNotification(questionCreatorId, "게시글에 댓글 등록됨");
+        }
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 

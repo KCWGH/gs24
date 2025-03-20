@@ -66,6 +66,11 @@ public class AnswerServiceImple implements AnswerService{
 		return 1;
 	}
 
+	@Override
+	public String getQuestionCreatorId(int questionId) {
+		return answerMapper.getQuestionCreatorId(questionId);
+	}
+
 	
 
 }

@@ -158,36 +158,38 @@ document.addEventListener("keydown", function(event) {
  }
 
  function showNotification(message) {
-     if (Notification.permission === 'granted') {
-         new Notification('발주 승인 알림', {
-             body: message
-         });
-     } else {
-         console.log('알림 권한이 없습니다.');
-     }
- }
+	    if (Notification.permission === 'granted') {
+	        // 메시지를 바로 사용하여 알림 표시
+	        new Notification('새로운 알림', {
+	            body: message
+	        });
+	    } else {
+	        console.log('알림 권한이 없습니다.');
+	    }
+	}
 
- window.onload = function() {
-     var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
-     console.log(username);
-     requestNotificationPermission();
-     
-     const eventSource = new EventSource('../sse/subscribe/' + username);
+	window.onload = function() {
+	    var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
+	    console.log(username);
+	    requestNotificationPermission();
+	    
+	    const eventSource = new EventSource('../sse/subscribe/' + username);
 
-     eventSource.onmessage = function(event) {
-         const message = event.data;
-         showNotification(message);
-     };
+	    eventSource.onmessage = function(event) {
+	        const message = event.data;  // 이미 UTF-8로 처리된 메시지를 사용
+	        showNotification(message);  // 메시지 그대로 알림에 표시
+	    };
 
-     eventSource.onerror = function(error) {
-         console.error('SSE 연결에 오류가 발생했습니다:', error);
-         eventSource.close();
-     };
+	    eventSource.onerror = function(error) {
+	        console.error('SSE 연결에 오류가 발생했습니다:', error);
+	        eventSource.close();
+	    };
 
-     eventSource.onclose = function() {
-         console.log('SSE 연결이 종료되었습니다.');
-     };
- };
+	    eventSource.onclose = function() {
+	        console.log('SSE 연결이 종료되었습니다.');
+	    };
+	};
+
 
 </script>
 <header>

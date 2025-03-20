@@ -15,5 +15,7 @@ public interface AnswerMapper {
 	int updateAnswer(AnswerVO answerVO);
 	
 	int deleteAnswer(int answerId);
+	
+	String getQuestionCreatorId(int questionId);
 
 }

@@ -39,15 +39,15 @@ public class SseServiceImple implements SseService {
 
 	@Override
 	public void sendNotification(String username, String message) {
-		SseEmitter emitter = emitters.get(username);
-		if (emitter != null) {
-			try {
-				// 메시지를 UTF-8로 인코딩하여 전송
-				String utf8Message = new String(message.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-				emitter.send(SseEmitter.event().data(utf8Message));
-			} catch (Exception e) {
-				emitters.remove(username);
-			}
-		}
+	    SseEmitter emitter = emitters.get(username);
+	    if (emitter != null) {
+	        try {
+	            // 메시지를 UTF-8로 인코딩하여 바이트 배열로 전송
+	            emitter.send(SseEmitter.event().data(message.getBytes(StandardCharsets.UTF_8)));
+	        } catch (Exception e) {
+	            emitters.remove(username);
+	        }
+	    }
 	}
+
 }

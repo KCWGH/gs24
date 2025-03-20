@@ -14,5 +14,7 @@ public interface AnswerService {
 	int updateAnswer(int answerId, String answerContent); 
 	
 	int deleteAnswer(int answerId, int questionId); 
+	
+	String getQuestionCreatorId(int questionId);
 		
 }
