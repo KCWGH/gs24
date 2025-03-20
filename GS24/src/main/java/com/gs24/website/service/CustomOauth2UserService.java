@@ -1,9 +1,6 @@
 package com.gs24.website.service;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +27,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 	private MembershipMapper membershipMapper;
 
 	private final KakaoOauth2UserInfo kakaoOauth2UserInfo = new KakaoOauth2UserInfo();
-	
+
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -39,9 +36,9 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 		OAuth2User user2 = null;
 
 		final String clientName = userRequest.getClientRegistration().getClientName();
-		
+
 		Oauth2UserInfoVO userInfoVO = null;
-		
+
 		if (Oauth2ClientName.KAKAO.getClientName().equals(clientName)) {
 			userInfoVO = kakaoOauth2UserInfo.getuserInfo(user);
 		}
@@ -56,9 +53,11 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 		if (memberId == null) {
 			System.out.println("신규 회원입니다.");
 			memberMapper.insertMember(userInfoVO.getMemberVO());
-			memberMapper.insertSocial(memberMapper.selectAccountId() - 1, userInfoVO.getMemberVO().getMemberId(), userInfoVO.getProvider(), userInfoVO.getMemberVO().getEmail());
+			memberMapper.insertSocial(memberMapper.selectAccountId() - 1, userInfoVO.getMemberVO().getMemberId(),
+					userInfoVO.getProvider(), userInfoVO.getMemberVO().getEmail());
 			membershipMapper.insertMembership(userInfoVO.getMemberVO().getMemberId());
-			user2 = new CustomOauth2User(userInfoVO.getMemberVO(), authorities, user.getAttributes(), userNameAttributeName);
+			user2 = new CustomOauth2User(userInfoVO.getMemberVO(), authorities, user.getAttributes(),
+					userNameAttributeName);
 
 		} else {
 			MemberVO memberVO = memberMapper.selectMemberByEmail(userInfoVO.getMemberVO().getEmail());

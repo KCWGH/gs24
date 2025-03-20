@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gs24.website.domain.FoodVO;
 import com.gs24.website.domain.OrderVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.service.ConvenienceService;
@@ -67,9 +68,9 @@ public class OrderController {
 		OrderVO order = orderService.getOrderById(orderId);
 		if (order == null)
 			return "fail";
-
 		orderService.approveOrder(orderId);
-		sseService.sendNotification(order.getOwnerId(), "발주번호: " + orderId + " 승인");
+		FoodVO foodVO = foodService.getFoodById(order.getFoodId());
+		sseService.sendNotification(order.getOwnerId(), "발주번호 " + orderId + " - " + foodVO.getFoodName() + " 승인되었습니다.");
 
 		return "success";
 	}
@@ -79,8 +80,8 @@ public class OrderController {
 	public String rejectOrder(@RequestParam int orderId) {
 		OrderVO order = orderService.getOrderById(orderId);
 		orderService.rejectOrder(orderId);
-
-		sseService.sendNotification(order.getOwnerId(), "발주번호: " + orderId + " 거절");
+		FoodVO foodVO = foodService.getFoodById(order.getFoodId());
+		sseService.sendNotification(order.getOwnerId(), "발주번호 " + orderId + " - " + foodVO.getFoodName() + " 거절되었습니다.");
 		return "success";
 	}
 

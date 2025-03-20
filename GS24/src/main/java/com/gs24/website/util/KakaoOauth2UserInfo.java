@@ -5,12 +5,11 @@ import java.util.Calendar;
 import java.util.Map;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Component;
 
 import com.gs24.website.domain.MemberVO;
 import com.gs24.website.domain.Oauth2UserInfoVO;
 
-public class KakaoOauth2UserInfo implements Oauth2UserInfo{
+public class KakaoOauth2UserInfo implements Oauth2UserInfo {
 
 	@Override
 	public Oauth2ClientName getClinetName() {
@@ -18,37 +17,37 @@ public class KakaoOauth2UserInfo implements Oauth2UserInfo{
 	}
 
 	@Override
-	public Oauth2UserInfoVO getuserInfo(OAuth2User user) {	
+	public Oauth2UserInfoVO getuserInfo(OAuth2User user) {
 		Map<String, Object> attribute = null;
 		attribute = user.getAttributes();
-		
+
 		@SuppressWarnings("unchecked")
 		Map<String, Object> kakaoAccount = (Map<String, Object>) attribute.get("kakao_account");
-		
+
 		@SuppressWarnings("unchecked")
 		Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-		
+
 		String oauthId = user.getAttribute("id").toString();
-		
+
 		String email = kakaoAccount.get("email").toString();
-		
+
 		String nickname = profile.get("nickname").toString();
 
 		String[] phone = kakaoAccount.get("phone_number").toString().split("-");
 		String number = "0" + phone[0] + "-" + phone[1] + "-" + phone[2];
-		
+
 		int year = Integer.parseInt(kakaoAccount.get("birthyear").toString());
-		int month = Integer.parseInt(kakaoAccount.get("birthday").toString())/100;
-		int day = Integer.parseInt(kakaoAccount.get("birthday").toString())/100;
-		
+		int month = Integer.parseInt(kakaoAccount.get("birthday").toString()) / 100;
+		int day = Integer.parseInt(kakaoAccount.get("birthday").toString()) / 100;
+
 		Date date = null;
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day, 0, 0, 0);
-		
+
 		date = new Date(calendar.getTimeInMillis());
-		
+
 		MemberVO memberVO = new MemberVO(oauthId, "", email, number, date, 1, 0, nickname);
-		
+
 		return new Oauth2UserInfoVO(memberVO, "kakao");
 	}
 }

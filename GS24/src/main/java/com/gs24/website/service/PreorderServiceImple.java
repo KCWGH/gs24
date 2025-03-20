@@ -22,7 +22,6 @@ import com.gs24.website.persistence.GiftCardMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.MembershipMapper;
 import com.gs24.website.persistence.PreorderMapper;
-import com.gs24.website.persistence.ReviewMapper;
 import com.gs24.website.util.Pagination;
 
 import lombok.extern.log4j.Log4j;
@@ -34,9 +33,6 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private PreorderMapper preorderMapper;
-
-	@Autowired
-	private ReviewMapper reviewMapper;
 
 	@Autowired
 	private ConvenienceFoodMapper convenienceFoodMapper;
@@ -55,7 +51,7 @@ public class PreorderServiceImple implements PreorderService {
 
 	@Autowired
 	private MembershipMapper membershipMapper;
-	
+
 	@Autowired
 	private ConvenienceMapper convenienceMapper;
 
@@ -212,7 +208,7 @@ public class PreorderServiceImple implements PreorderService {
 	public List<PreorderVO> getPreorderByMemberId(String memberId) {
 		log.info("getPreorderByMemberId()");
 		List<PreorderVO> list = preorderMapper.selectPreoderByMemberId(memberId);
-		for(PreorderVO vo : list) {
+		for (PreorderVO vo : list) {
 			vo.setAddress(convenienceMapper.selectAddressByConvenienceId(vo.getConvenienceId()));
 		}
 		return list;
@@ -241,7 +237,7 @@ public class PreorderServiceImple implements PreorderService {
 			int foodId = preorderVO.getFoodId();
 			int convenienceId = preorderVO.getConvenienceId();
 			Integer foodAmount = convenienceFoodMapper.selectFoodAmount(foodId, convenienceId);
-			if(foodAmount != null && foodAmount <= 0) {
+			if (foodAmount != null && foodAmount <= 0) {
 				convenienceFoodMapper.deleteConvenienceFood(foodId, convenienceId);
 			}
 		}
@@ -281,10 +277,10 @@ public class PreorderServiceImple implements PreorderService {
 		pagination.setMemberVO(memberVO);
 		pagination.setPageSize(10);
 		List<PreorderVO> list = preorderMapper.selectPagedPreordersByMemberId(pagination);
-		for(PreorderVO preorderVO : list) {
+		for (PreorderVO preorderVO : list) {
 			preorderVO.setAddress(convenienceMapper.selectAddressByConvenienceId(preorderVO.getConvenienceId()));
 		}
-		return list; 
+		return list;
 	}
 
 	@Override

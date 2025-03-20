@@ -55,7 +55,7 @@
 </head>
 <body>
 	<div id="img">
-	<img src="/website/Img/Food?foodId=${foodId }" id="foodImg">
+	<img src="/gs24/Img/Food?foodId=${foodId }" id="foodImg">
 		<button onclick="location.href='../food/list'">돌아가기</button>
 		<br>
 		<div id="review"></div>

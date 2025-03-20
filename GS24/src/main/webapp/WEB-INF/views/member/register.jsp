@@ -305,13 +305,6 @@
     <form action="register" method="POST">
         <table>
         	<tr>
-                <th><label for="nickname">닉네임</label></th>
-                <td>
-                    <input type="text" id="nickname" name="nickname" required>
-                    <br>
-                </td>
-            </tr>
-        	<tr>
         		<td colspan="2">※ 아이디와 생일은 이후에 변경할 수 없으니, 신중하게 선택해주세요.</td>
         	</tr>
             <tr>
@@ -319,6 +312,12 @@
                 <td><input type="text" id="memberId" name="memberId" required>
                     <button type="button" onclick="checkId()">아이디 중복 확인</button> <br>
                     <span id="memberIdMessage"></span></td>
+            </tr>
+        	<tr>
+                <th><label for="nickname">닉네임</label></th>
+                <td>
+                    <input type="text" id="nickname" name="nickname" required>
+                </td>
             </tr>
             <tr>
                 <th><label for="password">비밀번호</label></th>

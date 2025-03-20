@@ -330,6 +330,16 @@ hr {
         var header = $("meta[name='_csrf_header']").attr("content");
         xhr.setRequestHeader(header, token);
     });
+    
+    function formatDate(timestamp) {
+        var date = new Date(timestamp);
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = ('0' + date.getDate()).slice(-2);
+        var hours = ('0' + date.getHours()).slice(-2);
+        var minutes = ('0' + date.getMinutes()).slice(-2);
+        return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+    }
 
     $(document).ready(function () {
  	   $(document).on('click', '#needLogin', function(event) {
@@ -392,10 +402,11 @@ hr {
                 success: function (result) {
                     let list = '';
                     $(result).each(function () {
-                        list+= "<div class='reviewItems'>"
+                    	let formattedDate = formatDate(this.reviewDateCreated);
+                        list += "<div class='reviewItems'>"
                             + "<input type='hidden' class='reviewId' value='" + this.reviewId + "'/>"
                             + "<p><strong>" + this.memberId + "</strong></p>"
-                            + "<p class='reviewRating' data-rating='" + this.reviewRating + "'></p>"
+                            + "<p class='reviewRating' data-rating='" + this.reviewRating + "'> " + "<span style='color:gray; font-size:14px;'>" + formattedDate + "</span>" + "</p>"
                             + "<div class='imageList'>";
 
                         $(this.imgList).each(function () {
@@ -530,15 +541,16 @@ hr {
 	        </c:otherwise>
 	    </c:choose>
 	</div>
-	
+
     <hr>
     	<h3>${FoodVO.foodName } 상품평</h3>
     <div id="reviewList">
         <c:forEach var="reviewVO" items="${reviewList }">
             <div class="reviewItems">
                 <input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
+                	<fmt:formatDate value="${reviewVO.reviewDateCreated}" pattern="yyyy-MM-dd HH:mm" var="reviewDateCreated" />
                 <p><strong>${reviewVO.memberId }</strong></p>
-                <p class="reviewRating" data-rating="${reviewVO.reviewRating}"></p>
+                <p class="reviewRating" data-rating="${reviewVO.reviewRating}"> <span style="color:gray; font-size:14px;">${reviewDateCreated }</span></p>
                 <div class='imageList'>
                     <c:forEach var="ImgVO" items="${reviewVO.imgList }">
                         <input type="hidden" class="image_path" value="${ImgVO.imgPath }">

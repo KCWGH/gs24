@@ -16,14 +16,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.gs24.website.util.HttpUtil;
-import com.gs24.website.util.KakaoOauth2UserInfo;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 // root-context.xml과 동일
 @Configuration
 @EnableScheduling
-@ComponentScan(basePackages = {"com.gs24.website.service", "com.gs24.website.task", "com.gs24.website.check"})
+@ComponentScan(basePackages = { "com.gs24.website.service", "com.gs24.website.task", "com.gs24.website.check" })
 @MapperScan(basePackages = { "com.gs24.website.persistence" }) // 패키지 경로로 Mapper 스캐닝
 @EnableTransactionManagement
 public class RootConfig {
@@ -69,7 +68,7 @@ public class RootConfig {
 	public RecaptchaConfig recaptchaConfig() {
 		return new RecaptchaConfig();
 	}
-	
+
 	@Bean
 	public HttpUtil httpUtil() {
 		return new HttpUtil();

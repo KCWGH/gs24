@@ -159,8 +159,7 @@ document.addEventListener("keydown", function(event) {
 
  function showNotification(message) {
 	    if (Notification.permission === 'granted') {
-	        // 메시지를 바로 사용하여 알림 표시
-	        new Notification('새로운 알림', {
+	        new Notification('GS24', {
 	            body: message
 	        });
 	    } else {
@@ -168,27 +167,30 @@ document.addEventListener("keydown", function(event) {
 	    }
 	}
 
-	window.onload = function() {
+ window.onload = function() {
 	    var username = '${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : ""}';
 	    console.log(username);
 	    requestNotificationPermission();
-	    
-	    const eventSource = new EventSource('../sse/subscribe/' + username);
 
-	    eventSource.onmessage = function(event) {
-	        const message = event.data;  // 이미 UTF-8로 처리된 메시지를 사용
-	        showNotification(message);  // 메시지 그대로 알림에 표시
-	    };
+	    if (username) {
+	        const eventSource = new EventSource('../sse/subscribe/' + username);
 
-	    eventSource.onerror = function(error) {
-	        console.error('SSE 연결에 오류가 발생했습니다:', error);
-	        eventSource.close();
-	    };
+	        eventSource.onmessage = function(event) {
+	            const message = event.data;
+	            showNotification(message);
+	        };
 
-	    eventSource.onclose = function() {
-	        console.log('SSE 연결이 종료되었습니다.');
-	    };
+	        eventSource.onerror = function(error) {
+	            console.error('SSE 연결에 오류가 발생했습니다:', error);
+	            eventSource.close();
+	        };
+
+	        eventSource.onclose = function() {
+	            console.log('SSE 연결이 종료되었습니다.');
+	        };
+	    }
 	};
+
 
 
 </script>
