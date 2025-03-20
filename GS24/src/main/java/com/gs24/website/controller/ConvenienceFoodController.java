@@ -100,7 +100,7 @@ public class ConvenienceFoodController {
 				model.addAttribute("memberId", auth.getName());
 			}
 		}
-		List<FoodVO> recommendedFoodVO = foodRecommendationService.getRecommendedFoodVOList(foodId);
+		List<FoodVO> recommendedFoodVO = foodRecommendationService.getRecommendedFoodVOList(foodId, convenienceId);
 
 		model.addAttribute("convenienceId", convenienceId);
 		model.addAttribute("pageMaker", pageMaker);

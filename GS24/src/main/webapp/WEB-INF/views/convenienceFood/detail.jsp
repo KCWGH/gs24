@@ -30,6 +30,13 @@ h3 {
 	color: #333;
 }
 
+a {
+    text-decoration: none;
+    font-family: 'Pretendard-Regular', sans-serif;
+    font-size: 18px;
+    color: inherit;
+}
+
 .content-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -279,6 +286,13 @@ hr {
 	background-color: #ccc;
 }
 
+.comments {
+    border: none;
+    height: 1px;
+    background-color: transparent;
+    border-top: 1px dashed #aaa;
+}
+
 .recommendedFoodsContainer {
 	display: flex;
 	flex-wrap: wrap;
@@ -376,7 +390,7 @@ hr {
                 url: "../review/list",
                 data: { "foodId": ${FoodVO.foodId}, "pageNum": pageNum, "pageSize": pageSize },
                 success: function (result) {
-                    let list = "<hr>";
+                    let list = '';
                     $(result).each(function () {
                         list+= "<div class='reviewItems'>"
                             + "<input type='hidden' class='reviewId' value='" + this.reviewId + "'/>"
@@ -401,7 +415,7 @@ hr {
                             }
                             
                         list+= "</div>"
-                            + "<hr>";
+                            + '<hr class="comments">';
                     });
 
                     $("#reviewList").html(list);
@@ -503,21 +517,23 @@ hr {
 	<div class="recommendedFoodsContainer">
 	    <c:choose>
 	        <c:when test="${empty recommendation}">
-	            <p>추천 상품이 없습니다.</p>
+	            <p style="text-align: center; width: 100%;">추천 상품이 없습니다.</p>
 	        </c:when>
 	        <c:otherwise>
-	            <c:forEach var="recommendedFoodVO" items="${recommendation}">
+	            <c:forEach var="recommendedFoodVO" items="${recommendation }">
 	                <div class="recommendedFoods">
-	                    <img class="recommendedFoodImage" src="../image/foodThumbnail?foodId=${recommendedFoodVO.foodId}">
-	                    <p class="recommendedFoodName">${recommendedFoodVO.foodName }</p>
+	                	<a href="../convenienceFood/detail?foodId=${recommendedFoodVO.foodId }&convenienceId=${convenienceId }">
+	                    <img class="recommendedFoodImage" src="../image/foodThumbnail?foodId=${recommendedFoodVO.foodId }">
+	                    <span class="recommendedFoodName">${recommendedFoodVO.foodName }</span></a>
 	                </div>
 	            </c:forEach>
 	        </c:otherwise>
 	    </c:choose>
 	</div>
 	
-    <div id="reviewList">
     <hr>
+    	<h3>${FoodVO.foodName } 상품평</h3>
+    <div id="reviewList">
         <c:forEach var="reviewVO" items="${reviewList }">
             <div class="reviewItems">
                 <input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
@@ -541,7 +557,7 @@ hr {
                     </c:if>
                 </sec:authorize>
             </div>
-        <hr>
+        <hr class="comments">
         </c:forEach>
     </div>
     

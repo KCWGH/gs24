@@ -76,11 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(
             "/coupon/**", "/notice/modify", "/notice/register", 
             "/notice/delete", "/orders/list", "/admin/console", 
-            "/admin/activate", "/foodlist/register", "/foodlist/modify"
+            "/admin/activate", "/food/register", "/food/modify"
         ).access("hasRole('ROLE_ADMIN')")
     	
     	.antMatchers(
-    		"/foodlist/list"
+    		"/food/list"
         ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
     	
     	.antMatchers(
@@ -167,6 +167,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			.clientName("kakao")
     			.build();
     }
-    
     
 }

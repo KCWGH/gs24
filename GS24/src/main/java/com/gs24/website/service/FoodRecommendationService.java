@@ -25,8 +25,8 @@ public class FoodRecommendationService {
 	@Autowired
 	private FoodService foodService;
 
-	public String getRecommendedFoods(int foodId) {
-		String url = "http://127.0.0.1:5000/recommend?food_id=" + foodId;
+	public String getRecommendedFoods(int foodId, int convenienceId) {
+		String url = "http://127.0.0.1:5000/recommend?food_id=" + foodId + "&convenience_id=" + convenienceId;
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept-Charset", "UTF-8");
 		HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -50,8 +50,8 @@ public class FoodRecommendationService {
 		return foodIds;
 	}
 
-	public List<FoodVO> getRecommendedFoodVOList(int foodId) throws IOException {
-		String recommendedFoods = this.getRecommendedFoods(foodId);
+	public List<FoodVO> getRecommendedFoodVOList(int foodId, int convenienceId) throws IOException {
+		String recommendedFoods = this.getRecommendedFoods(foodId, convenienceId);
 		List<Integer> extractedFoodIds = this.extractFoodIds(recommendedFoods);
 		List<FoodVO> recommendedFoodVO = new ArrayList<>();
 		for (Integer recommendedFoodId : extractedFoodIds) {
