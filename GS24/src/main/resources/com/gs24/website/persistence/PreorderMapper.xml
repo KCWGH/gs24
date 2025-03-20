@@ -77,10 +77,6 @@
    		SELECT COUNT(*) FROM PREORDER WHERE CONVENIENCE_ID = #{convenienceId } AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
    	</select>
    
-   	<select id="selectPickedUpFoodIdByMemberId" resultType="Integer">
-   		SELECT DISTINCT FOOD_ID FROM PREORDER WHERE MEMBER_ID = #{memberId} AND IS_PICK_UP = 1
-  	</select>
-   
    	<select id="selectOldPreorder" resultMap="PreorderResultMap">
          SELECT * FROM PREORDER WHERE PICKUP_DATE = TO_CHAR(SYSDATE - 1, 'yyyy\mm\dd') AND IS_PICK_UP = 0 AND IS_EXPIRED_ORDER = 0
    	</select>

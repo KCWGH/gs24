@@ -83,16 +83,14 @@ public class PreOrderRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 
-	@PostMapping("/pickedup")
-	public ResponseEntity<Boolean> pickedUp(Authentication auth, int foodId) {
-		log.info("pickedUp");
-		Boolean isPickedUp = false;
-		if (auth != null) {
-			String memberId = auth.getName();
-			isPickedUp = preorderService.getPickedUpFoodIdByMemberId(memberId, foodId);
-			log.info(isPickedUp);
+	@PostMapping("/search")
+	public ResponseEntity<Integer> searchPreorder(int preorderId) {
+		PreorderVO preorderVO = preorderService.getPreorderOneById(preorderId);
+		
+		if(preorderVO.getIsExpiredOrder() == 1) {
+			return new ResponseEntity<Integer>(0, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Integer>(1, HttpStatus.OK);
 		}
-
-		return new ResponseEntity<Boolean>(isPickedUp, HttpStatus.OK);
 	}
 }

@@ -313,37 +313,44 @@ input[type="text"] {
     						}
     					});
 					} else{
+						
 						$.ajax({
-    						type : "post",
-    						url : "../preorder/check",
-    						data : {"preorderId" : preorderId},
-    						success : function(result){
-    							console.log(result);
-    							if(result == 1){
-    								var IMP = window.IMP;
-    								IMP.init('imp84362136');
-    								IMP.request_pay({
-    									pg: 'kakaopay',
-    									pay_method: 'card',
-    			 						merchant_uid: 'order_' + new Date().getTime(),
-    									name: '편의점 식품 PICKUP',
-    			                        amount: totalPrice
-    			                    }, function(rsp) {
-    			                        if (rsp.success) {
-    			                           alert('결제가 완료되었습니다.');
-   											updateForm.submit();
-   											location.reload();
-    			                        } else {
-    			                            alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
-    			                        }
-    			                    });
-    								
-    							} else {
-    								alert("예약이 취소되어 결제가 취소되었습니다.");
-    								location.reload();
-    							}
-    						}
-    					});
+							type : "post",
+							url : "../preorder/search",
+							data : {"preorderId" : preorderId},
+							success : function(result){
+								if(result == 1){
+									var IMP = window.IMP;
+									IMP.init('imp84362136');
+									IMP.request_pay({
+										pg: 'kakaopay',
+										pay_method: 'card',
+				 						merchant_uid: 'order_' + new Date().getTime(),
+										name: '편의점 식품 PICKUP',
+				                        amount: totalPrice
+				                    }, function(rsp) {
+				                        if (rsp.success) {
+				                        	$.ajax({
+				        						type : "post",
+				        						url : "../preorder/check",
+				        						data : {"preorderId" : preorderId},
+				        						success : function(result){}
+				        					});
+				                           alert('결제가 완료되었습니다.');
+												updateForm.submit();
+												location.reload();
+				                        } else {
+				                            alert('결제에 실패하였습니다. 에러 메시지: ' + rsp.error_msg);
+				                            location.reload();
+				                        }
+				                    });
+								} else {
+									alert("예약이 취소되어 결제가 취소되었습니다.");
+									location.reload();
+								}	
+							}
+						});
+						
 					}
 				}
 			});

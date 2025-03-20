@@ -116,6 +116,8 @@
 
             function onCancellButton(){
                 $('#cancel').click(function(){
+                	var pageNum = "<c:out value='${pageMaker.pagination.pageNum }' />";
+                    var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
                     var isCancel = confirm("취소하시겠습니까?");
                     if(isCancel){
                         let selectedPreordersId = [];
@@ -135,7 +137,7 @@
                              success: function(result) {
                                  if(result == 1){
                                      alert("예약 취소 완료");
-                                     getAllPreorder();
+                                     getAllPreorder(pageNum,pageSize);
                                  }
                              }
                          });

@@ -15,8 +15,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-import com.gs24.website.util.KakaoLoginUtil;
 import com.gs24.website.util.HttpUtil;
+import com.gs24.website.util.KakaoOauth2UserInfo;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -73,10 +73,5 @@ public class RootConfig {
 	@Bean
 	public HttpUtil httpUtil() {
 		return new HttpUtil();
-	}
-	
-	@Bean
-	public KakaoLoginUtil kakaoLoginUtil() {
-		return new KakaoLoginUtil();
 	}
 } // end RootConfig

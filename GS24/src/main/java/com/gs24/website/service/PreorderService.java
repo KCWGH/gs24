@@ -38,8 +38,6 @@ public interface PreorderService {
 
 	int countTotalNotPickedUpPreordersByConvenienceId(int convenienceId);
 
-	boolean getPickedUpFoodIdByMemberId(String memberId, int foodId);
-
 	boolean validatePickupDate(Date pickupDate);
 
 	boolean validatePreorderAmount(int preorderAmount, int foodAmount);

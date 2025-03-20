@@ -41,7 +41,7 @@ public interface MemberMapper {
 
 	int activateMember(String memberId);
 	
-	int insertSocial(@Param("accountId") int accountId,@Param("socialId") long socialId,@Param("provider") String provider,@Param("email") String email);
+	int insertSocial(@Param("accountId") int accountId,@Param("socialId") String socialId ,@Param("provider") String provider,@Param("email") String email);
 	
 	int selectAccountId();
 }

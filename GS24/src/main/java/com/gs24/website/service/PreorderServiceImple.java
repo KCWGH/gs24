@@ -319,21 +319,6 @@ public class PreorderServiceImple implements PreorderService {
 	}
 
 	@Override
-	public boolean getPickedUpFoodIdByMemberId(String memberId, int foodId) {
-		log.info("getPickedUpFoodIDByMemberId()");
-		List<Integer> list = preorderMapper.selectPickedUpFoodIdByMemberId(memberId);
-		if (list.contains(foodId)) {
-			if (reviewMapper.hasReview(memberId, foodId) == 0) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	@Override
 	public int updateShowStatus(int preorderId) {
 		log.info("upateShowStatus");
 		return preorderMapper.updateShowStatus(preorderId);

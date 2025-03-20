@@ -47,14 +47,4 @@ public class AuthController {
 		return "/auth/login";
 
 	}
-
-	@GetMapping("/kakao")
-	public void kakaoLoginGET(Model model, String code, String error, String error_description, String state)
-			throws Exception {
-
-//		Map<String,Object> accessToken = kakaoLoginUtil.sendCode(code);
-//		
-//		Map<String, Object> userInfo = kakaoLoginUtil.getUserInfo(accessToken.get("access_token").toString());
-
-	}
 }

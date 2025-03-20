@@ -36,8 +36,6 @@ public interface PreorderMapper {
 
 	int countNotPickUpPreordersByConvenienceId(int convenienceId);
 
-	List<Integer> selectPickedUpFoodIdByMemberId(String memberId);
-
 	List<PreorderVO> selectOldPreorder();
 
 	int updatePreorderByOverPickupDate(int preorderId);
