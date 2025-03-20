@@ -84,7 +84,7 @@ public class QuestionController {
 
 		if (auth != null) {
 			MemberVO memberVO = memberService.getMember(auth.getName());
-			model.addAttribute("memberId", auth.getName());
+			model.addAttribute("memberId", memberVO.getNickname());
 			model.addAttribute("memberVO", memberVO);
 		}
 	}

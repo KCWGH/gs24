@@ -215,7 +215,12 @@ document.addEventListener("keydown", function(event) {
                     <span>환영합니다, 
                         <sec:authorize access="hasRole('ROLE_OWNER')">점주 </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">관리자 </sec:authorize>
-                        <sec:authorize access="hasRole('ROLE_OWNER') or hasRole('ROLE_MEMBER')">
+                        <sec:authorize access=" hasRole('ROLE_MEMBER')">
+                            <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=710,top=100,left=200');">
+                                <sec:authentication property="principal.nickname" />
+                            </a>님
+                        </sec:authorize>
+                         <sec:authorize access="hasRole('ROLE_OWNER')">
                             <a href="javascript:void(0);" onclick="window.open('../user/mypage', '_blank', 'width=500,height=710,top=100,left=200');">
                                 <sec:authentication property="principal.username" />
                             </a>님

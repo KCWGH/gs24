@@ -26,4 +26,8 @@ public class CustomOauth2User extends DefaultOAuth2User {
 	public String getName() {
 		return memberVO.getMemberId();
 	}
+	
+	public String getUsername() {
+		return memberVO.getMemberId();
+	}
 }
