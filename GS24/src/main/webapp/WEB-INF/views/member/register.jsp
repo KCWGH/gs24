@@ -23,6 +23,7 @@
      });
 
         let isIdChecked = false;
+        let isNicknameChecked = false;
         let isEmailChecked = false;
         let isPhoneChecked = false;
         let isPasswordMatched = false;
@@ -33,7 +34,8 @@
         const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const phoneRegex = /^01[016789]-\d{4}-\d{4}$/;
-
+        const nicknameRegex = /^[a-zA-Z0-9가-힣]{1,100}$/;
+        
         $(document).ready(function () {
         	const today = new Date();
             const sevenYearsAgo = new Date();
@@ -63,9 +65,7 @@
                 event.preventDefault();
                 grecaptcha.ready(function() {
                     grecaptcha.execute('6LfrNrAqAAAAANk1TA-pg2iX6Zi9mEDxF1l1kZgR', { action: 'signup' }).then(function(token) {
-                        // 토큰을 hidden input에 설정
                         $('#recaptchaToken').val(token);
-                        // 폼 제출
                         $('form')[0].submit();
                     });
                 });
@@ -74,7 +74,6 @@
 
         function checkId() {
             let memberId = $('#memberId').val();
-            console.log('파라미터값은 ' + memberId);
             if (!memberId) {
                 $('#memberIdMessage').text("아이디를 입력해주세요.").css('color', 'red');
                 return;
@@ -101,6 +100,39 @@
                 },
                 error: function () {
                     $('#memberIdMessage').text("중복 확인 중 오류가 발생했습니다.").css('color', 'red');
+                }
+            });
+        }
+        
+        function checkNickname() {
+            let nickname = $('#nickname').val();
+
+            if (!nickname) {
+                $('#nicknameMessage').text("닉네임을 입력해주세요.").css('color', 'red');
+                return;
+            }
+
+            if (!nicknameRegex.test(nickname)) {
+            	$('#nicknameMessage').text("1~100자, 알파벳, 숫자, 한글(2자 이상)만 사용할 수 있습니다.").css('color', 'red');
+                return;
+            }
+
+            $.ajax({
+                url: '../user/dup-check-nickname',
+                type: 'POST',
+                data: { nickname: nickname },
+                success: function (response) {
+                    if (response == 1) {
+                        $('#nicknameMessage').text("이미 사용 중인 닉네임입니다.").css('color', 'red');
+                        isNicknameChecked = false;
+                    } else {
+                        $('#nicknameMessage').text("사용 가능한 닉네임입니다.").css('color', 'green');
+                        isNicknameChecked = true;
+                    }
+                    updateSubmitButton();
+                },
+                error: function () {
+                    $('#nicknameMessage').text("중복 확인 중 오류가 발생했습니다.").css('color', 'red');
                 }
             });
         }
@@ -205,16 +237,18 @@
         }
 
         function updateSubmitButton() {
-            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched) {
+            if (isIdChecked && isEmailChecked && isPhoneChecked && isPasswordMatched && isNicknameChecked) {
                 $('#btnRegister').prop('disabled', false);
             } else {
                 $('#btnRegister').prop('disabled', true);
             }
         }
 
-        $('#memberId, #email, #phone, #password, #passwordConfirm').on('input', function () {
+        $('#memberId, #nickname, #email, #phone, #password, #passwordConfirm').on('input', function () {
             if (this.id === 'memberId') {
                 isIdChecked = false;
+            } else if (this.id === 'nickname') {
+                isNicknameChecked = false;
             } else if (this.id === 'email') {
                 isEmailChecked = false;
             } else if (this.id === 'phone') {
@@ -315,9 +349,9 @@
             </tr>
         	<tr>
                 <th><label for="nickname">닉네임</label></th>
-                <td>
-                    <input type="text" id="nickname" name="nickname" required>
-                </td>
+                <td><input type="text" id="nickname" name="nickname" required>
+                    <button type="button" onclick="checkNickname()">닉네임 중복 확인</button> <br>
+                    <span id="nicknameMessage"></span></td>
             </tr>
             <tr>
                 <th><label for="password">비밀번호</label></th>

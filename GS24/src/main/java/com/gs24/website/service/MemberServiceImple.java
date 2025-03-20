@@ -120,6 +120,11 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
+	public int dupCheckNickname(String nickname) {
+		return memberMapper.countMemberByNickname(nickname);
+	}
+
+	@Override
 	public int dupCheckMemberByMemberIdAndMemberEmail(String memberId, String email) {
 		return memberMapper.countMemberByMemberIdAndEmail(memberId, email);
 	}
@@ -133,4 +138,5 @@ public class MemberServiceImple implements MemberService {
 	public int reActivateMember(String memberId) {
 		return memberMapper.activateMember(memberId);
 	}
+
 }

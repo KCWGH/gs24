@@ -47,7 +47,12 @@
 		JOIN MEMBERSHIP MS ON M.MEMBER_ID = MS.MEMBER_ID
 		WHERE M.MEMBER_ID = #{memberId}
 	</select>
-
+	
+	<select id="countMemberByNickname" resultType="Integer">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE NICKNAME = #{nickname}
+	</select>
+	
 	<select id="countMemberByMemberId" resultType="Integer">
 		SELECT COUNT(*) FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}

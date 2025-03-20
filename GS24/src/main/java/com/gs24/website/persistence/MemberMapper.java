@@ -22,6 +22,8 @@ public interface MemberMapper {
 	int selectGradeByMemberId(String memberId);
 
 	int countMemberByMemberId(String memberId);
+	
+	int countMemberByNickname(String nickname);
 
 	int countMemberByEmail(String email);
 

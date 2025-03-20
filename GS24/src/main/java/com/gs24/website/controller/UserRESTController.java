@@ -59,6 +59,16 @@ public class UserRESTController {
 		return ResponseEntity.ok("0");
 	}
 
+	@PostMapping("/dup-check-nickname")
+	public ResponseEntity<String> dupchecknicknamePOST(String nickname) {
+		log.info("dupCheckNicknamePOST()");
+		int result = memberService.dupCheckNickname(nickname);
+		if (result == 1) {
+			return ResponseEntity.ok("1");
+		}
+		return ResponseEntity.ok("0");
+	}
+
 	@PostMapping("/dup-check-email")
 	public ResponseEntity<String> dupcheckemailPOST(String email) {
 		log.info("dupCheckEmailPOST()");
