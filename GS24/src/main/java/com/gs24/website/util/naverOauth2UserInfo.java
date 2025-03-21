@@ -32,11 +32,10 @@ public class naverOauth2UserInfo implements Oauth2UserInfo{
 		
 		String nickname = response.get("name").toString();
 
-		int year = Integer.parseInt(response.get("birthyear").toString());
+		int year = Integer.parseInt(response.get("birthyear").toString()); // 2002
 		
-		int month = Integer.parseInt(response.get("birthday").toString().split("-")[0]) / 100;
-		int day = Integer.parseInt(response.get("birthday").toString().split("-")[1]) / 100;
-
+		int month = Integer.parseInt(response.get("birthday").toString().split("-")[0]);
+		int day = Integer.parseInt(response.get("birthday").toString().split("-")[1]);
 		Date date = null;
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day, 0, 0, 0);
