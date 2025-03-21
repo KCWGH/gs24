@@ -148,7 +148,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public ClientRegistrationRepository clientRegistrationRepository() {
     	System.out.println("clientRegistrationRepository 생성");
     	
-    	return new InMemoryClientRegistrationRepository(kakaoClientRegistration());
+    	return new InMemoryClientRegistrationRepository(kakaoClientRegistration(),naverClientRegistration());
     }
     
     @Bean
@@ -168,4 +168,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			.build();
     }
     
+    @Bean
+    public ClientRegistration naverClientRegistration() {
+    	return ClientRegistration.withRegistrationId("naver")
+    			.clientId("xsGwwExDlwf6ZwT_voKV")
+    			.clientSecret("AWIzLCVL8h")
+    			.scope("name")
+    			.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+    			.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+    			.redirectUriTemplate("http://localhost:8080/gs24/login/oauth2/code/naver")
+    			.authorizationUri("https://nid.naver.com/oauth2.0/authorize")
+    			.tokenUri("https://nid.naver.com/oauth2.0/token")
+    			.userInfoUri("https://openapi.naver.com/v1/nid/me")
+    			.userNameAttributeName("response")
+    			.clientName("naver")
+    			.build();
+    }
 }

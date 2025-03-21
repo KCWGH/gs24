@@ -115,6 +115,10 @@ $(document).ready(function() {
     	event.preventDefault();
     	location.href = "../oauth2/authorization/kakao";
     });
+	$("#naver").click(function(event){
+		event.preventDefault();
+    	location.href = "../oauth2/authorization/naver";
+	});
     $('#loginForm').on('submit', function(event) {
         event.preventDefault();
         grecaptcha.ready(function() {
@@ -147,12 +151,12 @@ $(document).ready(function() {
     <form action="login" method="POST" id="loginForm">
         <div>
             <label for="username">아이디</label> 
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username">
         </div>
 
         <div>
             <label for="password">비밀번호</label> 
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password">
         </div>
 
         <button type="submit">로그인</button>
@@ -162,9 +166,9 @@ $(document).ready(function() {
             <a href="../user/find-pw">비밀번호 찾기</a>
             <a href="../user/register">회원가입</a>
         </div>
-        	<button id="kakao"><img src="../resources/images/kakao/sns-kakao.svg"></button>
-<!--         	<button id="naver"><img src="../resources/images/kakao/sns-naver.svg"></button>
-        	<button id="apple"><img src="../resources/images/kakao/sns-apple.svg"></button> -->
+		    <button id="kakao"><img src="../resources/images/kakao/sns-kakao.svg"></button>
+		    <button id="naver"><img src="../resources/images/kakao/sns-naver.svg"></button>
+        	<!-- <button id="apple"><img src="../resources/images/kakao/sns-apple.svg"></button> -->
 
         <input type="hidden" name="recaptchaToken" id="recaptchaToken">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

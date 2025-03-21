@@ -3,7 +3,7 @@ package com.gs24.website.util;
 import java.util.Arrays;
 
 public enum Oauth2ClientName {
-	KAKAO("kakao");
+	KAKAO("kakao"), NAVER("naver");
 	
 	private final String clientName;
 
