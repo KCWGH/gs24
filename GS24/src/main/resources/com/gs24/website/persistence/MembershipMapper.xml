@@ -12,6 +12,10 @@
 		(#{memberId})
 	</insert>
 	
+	<select id="selectSpentAmount" resultType="Integer">
+		SELECT SPENT_AMOUNT FROM MEMBERSHIP WHERE MEMBER_ID = #{memberId}
+	</select>
+	
 	<select id="selectSilverMember" resultType="String">
 		SELECT MEMBER_ID FROM MEMBERSHIP WHERE GRADE = 2
 	</select>

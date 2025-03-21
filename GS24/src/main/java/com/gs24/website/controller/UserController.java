@@ -86,6 +86,7 @@ public class UserController {
 				MemberVO memberVO = memberService.getMember(username);
 				model.addAttribute("userInfo", memberVO);
 				model.addAttribute("userRole", "member");
+				model.addAttribute("spentAmount", memberService.findSpentAmount(username));
 				model.addAttribute("memberGrade", memberService.findGrade(username));
 			} else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))) {
 				OwnerVO ownerVO = ownerService.getOwner(username);

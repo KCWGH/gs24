@@ -240,9 +240,10 @@ document.addEventListener("keydown", function(event) {
 
             <sec:authorize access="hasRole('ROLE_MEMBER')">
                 <button type="button" onclick='location.href="../preorder/list"' data-key="2">예약 내역 📋</button>
-                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=710,top=100,left=200')" data-key="3">기프트카드 🎁</button>
-                <button type="button" onclick='location.href="../notice/list"' data-key="4">공지사항 📢</button>
-                <button type="button" onclick='location.href="../question/list"' data-key="5">문의사항(Q&amp;A) 💬</button>
+                <button type="button" onclick="window.open('../member/myhistory', '_blank', 'width=500,height=710,top=100,left=200')" data-key="3">내 찜 목록 💕</button>
+                <button type="button" onclick="window.open('../giftcard/list', '_blank', 'width=500,height=710,top=100,left=200')" data-key="4">기프트카드 🎁</button>
+                <button type="button" onclick='location.href="../notice/list"' data-key="5">공지사항 📢</button>
+                <button type="button" onclick='location.href="../question/list"' data-key="6">문의사항(Q&amp;A) 💬</button>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ROLE_OWNER')">

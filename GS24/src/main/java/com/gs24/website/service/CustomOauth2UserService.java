@@ -1,7 +1,6 @@
 package com.gs24.website.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,21 +30,21 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 	private final KakaoOauth2UserInfo kakaoOauth2UserInfo = new KakaoOauth2UserInfo();
 
 	private final naverOauth2UserInfo naverOauth2UserInfo = new naverOauth2UserInfo();
-	
+
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
 		OAuth2User user = super.loadUser(userRequest);
 
 		OAuth2User user2 = null;
-		
+
 		final String clientName = userRequest.getClientRegistration().getClientName();
-		
+
 		Oauth2UserInfoVO userInfoVO = null;
 
 		if (Oauth2ClientName.KAKAO.getClientName().equals(clientName)) {
 			userInfoVO = kakaoOauth2UserInfo.getuserInfo(user);
-		} else if(Oauth2ClientName.NAVER.getClientName().equals(clientName)) {
+		} else if (Oauth2ClientName.NAVER.getClientName().equals(clientName)) {
 			userInfoVO = naverOauth2UserInfo.getuserInfo(user);
 		}
 

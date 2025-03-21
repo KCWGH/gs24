@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 public interface MembershipMapper {
 	int insertMembership(String memberId);
 
+	int selectSpentAmount(String memberId);
+
 	String[] selectSilverMember();
 
 	String[] selectGoldMember();
@@ -18,4 +20,5 @@ public interface MembershipMapper {
 	int initializeSpentAmount();
 
 	int addSpentAmount(@Param("spentAmount") int spentAmount, @Param("memberId") String memberId);
+
 }

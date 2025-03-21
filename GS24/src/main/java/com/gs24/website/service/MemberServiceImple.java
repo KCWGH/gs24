@@ -139,4 +139,9 @@ public class MemberServiceImple implements MemberService {
 		return memberMapper.activateMember(memberId);
 	}
 
+	@Override
+	public int findSpentAmount(String memberId) {
+		return membershipMapper.selectSpentAmount(memberId);
+	}
+
 }

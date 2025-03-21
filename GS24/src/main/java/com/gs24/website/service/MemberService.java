@@ -37,4 +37,6 @@ public interface MemberService {
 
 	int reActivateMember(String memberId);
 
+	int findSpentAmount(String memberId);
+
 }

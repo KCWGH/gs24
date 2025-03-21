@@ -92,9 +92,12 @@
     	width: 15%;
 	}
 	
+	#kakao {
+		margin-right: 10px;
+	}
+	
 	#naver {
 		margin-left: 10px;
-		margin-right: 10px;
 	}
 	
 	#apple {

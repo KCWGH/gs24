@@ -287,8 +287,8 @@ $(document).ready(function() {
     </c:if>
 <div class="container">
 	<h2>마이페이지</h2>
-		<c:if test="${not empty memberGrade }">
-			<span>당신의 이번 달 멤버십 등급은 </span>
+		<c:if test="${not empty memberGrade and not empty spentAmount}">
+			<span>이번 달 <strong>${spentAmount }</strong>원 사용하셨습니다. 현재 멤버십 등급은 </span>
 			<c:choose>
 				<c:when test="${memberGrade == 1}">
 					<strong style="color: brown;">'브론즈'</strong>
@@ -300,18 +300,15 @@ $(document).ready(function() {
 					<strong style="color: gold;">'골드'</strong>
 				</c:when>
 			</c:choose>
-			<span> 입니다.</span><br><br>
+			<span> 입니다.</span><br>
 		</c:if>
 			<table>
+					<sec:authorize access="hasRole('ROLE_OWNER')">
 				<tr>
 					<th>아이디</th>
-					<sec:authorize access="hasRole('ROLE_MEMBER')">
-					<td id="username" data-username="${userInfo.memberId}">${userInfo.memberId}</td>
-					</sec:authorize>
-					<sec:authorize access="hasRole('ROLE_OWNER')">
 					<td id="username" data-username="${userInfo.ownerId}">${userInfo.ownerId}</td>
-					</sec:authorize>
 				</tr>
+					</sec:authorize>
 				<tr>
 					<th>계정유형</th>
 					<td>
@@ -325,19 +322,11 @@ $(document).ready(function() {
 				</tr>
 			<tr>
 				<th>이메일</th>
-				<td><input id="email" type="email" value="${userInfo.email}"
-					disabled>
-					<button id="btnUpdateEmail" hidden="hidden">수정</button>
-						<button id="btnUpdateMemberEmailConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdateEmailCancel" hidden="hidden">취소</button><br>
-					<span id="updateEmailResult" hidden="hidden">수정 결과창</span></td>
+				<td>${userInfo.email}</td>
 			</tr>
 				<tr>
 					<th>휴대폰</th>
-					<td><input id="phone" type="text" value="${userInfo.phone}" disabled>
-					<button id="btnUpdatePhone" hidden="hidden">수정</button><button id="btnUpdatePhoneConfirm" hidden="hidden">저장</button>
-					<button id="btnUpdatePhoneCancel" hidden="hidden">취소</button><br>
-					<span id="updatePhoneResult" hidden="hidden">수정 결과창</span></td>
+					<td>${userInfo.phone}</td>
 				</tr>
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 				<tr>
@@ -348,18 +337,18 @@ $(document).ready(function() {
 			</table>
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"><br>
 		<div class="btn-container">
-			<button id="btnUpdate">회원정보 수정</button><button id="btnUpdateEnd" hidden="hidden">수정 마치기</button><button id="btnDelete">회원 탈퇴</button>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+			<button onclick='location.href="../giftcard/list"'>기프트카드함</button><button onclick='location.href="../member/myhistory"'>내 활동</button>
+			</sec:authorize>
+		</div>
+		<div class="btn-container">
+			<button id="btnDelete">회원 탈퇴</button>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<p id="textDelete" hidden="hidden">탈퇴 시 회원님의 활동 내역(작성 게시글 및 댓글)은<br>삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<sec:authorize access="hasRole('ROLE_OWNER')">
 			<p id="textDelete" hidden="hidden">탈퇴 시 점주님의 활동 내역(등록된 공지사항 및 답변 내역)은<br>삭제되지 않습니다. 정말 탈퇴하시겠습니까?</p></sec:authorize>
 			<button id="btnDeleteConfirm" hidden="hidden">네</button><button id="btnDeleteCancel" hidden="hidden">아니오</button>
 			<p id="deleteResult" hidden="hidden"></p>
-		</div>
-		<div class="btn-container">
-			<sec:authorize access="hasRole('ROLE_MEMBER')">
-			<button onclick='location.href="../giftcard/list"'>기프트카드함</button><button onclick='location.href="../member/myhistory"'>내 활동</button>
-			</sec:authorize>
 		</div>
 </div>
 </body>
