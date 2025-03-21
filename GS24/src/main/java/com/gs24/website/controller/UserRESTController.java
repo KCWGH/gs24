@@ -121,6 +121,11 @@ public class UserRESTController {
 	public ResponseEntity<String> sendVerificationEmailID(String email) {
 		int memberResult = memberService.dupCheckMemberEmail(email);
 		int ownerResult = ownerService.dupCheckOwnerEmail(email);
+		int isSocialAccount = memberService.dupCheckSocialAccount(email);
+
+		if (isSocialAccount != 0) { // 해당 이메일이 소셜 로그인으로 등록되어 있으면
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("social account");
+		}
 		if (memberResult == 0 && ownerResult == 0) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("do not exist");
 		}

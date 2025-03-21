@@ -115,4 +115,8 @@
 		SELECT LAST_NUMBER
 		FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'MEMBER_SEQ'
 	</select>
+	
+	<select id="countSocialAccountByEmail" resultType="Integer">
+		SELECT COUNT(*) FROM SOCIAL WHERE EMAIL = #{email}
+	</select>
 </mapper>

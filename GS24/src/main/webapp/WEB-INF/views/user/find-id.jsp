@@ -137,6 +137,8 @@
                         let responseText = xhr.responseText;
                         if (responseText === "do not exist") {
                             $("#sendResult").html("등록된 이메일이 존재하지 않습니다. 다시 확인해주세요.");
+                        } else if (responseText === "social account"){
+                        	$("#sendResult").html("소셜 로그인으로 등록된 계정입니다.");
                         } else {
                             $("#sendResult").html("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
                         }

@@ -25,8 +25,10 @@ public interface MemberService {
 
 	int deleteMember(String memberId);
 
+	int dupCheckSocialAccount(String email);
+
 	int dupCheckMemberId(String memberId);
-	
+
 	int dupCheckNickname(String nickname);
 
 	int dupCheckMemberEmail(String email);

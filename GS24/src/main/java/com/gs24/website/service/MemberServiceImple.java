@@ -144,4 +144,9 @@ public class MemberServiceImple implements MemberService {
 		return membershipMapper.selectSpentAmount(memberId);
 	}
 
+	@Override
+	public int dupCheckSocialAccount(String email) {
+		return memberMapper.countSocialAccountByEmail(email);
+	}
+
 }
