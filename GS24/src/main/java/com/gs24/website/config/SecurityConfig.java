@@ -26,7 +26,7 @@ import com.gs24.website.service.CustomOauth2UserService;
 import com.gs24.website.service.CustomUserDetailsService;
 
 @Configuration
-@EnableWebSecurity(debug=true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLoginSuccessHandler customLoginSuccessHandler;
 
-    
     @Bean
     public RequestCache requestCache() {
         return new HttpSessionRequestCache(); // 로그인 전 요청 URL 저장 기능
@@ -48,16 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
     	httpSecurity.authorizeRequests()
         .antMatchers(
-            "/auth/**", "/convenience/**", "/user/register", 
-            "/member/register", "/owner/register", 
-            "/food/detail", "/food/list", "/notice/list", 
-            "/notice/detail", "/review/list", "/question/detail", 
-            "/convenienceFood/detail", "/css/**" , "/js/**" , "/resources/**"
+            "/auth/**", "/user/register", "/member/register", "/owner/register",
+            "user/find-id", "user/find-pw",
+            "/convenience/list", "/convenienceFood/list", "/convenienceFood/detail", "/review/list",
+            "/notice/list", "/notice/detail"
         ).permitAll()
         
         .antMatchers(
             "/user/mypage", "/user/verify", "/user/change-pw", 
-            "/imgfood/register", "/question/list"
+            "/imgfood/register"
         ).authenticated()
         
         .antMatchers(
@@ -65,18 +63,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/giftcard/purchase", "/giftcard/grant", "/preorder/create", 
             "/preorder/list", "/preorder/all/**", "/preorder/pickedup", 
             "/preorder/cancel", "/preorder/delete", "/review/register", 
-            "/review/update", "/question/modify", "/question/register"
+            "/review/update", "/question/modify", "/question/register", "/question/list"
         ).access("hasRole('ROLE_MEMBER')")
         
         .antMatchers(
-        	"/food/register", "/food/update", "/preorder/update", 
+        	"/preorder/update", 
         	"/preorder/check", "/question/ownerList", "/orders/ownerList"
         ).access("hasRole('ROLE_OWNER')")
         
         .antMatchers(
-            "/coupon/**", "/notice/modify", "/notice/register", 
-            "/notice/delete", "/orders/list", "/admin/console", 
-            "/admin/activate", "/food/register", "/food/modify"
+        	"/admin/console", 
+        	"/notice/register", "/notice/modify", "/notice/delete", 
+            "/coupon/**",
+            "/orders/list", 
+            "/admin/activate", "/food/register", "/food/update", "/food/checkdelete", "food/auto-nutrition-input", "food/search"
         ).access("hasRole('ROLE_ADMIN')")
     	
     	.antMatchers(
@@ -84,15 +84,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ).access("hasRole('ROLE_ADMIN') or hasRole('ROLE_OWNER')")
     	
     	.antMatchers(
-        		"/member/activate"
+        	"/member/activate"
         ).access("hasRole('ROLE_DEACTIVATED_MEMBER')")
     	
     	.antMatchers(
-        		"/owner/activate", "/owner/request-activation"
+        	"/owner/activate", "/owner/request-activation"
         ).access("hasRole('ROLE_DEACTIVATED_OWNER')")
     	
     	.antMatchers(
-        		"/user/reactivate"
+        	"/user/reactivate"
         ).access("hasRole('ROLE_DEACTIVATED_OWNER') or hasRole('ROLE_DEACTIVATED_MEMBER')");
 
 
@@ -108,12 +108,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.userInfoEndpoint(userInfo -> userInfo.userService(customOauth2UserService()))
         		.defaultSuccessUrl("/convenience/list"));
 
-        
         httpSecurity.logout(logout -> logout.logoutUrl("/auth/logout")
-        					.logoutSuccessUrl("/convenience/list")
-        					.invalidateHttpSession(true)
-        		            .clearAuthentication(true)
-        		            .deleteCookies("JSESSIONID"));
+					.logoutSuccessUrl("/convenience/list")
+					.invalidateHttpSession(true)
+		            .clearAuthentication(true)
+		            .deleteCookies("JSESSIONID"));
         
         httpSecurity.sessionManagement().maximumSessions(1).expiredUrl("/auth/login?expired").maxSessionsPreventsLogin(false);
 
@@ -123,7 +122,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // UTF-8 인코딩 필터 추가
         httpSecurity.addFilterBefore(encodingFilter(), CsrfFilter.class);
     }
-
+    
+    @Bean
+    public CustomOauth2UserService customOauth2UserService() {
+    	return new CustomOauth2UserService();
+    }
+    
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
@@ -133,17 +137,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
-    
-    @Bean
-    public CustomOauth2UserService customOauth2UserService() {
-    	return new CustomOauth2UserService();
-    }
-    
+
     @Bean
     public CharacterEncodingFilter encodingFilter() {
         return new CharacterEncodingFilter("UTF-8");
     }
-    
+
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
     	System.out.println("clientRegistrationRepository 생성");
