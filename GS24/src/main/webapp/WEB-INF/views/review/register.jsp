@@ -114,9 +114,10 @@
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
             <sec:authentication property="principal" var="user"/>    
             <sec:authorize access="isAuthenticated()">
+            <input type="hidden" name="memberId" id="memberId" value="${user.username}" readonly="readonly">
                 <div class="form-group">
-                    <label for="memberId">회원 아이디</label>
-                    <input type="text" name="memberId" id="memberId" value="${user.username}" readonly="readonly">
+                    <label for="memberId">닉네임</label>
+                    <input type="text" name="nickname" id="nickname" value="${user.nickname}" readonly="readonly">
                 </div>
             </sec:authorize>
             
@@ -215,7 +216,7 @@
     				contentType : false,
             		success : function(result){
             			if(result == 'false'){
-            				alert("리뷰 수정에 실패 했습니다. 리뷰 데이터를 다시 확인해 주십시오");
+            				alert("리뷰 등록에 실패 했습니다. 리뷰 데이터를 다시 확인해 주십시오");
             				check = false;
             			} else {
             				var i = 0;

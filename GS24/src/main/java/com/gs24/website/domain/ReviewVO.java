@@ -19,6 +19,7 @@ public class ReviewVO {
 	String reviewContent;
 	int foodId;
 	int reviewRating;
+	String nickname;
 	Date reviewDateCreated;
 	
 	List<ImgVO> imgList;

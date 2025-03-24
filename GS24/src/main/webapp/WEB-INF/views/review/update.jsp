@@ -152,8 +152,9 @@
 
         <sec:authentication property="principal" var="user" />
         <sec:authorize access="isAuthenticated()">
-            <label for="memberId">회원 아이디</label>
-            <input type="text" name="memberId" class="memberId" value="${user.username}" readonly="readonly" />
+        	<input type="hidden" name="memberId" class="memberId" value="${user.username}" readonly="readonly" />
+            <label for="memberId">닉네임</label>
+            <input type="text" name="nickname" class="nickname" value="${user.nickname}" readonly="readonly" />
         </sec:authorize>
 
         <label for="reviewTitle">리뷰 제목</label>
