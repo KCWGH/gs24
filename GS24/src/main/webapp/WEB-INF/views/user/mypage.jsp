@@ -254,6 +254,7 @@ $(document).ready(function() {
         	url = 'owner';
         	data = { ownerId: username };
         }
+        
         $.ajax({
             url: "delete-" + url,
             type: "POST",

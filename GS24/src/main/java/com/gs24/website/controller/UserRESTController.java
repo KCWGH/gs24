@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -309,11 +310,12 @@ public class UserRESTController {
 	}
 
 	@PostMapping("/delete-member")
-	public ResponseEntity<String> deleteMemberPOST(String memberId, HttpServletRequest request,
+	public ResponseEntity<String> deleteMemberPOST(Authentication auth, HttpServletRequest request,
 			HttpServletResponse response) {
-		int checkPreorders = preorderService.countRemainingPreorders(memberId);
+
+		int checkPreorders = preorderService.countRemainingPreorders(auth.getName());
 		if (checkPreorders == 0) {
-			int result = memberService.deleteMember(memberId);
+			int result = memberService.deleteMember(auth.getName());
 			if (result == 1) {
 				new SecurityContextLogoutHandler().logout(request, response,
 						SecurityContextHolder.getContext().getAuthentication());
