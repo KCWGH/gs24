@@ -2,10 +2,7 @@ package com.gs24.website.config;
 
 import javax.servlet.Filter;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -13,7 +10,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 // AbstractAnnotationConfigDispatcherServletInitializer : 
 // 이 클래스를 상속받는 클래스는 DispatcherServlet 및 ContextLoader 정보를 관리
 @Configuration
-@PropertySource("classpath:recaptcha.properties")
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	// root application context(Root WebApplicationContext)
@@ -41,11 +37,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		return new Filter[] { encodingFilter };
-	}
-
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
 	}
 
 } // end WebConfig

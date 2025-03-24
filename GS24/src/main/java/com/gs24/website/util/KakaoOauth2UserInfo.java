@@ -37,8 +37,11 @@ public class KakaoOauth2UserInfo implements Oauth2UserInfo {
 		String number = "0" + phone[0].substring(4) + "-" + phone[1] + "-" + phone[2];
 
 		int year = Integer.parseInt(kakaoAccount.get("birthyear").toString());
-		int month = Integer.parseInt(kakaoAccount.get("birthday").toString()) / 100;
-		int day = Integer.parseInt(kakaoAccount.get("birthday").toString()) / 100;
+
+		String birthdayStr = kakaoAccount.get("birthday").toString();
+
+		int month = Integer.parseInt(birthdayStr.substring(0, 2));
+		int day = Integer.parseInt(birthdayStr.substring(2, 4));
 
 		Date date = null;
 		Calendar calendar = Calendar.getInstance();
