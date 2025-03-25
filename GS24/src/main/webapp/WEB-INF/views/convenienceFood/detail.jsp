@@ -405,7 +405,7 @@ hr {
                     	let formattedDate = formatDate(this.reviewDateCreated);
                         list += "<div class='reviewItems'>"
                             + "<input type='hidden' class='reviewId' value='" + this.reviewId + "'/>"
-                            + "<p><strong>" + this.memberId + "</strong></p>"
+                            + "<p><strong>" + this.nickname + "</strong></p>"
                             + "<p class='reviewRating' data-rating='" + this.reviewRating + "'> " + "<span style='color:gray; font-size:14px;'>" + formattedDate + "</span>" + "</p>"
                             + "<div class='imageList'>";
 
@@ -418,14 +418,12 @@ hr {
                             + "<p><strong>" + this.reviewTitle + "</strong></p>"
                             + "<p>" + this.reviewContent + "</p>";
                         
-                            	list += "<sec:authorize access='isAuthenticated()'>"
-                            		 +  "<c:if test='${ reviewVO.memberId eq user.nickname}'>"
-                            		 + "<div class=review-buttons>" 
+                            if(this.memberId == loginUser && loginUser != ""){
+                            	list += "<div class=review-buttons>" 
                             		 + "<button onclick=\"location.href=\'../review/update?reviewId="+this.reviewId+"&convenienceId="+convenienceId+"\"\'>수정</button> "
                             		 + "<button id='reviewDelete'>삭제</button>"
-                            		 + "</div>"
-                            		 + "</c:if>"
-                                  	 + "</sec:authorize>";
+                            		 + "</div>";
+                            }
                             
                         list+= "</div>"
                             + '<hr class="comments">';
@@ -551,7 +549,7 @@ hr {
             <div class="reviewItems">
                 <input type="hidden" class="reviewId" value="${reviewVO.reviewId }"/>
                 	<fmt:formatDate value="${reviewVO.reviewDateCreated}" pattern="yyyy-MM-dd HH:mm" var="reviewDateCreated" />
-                <p><strong>${reviewVO.memberId }</strong></p>
+                <p><strong>${reviewVO.nickname }</strong></p>
                 <p class="reviewRating" data-rating="${reviewVO.reviewRating}"> <span style="color:gray; font-size:14px;">${reviewDateCreated }</span></p>
                 <div class='imageList'>
                     <c:forEach var="ImgVO" items="${reviewVO.imgList }">
@@ -563,7 +561,7 @@ hr {
                 <p>${reviewVO.reviewContent }</p>
                 <sec:authentication property="principal" var="user"/>
                 <sec:authorize access="isAuthenticated()">
-                    <c:if test="${ reviewVO.memberId eq user.nickname}">
+                    <c:if test="${ reviewVO.memberId eq user.username}">
                     <div class=review-buttons>
                         <button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}&convenienceId=${FoodVO.convenienceId }'">수정</button>
                         <button id="reviewDelete">삭제</button>

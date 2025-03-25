@@ -13,6 +13,7 @@
 		<result property="reviewRating" column="REVIEW_RATING" />
 		<result property="reviewDateCreated"
 			column="REVIEW_DATE_CREATED" />
+		<result property="nickname" column="NICKNAME"/>
 	</resultMap>
 	
 	<resultMap type="com.gs24.website.domain.ReviewRatingVO" id="reviewRatingResultMap">
@@ -23,9 +24,9 @@
 	<insert id="insertReview">
 		INSERT INTO REVIEW
 		(REVIEW_ID, MEMBER_ID,
-		REVIEW_TITLE, REVIEW_CONTENT, FOOD_ID, REVIEW_RATING)
+		REVIEW_TITLE, REVIEW_CONTENT, FOOD_ID, REVIEW_RATING, NICKNAME)
 		VALUES(REVIEW_SEQ.NEXTVAL,
-		#{nickname},#{reviewTitle},#{reviewContent},#{foodId},#{reviewRating}
+		#{memberId},#{reviewTitle},#{reviewContent},#{foodId},#{reviewRating}, #{nickname}
 		)
 	</insert>
 
