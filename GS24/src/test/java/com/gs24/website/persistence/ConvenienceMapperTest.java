@@ -41,7 +41,6 @@ public class ConvenienceMapperTest {
 		convenienceVO.setConvenienceId(0);
 		convenienceVO.setOwnerId("nmbgsp95");
 		
-		convenienceMapper.insertConvenience(convenienceVO);
 	}
 	
 	void checkFood() {

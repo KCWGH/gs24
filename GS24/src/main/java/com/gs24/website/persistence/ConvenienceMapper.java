@@ -9,7 +9,7 @@ import com.gs24.website.util.Pagination;
 
 @Mapper
 public interface ConvenienceMapper {
-	int insertConvenience(ConvenienceVO convenienceVO);
+	int insertConvenience(String ownerId);
 
 	List<ConvenienceVO> selectAllEnabledConvenience(Pagination pagination);
 

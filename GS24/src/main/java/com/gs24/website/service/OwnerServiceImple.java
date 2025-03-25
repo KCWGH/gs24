@@ -45,12 +45,6 @@ public class OwnerServiceImple implements OwnerService {
 
 			int result = ownerMapper.insertOwner(ownerVO);
 
-			// 박재민이 한 곳
-			log.info("점주 추가");
-			ConvenienceVO convenienceVO = new ConvenienceVO();
-			convenienceVO.setOwnerId(ownerId);
-			convenienceMapper.insertConvenience(convenienceVO);
-
 			return result;
 		}
 
@@ -138,6 +132,7 @@ public class OwnerServiceImple implements OwnerService {
 
 	@Override
 	public int reActivateOwner(String ownerId) {
+		convenienceMapper.insertConvenience(ownerId);
 		return ownerMapper.activateOwner(ownerId);
 	}
 

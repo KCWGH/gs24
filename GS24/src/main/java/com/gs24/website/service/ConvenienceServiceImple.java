@@ -32,7 +32,7 @@ public class ConvenienceServiceImple implements ConvenienceService {
 	 
 	@Override
 	public int createConvenience(ConvenienceVO convenienceVO) {
-		int result = convenienceMapper.insertConvenience(convenienceVO);
+		int result = convenienceMapper.insertConvenience(convenienceVO.getOwnerId());
 		return result;
 	}
 
