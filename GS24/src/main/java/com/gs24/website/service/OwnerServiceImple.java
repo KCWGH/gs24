@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.gs24.website.domain.ConvenienceVO;
 import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.persistence.ConvenienceMapper;
 import com.gs24.website.persistence.MemberMapper;

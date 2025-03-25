@@ -52,7 +52,8 @@ public class PreorderController {
 
 		model.addAttribute("memberId", memberId);
 
-		ConvenienceFoodVO convenienceDetailFoodVO = convenienceFoodService.getConvenienceFoodByFoodId(foodId, convenienceId);
+		ConvenienceFoodVO convenienceDetailFoodVO = convenienceFoodService.getConvenienceFoodByFoodId(foodId,
+				convenienceId);
 		String address = convenienceFoodService.getAddress(convenienceId);
 		if (convenienceDetailFoodVO.getFoodAmount() <= 0) {
 			redirectAttributes.addFlashAttribute("closeWindow", true);
@@ -61,21 +62,20 @@ public class PreorderController {
 		}
 		model.addAttribute("address", address);
 		model.addAttribute("foodVO", convenienceDetailFoodVO);
-		
+
 		List<CouponVO> couponList = couponService.getCouponListByFoodType(convenienceDetailFoodVO.getFoodType());
-		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId, convenienceDetailFoodVO.getFoodType());
-		
+		List<GiftCardVO> giftCardList = giftCardService.getGiftCardListByFoodType(memberId,
+				convenienceDetailFoodVO.getFoodType());
+
 		model.addAttribute("couponList", couponList);
 		model.addAttribute("giftCardList", giftCardList);
 		return "/preorder/create";
 	}
 
 	@PostMapping("/create")
-	public String createPOST(@ModelAttribute PreorderVO preorderVO,
-							@RequestParam("pickupDate") String pickupDateString,
-							@RequestParam("giftCardId") String giftCardIdString,
-							@RequestParam("couponId") String couponIdString,
-							RedirectAttributes redirectAttributes) {
+	public String createPOST(@ModelAttribute PreorderVO preorderVO, @RequestParam("pickupDate") String pickupDateString,
+			@RequestParam("giftCardId") String giftCardIdString, @RequestParam("couponId") String couponIdString,
+			RedirectAttributes redirectAttributes) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date pickupDate = sdf.parse(pickupDateString);
@@ -91,27 +91,29 @@ public class PreorderController {
 			if (!isValidAmount) {
 				throw new Exception("예약 수량은 1보다 작거나 총 재고량보다 많을 수 없습니다.");
 			}
-			
+
 			preorderVO.setPickupDate(pickupDate);
 
 			String message = preorderService.handlePreorderWithDiscounts(preorderVO, giftCardIdString, couponIdString);
 
 			redirectAttributes.addFlashAttribute("message", message);
-			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId=" + preorderVO.getConvenienceId();
+			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId="
+					+ preorderVO.getConvenienceId();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			redirectAttributes.addFlashAttribute("message",
 					"잘못된 값이 입력되었거나, 이 품목에 이미 사용한 쿠폰입니다.\\n다른 식품을 선택하거나 다른 쿠폰을 선택해 주세요.\\n예약이 실패했습니다.");
-			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId=" + preorderVO.getConvenienceId();
+			return "redirect:/preorder/create?foodId=" + preorderVO.getFoodId() + "&convenienceId="
+					+ preorderVO.getConvenienceId();
 		}
 	}
 
-		@GetMapping("/list")
+	@GetMapping("/list")
 	public void listGET(Authentication auth, Model model) {
 		log.info("listGET");
 
 		String memberId = auth.getName();
-		
+
 		Pagination pagination = new Pagination();
 		pagination.setPageSize(12);
 		PageMaker pageMaker = new PageMaker();

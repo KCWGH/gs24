@@ -267,6 +267,11 @@ input[type="text"] {
 				var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
 				var keyword = $(".searchPreorderId").val();
 				
+			    if (!/^\d+(\.\d+)?$/.test(keyword)) {
+			        alert("예약번호를 정확히 입력해 주세요.");
+			        return;
+			    }
+				
 				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				updateForm.find('input[name=pageNum]').val(pageNum);
 				updateForm.find('input[name=pageSize]').val(pageSize);

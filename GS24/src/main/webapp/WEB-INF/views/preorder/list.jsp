@@ -70,7 +70,7 @@
                                  if(isExpiredOrder == ' style="color:gray;">예약 중'){
                                      list += '<input type="checkbox" class="check-box">';
                                  }
-                             list += '<div><strong style="font-size:25px;">'+preorderNO+'</strong></div>'
+                             list += '<div class="preorderNO"><strong style="font-size:25px;">'+preorderNO+'</strong></div>'
                                      + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
                                      + '<div><strong style="font-size:18px;">'+ StringDate+'</strong><br>까지 수령</div>'
                                      + '<div><span style="color:gray;">'+ address +'</span></div>'
@@ -124,7 +124,7 @@
                         
                         $(".preorderList").each(function(){
                             if ($(this).find("input[type='checkbox']").prop('checked')) {
-                                let preorderNO = $(this).find(".preorderNO").val();
+                            	let preorderNO = $(this).find(".preorderNO").text();
                                 selectedPreordersId.push(preorderNO);
                             }
                         });
@@ -148,10 +148,9 @@
             function onDeletePreorder(){
                 $('#delete').click(function(){
                     let cancelledPreorderId = [];
-                    console.log(this);
                     $(".preorderList").each(function(){
                         if ($(this).find(".isExpriedOrder").text() == "예약 취소") {
-                            let preorderNO = $(this).find(".preorderNO").val();
+                        	let preorderNO = $(this).find(".preorderNO").text();
                             cancelledPreorderId.push(preorderNO);
                         }
                     });
