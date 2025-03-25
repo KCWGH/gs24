@@ -418,12 +418,14 @@ hr {
                             + "<p><strong>" + this.reviewTitle + "</strong></p>"
                             + "<p>" + this.reviewContent + "</p>";
                         
-                            if(this.memberId == loginUser && loginUser != ""){
-                            	list += "<div class=review-buttons>" 
+                            	list += "<sec:authorize access='isAuthenticated()'>"
+                            		 +  "<c:if test='${ reviewVO.memberId eq user.nickname}'>"
+                            		 + "<div class=review-buttons>" 
                             		 + "<button onclick=\"location.href=\'../review/update?reviewId="+this.reviewId+"&convenienceId="+convenienceId+"\"\'>수정</button> "
                             		 + "<button id='reviewDelete'>삭제</button>"
-                            		 + "</div>";
-                            }
+                            		 + "</div>"
+                            		 + "</c:if>"
+                                  	 + "</sec:authorize>";
                             
                         list+= "</div>"
                             + '<hr class="comments">';
