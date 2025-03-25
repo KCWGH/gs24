@@ -107,9 +107,13 @@
 	</update>
 	
 	<insert id="insertSocial">
-		INSERT INTO SOCIAL(ACCOUNT_ID, SOCIAL_ID, PROVIDER, EMAIL)
-		VALUES(#{accountId}, #{socialId}, #{provider}, #{email})
+		INSERT INTO SOCIAL(ACCOUNT_ID, SOCIAL_ID, PROVIDER)
+		VALUES(#{accountId}, #{socialId}, #{provider})
 	</insert>
+	
+	<select id="selectSocialAccountId" resultType="Integer">
+		SELECT ACCOUNT_ID FROM SOCIAL WHERE SOCIAL_ID = #{socialId}
+	</select>
 	
 	<select id="selectAccountId" resultType="int">
 		SELECT LAST_NUMBER

@@ -2,6 +2,7 @@ package com.gs24.website.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -13,12 +14,15 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration(classes = { RootConfig.class }) // 설정 파일 연결
 @Log4j
 public class MemberMapperTest {
-
+	
+	@Autowired
+	private MemberMapper memberMapper;
+	
 	@Test
 	public void test() {
 		// testInsertUser();
 		// testselect();
-		testlogin();
+		select();
 		// testFindId();
 		// testUpdate();
 		// testverify();
@@ -33,7 +37,11 @@ public class MemberMapperTest {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	private void select() {
+		log.info(memberMapper.selectSocialAccountId("ghylNiZZXoaXgYw-NDmUkhxlBvMNoj9CvOPTXRH7zJo"));
+	}
+	
 	/*
 	 * private void testverify() { int result =
 	 * forgotPasswordMapper.verifyIdandEmail("test", "test@naver.com");

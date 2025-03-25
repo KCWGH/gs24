@@ -59,7 +59,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 			System.out.println("신규 회원입니다.");
 			memberMapper.insertMember(userInfoVO.getMemberVO());
 			memberMapper.insertSocial(memberMapper.selectAccountId() - 1, userInfoVO.getMemberVO().getMemberId(),
-					userInfoVO.getProvider(), userInfoVO.getMemberVO().getEmail());
+					userInfoVO.getProvider());
 			membershipMapper.insertMembership(userInfoVO.getMemberVO().getMemberId());
 			user2 = new CustomOauth2User(userInfoVO.getMemberVO(), authorities, user.getAttributes(),
 					userNameAttributeName);
@@ -67,6 +67,10 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 		} else {
 			MemberVO memberVO = memberMapper.selectMemberByEmail(userInfoVO.getMemberVO().getEmail());
 			System.out.println("기존 회원입니다.");
+			if(memberMapper.selectSocialAccountId(userInfoVO.getMemberVO().getMemberId()) == null) {				
+				memberMapper.insertSocial(memberVO.getAccountId(), userInfoVO.getMemberVO().getMemberId(),
+						userInfoVO.getProvider());
+			}
 			user2 = new CustomOauth2User(memberVO, authorities, user.getAttributes(), userNameAttributeName);
 		}
 

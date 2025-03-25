@@ -561,7 +561,7 @@ hr {
                 <p>${reviewVO.reviewContent }</p>
                 <sec:authentication property="principal" var="user"/>
                 <sec:authorize access="isAuthenticated()">
-                    <c:if test="${ reviewVO.memberId eq user.username}">
+                    <c:if test="${ reviewVO.memberId eq user.nickname}">
                     <div class=review-buttons>
                         <button onclick="location.href='../review/update?reviewId=${reviewVO.reviewId}&convenienceId=${FoodVO.convenienceId }'">수정</button>
                         <button id="reviewDelete">삭제</button>
