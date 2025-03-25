@@ -70,7 +70,7 @@
                                  if(isExpiredOrder == ' style="color:gray;">예약 중'){
                                      list += '<input type="checkbox" class="check-box">';
                                  }
-                             list += '<input type="hidden" class="preorderNO" value="'+preorderNO+'">'
+                             list += '<div><strong style="font-size:25px;">'+preorderNO+'</strong></div>'
                                      + '<div><img src="../image/foodThumbnail?foodId='+foodId+'" style="width:150px; height=150px;"></div>'
                                      + '<div><strong style="font-size:18px;">'+ StringDate+'</strong><br>까지 수령</div>'
                                      + '<div><span style="color:gray;">'+ address +'</span></div>'

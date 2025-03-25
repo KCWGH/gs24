@@ -163,7 +163,7 @@ input[type="text"] {
 			</div>
 		</li>
 	</ul>
-	<input type="text" class="searchMemberId" placeholder="회원 아이디 입력">
+	<input type="text" class="searchPreorderId" placeholder="예약번호 입력">
 <div class="container">
 <div class="preorder-list">
 	<c:forEach var="preorderVO" items="${preorderList}">
@@ -259,13 +259,13 @@ input[type="text"] {
 		         updateForm.submit(); // form 전송
 		      }); // end on()
 			
-			$(".searchMemberId").change(function(){
+			$(".searchPreorderId").change(function(){
 				var updateForm = $("#updateForm");
 				var convenienceId = '${convenienceId}';
 				var pageNum = "<c:out value='${pageMaker.pagination.pageNum}' />";
 				var pageSize = "<c:out value='${pageMaker.pagination.pageSize}' />";
 				var sortType = "<c:out value='${pageMaker.pagination.sortType}' />";
-				var keyword = $(".searchMemberId").val();
+				var keyword = $(".searchPreorderId").val();
 				
 				updateForm.find("input[name=convenienceId]").val(convenienceId);
 				updateForm.find('input[name=pageNum]').val(pageNum);
