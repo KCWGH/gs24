@@ -146,6 +146,8 @@
             }
 
             function onDeletePreorder(){
+            	var pageNum = "<c:out value='${pageMaker.pagination.pageNum }' />";
+                var pageSize = "<c:out value='${pageMaker.pagination.pageSize }' />";
                 $('#delete').click(function(){
                     let cancelledPreorderId = [];
                     $(".preorderList").each(function(){
@@ -163,7 +165,7 @@
                          success: function(result) {
                              if(result == 1){
                                  alert("삭제 성공!");
-                                 getAllPreorder();
+                                 getAllPreorder(pageNum,pageSize);
                              }
                          }
                      });

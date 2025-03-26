@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @RequestMapping("/preorder")
 @Log4j
-public class PreorderRESTController {
+public class PreOrderRESTController {
 
 	@Autowired
 	private PreorderService preorderService;

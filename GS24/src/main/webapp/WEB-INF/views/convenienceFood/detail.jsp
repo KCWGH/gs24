@@ -420,7 +420,7 @@ hr {
                         
                             if(this.memberId == loginUser && loginUser != ""){
                             	list += "<div class=review-buttons>" 
-                            		 + "<button onclick=\"location.href=\'../review/update?reviewId="+this.reviewId+"&convenienceId="+convenienceId+"\"\'>수정</button> "
+                            		 + "<button onclick=\"location.href=\'../review/update?reviewId="+this.reviewId+"&convenienceId="+convenienceId+"\'\">수정</button> "
                             		 + "<button id='reviewDelete'>삭제</button>"
                             		 + "</div>";
                             }
