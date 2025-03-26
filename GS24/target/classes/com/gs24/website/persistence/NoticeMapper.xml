@@ -5,7 +5,7 @@
 
 	<resultMap type="com.gs24.website.domain.NoticeVO" id="noticeResultMap">
 		<id property="noticeId" column="NOTICE_ID" />
-		<result property="memberId" column="MEMBER_ID" />
+		<result property="adminId" column="ADMIN_ID" />
 		<result property="noticeTitle" column="NOTICE_TITLE" />
 		<result property="noticeContent" column="NOTICE_CONTENT" />
 		<result property="noticeDateCreated" column="NOTICE_DATE_CREATED" />
@@ -13,11 +13,11 @@
 	</resultMap>
 
 	<insert id="insertNotice">
-		INSERT INTO NOTICE (NOTICE_ID, MEMBER_ID,
+		INSERT INTO NOTICE (NOTICE_ID, ADMIN_ID,
 		NOTICE_TITLE, NOTICE_CONTENT,
 		NOTICE_DATE_CREATED, NOTICE_TYPE)
 		VALUES
-		(NOTICE_SEQ.NEXTVAL, #{memberId}, #{noticeTitle}, #{noticeContent},
+		(NOTICE_SEQ.NEXTVAL, #{adminId}, #{noticeTitle}, #{noticeContent},
 		SYSDATE, #{noticeType})
 	</insert>
 

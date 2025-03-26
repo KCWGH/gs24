@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class NoticeVO {
 	int noticeId; // NOTICE_ID
-	String memberId; // MEMBER_ID
+	String adminId; // MEMBER_ID
 	String noticeTitle; // NOTICE_TITLE
 	String noticeContent; // NOTICE_CONTENT
 	Date noticeDateCreated; // NOTICE_DATE_CREATED

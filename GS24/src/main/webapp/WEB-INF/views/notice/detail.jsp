@@ -129,7 +129,7 @@
         
         <p hidden="hidden"><strong>글 번호 :</strong> ${noticeVO.noticeId }</p>
         <p><strong>제목 :</strong> ${noticeVO.noticeTitle }</p>
-        <p><strong>작성자 :</strong> ${noticeVO.memberId }</p>
+        <p><strong>작성자 :</strong> 관리자</p>
 
         <!-- 작성일 포맷 변경 -->
         <fmt:formatDate value="${noticeVO.noticeDateCreated }" pattern="yyyy-MM-dd HH:mm" var="noticeDateCreated" />

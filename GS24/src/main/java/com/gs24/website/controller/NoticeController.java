@@ -1,5 +1,6 @@
 package com.gs24.website.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +57,20 @@ public class NoticeController {
 	}
 
 	@PostMapping("/register")
-	public String registerPOST(NoticeVO noticeVO) {
-		log.info("registerPOST()");
-		int result = noticeService.createNotice(noticeVO);
-		log.info(result + "건 등록");
-		return "redirect:/notice/list";
+	public String registerPOST(NoticeVO noticeVO, Principal principal) {
+	    log.info("registerPOST()");
+
+	    // 현재 로그인한 관리자의 ID 가져오기
+	    String adminId = principal.getName();
+
+	    // NoticeVO에 adminId 설정
+	    noticeVO.setAdminId(adminId);
+
+	    // DB에 저장
+	    int result = noticeService.createNotice(noticeVO);
+	    log.info(result + "건 등록 (관리자 ID: " + adminId + ")");
+
+	    return "redirect:/notice/list";
 	}
 
 	@GetMapping("/detail")

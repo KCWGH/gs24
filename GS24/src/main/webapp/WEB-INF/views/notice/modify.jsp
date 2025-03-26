@@ -96,8 +96,7 @@
             <p><strong>제목</strong></p>
             <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="20" value="${noticeVO.noticeTitle }" required>
 
-            <p><strong>작성자</strong></p>
-            ${noticeVO.memberId}
+           <p><strong>작성자</strong> 관리자</p>
 
             <p><strong>내용</strong></p>
             <textarea name="noticeContent" placeholder="내용 입력" maxlength="300" required>${noticeVO.noticeContent }</textarea>

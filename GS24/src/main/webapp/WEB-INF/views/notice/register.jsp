@@ -114,10 +114,10 @@
             </div>
 
             <p>제목</p>
-            <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="20" required>
+            <input type="text" name="noticeTitle" placeholder="제목 입력" maxlength="50" required>
 
             <p>작성자</p>
-            <input type="text" name="memberId" value="관리자" readonly required>
+            <input type="text" name="adminId" value="관리자" readonly required>
 
             <p>내용</p>
             <textarea name="noticeContent" placeholder="내용 입력" maxlength="300" required></textarea>
