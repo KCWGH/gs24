@@ -50,7 +50,6 @@ public class ReviewController {
 	@GetMapping("/register")
 	public void registerGET(Model model, int foodId, int convenienceId, Integer preorderId) {
 		log.info("registerGET()");
-		log.info("foodId : " + foodId + " convenienceId : " + convenienceId + " preorderId : " + preorderId);
 		model.addAttribute("foodId", foodId);
 		model.addAttribute("preorderId", preorderId);
 		model.addAttribute("convenienceId", convenienceId);
@@ -59,14 +58,11 @@ public class ReviewController {
 	@PostMapping("/register")
 	public String registerPOST(HttpServletRequest request,Authentication auth, ReviewVO reviewVO, int convenienceId, int status, int preorderId) {
 		log.info("registerPOST()");
-		log.info(reviewVO);
-		log.info(request.getHeader("Referer"));
-		// status :
 		if (status == 1 && checkReviewData.checkReviewData(auth, reviewVO, convenienceId)) {
 			reviewService.createReview(reviewVO, preorderId);
 		}
 
-		return "redirect:../convenienceFood/list?convenienceId=" + convenienceId;
+		return "redirect:../preorder/list";
 	}
 
 	@GetMapping("/delete")

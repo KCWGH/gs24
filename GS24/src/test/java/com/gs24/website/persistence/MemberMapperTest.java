@@ -32,11 +32,11 @@ public class MemberMapperTest {
 		// testupdatepassword();
 		// testupdateEmail();
 	}
-
-	private void testlogin() {
-		// TODO Auto-generated method stub
-
-	}
+//
+//	private void testlogin() {
+//		// TODO Auto-generated method stub
+//
+//	}
 	
 	private void select() {
 		log.info(memberMapper.selectSocialAccountId("ghylNiZZXoaXgYw-NDmUkhxlBvMNoj9CvOPTXRH7zJo"));

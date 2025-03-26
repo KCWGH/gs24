@@ -73,6 +73,22 @@ tbody tr:hover {
     border: 2px solid green;
     cursor: pointer;
 }
+
+#loading-spinner {
+    display: none;
+    margin: 20px auto;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 </style>
 <script>
 $(document).ready(function() {
@@ -89,13 +105,21 @@ $(document).ready(function() {
             return;
         }
 
+        $("#result").empty();
+        $("#loading-spinner").show();
+
         $.ajax({
             url: "search",
             type: "get",
             data: { foodName: foodName },
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             dataType: "json",
+            beforeSend: function() {
+                $("#loading-spinner").show();
+            },
             success: function(data) {
+                $("#loading-spinner").hide();
+
                 if (data.response && data.response.body && data.response.body.items) {
                     var items = data.response.body.items;
                     var result = "<table border='1' style='width: 100%; text-align: left;' id='resultTable'>";
@@ -119,6 +143,7 @@ $(document).ready(function() {
                 }
             },
             error: function() {
+                $("#loading-spinner").hide();
                 alert("검색 실패!");
             }
         });
@@ -152,7 +177,10 @@ $(document).ready(function() {
 <input type="text" name="foodName" id="foodInput" placeholder="식품 이름 입력">
 <button id="searchBtn">검색</button>
 
+<div id="loading-spinner"></div>
+
 <div id="result"></div>
+
 <p>출처 : 전국통합식품영양성분정보(가공식품)표준데이터</p>
 </body>
 </html>
