@@ -11,6 +11,7 @@ import com.gs24.website.domain.OwnerVO;
 import com.gs24.website.persistence.ConvenienceMapper;
 import com.gs24.website.persistence.MemberMapper;
 import com.gs24.website.persistence.OwnerMapper;
+import com.gs24.website.persistence.PreorderMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -26,6 +27,9 @@ public class OwnerServiceImple implements OwnerService {
 
 	@Autowired
 	private ConvenienceMapper convenienceMapper;
+	
+	@Autowired
+	private PreorderMapper preorderMapper;
 
 	@Lazy
 	@Autowired
@@ -109,7 +113,11 @@ public class OwnerServiceImple implements OwnerService {
 
 	@Override
 	public int deleteOwner(String ownerId) {
-		return ownerMapper.deleteOwnerByOwnerId(ownerId);
+		int convenienceId = convenienceMapper.selectConvenienceIdByOwnerId(ownerId);
+		if(preorderMapper.countNotPickUpPreordersByConvenienceId(convenienceId) == 0) {			
+			return ownerMapper.deleteOwnerByOwnerId(ownerId);
+		}
+		return 0;
 	}
 
 	@Override
