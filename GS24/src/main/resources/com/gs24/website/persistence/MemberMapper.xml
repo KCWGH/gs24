@@ -121,6 +121,10 @@
 	</select>
 	
 	<select id="countSocialAccountByEmail" resultType="Integer">
-		SELECT COUNT(*) FROM SOCIAL WHERE EMAIL = #{email}
+		SELECT 
+    		COALESCE(COUNT(S.ACCOUNT_ID), 0) AS SOCIAL_COUNT
+		FROM MEMBER M
+		LEFT JOIN SOCIAL S ON M.ACCOUNT_ID = S.ACCOUNT_ID
+		WHERE M.EMAIL = #{email}
 	</select>
 </mapper>
